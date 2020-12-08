@@ -13,22 +13,22 @@
         // bytes
 
         self.redim = function(vBytes, size) {
-            vBytes = new byte[size];
+            vBytes =  globalObject.CSReportDll.createByte[size];
         };
 
         self.redimPreserve = function(vBytes, size) {
             if (size === 0) {
-                vBytes = new byte[0];
+                vBytes =  globalObject.CSReportDll.createByte[0];
             }
             else {
                 if (vBytes === null) {
-                    vBytes = new byte[size];
+                    vBytes =  globalObject.CSReportDll.createByte[size];
                 }
                 else if (vBytes.Length === 0) {
-                    vBytes = new byte[size];
+                    vBytes =  globalObject.CSReportDll.createByte[size];
                 }
                 else {
-                    let newArray = new byte[size];
+                    let newArray: byte[]= new byte[size];
                     Array.Copy(vBytes, newArray, vBytes.Length);
                     vBytes = newArray;
                 }
@@ -38,22 +38,22 @@
         // objects
 
         self.redim = function(vObjects, size) {
-            vObjects = new object[size];
+            vObjects =  globalObject.CSReportDll.createObject[size];
         };
 
         self.redimPreserve = function(vObjects, size) {
             if (size === 0) {
-                vObjects = new object[size];
+                vObjects =  globalObject.CSReportDll.createObject[size];
             }
             else {
                 if (vObjects === null) {
-                    vObjects = new object[size];
+                    vObjects =  globalObject.CSReportDll.createObject[size];
                 }
                 else if (vObjects.Length === 0) {
-                    vObjects = new object[size];
+                    vObjects =  globalObject.CSReportDll.createObject[size];
                 }
                 else {
-                    let newArray = new object[size];
+                    let newArray: object[]= new object[size];
                     Array.Copy(vObjects, newArray, vObjects.Length);
                     vObjects = newArray;
                 }
@@ -63,26 +63,26 @@
         // strings
 
         self.redim = function(vStrings, size) {
-            vStrings = new String[size];
+            vStrings =  globalObject.CSReportDll.createString[size];
         };
 
         self.redim = function(String[, vStrings, size1, size2) {
-            vStrings = new String[size1, size2];
+            vStrings =  globalObject.CSReportDll.createString[size1, size2];
         };
 
         self.redimPreserve = function(vStrings, size) {
             if (size === 0) {
-                vStrings = new String[0];
+                vStrings =  globalObject.CSReportDll.createString[0];
             }
             else {
                 if (vStrings === null) {
-                    vStrings = new String[size];
+                    vStrings =  globalObject.CSReportDll.createString[size];
                 }
                 else if (vStrings.Length === 0) {
-                    vStrings = new String[size];
+                    vStrings =  globalObject.CSReportDll.createString[size];
                 }
                 else {
-                    let newArray = new String[size];
+                    let newArray: String[]= new String[size];
                     Array.Copy(vStrings, newArray, Math.Min(size, vStrings.Length));
                     vStrings = newArray;
                 }
@@ -92,22 +92,22 @@
         // ints
 
         self.redim = function(vInts, size) {
-            vInts = new int[size];
+            vInts =  globalObject.CSReportDll.createInt[size];
         };
 
         self.redimPreserve = function(vInts, size) {
             if (size === 0) {
-                vInts = new int[0];
+                vInts =  globalObject.CSReportDll.createInt[0];
             }
             else {
                 if (vInts === null) {
-                    vInts = new int[size];
+                    vInts =  globalObject.CSReportDll.createInt[size];
                 }
                 else if (vInts.Length === 0) {
-                    vInts = new int[size];
+                    vInts =  globalObject.CSReportDll.createInt[size];
                 }
                 else {
-                    let newArray = new int[size];
+                    let newArray: int[]= new int[size];
                     Array.Copy(vInts, newArray, vInts.Length);
                     vInts = newArray;
                 }
@@ -117,22 +117,22 @@
         // floats
 
         self.redim = function(vFloats, size) {
-            vFloats = new float[size];
+            vFloats =  globalObject.CSReportDll.createFloat[size];
         };
 
         self.redimPreserve = function(vFloats, size) {
             if (size === 0) {
-                vFloats = new float[0];
+                vFloats =  globalObject.CSReportDll.createFloat[0];
             }
             else {
                 if (vFloats === null) {
-                    vFloats = new float[size];
+                    vFloats =  globalObject.CSReportDll.createFloat[size];
                 }
                 else if (vFloats.Length === 0) {
-                    vFloats = new float[size];
+                    vFloats =  globalObject.CSReportDll.createFloat[size];
                 }
                 else {
-                    let newArray = new float[size];
+                    let newArray: float[]= new float[size];
                     Array.Copy(vFloats, newArray, vFloats.Length);
                     vFloats = newArray;
                 }
@@ -142,22 +142,22 @@
         // DataTables
 
         self.redim = function(vDataTables, size) {
-            vDataTables = new DataTable[size];
+            vDataTables =  globalObject.CSReportDll.createDataTable[size];
         };
 
         self.redimPreserve = function(vDataTables, size) {
             if (size === 0) {
-                vDataTables = new DataTable[0];
+                vDataTables =  globalObject.CSReportDll.createDataTable[0];
             }
             else {
                 if (vDataTables === null) {
-                    vDataTables = new DataTable[size];
+                    vDataTables =  globalObject.CSReportDll.createDataTable[size];
                 }
                 else if (vDataTables.Length === 0) {
-                    vDataTables = new DataTable[size];
+                    vDataTables =  globalObject.CSReportDll.createDataTable[size];
                 }
                 else {
-                    let newArray = new DataTable[size];
+                    let newArray: DataTable[]= new DataTable[size];
                     Array.Copy(vDataTables, newArray, vDataTables.Length);
                     vDataTables = newArray;
                 }

@@ -4,7 +4,7 @@
 
 UNKNOWN >>     class ReportEditorException : System.Exception
     {
-        self.errorCode { get = null; set; };
+        self.errorCode: csRptEditorErrors = null;{ get; set; };
         globalObject.CSReportEditor.createClassName = function() {
 
             const self = {};

@@ -5,17 +5,17 @@
     globalObject.CSConnect.createCParameter = function() {
 
         const self = {};
-        const C_MODULE = "cParameter";
+        const C_MODULE: string= "cParameter";
 
-        let m_name = "";
-        let m_columnType = null;
-        let m_value = "";
-        let m_position = 0;
-        let m_key = "";
-        let m_hasDefault = null;
-        let m_default = "";
-        let m_isNullable = true;
-        let m_maxLength = 0;
+        let m_name: string= "";
+        let m_columnType: CSDataBase.csDataType = null;
+        let m_value: string= "";
+        let m_position: number= 0;
+        let m_key: string= "";
+        let m_hasDefault: boolean = null;
+        let m_default: string= "";
+        let m_isNullable: boolean= true;
+        let m_maxLength: number= 0;
 
         self.getKey = function() {
             return m_key;

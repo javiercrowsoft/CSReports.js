@@ -79,7 +79,7 @@
 
         const tsbPage_KeyUp = function(sender, e) {
             if (e.KeyCode === Keys.Enter) {
-                let page = cUtil.valAsInt(tsbPage.Text);
+                let page: var= cUtil.valAsInt(tsbPage.Text);
                 if (page > 0)  {
                     if (MoveToPage !== null) {
                         MoveToPage(this, new PageEventArgs(page));
@@ -104,12 +104,12 @@
         self.create = function() {
 
             const self = {};
-        let int m_page = -1;
+        let int: readonlym_page = -1;
 
         self. = function(page) {
             m_page = page;
         };
-        self.page { get { return m_page = null; } };
+        self.page: number = null;{ get { return m_page; } };
         return self;
 
     }

@@ -6,7 +6,7 @@ UNKNOWN >>     partial class fProgress
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components = null;
+        let components: System.ComponentModel.IContainer= null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -30,9 +30,9 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // 
             // fProgress
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions =  globalObject.CSReportDll.createSystem.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(313, 179);
+            this.ClientSize =  globalObject.CSReportDll.createSystem.Drawing.Size(313, 179);
             this.Name = "fProgress";
             this.Text = "fProgress";
             this.ResumeLayout(false);

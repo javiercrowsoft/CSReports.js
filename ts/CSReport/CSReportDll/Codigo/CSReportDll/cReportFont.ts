@@ -6,13 +6,13 @@
 
         const self = {};
 
-        let m_foreColor = csColors.C_COLOR_BLACK;
-        let m_size = 8;
-        let m_name = "Tahoma";
-        let m_underline = null;
-        let m_bold = null;
-        let m_italic = null;
-        let m_strike = null;
+        let m_foreColor: number= csColors.C_COLOR_BLACK;
+        let m_size: number= 8;
+        let m_name: string= "Tahoma";
+        let m_underline: boolean = null;
+        let m_bold: boolean = null;
+        let m_italic: boolean = null;
+        let m_strike: boolean = null;
 
         self.getForeColor = function() {
             return m_foreColor;
@@ -84,9 +84,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Font");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

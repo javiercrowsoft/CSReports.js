@@ -6,8 +6,8 @@
 
         const self = {};
 
-        const C_MODULE = "cReportConnectsAux";
-        const C_RPTCONNECTSAUX = "RptConnectsAux";
+        const C_MODULE: string= "cReportConnectsAux";
+        const C_RPTCONNECTSAUX: string= "RptConnectsAux";
 
         // Creates an empty collection.
         const cReportConnectsAux = function() {
@@ -116,11 +116,11 @@ UNKNOWN >>             get
         };
 
         self.save = function(xDoc, nodeFather) {
-            let connect = null;
+            let connect: cReportConnect= null;
 
             if (nodeFather === null) {
-                let xProperty = null;
-                xProperty = new CSXml.cXmlProperty();
+                let xProperty: CSXml.cXmlProperty= null;
+                xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
                 xProperty.setName(C_RPTCONNECTSAUX);
                 nodeFather = xDoc.addNode(xProperty);
             }
@@ -136,7 +136,7 @@ UNKNOWN >>             get
         };
 
         self.load = function(xDoc, nodeFather) {
-            let nodeObj = null;
+            let nodeObj: XmlNode= null;
             clear();
             if (nodeFather !== null) {
                 if (xDoc.nodeHasChild(nodeFather)) {
@@ -160,7 +160,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c = new cReportConnect();
+                    c =  globalObject.CSReportDll.createCReportConnect();
                 }
 
                 if (key === null) {

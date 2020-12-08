@@ -138,7 +138,7 @@ UNKNOWN >>             get
             try {
 
                 if (c === null) {
-                    c = new cReportVariable();
+                    c =  globalObject.CSReportDll.createCReportVariable();
                 }
 
                 if (key === "") {

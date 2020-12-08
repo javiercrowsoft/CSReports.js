@@ -5,11 +5,11 @@
     globalObject.CSReportGlobals.createCReportGlobals = function() {
 
         const self = {};
-        self.C_KEYINDEXCOL = "indexcol";
-        self.C_KEYINDEXCOL2 = "indexcol2";
-        self.C_KEYINDEXGROUP = "indexgroup";
+        self.C_KEYINDEXCOL: string= "indexcol";
+        self.C_KEYINDEXCOL2: string= "indexcol2";
+        self.C_KEYINDEXGROUP: string= "indexgroup";
 
-        let int m_nextKey = 1000;
+        let int: staticm_nextKey = 1000;
 
         self.getNextKey = function() {
             m_nextKey++;
@@ -17,7 +17,7 @@
         };
 
         self.refreshNextKey = function(key) {
-            let keyNumber = 0;
+            let keyNumber: number= 0;
             if (G.isNumeric(key)) {
                 keyNumber = int.Parse(key);
             }
@@ -70,7 +70,7 @@ UNKNOWN >>             DateTime dummyDate;
 
         self.valVariant = function(var) {
             if (var === null) {
-                let typeCode = System.Type.GetTypeCode(var.GetType());
+                let typeCode: System.TypeCode= System.Type.GetTypeCode(var.GetType());
                 switch (typeCode)
                 {
                     case System.TypeCode.Char:
@@ -104,9 +104,9 @@ UNKNOWN >>             DateTime dummyDate;
                 return "";
             }
             else {
-                let isDate = false;
+                let isDate: boolean= false;
 
-                let typeCode = System.Type.GetTypeCode(expression.GetType());
+                let typeCode: System.TypeCode= System.Type.GetTypeCode(expression.GetType());
                 if (typeCode === System.TypeCode.DateTime) {
                     if (expression === CSDataBase.cConstants.C_NO_DATE) {
                         return "";
@@ -128,7 +128,7 @@ UNKNOWN >>             DateTime dummyDate;
         };
 
         self.getRealName = function(name) {
-            let n = name.IndexOf("}.", 1);
+            let n: number= name.IndexOf("}.", 1);
             if (n > -1) {
                 n = n + 2;
             }

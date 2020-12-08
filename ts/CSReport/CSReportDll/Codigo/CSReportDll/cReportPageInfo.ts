@@ -6,16 +6,16 @@
 
         const self = {};
 
-        const C_MODULE = "cReportPageInfo";
+        const C_MODULE: string= "cReportPageInfo";
 
-        let m_aspect = null;
-        let m_sectionLine = null;
-        let m_name = "";
-        let m_tag = "";
-        let m_fieldType = 0;
+        let m_aspect: cReportAspect = null;
+        let m_sectionLine: cReportSectionLine = null;
+        let m_name: string= "";
+        let m_tag: string= "";
+        let m_fieldType: number= 0;
 
         const cReportPageInfo = function() {
-            m_aspect = new cReportAspect();
+            m_aspect =  globalObject.CSReportDll.createCReportAspect();
         };
 
         self.getName = function() {
@@ -59,7 +59,7 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            let nodeObjAspect = null;
+            let nodeObjAspect: XmlNode= null;
             m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
             m_fieldType = xDoc.getNodeProperty(nodeObj, "FieldType").getValueInt(eTypes.eInteger);
 
@@ -73,10 +73,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("PageInfo");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

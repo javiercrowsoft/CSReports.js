@@ -5,7 +5,7 @@
     globalObject.CSReportEditor.createFGroup = function() {
 
         const self = {};
-        let m_ok = false;
+        let m_ok: boolean= false;
 
         const fGroup = function() {
             InitializeComponent();

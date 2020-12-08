@@ -8,35 +8,35 @@
         // TODO: remove me
         //static fMain instance;
 
-        const C_MODULE = "fMain";
+        const C_MODULE: string= "fMain";
 
-        const MRU_FILE = "mru.settings";
+        const MRU_FILE: string= "mru.settings";
 
-        let m_paperSize = 0;
-        let m_paperSizeWidth = 0;
-        let m_paperSizeHeight = 0;
-        let m_orientation = 0;
-        let m_printerName = "";
-        let m_driverName = "";
-        let m_port = "";
-        let m_sourceEditor = null;
+        let m_paperSize: number= 0;
+        let m_paperSizeWidth: number= 0;
+        let m_paperSizeHeight: number= 0;
+        let m_orientation: number= 0;
+        let m_printerName: string= "";
+        let m_driverName: string= "";
+        let m_port: string= "";
+        let m_sourceEditor: cEditor= null;
 
-        let m_wasDoubleClick = false;
+        let m_wasDoubleClick: boolean= false;
 
-        const C_CTRL_IMAGE = 1;
-        const C_DB_IMAGE = 0;
+        const C_CTRL_IMAGE: number= 1;
+        const C_DB_IMAGE: number= 0;
 
-        const C_IMG_FOLDER = 0;
-        const C_IMG_FORMULA = 3;
-        const C_IMG_CONTROL = 2;
-        const C_IMG_DATBASE_FIELD = 1;
+        const C_IMG_FOLDER: number= 0;
+        const C_IMG_FORMULA: number= 3;
+        const C_IMG_CONTROL: number= 2;
+        const C_IMG_DATBASE_FIELD: number= 1;
 
-        const C_FIELDTYPE = "t";
-        const C_INDEX = "i";
+        const C_FIELDTYPE: string= "t";
+        const C_INDEX: string= "i";
 
-        let m_contextMenuEditor = null;
+        let m_contextMenuEditor: cEditor = null;
 
-        let lvwColumnSorter = null;
+        let lvwColumnSorter: cListViewColumnSorter = null;
 
         const fMain = function() {
             InitializeComponent();
@@ -45,14 +45,14 @@
             //
             CSKernelClient.cUtil.setSepDecimal();
 
-            let printer = cPrintAPI.getcPrinterFromDefaultPrinter(this.printDlg);
+            let printer: cPrinter= cPrintAPI.getcPrinterFromDefaultPrinter(this.printDlg);
             m_paperSize = printer.getPaperInfo().getPaperSize();
             m_paperSizeHeight = Convert.ToInt32(printer.getPaperInfo().getHeight());
             m_paperSizeWidth = Convert.ToInt32(printer.getPaperInfo().getHeight());
         };
 
         self.init = function() {
-            let editor = new cEditor(this, pnEditor, pnRule, pnReport, tbpEditor);
+            let editor: cEditor= new cEditor(this, pnEditor, pnRule, pnReport, tbpEditor);
             editor.init();
             editor.newReport(null);        
         };
@@ -62,10 +62,10 @@
         };
 
         const createEditor = function() {
-            let tab = new TabPage();
-            let pnEditor = new Panel();
-            let pnRule = new PictureBox();
-            let pnReport = new PictureBox();
+            let tab: TabPage= new TabPage();
+            let pnEditor: Panel= new Panel();
+            let pnRule: PictureBox= new PictureBox();
+            let pnReport: PictureBox= new PictureBox();
 
             pnEditor.Controls.Add(pnRule);
             pnEditor.Controls.Add(pnReport);
@@ -78,7 +78,7 @@
         };
 
         const mnuNewReport_Click = function(sender, e) {
-            let editor = createEditor();
+            let editor: cEditor= createEditor();
             editor.init();
             editor.newReport(null);
         };
@@ -88,7 +88,7 @@
         };
 
         self.setEditAlignTextState = function(status) {
-            let buttons = this.tbMain.Items;
+            let buttons: var= this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_ALIGN_CENTER].Enabled = status;
             buttons[cGlobals.c_BTN_ALIGN_LEFT].Enabled = status;
@@ -97,7 +97,7 @@
         };
 
         self.setEditAlignCtlState = function(status) {
-            let buttons = this.tbMain.Items;
+            let buttons: var= this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_CTL_ALIGN_BOTTOM].Enabled = status;
             buttons[cGlobals.c_BTN_CTL_ALIGN_TOP].Enabled = status;
@@ -136,7 +136,7 @@
             this.mnuViewControls.Enabled = enabled;
             this.mnuViewTreeViewCtrls.Enabled = enabled;
 
-            let buttons = this.tbMain.Items;
+            let buttons: var= this.tbMain.Items;
             tsbPrint.Enabled = enabled;
             tsbProperties.Enabled = enabled;
             tsbDatabase.Enabled = enabled;
@@ -147,10 +147,10 @@
         };
 
         self.addToRecentList = function(fileName) {
-            let i = 0;
-            let j = 0;
-            let found = false;
-            let menuItems = this.mnuFileRecentList.DropDownItems;
+            let i: number= 0;
+            let j: number= 0;
+            let found: boolean= false;
+            let menuItems: var= this.mnuFileRecentList.DropDownItems;
 
             for (i = 0; i < menuItems.Count; i++) {
                 if (fileName === menuItems[i].Text) {
@@ -161,7 +161,7 @@
             }
 
             if (menuItems.Count < cGlobals.C_TOTINRECENTLIST && !found) {
-                let menu = this.mnuFileRecentList.DropDownItems.Add("");
+                let menu: var= this.mnuFileRecentList.DropDownItems.Add("");
                 menu.Visible = true;
                 menu.Click += mnuRecentClick;
             }
@@ -178,25 +178,25 @@
         };
 
         const getMRUFileName = function() {
-            let path = System.Environment.SpecialFolder.LocalApplicationData;
+            let path: var= System.Environment.SpecialFolder.LocalApplicationData;
             return Environment.GetFolderPath(path) + Path.DirectorySeparatorChar + MRU_FILE;
         };
 
         const loadRecentListFromUserSettings = function() {
-            let fileName = getMRUFileName();
+            let fileName: var= getMRUFileName();
             if (File.Exists(fileName)) {
-                let lines = File.ReadAllLines(fileName);
+                let lines: var= File.ReadAllLines(fileName);
                 loadRecentList(lines.ToList());
             }
         };
 
         const loadRecentList = function(recentList) {
-            let i = 0;
-            let recent = "";
+            let i: number= 0;
+            let recent: string= "";
 
             for (i = 0; i < Math.Min(cGlobals.C_TOTINRECENTLIST, recentList.Count); i++) {
                 recent = recentList[i];
-                let menu = this.mnuFileRecentList.DropDownItems.Add(recent);
+                let menu: var= this.mnuFileRecentList.DropDownItems.Add(recent);
                 menu.Visible = true;
                 menu.Click += mnuRecentClick;
             }
@@ -207,8 +207,8 @@
         };
 
         const mnuRecentClick = function(sender, e) {
-            let mnu = sender;
-            let editor = createEditor();
+            let mnu: ToolStripMenuItem= sender;
+            let editor: cEditor= createEditor();
             editor.init();
             if (editor.openDocument(mnu.Text)) {
                 addToRecentList(editor.getFileName());
@@ -216,14 +216,14 @@
         };
 
         const saveRecentList = function() {
-            let i = 0;
-            let mruList = "";
+            let i: number= 0;
+            let mruList: string= "";
 
             for (i = 0; i < mnuFileRecentList.DropDownItems.Count; i++) {
                 mruList += mnuFileRecentList.DropDownItems[i].Text + Environment.NewLine;
             }
 
-            let fileName = getMRUFileName();
+            let fileName: var= getMRUFileName();
             File.WriteAllText(fileName, mruList);
         };
 
@@ -258,7 +258,7 @@
         const mnuOpenReport_Click = function(sender, e) {
             try {
 
-                let editor = createEditor();
+                let editor: cEditor= createEditor();
 
                 editor.init();
 
@@ -320,7 +320,7 @@ UNKNOWN >>             get
 
             // Create an instance of a ListView column sorter and assign it 
             // to the ListView control.
-            lvwColumnSorter = new cListViewColumnSorter();
+            lvwColumnSorter =  globalObject.CSReportDll.createCListViewColumnSorter();
             lv_controls.ListViewItemSorter = lvwColumnSorter;
             lv_controls_ColumnClick(this, new ColumnClickEventArgs(0));
 
@@ -379,14 +379,14 @@ UNKNOWN >>             get
         };
 
         const mnuViewTreeViewCtrls_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.showControlsTree();
             }
         };
 
         const mnuViewControls_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.showControls();
             }
@@ -401,7 +401,7 @@ UNKNOWN >>             get
         };
 
         const showToolbox = function() {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.showToolbox();
             }
@@ -416,35 +416,35 @@ UNKNOWN >>             get
         };
 
         const search = function() {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.search();
             }
         };
 
         const tsbProperties_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.showProperties();
             }
         };
 
         const mnuDataBaseSQLServerConnection_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.setSimpleConnection();
             }
         };
 
         const mnuDataBaseConnectConfig_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.editConnectionString();
             }
         };
 
         const mnuDataBaseEditDataSource_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.editDataSource();
             }
@@ -455,7 +455,7 @@ UNKNOWN >>             get
         };
 
         const mnuParametersSettings_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.setParameters();
             }
@@ -506,8 +506,8 @@ UNKNOWN >>             get
         const setObjectDescription = function(anObject, n) {
             if (anObject === null) return; {
 
-            let tabs = new String(' ', n*2);
-            let methods = getMethods(anObject);
+            let tabs: var= new String(' ', n*2);
+            let methods: var= getMethods(anObject);
             for(var i_ = 0; i_ < methods.length; i_++) {
                 if (m.IsPublic
                     && m.Name.Length > 3
@@ -516,7 +516,7 @@ UNKNOWN >>             get
                     && m.GetParameters().Length === 0
                     && m.Name !== "getSectionLine"
                     ) {
-                    let item = lv_properties.Items.Add(tabs + m.Name.Substring(3));
+                    let item: var= lv_properties.Items.Add(tabs + m.Name.Substring(3));
                     item.ImageIndex = C_IMG_CONTROL;
                     item.SubItems.Add(getValue(m.Invoke(anObject, null), n));
                     if (item.SubItems[1].Text === "...") item.ImageIndex = C_IMG_FOLDER; {
@@ -531,7 +531,7 @@ UNKNOWN >>             get
                 return "NULL";
             }
             else {
-                let t = value.GetType();
+                let t: var= value.GetType();
                 if (t.IsPrimitive || t === typeof(Decimal) || t === typeof(String)) {
                     return value.ToString();
                 }
@@ -550,7 +550,7 @@ UNKNOWN >>             get
             lv_fields.Items.Clear();
 
             if (editor !== null) {
-                let connect = editor.getReport().getConnect();
+                let connect: var= editor.getReport().getConnect();
                 cGlobals.fillColumns(
                     connect.getDataSource(),
                     connect.getColumns(), lv_fields, C_INDEX, C_FIELDTYPE, false);
@@ -587,10 +587,10 @@ UNKNOWN >>             get
         };
 
         const selectControl = function() {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
 
             if (lv_controls.SelectedItems.Count > 0 && editor !== null) {
-                let info = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var= lv_controls.SelectedItems[0].Tag.ToString();
                 editor.selectCtrl(info);
             }
         };
@@ -600,12 +600,12 @@ UNKNOWN >>             get
         };
 
         const selectControl = function(node) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
 
             if (node !== null && node.Tag !== null && editor !== null) {
-                let info = node.Tag.ToString();
+                let info: var= node.Tag.ToString();
                 if (info.Length > 0) {
-                    let infoType = info.Substring(0, 1);
+                    let infoType: var= info.Substring(0, 1);
                     if ("@SL".IndexOf(infoType) === -1) {
                         editor.selectCtrl(info);
                     }
@@ -621,13 +621,13 @@ UNKNOWN >>             get
         };
 
         const tv_controls_MouseDoubleClick = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
 
             if (tv_controls.SelectedNode !== null && editor !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
-                    let info = tv_controls.SelectedNode.Tag.ToString();
+                    let info: var= tv_controls.SelectedNode.Tag.ToString();
                     if (info.Length > 0) {
-                        let infoType = info.Substring(0, 1);
+                        let infoType: var= info.Substring(0, 1);
                         if ("@".IndexOf(infoType) === -1) {
                             editor.showProperties(info);
                         }
@@ -651,10 +651,10 @@ UNKNOWN >>             get
         };
 
         const lv_controls_MouseDoubleClick = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
 
             if (lv_controls.SelectedItems.Count > 0 && editor !== null) {
-                let info = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var= lv_controls.SelectedItems[0].Tag.ToString();
                 editor.showProperties(info);
             }
         };
@@ -668,7 +668,7 @@ UNKNOWN >>             get
         };
 
         const previewReport = function() {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.preview();
             }        
@@ -677,10 +677,10 @@ UNKNOWN >>             get
 
         const tabReports_MouseClick = function(sender, e) {
             for(var i = 0; i < tabReports.TabCount; ++i) {
-                let rect = tabReports.GetTabRect(i);
-                let xRect = new System.Drawing.Rectangle(rect.Left + rect.Width - 18, rect.Top, 18, rect.Height);
+                let rect: var= tabReports.GetTabRect(i);
+                let xRect: var= new System.Drawing.Rectangle(rect.Left + rect.Width - 18, rect.Top, 18, rect.Height);
                 if (xRect.Contains(e.Location)) {
-                    let editor = tabReports.TabPages[i].Tag;
+                    let editor: cEditor= tabReports.TabPages[i].Tag;
                     if (editor.close()) {
                         tabReports.TabPages.RemoveAt(i);
                         if (tabReports.TabPages.Count === 0) {
@@ -692,56 +692,56 @@ UNKNOWN >>             get
         };
 
         const mnuEditAddHeader_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addSection(csRptSectionType.HEADER);
             }
         };
 
         const mnuEditAddGroup_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addGroup();
             }
         };
 
         const mnuEditAddFooter_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addSection(csRptSectionType.FOOTER);
             }
         };
 
         const mnuEditAddLabel_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addLabel();
             }
         };
 
         const mnuEditAddLine_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addLineLabel();
             }
         };
 
         const mnuEditAddControl_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addDBField();
             }
         };
 
         const mnuEditAddImage_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addImage();
             }
         };
 
         const mnuEditAddChart_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addChart();
             }
@@ -756,14 +756,14 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const cmSectionAddSectionLine_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addSectionLine();
             }
         };
 
         const deleteReportObject = function(isSectionLine) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.deleteObj(isSectionLine);
             }
@@ -778,7 +778,7 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const cmSectionMoveGroup_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveGroup();
             }
@@ -789,14 +789,14 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const mnuDataBaseSetToMainConnect_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.setAllConnectToMainConnect();
             }
         };
 
         const alignText = function(align) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.textAlign(align);
             }
@@ -815,14 +815,14 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const tsbBold_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.setFontBold();
             }
         };
 
         const saveReport = function(saveAs) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.saveDocument(saveAs);
                 addToRecentList(editor.getFileName());
@@ -846,8 +846,8 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const mnuPageSetup_Click = function(sender, e) {
-            let pageSetup = new fPageSetup();
-            let editor = cMainEditor.getDocActive();
+            let pageSetup: fPageSetup= new fPageSetup();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 pageSetup.initDialog(editor.getPaperSize(), editor.getCustomHeight(), editor.getCustomWidth(), editor.getOrientation());
             }
@@ -891,7 +891,7 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const copy = function() {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.copy();
             }
@@ -902,7 +902,7 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const paste = function(dontMove) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.paste(false);
             }
@@ -929,14 +929,14 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const cmCtrlDelete_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.deleteObj(false);
             }
         };
 
         const printReport = function() {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.printReport();
             }
@@ -951,21 +951,21 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const cmCtrlBringFront_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.bringToFront();
             }
         };
 
         const cmCtrlSendBack_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.sendToBack();
             }
         };
 
         const lockToolStripMenuItem_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveNoMove();
                 lockToolStripMenuItem.Checked = !lockToolStripMenuItem.Checked;
@@ -979,7 +979,7 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const verticalToolStripMenuItem_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveVertical();
                 horizontalToolStripMenuItem.Checked = false;
@@ -989,7 +989,7 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const horizontalToolStripMenuItem_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveHorizontal();
                 horizontalToolStripMenuItem.Checked = true;
@@ -999,7 +999,7 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const allDirectionsToolStripMenuItem_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveAll();
                 horizontalToolStripMenuItem.Checked = false;
@@ -1009,70 +1009,70 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         };
 
         const tsbCtrlAlignLeft_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignLeft);
             }
         };
 
         const tsbCtrlAlignRight_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignRight);
             }
         };
 
         const tsbCtrlAlignTop_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignTop);
             }
         };
 
         const tsbCtrlAlignBottom_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignBottom);
             }
         };
 
         const tsbCtrlSameHeight_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignHeight);
             }
         };
 
         const tsbCtrlSameWidth_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignWidth);
             }
         };
 
         const tsbCtrlSameLeft_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignHorizontal);
             }
         };
 
         const tsbCtrlSameTop_Click = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignVertical);
             }
         };
 
         const fMain_KeyUp = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.keyUp(sender, e);
             }
         };
 
         const fMain_KeyDown = function(sender, e) {
-            let editor = cMainEditor.getDocActive();
+            let editor: cEditor= cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.keyDown(sender, e);
             }

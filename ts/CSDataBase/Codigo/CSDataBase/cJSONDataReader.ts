@@ -4,14 +4,14 @@
 
 UNKNOWN >>     class cJSONDataReader : DbDataReader, IDataReader, IDisposable, IDataRecord
     {
-        let m_dataSource = null;
-        let m_cols = null;
-        let m_rows = null;
+        let m_dataSource: cJSONDataSource = null;
+        let m_cols: JArray = null;
+        let m_rows: JArray = null;
 
-        let m_resultIndex = 0;
-        let m_rowIndex = -1;
-        let m_closed = false;
-        let m_start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        let m_resultIndex: number= 0;
+        let m_rowIndex: number= -1;
+        let m_closed: boolean= false;
+        let m_start: DateTime= new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         self. = function(dataSource) {
             m_dataSource = dataSource;
@@ -71,7 +71,7 @@ UNKNOWN >>             get
         //
         // Returns:
         //     The depth of nesting for the current row.
-        self.int Depth { get = null; };
+        self.int: override = null;Depth { get; };
         //
         // Summary:
         //     Gets the number of columns in the current row.
@@ -125,7 +125,7 @@ UNKNOWN >>             get
         // Returns:
         //     The number of rows changed, inserted, or deleted; 0 if no rows were affected
         //     or the statement failed; and -1 for SELECT statements.
-        self.int RecordsAffected { get = null; };
+        self.int: override = null;RecordsAffected { get; };
         //
         // Summary:
         //     Gets the number of fields in the System.Data.SqlClient.SqlDataReader that are
@@ -546,7 +546,7 @@ UNKNOWN >>             Type type;
         };
 
         self. = function() {
-            let table = new DataTable("SchemaTable");
+            let table: var= new DataTable("SchemaTable");
 
             table.Columns.Add("AllowDBNull", typeof(bool));
             table.Columns.Add("BaseCatalogName", typeof(string));
@@ -572,11 +572,11 @@ UNKNOWN >>             Type type;
             table.Columns.Add("ProviderSpecificDataType", typeof(Type));
             table.Columns.Add("ProviderType", typeof(Type));
 
-            let i = 0;
+            let i: var= 0;
             const  = function(in) {
-                let colName = col["name"].ToString();
+                let colName: var= col["name"].ToString();
 
-                let row = table.NewRow();
+                let row: var= table.NewRow();
 
                 row["AllowDBNull"] = false;
                 row["BaseColumnName"] = colName;
@@ -639,7 +639,7 @@ UNKNOWN >>             Type type;
         // Returns:
         //     This method returns System.DBNull for null database columns.
         self. = function(i) {
-            let value = m_rows[m_rowIndex]["values"][i];
+            let value: object= m_rows[m_rowIndex]["values"][i];
             const  = function() {
                 value = Convert.FromBase64String(value.ToString());
             }
@@ -668,7 +668,7 @@ UNKNOWN >>             Type type;
                 throw new ArgumentNullException(nameof(values));
             CheckRow();
 
-            let count = Math.Min(FieldCount, values.Length);
+            let count: var= Math.Min(FieldCount, values.Length);
             const  = function(=) {
                 values[i] = GetValue(i);
             return count;
@@ -708,7 +708,7 @@ UNKNOWN >>             Type type;
             return m_rowIndex < m_rows.Count;
         };
 
-        self.IsOnRow => -1 < m_rowIndex && m_rowIndex < m_rows.Count = null;
+        self.IsOnRow: boolean = null;=> -1 < m_rowIndex && m_rowIndex < m_rows.Count;
 
         void CheckRow()
         {

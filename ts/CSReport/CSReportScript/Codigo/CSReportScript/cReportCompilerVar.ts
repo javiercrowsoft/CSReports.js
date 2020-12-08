@@ -6,7 +6,7 @@
 
         const self = {};
 
-        let m_value = null;
+        let m_value: object= null;
 
         self.getValue = function() {
             return m_value;

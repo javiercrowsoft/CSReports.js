@@ -5,14 +5,14 @@
     globalObject.CSReportDll.createCReportError = function() {
 
         const self = {};
-        const C_MODULE = "cReportError";
+        const C_MODULE: string= "cReportError";
 
-        self.String gDebugControl = "";
-        self.int gDebugSectionLine = 0;
-        self.String gDebugSection = "";
+        self.String: staticgDebugControl = "";
+        self.int: staticgDebugSectionLine = 0;
+        self.String: staticgDebugSection = "";
 
         self.errGetDescript = function(rptErrCode, x) {
-            let s = "";
+            let s: string= "";
             switch (rptErrCode)
             {
                 case csRptErrors.LAUNCH_INFO_UNDEFINED:
@@ -64,7 +64,7 @@
                     break;
             }
 
-            let i = 0;
+            let i: number= 0;
 
             for (i = 0; i < x.Length; i++) {
                 s = s.Replace("$" + .ToString(), x[i]);

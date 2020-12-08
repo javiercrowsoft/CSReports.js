@@ -6,7 +6,7 @@
 
         const self = {};
 
-        let m_aspect = new cReportAspect();
+        let m_aspect: cReportAspect= new cReportAspect();
 
         self.getAspect = function() {
             return m_aspect;
@@ -22,10 +22,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Line");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

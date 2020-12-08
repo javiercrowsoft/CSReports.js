@@ -5,8 +5,8 @@
     globalObject.CSReportDll.createCReportVariable = function() {
 
         const self = {};
-        const C_MODULE = "cReportVariable";
-        let m_value = null;
+        const C_MODULE: string= "cReportVariable";
+        let m_value: object= null;
 
         self.getValue = function() {
             return m_value;

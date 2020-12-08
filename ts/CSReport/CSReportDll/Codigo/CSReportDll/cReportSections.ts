@@ -6,16 +6,16 @@
 
         const self = {};
 
-        const C_MODULE = "cReportSections";
+        const C_MODULE: string= "cReportSections";
 
-        let m_coll = new Dictionary();
-        let m_keys = new List();
+        let m_coll: Dictionary= new Dictionary();
+        let m_keys: List= new List();
 
         // it is a reference to the controls collection of cReport
         //
-        let m_copyColl = null;
-        let m_typeSection = null;
-        let m_mainTypeSection = null;
+        let m_copyColl: cReportControls2 = null;
+        let m_typeSection: csRptSectionType = null;
+        let m_mainTypeSection: csRptSectionType = null;
 
         // Creates an empty collection.
         const cReportSections = function() {
@@ -37,7 +37,7 @@
             m_copyColl = rhs;
 
             if (m_coll !== null)  {
-                let section = null;
+                let section: cReportSection= null;
 
                 for(var _i = 0; _i < this.count(); _i++) {
                     section = item(_i);
@@ -56,7 +56,7 @@
         self.add = function(c, key, index) {
             try {
                 if (c === null) {
-                    c = new cReportSection();
+                    c =  globalObject.CSReportDll.createCReportSection();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -98,7 +98,7 @@
 
         self.clear = function() {
             try {
-                let n = this.count();
+                let n: number= this.count();
                 for(var i = 0; i < n; i++) {
                     remove(0);
                 }
@@ -133,7 +133,7 @@
                 m_keys.RemoveAt(index);
 
                 for(var i = 0; i < this.count(); i++) {
-                    let sec = m_coll[m_keys[i]];
+                    let sec: cReportSection= m_coll[m_keys[i]];
                     sec.setIndex(i);
                     sec.setName(sec.getName().Substring(0, 2).Replace("_", "")
                                 + "_" + i.ToString());

@@ -7,7 +7,7 @@
     globalObject.CSKernelClient.createCMouseWait = function() {
 
         const self = {};
-        let m_lastCursor = null;
+        let m_lastCursor: Cursor= null;
 
         self.Dispose = function() {
             if (m_lastCursor !== null) {

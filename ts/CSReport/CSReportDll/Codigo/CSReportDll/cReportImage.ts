@@ -5,11 +5,11 @@
     globalObject.CSReportDll.createCReportImage = function() {
 
         const self = {};
-        let m_aspect = null;
-        let m_image = null;
+        let m_aspect: cReportAspect = null;
+        let m_image: Image= null;
 
         const cReportImage = function() {
-            m_aspect = new cReportAspect();
+            m_aspect =  globalObject.CSReportDll.createCReportAspect();
         };
 
         // TODO: check if we need to free image resources
@@ -40,7 +40,7 @@
 
         self.load = function(xDoc, nodeObj) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Image");
-            let vBytes = null;
+            let vBytes: byte[]= null;
             vBytes = xDoc.getBinaryNodeProperty(nodeObj, "Data").getBinaryValue();
             //
             // an empty image is serialized as AA== which is vBytes === [0] ( yes the number zero ) and vBytes.Length === 1
@@ -53,15 +53,15 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            let nodImage = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            let nodImage: object= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
             xProperty.setName("Image");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
-            let vBytes = null;
+            let vBytes: byte[]= null;
             if (getImage() !== null) {
                 cImage.serialiseBitmap(getImage(), vBytes);
             }

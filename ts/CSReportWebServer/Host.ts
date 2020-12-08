@@ -8,23 +8,23 @@
     globalObject.CSReportWebServer.createHost = function() {
 
         const self = {};
-        let ILog log = LogManager.GetLogger(typeof(Host));
+        let ILog: staticlog = LogManager.GetLogger(typeof(Host));
 
-        let stop = null;
-        let port = null;
+        let stop: ManualResetEvent = null;
+        let port: Port = null;
 
-        let m_f = null;
-        let m_messageQueue = null;
-        let m_partialMessages = new Dictionary();
+        let m_f: fMain = null;
+        let m_messageQueue: SizeQueue = null;
+        let m_partialMessages: Dictionary= new Dictionary();
 
-        const C_EXTENSION_NAME = "CSReportWebServer.Echo";
+        const C_EXTENSION_NAME: string= "CSReportWebServer.Echo";
 
         /// <summary>
         /// Creates a new instance of native messaging host.
         /// </summary>
         const Host = function(f, messageQueue) {
-            port = new Port();
-            stop = new ManualResetEvent(false);
+            port =  globalObject.CSReportDll.createPort();
+            stop =  globalObject.CSReportDll.createManualResetEvent(false);
             m_f = f;
             m_messageQueue = messageQueue;
         };
@@ -44,14 +44,14 @@
                     //
                     // read a message
                     //
-                    let message = port.Read();
+                    let message: string= port.Read();
 
                     // log
                     //
                     log.DebugFormat("request message\n{0}", message);
                     m_f.log("request message " + message);
 
-                    let request = JObject.Parse(message);
+                    let request: JObject= JObject.Parse(message);
 
                     //
                     // execute the request
@@ -61,11 +61,11 @@
                     //
                     // prepare a response
                     //
-                    let reply = new JObject();
+                    let reply: JObject= new JObject();
                     if (request["source"] !== null) reply["source"] = request["destination"]; {
                     if (request["destination"] !== null) reply["destination"] = request["source"]; {
 
-                    reply["message"] = new JObject();
+                    reply["message"] =  globalObject.CSReportDll.createJObject();
                     reply["message"]["id"] = request["id"];
 
                     // identify service

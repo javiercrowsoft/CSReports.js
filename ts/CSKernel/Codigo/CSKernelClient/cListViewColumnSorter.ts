@@ -11,15 +11,15 @@
         /// <summary>
         /// Specifies the column to be sorted
         /// </summary>
-        let ColumnToSort = null;
+        let ColumnToSort: number = null;
         /// <summary>
         /// Specifies the order in which to sort (i.e. 'Ascending').
         /// </summary>
-        let OrderOfSort = null;
+        let OrderOfSort: SortOrder = null;
         /// <summary>
         /// Case insensitive comparer object
         /// </summary>
-        let ObjectCompare = null;
+        let ObjectCompare: CaseInsensitiveComparer = null;
 
         /// <summary>
         /// Class constructor.  Initializes various elements
@@ -32,7 +32,7 @@
             OrderOfSort = SortOrder.None;
 
             // Initialize the CaseInsensitiveComparer object
-            ObjectCompare = new CaseInsensitiveComparer();
+            ObjectCompare =  globalObject.CSReportDll.createCaseInsensitiveComparer();
         };
 
         /// <summary>

@@ -7,28 +7,28 @@
 
         const self = {};
 
-        let m_left = 0;
-        let m_top = 0;
-        let m_height = 0;
-        let m_width = 0;
-        let m_backColor = csColors.C_COLOR_WHITE;
-        let m_borderWidth = 0;
-        let m_borderType = null;
-        let m_borderColor = csColors.C_COLOR_BLACK;
-        let m_borderColor3d = 0;
-        let m_borderColor3dShadow = 0;
-        let m_selectColor = 0;
-        let m_font = new cReportFont();
-        let m_canGrow = null;
-        let m_nZOrder = 0;
-        let m_align = HorizontalAlignment.Left;
-        let m_transparent = null;
-        let m_format = "";
-        let m_symbol = "";
-        let m_isAccounting = null;
-        let m_wordWrap = null;
-        let m_borderRounded = null;
-        let m_offset = 0;
+        let m_left: number= 0;
+        let m_top: number= 0;
+        let m_height: number= 0;
+        let m_width: number= 0;
+        let m_backColor: number= csColors.C_COLOR_WHITE;
+        let m_borderWidth: number= 0;
+        let m_borderType: csReportBorderType = null;
+        let m_borderColor: number= csColors.C_COLOR_BLACK;
+        let m_borderColor3d: number= 0;
+        let m_borderColor3dShadow: number= 0;
+        let m_selectColor: number= 0;
+        let m_font: cReportFont= new cReportFont();
+        let m_canGrow: boolean = null;
+        let m_nZOrder: number= 0;
+        let m_align: HorizontalAlignment= HorizontalAlignment.Left;
+        let m_transparent: boolean = null;
+        let m_format: string= "";
+        let m_symbol: string= "";
+        let m_isAccounting: boolean = null;
+        let m_wordWrap: boolean = null;
+        let m_borderRounded: boolean = null;
+        let m_offset: number= 0;
 
         self.setOffset = function(rhs) {
             m_offset = rhs;
@@ -261,9 +261,9 @@
         self.save = function(xDoc, nodeFather) {
             pixelsToTwips();
 
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Aspect");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

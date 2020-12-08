@@ -9,7 +9,7 @@
 
         const self = {};
         self.isDate = function(dateValue) {
-            let t = dateValue.GetType();
+            let t: Type= dateValue.GetType();
             if (typeof(DateTime) === t) {
                 return true;
             }

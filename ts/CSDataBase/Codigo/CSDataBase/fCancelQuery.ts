@@ -5,18 +5,18 @@
     globalObject.CSDataBase.createFCancelQuery = function() {
 
         const self = {};
-        let m_cancel = false;
-        let m_timer = null;
-        let m_minutes = 0;
-        let m_seconds = 0;
+        let m_cancel: boolean= false;
+        let m_timer: Timer = null;
+        let m_minutes: number= 0;
+        let m_seconds: number= 0;
 
         const fCancelQuery = function() {
             InitializeComponent();
 
-            let assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image = new Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.Database.png"));
-            m_timer = new Timer();
-            m_timer.Tick += new EventHandler(timer_tick);
+            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.Database.png"));
+            m_timer =  globalObject.CSReportDll.createTimer();
+            m_timer.Tick +=  globalObject.CSReportDll.createEventHandler(timer_tick);
             m_timer.Interval = 1000;
             m_timer.Start();
         };

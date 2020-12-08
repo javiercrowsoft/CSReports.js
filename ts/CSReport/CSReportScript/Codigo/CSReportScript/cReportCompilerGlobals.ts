@@ -113,7 +113,7 @@ UNKNOWN >>             get
             this.BaseClear();
         };
 
-        let m_mode = 0;
+        let m_mode: eReportCompilerMode= 0;
 
         self.getMode = function() {
             return m_mode;

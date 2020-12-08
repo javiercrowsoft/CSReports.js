@@ -15,7 +15,7 @@ UNKNOWN >>     class cPrintWMI
         // then call this function one time for each property you need to access
         //
         self.getPrinterInfoValueFromWMI = function(propertyName, printerInfo, defaultValue) {
-            let printer = printerInfo as ManagementObject;
+            let printer: ManagementObject= printerInfo as ManagementObject;
             const  = function(null) {
                 const  = function(in) {
                     //Console.WriteLine(string.Format("{0}: {1}", property.Name, property.Value));
@@ -72,9 +72,9 @@ UNKNOWN >>     class cPrintWMI
         //
         const getInfoFromWMI = function(tableName, objectName) {
             try {
-                let query = string.Format("SELECT * from {0} WHERE Name = '{1}'", tableName, objectName);
-                let searcher = new ManagementObjectSearcher(query);
-                let coll = searcher.Get();
+                let query: string= string.Format("SELECT * from {0} WHERE Name = '{1}'", tableName, objectName);
+                let searcher: ManagementObjectSearcher= new ManagementObjectSearcher(query);
+                let coll: ManagementObjectCollection= searcher.Get();
 
                 const  = function(in) {
                     return printer;

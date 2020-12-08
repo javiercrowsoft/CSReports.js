@@ -119,7 +119,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c = new cWebChartItem();
+                    c =  globalObject.CSReportDll.createCWebChartItem();
                 }
 
                 if (key === "") {

@@ -5,7 +5,7 @@
     globalObject.CSKernelClient.createFInput = function() {
 
         const self = {};
-        let m_ok = false;
+        let m_ok: boolean= false;
 
         const fInput = function() {
             InitializeComponent();

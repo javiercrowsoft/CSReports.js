@@ -18,66 +18,66 @@
 
         // http://stackoverflow.com/questions/137933/what-is-the-best-scripting-language-to-embed-in-a-c-desktop-application
 
-        const C_MODULE = "cReportCompiler";
+        const C_MODULE: string= "cReportCompiler";
 
-        const C_TEMPFUNCTIONB = "Option explicit";
-        const C_TEMPFUNCTIONE = "\r\n";
+        const C_TEMPFUNCTIONB: string= "Option explicit";
+        const C_TEMPFUNCTIONE: string= "\r\n";
 
-        const C_MACRO_CTRL = "@@";
+        const C_MACRO_CTRL: string= "@@";
 
-        const C_AVERAGE_SUM = "AverageSum";
-        const C_AVERAGE_COUNT = "AverageCount";
-        const C_SUM = "Sum";
-        const C_SUM_TIME = "SumTime";
-        const C_MAX = "Max";
-        const C_MIN = "Min";
-        const C_COUNT = "Count";
-        const C_NUMBER_TO_STRING = "NumberToString";
-        const C_GET_BARCODE = "GetBarcode";
-        const C_GET_DATA_FROM_RS_AD = "GetDataFromRsAd";
+        const C_AVERAGE_SUM: string= "AverageSum";
+        const C_AVERAGE_COUNT: string= "AverageCount";
+        const C_SUM: string= "Sum";
+        const C_SUM_TIME: string= "SumTime";
+        const C_MAX: string= "Max";
+        const C_MIN: string= "Min";
+        const C_COUNT: string= "Count";
+        const C_NUMBER_TO_STRING: string= "NumberToString";
+        const C_GET_BARCODE: string= "GetBarcode";
+        const C_GET_DATA_FROM_RS_AD: string= "GetDataFromRsAd";
 
-        const C_ISEQUAL = "IsEqual";
-        const C_ISNOTEQUAL = "IsNotEqual";
-        const C_ISGREATERTHAN = "IsGreaterThan";
-        const C_ISLESSTHAN = "IsLessThan";
+        const C_ISEQUAL: string= "IsEqual";
+        const C_ISNOTEQUAL: string= "IsNotEqual";
+        const C_ISGREATERTHAN: string= "IsGreaterThan";
+        const C_ISLESSTHAN: string= "IsLessThan";
 
-        const C_GETDATAFROMRS = "GetDataFromRs";
+        const C_GETDATAFROMRS: string= "GetDataFromRs";
 
-        const C_GROUPTOTAL = "GroupTotal";
-        const C_GROUPMIN = "GroupMin";
-        const C_GROUPMAX = "GroupMax";
-        const C_GROUPAVERAGE = "GroupAverage";
-        const C_GROUPPERCENT = "GroupPercent";
-        const C_GROUPPERCENTT = "GroupPercentT";
-        const C_GROUPCOUNT = "GroupCount";
-        const C_GROUPLINENUMBER = "GroupLineNumber";
+        const C_GROUPTOTAL: string= "GroupTotal";
+        const C_GROUPMIN: string= "GroupMin";
+        const C_GROUPMAX: string= "GroupMax";
+        const C_GROUPAVERAGE: string= "GroupAverage";
+        const C_GROUPPERCENT: string= "GroupPercent";
+        const C_GROUPPERCENTT: string= "GroupPercentT";
+        const C_GROUPCOUNT: string= "GroupCount";
+        const C_GROUPLINENUMBER: string= "GroupLineNumber";
 
-        const C_ISINRS = "IsInRs";
+        const C_ISINRS: string= "IsInRs";
 
-        const C_SPANISH = 1;
-        const C_ENGLISH = 2;
-        const C_FRENCH = 3;
+        const C_SPANISH: number= 1;
+        const C_ENGLISH: number= 2;
+        const C_FRENCH: number= 3;
 
-        const C_KEYFUNCINT = "$$$";
+        const C_KEYFUNCINT: string= "$$$";
 
-        let m_formulaTypes = new cReportFormulaTypes();
-        let m_report = null;
-        let m_variables = new cReportVariables();
+        let m_formulaTypes: cReportFormulaTypes= new cReportFormulaTypes();
+        let m_report: cReport = null;
+        let m_variables: cReportVariables= new cReportVariables();
 
         // the current formula we are compiling
         //
-        let m_formula = null;
+        let m_formula: cReportFormula = null;
         // the current internal formula we are compiling
         //
-        let m_fint = null;
+        let m_fint: cReportFormulaInt = null;
 
-        let m_objGlobals = new cReportCompilerGlobals();
+        let m_objGlobals: cReportCompilerGlobals= new cReportCompilerGlobals();
 
-        let m_collTextReplace = new Dictionary();
-        let m_ctrlName = "";
+        let m_collTextReplace: Dictionary= new Dictionary();
+        let m_ctrlName: string= "";
 
-        let m_bCompile = null;
-        let m_idxFormula = -1;
+        let m_bCompile: boolean = null;
+        let m_idxFormula: number= -1;
 
         self.getReport = function() {
             return m_report;
@@ -104,7 +104,7 @@
         // 
         self.checkSyntax = function(formula) {
             try {
-                let code = "";
+                let code: string= "";
 
                 m_formula = formula;
                 m_formula.getFormulasInt().clear();
@@ -129,16 +129,16 @@
         };
 
         self.initVariable = function(formula) {
-            let variable = null;
-            let fint = null;
-            let st = null;
+            let variable: cReportVariable= null;
+            let fint: cReportFormulaInt= null;
+            let st: cStructTime= null;
 
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
                 for(var _j = 0; _j < fint.getVariables().count(); _j++) {
                     variable = fint.getVariables().item(_j);
 
-                    let typeCode = System.Type.GetTypeCode(variable.getValue().GetType());
+                    let typeCode: System.TypeCode= System.Type.GetTypeCode(variable.getValue().GetType());
                     switch (typeCode)
                     {
 
@@ -181,7 +181,7 @@
         };
 
         const pEvalGroupFunctions = function(formula) {
-            let fint = null;
+            let fint: cReportFormulaInt= null;
 
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
@@ -221,15 +221,15 @@
         };
 
         self.resultFunction = function(formula) {
-            let code = "";
-            let vResult = null;
+            let code: string= "";
+            let vResult: object[]= null;
 
             m_objGlobals.setMode(eReportCompilerMode.C_RESULT);
             m_ctrlName = formula.getControlName();
 
-            vResult = new object[formula.getFormulasInt().count()];
+            vResult =  globalObject.CSReportDll.createObject[formula.getFormulasInt().count()];
 
-            let fint = null;
+            let fint: cReportFormulaInt= null;
 
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
@@ -259,7 +259,7 @@
             }
             else {
                 code = formula.getTextC();
-                let parameters = "";
+                let parameters: var= "";
 
                 for(var i = 0; i < vResult.Length; i++) {
                     // if one argument is null it means we don't have a row for this formula
@@ -274,11 +274,11 @@
                                             getNumericVal(vResult[i].ToString()));
                      * */
 
-                    let parameter = "p__" + i + "__";
+                    let parameter: var= "p__" + i + "__";
                     parameters += parameter + ",";
                     code = code.Replace(C_KEYFUNCINT + cReportGlobals.format(i + 1, "000"), parameter);
 
-                    let paramValue = m_objGlobals.getVar(parameter);
+                    let paramValue: var= m_objGlobals.getVar(parameter);
                     if (paramValue === null) {
                         paramValue = m_objGlobals.addVar(parameter);
                     }
@@ -297,24 +297,24 @@
         };
 
         const insertParametersIntoFunction = function(code, parameters) {
-            let n = code.IndexOf("(") + 1;
-            let code = code.Substring(0, n) + parameters + code.Substring(n);
+            let n: number= code.IndexOf("(") + 1;
+            let code: return= code.Substring(0, n) + parameters + code.Substring(n);
         };
 
         const pEvalFunctionGroup = function(fint) {
-            let value = 0;
-            let total = 0;
+            let value: number= 0;
+            let total: number= 0;
 
             if (fint.getVariables().count() > 0) {
                 if (fint.getParameters().item(cReportGlobals.C_KEYINDEXCOL2) === null) {
                     value = 0;
                 }
                 else {
-                    let columnIndex = int.Parse(fint.getParameters().item(cReportGlobals.C_KEYINDEXCOL2).getValue());
+                    let columnIndex: number= int.Parse(fint.getParameters().item(cReportGlobals.C_KEYINDEXCOL2).getValue());
                     value = cUtil.val(m_report.getValueFromRs(columnIndex).ToString());
                 }
 
-                let variable = fint.getVariables().item(C_GROUPPERCENTT);
+                let variable: cReportVariable= fint.getVariables().item(C_GROUPPERCENTT);
                 total = cUtil.val(variable.getValue().ToString());
                 value = cUtil.divideByZero(value, total);
                 variable.setValue(value);
@@ -324,7 +324,7 @@
         };
 
         self.evalFunctionGroup = function(formula) {
-            let fint = null;
+            let fint: cReportFormulaInt= null;
 
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
@@ -333,7 +333,7 @@
         };
 
         self.evalFunction = function(formula) {
-            let codeC = "";
+            let codeC: string= "";
 
             m_objGlobals.setMode(eReportCompilerMode.C_EVAL);
 
@@ -381,7 +381,7 @@
         };
 
         const pIsFunction = function(word) {
-            let f = null;
+            let f: cReportFormulaType= null;
 
             for(var _i = 0; _i < m_formulaTypes.count(); _i++) {
                 f = m_formulaTypes.item(_i);
@@ -601,8 +601,8 @@
         };
 
         const pEvalSyntax = function(functionName, code, bParam, formula) {
-            let i = 0;
-            let s = "";
+            let i: number= 0;
+            let s: string= "";
 
             code = removeReturns(code);
 
@@ -630,8 +630,8 @@
             }
             else {
 
-                let vParams = null;
-                let parameters = "";
+                let vParams: String[]= null;
+                let parameters: string= "";
 
                 parameters = code.Trim();
                 if (parameters.Length > 2) {
@@ -674,7 +674,7 @@
         };
 
         const pIsTime = function(code) {
-            let vTime = null;
+            let vTime: String[]= null;
 
             code = code.Trim();
             if (code.IndexOf(":", 0) === 0)  {
@@ -705,7 +705,7 @@
                 return cReportScriptEngine.eval(formula.getCompiledScript(), m_objGlobals);
             }
             catch (ex) {
-                let msg = ex.Source;
+                let msg: string= ex.Source;
                             + ex.Message + "\n\nCode:\n=====\n\n" + code + "\n\n"
                             + ex.HelpLink;
                 throw new ReportException(csRptErrors.ERROR_IN_SCRIPT, C_MODULE, msg);
@@ -713,7 +713,7 @@
         };
 
         const pIsControl = function(param) {
-            let ctrl = null;
+            let ctrl: cReportControl= null;
             for(var _i = 0; _i < m_report.getControls().count(); _i++) {
                 ctrl = m_report.getControls().item(_i);
                 if (ctrl.getName().ToUpper() === param.ToUpper()) {
@@ -724,7 +724,7 @@
         };
 
         const pGetControl = function(param) {
-            let ctrl = null;
+            let ctrl: cReportControl= null;
             for(var _i = 0; _i < m_report.getControls().count(); _i++) {
                 ctrl = m_report.getControls().item(_i);
                 if (ctrl.getName().ToUpper() === param.ToUpper()) {
@@ -735,9 +735,9 @@
         };
 
         const pGetSubName = function(code) {
-            let pos = 0;
-            let i = 0;
-            let c = "";
+            let pos: number= 0;
+            let i: number= 0;
+            let c: string= "";
 
             pos = code.IndexOf(" ", 0) + 1;
             i = pos;
@@ -752,8 +752,8 @@
         };
 
         const pGetParameter = function(parameters, paramIndex, funName) {
-            let param = "";
-            let vParam = null;
+            let param: string= "";
+            let vParam: String[]= null;
 
             vParam = parameters.Split('|');
 
@@ -773,13 +773,13 @@
         };
 
         const pCheckInternalFunction = function(functionName, code) {
-            let name = "";
-            let parameters = "";
-            let idFunction = 0;
+            let name: string= "";
+            let parameters: string= "";
+            let idFunction: csRptFormulaType= 0;
 
-            let r = 0;
-            let q = 0;
-            let tc = "";
+            let r: number= 0;
+            let q: number= 0;
+            let tc: string= "";
 
             name = functionName;
             parameters = code.Trim();
@@ -977,7 +977,7 @@
         };
 
         const resultGetString = function(fint) {
-            let param = "";
+            let param: string= "";
 
             param = fint.getParameters().item(0).getValue();
 
@@ -998,7 +998,7 @@
             if (fint.getVariables().count() === 0)  {
                 return ""; 
             }
-            let st = null;
+            let st: cStructTime= null;
             st = fint.getVariables().item(C_SUM_TIME).getValue();
             if (cUtil.val(fint.getParameters().item(1).getValue()) !== 0) {
                 return cReportGlobals.format(st.getHour(), "00")
@@ -1024,7 +1024,7 @@
         };
 
         const resultGetVar = function(fint) {
-            let varName = "";
+            let varName: string= "";
             varName = fint.getParameters().item(0).getValue();
 
             if (m_variables.item(varName) === null) {
@@ -1039,8 +1039,8 @@
         };
 
         const resultGetParam = function(fint) {
-            let param = null;
-            let paramName = "";
+            let param: cParameter= null;
+            let paramName: string= "";
 
             paramName = fint.getParameters().item(0).getValue();
 
@@ -1136,16 +1136,16 @@
             if (fint.getVariables().count() === 0)  {
                 return 0; 
             }
-            let sum = fint.getVariables().item(C_AVERAGE_SUM).getValue();
-            let count = fint.getVariables().item(C_AVERAGE_COUNT).getValue();
+            let sum: number= fint.getVariables().item(C_AVERAGE_SUM).getValue();
+            let count: number= fint.getVariables().item(C_AVERAGE_COUNT).getValue();
             return sum / count;
         };
 
         const resultCalculo = function(fint) {
-            let control = "";
-            let value1 = 0;
-            let value2 = 0;
-            let oper = 0;
+            let control: string= "";
+            let value1: number= 0;
+            let value2: number= 0;
+            let oper: number= 0;
 
             control = fint.getParameters().item(1).getValue();
 
@@ -1192,10 +1192,10 @@
         };
 
         const resultTextReplace = function(fint) {
-            let i = 0;
-            let ctrl = null;
-            let text = "";
-            let collCtrlsToReplace = null;
+            let i: number= 0;
+            let ctrl: cReportControl= null;
+            let text: string= "";
+            let collCtrlsToReplace: List= null;
 
             ctrl = pGetControl(m_ctrlName);
             if (ctrl === null) {
@@ -1208,11 +1208,11 @@
                 collCtrlsToReplace = m_collTextReplace[m_ctrlName];
             }
             catch(ex) {
-                let lenText = 0;
-                let pos = 0;
-                let endpos = 0;
+                let lenText: number= 0;
+                let pos: number= 0;
+                let endpos: number= 0;
 
-                collCtrlsToReplace = new List();
+                collCtrlsToReplace =  globalObject.CSReportDll.createList();
 
                 lenText = text.Length;
                 while (i < lenText) {
@@ -1233,7 +1233,7 @@
                 m_collTextReplace.Add(m_ctrlName, collCtrlsToReplace);
             }
 
-            let ctrlValue = null;
+            let ctrlValue: cReportControl= null;
             for (i = 0; i < collCtrlsToReplace.Count; i++) {
                 ctrlValue = pGetControl(collCtrlsToReplace[i]);
                 if (ctrlValue !== null) {
@@ -1334,7 +1334,7 @@
                 fint.getVariables().add(null, C_AVERAGE_COUNT);
             }
 
-            let item = fint.getVariables().item(C_AVERAGE_SUM);
+            let item: cReportVariable= fint.getVariables().item(C_AVERAGE_SUM);
             // the average function is for numbers
             //
             item.setValue(item.getValue()
@@ -1347,9 +1347,9 @@
         };
 
         const pGetNumber = function(number) {
-            let strNumber = number.ToString();
-            let rtn = 0;
-            let sepDecimal = "";
+            let strNumber: string= number.ToString();
+            let rtn: number= 0;
+            let sepDecimal: string= "";
 
             if (G.isNumeric(strNumber)) {
                 sepDecimal = cUtil.getSepDecimal();
@@ -1368,7 +1368,7 @@
                 fint.getVariables().add(null, C_SUM).setValue(0);
             }
 
-            let item = fint.getVariables().item(C_SUM);
+            let item: cReportVariable= fint.getVariables().item(C_SUM);
             // the sum function is for numbers
             //
             item.setValue(Convert.ToDouble(item.getValue())
@@ -1376,7 +1376,7 @@
         };
 
         const evalDeclareVar = function(fint) {
-            let varName = "";
+            let varName: string= "";
 
             varName = fint.getParameters().item(0).getValue();
 
@@ -1386,7 +1386,7 @@
         };
 
         const evalSetVar = function(fint) {
-            let varName = "";
+            let varName: string= "";
 
             varName = fint.getParameters().item(0).getValue();
 
@@ -1399,7 +1399,7 @@
                                     "_setVar"));
             }
 
-            let item = m_variables.item(varName);
+            let item: cReportVariable= m_variables.item(varName);
             item.setValue(fint.getParameters().item(1).getValue());
         };
 
@@ -1412,7 +1412,7 @@
         };
 
         const evalAddToVar = function(fint) {
-            let varName = "";
+            let varName: string= "";
 
             varName = fint.getParameters().item(0).getValue();
 
@@ -1425,7 +1425,7 @@
                                     "_evalAddToVar"));
             }
 
-            let item = m_variables.item(varName);
+            let item: cReportVariable= m_variables.item(varName);
             // the EvalAddToVar function is for numbers
             //
             item.setValue(item.getValue() 
@@ -1437,7 +1437,7 @@
                 fint.getVariables().add(null, C_SUM_TIME).setValue(new cStructTime());
             }
 
-            let item = fint.getVariables().item(C_SUM_TIME);
+            let item: cReportVariable= fint.getVariables().item(C_SUM_TIME);
             // the SumTime if for dates
             //
             pSumTimes(item.getValue(),
@@ -1445,13 +1445,13 @@
         };
 
         const evalMax = function(fint) {
-            let value = null;
+            let value: object= null;
 
             if (fint.getVariables().item(C_MAX) === null) {
                 fint.getVariables().add(null, C_MAX);
             }
 
-            let item = fint.getVariables().item(C_MAX);
+            let item: cReportVariable= fint.getVariables().item(C_MAX);
             // the Max function if for numbers and strings
             //
             value = m_report.getValue(fint.getParameters().item(0).getValue());
@@ -1471,13 +1471,13 @@
         };
 
         const evalMin = function(fint) {
-            let value = null;
+            let value: object= null;
 
             if (fint.getVariables().item(C_MIN) === null) {
                 fint.getVariables().add(null, C_MIN);
             }
 
-            let item = fint.getVariables().item(C_MIN);
+            let item: cReportVariable= fint.getVariables().item(C_MIN);
             // The Min function is for numbers and strings
             //
             value = m_report.getValue(fint.getParameters().item(0).getValue());
@@ -1501,7 +1501,7 @@
                 fint.getVariables().add(null, C_COUNT);
             }
 
-            let item = fint.getVariables().item(C_COUNT);
+            let item: cReportVariable= fint.getVariables().item(C_COUNT);
             // the Count functio is for numbers
             //
             item.setValue(item.getValue() + 1);
@@ -1512,16 +1512,16 @@
                 fint.getVariables().add(null, C_NUMBER_TO_STRING);
             }
 
-            let item = fint.getVariables().item(C_NUMBER_TO_STRING);
+            let item: cReportVariable= fint.getVariables().item(C_NUMBER_TO_STRING);
             // the NumberToString funciton is for numbres
             //
-            let iNumber = 0;
-            let iLenguage = 0;
+            let iNumber: number= 0;
+            let iLenguage: number= 0;
 
             iNumber = pGetNumber(m_report.getValue(fint.getParameters().item(0).getValue(), true));
             iLenguage = cUtil.valAsInt(fint.getParameters().item(1).getValue());
 
-            let ntos = new cNumberToString();
+            let ntos: cNumberToString= new cNumberToString();
 
             switch (iLenguage)
             {
@@ -1542,11 +1542,11 @@
                 fint.getVariables().add(null, C_ISEQUAL);
             }
 
-            let item = fint.getVariables().item(C_ISEQUAL);
+            let item: cReportVariable= fint.getVariables().item(C_ISEQUAL);
             // the IsEqual function is for numbers
             //
-            let strValue = "";
-            let strConstValue = "";
+            let strValue: string= "";
+            let strConstValue: string= "";
 
             strValue = m_report.getValue(fint.getParameters().item(0).getValue(), true).ToString();
             strConstValue = fint.getParameters().item(1).getValue();
@@ -1559,11 +1559,11 @@
                 fint.getVariables().add(null, C_ISNOTEQUAL);
             }
 
-            let item = fint.getVariables().item(C_ISNOTEQUAL);
+            let item: cReportVariable= fint.getVariables().item(C_ISNOTEQUAL);
             // the IsNotEqual function is for numbers
             //
-            let strValue = "";
-            let strConstValue = "";
+            let strValue: string= "";
+            let strConstValue: string= "";
 
             strValue = m_report.getValue(fint.getParameters().item(0).getValue(), true);
             strConstValue = fint.getParameters().item(1).getValue();
@@ -1576,15 +1576,15 @@
                 fint.getVariables().add(null, C_ISGREATERTHAN);
             }
 
-            let item = fint.getVariables().item(C_ISGREATERTHAN);
+            let item: cReportVariable= fint.getVariables().item(C_ISGREATERTHAN);
             // the IsGreaterThan function is for numbers
             //
-            let value = m_report.getValue(fint.getParameters().item(0).getValue(), true);
-            const constValue = fint.getParameters().item(1).getValue();
+            let value: object= m_report.getValue(fint.getParameters().item(0).getValue(), true);
+            const constValue: object= fint.getParameters().item(1).getValue();
 
             if (value.GetType() === typeof(String)) {
-                let strValue = value.ToString();
-                const strConstValue = constValue.ToString();
+                let strValue: string= value.ToString();
+                const strConstValue: string= constValue.ToString();
 
                 if (String.Compare(strValue.ToString(),
                                     strConstValue.ToString(),
@@ -1610,15 +1610,15 @@
                 fint.getVariables().add(null, C_ISLESSTHAN);
             }
 
-            let item = fint.getVariables().item(C_ISLESSTHAN);
+            let item: cReportVariable= fint.getVariables().item(C_ISLESSTHAN);
             // the IsLessThan function is for numbers
             //
-            let value = m_report.getValue(fint.getParameters().item(0).getValue(), true);
-            const constValue = fint.getParameters().item(1).getValue();
+            let value: object= m_report.getValue(fint.getParameters().item(0).getValue(), true);
+            const constValue: object= fint.getParameters().item(1).getValue();
 
             if (value.GetType() === typeof(String)) {
-                let strValue = value.ToString();
-                const strConstValue = constValue.ToString();
+                let strValue: string= value.ToString();
+                const strConstValue: string= constValue.ToString();
 
                 if (String.Compare(strValue.ToString(),
                                     strConstValue.ToString(),
@@ -1644,7 +1644,7 @@
                 fint.getVariables().add(null, C_GROUPTOTAL);
             }
 
-            let item = fint.getVariables().item(C_GROUPTOTAL);
+            let item: cReportVariable= fint.getVariables().item(C_GROUPTOTAL);
             // the Total function is for numbres
 
             // if param1 doesn't contain an index column is because we haven't
@@ -1674,7 +1674,7 @@
                 fint.getVariables().add(null, C_GROUPMAX);
             }
 
-            let item = fint.getVariables().item(C_GROUPMAX);
+            let item: cReportVariable= fint.getVariables().item(C_GROUPMAX);
             // the Group Max function is for numbers and strings
 
             // if param1 doesn't contain an index column is because we haven't
@@ -1704,7 +1704,7 @@
                 fint.getVariables().add(null, C_GROUPMIN);
             }
 
-            let item = fint.getVariables().item(C_GROUPMIN);
+            let item: cReportVariable= fint.getVariables().item(C_GROUPMIN);
             // the Group Min function is for numbers and strings
 
             // if param1 doesn't contain an index column is because we haven't
@@ -1734,7 +1734,7 @@
                 fint.getVariables().add(null, C_GROUPAVERAGE);
             }
 
-            let item = fint.getVariables().item(C_GROUPAVERAGE);
+            let item: cReportVariable= fint.getVariables().item(C_GROUPAVERAGE);
             // the Average function is for numbers
 
             // if param1 doesn't contain an index column is because we haven't
@@ -1771,7 +1771,7 @@
                 fint.getVariables().add(null, C_GROUPPERCENT);
             }
 
-            let item = fint.getVariables().item(C_GROUPPERCENTT);
+            let item: cReportVariable= fint.getVariables().item(C_GROUPPERCENTT);
             // the Percent function is for numbers
 
             // if param1 doesn't contain an index column is because we haven't
@@ -1802,7 +1802,7 @@
                 fint.getVariables().add(null, C_GROUPCOUNT);
             }
 
-            let item = fint.getVariables().item(C_GROUPCOUNT);
+            let item: cReportVariable= fint.getVariables().item(C_GROUPCOUNT);
             // the Count function is for numbers
 
             // if param1 doesn't contain an index column is because we haven't
@@ -1832,7 +1832,7 @@
                 fint.getVariables().add(null, C_GROUPLINENUMBER);
             }
 
-            let item = fint.getVariables().item(C_GROUPLINENUMBER);
+            let item: cReportVariable= fint.getVariables().item(C_GROUPLINENUMBER);
             // the LineNumber function is for numbers
             item.setValue(
                 m_report.getGroupLineNumber(
@@ -1844,7 +1844,7 @@
                 fint.getVariables().add(null, C_ISINRS);
             }
 
-            let item = fint.getVariables().item(C_ISINRS);
+            let item: cReportVariable= fint.getVariables().item(C_ISINRS);
             // TODO: finish coding evalIsInRs
             //
             item.setValue(true);
@@ -1855,11 +1855,11 @@
                 fint.getVariables().add(null, C_GET_BARCODE);
             }
 
-            let item = fint.getVariables().item(C_GET_BARCODE);
+            let item: cReportVariable= fint.getVariables().item(C_GET_BARCODE);
 
-            let barcodeGen = new CSReportBarcode.cReportBarcode();
-            let value = fint.getParameters().item(0).getValue();
-            let barcode = barcodeGen.encodeTo128(value);
+            let barcodeGen: var= new CSReportBarcode.cReportBarcode();
+            let value: var= fint.getParameters().item(0).getValue();
+            let barcode: var= barcodeGen.encodeTo128(value);
 
             if (barcode.Contains("Ã‚")) barcode = barcodeGen.code128a(value); {
 
@@ -1872,7 +1872,7 @@
             for(var i = 0; i < cantParams; i++) {
                 // It must receive the control name
                 //
-                let param = pGetParameter(parameters, i, name);
+                let param: string= pGetParameter(parameters, i, name);
 
                 if (param.Length === 0) {
                     throw new ReportArgumentMissingException(
@@ -1888,7 +1888,7 @@
         };
 
         const pGetIdFunction = function(name) {
-            let f = null;
+            let f: cReportFormulaType= null;
 
             name = name.ToLower();
             for(var _i = 0; _i < m_formulaTypes.count(); _i++) {
@@ -1905,7 +1905,7 @@
         };
 
         const removeReturns = function(code) {
-            let c = "";
+            let c: string= "";
             for(var i = 0; i < code.Length; i++) {
                 c = code.Substring(i, 1);
                 if (c !== " " && c !== "\r" && c !== "\n") {
@@ -1920,14 +1920,14 @@
         // Dates start 1-1-1900 00:00:00
         //
         const pSumTimes = function(st, date2) {
-            let n2 = 0;
-            let h2 = 0;
-            let s2 = 0;
+            let n2: number= 0;
+            let h2: number= 0;
+            let s2: number= 0;
 
-            let n = 0;
-            let h = 0;
-            let s = 0;
-            let d = 0;
+            let n: number= 0;
+            let h: number= 0;
+            let s: number= 0;
+            let d: number= 0;
 
             s2 = date2.Second;
             n2 = date2.Minute;
@@ -1953,13 +1953,13 @@
         };
 
         const pCompileAux = function(code, codeC) {
-            let codeCallFunction = "";
-            let codeCallFunctionC = "";
-            let functionName = "";
-            let word = "";
+            let codeCallFunction: string= "";
+            let codeCallFunctionC: string= "";
+            let functionName: string= "";
+            let word: string= "";
 
-            let nStart = 0;
-            let nLenCode = code.Length;
+            let nStart: number= 0;
+            let nLenCode: number= code.Length;
 
             codeC = "";
 
@@ -1984,9 +1984,9 @@
         };
 
         const pGetWord = function(code, nStart) {
-            let c = "";
-            let nLenCode = 0;
-            let word = "";
+            let c: string= "";
+            let nLenCode: number= 0;
+            let word: string= "";
 
             nLenCode = code.Length;
 
@@ -2009,10 +2009,10 @@
         };
 
         const pGetCallFunction = function(code, nStart) {
-            let c = "";
-            let nLenCode = 0;
-            let word = "";
-            let nInner = 0;
+            let c: string= "";
+            let nLenCode: number= 0;
+            let word: string= "";
+            let nInner: number= 0;
 
             nLenCode = code.Length;
             nInner = -1;
@@ -2027,7 +2027,7 @@
         };
 
         const pIsEndCallFunction = function(c, nInner) {
-            let _rtn = false;
+            let _rtn: boolean= false;
             if (c === ")") {
                 if (nInner === 0) {
                     _rtn = true;

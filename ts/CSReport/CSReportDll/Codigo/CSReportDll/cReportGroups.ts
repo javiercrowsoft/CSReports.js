@@ -97,8 +97,8 @@ UNKNOWN >>             get
             this.BaseClear();
         };
 
-        let m_groupsHeaders = new cReportSections();
-        let m_groupsFooters = new cReportSections();
+        let m_groupsHeaders: cReportSections= new cReportSections();
+        let m_groupsFooters: cReportSections= new cReportSections();
 
         self.getGroupsHeaders = function() {
             return m_groupsHeaders;
@@ -119,7 +119,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try  {
                 if (c === null)  {
-                    c = new cReportGroup();
+                    c =  globalObject.CSReportDll.createCReportGroup();
                 }
                 if (key === "")  {
                     key = cReportGlobals.getNextKey().ToString();
@@ -154,7 +154,7 @@ UNKNOWN >>             get
         self.add2 = function(c, key) {
             try  {
                 if (c === null)  {
-                    c = new cReportGroup();
+                    c =  globalObject.CSReportDll.createCReportGroup();
                 }
                 if (key === "")  {
                     key = cReportGlobals.getNextKey().ToString();
@@ -193,7 +193,7 @@ UNKNOWN >>             get
             c.setName(pSetName(c.getName(), name));
         };
         const pSetName = function(section, name) {
-            let sectionName = section.ToLower();
+            let sectionName: string= section.ToLower();
             if (sectionName.Length === 0
                 || cUtil.subString(sectionName, 0, 5) === "group"
                 || cUtil.subString(sectionName, 0, 5) === "grupo"
@@ -210,7 +210,7 @@ UNKNOWN >>             get
 
         self.clear = function() {
             try {
-                let n = this.count();
+                let n: number= this.count();
                 for(var i = 0; i < n; i++) {
                     remove(0);
                 }
@@ -222,8 +222,8 @@ UNKNOWN >>             get
 
         self.remove = function(key) {
             try {
-                let keyH = "";
-                let keyF = "";
+                let keyH: string= "";
+                let keyF: string= "";
 
                 keyH = m_groupsHeaders.item(item(key).getHeader().getKey()).getKey();
                 keyF = m_groupsFooters.item(item(key).getFooter().getKey()).getKey();
@@ -245,8 +245,8 @@ UNKNOWN >>             get
 
         self.remove = function(index) {
             try {
-                let keyH = "";
-                let keyF = "";
+                let keyH: string= "";
+                let keyF: string= "";
 
                 keyH = m_groupsHeaders.item(item(index).getHeader().getKey()).getKey();
                 keyF = m_groupsFooters.item(item(index).getFooter().getKey()).getKey();

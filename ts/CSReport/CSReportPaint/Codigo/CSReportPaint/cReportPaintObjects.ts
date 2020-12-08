@@ -106,7 +106,7 @@ UNKNOWN >>             get
 
         // Removes an entry in the specified index from the collection.
         self.remove = function(index) {
-            let key = item(index).getKey();
+            let key: string= item(index).getKey();
             this.BaseRemoveAt(index);
             removeZOrder(key);
         };
@@ -117,12 +117,12 @@ UNKNOWN >>             get
             m_zorder = null;
         };
 
-        let m_zorder = null;
+        let m_zorder: String[]= null;
 
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c = new cReportPaintObject();
+                    c =  globalObject.CSReportDll.createCReportPaintObject();
                 }
                 if (key === "") {
                     key = cGlobals.getNextKey().ToString();

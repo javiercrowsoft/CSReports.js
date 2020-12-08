@@ -5,9 +5,9 @@
     globalObject.CSReportDll.createCReportFormulaParameter = function() {
 
         const self = {};
-        const C_MODULE = "cReportFormulaParameter";
+        const C_MODULE: string= "cReportFormulaParameter";
 
-        let m_value = "";
+        let m_value: string= "";
 
         self.getValue = function() {
             return m_value;

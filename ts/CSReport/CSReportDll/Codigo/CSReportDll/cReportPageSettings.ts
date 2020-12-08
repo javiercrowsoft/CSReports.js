@@ -112,7 +112,7 @@ UNKNOWN >>             get
             this.BaseClear();
         };
 
-        let m_height = 0;
+        let m_height: number= 0;
 
         self.getHeight = function() {
             return m_height;
@@ -128,7 +128,7 @@ UNKNOWN >>             get
             key) {
             try {
                 if (c === null)  {
-                    c = new cReportPageInfo();
+                    c =  globalObject.CSReportDll.createCReportPageInfo();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();

@@ -6,17 +6,17 @@
 
         const self = {};
 
-        const C_MODULE = "cReportPageField";
+        const C_MODULE: string= "cReportPageField";
 
-        let m_value = "";
-        let m_info = null;
-        let m_visible = null;
-        let m_objectID = null;
-        let m_indexLine = 0;
-        let m_top = 0;
-        let m_height = 0;
-        let m_width = 0;
-        let m_image = null;
+        let m_value: string= "";
+        let m_info: cReportPageInfo = null;
+        let m_visible: boolean = null;
+        let m_objectID: cReportPageID = null;
+        let m_indexLine: number= 0;
+        let m_top: number= 0;
+        let m_height: number= 0;
+        let m_width: number= 0;
+        let m_image: Image= null;
 
         self.getValue = function() {
             return m_value;
@@ -91,8 +91,8 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            m_objectID = new cReportPageID();
-            m_info = new cReportPageInfo();
+            m_objectID =  globalObject.CSReportDll.createCReportPageID();
+            m_info =  globalObject.CSReportDll.createCReportPageInfo();
 
             m_value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
             m_visible = xDoc.getNodeProperty(nodeObj, "Visible").getValueBool(eTypes.eBoolean);
@@ -100,7 +100,7 @@
             m_height = xDoc.getNodeProperty(nodeObj, "Height").getValueInt(eTypes.eLong);
             m_width = xDoc.getNodeProperty(nodeObj, "Width").getValueInt(eTypes.eLong);
 
-            let nodeObjAux = null;
+            let nodeObjAux: XmlNode= null;
             nodeObjAux = nodeObj;
             if (!m_objectID.load(xDoc, nodeObjAux))  {
                 return false; 
@@ -114,9 +114,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Field");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -154,9 +154,9 @@
         };
 
         self.saveForWeb = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Field");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

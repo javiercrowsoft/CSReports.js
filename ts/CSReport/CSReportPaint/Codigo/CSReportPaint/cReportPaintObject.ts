@@ -6,23 +6,23 @@
 
         const self = {};
 
-        const C_MODULE = "cReportPaintObject";
+        const C_MODULE: string= "cReportPaintObject";
 
-        let m_aspect = new cReportAspect();
-        let m_key = "";
-        let m_text = "";
-        let m_paintType = null;
-        let m_tag = "";
-        let m_rptType = null;
-        let m_rptKeySec = "";
-        let m_image = null;
-        let m_indexField = 0;
+        let m_aspect: cReportAspect= new cReportAspect();
+        let m_key: string= "";
+        let m_text: string= "";
+        let m_paintType: csRptPaintObjType = null;
+        let m_tag: string= "";
+        let m_rptType: csRptSectionType = null;
+        let m_rptKeySec: string= "";
+        let m_image: Image= null;
+        let m_indexField: number= 0;
 
-        let m_isSection = null;
+        let m_isSection: boolean = null;
 
-        let m_heightSec = 0;
-        let m_heightSecLine = 0;
-        let m_textLine = "";
+        let m_heightSec: number= 0;
+        let m_heightSecLine: number= 0;
+        let m_textLine: string= "";
 
         self.getImage = function() {
             return m_image;

@@ -6,7 +6,7 @@
 
         const self = {};
 
-        let m_result = false;
+        let m_result: boolean= false;
 
         const fAsk = function() {
             InitializeComponent();

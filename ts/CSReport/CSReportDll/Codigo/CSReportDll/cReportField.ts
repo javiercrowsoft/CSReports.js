@@ -6,9 +6,9 @@
 
         const self = {};
 
-        let m_name = "";
-        let m_index = 0;
-        let m_fieldType = 0;
+        let m_name: string= "";
+        let m_index: number= 0;
+        let m_fieldType: number= 0;
 
         self.getName = function() {
             return m_name;
@@ -43,10 +43,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Field");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

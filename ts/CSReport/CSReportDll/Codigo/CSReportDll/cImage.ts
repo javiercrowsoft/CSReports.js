@@ -20,17 +20,17 @@
          */
 
 UNKNOWN >>         struct GDIBitmap {
-            self.bmType = null;
-            self.bmWidth = null;
-            self.bmHeight = null;
-            self.bmWidthBytes = null;
-            self.bmPlanes = null;
-            self.bmBitsPixel = null;
-            self.bmBits = null;
+            self.bmType: number = null;
+            self.bmWidth: number = null;
+            self.bmHeight: number = null;
+            self.bmWidthBytes: number = null;
+            self.bmPlanes: number = null;
+            self.bmBitsPixel: number = null;
+            self.bmBits: number = null;
         };
 
         const getIntFromByteArray = function(bytes, index) {
-            let intInBytes = new byte[4];
+            let intInBytes: byte[]= new byte[4];
 
             Array.Copy(bytes, index, intInBytes, 0, 4);
 
@@ -50,7 +50,7 @@ UNKNOWN >>         struct GDIBitmap {
         };
 
         const getShortFromByteArray = function(bytes, index) {
-            let int16InBytes = new byte[2];
+            let int16InBytes: byte[]= new byte[2];
 
             Array.Copy(bytes, index, int16InBytes, 0, 2);
 
@@ -73,7 +73,7 @@ UNKNOWN >>         struct GDIBitmap {
             try {
 UNKNOWN >>                 Bitmap bmp;
                 {
-                    bmp = new Bitmap(ms);
+                    bmp =  globalObject.CSReportDll.createBitmap(ms);
                 }
                 return bmp;
             }

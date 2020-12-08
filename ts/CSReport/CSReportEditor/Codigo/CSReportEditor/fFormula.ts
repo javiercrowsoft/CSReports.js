@@ -6,25 +6,25 @@
 
         const self = {};
 
-        const C_KEY_SYSFUNCTIONS = "FS";
-        const C_KEY_SYSVARS = "VS";
-        const C_KEY_SYSLABELS = "VL";
-        const C_KEY_SYSDBFIELDS = "VC";
+        const C_KEY_SYSFUNCTIONS: string= "FS";
+        const C_KEY_SYSVARS: string= "VS";
+        const C_KEY_SYSLABELS: string= "VL";
+        const C_KEY_SYSDBFIELDS: string= "VC";
 
-        const C_FUNID = "I";
-        const C_FUNDESCRIP = "D";
-        const C_FUNNAME = "N";
-        const C_HELPCONTEXTID = "H";
-        const C_ISDBFIELDORLABEL = "FL";
+        const C_FUNID: string= "I";
+        const C_FUNDESCRIP: string= "D";
+        const C_FUNNAME: string= "N";
+        const C_HELPCONTEXTID: string= "H";
+        const C_ISDBFIELDORLABEL: string= "FL";
 
-        const C_FOLDER_INDEX = 0;
-        const C_DATABSE_INDEX = 1;
-        const C_LABEL_INDEX = 2;
-        const C_FORMULA_INDEX = 3;
+        const C_FOLDER_INDEX: number= 0;
+        const C_DATABSE_INDEX: number= 1;
+        const C_LABEL_INDEX: number= 2;
+        const C_FORMULA_INDEX: number= 3;
 
-        let m_ok = false;
+        let m_ok: boolean= false;
 
-        let m_editor = null;
+        let m_editor: cEditor = null;
 
         const fFormula = function() {
             InitializeComponent();
@@ -32,17 +32,17 @@
 
 		self.createTree = function() {
             tv_formulas.Nodes.Add(C_KEY_SYSFUNCTIONS, "Internal functions", C_FOLDER_INDEX);
-            let item = tv_formulas.Nodes.Add(C_KEY_SYSVARS, "Internal variables", C_FOLDER_INDEX);
+            let item: var= tv_formulas.Nodes.Add(C_KEY_SYSVARS, "Internal variables", C_FOLDER_INDEX);
             item.Nodes.Add(C_KEY_SYSDBFIELDS, "Database fields");
             item.Nodes.Add(C_KEY_SYSLABELS, "Labels");
 		};
 
 		self.addFormula = function(formulaType, name, nameUser, descrip, helpContextId) {
-            let item = tv_formulas.Nodes[C_KEY_SYSFUNCTIONS].Nodes.Add(nameUser);
+            let item: var= tv_formulas.Nodes[C_KEY_SYSFUNCTIONS].Nodes.Add(nameUser);
             item.ImageIndex = C_FORMULA_INDEX;
             item.SelectedImageIndex = item.ImageIndex;
 
-            let info = "";
+            let info: string= "";
             info = cUtil.setInfoString(info, C_FUNID, formulaType.ToString());
             info = cUtil.setInfoString(info, C_FUNDESCRIP, descrip);
             info = cUtil.setInfoString(info, C_FUNNAME, name);
@@ -77,8 +77,8 @@
 		};
 
         const addAux = function(name, descrip, key, image) {
-            let father = tv_formulas.Nodes[C_KEY_SYSVARS].Nodes[key];
-            let item = father.Nodes.Add(name);
+            let father: var= tv_formulas.Nodes[C_KEY_SYSVARS].Nodes[key];
+            let item: var= father.Nodes.Add(name);
             item.ImageIndex = image;
             item.SelectedImageIndex = item.ImageIndex;
 
@@ -86,7 +86,7 @@
                 item.Text = descrip + " ( "+ name + " )";
             }
 
-            let info = "";
+            let info: var= "";
             info = cUtil.setInfoString(info, C_FUNDESCRIP, descrip);
             info = cUtil.setInfoString(info, C_FUNNAME, name);
             info = cUtil.setInfoString(info, C_ISDBFIELDORLABEL, "1");
@@ -99,7 +99,7 @@
         };
 
         const tv_formulas_NodeMouseClick = function(sender, e) {
-            let info = e.Node.Tag as string;
+            let info: var= e.Node.Tag as string;
             tx_descrip.Text = cUtil.getInfoString(info, C_FUNDESCRIP, "");
         };
 
@@ -108,12 +108,12 @@
         };
 
         const tv_formulas_NodeMouseDoubleClick = function(sender, e) {
-            let info = e.Node.Tag as string;
-            let name = cUtil.getInfoString(info, C_FUNNAME, "");
+            let info: var= e.Node.Tag as string;
+            let name: var= cUtil.getInfoString(info, C_FUNNAME, "");
             if (! isDbOrLabel(info)) {
                 name += "()";
             }
-            let i = tx_formula.SelectionStart;
+            let i: number= tx_formula.SelectionStart;
             tx_formula.Text = tx_formula.Text.Substring(0, i) + name + tx_formula.Text.Substring(i);
         };
 
@@ -135,7 +135,7 @@
 
         const tv_formulas_KeyUp = function(sender, e) {
             if (tv_formulas.SelectedNode !== null) {
-                let info = tv_formulas.SelectedNode.Tag as string;
+                let info: var= tv_formulas.SelectedNode.Tag as string;
                 tx_descrip.Text = cUtil.getInfoString(info, C_FUNDESCRIP, "");
             }
         };

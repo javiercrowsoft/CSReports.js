@@ -6,11 +6,11 @@
 
         const self = {};
 
-        const C_MODULE = "cReportFormulaInt";
+        const C_MODULE: string= "cReportFormulaInt";
 
-        let m_variables = new cReportVariables();
-        let m_parameters = new cReportFormulaParameters();
-        let m_formulaType = 0;
+        let m_variables: cReportVariables= new cReportVariables();
+        let m_parameters: cReportFormulaParameters= new cReportFormulaParameters();
+        let m_formulaType: csRptFormulaType= 0;
 
         self.getVariables = function() {
             return m_variables;

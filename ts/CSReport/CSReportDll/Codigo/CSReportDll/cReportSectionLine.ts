@@ -7,16 +7,16 @@
 
         const self = {};
 
-        const C_NODERPTCONTROLS = "RptControls";
+        const C_NODERPTCONTROLS: string= "RptControls";
 
-        let m_controls = new cReportControls();
-        let m_aspect = new cReportAspect();
-        let m_index = 0;
-        let m_realIndex = 0;
-        let m_key = "";
-        let m_keyPaint = "";
-        let m_formulaHide = new cReportFormula();
-        let m_hasFormulaHide = null;
+        let m_controls: cReportControls= new cReportControls();
+        let m_aspect: cReportAspect= new cReportAspect();
+        let m_index: number= 0;
+        let m_realIndex: number= 0;
+        let m_key: string= "";
+        let m_keyPaint: string= "";
+        let m_formulaHide: cReportFormula= new cReportFormula();
+        let m_hasFormulaHide: boolean = null;
 
         // it is the name of the control which have the id of the line
         // it is used by cReportLinkServer
@@ -26,11 +26,11 @@
         // control contains the id of the record expressed in the line selected
         // by the user.
         //
-        let m_idField = "";
+        let m_idField: string= "";
 
         // for debugging
         //
-        let m_sectionName = "";
+        let m_sectionName: string= "";
 
         const cReportSectionLine = function() {
             m_controls.setSectionLine(this);
@@ -135,11 +135,11 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            let nodeObjCtrls = null;
-            let nodeObjCtrl = null;
-            let nodeObjAspect = null;
+            let nodeObjCtrls: XmlNode= null;
+            let nodeObjCtrl: XmlNode= null;
+            let nodeObjAspect: XmlNode= null;
 
-            let ctrl = null;
+            let ctrl: cReportControl= null;
 
             // TODO: fix me - this is Spanish - English bug we should use Index
             //
@@ -149,7 +149,7 @@
 
             nodeObjAspect = nodeObj;
 
-            let nodeObjAux = nodeObj;
+            let nodeObjAux: XmlNode= nodeObj;
             if (!m_formulaHide.load(xDoc, nodeObjAux))  {
                 return false; 
             }
@@ -164,7 +164,7 @@
                 nodeObjCtrl = xDoc.getNodeChild(nodeObjCtrls);
 
                 while (nodeObjCtrl !== null) {
-                    let key = xDoc.getNodeProperty(nodeObjCtrl, "Key").getValueString(eTypes.eText);
+                    let key: string= xDoc.getNodeProperty(nodeObjCtrl, "Key").getValueString(eTypes.eText);
                     ctrl = m_controls.add(null, key);
                     if (!ctrl.load(xDoc, nodeObjCtrl))  {
                         return false; 
@@ -177,10 +177,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName(m_key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -213,7 +213,7 @@
             xProperty.setName(C_NODERPTCONTROLS);
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            let ctrl = null;
+            let ctrl: cReportControl= null;
             for(var _i = 0; _i < m_controls.count(); _i++) {
                 ctrl = m_controls.item(_i);
                 ctrl.save(xDoc, nodeObj);
@@ -236,7 +236,7 @@
         };
 
         // Track whether Dispose has been called.
-        let disposed = false;
+        let disposed: boolean= false;
 
         // Dispose(bool disposing) executes in two distinct scenarios.
         // If disposing equals true, the method has been called directly

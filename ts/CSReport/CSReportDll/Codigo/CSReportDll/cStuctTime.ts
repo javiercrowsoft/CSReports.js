@@ -6,9 +6,9 @@
 
         const self = {};
 
-        let m_hour = 0;
-        let m_minute = 0;
-        let m_second = 0;
+        let m_hour: number= 0;
+        let m_minute: number= 0;
+        let m_second: number= 0;
 
         self.getHour = function() {
             return m_hour;

@@ -4,11 +4,11 @@
 
 UNKNOWN >>     static class Main
     {
-        let ILog log = LogManager.GetLogger(typeof(Program));
-        let Options options = new Options();
-        let Properties.Settings settings = Properties.Settings.Default;
+        let ILog: staticlog = LogManager.GetLogger(typeof(Program));
+        let Options: staticoptions = new Options();
+        let Properties.Settings: staticsettings = Properties.Settings.Default;
 
-        let SizeQueue m_messageQueue = new SizeQueue(2); // no more than one message for now;
+        let SizeQueue: staticm_messageQueue = new SizeQueue(2); // no more than one message for now;
 
         self.Init = function(args, f) {
 
@@ -47,7 +47,7 @@ UNKNOWN >>     static class Main
         };
 
         self.sendMessage = function(message) {
-            let envelope = new JObject();
+            let envelope: JObject= new JObject();
             envelope["message"] = message;
 
             m_messageQueue.Enqueue(envelope);
@@ -56,8 +56,8 @@ UNKNOWN >>     static class Main
         static int RunNativeMessagingHost(string[] args, fMain f)
         {
 
-            let host = new Host(f, m_messageQueue);
-            let workerThread = new Thread(host.Run);
+            let host: Host= new Host(f, m_messageQueue);
+            let workerThread: Thread= new Thread(host.Run);
             workerThread.Start();
             return 0;
         }
@@ -84,7 +84,7 @@ UNKNOWN >>             string keyName;
             try {
                 Console.WriteLine("Creating this host manifest:");
                 Console.WriteLine("{0}", options.manifest);
-                let manifest = File.CreateText(options.manifest);
+                let manifest: StreamWriter= File.CreateText(options.manifest);
                 manifest.Write(new JObject(
                         new JProperty("name", "ar.com.crowsoft.csreportwebserver.echo"),
                         new JProperty("description", "CSReportWebServer Example Echo Extension"),
@@ -125,21 +125,21 @@ UNKNOWN >>                                 new JValue(string.Format("chrome-exte
 
         static int InvalidCommand(string command)
         {
-            let tw = Console.Error;
+            let tw: TextWriter= Console.Error;
             tw.WriteLine("Invalid command line : unknown command '{0}'. Start again with no parameters to get usage information.", command);
             return 0;
         }
 
         static int InvalidOption(string option)
         {
-            let tw = Console.Error;
+            let tw: TextWriter= Console.Error;
             tw.WriteLine("Invalid command line : unknown option '{0}'. Start again with no parameters to get usage information.", option);
             return 0;
         }
 
         static int InvalidOptionValue(string option, string value)
         {
-            let tw = Console.Error;
+            let tw: TextWriter= Console.Error;
             tw.WriteLine("Invalid command line : invalid option '{0}' value '{1}'. Start again with no parameters to get usage information.", option, value);
             return 0;
         }
@@ -166,7 +166,7 @@ UNKNOWN >>                                 new JValue(string.Format("chrome-exte
 
 UNKNOWN >>     sealed class Options
     {
-        self.hive = "HKCU";
+        self.hive: string= "HKCU";
 UNKNOWN >>         public string manifest =
 UNKNOWN >>             Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\" +
             Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location) + ".manifest.json";

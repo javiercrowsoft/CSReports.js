@@ -4,8 +4,8 @@
 
 UNKNOWN >>     class cJSONCommand : DbCommand
     {
-        let m_cmdText = "";
-        let m_connection = null;
+        let m_cmdText: string= "";
+        let m_connection: cJSONServerConnection= null;
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlCommand class.
@@ -63,7 +63,7 @@ UNKNOWN >>             set
         //
         // Returns:
         //     The time in seconds to wait for the command to execute. The default is 30 seconds.
-        self.int CommandTimeout { get = null; set; };
+        self.int: override = null;CommandTimeout { get; set; };
         //
         // Summary:
         //     Gets or sets a value indicating how the System.Data.SqlClient.SqlCommand.CommandText
@@ -75,7 +75,7 @@ UNKNOWN >>             set
         // Exceptions:
         //   T:System.ArgumentException:
         //     The value was not a valid System.Data.CommandType.
-        self.CommandType CommandType { get = null; set; };
+        self.CommandType: override = null;CommandType { get; set; };
         //
         // Summary:
         //     Gets or sets the System.Data.SqlClient.SqlConnection used by this instance of
@@ -88,7 +88,7 @@ UNKNOWN >>             set
         //   T:System.InvalidOperationException:
         //     The System.Data.SqlClient.SqlCommand.Connection property was changed while the
         //     command was enlisted in a transaction..
-        self.cJSONServerConnection Connection { get = null; set; };
+        self.cJSONServerConnection: new = null;Connection { get; set; };
         //
         // Summary:
         //     Gets or sets a value indicating whether the command object should be visible
@@ -97,14 +97,14 @@ UNKNOWN >>             set
         // Returns:
         //     A value indicating whether the command object should be visible in a control.
         //     The default is true.
-        self.bool DesignTimeVisible { get = null; set; };
+        self.bool: override = null;DesignTimeVisible { get; set; };
         //
         // Summary:
         //     Gets the collection of System.Data.Common.DbParameter objects.
         //
         // Returns:
         //     The parameters of the SQL statement or stored procedure.
-        self.DbParameterCollection Parameters { get = null; };
+        self.DbParameterCollection: new = null;Parameters { get; };
         //
         // Summary:
         //     Gets or sets the System.Data.SqlClient.SqlTransaction within which the System.Data.SqlClient.SqlCommand
@@ -112,7 +112,7 @@ UNKNOWN >>             set
         //
         // Returns:
         //     The System.Data.SqlClient.SqlTransaction. The default value is null.
-        self.DbTransaction Transaction { get = null; set; };
+        self.DbTransaction: new = null;Transaction { get; set; };
         //
         // Summary:
         //     Gets or sets how command results are applied to the System.Data.DataRow when
@@ -120,7 +120,7 @@ UNKNOWN >>             set
         //
         // Returns:
         //     One of the System.Data.UpdateRowSource values.
-        self.UpdateRowSource UpdatedRowSource { get = null; set; };
+        self.UpdateRowSource: override = null;UpdatedRowSource { get; set; };
 UNKNOWN >>         protected override DbConnection DbConnection { get; set; }
 UNKNOWN >>         protected override DbParameterCollection DbParameterCollection { get; }
 UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
@@ -170,8 +170,8 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         // Returns:
         //     A System.Data.SqlClient.SqlDataReader object.
         self. = function(behavior) {
-            let cmdName = getCommandName();
-            let data = cJSONServer.getDataSource(m_connection.ConnectionString + "." + cmdName);
+            let cmdName: var= getCommandName();
+            let data: var= cJSONServer.getDataSource(m_connection.ConnectionString + "." + cmdName);
             return new cJSONDataReader(data);
         };
         //
@@ -204,8 +204,8 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         };
 
         const getCommandName = function() {
-            let cmdText = m_cmdText;
-            let startIndex = cmdText.IndexOf("exec");
+            let cmdText: var= m_cmdText;
+            let startIndex: var= cmdText.IndexOf("exec");
 
             const  = function(0) {
                 throw new ArgumentException("The command text for this command object is invalid. Format must be 'exec [SP_NAME] param_list");
@@ -214,7 +214,7 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
             startIndex += 5;
 
             cmdText = cmdText.Substring(startIndex);
-            let length = cmdText.IndexOf(" ", 1);
+            let length: var= cmdText.IndexOf(" ", 1);
 
             return cmdText.Substring(0, length).Replace("[","").Replace("]","");
         };

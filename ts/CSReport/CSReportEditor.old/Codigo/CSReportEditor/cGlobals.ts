@@ -6,57 +6,57 @@
 
         const self = {};
 
-        self.C_MODULE = "CSReportEditor.cGlobals";
+        self.C_MODULE: string= "CSReportEditor.cGlobals";
 
-        self.C_KEY_HEADER = "RH";
-        self.C_KEY_FOOTER = "RF";
-        self.C_KEY_DETAIL = "RD";
-        self.C_KEY_GROUPH = "GH";
-        self.C_KEY_GROUPF = "GF";
+        self.C_KEY_HEADER: string= "RH";
+        self.C_KEY_FOOTER: string= "RF";
+        self.C_KEY_DETAIL: string= "RD";
+        self.C_KEY_GROUPH: string= "GH";
+        self.C_KEY_GROUPF: string= "GF";
 
-        self.c_BTN_PRINT        = "PRINT";
-        self.c_BTN_PROPERTIES   = "PROPERTIES";
-        self.c_BTN_DB           = "DB";
-        self.c_BTN_SAVE         = "SAVE";
-        self.c_BTN_OPEN         = "OPEN";
-        self.c_BTN_TOOL         = "TOOL";
-        self.c_BTN_NEW          = "NEW";
-        self.c_BTN_PREV         = "PREV";
+        self.c_BTN_PRINT: string       = "PRINT";
+        self.c_BTN_PROPERTIES: string  = "PROPERTIES";
+        self.c_BTN_DB: string          = "DB";
+        self.c_BTN_SAVE: string        = "SAVE";
+        self.c_BTN_OPEN: string        = "OPEN";
+        self.c_BTN_TOOL: string        = "TOOL";
+        self.c_BTN_NEW: string         = "NEW";
+        self.c_BTN_PREV: string        = "PREV";
 
-        self.c_BTN_ALIGN_LEFT   = "ALIGN_LEFT";
-        self.c_BTN_ALIGN_CENTER = "ALIGN_CENTER";
-        self.c_BTN_ALIGN_RIGHT  = "ALIGN_RIGHT";
+        self.c_BTN_ALIGN_LEFT: string  = "ALIGN_LEFT";
+        self.c_BTN_ALIGN_CENTER: string= "ALIGN_CENTER";
+        self.c_BTN_ALIGN_RIGHT: string = "ALIGN_RIGHT";
 
-        self.c_BTN_FONT_BOLD = "FONT_BOLD";
-        self.c_BTN_SEARCH = "SEARCH";
+        self.c_BTN_FONT_BOLD: string= "FONT_BOLD";
+        self.c_BTN_SEARCH: string= "SEARCH";
 
-        self.c_BTN_CTL_ALIGN_TOP        = "CTL_ALIGN_TOP";
-        self.c_BTN_CTL_ALIGN_BOTTOM     = "CTL_ALIGN_BOTTOM";
-        self.c_BTN_CTL_ALIGN_VERTICAL   = "CTL_ALIGN_VERTICAL";
-        self.c_BTN_CTL_ALIGN_HORIZONTAL = "CTL_ALIGN_HORIZONTAL";
-        self.c_BTN_CTL_ALIGN_LEFT       = "CTL_ALIGN_LEFT";
-        self.c_BTN_CTL_ALIGN_RIGHT      = "CTL_ALIGN_RIGHT";
+        self.c_BTN_CTL_ALIGN_TOP: string       = "CTL_ALIGN_TOP";
+        self.c_BTN_CTL_ALIGN_BOTTOM: string    = "CTL_ALIGN_BOTTOM";
+        self.c_BTN_CTL_ALIGN_VERTICAL: string  = "CTL_ALIGN_VERTICAL";
+        self.c_BTN_CTL_ALIGN_HORIZONTAL: string= "CTL_ALIGN_HORIZONTAL";
+        self.c_BTN_CTL_ALIGN_LEFT: string      = "CTL_ALIGN_LEFT";
+        self.c_BTN_CTL_ALIGN_RIGHT: string     = "CTL_ALIGN_RIGHT";
 
-        self.c_BTN_CTL_WIDTH  = "CTL_WIDTH";
-        self.c_BTN_CTL_HEIGHT = "CTL_HEIGHT";
+        self.c_BTN_CTL_WIDTH: string = "CTL_WIDTH";
+        self.c_BTN_CTL_HEIGHT: string= "CTL_HEIGHT";
 
-        self.C_CONTROL_NAME = "Control";
+        self.C_CONTROL_NAME: string= "Control";
 
-        self.C_TOTINRECENTLIST = 7;
+        self.C_TOTINRECENTLIST: number= 7;
 
-        self.C_HEIGHT_NEW_SECTION = 23;
-        self.C_HEIGHT_BAR_SECTION = 8;
+        self.C_HEIGHT_NEW_SECTION: number= 23;
+        self.C_HEIGHT_BAR_SECTION: number= 8;
 
-        self.C_NO_CHANGE = -32768;
+        self.C_NO_CHANGE: number= -32768;
 
-        self.C_MAIN_HEADER = "Main Header";
-        self.C_MAIN_DETAIL = "Detail";
-        self.C_MAIN_FOOTER = "Main Footer";
+        self.C_MAIN_HEADER: string= "Main Header";
+        self.C_MAIN_DETAIL: string= "Detail";
+        self.C_MAIN_FOOTER: string= "Main Footer";
 
-        self.C_GROUP_LABEL = "Group";
+        self.C_GROUP_LABEL: string= "Group";
 
 		// TODO: refactor
-		self.ShiftMask = 1;
+		self.ShiftMask: number= 1;
 
         self.setStatus = function() {
 

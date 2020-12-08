@@ -5,11 +5,11 @@
     globalObject.CSReportEditor.createFGroup = function() {
 
         const self = {};
-        let m_editor = null;
-        let m_ok = false;
-        let m_dbFieldChanged = false;
-        let m_index = 0;
-        let m_fieldType = 0;
+        let m_editor: cEditor = null;
+        let m_ok: boolean= false;
+        let m_dbFieldChanged: boolean= false;
+        let m_index: number= 0;
+        let m_fieldType: number= 0;
 
         const fGroup = function() {
             InitializeComponent();

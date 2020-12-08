@@ -6,73 +6,73 @@
 
         const self = {};
 
-        self.C_MODULE = "CSReportEditor.cGlobals";
+        self.C_MODULE: string= "CSReportEditor.cGlobals";
 
-        self.C_KEY_HEADER = "RH";
-        self.C_KEY_FOOTER = "RF";
-        self.C_KEY_DETAIL = "RD";
-        self.C_KEY_GROUPH = "GH";
-        self.C_KEY_GROUPF = "GF";
+        self.C_KEY_HEADER: string= "RH";
+        self.C_KEY_FOOTER: string= "RF";
+        self.C_KEY_DETAIL: string= "RD";
+        self.C_KEY_GROUPH: string= "GH";
+        self.C_KEY_GROUPF: string= "GF";
 
-        self.c_BTN_PRINT        = "PRINT";
-        self.c_BTN_PROPERTIES   = "PROPERTIES";
-        self.c_BTN_DB           = "DB";
-        self.c_BTN_SAVE         = "SAVE";
-        self.c_BTN_OPEN         = "OPEN";
-        self.c_BTN_TOOL         = "TOOL";
-        self.c_BTN_NEW          = "NEW";
-        self.c_BTN_PREV         = "PREV";
+        self.c_BTN_PRINT: string       = "PRINT";
+        self.c_BTN_PROPERTIES: string  = "PROPERTIES";
+        self.c_BTN_DB: string          = "DB";
+        self.c_BTN_SAVE: string        = "SAVE";
+        self.c_BTN_OPEN: string        = "OPEN";
+        self.c_BTN_TOOL: string        = "TOOL";
+        self.c_BTN_NEW: string         = "NEW";
+        self.c_BTN_PREV: string        = "PREV";
 
-        self.c_BTN_ALIGN_LEFT   = "ALIGN_LEFT";
-        self.c_BTN_ALIGN_CENTER = "ALIGN_CENTER";
-        self.c_BTN_ALIGN_RIGHT  = "ALIGN_RIGHT";
+        self.c_BTN_ALIGN_LEFT: string  = "ALIGN_LEFT";
+        self.c_BTN_ALIGN_CENTER: string= "ALIGN_CENTER";
+        self.c_BTN_ALIGN_RIGHT: string = "ALIGN_RIGHT";
 
-        self.c_BTN_FONT_BOLD = "FONT_BOLD";
-        self.c_BTN_SEARCH = "SEARCH";
+        self.c_BTN_FONT_BOLD: string= "FONT_BOLD";
+        self.c_BTN_SEARCH: string= "SEARCH";
 
-        self.c_BTN_CTL_ALIGN_TOP        = "CTL_ALIGN_TOP";
-        self.c_BTN_CTL_ALIGN_BOTTOM     = "CTL_ALIGN_BOTTOM";
-        self.c_BTN_CTL_ALIGN_VERTICAL   = "CTL_ALIGN_VERTICAL";
-        self.c_BTN_CTL_ALIGN_HORIZONTAL = "CTL_ALIGN_HORIZONTAL";
-        self.c_BTN_CTL_ALIGN_LEFT       = "CTL_ALIGN_LEFT";
-        self.c_BTN_CTL_ALIGN_RIGHT      = "CTL_ALIGN_RIGHT";
+        self.c_BTN_CTL_ALIGN_TOP: string       = "CTL_ALIGN_TOP";
+        self.c_BTN_CTL_ALIGN_BOTTOM: string    = "CTL_ALIGN_BOTTOM";
+        self.c_BTN_CTL_ALIGN_VERTICAL: string  = "CTL_ALIGN_VERTICAL";
+        self.c_BTN_CTL_ALIGN_HORIZONTAL: string= "CTL_ALIGN_HORIZONTAL";
+        self.c_BTN_CTL_ALIGN_LEFT: string      = "CTL_ALIGN_LEFT";
+        self.c_BTN_CTL_ALIGN_RIGHT: string     = "CTL_ALIGN_RIGHT";
 
-        self.c_BTN_CTL_WIDTH  = "CTL_WIDTH";
-        self.c_BTN_CTL_HEIGHT = "CTL_HEIGHT";
+        self.c_BTN_CTL_WIDTH: string = "CTL_WIDTH";
+        self.c_BTN_CTL_HEIGHT: string= "CTL_HEIGHT";
 
-        self.C_CONTROL_NAME = "Control";
+        self.C_CONTROL_NAME: string= "Control";
 
-        self.C_TOTINRECENTLIST = 7;
+        self.C_TOTINRECENTLIST: number= 7;
 
-        self.C_HEIGHT_NEW_SECTION = 23;
-        self.C_HEIGHT_BAR_SECTION = 8;
+        self.C_HEIGHT_NEW_SECTION: number= 23;
+        self.C_HEIGHT_BAR_SECTION: number= 8;
 
-        self.C_NO_CHANGE = -32768;
+        self.C_NO_CHANGE: number= -32768;
 
-        self.C_MAIN_HEADER = "Main Header";
-        self.C_MAIN_DETAIL = "Detail";
-        self.C_MAIN_FOOTER = "Main Footer";
+        self.C_MAIN_HEADER: string= "Main Header";
+        self.C_MAIN_DETAIL: string= "Detail";
+        self.C_MAIN_FOOTER: string= "Main Footer";
 
-        self.C_GROUP_LABEL = "Group";
+        self.C_GROUP_LABEL: string= "Group";
 
 		// TODO: refactor
-		self.ShiftMask = 1;
+		self.ShiftMask: number= 1;
 
         self.setStatus = function() {
 
         };
 
 		self.showDbFields = function(field, fieldType, index, editor) {
-            let fc = null;
+            let fc: fColumns= null;
 
             try {
-                fc = new fColumns();
+                fc =  globalObject.CSReportDll.createFColumns();
 
                 fc.clearColumns();
 
-                let report = editor.getReport();
+                let report: cReport= editor.getReport();
 
-                let connect = report.getConnect();
+                let connect: cReportConnect= report.getConnect();
                 fc.fillColumns(connect.getDataSource(), connect.getColumns(), false);
 
                 for(var _i = 0; _i < report.getConnectsAux().count(); _i++) {
@@ -126,8 +126,8 @@ UNKNOWN >>             finally {
             rptConnect.getParameters().clear();
 
             for(var i = 0; i < connect.getColumnsInfo().count(); i++) {
-                let colInfo = connect.getColumnsInfo().item(i);
-                let rptColInfo = new CSReportDll.cColumnInfo();
+                let colInfo: CSConnect.cColumnInfo= connect.getColumnsInfo().item(i);
+                let rptColInfo: CSReportDll.cColumnInfo= new CSReportDll.cColumnInfo();
 
                 rptColInfo.setName(colInfo.getName());
                 rptColInfo.setPosition(colInfo.getPosition());
@@ -136,8 +136,8 @@ UNKNOWN >>             finally {
             }
 
             for(var i = 0; i < connect.getParameters().count(); i++) {
-                let parameter = connect.getParameters().item(i);
-                let rptParameter = new CSReportDll.cParameter();
+                let parameter: CSConnect.cParameter= connect.getParameters().item(i);
+                let rptParameter: CSReportDll.cParameter= new CSReportDll.cParameter();
 
                 rptParameter.setName(parameter.getName());
                 rptParameter.setPosition(parameter.getPosition());
@@ -163,14 +163,14 @@ UNKNOWN >>             finally {
             // 
             // main header
             //
-            let sec = report.getHeaders().item(C_KEY_HEADER);
+            let sec: cReportSection= report.getHeaders().item(C_KEY_HEADER);
             sec.setName("Main header");
 
-            let aspect = sec.getAspect();
+            let aspect: cReportAspect= sec.getAspect();
             aspect.setTop(0);
             aspect.setHeight(tr.height * 0.25f);
             aspect.setWidth(tr.width);
-            let secLn = sec.getSectionLines().item(0);
+            let secLn: cReportSectionLine= sec.getSectionLines().item(0);
             secLn.setSectionName("Main header");
             aspect = secLn.getAspect();
             aspect.setTop(0);
@@ -224,10 +224,10 @@ UNKNOWN >>             finally {
             lv_controls.Items.Clear();
 
             for(var i = 0; i < report.getControls().count(); i++) {
-                let ctrl = report.getControls().item(i);
-                let ctrlName = ctrl.getName();
-                let ctrlInfo = "";
-                let ctrlField = "";
+                let ctrl: var= report.getControls().item(i);
+                let ctrlName: var= ctrl.getName();
+                let ctrlInfo: var= "";
+                let ctrlField: var= "";
 
                 switch (ctrl.getControlType())
                 {
@@ -249,7 +249,7 @@ UNKNOWN >>             finally {
                     ctrlName += " (" + ctrlInfo + ")";
                 }
 
-                let item = lv_controls.Items.Add(ctrlName, C_CTRL_IMAGE);
+                let item: var= lv_controls.Items.Add(ctrlName, C_CTRL_IMAGE);
                 item.Tag = ctrl.getKey();
                 item.SubItems.Add("");
                 item.SubItems.Add("");
@@ -276,7 +276,7 @@ UNKNOWN >>             finally {
             tv_controls.Nodes.Clear();
 
 UNKNOWN >>             TreeNode nodeGroup;
-            let nodeRoot = tv_controls.Nodes.Add(report.getName());
+            let nodeRoot: TreeNode= tv_controls.Nodes.Add(report.getName());
             nodeRoot.ImageIndex = C_IMG_FOLDER;
 
             nodeGroup = nodeRoot.Nodes.Add("Headers");
@@ -310,7 +310,7 @@ UNKNOWN >>             TreeNode nodeSecLn;
 UNKNOWN >>             TreeNode nodeCtrl;
 UNKNOWN >>             TreeNode item;
 UNKNOWN >>             string text;
-            let bComplexF = false; ;
+            let bComplexF: boolean= false; ;
 
 UNKNOWN >>             cReportSection sec;
 UNKNOWN >>             cReportSectionLine secLn;
@@ -429,9 +429,9 @@ UNKNOWN >>             cReportControl ctrl;
             if (!add) lv_columns.Items.Clear(); {
 
             for(var i_ = 0; i_ < columns.length; i_++) {
-                let item = lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
+                let item: var= lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
                 item.ImageIndex = 0;
-                let info = cUtil.setInfoString("", C_INDEX, column.getPosition().ToString());
+                let info: string= cUtil.setInfoString("", C_INDEX, column.getPosition().ToString());
                 info = cUtil.setInfoString(info, C_FIELDTYPE, column.getColumnType().ToString());
                 item.Tag = info;
             }
@@ -443,8 +443,8 @@ UNKNOWN >>             cReportControl ctrl;
         self.create = function() {
 
             const self = {};
-        self.height = null;
-        self.width = null;
+        self.height: number = null;
+        self.width: number = null;
 
         self. = function(rect) {
             height = rect.Height;

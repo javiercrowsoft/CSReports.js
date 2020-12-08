@@ -84,9 +84,9 @@ using CSKernelClient;
         }
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName(m_key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

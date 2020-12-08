@@ -7,17 +7,17 @@
 
         const self = {};
 
-        const C_NODERPTSECTIONLINES = "RptSectionLines";
+        const C_NODERPTSECTIONLINES: string= "RptSectionLines";
 
-        let m_sectionLines = new cReportSectionLines();
-        let m_aspect = new cReportAspect();
-        let m_index = 0;
-        let m_realIndex = 0;
-        let m_key = "";
-        let m_name = "";
-        let m_keyPaint = "";
-        let m_formulaHide = new cReportFormula();
-        let m_hasFormulaHide = null;
+        let m_sectionLines: cReportSectionLines= new cReportSectionLines();
+        let m_aspect: cReportAspect= new cReportAspect();
+        let m_index: number= 0;
+        let m_realIndex: number= 0;
+        let m_key: string= "";
+        let m_name: string= "";
+        let m_keyPaint: string= "";
+        let m_formulaHide: cReportFormula= new cReportFormula();
+        let m_hasFormulaHide: boolean = null;
 
         const cReportSection = function() {
             m_formulaHide.setName("H");
@@ -111,9 +111,9 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            let nodeObjSecLn = null;
-            let nodeObjAspect = null;
-            let secLn = null;
+            let nodeObjSecLn: XmlNode= null;
+            let nodeObjAspect: XmlNode= null;
+            let secLn: cReportSectionLine= null;
 
             m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
 
@@ -129,7 +129,7 @@
                 return false;
             }
 
-            let nodeObjAux = nodeObj;
+            let nodeObjAux: XmlNode= nodeObj;
             if (!m_formulaHide.load(xDoc, nodeObjAux)) {
                 return false;
             }
@@ -140,7 +140,7 @@
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    let key = xDoc.getNodeProperty(nodeObjSecLn, "Key").getValueString(eTypes.eText);
+                    let key: string= xDoc.getNodeProperty(nodeObjSecLn, "Key").getValueString(eTypes.eText);
                     secLn = m_sectionLines.add(null, key, -1);
                     if (!secLn.load(xDoc, nodeObjSecLn)) {
                         return false;
@@ -154,10 +154,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName(m_key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -195,7 +195,7 @@
             xProperty.setValue(eTypes.eText, "");
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            let seccLn = null;
+            let seccLn: cReportSectionLine= null;
             for(var _i = 0; _i < m_sectionLines.count(); _i++) {
                 seccLn = m_sectionLines.item(_i);
                 seccLn.save(xDoc, nodeObj);
@@ -218,7 +218,7 @@
         };
 
         // Track whether Dispose has been called.
-        let disposed = false;
+        let disposed: boolean= false;
 
         // Dispose(bool disposing) executes in two distinct scenarios.
         // If disposing equals true, the method has been called directly

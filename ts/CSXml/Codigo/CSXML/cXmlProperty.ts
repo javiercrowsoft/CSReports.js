@@ -7,12 +7,12 @@
     globalObject.CSXml.createCXmlProperty = function() {
 
         const self = {};
-        const c_module = "cXmlProperty";
+        const c_module: string= "cXmlProperty";
 
-        let m_name = "";
-        let m_value = "";
-        let m_parent = "";
-        let m_binaryValue = null;
+        let m_name: string= "";
+        let m_value: string= "";
+        let m_parent: string= "";
+        let m_binaryValue: object= null;
 
 UNKNOWN >>         public object binaryValue
         {
@@ -23,10 +23,10 @@ UNKNOWN >>             set
                     m_binaryValue = null;
                 }
                 else {
-                    let t = value.GetType();
+                    let t: Type= value.GetType();
                     if (t.IsArray) {
-                        let valueArray = value;
-                        let newArray = new byte[valueArray.Length];
+                        let valueArray: byte[]= value;
+                        let newArray: byte[]= new byte[valueArray.Length];
                         Array.Copy(valueArray, newArray, valueArray.Length);
                         m_binaryValue = newArray;
                     }
@@ -122,7 +122,7 @@ UNKNOWN >>             set { m_name = value; }
         };
 
         self.setValue = function(value) {
-            let t = value.GetType();
+            let t: Type= value.GetType();
             if (typeof(bool) === t) {
                 m_value = value ? "-1" : "0";
             }

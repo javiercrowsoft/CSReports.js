@@ -4,19 +4,19 @@
 
 UNKNOWN >>     class Report
     {
-        const C_MODULE = "Report";
+        const C_MODULE: string= "Report";
 
-        let m_reportId = null;
-        let m_webReportId = null;
-        let m_database = null;
-        let m_report = null;
+        let m_reportId: string = null;
+        let m_webReportId: string = null;
+        let m_database: string = null;
+        let m_report: cReport = null;
 
-        let m_fProgress = null;
-        let m_cancelPrinting = false;
+        let m_fProgress: fProgress = null;
+        let m_cancelPrinting: boolean= false;
 
-        let m_fPrint = null;
+        let m_fPrint: cReportPrint= null;
 
-		let ILog m_log = LogManager.GetLogger(typeof(Report));
+		let ILog: staticm_log = LogManager.GetLogger(typeof(Report));
 
 UNKNOWN >> 		public string reportId
         {
@@ -35,7 +35,7 @@ UNKNOWN >>             get
             m_webReportId = request["message"]["webReportId"].ToString();
             m_reportId = Guid.NewGuid().ToString();
             m_database = Guid.NewGuid().ToString();
-            m_report = new cReport();
+            m_report =  globalObject.CSReportDll.createCReport();
 
 			m_log.Info("in Report.init 02");
 
@@ -46,7 +46,7 @@ UNKNOWN >>             get
 
 			m_log.Info("in Report.init 03");
 
-            let oLaunchInfo = new cReportLaunchInfo();
+            let oLaunchInfo: cReportLaunchInfo= new cReportLaunchInfo();
 
             oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(printDialog));
 
@@ -66,7 +66,7 @@ UNKNOWN >>             get
         self.openDocument = function(fileName) {
 			m_log.Info("in Report.openDocument 01");
 
-            let mouse = new cMouseWait();
+            let mouse: cMouseWait= new cMouseWait();
             try {
 				m_log.Info("in Report.openDocument 02 " + fileName);
 
@@ -97,7 +97,7 @@ UNKNOWN >>             finally
             m_report.getLaunchInfo().setAction(csRptLaunchAction.CSRPTLAUNCHPREVIEW);
             launchReport();
 UNKNOWN >> 			int pageIndex;
-			let message = JObject.Parse(;
+			let message: JObject= JObject.Parse(;
 				"{ messageType: 'REPORT_PREVIEW_DONE', reportId: '" + m_reportId 
 				+ "', webReportId: '" + m_webReportId 
 				+ "', totalPages: " + m_report.getPages().count().ToString() 
@@ -111,13 +111,13 @@ UNKNOWN >> 			int pageIndex;
             m_report.getLaunchInfo().setAction(csRptLaunchAction.CSRPTLAUNCHPRINTER);
             launchReport();
 
-            let message = JObject.Parse("{ messageType: 'REPORT_PRINT_DONE', reportId: '" + m_reportId + "', webReportId: '" + m_webReportId + "' }");
+            let message: JObject= JObject.Parse("{ messageType: 'REPORT_PRINT_DONE', reportId: '" + m_reportId + "', webReportId: '" + m_webReportId + "' }");
             Main.sendMessage(message);
         };
 
         self.moveToPage = function(page) {
 UNKNOWN >> 			int pageIndex;
-            let message = JObject.Parse(;
+            let message: JObject= JObject.Parse(;
 				"{ messageType: 'REPORT_PREVIEW_PAGE', reportId: '" + m_reportId 
 				+ "', webReportId: '" + m_webReportId 
 				+ "' }");
@@ -127,16 +127,16 @@ UNKNOWN >> 			int pageIndex;
         };
 
         const registerDataSource = function(request) {
-            let dataSources = request["message"]["data"]["data"];
+            let dataSources: var= request["message"]["data"]["data"];
             const  = function(in) {
-                let ds = new cJSONDataSource(dataSource["name"].ToString(), dataSource["data"] as JObject);
+                let ds: cJSONDataSource= new cJSONDataSource(dataSource["name"].ToString(), dataSource["data"] as JObject);
                 cJSONServer.registerDataSource(ds, m_database + "." + ds.getName());
             }
         };
 
         const reportDone = function(sender, e) {
             closeProgressDlg();
-            let message = JObject.Parse(;
+            let message: JObject= JObject.Parse(;
 				"{ messageType: 'REPORT_DONE', reportId: '" + m_reportId 
 				+ "', webReportId: '" + m_webReportId 
 				+ "' }");
@@ -149,10 +149,10 @@ UNKNOWN >> 			int pageIndex;
 
         const reportProgress = function(sender, e) {
 
-            let task = e.task;
-            let page = e.page;
-            let currRecord = e.currRecord;
-            let recordCount = e.recordCount;
+            let task: string= e.task;
+            let page: number= e.page;
+            let currRecord: number= e.currRecord;
+            let recordCount: number= e.recordCount;
 
             const  = function() {
                 const  = function(want, ) {
@@ -192,7 +192,7 @@ UNKNOWN >> 			int pageIndex;
         const launchReport = function() {
 			m_log.Info("in Report.launchReport 01");
 
-            let mouse = new cMouseWait();
+            let mouse: cMouseWait= new cMouseWait();
             try {
 				m_log.Info("in Report.launchReport 02");
 
@@ -200,7 +200,7 @@ UNKNOWN >> 			int pageIndex;
 
 				m_log.Info("in Report.launchReport 03");
 
-                let li = m_report.getLaunchInfo();
+                let li: var= m_report.getLaunchInfo();
 
 				m_log.Info("in Report.launchReport 04");
 
@@ -208,7 +208,7 @@ UNKNOWN >> 			int pageIndex;
 
 				m_log.Info("in Report.launchReport 05");
 
-                m_fPrint = new cReportPrint();
+                m_fPrint =  globalObject.CSReportDll.createCReportPrint();
                 m_fPrint.setHidePreviewWindow(true);
                 li.setObjPaint(m_fPrint);
 

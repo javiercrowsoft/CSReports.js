@@ -7,22 +7,22 @@
 
         const self = {};
 
-        const C_MODULE = "cReportPage";
+        const C_MODULE: string= "cReportPage";
 
-        const C_NODERPTHEADER = "Header";
-        const C_NODERPTHEADERLINE = "HeaderLine";
-        const C_NODERPTDETAIL = "Detail";
-        const C_NODERPTDETAILLINE = "DetailLine";
-        const C_NODERPTFOOTER = "Footer";
-        const C_NODERPTFOOTERLINE = "FooterLine";
+        const C_NODERPTHEADER: string= "Header";
+        const C_NODERPTHEADERLINE: string= "HeaderLine";
+        const C_NODERPTDETAIL: string= "Detail";
+        const C_NODERPTDETAILLINE: string= "DetailLine";
+        const C_NODERPTFOOTER: string= "Footer";
+        const C_NODERPTFOOTERLINE: string= "FooterLine";
 
-        let m_detail = new cReportPageFields();
-        let m_header = new cReportPageFields();
-        let m_footer = new cReportPageFields();
-        let m_pageNumber = 0;
+        let m_detail: cReportPageFields= new cReportPageFields();
+        let m_header: cReportPageFields= new cReportPageFields();
+        let m_footer: cReportPageFields= new cReportPageFields();
+        let m_pageNumber: number= 0;
 
-        let m_headerBottom = 0;
-        let m_footerTop = 0;
+        let m_headerBottom: number= 0;
+        let m_footerTop: number= 0;
 
         self.getHeader = function() {
             return m_header;
@@ -73,7 +73,7 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            let nodeObjSecLn = null;
+            let nodeObjSecLn: XmlNode= null;
 
             m_pageNumber = xDoc.getNodeProperty(nodeObj, "PageNumber").getValueInt(eTypes.eInteger);
             m_headerBottom = xDoc.getNodeProperty(nodeObj, "HeaderBottom").getValueInt(eTypes.eLong);
@@ -121,10 +121,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Page");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -143,8 +143,8 @@
             xProperty.setValue(eTypes.eLong, m_footerTop);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            let pageFld = null;
-            let nodeAux = null;
+            let pageFld: cReportPageField= null;
+            let nodeAux: XmlNode= null;
 
             xProperty.setName(C_NODERPTHEADER);
             xProperty.setValue(eTypes.eText, "");
@@ -177,22 +177,22 @@
         };
 
         self.saveForWeb = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Page");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xDoc.setNodeText(nodeObj, "Página " + m_pageNumber);
 
-            let pageFld = null;
-            let nodeAux = null;
-            let top = 0;
-            let addLine = false;
+            let pageFld: cReportPageField= null;
+            let nodeAux: XmlNode= null;
+            let top: number= 0;
+            let addLine: boolean= false;
 
-            let nHeader = 0;
+            let nHeader: number= 0;
 
             xProperty.setName(C_NODERPTHEADER);
             xProperty.setValue(eTypes.eText, "");

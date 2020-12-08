@@ -5,11 +5,11 @@
     globalObject.CSReportDll.createCReportFormulaType = function() {
 
         const self = {};
-        let m_name = "";
-        let m_nameUser = "";
-        let m_id = 0;
-        let m_decrip = "";
-        let m_helpContextId = 0;
+        let m_name: string= "";
+        let m_nameUser: string= "";
+        let m_id: csRptFormulaType= 0;
+        let m_decrip: string= "";
+        let m_helpContextId: number= 0;
 
         self.getName = function() {
             return m_name;

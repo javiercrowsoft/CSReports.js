@@ -119,7 +119,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c = new cReportChartSerie();
+                    c =  globalObject.CSReportDll.createCReportChartSerie();
                 }
 
                 if (key === "") {

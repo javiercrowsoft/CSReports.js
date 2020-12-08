@@ -6,9 +6,9 @@
 
         const self = {};
 
-        const C_MODULE = "cReportPageID";
+        const C_MODULE: string= "cReportPageID";
 
-        let m_value = "";
+        let m_value: string= "";
 
         self.getValue = function() {
             return m_value;
@@ -24,9 +24,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("PageID");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

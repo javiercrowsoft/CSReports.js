@@ -115,7 +115,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c = new cParameter();
+                    c =  globalObject.CSReportDll.createCParameter();
                 }
 
                 if (key === "") {

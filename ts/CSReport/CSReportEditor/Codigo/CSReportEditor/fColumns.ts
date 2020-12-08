@@ -6,14 +6,14 @@
 
         const self = {};
 
-        const C_FIELDTYPE = "t";
-        const C_INDEX = "i";
+        const C_FIELDTYPE: string= "t";
+        const C_INDEX: string= "i";
 
-        let m_field = "";
-        let m_fieldType = -1;
-        let m_fieldIndex = -1;
+        let m_field: string= "";
+        let m_fieldType: number= -1;
+        let m_fieldIndex: number= -1;
 
-        let m_ok = false;
+        let m_ok: boolean= false;
 
         const fColumns = function() {
             InitializeComponent();
@@ -77,9 +77,9 @@
 
         const lv_columns_Click = function(sender, e) {
             if (lv_columns.SelectedItems.Count > 0) {
-                let item = lv_columns.SelectedItems[0];
+                let item: ListViewItem= lv_columns.SelectedItems[0];
                 m_field = item.Text;
-                let info = item.Tag.ToString();
+                let info: var= item.Tag.ToString();
                 m_fieldType = cUtil.valAsInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
                 m_fieldIndex = cUtil.valAsInt(cUtil.getInfoString(info, C_INDEX, "-1"));
             }

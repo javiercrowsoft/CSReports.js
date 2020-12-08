@@ -15,11 +15,11 @@
                                            IntPtr dwItem1,
                                            IntPtr dwItem2);
 
-        const C_CROWSOFTKEY_EXTENSIONS = "SOFTWARE\\CrowSoft\\Extensions";
-        let m_question = null;
-        let m_yesButton = null;
-        let m_noButton = null;
-        let m_dontAsk = null;
+        const C_CROWSOFTKEY_EXTENSIONS: string= "SOFTWARE\\CrowSoft\\Extensions";
+        let m_question: string = null;
+        let m_yesButton: string = null;
+        let m_noButton: string = null;
+        let m_dontAsk: string = null;
 
 UNKNOWN >>         public String question
         {
@@ -62,8 +62,8 @@ UNKNOWN >>             set
         };
 
         const findExecutable = function(pv_strFilename) {
-            let objResultBuffer = new StringBuilder(1024);
-            let lngResult = 0;
+            let objResultBuffer: StringBuilder= new StringBuilder(1024);
+            let lngResult: number= 0;
 
             lngResult = FindExecutableA(pv_strFilename, string.Empty, objResultBuffer);
 
@@ -90,13 +90,13 @@ UNKNOWN >>             String sKeyValue;       // Holds Key Value in registry.
                 //' This creates a Root entry for the extension to be associated with ' ApplicationName' .
                 sKeyName = "." + extension;
                 sKeyValue = applicationName;
-                let rKey = Registry.ClassesRoot.CreateSubKey(sKeyName);
+                let rKey: RegistryKey= Registry.ClassesRoot.CreateSubKey(sKeyName);
                 rKey.SetValue(sKeyName, sKeyValue);
 
                 //' This creates a Root entry called ' ApplicationName' .
                 sKeyName = applicationName;
                 sKeyValue = applicationName;
-                let rKeyApp = Registry.ClassesRoot.CreateSubKey(sKeyName);
+                let rKeyApp: RegistryKey= Registry.ClassesRoot.CreateSubKey(sKeyName);
                 rKeyApp.SetValue(sKeyName, sKeyValue);
 
                 //' This sets the command line for ' ApplicationName' .
@@ -160,7 +160,7 @@ UNKNOWN >>             String longPathAssociated;
 
             if (longPathToExecute !== longPathAssociated) {
                 if (ask(extension, pathToExecute)) {
-                    let f = new fAsk();
+                    let f: fAsk= new fAsk();
                     f.question = m_question.Replace("%1", extension);
                     f.dontAsk = m_dontAsk;
                     f.noButton = m_noButton;
@@ -189,8 +189,8 @@ UNKNOWN >>             String longPathAssociated;
         };
 
         const ask = function(extension, pathToExecute) {
-            let rKey = Registry.CurrentUser.OpenSubKey(C_CROWSOFTKEY_EXTENSIONS);
-            let keyVal = rKey.GetValue(extension);
+            let rKey: RegistryKey= Registry.CurrentUser.OpenSubKey(C_CROWSOFTKEY_EXTENSIONS);
+            let keyVal: string= rKey.GetValue(extension);
             if (keyVal === null) {
                 return false;
             else {
@@ -200,8 +200,8 @@ UNKNOWN >>             String longPathAssociated;
         const saveNotAsk = function(
             extension, 
             pathToExecute) {
-            let rKey = Registry.CurrentUser.OpenSubKey(C_CROWSOFTKEY_EXTENSIONS);
-            let keyVal = rKey.GetValue(extension);
+            let rKey: RegistryKey= Registry.CurrentUser.OpenSubKey(C_CROWSOFTKEY_EXTENSIONS);
+            let keyVal: string= rKey.GetValue(extension);
             if (keyVal === null) {
                 keyVal = "";
             rKey.SetValue(extension, keyVal + pathToExecute + "|", RegistryValueKind.String);
@@ -211,7 +211,7 @@ UNKNOWN >>             String longPathAssociated;
 UNKNOWN >>             String strFile;
             strFile = Path.GetTempPath() + "_Aux_Asoc_." + extension;
             try {
-                let writer = new StreamWriter(strFile);
+                let writer: StreamWriter= new StreamWriter(strFile);
                 writer.Close();
                 return strFile;
             }
@@ -221,7 +221,7 @@ UNKNOWN >>             String strFile;
         };
 
         const delTempFile = function(extension) {
-            let file = getTempFile(extension);
+            let file: string= getTempFile(extension);
             if (File.Exists(file)) {
                 File.Delete(file);
             }

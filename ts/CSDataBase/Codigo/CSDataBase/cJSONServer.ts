@@ -5,7 +5,7 @@
     globalObject.CSDataBase.createCJSONServer = function() {
 
         const self = {};
-        let cJSONDataSources m_dataSources = new cJSONDataSources();
+        let cJSONDataSources: staticm_dataSources = new cJSONDataSources();
 
         self.registerDataSource = function(dataSource, name) {
             m_dataSources.add(dataSource, name.ToLower());
@@ -50,7 +50,7 @@ UNKNOWN >>         return self;
         //   T:System.ArgumentException:
         //     An invalid connection string argument has been supplied, or a required connection
         //     string argument has not been supplied.
-        self.string ConnectionString { get = null; set; };
+        self.string: override = null;ConnectionString { get; set; };
         //
         // Summary:
         //     Gets the time to wait while trying to establish a connection before terminating
@@ -63,7 +63,7 @@ UNKNOWN >>         return self;
         // Exceptions:
         //   T:System.ArgumentException:
         //     The value set is less than 0.
-        self.int ConnectionTimeout { get = null; };
+        self.int: override = null;ConnectionTimeout { get; };
         //
         // Summary:
         //     Gets the name of the current database or the database to be used after a connection
@@ -72,7 +72,7 @@ UNKNOWN >>         return self;
         // Returns:
         //     The name of the current database or the name of the database to be used after
         //     a connection is opened. The default value is an empty string.
-        self.string Database { get = null; };
+        self.string: override = null;Database { get; };
         //
         // Summary:
         //     Gets the name of the instance of SQL Server to which to connect.
@@ -80,7 +80,7 @@ UNKNOWN >>         return self;
         // Returns:
         //     The name of the instance of SQL Server to which to connect. The default value
         //     is an empty string.
-        self.string DataSource { get = null; };
+        self.string: override = null;DataSource { get; };
         //
         // Summary:
         //     Gets or sets the System.Data.SqlClient.SqlConnection.FireInfoMessageEventOnUserErrors
@@ -89,7 +89,7 @@ UNKNOWN >>         return self;
         // Returns:
         //     true if the System.Data.SqlClient.SqlConnection.FireInfoMessageEventOnUserErrors
         //     property has been set; otherwise false.
-        self.FireInfoMessageEventOnUserErrors { get = null; set; };
+        self.FireInfoMessageEventOnUserErrors: boolean = null;{ get; set; };
         //
         // Summary:
         //     Gets the size (in bytes) of network packets used to communicate with an instance
@@ -97,7 +97,7 @@ UNKNOWN >>         return self;
         //
         // Returns:
         //     The size (in bytes) of network packets. The default value is 8000.
-        self.PacketSize { get = null; };
+        self.PacketSize: number = null;{ get; };
         //
         // Summary:
         //     Gets a string that contains the version of the instance of SQL Server to which
@@ -109,14 +109,14 @@ UNKNOWN >>         return self;
         // Exceptions:
         //   T:System.InvalidOperationException:
         //     The connection is closed.
-        self.string ServerVersion { get = null; };
+        self.string: override = null;ServerVersion { get; };
         //
         // Summary:
         //     Indicates the state of the System.Data.SqlClient.SqlConnection.
         //
         // Returns:
         //     An System.Data.ConnectionState enumeration.
-        self.ConnectionState State { get = null; };
+        self.ConnectionState: override = null;State { get; };
         //
         // Summary:
         //     When set to true, enables statistics gathering for the current connection.
@@ -124,7 +124,7 @@ UNKNOWN >>         return self;
         // Returns:
         //     Returns true if statistics gathering is enabled; otherwise false. false is the
         //     default.
-        self.StatisticsEnabled { get = null; set; };
+        self.StatisticsEnabled: boolean = null;{ get; set; };
         //
         // Summary:
         //     Gets a string that identifies the database client.
@@ -132,7 +132,7 @@ UNKNOWN >>         return self;
         // Returns:
         //     A string that identifies the database client. If not specified, the name of the
         //     client computer. If neither is specified, the value is an empty string.
-        self.WorkstationId { get = null; };
+        self.WorkstationId: string = null;{ get; };
 UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get; }
 
         //

@@ -6,17 +6,17 @@
     globalObject.CSReportDll.createCParameter = function() {
 
         const self = {};
-        const C_MODULE = "cParameter";
+        const C_MODULE: string= "cParameter";
 
-        let m_name = "";
-        let m_columnType = null;
-        let m_value = "";
-        let m_position = 0;
-        let m_key = "";
-        let m_hasDefault = null;
-        let m_default = "";
-        let m_isNullable = null;
-        let m_maxLength = 0;
+        let m_name: string= "";
+        let m_columnType: csDataType = null;
+        let m_value: string= "";
+        let m_position: number= 0;
+        let m_key: string= "";
+        let m_hasDefault: boolean = null;
+        let m_default: string= "";
+        let m_isNullable: boolean = null;
+        let m_maxLength: number= 0;
 
         self.getKey = function() {
             return m_key;
@@ -105,9 +105,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName(m_key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

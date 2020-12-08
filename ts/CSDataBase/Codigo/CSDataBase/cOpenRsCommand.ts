@@ -17,14 +17,14 @@
     globalObject.CSDataBase.createCOpenRsCommand = function() {
 
         const self = {};
-        const c_module = "cDataBase";
+        const c_module: string= "cDataBase";
 
 //         private delegate DbDataReader delegateAsyncOpenRsEx(string sqlstmt);
 
-        let m_invoke = null;
-        let m_ors = null;
-        let m_sqlstmt = "";
-        let m_done = false;
+        let m_invoke: delegateAsyncOpenRsEx= null;
+        let m_ors: DbDataReader= null;
+        let m_sqlstmt: string= "";
+        let m_done: boolean= false;
 
 UNKNOWN >>         public bool done
         {
@@ -43,7 +43,7 @@ UNKNOWN >>             get { return m_ors; }
 
         self.getExecuteCommand = function(db, sqlstmt) {
             m_sqlstmt = sqlstmt;
-            m_invoke = new delegateAsyncOpenRsEx(db.asyncOpenRsEx);
+            m_invoke =  globalObject.CSReportDll.createDelegateAsyncOpenRsEx(db.asyncOpenRsEx);
         };
 
         self.execute = function() {

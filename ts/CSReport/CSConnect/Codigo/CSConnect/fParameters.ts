@@ -5,10 +5,10 @@
     globalObject.CSConnect.createFParameters = function() {
 
         const self = {};
-        let m_ok = false;
-        let m_texts = null;
+        let m_ok: boolean= false;
+        let m_texts: TextBox[]= null;
 
-        let m_parameters = null;
+        let m_parameters: cParameters = null;
 
         const fParameters = function() {
             InitializeComponent();
@@ -38,14 +38,14 @@
         };
 
         self.getSqlParameters = function() {
-            let parameters = "";
+            let parameters: var= "";
 
             for(var i = 0; i < m_parameters.count(); i++) {
-                let input = m_texts[i];
+                let input: var= m_texts[i];
 
                 m_parameters.item(i).setValue(input.Text);
 
-                let value = "";
+                let value: var= "";
                 switch(input.Tag.ToString())
                 {
                     case "T":
@@ -69,21 +69,21 @@
         };
 
         const loadParameters = function() {
-            let top = 20;
+            let top: number= 20;
 
-            m_texts = new TextBox[m_parameters.count()];
+            m_texts =  globalObject.CSReportDll.createTextBox[m_parameters.count()];
 
             for(var j = 0; j < m_parameters.count(); j++)  {
-                let parameter = m_parameters.getByPosition(j+1);
+                let parameter: cParameter= m_parameters.getByPosition(j+1);
 
-                let label = new System.Windows.Forms.Label();
+                let label: System.Windows.Forms.Label= new System.Windows.Forms.Label();
                 label.AutoSize = true;
-                label.Location = new System.Drawing.Point(30, top);
+                label.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(30, top);
                 label.Text = parameter.getName();
 
-                let input = new System.Windows.Forms.TextBox();
-                input.Location = new System.Drawing.Point(150, top);
-                input.Size = new System.Drawing.Size(150, 20);
+                let input: System.Windows.Forms.TextBox= new System.Windows.Forms.TextBox();
+                input.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(150, top);
+                input.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(150, 20);
                 input.Text = parameter.getValue();
                 input.Tag = parameter.getKey();
 

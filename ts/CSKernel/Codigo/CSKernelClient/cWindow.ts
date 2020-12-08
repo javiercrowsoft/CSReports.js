@@ -5,7 +5,7 @@
     globalObject.CSKernelClient.createCWindow = function() {
 
         const self = {};
-        let String m_title = "Message";
+        let String: staticm_title = "Message";
 
         self.setTitle = function(value) {
             m_title = value;
@@ -53,7 +53,7 @@
 
         const pMsgAux = function(msg, icon, title, details) {
             if (title === "@@@@@") { title = m_title; }
-            let fmsg = new fMsg();
+            let fmsg: fMsg= new fMsg();
             fmsg.setIcon(icon);
             fmsg.setMessage(msg);
             fmsg.setTitle(title);
@@ -71,7 +71,7 @@
         };
 
         self.locateFormAtTop = function(form) {
-            let top = (Screen.FromControl(form).Bounds.Height - form.Height) / 2 - 200;
+            let top: var= (Screen.FromControl(form).Bounds.Height - form.Height) / 2 - 200;
             form.Left = (Screen.FromControl(form).Bounds.Width - form.Width) / 2;
             form.Top = top;
         };

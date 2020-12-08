@@ -5,14 +5,14 @@
     globalObject.CSReportEditor.createFTreeViewCtrls = function() {
 
         const self = {};
-        let m_editor = null;
+        let m_editor: cEditor = null;
 
-        const C_IMG_FOLDER = 0;
-        const C_IMG_FORMULA = 3;
-        const C_IMG_CONTROL = 2;
-        const C_IMG_DATBASE_FIELD = 1;
+        const C_IMG_FOLDER: number= 0;
+        const C_IMG_FORMULA: number= 3;
+        const C_IMG_CONTROL: number= 2;
+        const C_IMG_DATBASE_FIELD: number= 1;
 
-        let m_formulaName = "";
+        let m_formulaName: string= "";
 
         const fTreeViewCtrls = function() {
             InitializeComponent();
@@ -27,7 +27,7 @@
         };
 
         self.addCtrls = function() {
-            let report = m_editor.getReport();
+            let report: var= m_editor.getReport();
             cGlobals.addCtrls(report, tv_controls, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
             lbTitle.Text = "Report definition: " + report.getName();
         };
@@ -46,9 +46,9 @@
 
         const selectAndShowInfo = function(node) {
             if (node !== null && node.Tag !== null) {
-                let info = node.Tag.ToString();
+                let info: var= node.Tag.ToString();
                 if (info.Length > 0) {
-                    let infoType = info.Substring(0, 1);
+                    let infoType: var= info.Substring(0, 1);
                     if (infoType === "@") {
                         tx_descrip.Text = info.Substring(4);
                     }
@@ -65,19 +65,19 @@
 
         const tv_formulas_NodeMouseDoubleClick = function(sender, e) {
             if (e.Node.Tag !== null) {
-                let info = e.Node.Tag.ToString();
+                let info: var= e.Node.Tag.ToString();
                 if (info.Length > 0) {
-                    let infoType = info.Substring(0, 4);
+                    let infoType: var= info.Substring(0, 4);
                     if (infoType === "@FH=") {
                         m_formulaName = "Hide";
-                        let formula = info.Substring(4);
+                        let formula: string= info.Substring(4);
                         if (m_editor.showEditFormula(formula)) {
                             e.Node.Tag = "@FH=" + formula;
                         }
                     }
                     else if (infoType === "@FV=") {
                         m_formulaName = "Value";
-                        let formula = info.Substring(4);
+                        let formula: string= info.Substring(4);
                         if (m_editor.showEditFormula(formula)) {
                             e.Node.Tag = "@FV=" + formula;
                         }
@@ -100,9 +100,9 @@
         };
 
         const getObjectDescription = function(anObject, n) {
-            let descrip = "";
-            let tabs = new String('\t', n);
-            let methods = getMethods(anObject);
+            let descrip: var= "";
+            let tabs: var= new String('\t', n);
+            let methods: var= getMethods(anObject);
             for(var i_ = 0; i_ < methods.length; i_++) {
                 if (m.IsPublic 
                     && m.Name.Length > 3
@@ -125,7 +125,7 @@
                 return "NULL";
             }
             else {
-                let t = value.GetType();
+                let t: var= value.GetType();
                 if (t.IsPrimitive || t === typeof(Decimal) || t === typeof(String)) {
                     return value.ToString();
                 }
@@ -142,9 +142,9 @@
         const cmd_edit_Click = function(sender, e) {
             if (tv_controls.SelectedNode !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
-                    let info = tv_controls.SelectedNode.Tag.ToString();
+                    let info: var= tv_controls.SelectedNode.Tag.ToString();
                     if (info.Length > 0) {
-                        let infoType = info.Substring(0, 1);
+                        let infoType: var= info.Substring(0, 1);
                         if (infoType === "@") {
                             tx_descrip.Text = info.Substring(4);
                         }

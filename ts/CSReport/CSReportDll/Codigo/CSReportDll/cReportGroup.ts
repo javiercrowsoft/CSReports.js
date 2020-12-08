@@ -6,28 +6,28 @@
     globalObject.CSReportDll.createCReportGroup = function() {
 
         const self = {};
-        const C_HEADER = "H";
-        const C_FOOTER = "F";
+        const C_HEADER: string= "H";
+        const C_FOOTER: string= "F";
 
-        let m_header = null;
-        let m_footer = null;
-        let m_index = 0;
+        let m_header: cReportSection = null;
+        let m_footer: cReportSection = null;
+        let m_index: number= 0;
 
-        let m_name = "";
+        let m_name: string= "";
 
-        let m_oderType = null;
-        let m_comparisonType = null;
+        let m_oderType: csRptGrpOrderType = null;
+        let m_comparisonType: csRptGrpComparisonType = null;
 
         // to print in a new page when the group change
         //
-        let m_printInNewPage = null;
+        let m_printInNewPage: boolean = null;
 
         // to reprint group headers in every new page
         //
-        let m_rePrintInNewPage = null;
-        let m_grandTotalGroup = null;
-        let m_fieldName = "";
-        let m_key = "";
+        let m_rePrintInNewPage: boolean = null;
+        let m_grandTotalGroup: boolean = null;
+        let m_fieldName: string= "";
+        let m_key: string= "";
 
         self.getHeader = function() {
             return m_header;
@@ -133,7 +133,7 @@
 
             fixName();
 
-            let nodeObjAux = null;
+            let nodeObjAux: XmlNode= null;
 
             nodeObjAux = nodeObj;
             nodeObjAux = xDoc.getNodeFromNode(nodeObj, C_HEADER);
@@ -170,10 +170,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName(m_name);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -217,7 +217,7 @@
             xProperty.setValue(eTypes.eBoolean, m_grandTotalGroup);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            let nodeObjAux = null;
+            let nodeObjAux: XmlNode= null;
             nodeObjAux = nodeObj;
             xProperty.setName(C_HEADER);
             nodeObjAux = xDoc.addNodeToNode(nodeObjAux, xProperty);

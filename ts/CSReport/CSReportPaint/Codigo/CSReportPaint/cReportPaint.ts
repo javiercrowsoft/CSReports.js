@@ -7,49 +7,49 @@
 
         const self = {};
 
-        const C_MODULE = "cReportPaint";
+        const C_MODULE: string= "cReportPaint";
 
-        const C_GRID_AREA_WIDTH = 200;
-        const C_GRID_AREA_HEIGHT = 67;
+        const C_GRID_AREA_WIDTH: number= 200;
+        const C_GRID_AREA_HEIGHT: number= 67;
 
-        const C_KEY_PAINT_OBJ = "P";
-        const C_KEY_PAINT_SEC = "S";
+        const C_KEY_PAINT_OBJ: string= "P";
+        const C_KEY_PAINT_SEC: string= "S";
 
-        let m_paintObjects = new cReportPaintObjects();
-        let m_paintSections = new cReportPaintObjects();
-        let m_paintGridAreas = new cReportPaintObjects();
+        let m_paintObjects: cReportPaintObjects= new cReportPaintObjects();
+        let m_paintSections: cReportPaintObjects= new cReportPaintObjects();
+        let m_paintGridAreas: cReportPaintObjects= new cReportPaintObjects();
 
-        let m_nextKey = 0;
-        let m_brushGrid = null;
+        let m_nextKey: number= 0;
+        let m_brushGrid: HatchBrush = null;
 
-        let m_x1 = 0;
-        let m_y1 = 0;
-        let m_y2 = 0;
-        let m_x2 = 0;
+        let m_x1: number= 0;
+        let m_y1: number= 0;
+        let m_y2: number= 0;
+        let m_x2: number= 0;
 
-        let m_x1Ex = 0;
-        let m_y1Ex = 0;
-        let m_y2Ex = 0;
-        let m_x2Ex = 0;
+        let m_x1Ex: number= 0;
+        let m_y1Ex: number= 0;
+        let m_y2Ex: number= 0;
+        let m_x2Ex: number= 0;
 
-        let m_beginMoveDone = null;
+        let m_beginMoveDone: boolean = null;
 
-        let m_keyFocus = "";
-        let m_vGridObjs = null;
-        let m_notBorder = null;
+        let m_keyFocus: string= "";
+        let m_vGridObjs: String[,]= null;
+        let m_notBorder: boolean = null;
 
-        let m_fnt = null;
+        let m_fnt: Font[] = null;
 
-        let m_gridHeight = 0;
+        let m_gridHeight: number= 0;
 
-        let m_vSelectedKeys = null;
+        let m_vSelectedKeys: String[]= null;
 
-        let m_zoom = 0;
+        let m_zoom: number= 0;
 
-        let m_scaleX = 0;
-        let m_scaleY = 0;
+        let m_scaleX: number= 0;
+        let m_scaleY: number= 0;
 
-        let m_bitmap = null;
+        let m_bitmap: Bitmap = null;
 
         const cReportPaint = function() {
             try  {
@@ -63,7 +63,7 @@
                 m_zoom = 100;
             } 
             catch (ex) {
-                self."constructor", C_MODULE, "") = null;
+                self."constructor",: cError.mngError(ex, = null;C_MODULE, "");
             }
         };
 
@@ -154,7 +154,7 @@
 
         self.getPaintObjectForTag = function(tag) {
             for(var i = 0; i < m_paintObjects.count(); i++) {
-                let paintObj = m_paintObjects.item(i);
+                let paintObj: cReportPaintObject= m_paintObjects.item(i);
                 if (paintObj.getTag() === tag) {
                     return paintObj;
                 }
@@ -164,7 +164,7 @@
 
         self.getPaintSectionForTag = function(tag) {
             for(var i = 0; i < m_paintSections.count(); i++) {
-                let paintObj = m_paintSections.item(i);
+                let paintObj: cReportPaintObject= m_paintSections.item(i);
                 if (paintObj.getTag() === tag) {
                     return paintObj;
                 }
@@ -173,9 +173,9 @@
         };
 
         self.getNewObject = function(paintTypeObject) {
-            let key = "";
+            let key: string= "";
             key = getKeyPaintObj();
-            let paintObj = null;
+            let paintObj: cReportPaintObject= null;
             paintObj = m_paintObjects.add(paintObj, key);
             paintObj.setKey(key);
             paintObj.setPaintType(paintTypeObject);
@@ -183,9 +183,9 @@
         };
 
         self.getNewSection = function(paintTypeObject) {
-            let key = "";
+            let key: string= "";
             key = getKeyPaintSec();
-            let paintObj = null;
+            let paintObj: cReportPaintObject= null;
             paintObj = m_paintSections.add(paintObj, key);
             paintObj.setKey(key);
             paintObj.setPaintType(paintTypeObject);
@@ -197,7 +197,7 @@
         };
 
 		self.pointIsInObject = function(x, y, sKey) {
-			let regionType = csRptPaintRegionType.CRPTPNTRGNTYPEBODY;
+			let regionType: csRptPaintRegionType= csRptPaintRegionType.CRPTPNTRGNTYPEBODY;
 			return pointIsInObject(x, y, sKey, regionType);
 		};
 
@@ -247,21 +247,21 @@
            * ByRef sKey As String, 
            * Optional ByRef RegionType As csRptPaintRegionType */
 
-            self.int C_WIDTH_REGION = 3;
+            self.int: constC_WIDTH_REGION = 3;
 
-            let yY = 0;
-            let xX = 0;
+            let yY: number= 0;
+            let xX: number= 0;
 
-            let top = 0;
-            let height = 0;
-            let width = 0;
-            let left = 0;
+            let top: number= 0;
+            let height: number= 0;
+            let width: number= 0;
+            let left: number= 0;
 
             if (paintObj === null) {
                 return false;
             }
             else {
-                let w_aspect = paintObj.getAspect();
+                let w_aspect: cReportAspect= paintObj.getAspect();
                 left = w_aspect.getLeft();
                 width = w_aspect.getWidth();
                 top = w_aspect.getTop() - w_aspect.getOffset();
@@ -431,12 +431,12 @@
         // Grid
         //
         self.initGrid = function(picGrid, typeGrid) {
-            let x = 0;
-            let y = 0;
-            let c = null;
-            let top = 0;
-            let left = 0;
-            let i = 0;
+            let x: number= 0;
+            let y: number= 0;
+            let c: cReportPaintObject= null;
+            let top: number= 0;
+            let left: number= 0;
+            let i: number= 0;
 
             pCreateBrushGrid(picGrid, typeGrid);
 
@@ -448,21 +448,21 @@
 
             G.redim(m_vGridObjs, x, y);
 
-            let l = 0;
-            let t = 0;
+            let l: number= 0;
+            let t: number= 0;
 
             for (i = 0; i < y * x; i++) {
                 c = m_paintGridAreas.add(c, getKey());
 
                 left = C_GRID_AREA_WIDTH * l;
                 top = C_GRID_AREA_HEIGHT * t;
-                let w_aspect = c.getAspect();
+                let w_aspect: cReportAspect= c.getAspect();
                 w_aspect.setLeft(left);
                 w_aspect.setTop(top);
                 w_aspect.setWidth(C_GRID_AREA_WIDTH);
                 w_aspect.setHeight(C_GRID_AREA_HEIGHT);
 
-                let t] = c.getKey();
+                let t]: m_vGridObjs[l,= c.getKey();
 
                 c = null;
 
@@ -533,24 +533,24 @@
             toBottom, 
             toRight, 
             resizing) {
-            let z1 = 0;
-            let q1 = 0;
-            let maxY = 0;
-            let maxX = 0;
-            let gridObjAspect = null;
+            let z1: number= 0;
+            let q1: number= 0;
+            let maxY: number= 0;
+            let maxX: number= 0;
+            let gridObjAspect: cReportAspect= null;
 
             maxX = m_vGridObjs.GetLength(0)-1;
             maxY = m_vGridObjs.GetLength(1)-1;
 
-            let top = 0;
-            let left = 0;
-            let width = 0;
-            let height = 0;
-            let offset = 0;
-            self.float pointSeparation = 0.6f;
-            self.float offSetPointSep = 0.3f;
+            let top: number= 0;
+            let left: number= 0;
+            let width: number= 0;
+            let height: number= 0;
+            let offset: number= 0;
+            self.float: constpointSeparation = 0.6f;
+            self.float: constoffSetPointSep = 0.3f;
 
-            let paintObjs = null;
+            let paintObjs: cReportPaintObjects= null;
 
             if (sKey.Substring(0, 1) === C_KEY_PAINT_SEC) {
                 paintObjs = m_paintSections;
@@ -559,11 +559,11 @@
                 paintObjs = m_paintObjects;
             }
 
-            let nLeft = 0;
-            let nTop = 0;
+            let nLeft: number= 0;
+            let nTop: number= 0;
 
-            let w_item = paintObjs.item(sKey);
-            let w_aspect = w_item.getAspect();
+            let w_item: cReportPaintObject= paintObjs.item(sKey);
+            let w_aspect: cReportAspect= w_item.getAspect();
             nLeft = w_aspect.getLeft() - offSetPointSep;
             nTop = w_aspect.getTop() - w_aspect.getOffset() - offSetPointSep;
 
@@ -686,7 +686,7 @@ UNKNOWN >>                                 - offSetPointSep
             // check the width of the paintObject for this section
             // is into the bounds of the page
             //
-            let aspect = m_paintSections.item(key).getAspect();
+            let aspect: cReportAspect= m_paintSections.item(key).getAspect();
             if (aspect.getWidth() > m_bitmap.Size.Width-2) {
                 aspect.setWidth(m_bitmap.Size.Width-2);
             }
@@ -694,16 +694,16 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         self.drawRule = function(key, graph) {
-            self.int LINE_COLOR = 0xcc6600;
-            let top = 0;
-            let heightSec = 0;
-            let aspect = null;
+            self.int: constLINE_COLOR = 0xcc6600;
+            let top: number= 0;
+            let heightSec: number= 0;
+            let aspect: cReportAspect= null;
 
-            aspect = new cReportAspect();
+            aspect =  globalObject.CSReportDll.createCReportAspect();
 
-            let w_item = m_paintSections.item(key);
+            let w_item: cReportPaintObject= m_paintSections.item(key);
             heightSec = w_item.getHeightSecLine() * 0.5f;
-            let w_aspect = w_item.getAspect();
+            let w_aspect: cReportAspect= w_item.getAspect();
             aspect.setTop(w_aspect.getTop() + 3 - heightSec);
             aspect.setOffset(w_aspect.getOffset());
             aspect.setTransparent(true);
@@ -789,11 +789,11 @@ UNKNOWN >>                                 - offSetPointSep
 
 		self.moveObjToXY = function(sKey, x, y, graph) {
             if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
-                let w_aspect = m_paintObjects.item(sKey).getAspect();
+                let w_aspect: cReportAspect= m_paintObjects.item(sKey).getAspect();
                 move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
-                let w_aspect = m_paintSections.item(sKey).getAspect();
+                let w_aspect: cReportAspect= m_paintSections.item(sKey).getAspect();
                 move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         };
@@ -827,22 +827,22 @@ UNKNOWN >>                                 - offSetPointSep
 
 		self.moveVertical = function(sKey, y, graph) {
             if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
-                let w_aspect = m_paintObjects.item(sKey).getAspect();
+                let w_aspect: cReportAspect= m_paintObjects.item(sKey).getAspect();
                 move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
-                let w_aspect = m_paintSections.item(sKey).getAspect();
+                let w_aspect: cReportAspect= m_paintSections.item(sKey).getAspect();
                 move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         };
 
 		self.moveHorizontal = function(sKey, x, graph) {
             if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
-                let w_aspect = m_paintObjects.item(sKey).getAspect();
+                let w_aspect: cReportAspect= m_paintObjects.item(sKey).getAspect();
                 move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
-                let w_aspect = m_paintSections.item(sKey).getAspect();
+                let w_aspect: cReportAspect= m_paintSections.item(sKey).getAspect();
                 move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         };
@@ -873,20 +873,20 @@ UNKNOWN >>                                 - offSetPointSep
                                         csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT));
                 }
 
-                let oPaintObj = null;
-                let x1 = 0;
-                let y1 = 0;
-                let y2 = 0;
-                let x2 = 0;
-                let colorIn = 0;
-                let colorOut = 0;
-                let filled = false;
+                let oPaintObj: cReportPaintObject= null;
+                let x1: number= 0;
+                let y1: number= 0;
+                let y2: number= 0;
+                let x2: number= 0;
+                let colorIn: number= 0;
+                let colorOut: number= 0;
+                let filled: boolean= false;
 
                 oPaintObj = collObjs.item(key);
 
                 if (oPaintObj === null) { return false; }
 
-                let w_aspect = oPaintObj.getAspect();
+                let w_aspect: cReportAspect= oPaintObj.getAspect();
 
                 x1 = w_aspect.getLeft();
                 x2 = x1 + w_aspect.getWidth();
@@ -929,8 +929,8 @@ UNKNOWN >>                                 - offSetPointSep
                                     colorIn,
                                     0xC0C000);
 
-                        let bmpWidth = 0;
-                        let bmpHeight = 0;
+                        let bmpWidth: number= 0;
+                        let bmpHeight: number= 0;
 
                         if (oPaintObj.getImage() !== null) {
                             cGlobals.getBitmapSize(oPaintObj.getImage(), bmpWidth, bmpHeight, true);
@@ -1005,8 +1005,8 @@ UNKNOWN >>                                 - offSetPointSep
               DeleteObject hDC
              */
 
-            let sourceRect = new Rectangle(0, 0, bmpWidth, bmpHeight);
-            let destRect = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), bmpWidth, bmpHeight);
+            let sourceRect: Rectangle= new Rectangle(0, 0, bmpWidth, bmpHeight);
+            let destRect: Rectangle= new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), bmpWidth, bmpHeight);
 
             graph.DrawImage(image, destRect, sourceRect, GraphicsUnit.Pixel);
         };
@@ -1016,7 +1016,7 @@ UNKNOWN >>                                 - offSetPointSep
 
             if (!pAllreadySelected(sKey)) {
                 G.redimPreserve(m_vSelectedKeys, m_vSelectedKeys.Length + 1);
-                let -1] = sKey;
+                let -1]: m_vSelectedKeys[m_vSelectedKeys.Length= sKey;
             }
 
             m_keyFocus = sKey;
@@ -1024,7 +1024,7 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         self.removeFromSelected = function(sKey, graph) {
-            let i = 0;
+            let i: number= 0;
 
             for (i = 0; i < m_vSelectedKeys.Length; i++) {
                 if (m_vSelectedKeys[i] === sKey) {
@@ -1063,9 +1063,9 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         const setFocusAux = function(sKey, graph) {
-            let paintObjAsp = null;
-            let color = 0;
-            let bCircle = false;
+            let paintObjAsp: cReportPaintObject= null;
+            let color: number= 0;
+            let bCircle: boolean= false;
 
             m_keyFocus = sKey;
 
@@ -1082,7 +1082,7 @@ UNKNOWN >>                                 - offSetPointSep
 
             if (paintObjAsp === null) { return; }
 
-            let w_aspect = paintObjAsp.getAspect();
+            let w_aspect: cReportAspect= paintObjAsp.getAspect();
             showHandles(graph, 
                         Convert.ToInt32(w_aspect.getLeft()), 
                         Convert.ToInt32(w_aspect.getTop() - w_aspect.getOffset()), 
@@ -1112,10 +1112,10 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         self.resize = function(graph, sKey, left, top, x2, y2) {
-            self.int C_MIN_WIDTH = 1;
-            self.int C_MIN_HEIGHT = 1;
+            self.int: constC_MIN_WIDTH = 1;
+            self.int: constC_MIN_HEIGHT = 1;
 
-            let paintObjAsp = null;
+            let paintObjAsp: cReportAspect= null;
 
             if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
                 paintObjAsp = m_paintObjects.item(sKey).getAspect();
@@ -1174,7 +1174,7 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         self.createBackgroundBitmap = function(graph) {
-            m_bitmap = new Bitmap(graph.VisibleClipBounds.Width + 1, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???
+            m_bitmap =  globalObject.CSReportDll.createBitmap(graph.VisibleClipBounds.Width + 1, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???
         };
 
         const refreshBackgroundPicture = function(graph, color) {
@@ -1222,15 +1222,15 @@ UNKNOWN >>                                 - offSetPointSep
 
             createBackgroundBitmap(graph);
 
-            let bitmapGraphic = Graphics.FromImage(m_bitmap);
+            let bitmapGraphic: Graphics= Graphics.FromImage(m_bitmap);
 
-            let rect = cGlobals.newRectangle(0, 0, (int)graph.VisibleClipBounds.Width, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???;
+            let rect: Rectangle= cGlobals.newRectangle(0, 0, (int)graph.VisibleClipBounds.Width, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???;
 
             if (m_brushGrid !== null) {
                 bitmapGraphic.FillRectangle(m_brushGrid, rect);
             }
             else  {
-                let brush = new SolidBrush(cColor.colorFromRGB(color));
+                let brush: Brush= new SolidBrush(cColor.colorFromRGB(color));
                 bitmapGraphic.FillRectangle(brush, rect);
                 brush.Dispose();            
             }
@@ -1319,7 +1319,7 @@ UNKNOWN >>                                 - offSetPointSep
 
 UNKNOWN >>             Pen pen;
 
-            pen = new Pen(cColor.colorFromRGB(colorOut), width);
+            pen =  globalObject.CSReportDll.createPen(cColor.colorFromRGB(colorOut), width);
 
             if (dash) {
                 pen.DashStyle = DashStyle.Dot;
@@ -1331,11 +1331,11 @@ UNKNOWN >>             Pen pen;
                 x1 = x1 * m_scaleX;
                 x2 = x2 * m_scaleX;
 
-                let extGraph = new cGraphics(graph);
+                let extGraph: cGraphics= new cGraphics(graph);
                 extGraph.DrawRoundRectangle(pen, x1, y1, x2-x1, y2-y1, 8f);
             }
             else {
-                let rect = cGlobals.newRectangle(Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(x2), Convert.ToInt32(y2));
+                let rect: Rectangle= cGlobals.newRectangle(Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(x2), Convert.ToInt32(y2));
 
                 if (y2 !== y1 && x1 !== x2) {
                     if (filled) {
@@ -1346,7 +1346,7 @@ UNKNOWN >>             Pen pen;
                             rect.Inflate(-1, -1);
                         }
                         */
-                        let brush = new SolidBrush(cColor.colorFromRGB(colorInside));
+                        let brush: Brush= new SolidBrush(cColor.colorFromRGB(colorInside));
                         graph.FillRectangle(brush, rect);
                         brush.Dispose();
                     }
@@ -1485,15 +1485,15 @@ UNKNOWN >>             Pen pen;
              */
 
             // padding
-            self.int c_Margen_Y = 1; // 20 twips;
-            self.int c_Margen_X = 4; // 80 twips;
-            self.int c_Margen_Bottom = 4; // 80 twips;
+            self.int: constc_Margen_Y = 1; // 20 twips;
+            self.int: constc_Margen_X = 4; // 80 twips;
+            self.int: constc_Margen_Bottom = 4; // 80 twips;
 
-            let idx = cGlobals.addFontIfRequired(aspect.getFont(), m_fnt);
+            let idx: number= cGlobals.addFontIfRequired(aspect.getFont(), m_fnt);
 
-            let font = m_fnt[idx];
+            let font: Font= m_fnt[idx];
 
-            let format = new StringFormat();
+            let format: StringFormat= new StringFormat();
 
             format.Trimming = StringTrimming.EllipsisWord;
             format.Alignment = StringAlignment.Near;
@@ -1502,8 +1502,8 @@ UNKNOWN >>             Pen pen;
                 format.FormatFlags = StringFormatFlags.NoWrap;
             }
 
-            let stringWidth = getPlEvaluateTextWidth(sText, font, m_scaleX);
-            let stringHeight = getPlEvaluateTextHeight(sText, font, aspect.getWidth(), format, m_scaleY, m_scaleX);
+            let stringWidth: number= getPlEvaluateTextWidth(sText, font, m_scaleX);
+            let stringHeight: number= getPlEvaluateTextHeight(sText, font, aspect.getWidth(), format, m_scaleY, m_scaleX);
 
             // TODO: translate this to English if it is really needed
             //
@@ -1517,8 +1517,8 @@ UNKNOWN >>             Pen pen;
             //
             stringHeight += 25; //+ 400 the original code was in twips;
 
-            let margenX = c_Margen_X;
-            let margenY = c_Margen_Y;
+            let margenX: number= c_Margen_X;
+            let margenY: number= c_Margen_Y;
 
             if (image !== null) {
                 margenX += image.Size.Width;
@@ -1532,14 +1532,14 @@ UNKNOWN >>             Pen pen;
                 }
             }
 
-            let nWidth = Convert.ToInt32(aspect.getWidth() - margenX * 2);
+            let nWidth: number= Convert.ToInt32(aspect.getWidth() - margenX * 2);
 
             if (stringWidth > nWidth)  {
                 stringWidth = nWidth;
             }
 
-            let x = 0;
-            let y = 0;
+            let x: number= 0;
+            let y: number= 0;
 
             switch (aspect.getAlign())
             {
@@ -1556,9 +1556,9 @@ UNKNOWN >>             Pen pen;
 
             y = Convert.ToInt32(aspect.getTop() - aspect.getOffset() + margenY);
 
-            let rect = cGlobals.newRectangleF(x, y, Convert.ToInt32(x + aspect.getWidth() - margenX), y + stringHeight);
+            let rect: RectangleF= cGlobals.newRectangleF(x, y, Convert.ToInt32(x + aspect.getWidth() - margenX), y + stringHeight);
 
-            let brush = new SolidBrush(cColor.colorFromRGB(aspect.getFont().getForeColor()));
+            let brush: SolidBrush= new SolidBrush(cColor.colorFromRGB(aspect.getFont().getForeColor()));
 
             graph.DrawString(sText, font, brush, rect, format);
 
@@ -1702,7 +1702,7 @@ UNKNOWN >>             Pen pen;
                 DeleteObject(hBrush);
             }
             */
-            self.int iSize = 7;
+            self.int: constiSize = 7;
 
             if (x1 - iSize < 0) { x1 = iSize; }
             if (y1 - iSize < 0) { y1 = iSize; }
@@ -1710,9 +1710,9 @@ UNKNOWN >>             Pen pen;
             if (x1 - iSize < 0) { x1 = iSize; }
             if (y1 - iSize < 0) { y1 = iSize; }            
 
-            let brush = new SolidBrush(cColor.colorFromRGB(color));
+            let brush: Brush= new SolidBrush(cColor.colorFromRGB(color));
 
-            let rect = cGlobals.newRectangle(x1 - iSize, y1 - iSize - 1, x1, y1);
+            let rect: Rectangle= cGlobals.newRectangle(x1 - iSize, y1 - iSize - 1, x1, y1);
             showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x1 - iSize, y2, x1, y2 + iSize);
@@ -1724,14 +1724,14 @@ UNKNOWN >>             Pen pen;
             rect = cGlobals.newRectangle(x2, y2, x2 + iSize, y2 + iSize);
             showHandle(graph, brush, rect, bCircle);
 
-            let x = Convert.ToInt32((x1 +  / 2f) - iSize / 2f);
+            let x: number= Convert.ToInt32((x1 +  / 2f) - iSize / 2f);
             rect = cGlobals.newRectangle(x, y2, x + iSize, y2 + iSize);
             showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x, y1 - iSize - 1, x + iSize, y1);
             showHandle(graph, brush, rect, bCircle);
 
-            let y = Convert.ToInt32((y1 +  / 2f) - iSize / 2f);
+            let y: number= Convert.ToInt32((y1 +  / 2f) - iSize / 2f);
             rect = cGlobals.newRectangle(x1 - iSize, y, x1, y + iSize);
             showHandle(graph, brush, rect, bCircle);
 
@@ -1783,7 +1783,7 @@ UNKNOWN >>             Pen pen;
             }
             */
 
-            let rect = cGlobals.newRectangle(0, 0, m_bitmap.Size.Width, m_bitmap.Size.Height);
+            let rect: Rectangle= cGlobals.newRectangle(0, 0, m_bitmap.Size.Width, m_bitmap.Size.Height);
             if (m_zoom === 100) {
                 //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, m_hMemDC, 0, 0, vbSrcCopy);
                 graph.DrawImage(m_bitmap, rect, rect, GraphicsUnit.Pixel);
@@ -1805,7 +1805,7 @@ UNKNOWN >>             Pen pen;
 
             m_beginMoveDone = true;
 
-            let graphic = Graphics.FromImage(m_bitmap);
+            let graphic: Graphics= Graphics.FromImage(m_bitmap);
             for(var i = 0; i < m_vSelectedKeys.Length; i++) {
                 setFocusAux(m_vSelectedKeys[i], graphic);
             }
@@ -1833,7 +1833,7 @@ UNKNOWN >>             Pen pen;
 
                       BitBlt(graph.hDC, tR.left, tR.top, tR.right - tR.left, tR.bottom - tR.top, m_hMemDC, tR.left, tR.top, vbSrcCopy);
              * */
-            let rect = cGlobals.newRectangle(0, 0, m_bitmap.Size.Width, m_bitmap.Size.Height);
+            let rect: Rectangle= cGlobals.newRectangle(0, 0, m_bitmap.Size.Width, m_bitmap.Size.Height);
             if (m_zoom === 100) {
                 //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, m_hMemDC, 0, 0, vbSrcCopy);
                 graph.DrawImage(m_bitmap, rect, rect, GraphicsUnit.Pixel);
@@ -1892,31 +1892,31 @@ UNKNOWN >>             Pen pen;
             switch (typeGrid)
             {
                 case csETypeGrid.CSEGRIDLINES:
-                    m_brushGrid = new HatchBrush(
+                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
                                             HatchStyle.Cross,
                                             cColor.colorFromRGB(0xC0C0C0),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDPOINTS:
-                    m_brushGrid = new HatchBrush(
+                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
                                             HatchStyle.DottedGrid,
                                             cColor.colorFromRGB(0xC0C0C0),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDLINESHORIZONTAL:
-                    m_brushGrid = new HatchBrush(
+                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
                                             HatchStyle.Horizontal,
                                             cColor.colorFromRGB(0xC0C0C0),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDLINESVERTICAL:
-                    m_brushGrid = new HatchBrush(
+                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
                                             HatchStyle.Vertical,
                                             cColor.colorFromRGB(0xC0C0C0),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDNONE:
-                    m_brushGrid = new HatchBrush(
+                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
                                             HatchStyle.DottedGrid,
                                             cColor.colorFromRGB(0xCCCCCC),
                                             Color.White);
@@ -1927,28 +1927,28 @@ UNKNOWN >>             Pen pen;
         //
         //
         const getPlEvaluateTextWidth = function(text, font, scaleX) {
-            let graph = Graphics.FromImage(m_bitmap);
-            let stringSize = graph.MeasureString(text, font);
+            let graph: Graphics= Graphics.FromImage(m_bitmap);
+            let stringSize: SizeF= graph.MeasureString(text, font);
             graph.Dispose();
             return Convert.ToInt32(stringSize.Width / scaleX); // TODO: check if it is / or *
         };
 
         const getPlEvaluateTextHeight = function(text, font, width, format, scaleY, scaleX) {
-            let graph = Graphics.FromImage(m_bitmap);
-            let stringSize = graph.MeasureString(text, font, Convert.ToInt32(width * scaleX), format);
+            let graph: Graphics= Graphics.FromImage(m_bitmap);
+            let stringSize: SizeF= graph.MeasureString(text, font, Convert.ToInt32(width * scaleX), format);
             graph.Dispose();
             return Convert.ToInt32(stringSize.Height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
         };
 
         const pClearObject = function(key, graph) {
-            let oPaintObj = null;
+            let oPaintObj: cReportPaintObject= null;
 
             oPaintObj = m_paintObjects.item(key);
 
             if (oPaintObj === null) { return; }
 
-            let w_aspect = oPaintObj.getAspect();
-            let tR = cGlobals.newRectangleF(w_aspect.getLeft(), w_aspect.getTop(), w_aspect.getLeft() + w_aspect.getWidth(), w_aspect.getTop() + w_aspect.getHeight());
+            let w_aspect: cReportAspect= oPaintObj.getAspect();
+            let tR: RectangleF= cGlobals.newRectangleF(w_aspect.getLeft(), w_aspect.getTop(), w_aspect.getLeft() + w_aspect.getWidth(), w_aspect.getTop() + w_aspect.getHeight());
 
             if (tR.Right > graph.ClipBounds.Width) { tR.Width = cGlobals.setRectangleWidth(graph.ClipBounds.Width - tR.Left); }
             if (tR.Bottom > graph.ClipBounds.Height) { tR.Height = cGlobals.setRectangleHeight(graph.ClipBounds.Height - tR.Top); }
@@ -2012,8 +2012,8 @@ UNKNOWN >>             Pen pen;
                     //       we need to fix it but the fix will break all reports so first we need to update
                     //       those reports to set the BorderType to CSRPTBSNONE
                     //
-                    let dash = false;
-                    self.int borderWidth = 1;
+                    let dash: boolean= false;
+                    self.int: constborderWidth = 1;
 
                     if (m_notBorder === false 
                             && (

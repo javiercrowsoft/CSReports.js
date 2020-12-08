@@ -29,16 +29,16 @@
         };
 
         self.setErrorIcon = function() {
-            let assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image = new Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.error.png"));
+            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.error.png"));
         };
         self.setErrorInfo = function() {
-            let assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image = new Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.information.png"));
+            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.information.png"));
         };
         self.setErrorWarning = function() {
-            let assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image = new Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.warning.png"));
+            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.warning.png"));
         };
 
         const fErrors_Load = function(sender, e) {

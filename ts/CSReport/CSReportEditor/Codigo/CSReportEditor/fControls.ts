@@ -5,12 +5,12 @@
     globalObject.CSReportEditor.createFControls = function() {
 
         const self = {};
-        let m_editor = null;
+        let m_editor: cEditor = null;
 
-        const C_CTRL_IMAGE = 1;
-        const C_DB_IMAGE = 0;
+        const C_CTRL_IMAGE: number= 1;
+        const C_DB_IMAGE: number= 0;
 
-        let lvwColumnSorter = null;
+        let lvwColumnSorter: cListViewColumnSorter = null;
 
         const fControls = function() {
             InitializeComponent();
@@ -33,7 +33,7 @@
 
             // Create an instance of a ListView column sorter and assign it 
             // to the ListView control.
-            lvwColumnSorter = new cListViewColumnSorter();
+            lvwColumnSorter =  globalObject.CSReportDll.createCListViewColumnSorter();
             lv_controls.ListViewItemSorter = lvwColumnSorter;
             lv_controls_ColumnClick(this, new ColumnClickEventArgs(0));
         };
@@ -69,7 +69,7 @@
 
         const selectControl = function() {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var= lv_controls.SelectedItems[0].Tag.ToString();
                 m_editor.selectCtrl(info);
             }
         };
@@ -80,7 +80,7 @@
 
         const cmd_edit_Click = function(sender, e) {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var= lv_controls.SelectedItems[0].Tag.ToString();
                 m_editor.showProperties(info);
             }
         };

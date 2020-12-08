@@ -17,7 +17,7 @@
             copies, 
             paperBin) {
             printDialog.AllowSomePages = true;
-            let settings = printDialog.PrinterSettings;
+            let settings: var= printDialog.PrinterSettings;
             settings.PrinterName = deviceName;
             settings.FromPage = fromPage;
             settings.ToPage = toPage;
@@ -51,13 +51,13 @@
             paperSize, 
             width, 
             height) {
-            let o = new cPrinter(printDialog);
+            let o: cPrinter= new cPrinter(printDialog);
 
             o.setDeviceName(deviceName);
             o.setDriverName(driverName);
             o.setPort(port);
 
-            let paperInfo = o.getPaperInfo();
+            let paperInfo: cReportPaperInfo= o.getPaperInfo();
 
             paperInfo.setOrientation(orientation);
             paperInfo.setPaperSize(paperSize);
@@ -72,25 +72,25 @@
         };
 
         self.getcPrint = function(printDialog, deviceName, driverName, port) {
-            let printerConfigInfo = cPrintWMI.getPrinterConfigInfoFromWMI(deviceName);
+            let printerConfigInfo: object= cPrintWMI.getPrinterConfigInfoFromWMI(deviceName);
 
-            let paperSize = getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperSize", printerConfigInfo, "A4") as string);
-            let orientation = cPrintWMI.getPrinterConfigInfoValueFromWMI("Orientation", printerConfigInfo, 1);
+            let paperSize: number= getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperSize", printerConfigInfo, "A4") as string);
+            let orientation: number= cPrintWMI.getPrinterConfigInfoValueFromWMI("Orientation", printerConfigInfo, 1);
 
-            let width = cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperWidth", printerConfigInfo, 210);
-            let height = cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperLength", printerConfigInfo, 297);
+            let width: number= cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperWidth", printerConfigInfo, 210);
+            let height: number= cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperLength", printerConfigInfo, 297);
 
             return getcPrint(printDialog, deviceName, driverName, port, orientation, paperSize, width, height);
         };
 
         self.getcPrinterFromDefaultPrinter = function(printDialog) {
-            let deviceName = "";
-            let driverName = "";
-            let port = "";
-            let paperSize = 0;
-            let orientation = 0;
-            let width = 0;
-            let height = 0;
+            let deviceName: string= "";
+            let driverName: string= "";
+            let port: string= "";
+            let paperSize: number= 0;
+            let orientation: number= 0;
+            let width: number= 0;
+            let height: number= 0;
 
             getDefaultPrinter(deviceName, driverName, port, paperSize, orientation, width, height);
 
@@ -109,16 +109,16 @@
         self.getDefaultPrinter = function(
             deviceName, driverName, port, 
             paperSize, orientation, width, height) {
-            let settings = new PrinterSettings();
+            let settings: PrinterSettings= new PrinterSettings();
 
             deviceName = settings.PrinterName;
 
-            let printerInfo = cPrintWMI.getPrinterInfoFromWMI(settings.PrinterName);
+            let printerInfo: object= cPrintWMI.getPrinterInfoFromWMI(settings.PrinterName);
 
             driverName = cPrintWMI.getPrinterInfoValueFromWMI("DriverName", printerInfo, "") as string;
             port = cPrintWMI.getPrinterInfoValueFromWMI("PortName", printerInfo, "") as string;
 
-            let printerConfigInfo = cPrintWMI.getPrinterConfigInfoFromWMI(settings.PrinterName);
+            let printerConfigInfo: object= cPrintWMI.getPrinterConfigInfoFromWMI(settings.PrinterName);
 
             paperSize = getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperSize", printerConfigInfo, "A4") as string);
             orientation = Convert.ToInt32(cPrintWMI.getPrinterConfigInfoValueFromWMI("Orientation", printerConfigInfo, 1));
@@ -163,7 +163,7 @@
             }
 
             if (orientation === csRptPageOrientation.LANDSCAPE) {
-                let tmp = 0;
+                let tmp: number= 0;
                 tmp = height;
                 height = width;
                 width = tmp;

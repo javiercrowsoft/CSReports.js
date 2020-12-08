@@ -5,18 +5,18 @@
     globalObject.CSReportDll.createCPrinter = function() {
 
         const self = {};
-        const C_MODULE = "cPrinter";
+        const C_MODULE: string= "cPrinter";
 
-        let m_deviceName = "";
-        let m_driverName = "";
-        let m_port = "";
-        let m_paperInfo = new cReportPaperInfo();
+        let m_deviceName: string= "";
+        let m_driverName: string= "";
+        let m_port: string= "";
+        let m_paperInfo: cReportPaperInfo= new cReportPaperInfo();
 
-        let m_copies = 0;
+        let m_copies: number= 0;
 
-        let m_graph = null;
+        let m_graph: Graphics = null;
 
-        let m_printDialog = null;
+        let m_printDialog: PrintDialog = null;
 
         const cPrinter = function(printDialog) {
             m_printDialog = printDialog;
@@ -71,11 +71,11 @@
         };
 
         self.showDialog = function(pages) {
-            let paperSize = 0;
-            let orientation = 0;
-            let fromPage = 0;
-            let toPage = 0;
-            let paperBin = 0;
+            let paperSize: csReportPaperType= 0;
+            let orientation: number= 0;
+            let fromPage: number= 0;
+            let toPage: number= 0;
+            let paperBin: number= 0;
 
             paperSize = m_paperInfo.getPaperSize();
             orientation = m_paperInfo.getOrientation();
@@ -107,7 +107,7 @@
         };
 
         const getPaperSize = function(paperSize) {
-            let size = new PaperSize();
+            let size: PaperSize= new PaperSize();
 
             switch (paperSize) {
                 case csReportPaperType.CSRPTPAPERTYPEA4:

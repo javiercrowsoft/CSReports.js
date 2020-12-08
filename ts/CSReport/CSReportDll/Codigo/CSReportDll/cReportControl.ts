@@ -7,27 +7,27 @@
 
         const self = {};
 
-        let m_label = new cReportLabel();
-        let m_image = new cReportImage();
-        let m_line = new cReportLine();
-        let m_field = new cReportField();
-        let m_typeSection = null;
-        let m_key = "";
-        let m_keyPaint = "";
-        let m_name = "";
-        let m_hasFormulaHide = null;
-        let m_hasFormulaValue = null;
-        let m_controlType = null;
-        let m_formulaHide = new cReportFormula();
-        let m_formulaValue = new cReportFormula();
-        let m_chart = new cReportChart();
-        let m_tag = "";
-        let m_exportColIdx = 0;
-        let m_isFreeCtrl = null;
+        let m_label: cReportLabel= new cReportLabel();
+        let m_image: cReportImage= new cReportImage();
+        let m_line: cReportLine= new cReportLine();
+        let m_field: cReportField= new cReportField();
+        let m_typeSection: csRptSectionType = null;
+        let m_key: string= "";
+        let m_keyPaint: string= "";
+        let m_name: string= "";
+        let m_hasFormulaHide: boolean = null;
+        let m_hasFormulaValue: boolean = null;
+        let m_controlType: csRptControlType = null;
+        let m_formulaHide: cReportFormula= new cReportFormula();
+        let m_formulaValue: cReportFormula= new cReportFormula();
+        let m_chart: cReportChart= new cReportChart();
+        let m_tag: string= "";
+        let m_exportColIdx: number= 0;
+        let m_isFreeCtrl: boolean = null;
 
         // this reference tell in which section line is this control
         //
-        let m_sectionLine = null;
+        let m_sectionLine: cReportSectionLine = null;
 
         const cReportControl = function() {
             m_formulaHide.setName("H");
@@ -206,9 +206,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName(m_key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

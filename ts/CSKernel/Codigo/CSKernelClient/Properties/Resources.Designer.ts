@@ -26,9 +26,9 @@
 
         const self = {};
 
-        let global::System.Resources.ResourceManager resourceMan = null;
+        let global::System.Resources.ResourceManager: static = null;resourceMan;
 
-        let global::System.Globalization.CultureInfo resourceCulture = null;
+        let global::System.Globalization.CultureInfo: static = null;resourceCulture;
 
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         const Resources = function() {
@@ -40,7 +40,7 @@
 UNKNOWN >>         internal static global::System.Resources.ResourceManager ResourceManager {
 UNKNOWN >>             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    let temp = new global::System.Resources.ResourceManager("CSKernelClient.Properties.Resources", typeof(Resources).Assembly);
+                    let temp: global::System.Resources.ResourceManager= new global::System.Resources.ResourceManager("CSKernelClient.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
 
                 return resourceMan;
@@ -63,7 +63,7 @@ UNKNOWN >>             set {
 
 UNKNOWN >>         internal static System.Drawing.Bitmap config_page {
 UNKNOWN >>             get {
-                let obj = ResourceManager.GetObject("config_page", resourceCulture);
+                let obj: object= ResourceManager.GetObject("config_page", resourceCulture);
                 return ();
             }
         }

@@ -120,7 +120,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null) {
-                    c = new cReportPage();
+                    c =  globalObject.CSReportDll.createCReportPage();
                 }
 
                 if (key === "") {
@@ -142,7 +142,7 @@ UNKNOWN >>             get
 
         self.item = function(key) {
             try {
-                let (cReportPage)this.BaseGet(key) = null; ;
+                let (cReportPage)this.BaseGet(key): return = null;;
             }
             catch(ex) {
                 return null;
@@ -151,7 +151,7 @@ UNKNOWN >>             get
 
         self.item = function(index) {
             try {
-                let (cReportPage)this.BaseGet(index) = null; ;
+                let (cReportPage)this.BaseGet(index): return = null;;
             }
             catch(ex) {
                 return null;

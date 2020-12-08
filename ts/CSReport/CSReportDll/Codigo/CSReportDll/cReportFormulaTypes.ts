@@ -142,7 +142,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null) {
-                    c = new cReportFormulaType();
+                    c =  globalObject.CSReportDll.createCReportFormulaType();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -164,16 +164,16 @@ UNKNOWN >>             get
 
         const initialize = function() {
 
-            self.string C_LANGUAGE_DESCRIPT = "language: 1 Spanish, 2 English y 3 French";
-            self.string C_CONTROL_NAME_DESCRIPT = "control_name: an string which identifies the control.";
-            self.string C_COMPARE_DESCRIPT = "It returns a boolean after comparing a control's value with the second argument ";
-            self.string C_VALUE_TO_COMPARE_DESCRIPT = "value: a number or a text to by compared with.";
+            self.string: constC_LANGUAGE_DESCRIPT = "language: 1 Spanish, 2 English y 3 French";
+            self.string: constC_CONTROL_NAME_DESCRIPT = "control_name: an string which identifies the control.";
+            self.string: constC_COMPARE_DESCRIPT = "It returns a boolean after comparing a control's value with the second argument ";
+            self.string: constC_VALUE_TO_COMPARE_DESCRIPT = "value: a number or a text to by compared with.";
 UNKNOWN >>             const string C_GROUP_FUNCTION_DESCRIPT = "It function calculates its value before processing the group."
                                                     + "\r\nWhen CSReport found this function it iterates through the "
                                                     + "main recordset to the last row in the group and calculates "
                                                     + "the $1  of the values in the column refered by the "
                                                     + "column_name parameter.";
-            self.string C_COLUMN_NAME = "column_name: name of the column in the main recordset.\r\n";
+            self.string: constC_COLUMN_NAME = "column_name: name of the column in the main recordset.\r\n";
 UNKNOWN >>             const string C_GROUP_INDEX = "group_index: index of the group"
                                         + "\r\nWhen group_index is equal to -1 the index of the group section in which the control is contained will be used."
                                         + "\r\nWhen group_index is equal to 0 the $1 of the column of every row in the main recordset will be returned."
@@ -183,8 +183,8 @@ UNKNOWN >>             const string C_GROUP_FUNCTION_DESCRIPT2 = "It function ca
                                                     + "\r\nWhen CSReport found this function it iterates through the "
                                                     + "main recordset to the last row in the group and calculates "
                                                     + "the $1.";
-            self.string C_COLUMN_NAME1 = "column_name1: name of the column in the main recordset to summarize.\r\n";
-            self.string C_COLUMN_NAME2 = "column_name2: name of the column in the main recordset to compare with the total.\r\n";
+            self.string: constC_COLUMN_NAME1 = "column_name1: name of the column in the main recordset to summarize.\r\n";
+            self.string: constC_COLUMN_NAME2 = "column_name2: name of the column in the main recordset to compare with the total.\r\n";
 UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the group"
                                         + "\r\nWhen group_index is equal to -1 the index of the group section in which the control is contained will be used."
                                         + "\r\nWhen group_index is equal to 0 the $1 will be evaluated using every row in the main recordset."
@@ -195,7 +195,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // A
 
-            let fi = add(null, csRptFormulaType.CSRPTF_SET_VAR);
+            let fi: cReportFormulaType= add(null, csRptFormulaType.CSRPTF_SET_VAR);
             fi.setName("_setvar");
             fi.setNameUser("Set a variable");
             fi.setDecrip("It sets the value of a variable.\r\n\r\nSyntax: _setVar(variable_name, value)");
@@ -280,7 +280,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi = add(null, csRptFormulaType.CSRPTF_IS_IN_RS);
             fi.setName("_isInRS");
             fi.setNameUser("It is contained in the main recordset");
-            self.returns a boolean value after searching a constant value in a column of the main recordset.\r\n\r\nSyntax: _isInRS(column_name,\"value\")\ncolumn_name: the name of a column in the main recordset\nvalue: an string to be searched (it must be surrounded by double quotes).") = null;
+            self.returns: fi.setDecrip("It = null;a boolean value after searching a constant value in a column of the main recordset.\r\n\r\nSyntax: _isInRS(column_name,\"value\")\ncolumn_name: the name of a column in the main recordset\nvalue: an string to be searched (it must be surrounded by double quotes).");
             fi.setId(csRptFormulaType.CSRPTF_IS_IN_RS);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_IN_RS);
 

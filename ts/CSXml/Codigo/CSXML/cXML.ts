@@ -7,13 +7,13 @@
 
         const self = {};
 
-        const C_MODULE = "cXml";
+        const C_MODULE: string= "cXml";
 
-        let m_name = "";
-        let m_path = "";
-        let m_domDoc = new XmlDocument();
-        let m_commDialog = null;
-        let m_filter = "";
+        let m_name: string= "";
+        let m_path: string= "";
+        let m_domDoc: XmlDocument= new XmlDocument();
+        let m_commDialog: object= null;
+        let m_filter: string= "";
 
         self.getName = function() {
             return m_name;
@@ -24,7 +24,7 @@
         };
 
         self.getPath = function() {
-            let _rtn = "";
+            let _rtn: string= "";
             if (m_path.Substring(m_path.Length - 1) === Path.DirectorySeparatorChar.ToString()) {
                 _rtn = m_path;
             }
@@ -52,7 +52,7 @@
 
         self.openXmlWithDialog = function() {
             try {
-                let file = new CSKernelFile.cFile();
+                let file: CSKernelFile.cFile= new CSKernelFile.cFile();
                 file.setFilter(m_filter);
                 file.init("OpenXmlWithDialog", C_MODULE, m_commDialog);
 
@@ -84,11 +84,11 @@
 
         self.openXml = function() {
             try {
-                let file = "";
-                m_domDoc = new XmlDocument();
+                let file: string= "";
+                m_domDoc =  globalObject.CSReportDll.createXmlDocument();
                 file = getPath() + m_name;
 
-                let fileEx = new CSKernelFile.cFileEx();
+                let fileEx: CSKernelFile.cFileEx= new CSKernelFile.cFileEx();
                 if (fileEx.fileExists(file)) {
                     if (!loadXml(file)) {
                         return false;
@@ -109,14 +109,14 @@
 
         self.newXmlWithDialog = function() {
             try {
-                let msg = "";
-                let file = new CSKernelFile.cFile();
+                let msg: string= "";
+                let file: CSKernelFile.cFile= new CSKernelFile.cFile();
 
                 file.init("NewXmlWithDialog", C_MODULE, m_commDialog);
                 file.setFilter(m_filter);
 
-                let bExists = false;
-                let bReadonly = false;
+                let bExists: boolean= false;
+                let bReadonly: boolean= false;
 
                 if (!file.save(m_name, bExists, bReadonly, ""))  {
                     return false; 
@@ -152,8 +152,8 @@
 
         self.newXml = function() {
             try {
-                m_domDoc = new XmlDocument();
-                let node = m_domDoc.CreateNode(XmlNodeType.Element, "Root", "");
+                m_domDoc =  globalObject.CSReportDll.createXmlDocument();
+                let node: XmlNode= m_domDoc.CreateNode(XmlNodeType.Element, "Root", "");
                 m_domDoc.AppendChild(node);
 
                 return true;
@@ -166,7 +166,7 @@
 
         self.saveWithDialog = function() {
             try {
-                let file = new CSKernelFile.cFile();
+                let file: CSKernelFile.cFile= new CSKernelFile.cFile();
 
                 if (!file.open(m_name, eFileMode.eWrite, false, false, eFileAccess.eLockWrite, false, false))  {
                     return false; 
@@ -205,19 +205,19 @@
         };
 
         self.addPropertyToNodeByTag = function(nodeTag, xProperty) {
-            let w_element = m_domDoc.GetElementsByTagName(nodeTag);
+            let w_element: XmlNodeList= m_domDoc.GetElementsByTagName(nodeTag);
             return addPropertyToNode(w_element.Item(0), xProperty);
         };
 
         self.addPropertyToNode = function(node, xProperty) {
-            let attr = m_domDoc.CreateAttribute(xProperty.getName());
+            let attr: XmlAttribute= m_domDoc.CreateAttribute(xProperty.getName());
             attr.Value = xProperty.getValueString(eTypes.eVariant);
             node.Attributes.Append(attr);
             return true;
         };
 
         self.addBinaryPropertyToNode = function(node, xProperty) {
-            let attr = m_domDoc.CreateAttribute(xProperty.getName());
+            let attr: XmlAttribute= m_domDoc.CreateAttribute(xProperty.getName());
             attr.Value = Convert.ToBase64String(xProperty.getBinaryValue());
             node.Attributes.Append(attr);
             return true;
@@ -228,12 +228,12 @@
         };
 
         self.addNodeToNodeByTag = function(nodeTag, xProperty) {
-            let w_element = m_domDoc.GetElementsByTagName(nodeTag);
+            let w_element: XmlNodeList= m_domDoc.GetElementsByTagName(nodeTag);
             return addNodeToNode(w_element[0], xProperty);
         };
 
         self.addNodeToNode = function(nodeFather, xProperty) {
-            let node = m_domDoc.CreateNode(XmlNodeType.Element, xProperty.getName(), "");
+            let node: XmlNode= m_domDoc.CreateNode(XmlNodeType.Element, xProperty.getName(), "");
             nodeFather.AppendChild(node);
             return node;
         };
@@ -274,15 +274,15 @@
         };
 
         self.getNodeValue = function(node) {
-            let o = null;
-            o = new cXmlProperty();
+            let o: cXmlProperty= null;
+            o =  globalObject.CSReportDll.createCXmlProperty();
             o.setValue(eTypes.eText, node.Name);
             return o;
         };
 
         self.getNodeProperty = function(node, propertyName) {
-            let o = new cXmlProperty();
-            let txt = "";
+            let o: cXmlProperty= new cXmlProperty();
+            let txt: string= "";
 
             if (node.Attributes[propertyName] !== null) {
                 txt = node.Attributes[propertyName].Value;
@@ -295,11 +295,11 @@
         };
 
         self.getBinaryNodeProperty = function(node, propertyName) {
-            let attr = null;
-            let o = new cXmlProperty();
-            let vBuffer = null;
+            let attr: XmlAttribute= null;
+            let o: cXmlProperty= new cXmlProperty();
+            let vBuffer: byte[]= null;
 
-            let element = node;
+            let element: XmlElement= node;
             attr = element.GetAttributeNode(propertyName);
             if (attr !== null) {
                 vBuffer = System.Convert.FromBase64String(attr.Value);

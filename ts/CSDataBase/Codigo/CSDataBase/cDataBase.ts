@@ -13,41 +13,41 @@
     globalObject.CSDataBase.createCDataBase = function() {
 
         const self = {};
-        const c_module = "cDataBase";
-        const c_ErrorSqlInfoAdd = "@@ErrorSqlInfoAdd@@";
+        const c_module: string= "cDataBase";
+        const c_ErrorSqlInfoAdd: string= "@@ErrorSqlInfoAdd@@";
 
-        let m_ocn = null;
-        let m_otxn = null;
-        let m_connect = "";
+        let m_ocn: DbConnection= null;
+        let m_otxn: DbTransaction= null;
+        let m_connect: string= "";
 
-        let m_ors = null;
-        let m_eofField = false;
-        let m_nextField = 0;
-        let m_fieldType = null;
+        let m_ors: DbDataReader= null;
+        let m_eofField: boolean= false;
+        let m_nextField: number= 0;
+        let m_fieldType: eFieldType = null;
 
-        let m_userId = 0;
-        let m_transactionLevel = 0;
+        let m_userId: number= 0;
+        let m_transactionLevel: number= 0;
 
-        let m_serverName = "";
-        let m_userName = "";
-        let m_password = "";
+        let m_serverName: string= "";
+        let m_userName: string= "";
+        let m_password: string= "";
 
-        let m_originalStrConnect = "";
+        let m_originalStrConnect: string= "";
 
-        let m_openRsCancel = false;
-        let m_openRsExDescript = "";
+        let m_openRsCancel: boolean= false;
+        let m_openRsExDescript: string= "";
 
-        let m_commandTimeout = 180;
-        let m_connectionTimeout = 180;
+        let m_commandTimeout: number= 180;
+        let m_connectionTimeout: number= 180;
 
-        let m_maxTryOpenRs = 2;
-        let m_maxTryExecute = 2;
+        let m_maxTryOpenRs: number= 2;
+        let m_maxTryExecute: number= 2;
 
-        let m_lastDbError = "";
+        let m_lastDbError: string= "";
 
-        let m_eof = false;
+        let m_eof: boolean= false;
 
-        let m_databaseEngine = csDatabaseEngine.SQL_SERVER;
+        let m_databaseEngine: csDatabaseEngine= csDatabaseEngine.SQL_SERVER;
 
 //         public event OpenRsProgress openRsProgress;
 
@@ -141,7 +141,7 @@ UNKNOWN >>         public CSOAPI.eServerVersion serverVersion
         {
 UNKNOWN >>             get
             {
-                let ver = "";
+                let ver: string= "";
                 ver = m_ocn.ServerVersion;
 
                 // TODO: this code is for sql server and the "Access if" don't work
@@ -245,11 +245,11 @@ UNKNOWN >>             get { return m_password; }
                            eErrorLevel level)
         {
 
-            let oldCommandTimeout = m_commandTimeout;
+            let oldCommandTimeout: number= m_commandTimeout;
             if (timeout !== -1) {
                 m_commandTimeout = timeout;
             }
-            let rtn = openRs(sqlstmt, ors, function, module, title, level);
+            let rtn: boolean= openRs(sqlstmt, ors, function, module, title, level);
             m_commandTimeout = oldCommandTimeout;
             return rtn;
         };
@@ -292,7 +292,7 @@ UNKNOWN >>             get { return m_password; }
                              string connect,
                              bool useOleDb)
         {
-            let mouseWait = new cMouseWait();
+            let mouseWait: cMouseWait= new cMouseWait();
             try {
                 closeDb();
                 if (m_ocn === null) {
@@ -397,8 +397,8 @@ UNKNOWN >>             DbDataReader ors;
                             function,
                             module,
                             title)) {
-                dt = new List();
-                let o = new DataTable();
+                dt =  globalObject.CSReportDll.createList();
+                let o: var= new DataTable();
                 o.Load(ors);
                 dt.Add(o);
                 return true;
@@ -429,7 +429,7 @@ UNKNOWN >>             DbDataReader ors;
                             module,
                             title)) {
                 dr = ors;
-                dt = new DataTable();
+                dt =  globalObject.CSReportDll.createDataTable();
                 dt.Load(ors);
                 return true;
             }
@@ -449,19 +449,19 @@ UNKNOWN >>             DbDataReader ors;
                              string module,
                              string title)
         {
-            let cancelDialogShowed = false;
-            let f = null;
+            let cancelDialogShowed: boolean= false;
+            let f: fCancelQuery= null;
             ors = null;
             try {
                 // create a command to execute the query
-                let cmd = new cOpenRsCommand();
+                let cmd: cOpenRsCommand= new cOpenRsCommand();
                 cmd.getExecuteCommand(this, sqlstmt);
 
                 // execute in asynchronous mode
                 cmd.execute();
 
-                let seconds = 0;
-                let queryCanceled = false;
+                let seconds: number= 0;
+                let queryCanceled: boolean= false;
 
                 // wait until the query finish
                 while (!cmd.done) {
@@ -469,7 +469,7 @@ UNKNOWN >>             DbDataReader ors;
                     if (showWindowCancel && seconds > 200) {
                         // show the cancel dialog
                         if (!cancelDialogShowed) {
-                            f = new fCancelQuery();
+                            f =  globalObject.CSReportDll.createFCancelQuery();
                             if (m_openRsExDescript !== "") {
                                 f.descript = "Getting data for: " + m_openRsExDescript;
                             }
@@ -521,7 +521,7 @@ UNKNOWN >>             finally
         };
 
         self.asyncOpenRsEx = function(sqlstmt) {
-            let ocmd = createCommand(sqlstmt);
+            let ocmd: DbCommand= createCommand(sqlstmt);
             return ocmd.ExecuteReader(CommandBehavior.Default);
         };
 
@@ -532,7 +532,7 @@ UNKNOWN >>             finally
                            string title,
                            eErrorLevel level)
         {
-            let tryCount = 0;
+            let tryCount: number= 0;
             ors = null;
 
             while (tryCount < m_maxTryOpenRs) {
@@ -559,7 +559,7 @@ UNKNOWN >>             finally
         {
             ors = null;
             try {
-                let ocmd = createCommand(sqlstmt);
+                let ocmd: DbCommand= createCommand(sqlstmt);
                 ors = ocmd.ExecuteReader();
                 return true;
             }
@@ -574,9 +574,9 @@ UNKNOWN >>             finally
         self.disconnectRecordset = function(sqlstmt, dt) {
             dt = null;
             try {
-                let ocmd = createCommand(sqlstmt);
-                let oda = new OracleDataAdapter(ocmd as OracleCommand);
-                dt = new DataTable();
+                let ocmd: DbCommand= createCommand(sqlstmt);
+                let oda: DbDataAdapter= new OracleDataAdapter(ocmd as OracleCommand);
+                dt =  globalObject.CSReportDll.createDataTable();
                 oda.Fill(dt);
                 return true;
             }
@@ -604,7 +604,7 @@ UNKNOWN >>             finally
                                       string title,
                                       eErrorLevel level)
         {
-            let filter = field + " = " + val;
+            let filter: string= field + " = " + val;
             founded = false;
 
             try {
@@ -612,7 +612,7 @@ UNKNOWN >>             finally
                     return false;
                 }
                 else {
-                    let vdr = dt.Select(filter);
+                    let vdr: DataRow[]= dt.Select(filter);
                     founded = vdr.Length > 0;
                     return true;
                 }
@@ -669,13 +669,13 @@ UNKNOWN >>             finally
                                     string title,
                                     eErrorLevel level)
         {
-            let filter = "";
+            let filter: string= "";
             founded = false;
             val = val.ToLower();
 
             try {
                 for(var i_ = 0; i_ < columns.length; i_++) {
-                    let typeCode = System.Type.GetTypeCode(col.GetType()); ;
+                    let typeCode: System.TypeCode= System.Type.GetTypeCode(col.GetType()); ;
                     switch (typeCode)
                     {
                         case System.TypeCode.Char:
@@ -729,7 +729,7 @@ UNKNOWN >>                             int ival;
                             string title,
                             eErrorLevel level)
         {
-            let tryCount = 0;
+            let tryCount: number= 0;
             ors = null;
 
             while (tryCount < m_maxTryExecute) {
@@ -753,7 +753,7 @@ UNKNOWN >>                             int ival;
                               bool showError)
         {
             try {
-                let ocmd = createCommand(sqlstmt);
+                let ocmd: DbCommand= createCommand(sqlstmt);
                 ocmd.ExecuteNonQuery();
                 return true;
             }
@@ -840,7 +840,7 @@ UNKNOWN >>             DateTime dt;
                 return "0";
             }
             else {
-                let s = cUtil.val(number).ToString(new String('#', 27) + "0." + new String('#', 28), CultureInfo.InvariantCulture);
+                let s: var= cUtil.val(number).ToString(new String('#', 27) + "0." + new String('#', 28), CultureInfo.InvariantCulture);
                 s = s.Replace(",", ".");
                 if (s.Substring(s.Length - 1, 0) === ".") {
                     s = s.Substring(0, s.Length - 1);
@@ -1116,7 +1116,7 @@ UNKNOWN >>             string sqlstmt;
                              string title,
                              eErrorLevel level)
         {
-            let mouseWait = new cMouseWait();
+            let mouseWait: cMouseWait= new cMouseWait();
             id = cConstants.C_NO_ID;
             try {
                 if (pGetNewId(table, fieldId, id, false,
@@ -1182,7 +1182,7 @@ UNKNOWN >>                 DbCommand ocmd;
         // sql statment parser functions
 
         self.getSelect = function(sqlstmt) {
-            let i = sqlstmt.ToUpper().IndexOf("FROM");
+            let i: number= sqlstmt.ToUpper().IndexOf("FROM");
             if (i >= 0) {
                 return sqlstmt.Substring(0, i).Trim();
             }
@@ -1192,7 +1192,7 @@ UNKNOWN >>                 DbCommand ocmd;
         };
 
         self.getFrom = function(sqlstmt) {
-            let i = sqlstmt.ToUpper().IndexOf("FROM");
+            let i: number= sqlstmt.ToUpper().IndexOf("FROM");
             if (i >= 0) {
                 sqlstmt = sqlstmt.Substring(i);
                 i = sqlstmt.ToUpper().IndexOf("WHERE");
@@ -1221,7 +1221,7 @@ UNKNOWN >>                 DbCommand ocmd;
         };
 
         self.getWhere = function(sqlstmt) {
-            let i = sqlstmt.ToUpper().IndexOf("WHERE");
+            let i: number= sqlstmt.ToUpper().IndexOf("WHERE");
             if (i >= 0) {
                 sqlstmt = sqlstmt.Substring(i);
                 i = sqlstmt.ToUpper().IndexOf("GROUP BY");
@@ -1244,7 +1244,7 @@ UNKNOWN >>                 DbCommand ocmd;
         };
 
         self.getGroup = function(sqlstmt) {
-            let i = sqlstmt.ToUpper().IndexOf("GROUP BY");
+            let i: number= sqlstmt.ToUpper().IndexOf("GROUP BY");
             if (i >= 0) {
                 sqlstmt = sqlstmt.Substring(i);
                 i = sqlstmt.ToUpper().IndexOf("ORDER BY");
@@ -1261,7 +1261,7 @@ UNKNOWN >>                 DbCommand ocmd;
         };
 
         self.getOrder = function(sqlstmt) {
-            let i = sqlstmt.ToUpper().IndexOf("ORDER BY");
+            let i: number= sqlstmt.ToUpper().IndexOf("ORDER BY");
             if (i >= 0) {
                 return sqlstmt.Substring(i).Trim();
             }
@@ -1272,12 +1272,12 @@ UNKNOWN >>                 DbCommand ocmd;
 
         self.getSearchSqlstmt = function(sqlstmt, toSearch) {
             try {
-                let sqlSelect = getSelect(sqlstmt);
-                let sqlFrom = getFrom(sqlstmt);
-                let sqlWhere = getWhere(sqlstmt);
-                let sqlGroup = getGroup(sqlstmt);
-                let sqlOrder = getOrder(sqlstmt);
-                let filter = "";
+                let sqlSelect: string= getSelect(sqlstmt);
+                let sqlFrom: string= getFrom(sqlstmt);
+                let sqlWhere: string= getWhere(sqlstmt);
+                let sqlGroup: string= getGroup(sqlstmt);
+                let sqlOrder: string= getOrder(sqlstmt);
+                let filter: string= "";
 
                 toSearch = toSearch.Trim();
 
@@ -1289,7 +1289,7 @@ UNKNOWN >>                 DbCommand ocmd;
                         filter = " and (";
                     }
 
-                    let i = 1;
+                    let i: number= 1;
 UNKNOWN >>                     string column;
 
                     column = pGetColumnFromStatement(sqlSelect, i);
@@ -1312,10 +1312,10 @@ UNKNOWN >>                     string column;
 
         const pGetColumnFromStatement = function(sqlstmt, i) {
 UNKNOWN >>             int k;
-            let q = 0;
+            let q: number= 0;
             for(var p = 1; p <= i; p++) {
-                let h = sqlstmt.IndexOf("=", q, StringComparison.Ordinal);
-                let r = sqlstmt.IndexOf(",", q, StringComparison.Ordinal);
+                let h: number= sqlstmt.IndexOf("=", q, StringComparison.Ordinal);
+                let r: number= sqlstmt.IndexOf(",", q, StringComparison.Ordinal);
 
                 if (h < r) {
                     k = h;
@@ -1359,7 +1359,7 @@ UNKNOWN >>             int k;
 
             sqlstmt = sqlstmt.Trim();
             q = sqlstmt.Length - 1;
-            let c = sqlstmt.Substring(q, 1);
+            let c: string= sqlstmt.Substring(q, 1);
             if (c === "]") {
                 do {
                     c = sqlstmt.Substring(q, 1);
@@ -1379,7 +1379,7 @@ UNKNOWN >>             int k;
                 } while (q >= 0);
             }
             q = q < 0 ? 0 : q;
-            let field = sqlstmt.Substring(q).ToLower();
+            let field: string= sqlstmt.Substring(q).ToLower();
             if (String.CompareOrdinal(field, "select") === 0
                 || String.CompareOrdinal(field, "distinct") === 0) {
                 return "";
@@ -1390,27 +1390,27 @@ UNKNOWN >>             int k;
         };
 
         const pGetStmtForColumn = function(column, toSearch, sqlstmt) {
-            let realName = pGetColNameFromColExpression(column, sqlstmt);
+            let realName: string= pGetColNameFromColExpression(column, sqlstmt);
             return "charindex('" + toSearch + "', convert(varchar(4000)," + realName + ")) > 0";
         };
 
         const pGetColNameFromColExpression = function(column, sqlstmt) {
-            let retval = "";
-            let sep = "";
-            let sqlSelect = "";
-            let toSearch = "";
+            let retval: string= "";
+            let sep: string= "";
+            let sqlSelect: string= "";
+            let toSearch: string= "";
 
             sqlSelect = getSelect(sqlstmt).ToLower();
             toSearch = column.ToLower().Trim();
 
-            let i = sqlSelect.IndexOf(toSearch);
+            let i: number= sqlSelect.IndexOf(toSearch);
             if (i >= 0) {
                 retval = sqlSelect.Substring(i + toSearch.Length).Trim().Replace("'", " ").Trim();
                 if (retval.Substring(0, 1) === "=") {
                     retval = retval.Substring(1);
                     sep = ",";
-                    let q = retval.IndexOf(",");
-                    let t = retval.IndexOf(" ");
+                    let q: number= retval.IndexOf(",");
+                    let t: number= retval.IndexOf(" ");
                     if (q < 0) {
                         sep = " ";
                     }
@@ -1419,7 +1419,7 @@ UNKNOWN >>             int k;
                             sep = " ";
                         }
                     }
-                    let w = retval.IndexOf(sep);
+                    let w: number= retval.IndexOf(sep);
                     if (w >= 0) {
                         retval = retval.Substring(0, w).Trim();
                     }
@@ -1476,20 +1476,20 @@ UNKNOWN >>             int k;
         };
 
         const createCommand = function(sqlstmt) {
-            let ocmd = null;
+            let ocmd: DbCommand= null;
 
             switch (m_databaseEngine)
             {
                 case csDatabaseEngine.SQL_SERVER:
-                    ocmd = new SqlCommand(sqlstmt, m_ocn as SqlConnection);
+                    ocmd =  globalObject.CSReportDll.createSqlCommand(sqlstmt, m_ocn as SqlConnection);
                     break;
                 case csDatabaseEngine.POSTGRESQL:
                     throw new NotImplementedException();
                 case csDatabaseEngine.ORACLE:
-                    ocmd = new OracleCommand(sqlstmt, m_ocn as OracleConnection);
+                    ocmd =  globalObject.CSReportDll.createOracleCommand(sqlstmt, m_ocn as OracleConnection);
                     break;
                 case csDatabaseEngine.CSREPORT_WEB:
-                    ocmd = new cJSONCommand(sqlstmt, m_ocn as cJSONServerConnection);
+                    ocmd =  globalObject.CSReportDll.createCJSONCommand(sqlstmt, m_ocn as cJSONServerConnection);
                     break;
             }
 
@@ -1530,11 +1530,11 @@ UNKNOWN >>             int k;
             if (m_databaseEngine === csDatabaseEngine.SQL_SERVER) {
 
                 if (strConnect.IndexOf("Provider=") > -1) {
-                    let dataSource = cUtil.getToken("Data Source", strConnect);
-                    let initialCatalog = cUtil.getToken("Initial Catalog", strConnect);
-                    let trusted = cUtil.getToken("Integrated Security", strConnect);
-                    let userId = cUtil.getToken("User ID", strConnect);
-                    let password = cUtil.getToken("Password", strConnect);
+                    let dataSource: var= cUtil.getToken("Data Source", strConnect);
+                    let initialCatalog: var= cUtil.getToken("Initial Catalog", strConnect);
+                    let trusted: var= cUtil.getToken("Integrated Security", strConnect);
+                    let userId: var= cUtil.getToken("User ID", strConnect);
+                    let password: var= cUtil.getToken("Password", strConnect);
                     if (trusted === "SSPI") {
                         strConnect = String.Format("Data Source={0};Initial Catalog={1};Integrated Security=SSPI;", dataSource, initialCatalog);
                     }
@@ -1553,7 +1553,7 @@ UNKNOWN >>             int k;
         self.create = function() {
 
             const self = {};
-        self.string CSREPORT_WEB = "CSREPORT_WEB";
+        self.string: staticCSREPORT_WEB = "CSREPORT_WEB";
         return self;
 
     }

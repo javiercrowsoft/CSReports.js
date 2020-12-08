@@ -4,11 +4,11 @@
 
 UNKNOWN >>     class cGraphics
     {
-        let mGraphics = null;
+        let mGraphics: Graphics = null;
 UNKNOWN >>         public Graphics Graphics 
         { 
 UNKNOWN >>             get{ return this.mGraphics; } 
-            let this.mGraphics = value; };
+            let this.mGraphics: set{= value; };
         }
 
 
@@ -23,11 +23,11 @@ UNKNOWN >>         #region Fills a Rounded Rectangle with integers.
           int width, int height, int radius) 
         { 
 
-            let fx = Convert.ToSingle(x);
-            let fy = Convert.ToSingle(y);
-            let fwidth = Convert.ToSingle(width);
-            let fheight = Convert.ToSingle(height);
-            let fradius = Convert.ToSingle(radius);
+            let fx: number= Convert.ToSingle(x);
+            let fy: number= Convert.ToSingle(y);
+            let fwidth: number= Convert.ToSingle(width);
+            let fheight: number= Convert.ToSingle(height);
+            let fradius: number= Convert.ToSingle(radius);
             this.FillRoundRectangle(brush, fx, fy, 
               fwidth, fheight, fradius); 
 
@@ -40,8 +40,8 @@ UNKNOWN >>         #region Fills a Rounded Rectangle with continuous numbers.
           float x, float y,
           float width, float height, float radius)
         {
-            let rectangle = new RectangleF(x, y, width, height);
-            let path = this.GetRoundedRect(rectangle, radius);
+            let rectangle: RectangleF= new RectangleF(x, y, width, height);
+            let path: GraphicsPath= this.GetRoundedRect(rectangle, radius);
             this.Graphics.FillPath(brush, path);
         }; 
 UNKNOWN >>         #endregion
@@ -51,11 +51,11 @@ UNKNOWN >>         #region Draws a Rounded Rectangle border with integers.
         self.DrawRoundRectangle = function(pen, x, y, ) {
           int width, int height, int radius) 
         { 
-            let fx = Convert.ToSingle(x);
-            let fy = Convert.ToSingle(y);
-            let fwidth = Convert.ToSingle(width);
-            let fheight = Convert.ToSingle(height);
-            let fradius = Convert.ToSingle(radius);
+            let fx: number= Convert.ToSingle(x);
+            let fy: number= Convert.ToSingle(y);
+            let fwidth: number= Convert.ToSingle(width);
+            let fheight: number= Convert.ToSingle(height);
+            let fradius: number= Convert.ToSingle(radius);
             this.DrawRoundRectangle(pen, fx, fy, fwidth, fheight, fradius); 
         };
 UNKNOWN >>         #endregion 
@@ -66,8 +66,8 @@ UNKNOWN >>         #region Draws a Rounded Rectangle border with continuous numb
           float x, float y,
           float width, float height, float radius) 
         { 
-            let rectangle = new RectangleF(x, y, width, height);
-            let path = this.GetRoundedRect(rectangle, radius);
+            let rectangle: RectangleF= new RectangleF(x, y, width, height);
+            let path: GraphicsPath= this.GetRoundedRect(rectangle, radius);
             this.Graphics.DrawPath(pen, path); 
         }; 
 UNKNOWN >>         #endregion 
@@ -80,7 +80,7 @@ UNKNOWN >>         #region Get the desired Rounded Rectangle path.
             // if corner radius is less than or equal to zero, 
             // return the original rectangle 
             if( radius<=0.0F )  {
-                let mPath = new GraphicsPath();
+                let mPath: GraphicsPath= new GraphicsPath();
                 mPath.AddRectangle(baseRect); 
                 mPath.CloseFigure(); 
                 return mPath;
@@ -94,10 +94,10 @@ UNKNOWN >>         #region Get the desired Rounded Rectangle path.
 
             // create the arc for the rectangle sides and declare 
             // a graphics path object for the drawing 
-            let diameter = radius * 2.0F;
-            let sizeF = new SizeF( diameter, diameter );
-            let arc = new RectangleF( baseRect.Location, sizeF );
-            let path = new System.Drawing.Drawing2D.GraphicsPath();
+            let diameter: number= radius * 2.0F;
+            let sizeF: SizeF= new SizeF( diameter, diameter );
+            let arc: RectangleF= new RectangleF( baseRect.Location, sizeF );
+            let path: GraphicsPath= new System.Drawing.Drawing2D.GraphicsPath();
 
             // top left arc 
             path.AddArc( arc, 180, 90 ); 
@@ -123,13 +123,13 @@ UNKNOWN >>         #region Gets the desired Capsular path.
         const GetCapsule = function(baseRect) {
 UNKNOWN >>             float diameter; 
 UNKNOWN >>             RectangleF arc; 
-            let path = new System.Drawing.Drawing2D.GraphicsPath();
+            let path: GraphicsPath= new System.Drawing.Drawing2D.GraphicsPath();
             try  {
                 if( baseRect.Width>baseRect.Height )  {
                     // return horizontal capsule 
                     diameter = baseRect.Height;
-                    let sizeF = new SizeF(diameter, diameter);
-                    arc = new RectangleF( baseRect.Location, sizeF );
+                    let sizeF: SizeF= new SizeF(diameter, diameter);
+                    arc =  globalObject.CSReportDll.createRectangleF( baseRect.Location, sizeF );
                     path.AddArc( arc, 90, 180); 
                     arc.X = baseRect.Right-diameter;
                     path.AddArc( arc, 270, 180); 
@@ -137,8 +137,8 @@ UNKNOWN >>             RectangleF arc;
                 else if( baseRect.Width < baseRect.Height )  {
                     // return vertical capsule 
                     diameter = baseRect.Width;
-                    let sizeF = new SizeF(diameter, diameter);
-                    arc = new RectangleF( baseRect.Location, sizeF );
+                    let sizeF: SizeF= new SizeF(diameter, diameter);
+                    arc =  globalObject.CSReportDll.createRectangleF( baseRect.Location, sizeF );
                     path.AddArc( arc, 180, 180 ); 
                     arc.Y = baseRect.Bottom-diameter;
                     path.AddArc( arc, 0, 180 ); 

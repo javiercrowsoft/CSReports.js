@@ -114,7 +114,7 @@ UNKNOWN >>             get
 
         self.add = function(name) {
             try {
-                let c = new cReportFormula();
+                let c: cReportFormula= new cReportFormula();
                 c.setName(name);
                 Add(name, c);
                 return c;

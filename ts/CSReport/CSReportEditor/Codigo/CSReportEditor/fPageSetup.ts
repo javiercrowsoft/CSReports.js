@@ -5,11 +5,11 @@
     globalObject.CSReportEditor.createFPageSetup = function() {
 
         const self = {};
-        let m_ok = false;
-        let m_customHeight = null;
-        let m_customWidth = null;
-        let m_orientation = 1;
-        let m_paperSize = csReportPaperType.CSRPTPAPERTYPEA4;
+        let m_ok: boolean= false;
+        let m_customHeight: number = null;
+        let m_customWidth: number = null;
+        let m_orientation: number= 1;
+        let m_paperSize: csReportPaperType= csReportPaperType.CSRPTPAPERTYPEA4;
 
         const fPageSetup = function() {
             InitializeComponent();
@@ -97,7 +97,7 @@
         };
 
         const cb_paperSize_SelectedIndexChanged = function(sender, e) {
-            let enabled = cUtil.listID(cb_paperSize) === csReportPaperType.CSRPTPAPERUSER;
+            let enabled: var= cUtil.listID(cb_paperSize) === csReportPaperType.CSRPTPAPERUSER;
             tx_height.Enabled = enabled;
             tx_width.Enabled = enabled;
         };

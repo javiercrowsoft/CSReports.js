@@ -115,7 +115,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null) {
-                    c = new cParameter();
+                    c =  globalObject.CSReportDll.createCParameter();
                 }
 
                 if (key === "") {
@@ -151,7 +151,7 @@ UNKNOWN >>             get
 
         self.getByPosition = function(position) {
             for (var i = 0; i < count(); i++) {
-                let p = item(i);
+                let p: cParameter= item(i);
                 if (p.getPosition() === position)  {
                     return p;
                 }

@@ -6,13 +6,13 @@
 
         const self = {};
 
-        const C_MODULE = "cReportChartSerie";
+        const C_MODULE: string= "cReportChartSerie";
 
-        let m_valueFieldName = "";
-        let m_labelFieldName = "";
-        let m_color = csColors.ALICEBLUE;
-        let m_valueIndex = 0;
-        let m_labelIndex = 0;
+        let m_valueFieldName: string= "";
+        let m_labelFieldName: string= "";
+        let m_color: csColors= csColors.ALICEBLUE;
+        let m_valueIndex: number= 0;
+        let m_labelIndex: number= 0;
 
         self.getValueFieldName = function() {
             return m_valueFieldName;
@@ -66,9 +66,9 @@
         };
 
         self.save = function(xDoc, nodeFather, index) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Serie_" + index.ToString());
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

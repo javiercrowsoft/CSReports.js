@@ -5,9 +5,9 @@
     globalObject.CSReportEditor.createFSecProperties = function() {
 
         const self = {};
-        let m_formulaHideChanged = null;
-        let m_setFormulaHideChanged = null;
-        let m_formulaHide = "";
+        let m_formulaHideChanged: boolean = null;
+        let m_setFormulaHideChanged: boolean = null;
+        let m_formulaHide: string= "";
 
         const fSecProperties = function() {
             InitializeComponent();

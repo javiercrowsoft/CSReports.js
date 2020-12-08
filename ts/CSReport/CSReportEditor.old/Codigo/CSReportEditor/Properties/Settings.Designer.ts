@@ -18,7 +18,7 @@
 
         const self = {};
 
-        let Settings defaultInstance = ((global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        let Settings: staticdefaultInstance = ((global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
 
 UNKNOWN >>         public static Settings Default {
 UNKNOWN >>             get {

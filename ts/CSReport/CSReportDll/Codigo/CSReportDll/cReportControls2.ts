@@ -138,7 +138,7 @@ UNKNOWN >>             get
         self.add2 = function(c, key) {
             try {
                 if (c === null)  {
-                    c = new cReportControl();
+                    c =  globalObject.CSReportDll.createCReportControl();
                 }
                 if (key === "") {
                     Add(getDummyKey(), c);

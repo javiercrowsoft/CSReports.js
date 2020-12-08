@@ -4,7 +4,7 @@
 
 UNKNOWN >>     class ReportPaintException : System.Exception
     {
-        self.errorCode { get = null; set; };
+        self.errorCode: csRptPaintErrors = null;{ get; set; };
         globalObject.CSReportPaint.createClassName = function() {
 
             const self = {};

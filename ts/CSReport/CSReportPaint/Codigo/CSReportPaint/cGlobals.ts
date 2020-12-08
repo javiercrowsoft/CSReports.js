@@ -5,12 +5,12 @@
     globalObject.CSReportPaint.createCGlobals = function() {
 
         const self = {};
-        let int m_nextKey = 1000;
+        let int: staticm_nextKey = 1000;
 
-        const C_MODULE = "cGlobals";
+        const C_MODULE: string= "cGlobals";
 
-        let Bitmap _flag = new Bitmap(1, 1);
-        let Graphics _g = Graphics.FromImage(_flag);
+        let Bitmap: static_flag = new Bitmap(1, 1);
+        let Graphics: static_g = Graphics.FromImage(_flag);
 
         self.getNextKey = function() {
             m_nextKey++;
@@ -69,7 +69,7 @@
         };
 
         self.getRectFromPaperSize = function(info, paperSize, orientation) {
-            let rtn = new RectangleF();
+            let rtn: RectangleF= new RectangleF();
 
             switch (paperSize)
             {
@@ -95,7 +95,7 @@
 
                 case csReportPaperType.CSRPTPAPERUSER:
                     if (info === null) {
-                        let msg = "The settings for the custome user paper size is not defined";
+                        let msg: string= "The settings for the custome user paper size is not defined";
                         throw new ReportPaintException(csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT, C_MODULE, msg);
                     }
                     else {
@@ -106,7 +106,7 @@
             }
 
             if (orientation === csRptPageOrientation.LANDSCAPE) {
-                let tmp = 0;
+                let tmp: number= 0;
                 tmp = rtn.Height;
                 rtn.Height = rtn.Width;
                 rtn.Width = tmp;
@@ -118,22 +118,22 @@
         // fonts
 
         self.redim = function(vFonts, size) {
-            vFonts = new Font[size];
+            vFonts =  globalObject.CSReportDll.createFont[size];
         };
 
         self.redimPreserve = function(vFonts, size) {
             if (size === 0) {
-                vFonts = new Font[0];
+                vFonts =  globalObject.CSReportDll.createFont[0];
             }
             else {
                 if (vFonts === null) {
-                    vFonts = new Font[size];
+                    vFonts =  globalObject.CSReportDll.createFont[size];
                 }
                 else if (vFonts.Length === 0) {
-                    vFonts = new Font[size];
+                    vFonts =  globalObject.CSReportDll.createFont[size];
                 }
                 else {
-                    let newArray = new Font[size];
+                    let newArray: Font[]= new Font[size];
                     Array.Copy(vFonts, newArray, vFonts.Length);
                     vFonts = newArray;
                 }
@@ -154,13 +154,13 @@
 
             redimPreserve(m_fnt, m_fnt.Length + 1);
 
-            let fontStyle = FontStyle.Regular;
+            let fontStyle: FontStyle= FontStyle.Regular;
             if (font.getBold()) fontStyle = fontStyle | FontStyle.Bold; {
             if (font.getItalic()) fontStyle = fontStyle | FontStyle.Italic; {
             if (font.getUnderline()) fontStyle = fontStyle | FontStyle.Underline; {
             if (font.getStrike()) fontStyle = fontStyle | FontStyle.Strikeout; {
 
-            let afont = new Font(font.getName(), ((font.getSize() > 0) ? font.getSize() : 3), fontStyle);
+            let afont: Font= new Font(font.getName(), ((font.getSize() > 0) ? font.getSize() : 3), fontStyle);
 
             m_fnt[m_fnt.Length - 1] = afont;
 

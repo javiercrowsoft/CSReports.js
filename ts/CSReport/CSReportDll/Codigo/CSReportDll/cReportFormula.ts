@@ -7,10 +7,10 @@
 
         const self = {};
 
-        let m_name = "";
-        let m_text = "";
-        let m_formulasInt = new cReportFormulasInt();
-        let m_notSave = null;
+        let m_name: string= "";
+        let m_text: string= "";
+        let m_formulasInt: cReportFormulasInt= new cReportFormulasInt();
+        let m_notSave: boolean = null;
 
         // when we compile a function we parse the text and extract
         // from the script all internal functions
@@ -24,20 +24,20 @@
         // 
         // compiled text of the function
         //
-        let m_textC = "";
-        let m_idxGroup = 0;
-        let m_idxGroup2 = -9999;
-        let m_whenEval = null;
-        let m_haveToEval = null;
-        let m_lastResult = null;
+        let m_textC: string= "";
+        let m_idxGroup: number= 0;
+        let m_idxGroup2: number= -9999;
+        let m_whenEval: csRptWhenEval = null;
+        let m_haveToEval: boolean = null;
+        let m_lastResult: object= null;
 
         // for debugging
         //
-        let m_controlName = "";
-        let m_sectionLineIndex = 0;
-        let m_sectionName = "";
+        let m_controlName: string= "";
+        let m_sectionLineIndex: number= 0;
+        let m_sectionName: string= "";
 
-        let m_compiledScript = null;
+        let m_compiledScript: Assembly = null;
 
         self.getCompiledScript = function() {
             return m_compiledScript;
@@ -161,9 +161,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName(m_name);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

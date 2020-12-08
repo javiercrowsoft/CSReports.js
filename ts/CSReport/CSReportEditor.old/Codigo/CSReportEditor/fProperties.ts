@@ -5,89 +5,89 @@
     globalObject.CSReportEditor.createFProperties = function() {
 
         const self = {};
-        let m_ok = null;
-        let m_done = null;
+        let m_ok: boolean = null;
+        let m_done: boolean = null;
 
-        let m_index = 0;
-        let m_fieldType = 0;
+        let m_index: number= 0;
+        let m_fieldType: number= 0;
 
-        let m_formulaHide = "";
-        let m_formulaValue = "";
+        let m_formulaHide: string= "";
+        let m_formulaValue: string= "";
 
-        let m_formulaName = "";
+        let m_formulaName: string= "";
 
-        let m_isAccounting = null;
+        let m_isAccounting: boolean = null;
 
-        let m_mouse = null;
+        let m_mouse: cMouseWait = null;
 
-        const C_LABEL = 0;
-        const C_FORMULA = 1;
-        const C_FIELD = 2;
-        const C_IMAGE = 3;
-        const C_CHART = 5;
+        const C_LABEL: number= 0;
+        const C_FORMULA: number= 1;
+        const C_FIELD: number= 2;
+        const C_IMAGE: number= 3;
+        const C_CHART: number= 5;
 
-        let m_textChanged = null;
-        let m_tagChanged = null;
-        let m_fontChanged = null;
-        let m_foreColorChanged = null;
-        let m_backColorChanged = null;
-        let m_formatChanged = null;
-        let m_leftChanged = null;
-        let m_topChanged = null;
-        let m_heightChanged = null;
-        let m_widthChanged = null;
-        let m_symbolChanged = null;
-        let m_transparentChanged = null;
-        let m_strikeChanged = null;
-        let m_underlineChanged = null;
-        let m_wordWrapChanged = null;
-        let m_italicChanged = null;
-        let m_boldChanged = null;
-        let m_alignChanged = null;
-        let m_fontSizeChanged = null;
-        let m_canGrowChanged = null;
-        let m_formulaHideChanged = null;
-        let m_formulaValueChanged = null;
-        let m_idxGroupChanged = null;
-        let m_whenEvalChanged = null;
-        let m_dbFieldChanged = null;
-        let m_setFormulaHideChanged = null;
-        let m_setFormulaValueChanged = null;
-        let m_pictureChanged = null;
-        let m_borderTypeChanged = null;
-        let m_border3DChanged = null;
-        let m_border3DShadowChanged = null;
-        let m_borderRoundedChanged = null;
-        let m_borderWidthChanged = null;
-        let m_borderColorChanged = null;
+        let m_textChanged: boolean = null;
+        let m_tagChanged: boolean = null;
+        let m_fontChanged: boolean = null;
+        let m_foreColorChanged: boolean = null;
+        let m_backColorChanged: boolean = null;
+        let m_formatChanged: boolean = null;
+        let m_leftChanged: boolean = null;
+        let m_topChanged: boolean = null;
+        let m_heightChanged: boolean = null;
+        let m_widthChanged: boolean = null;
+        let m_symbolChanged: boolean = null;
+        let m_transparentChanged: boolean = null;
+        let m_strikeChanged: boolean = null;
+        let m_underlineChanged: boolean = null;
+        let m_wordWrapChanged: boolean = null;
+        let m_italicChanged: boolean = null;
+        let m_boldChanged: boolean = null;
+        let m_alignChanged: boolean = null;
+        let m_fontSizeChanged: boolean = null;
+        let m_canGrowChanged: boolean = null;
+        let m_formulaHideChanged: boolean = null;
+        let m_formulaValueChanged: boolean = null;
+        let m_idxGroupChanged: boolean = null;
+        let m_whenEvalChanged: boolean = null;
+        let m_dbFieldChanged: boolean = null;
+        let m_setFormulaHideChanged: boolean = null;
+        let m_setFormulaValueChanged: boolean = null;
+        let m_pictureChanged: boolean = null;
+        let m_borderTypeChanged: boolean = null;
+        let m_border3DChanged: boolean = null;
+        let m_border3DShadowChanged: boolean = null;
+        let m_borderRoundedChanged: boolean = null;
+        let m_borderWidthChanged: boolean = null;
+        let m_borderColorChanged: boolean = null;
 
-        let m_chartFieldVal1Changed = null;
-        let m_chartFieldVal2Changed = null;
-        let m_chartFieldLbl1Changed = null;
-        let m_chartFieldLbl2Changed = null;
-        let m_chartSizeChanged = null;
-        let m_chartThicknessChanged = null;
-        let m_chartColorSerie1Changed = null;
-        let m_chartColorSerie2Changed = null;
-        let m_chartFormatTypeChanged = null;
-        let m_chartLinesTypeChanged = null;
-        let m_chartTypeChanged = null;
-        let m_chartShowLinesChanged = null;
-        let m_chartShowValuesChanged = null;
-        let m_chartTopChanged = null;
-        let m_chartSortChanged = null;
+        let m_chartFieldVal1Changed: boolean = null;
+        let m_chartFieldVal2Changed: boolean = null;
+        let m_chartFieldLbl1Changed: boolean = null;
+        let m_chartFieldLbl2Changed: boolean = null;
+        let m_chartSizeChanged: boolean = null;
+        let m_chartThicknessChanged: boolean = null;
+        let m_chartColorSerie1Changed: boolean = null;
+        let m_chartColorSerie2Changed: boolean = null;
+        let m_chartFormatTypeChanged: boolean = null;
+        let m_chartLinesTypeChanged: boolean = null;
+        let m_chartTypeChanged: boolean = null;
+        let m_chartShowLinesChanged: boolean = null;
+        let m_chartShowValuesChanged: boolean = null;
+        let m_chartTopChanged: boolean = null;
+        let m_chartSortChanged: boolean = null;
 
-        let m_chartFieldGroupChanged = null;
-        let m_chartGroupValueChanged = null;
+        let m_chartFieldGroupChanged: boolean = null;
+        let m_chartGroupValueChanged: boolean = null;
 
-        let m_isFreeCtrlChanged = null;
-        let m_exportColIdxChanged = null;
+        let m_isFreeCtrlChanged: boolean = null;
+        let m_exportColIdxChanged: boolean = null;
 
-        let m_chartIndex = null;
-        let m_chartFieldType = null;
+        let m_chartIndex: int[] = null;
+        let m_chartFieldType: int[] = null;
 
-        let m_chartGroupIndex = 0;
-        let m_chartGroupFieldType = 0;
+        let m_chartGroupIndex: number= 0;
+        let m_chartGroupFieldType: number= 0;
 
         const fProperties = function() {
             InitializeComponent();
@@ -630,7 +630,7 @@
         };
 
         const cmd_formulaHide_Click = function(sender, e) {
-            let cancel = false;
+            let cancel: boolean= false;
             m_formulaName = "Ocultar";
             showFormula(m_formulaHide, cancel);
             if (!cancel) {
@@ -640,7 +640,7 @@
         };
 
         const cmd_formulaValue_Click = function(sender, e) {
-            let cancel = false;
+            let cancel: boolean= false;
             m_formulaName = "Valor";
             showFormula(m_formulaValue, cancel);
             if (!cancel) {

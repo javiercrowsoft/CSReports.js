@@ -7,16 +7,16 @@
 
         const self = {};
 
-        const C_MODULE = "cReportPaperInfo";
+        const C_MODULE: string= "cReportPaperInfo";
 
-        let m_width = 0;
-        let m_height = 0;
-        let m_paperSize = null;
-        let m_orientation = 0;
-        let m_customHeight = 0;
-        let m_customWidth = 0;
-        let m_pagesToPrint = "";
-        let m_paperBin = 0;
+        let m_width: number= 0;
+        let m_height: number= 0;
+        let m_paperSize: csReportPaperType = null;
+        let m_orientation: number= 0;
+        let m_customHeight: number= 0;
+        let m_customWidth: number= 0;
+        let m_pagesToPrint: string= "";
+        let m_paperBin: number= 0;
 
         self.getWidth = function() {
             return m_width;
@@ -96,10 +96,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
 
-            xProperty = new CSXml.cXmlProperty();
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             nodeObj = nodeFather;
 

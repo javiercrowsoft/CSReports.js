@@ -8,13 +8,13 @@
     globalObject.CSKernelClient.createCError = function() {
 
         const self = {};
-        let String m_lastErrorDescription = "";
-        let String m_lastErrorInfoAdd = "";
-        let String m_lastErrorModule = "";
-        let String m_lastErrorNumber = "";
-        let String m_lastErrorLine = "";
-        let String m_lastErrorFunction = "";
-        let Boolean m_silent = false;
+        let String: staticm_lastErrorDescription = "";
+        let String: staticm_lastErrorInfoAdd = "";
+        let String: staticm_lastErrorModule = "";
+        let String: staticm_lastErrorNumber = "";
+        let String: staticm_lastErrorLine = "";
+        let String: staticm_lastErrorFunction = "";
+        let Boolean: staticm_silent = false;
 
         self.mngError = function(ex, ) {
                              string function,
@@ -34,7 +34,7 @@
                              object connection)
         {
             // TODO: implement function
-            let f = new fErrors();
+            let f: fErrors= new fErrors();
             f.setErrorIcon();
             f.setDetails(ex.Message);
             f.ShowDialog();

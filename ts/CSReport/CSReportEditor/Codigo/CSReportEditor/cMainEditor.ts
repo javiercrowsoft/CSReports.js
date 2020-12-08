@@ -6,45 +6,45 @@
 
 	    const self = {};
 
-	    const C_MODULE = "mPublic";
+	    const C_MODULE: string= "mPublic";
 
-	    const NOERROR = 0;
+	    const NOERROR: number= 0;
 
-		self.CSNOFECHA = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+		self.CSNOFECHA: DateTime= DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
 
-	    self.C_HEIGHT_BAR_SECTION = 120;
-	    self.C_HEIGHT_NEW_SECTION = 350;
+	    self.C_HEIGHT_BAR_SECTION: number= 120;
+	    self.C_HEIGHT_NEW_SECTION: number= 350;
 
-	    const C_KEYRECENTLIST = "Recent";
+	    const C_KEYRECENTLIST: string= "Recent";
 
-	    const C_CONFIG = "Interfaz";
-	    const C_LEFTBARCOLOR = "LeftBarColor";
-	    const C_HIDELEFTBAR = "HideLeftBar";
-	    const C_BACKCOLOR = "BackColor";
-	    const C_WORKFOLDER = "WorkFolder";
+	    const C_CONFIG: string= "Interfaz";
+	    const C_LEFTBARCOLOR: string= "LeftBarColor";
+	    const C_HIDELEFTBAR: string= "HideLeftBar";
+	    const C_BACKCOLOR: string= "BackColor";
+	    const C_WORKFOLDER: string= "WorkFolder";
 
-	    self.int gNextReport = 0;
-	    let cEditor m_editor = null;
+	    self.int: staticgNextReport = 0;
+	    let cEditor: static = null;m_editor;
 
-        let fToolbox m_fToolbox = null;
-        let fControls m_fControls = null;
-        let fTreeViewCtrls m_fTreeViewCtrls = null;
-        let fSearch m_fSearch = null;
+        let fToolbox: staticm_fToolbox = null;
+        let fControls: staticm_fControls = null;
+        let fTreeViewCtrls: staticm_fTreeViewCtrls = null;
+        let fSearch: staticm_fSearch = null;
 
-		self.int gBackColor = 0;
-	    self.int gLeftBarColor = 0;
-	    self.bool gHideLeftBar = null;
-	    self.String gWorkFolder = "";
-	    self.bool gbFirstOpen = null;
+		self.int: staticgBackColor = 0;
+	    self.int: staticgLeftBarColor = 0;
+	    self.bool: static = null;gHideLeftBar;
+	    self.String: staticgWorkFolder = "";
+	    self.bool: static = null;gbFirstOpen;
 
-        let fMain fmain = null;
+        let fMain: static = null;fmain;
 
         self.initEditor = function() {
 
             cRegionalCfg.init();
 
             if (fmain === null) {
-                fmain = new fMain();
+                fmain =  globalObject.CSReportDll.createFMain();
                 fmain.init();
             }
             return fmain;
@@ -62,7 +62,7 @@
 	        m_editor = editor;
 	        setMenu();
             if (editor !== null) {
-                let editorTab = editor.getEditorTab();
+                let editorTab: TabPage= editor.getEditorTab();
                 .SelectedTab = editorTab;
 
                 if (m_fToolbox !== null && !m_fToolbox.IsDisposed && m_fToolbox.Visible) {
@@ -173,7 +173,7 @@
 
         self.getSearch = function(editor) {
             if (m_fSearch === null || m_fSearch.IsDisposed) {
-                m_fSearch = new fSearch();
+                m_fSearch =  globalObject.CSReportDll.createFSearch();
             }
             m_fSearch.setHandler(editor);
             return m_fSearch;
@@ -185,7 +185,7 @@
 
         self.getToolbox = function(editor) {
             if (m_fToolbox === null || m_fToolbox.IsDisposed) {
-                m_fToolbox = new fToolbox();
+                m_fToolbox =  globalObject.CSReportDll.createFToolbox();
             }
             m_fToolbox.setHandler(editor);
             return m_fToolbox;
@@ -197,7 +197,7 @@
 
         self.getCtrlBox = function(editor) {
             if (m_fControls === null || m_fControls.IsDisposed) {
-                m_fControls = new fControls();
+                m_fControls =  globalObject.CSReportDll.createFControls();
             }
             m_fControls.setHandler(editor);
             return m_fControls;
@@ -209,7 +209,7 @@
 
         self.getCtrlTreeBox = function(editor) {
             if (m_fTreeViewCtrls === null || m_fTreeViewCtrls.IsDisposed) {
-                m_fTreeViewCtrls = new fTreeViewCtrls();
+                m_fTreeViewCtrls =  globalObject.CSReportDll.createFTreeViewCtrls();
             }
             m_fTreeViewCtrls.setHandler(editor);
             return m_fTreeViewCtrls;

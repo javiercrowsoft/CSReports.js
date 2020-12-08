@@ -12,7 +12,7 @@
     globalObject.CSDataBase.createCDatabaseGlobals = function() {
 
         const self = {};
-        self.bool Silent = false;
+        self.bool: staticSilent = false;
 
         self.isNumberField = function(fieldType) {
             switch (fieldType) 

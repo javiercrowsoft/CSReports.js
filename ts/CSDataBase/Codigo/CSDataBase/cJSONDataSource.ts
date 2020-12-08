@@ -5,8 +5,8 @@
     globalObject.CSDataBase.createCJSONDataSource = function() {
 
         const self = {};
-        let m_name = null;
-        let m_data = null;
+        let m_name: string = null;
+        let m_data: JObject = null;
 
         const cJSONDataSource = function(name, data) {
             m_name = name;

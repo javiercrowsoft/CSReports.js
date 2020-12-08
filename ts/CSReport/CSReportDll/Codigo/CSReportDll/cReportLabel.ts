@@ -6,12 +6,12 @@
 
         const self = {};
 
-        let m_aspect = null;
-        let m_text = "";
-        let m_canGrow = null;
+        let m_aspect: cReportAspect = null;
+        let m_text: string= "";
+        let m_canGrow: boolean = null;
 
         const cReportLabel = function() {
-            m_aspect = new cReportAspect();
+            m_aspect =  globalObject.CSReportDll.createCReportAspect();
         };
 
         self.getAspect = function() {
@@ -45,9 +45,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = null;
-            let nodeObj = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty= null;
+            let nodeObj: XmlNode= null;
+            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
 
             xProperty.setName("Label");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

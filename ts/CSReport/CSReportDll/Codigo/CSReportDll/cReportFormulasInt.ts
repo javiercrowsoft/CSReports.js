@@ -115,7 +115,7 @@ UNKNOWN >>             get
 
         self.add = function() {
             try {
-                let c = new cReportFormulaInt();
+                let c: cReportFormulaInt= new cReportFormulaInt();
                 this.BaseAdd(getDummyKey(), c);
                 return c;
             }

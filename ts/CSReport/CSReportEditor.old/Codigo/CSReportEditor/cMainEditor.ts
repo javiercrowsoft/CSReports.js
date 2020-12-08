@@ -6,40 +6,40 @@
 
 	    const self = {};
 
-	    const C_MODULE = "mPublic";
+	    const C_MODULE: string= "mPublic";
 
-	    const NOERROR = 0;
+	    const NOERROR: number= 0;
 
-		self.CSNOFECHA = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+		self.CSNOFECHA: DateTime= DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
 
-	    self.C_HEIGHT_BAR_SECTION = 120;
-	    self.C_HEIGHT_NEW_SECTION = 350;
+	    self.C_HEIGHT_BAR_SECTION: number= 120;
+	    self.C_HEIGHT_NEW_SECTION: number= 350;
 
-	    const C_KEYRECENTLIST = "Recent";
+	    const C_KEYRECENTLIST: string= "Recent";
 
-	    const C_CONFIG = "Interfaz";
-	    const C_LEFTBARCOLOR = "LeftBarColor";
-	    const C_HIDELEFTBAR = "HideLeftBar";
-	    const C_BACKCOLOR = "BackColor";
-	    const C_WORKFOLDER = "WorkFolder";
+	    const C_CONFIG: string= "Interfaz";
+	    const C_LEFTBARCOLOR: string= "LeftBarColor";
+	    const C_HIDELEFTBAR: string= "HideLeftBar";
+	    const C_BACKCOLOR: string= "BackColor";
+	    const C_WORKFOLDER: string= "WorkFolder";
 
-	    self.int gNextReport = 0;
-	    let cEditor m_editor = null;
-	    let cEditor m_toolBoxOwner = null;
-	    let cEditor m_ctrlBoxOwner = null;
-	    let cEditor m_ctrlTreeBoxOwner = null;
+	    self.int: staticgNextReport = 0;
+	    let cEditor: static = null;m_editor;
+	    let cEditor: static = null;m_toolBoxOwner;
+	    let cEditor: static = null;m_ctrlBoxOwner;
+	    let cEditor: static = null;m_ctrlTreeBoxOwner;
 
-		self.int gBackColor = 0;
-	    self.int gLeftBarColor = 0;
-	    self.bool gHideLeftBar = null;
-	    self.String gWorkFolder = "";
-	    self.bool gbFirstOpen = null;
+		self.int: staticgBackColor = 0;
+	    self.int: staticgLeftBarColor = 0;
+	    self.bool: static = null;gHideLeftBar;
+	    self.String: staticgWorkFolder = "";
+	    self.bool: static = null;gbFirstOpen;
 
-        let fMain fmain = null;
+        let fMain: static = null;fmain;
 
         self.initEditor = function() {
             if (fmain === null) {
-                fmain = new fMain();
+                fmain =  globalObject.CSReportDll.createFMain();
             }
             return fmain;
         };
@@ -148,8 +148,8 @@
 	self.createRectangle = function() {
 
 	    const self = {};
-		self.height = null;
-		self.width = null;
+		self.height: number = null;
+		self.width: number = null;
 
         const Rectangle = function(rect) {
             height = rect.Height;

@@ -7,33 +7,33 @@
     /// </summary>
 UNKNOWN >>     class AsyncResult : IAsyncResult
     {
-        self.AsyncState { get { return state = null; } };
-        self.AsyncWaitHandle { get { return wait = null; } };
-        self.CompletedSynchronously { get { return lengthCompletedSynchronously && messageCompletedSynchronously = null; } };
-        self.IsCompleted { get { return lengthIsCompleted && messageIsCompleted = null; } };
+        self.AsyncState: object = null;{ get { return state; } };
+        self.AsyncWaitHandle: WaitHandle = null;{ get { return wait; } };
+        self.CompletedSynchronously: boolean = null;{ get { return lengthCompletedSynchronously && messageCompletedSynchronously; } };
+        self.IsCompleted: boolean = null;{ get { return lengthIsCompleted && messageIsCompleted; } };
 
-        let port { get = null; private set; };
-        let callback { get = null; private set; };
-        let state { get = null; private set; };
-        let wait { get = null; private set; };
+        let port: Port = null;{ get; private set; };
+        let callback: AsyncCallback = null;{ get; private set; };
+        let state: object = null;{ get; private set; };
+        let wait: ManualResetEvent = null;{ get; private set; };
 
-        self.lengthIsCompleted = null;
-        self.lengthCompletedSynchronously = null;
-        self.lengthBuffer = null;
-        self.lengthOffset = null;
-        self.lengthException = null;
+        self.lengthIsCompleted: boolean = null;
+        self.lengthCompletedSynchronously: boolean = null;
+        self.lengthBuffer: byte[] = null;
+        self.lengthOffset: number = null;
+        self.lengthException: Exception = null;
 
-        self.messageIsCompleted = null;
-        self.messageCompletedSynchronously = null;
-        self.messageBuffer = null;
-        self.messageOffset = null;
-        self.messageException = null;
+        self.messageIsCompleted: boolean = null;
+        self.messageCompletedSynchronously: boolean = null;
+        self.messageBuffer: byte[] = null;
+        self.messageOffset: number = null;
+        self.messageException: Exception = null;
 
         self. = function(port, callback, state) {
             this.port = port;
             this.callback = callback;
             this.state = state;
-            wait = new ManualResetEvent(false);
+            wait =  globalObject.CSReportDll.createManualResetEvent(false);
 
             lengthIsCompleted = false;
             lengthCompletedSynchronously = false;

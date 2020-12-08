@@ -114,7 +114,7 @@ UNKNOWN >>             get
 
         self.add2 = function(value, key) {
             try {
-                let c = new cReportFormulaParameter();
+                let c: cReportFormulaParameter= new cReportFormulaParameter();
                 c.setValue(value);
                 Add(key, c);
                 return c;
@@ -126,7 +126,7 @@ UNKNOWN >>             get
 
         self.add = function(value) {
             try {
-                let c = new cReportFormulaParameter();
+                let c: cReportFormulaParameter= new cReportFormulaParameter();
                 Add(getDummyKey(), c);
                 c.setValue(value);
                 return c;

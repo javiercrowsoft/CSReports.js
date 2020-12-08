@@ -5,18 +5,18 @@
     globalObject.CSReportEditor.createFToolbox = function() {
 
         const self = {};
-        let m_editor = null;
+        let m_editor: cEditor = null;
 
-        const C_CTRL_IMAGE = 0;
-        const C_LABEL_IMAGE = 1;
-        const C_FORMULA_FOLDER_IMAGE = 2;
-        const C_FORMULA_IMAGE = 3;
+        const C_CTRL_IMAGE: number= 0;
+        const C_LABEL_IMAGE: number= 1;
+        const C_FORMULA_FOLDER_IMAGE: number= 2;
+        const C_FORMULA_IMAGE: number= 3;
 
-        const C_CONTROL_NAME = "C";
-        const C_FORMULA_NAME = "F";
+        const C_CONTROL_NAME: string= "C";
+        const C_FORMULA_NAME: string= "F";
 
-        const C_FIELD_INDEX = "FC";
-        const C_FIELD_TYPE = "FT";
+        const C_FIELD_INDEX: string= "FC";
+        const C_FIELD_TYPE: string= "FT";
 
         const fToolbox = function() {
             InitializeComponent();
@@ -33,16 +33,16 @@
         };
 
         self.addFormula = function(name, controlName, formulaName) {
-            let item = lv_formulas.Items.Add(name, C_FORMULA_IMAGE);
-            let info = "";
+            let item: var= lv_formulas.Items.Add(name, C_FORMULA_IMAGE);
+            let info: var= "";
             info = cUtil.setInfoString(info, C_CONTROL_NAME, controlName);
             info = cUtil.setInfoString(info, C_FORMULA_NAME, formulaName);
             item.Tag = info;
         };
 
         self.addField = function(name, fieldType, fieldIndex) {
-            let item = lv_controls.Items.Add(name, C_CTRL_IMAGE);
-            let info = "";
+            let item: var= lv_controls.Items.Add(name, C_CTRL_IMAGE);
+            let info: var= "";
             info = cUtil.setInfoString(info, C_FIELD_INDEX, fieldType.ToString());
             info = cUtil.setInfoString(info, C_FIELD_TYPE, fieldIndex.ToString());
             item.Tag = info;

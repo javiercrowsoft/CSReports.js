@@ -119,7 +119,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c = new cReportPageField();
+                    c =  globalObject.CSReportDll.createCReportPageField();
                 }
 
                 if (key === "") {

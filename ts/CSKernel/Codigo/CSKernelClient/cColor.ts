@@ -10,7 +10,7 @@
                 return Color.FromArgb(rgb);
             }
             else {
-                let values = BitConverter.GetBytes(rgb);
+                let values: byte[]= BitConverter.GetBytes(rgb);
                 if (!BitConverter.IsLittleEndian) Array.Reverse(values); {
                 return Color.FromArgb(values[2], values[1], values[0]);
             }

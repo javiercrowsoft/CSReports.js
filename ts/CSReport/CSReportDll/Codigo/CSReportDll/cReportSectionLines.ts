@@ -9,10 +9,10 @@
 
         // it is a reference to the controls collection of cReport
         //
-        let m_copyColl = null;
-        let m_typeSection = null;
-        let m_coll = new Hashtable();
-        let m_keys = new List();
+        let m_copyColl: cReportControls2 = null;
+        let m_typeSection: csRptSectionType = null;
+        let m_coll: Hashtable= new Hashtable();
+        let m_keys: List= new List();
 
         // Creates an empty collection.
         const cReportSectionLines = function() {
@@ -27,7 +27,7 @@
         };
 
         self.setCopyColl = function(rhs) {
-            let sectionLn = null;
+            let sectionLn: cReportSectionLine= null;
             m_copyColl = rhs;
 
             for(var _i = 0; _i < this.count(); _i++) {
@@ -46,7 +46,7 @@
         self.add = function(c, key, index) {
             try {
                 if (c === null)  {
-                    c = new cReportSectionLine();
+                    c =  globalObject.CSReportDll.createCReportSectionLine();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -82,7 +82,7 @@
 
         self.clear = function() {
             try {
-                let n = this.count();
+                let n: number= this.count();
                 for(var i = 0; i < n; i++) {
                     remove(0);
                 }
@@ -94,7 +94,7 @@
 
         self.remove = function(key) {
             try {
-                let w_item = item(key);
+                let w_item: cReportSectionLine= item(key);
                 if (w_item !== null) {
                     if (w_item.getControls() !== null) {
                         w_item.getControls().clear();
@@ -113,7 +113,7 @@
 
         self.remove = function(index) {
             try {
-                let w_item = item(index);
+                let w_item: cReportSectionLine= item(index);
                 if (w_item !== null) {
                     if (w_item.getControls() !== null) {
                         w_item.getControls().clear();

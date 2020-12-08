@@ -4,7 +4,7 @@
 
 UNKNOWN >>     static class Program
     {
-		let ILog log = LogManager.GetLogger(typeof(Program));
+		let ILog: staticlog = LogManager.GetLogger(typeof(Program));
 
         /// <summary>
         /// The main entry point for the application.

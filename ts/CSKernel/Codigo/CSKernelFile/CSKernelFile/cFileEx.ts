@@ -6,7 +6,7 @@
 
         const self = {};
 
-        const C_MODULE = "cFileEx";
+        const C_MODULE: string= "cFileEx";
 
         self.fileGetName = function(fullPath) {
             return getFileNameWithoutExt(fullPath);
@@ -21,8 +21,8 @@
         };
 
         self.fileGetPath = function(fullPath) {
-            let path = "";
-            let fileName = "";
+            let path: string= "";
+            let fileName: string= "";
 
             separatePathAndFileName(fullPath, path, fileName);
 
@@ -30,10 +30,10 @@
         };
 
         self.fileGetFileExt = function(fullPath) {
-            let path = "";
-            let fileName = "";
-            let pos = 0;
-            let c = "";
+            let path: string= "";
+            let fileName: string= "";
+            let pos: number= 0;
+            let c: string= "";
 
             separatePathAndFileName(fullPath, path, fileName);
 
@@ -94,10 +94,10 @@
         };
 
         self.getFileNameWithoutExt = function(fullPath) {
-            let path = "";
-            let fileName = "";
-            let pos = 0;
-            let sep = "";
+            let path: string= "";
+            let fileName: string= "";
+            let pos: number= 0;
+            let sep: string= "";
 
             separatePathAndFileName(fullPath, path, fileName);
             pos = fileName.Length;
@@ -124,8 +124,8 @@
         };
 
         self.separatePathAndFileName = function(fullPath, path, fileName) {
-            let pos = 0;
-            let sep = "";
+            let pos: number= 0;
+            let sep: string= "";
 
             pos = fullPath.Length;
 

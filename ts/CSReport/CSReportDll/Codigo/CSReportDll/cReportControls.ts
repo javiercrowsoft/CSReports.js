@@ -97,17 +97,17 @@ UNKNOWN >>             get
             this.BaseClear();
         };
 
-        const C_MODULE = "cReportControls";
+        const C_MODULE: string= "cReportControls";
 
         // it is a reference to the controls collection of cReport
         //
-        let m_copyColl = null;
-        let m_typeSection = null;
-        let m_collByLeft = null;
+        let m_copyColl: cReportControls2 = null;
+        let m_typeSection: csRptSectionType = null;
+        let m_collByLeft: int[] = null;
 
         // this reference tell in which section line is this controls collection
         //
-        let m_sectionLine = null;
+        let m_sectionLine: cReportSectionLine = null;
 
         self.getTypeSection = function() {
             return m_typeSection;
@@ -132,7 +132,7 @@ UNKNOWN >>             get
         self.setSectionLine = function(rhs) {
             m_sectionLine = rhs;
 
-            let ctrl = null;
+            let ctrl: cReportControl= null;
             for(var _i = 0; _i < this.Count; _i++) {
                 ctrl = item(_i);
                 ctrl.setSectionLine(rhs);
@@ -151,7 +151,7 @@ UNKNOWN >>             get
             try {
 
                 if (c === null)  {
-                    c = new cReportControl();
+                    c =  globalObject.CSReportDll.createCReportControl();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -180,7 +180,7 @@ UNKNOWN >>             get
 
         self.clear = function() {
             try {
-                let n = this.count();
+                let n: number= this.count();
                 for(var i = 0; i < n; i++) {
                     remove(0);
                 }
@@ -236,11 +236,11 @@ UNKNOWN >>             get
         };
 
         self.orderCollByLeft = function() {
-            let j = 0;
-            let i = 0;
-            let tmp = 0;
-            let ctl1 = null;
-            let ctl2 = null;
+            let j: number= 0;
+            let i: number= 0;
+            let tmp: number= 0;
+            let ctl1: cReportControl= null;
+            let ctl2: cReportControl= null;
 
             G.redim(m_collByLeft, this.Count);
 
@@ -276,7 +276,7 @@ UNKNOWN >>             get
         };
 
         // Track whether Dispose has been called.
-        let disposed = false;
+        let disposed: boolean= false;
 
         // Dispose(bool disposing) executes in two distinct scenarios.
         // If disposing equals true, the method has been called directly

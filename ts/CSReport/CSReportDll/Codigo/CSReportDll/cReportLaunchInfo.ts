@@ -7,22 +7,22 @@
 
         const self = {};
 
-        const C_LAUNCHINFO = "RptLaunchInfo";
+        const C_LAUNCHINFO: string= "RptLaunchInfo";
 
-        let m_file = "";
-        let m_dataSource = null;
-        let m_sqlstmt = "";
-        let m_strConnect = "";
-        let m_printer = null;
-        let m_showPrintersDialog = null;
-        let m_internalPreview = null;
-        let m_action = null;
-        let m_copies = 0;
-        let m_silent = null;
-        let m_fileFormat = null;
-        let m_hWnd = 0;
+        let m_file: string= "";
+        let m_dataSource: object= null;
+        let m_sqlstmt: string= "";
+        let m_strConnect: string= "";
+        let m_printer: cPrinter = null;
+        let m_showPrintersDialog: boolean = null;
+        let m_internalPreview: boolean = null;
+        let m_action: csRptLaunchAction = null;
+        let m_copies: number= 0;
+        let m_silent: boolean = null;
+        let m_fileFormat: csRptFileFormat = null;
+        let m_hWnd: number= 0;
 
-        let m_objPaint = null;
+        let m_objPaint: CSIReportPrint.cIReportPrint = null;
 
         self.getHwnd = function() {
             return m_hWnd;
@@ -140,7 +140,7 @@
             if (m_printer === null) { return; }
 
             if (paperBin.Length === 0) {
-                let idPaperBin = 0;
+                let idPaperBin: number= 0;
                 idPaperBin = cPrintAPI.printerPaperBinNameToId(m_printer.getDeviceName(),
                                                                 m_printer.getPort(), 
                                                                 paperBin);
@@ -163,8 +163,8 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty = new CSXml.cXmlProperty();
-            let nodeObj = null;
+            let xProperty: CSXml.cXmlProperty= new CSXml.cXmlProperty();
+            let nodeObj: XmlNode= null;
 
             xProperty.setName(C_LAUNCHINFO);
 

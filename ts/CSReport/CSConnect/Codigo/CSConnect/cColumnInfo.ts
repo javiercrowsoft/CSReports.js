@@ -7,15 +7,15 @@
 
         const self = {};
 
-        const C_MODULE = "cColumnInfo";
+        const C_MODULE: string= "cColumnInfo";
 
-        let m_name = "";
-        let m_columnType = null;
+        let m_name: string= "";
+        let m_columnType: CSDataBase.csDataType = null;
 
         // TODO: remove me
         // private String m_value = "";
-        let m_position = 0;
-        let m_key = "";
+        let m_position: number= 0;
+        let m_key: string= "";
 
         self.getKey = function() {
             return m_key;

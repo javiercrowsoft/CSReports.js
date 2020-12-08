@@ -116,7 +116,7 @@ UNKNOWN >>             get
             try {
 
                 if (c === null) {
-                    c = new cColumnInfo();
+                    c =  globalObject.CSReportDll.createCColumnInfo();
                 }
 
                 if (key === "") {
@@ -163,8 +163,8 @@ UNKNOWN >>             get
         const createColumnsInfoEnumerator = function() {
 
             const self = {};
-            self.columnsInfo = null;
-            let position = -1;
+            self.columnsInfo: cColumnsInfo = null;
+            let position: number= -1;
 
             //constructor
             const ColumnsInfoEnumerator = function(list) {

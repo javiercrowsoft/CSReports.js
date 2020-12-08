@@ -5,7 +5,7 @@
     globalObject.CSChartServer.createCWebChart = function() {
 
         const self = {};
-        let m_items = null;
+        let m_items: cWebChartItems = null;
 
         self.getItems = function() {
             return m_items;

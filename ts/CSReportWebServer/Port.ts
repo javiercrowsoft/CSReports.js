@@ -18,12 +18,12 @@
         /// <summary>
         /// Native messaging input stream.
         /// </summary>
-        let istream = null;
+        let istream: Stream = null;
 
         /// <summary>
         /// Native messaging output stream.
         /// </summary>
-        let ostream = null;
+        let ostream: Stream = null;
 
         /// <summary>
         /// Creates a new native messaging port for stdandard input and output streams.
@@ -57,8 +57,8 @@
         /// <exception cref="ObjectDisposedException">The input stream was closed.</exception>
         /// <exception cref="NotSupportedException">The input stream does not support read operation.</exception>
         self.BeginRead = function(callback, state) {
-            let ar = new AsyncResult(this, callback, state);
-            ar.lengthBuffer = new byte[4];
+            let ar: AsyncResult= new AsyncResult(this, callback, state);
+            ar.lengthBuffer =  globalObject.CSReportDll.createByte[4];
             ar.lengthOffset = 0;
             istream.BeginRead(
                 ar.lengthBuffer,
@@ -83,7 +83,7 @@
                 //Debug.Assert(lengthAsyncResult.IsCompleted === true);
                 ar.lengthIsCompleted = lengthAsyncResult.IsCompleted;
                 ar.lengthCompletedSynchronously = lengthAsyncResult.CompletedSynchronously;
-                let bytesRead = istream.EndRead(lengthAsyncResult);
+                let bytesRead: number= istream.EndRead(lengthAsyncResult);
                 Debug.Assert( && (bytesRead <= ar.lengthBuffer.Length));
                 if (bytesRead === 0) {
                     if (ar.lengthOffset === 0) throw new EndOfInputStreamException("End of input stream."); {
@@ -99,9 +99,9 @@
                         ar);
                     return;
                 }
-                let messageLength = System.BitConverter.ToInt32(ar.lengthBuffer, 0);
+                let messageLength: number= System.BitConverter.ToInt32(ar.lengthBuffer, 0);
                 if (messageLength <= 0) throw new ProtocolErrorException(string.Format("Read zero or negative input message length : {0}", messageLength)); {
-                ar.messageBuffer = new byte[messageLength];
+                ar.messageBuffer =  globalObject.CSReportDll.createByte[messageLength];
                 ar.messageOffset = 0;
                 istream.BeginRead(
                     ar.messageBuffer,
@@ -131,7 +131,7 @@
                 //Debug.Assert(messageAsyncResult.IsCompleted === true);
                 ar.messageIsCompleted = messageAsyncResult.IsCompleted;
                 ar.messageCompletedSynchronously = messageAsyncResult.CompletedSynchronously;
-                let bytesRead = istream.EndRead(messageAsyncResult);
+                let bytesRead: number= istream.EndRead(messageAsyncResult);
                 Debug.Assert( && (bytesRead <= ar.messageBuffer.Length));
                 if (bytesRead === 0) throw new ProtocolErrorException("Unexpected end of input stream."); {
                 if (bytesRead < ar.messageBuffer.Length) {
@@ -177,7 +177,7 @@
             if (asyncResult === null) throw new ArgumentNullException("asyncResult"); {
             if (!typeof(AsyncResult).IsInstanceOfType(asyncResult)) throw new ArgumentException(string.Format("Argument 'asyncResult' must be instance of {0}", typeof(AsyncResult))); {
 
-            let ar = asyncResult;
+            let ar: AsyncResult= asyncResult;
             ar.wait.WaitOne();
 
             if (ar.lengthException !== null) throw ar.lengthException; {
@@ -208,7 +208,7 @@ UNKNOWN >>             string message;
         /// <exception cref="OutOfMemoryException">The allocation of the native message buffer has failed.</exception>
         self.BeginWrite = function(message, callback, state) {
             if (message === null) throw new ArgumentNullException("message"); {
-            let ar = new AsyncResult(this, callback, state);
+            let ar: AsyncResult= new AsyncResult(this, callback, state);
             try {
                 ar.messageBuffer = System.Text.Encoding.UTF8.GetBytes(message);
                 ar.messageOffset = 0;
@@ -298,7 +298,7 @@ UNKNOWN >>             string message;
         self.EndWrite = function(asyncResult) {
             if (asyncResult === null) throw new ArgumentNullException("asyncResult"); {
             if (!typeof(AsyncResult).IsInstanceOfType(asyncResult)) throw new ArgumentException(string.Format("Argument 'asyncResult' must be instance of {0}", typeof(AsyncResult))); {
-            let ar = asyncResult;
+            let ar: AsyncResult= asyncResult;
             ar.wait.WaitOne();
             if (ar.lengthException !== null) throw ar.lengthException; {
             if (ar.messageException !== null) throw ar.messageException; {

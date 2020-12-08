@@ -5,28 +5,28 @@
     globalObject.CSKernelClient.createCGlobals = function() {
 
         const self = {};
-        self.String gAppName = "";
-        self.String gAppPath = "";
-        self.String gDefaultHelpFile = "";
+        self.String: staticgAppName = "";
+        self.String: staticgAppPath = "";
+        self.String: staticgDefaultHelpFile = "";
 
-        self.String gErrorDB = "";
+        self.String: staticgErrorDB = "";
 
         // to send emails with errors to crowsoft
         //
-        self.String gEmailServer = "";
-        self.String gEmailAddress = "";
-        self.int gEmailPort = 0;
-        self.String gEmailUser = "";
-        self.String gEmailPwd = "";
+        self.String: staticgEmailServer = "";
+        self.String: staticgEmailAddress = "";
+        self.int: staticgEmailPort = 0;
+        self.String: staticgEmailUser = "";
+        self.String: staticgEmailPwd = "";
 
-        self.String gEmailErrDescrip = "";
+        self.String: staticgEmailErrDescrip = "";
 
-        self.bool G_FormResult = null;
+        self.bool: static = null;G_FormResult;
 
         // used for fEditar to return the result.
-        self.String G_InputValue = "";
+        self.String: staticG_InputValue = "";
 
-        self.bool gNoChangeMouseCursor = null;
+        self.bool: static = null;gNoChangeMouseCursor;
         return self;
 
     }

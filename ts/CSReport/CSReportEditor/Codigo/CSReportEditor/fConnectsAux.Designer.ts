@@ -6,7 +6,7 @@ UNKNOWN >>     partial class fConnectsAux
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components = null;
+        let components: System.ComponentModel.IContainer= null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -26,7 +26,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
         /// the contents of this method with the code editor.
         /// </summary>
         const InitializeComponent = function() {
-            this.components = new System.ComponentModel.Container();
+            this.components =  globalObject.CSReportDll.createSystem.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Text = "fConnectsAux";
         };
