@@ -42,6 +42,16 @@ You should have received a copy of the GNU General Public License along with thi
 
 Created by Javier
 
+## Setup
+
+Install TypeScript
+
+npm install typescript --save-dev
+
+npm install -g npx
+
+
+
 http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
