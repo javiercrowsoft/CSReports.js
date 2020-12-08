@@ -11,4 +11,6 @@ npm-debug.log
 .idea/
 CSReports/.vs/
 
+dist/
+
 
