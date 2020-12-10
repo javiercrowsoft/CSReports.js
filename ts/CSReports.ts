@@ -6,6 +6,7 @@ interface ICSReports {
     CSChartServer: {
         createCWebChart: () =>  CSChartServer.IcWebChart;
         createCWebChartItem: () =>  CSChartServer.IcWebChartItem;
+        createCWebChartItems: () =>  CSChartServer.IcWebChartItems;
     },
     log: (msg: string, printStackTrace?: boolean) => void
 }
