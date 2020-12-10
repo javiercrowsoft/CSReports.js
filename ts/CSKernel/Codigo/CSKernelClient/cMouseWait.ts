@@ -6,8 +6,9 @@
 
     globalObject.CSKernelClient.createCMouseWait = function() {
 
-        const self = {};
-        let m_lastCursor: Cursor= null;
+        // @ts-ignore
+        let self: CSKernelClient.IcMouseWait = {};
+        let m_lastCursor: Cursor = null;
 
         self.Dispose = function() {
             if (m_lastCursor !== null) {
@@ -21,5 +22,14 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IcMouseWait {
+
+    Dispose: () => void;
+  }
+}

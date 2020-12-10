@@ -24,7 +24,8 @@
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     globalObject.CSReportPreview.Properties.createResources = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportPreview.Properties.IResources = {};
 
         let global::System.Resources.ResourceManager: static = null;resourceMan;
 
@@ -40,7 +41,7 @@
 UNKNOWN >>         internal static global::System.Resources.ResourceManager ResourceManager {
 UNKNOWN >>             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    let temp: global::System.Resources.ResourceManager= new global::System.Resources.ResourceManager("CSReportPreview.Properties.Resources", typeof(Resources).Assembly);
+                    let temp: global::System.Resources.ResourceManager = new global::System.Resources.ResourceManager("CSReportPreview.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
 
                 return resourceMan;
@@ -62,5 +63,13 @@ UNKNOWN >>             set {
         }
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportPreview.Properties {
+
+  export interface IResources {
+
+  }
+}

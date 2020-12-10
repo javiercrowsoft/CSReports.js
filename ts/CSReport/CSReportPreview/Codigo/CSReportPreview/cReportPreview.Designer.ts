@@ -1,19 +1,21 @@
 (function(globalObject) {
     globalObject.CSReportPreview = globalObject.CSReportPreview || {};
 
-UNKNOWN >>     partial class cReportPreview
-    {
+    globalObject.CSReportPreview.createCReportPreview = function() {
+
+        // @ts-ignore
+        let self: CSReportPreview.IcReportPreview = {};
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer= null;
+        let components: System.ComponentModel.IContainer = null;
 
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self. = function(disposing) {
-            const  = function(null) {
+        self.Dispose = function(disposing) {
+            if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,22 +28,22 @@ UNKNOWN >>         #region Component Designer generated code
         /// the contents of this method with the code editor.
         /// </summary>
         const InitializeComponent = function() {
-            let resources: System.ComponentModel.ComponentResourceManager= new System.ComponentModel.ComponentResourceManager(typeof(cReportPreview));
-            this.toolStrip1 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStrip();
-            this.tsbFirstPage =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.tsbPreviousPage =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.tsbPage =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripTextBox();
-            this.tsbPages =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripLabel();
-            this.tsbNextPage =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.tsbLastPage =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.tsbPrint =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.tsbExportPDF =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.pnEditor =  globalObject.CSReportDll.createSystem.Windows.Forms.Panel();
-            this.pnReport =  globalObject.CSReportDll.createSystem.Windows.Forms.PictureBox();
-            this.pnRule =  globalObject.CSReportDll.createSystem.Windows.Forms.PictureBox();
-            this.tableLayoutPanel1 =  globalObject.CSReportDll.createSystem.Windows.Forms.TableLayoutPanel();
+            let resources: System.ComponentModel.ComponentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(cReportPreview));
+            this.toolStrip1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStrip();
+            this.tsbFirstPage = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.tsbPreviousPage = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.tsbPage = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripTextBox();
+            this.tsbPages = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripLabel();
+            this.tsbNextPage = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.tsbLastPage = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.tsbPrint = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.tsbExportPDF = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.pnEditor = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Panel();
+            this.pnReport = UNKNOWN >>  can't find constructor for class System.Windows.Forms.PictureBox();
+            this.pnRule = UNKNOWN >>  can't find constructor for class System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TableLayoutPanel();
             this.toolStrip1.SuspendLayout();
             this.pnEditor.SuspendLayout();
             ().BeginInit();
@@ -62,9 +64,9 @@ UNKNOWN >>         #region Component Designer generated code
             this.tsbPrint,
             this.toolStripSeparator2,
             this.tsbExportPDF});
-            this.toolStrip1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 0);
+            this.toolStrip1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(840, 25);
+            this.toolStrip1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(840, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -74,9 +76,9 @@ UNKNOWN >>         #region Component Designer generated code
             this.tsbFirstPage.Image = ((resources.GetObject("tsbFirstPage.Image")));
             this.tsbFirstPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFirstPage.Name = "tsbFirstPage";
-            this.tsbFirstPage.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.tsbFirstPage.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.tsbFirstPage.Text = "toolStripButton1";
-            this.tsbFirstPage.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.tsbFirstPage_Click);
+            this.tsbFirstPage.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.tsbFirstPage_Click);
             // 
             // tsbPreviousPage
             // 
@@ -84,21 +86,21 @@ UNKNOWN >>         #region Component Designer generated code
             this.tsbPreviousPage.Image = ((resources.GetObject("tsbPreviousPage.Image")));
             this.tsbPreviousPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbPreviousPage.Name = "tsbPreviousPage";
-            this.tsbPreviousPage.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.tsbPreviousPage.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.tsbPreviousPage.Text = "toolStripButton2";
-            this.tsbPreviousPage.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.tsbPreviousPage_Click);
+            this.tsbPreviousPage.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.tsbPreviousPage_Click);
             // 
             // tsbPage
             // 
             this.tsbPage.Name = "tsbPage";
-            this.tsbPage.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(40, 25);
-            this.tsbPage.KeyUp +=  globalObject.CSReportDll.createSystem.Windows.Forms.KeyEventHandler(this.tsbPage_KeyUp);
+            this.tsbPage.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(40, 25);
+            this.tsbPage.KeyUp += UNKNOWN >>  can't find constructor for class System.Windows.Forms.KeyEventHandler(this.tsbPage_KeyUp);
             // 
             // tsbPages
             // 
             this.tsbPages.AutoSize = false;
             this.tsbPages.Name = "tsbPages";
-            this.tsbPages.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(40, 22);
+            this.tsbPages.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(40, 22);
             this.tsbPages.Text = "0";
             // 
             // tsbNextPage
@@ -107,9 +109,9 @@ UNKNOWN >>         #region Component Designer generated code
             this.tsbNextPage.Image = ((resources.GetObject("tsbNextPage.Image")));
             this.tsbNextPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbNextPage.Name = "tsbNextPage";
-            this.tsbNextPage.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.tsbNextPage.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.tsbNextPage.Text = "toolStripButton3";
-            this.tsbNextPage.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.tsbNextPage_Click);
+            this.tsbNextPage.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.tsbNextPage_Click);
             // 
             // tsbLastPage
             // 
@@ -117,14 +119,14 @@ UNKNOWN >>         #region Component Designer generated code
             this.tsbLastPage.Image = ((resources.GetObject("tsbLastPage.Image")));
             this.tsbLastPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbLastPage.Name = "tsbLastPage";
-            this.tsbLastPage.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.tsbLastPage.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.tsbLastPage.Text = "toolStripButton4";
-            this.tsbLastPage.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.tsbLastPage_Click);
+            this.tsbLastPage.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.tsbLastPage_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(6, 25);
             // 
             // tsbPrint
             // 
@@ -132,14 +134,14 @@ UNKNOWN >>         #region Component Designer generated code
             this.tsbPrint.Image = ((resources.GetObject("tsbPrint.Image")));
             this.tsbPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbPrint.Name = "tsbPrint";
-            this.tsbPrint.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.tsbPrint.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.tsbPrint.Text = "toolStripButton5";
-            this.tsbPrint.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.tsbPrint_Click);
+            this.tsbPrint.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.tsbPrint_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(6, 25);
             // 
             // tsbExportPDF
             // 
@@ -147,38 +149,38 @@ UNKNOWN >>         #region Component Designer generated code
             this.tsbExportPDF.Image = ((resources.GetObject("tsbExportPDF.Image")));
             this.tsbExportPDF.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbExportPDF.Name = "tsbExportPDF";
-            this.tsbExportPDF.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.tsbExportPDF.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.tsbExportPDF.Text = "toolStripButton6";
-            this.tsbExportPDF.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.tsbExportPDF_Click);
+            this.tsbExportPDF.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.tsbExportPDF_Click);
             // 
             // pnEditor
             // 
             this.pnEditor.AutoScroll = true;
             this.pnEditor.Controls.Add(this.pnReport);
             this.pnEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnEditor.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(60, 0);
-            this.pnEditor.Margin =  globalObject.CSReportDll.createSystem.Windows.Forms.Padding(0);
+            this.pnEditor.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(60, 0);
+            this.pnEditor.Margin = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Padding(0);
             this.pnEditor.Name = "pnEditor";
-            this.pnEditor.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(780, 432);
+            this.pnEditor.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(780, 432);
             this.pnEditor.TabIndex = 2;
             // 
             // pnReport
             // 
             this.pnReport.BackColor = System.Drawing.SystemColors.Window;
-            this.pnReport.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(3, 3);
+            this.pnReport.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(3, 3);
             this.pnReport.Name = "pnReport";
-            this.pnReport.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(339, 306);
+            this.pnReport.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(339, 306);
             this.pnReport.TabIndex = 0;
             this.pnReport.TabStop = false;
-            this.pnReport.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.pnReport_Click);
+            this.pnReport.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.pnReport_Click);
             // 
             // pnRule
             // 
             this.pnRule.BackColor = System.Drawing.SystemColors.ControlLight;
             this.pnRule.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnRule.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(3, 3);
+            this.pnRule.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(3, 3);
             this.pnRule.Name = "pnRule";
-            this.pnRule.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(54, 426);
+            this.pnRule.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(54, 426);
             this.pnRule.TabIndex = 1;
             this.pnRule.TabStop = false;
             // 
@@ -190,21 +192,21 @@ UNKNOWN >>         #region Component Designer generated code
             this.tableLayoutPanel1.Controls.Add(this.pnRule, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.pnEditor, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 25);
+            this.tableLayoutPanel1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 25);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(840, 432);
+            this.tableLayoutPanel1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(840, 432);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // cReportPreview
             // 
-            this.AutoScaleDimensions =  globalObject.CSReportDll.createSystem.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = UNKNOWN >>  can't find constructor for class System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.toolStrip1);
             this.Name = "cReportPreview";
-            this.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(840, 457);
+            this.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(840, 457);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.pnEditor.ResumeLayout(false);
@@ -233,5 +235,16 @@ UNKNOWN >>         #endregion
         let pnRule: System.Windows.Forms.PictureBox = null;
         let pnReport: System.Windows.Forms.PictureBox = null;
         let tableLayoutPanel1: System.Windows.Forms.TableLayoutPanel = null;
-    }
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSReportPreview {
+
+  export interface IcReportPreview {
+
+    Dispose: (bool) => void;
+  }
 }

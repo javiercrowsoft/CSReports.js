@@ -2,29 +2,52 @@
 
     globalObject.CSReportPaint = globalObject.CSReportPaint || {};
 
-UNKNOWN >>     class ReportPaintException : System.Exception
-    {
+    globalObject.CSReportPaint.createReportPaintException = function() {
+
+        // @ts-ignore
+        let self: CSReportPaint.IReportPaintException = {};
         self.errorCode: csRptPaintErrors = null;{ get; set; };
-        globalObject.CSReportPaint.createClassName = function() {
+        self.createClassName = function() {
 
-            const self = {};
+            // @ts-ignore
+            let self: CSReportPaint.IclassName = {};
 
-        self. = function() {
+        const ReportPaintException = function() {
 
-        self. = function(code, module, message) {
+        const ReportPaintException = function(code, module, message) {
             errorCode = code;
-            className = module;
-        };
+            self.createModule; = function() {
+
+                // @ts-ignore
+                let self: CSReportPaint.Imodule; = {};
 
         // A constructor is needed for serialization when an
         // exception propagates from a remoting server to the client. 
-        self. = function(info, context) {
+        const ReportPaintException = function(info, context) {
 
-        self. = function() {
+        self.ToString = function() {
             return base.ToString() + "\n\nCode:" + errorCode.ToString();
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface Imodule; {
+
+    ToString: () => string;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface Imodule; {
+
+    ToString: () => string;
+  }
+}

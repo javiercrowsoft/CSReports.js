@@ -2,30 +2,44 @@
 
     globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-UNKNOWN >>     class ReportEditorException : System.Exception
-    {
+    globalObject.CSReportEditor.createReportEditorException = function() {
+
+        // @ts-ignore
+        let self: CSReportEditor.IReportEditorException = {};
         self.errorCode: csRptEditorErrors = null;{ get; set; };
-        globalObject.CSReportEditor.createClassName = function() {
+        self.createClassName = function() {
 
-            const self = {};
+            // @ts-ignore
+            let self: CSReportEditor.IclassName = {};
 
-        self. = function() {
+        const ReportEditorException = function() {
 
-        self. = function(code, module, message) {
+        const ReportEditorException = function(code, module, message) {
             : base(message)
         {
             errorCode = code;
-            className = module;
-        };
+            self.createModule; = function() {
+
+                // @ts-ignore
+                let self: CSReportEditor.Imodule; = {};
 
         // A constructor is needed for serialization when an
         // exception propagates from a remoting server to the client. 
-        self. = function(info, context) {
+        const ReportEditorException = function(info, context) {
 
-        self. = function() {
+        self.ToString = function() {
             return base.ToString() + "\n\nCode:" + errorCode.ToString();
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface Imodule; {
+
+    ToString: () => string;
+  }
+}

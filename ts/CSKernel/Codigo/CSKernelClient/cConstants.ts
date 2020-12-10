@@ -7,14 +7,17 @@
 
     globalObject.CSKernelClient.createCConstants = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.IcConstants = {};
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eTypes
+        return self;
+
+    public enum eTypesUNKNOWN >>     public enum eTypes
     {
         eInteger = 2,
         eDouble = 5,
@@ -30,11 +33,13 @@ UNKNOWN >>         return self;
         eDateOrNull = -700
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eFileMode
+        return self;
+
+    public enum eFileModeUNKNOWN >>     public enum eFileMode
     {
         eRead = 1,
         eWrite,
@@ -43,11 +48,13 @@ UNKNOWN >>         return self;
 UNKNOWN >>         eBinaryWrite
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eFileAccess
+        return self;
+
+    public enum eFileAccessUNKNOWN >>     public enum eFileAccess
     {
         eShared = 1,
         eLockRead,
@@ -55,32 +62,38 @@ UNKNOWN >>         return self;
 UNKNOWN >>         eLockReadWrite
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eErrorType
+        return self;
+
+    public enum eErrorTypeUNKNOWN >>     public enum eErrorType
     {
         eErrorAdo = 1,
         eErrorVba = 2
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eErrorLevel
+        return self;
+
+    public enum eErrorLevelUNKNOWN >>     public enum eErrorLevel
     {
         eErrorWarning = 1,
         eErrorFatal = 2,
         eErrorInformation = 3
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eErrores
+        return self;
+
+    public enum eErroresUNKNOWN >>     public enum eErrores
     {
         vbObjectError = 0,
         eErrorUserInvalido = vbObjectError + 1,
@@ -100,11 +113,13 @@ UNKNOWN >>         return self;
         eErrorInvalidPropertyValue = vbObjectError + 15
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eFieldType
+        return self;
+
+    public enum eFieldTypeUNKNOWN >>     public enum eFieldType
     {
         eFieldBoolean = eTypes.eBoolean,
         eFieldNumeric = eTypes.eDouble,
@@ -112,17 +127,29 @@ UNKNOWN >>         return self;
         eFieldDate = eTypes.eDate
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum CSMSGICONS
+        return self;
+
+    public enum CSMSGICONSUNKNOWN >>     public enum CSMSGICONS
     {
         Exclamation,
         Information,
 UNKNOWN >>         Error
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IcConstants {
+
+  }
+}

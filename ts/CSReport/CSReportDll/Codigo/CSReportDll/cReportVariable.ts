@@ -4,9 +4,10 @@
 
     globalObject.CSReportDll.createCReportVariable = function() {
 
-        const self = {};
-        const C_MODULE: string= "cReportVariable";
-        let m_value: object= null;
+        // @ts-ignore
+        let self: CSReportDll.IcReportVariable = {};
+        const C_MODULE: string = "cReportVariable";
+        let m_value: object = null;
 
         self.getValue = function() {
             return m_value;
@@ -18,6 +19,18 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportVariable {
+
+    getValue: () => object;
+    setValue: (object) => void;
+  }
+}

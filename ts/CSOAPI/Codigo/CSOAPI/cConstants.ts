@@ -7,15 +7,18 @@
 
     globalObject.CSOAPI.createCConstants = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSOAPI.IcConstants = {};
 
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eServerVersion
+        return self;
+
+    public enum eServerVersionUNKNOWN >>     public enum eServerVersion
     {
         eVSql65 = 0,
         eVSql70 = 1,
@@ -25,3 +28,11 @@ UNKNOWN >>         return self;
 
     }
 }(globalObject));
+
+
+namespace CSOAPI {
+
+  export interface IcConstants {
+
+  }
+}

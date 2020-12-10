@@ -4,11 +4,12 @@
 
     globalObject.CSReportEditor.createFControls = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfControls = {};
         let m_editor: cEditor = null;
 
-        const C_CTRL_IMAGE: number= 1;
-        const C_DB_IMAGE: number= 0;
+        const C_CTRL_IMAGE: number = 1;
+        const C_DB_IMAGE: number = 0;
 
         let lvwColumnSorter: cListViewColumnSorter = null;
 
@@ -33,7 +34,7 @@
 
             // Create an instance of a ListView column sorter and assign it 
             // to the ListView control.
-            lvwColumnSorter =  globalObject.CSReportDll.createCListViewColumnSorter();
+            lvwColumnSorter = globalObject.CSKernelClient.createCListViewColumnSorter();
             lv_controls.ListViewItemSorter = lvwColumnSorter;
             lv_controls_ColumnClick(this, new ColumnClickEventArgs(0));
         };
@@ -69,7 +70,7 @@
 
         const selectControl = function() {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var= lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
                 m_editor.selectCtrl(info);
             }
         };
@@ -80,11 +81,22 @@
 
         const cmd_edit_Click = function(sender, e) {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var= lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
                 m_editor.showProperties(info);
             }
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfControls {
+
+    clear: () => void;
+    addCtrls: (cReport) => void;
+    setHandler: (cEditor) => void;
+  }
+}

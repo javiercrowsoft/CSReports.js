@@ -7,7 +7,8 @@
     /// </summary>
     globalObject.CSKernelClient.createCListViewColumnSorter = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.IcListViewColumnSorter = {};
         /// <summary>
         /// Specifies the column to be sorted
         /// </summary>
@@ -32,7 +33,7 @@
             OrderOfSort = SortOrder.None;
 
             // Initialize the CaseInsensitiveComparer object
-            ObjectCompare =  globalObject.CSReportDll.createCaseInsensitiveComparer();
+            ObjectCompare = UNKNOWN >>  can't find constructor for class CaseInsensitiveComparer();
         };
 
         /// <summary>
@@ -99,5 +100,14 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IcListViewColumnSorter {
+
+    Compare: (object, object) => int;
+  }
+}

@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCColumnsInfo = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcColumnsInfo = {};
 
         // Creates an empty collection.
         const cColumnsInfo = function() {
@@ -116,7 +117,7 @@ UNKNOWN >>             get
             try {
 
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCColumnInfo();
+                    c = globalObject.CSConnect.createCColumnInfo();
                 }
 
                 if (key === "") {
@@ -162,9 +163,10 @@ UNKNOWN >>             get
 
         const createColumnsInfoEnumerator = function() {
 
-            const self = {};
+            // @ts-ignore
+            let self: CSReportDll.IColumnsInfoEnumerator = {};
             self.columnsInfo: cColumnsInfo = null;
-            let position: number= -1;
+            let position: number = -1;
 
             //constructor
             const ColumnsInfoEnumerator = function(list) {
@@ -207,6 +209,19 @@ UNKNOWN >>                 get
         }
         return self;
 
-    }
+    }    }
+        return self;
 
-}(globalObject)); {
+
+}(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IColumnsInfoEnumerator {
+
+    columnsInfo;: cColumnsInfo;
+    MoveNext: () => bool;
+    Reset: () => void;
+  }
+}

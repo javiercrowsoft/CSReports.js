@@ -4,9 +4,10 @@
 
     globalObject.CSKernelFile.createCFileEx = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelFile.IcFileEx = {};
 
-        const C_MODULE: string= "cFileEx";
+        const C_MODULE: string = "cFileEx";
 
         self.fileGetName = function(fullPath) {
             return getFileNameWithoutExt(fullPath);
@@ -21,8 +22,8 @@
         };
 
         self.fileGetPath = function(fullPath) {
-            let path: string= "";
-            let fileName: string= "";
+            let path: string = "";
+            let fileName: string = "";
 
             separatePathAndFileName(fullPath, path, fileName);
 
@@ -30,10 +31,10 @@
         };
 
         self.fileGetFileExt = function(fullPath) {
-            let path: string= "";
-            let fileName: string= "";
-            let pos: number= 0;
-            let c: string= "";
+            let path: string = "";
+            let fileName: string = "";
+            let pos: number = 0;
+            let c: string = "";
 
             separatePathAndFileName(fullPath, path, fileName);
 
@@ -94,10 +95,10 @@
         };
 
         self.getFileNameWithoutExt = function(fullPath) {
-            let path: string= "";
-            let fileName: string= "";
-            let pos: number= 0;
-            let sep: string= "";
+            let path: string = "";
+            let fileName: string = "";
+            let pos: number = 0;
+            let sep: string = "";
 
             separatePathAndFileName(fullPath, path, fileName);
             pos = fileName.Length;
@@ -124,8 +125,8 @@
         };
 
         self.separatePathAndFileName = function(fullPath, path, fileName) {
-            let pos: number= 0;
-            let sep: string= "";
+            let pos: number = 0;
+            let sep: string = "";
 
             pos = fullPath.Length;
 
@@ -173,5 +174,23 @@
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelFile {
+
+  export interface IcFileEx {
+
+    fileGetName: (String) => String;
+    fileExists: (String) => bool;
+    getWindowsDir: () => String;
+    fileGetPath: (String) => String;
+    fileGetFileExt: (String) => String;
+    fileGetPathAndFileName: (String, String, String) => void;
+    fileCopyFile: (String, String) => bool;
+    fileDelete: (String) => bool;
+    getFileNameWithoutExt: (String) => String;
+    separatePathAndFileName: (String, String, String) => void;
+  }
+}

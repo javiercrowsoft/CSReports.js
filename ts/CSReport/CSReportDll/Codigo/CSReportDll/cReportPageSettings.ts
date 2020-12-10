@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCReportPageSettings = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportPageSettings = {};
 
         // Creates an empty collection.
         const cReportPageSettings = function() {
@@ -112,7 +113,7 @@ UNKNOWN >>             get
             this.BaseClear();
         };
 
-        let m_height: number= 0;
+        let m_height: number = 0;
 
         self.getHeight = function() {
             return m_height;
@@ -128,7 +129,7 @@ UNKNOWN >>             get
             key) {
             try {
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCReportPageInfo();
+                    c = globalObject.CSReportDll.createCReportPageInfo();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -168,6 +169,29 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportPageSettings {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    getHeight: () => float;
+    setHeight: (float) => void;
+    add: () => cReportPageInfo;
+    count: () => int;
+    item: (String) => cReportPageInfo;
+    item: (int) => cReportPageInfo;
+  }
+}

@@ -4,10 +4,11 @@
 
     globalObject.CSReportDll.createCReportConnectsAux = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportConnectsAux = {};
 
-        const C_MODULE: string= "cReportConnectsAux";
-        const C_RPTCONNECTSAUX: string= "RptConnectsAux";
+        const C_MODULE: string = "cReportConnectsAux";
+        const C_RPTCONNECTSAUX: string = "RptConnectsAux";
 
         // Creates an empty collection.
         const cReportConnectsAux = function() {
@@ -116,11 +117,11 @@ UNKNOWN >>             get
         };
 
         self.save = function(xDoc, nodeFather) {
-            let connect: cReportConnect= null;
+            let connect: cReportConnect = null;
 
             if (nodeFather === null) {
-                let xProperty: CSXml.cXmlProperty= null;
-                xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+                let xProperty: CSXml.cXmlProperty = null;
+                xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
                 xProperty.setName(C_RPTCONNECTSAUX);
                 nodeFather = xDoc.addNode(xProperty);
             }
@@ -136,7 +137,7 @@ UNKNOWN >>             get
         };
 
         self.load = function(xDoc, nodeFather) {
-            let nodeObj: XmlNode= null;
+            let nodeObj: XmlNode = null;
             clear();
             if (nodeFather !== null) {
                 if (xDoc.nodeHasChild(nodeFather)) {
@@ -160,7 +161,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCReportConnect();
+                    c = globalObject.CSReportDll.createCReportConnect();
                 }
 
                 if (key === null) {
@@ -205,6 +206,30 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportConnectsAux {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    save: (CSXml.cXml, XmlNode) => bool;
+    load: (CSXml.cXml, XmlNode) => bool;
+    add: (cReportConnect) => cReportConnect;
+    add: (cReportConnect, String) => cReportConnect;
+    count: () => int;
+    item: (String) => cReportConnect;
+    item: (int) => cReportConnect;
+  }
+}

@@ -5,17 +5,18 @@
 
     globalObject.CSConnect.createCColumnInfo = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSConnect.IcColumnInfo = {};
 
-        const C_MODULE: string= "cColumnInfo";
+        const C_MODULE: string = "cColumnInfo";
 
-        let m_name: string= "";
+        let m_name: string = "";
         let m_columnType: CSDataBase.csDataType = null;
 
         // TODO: remove me
         // private String m_value = "";
-        let m_position: number= 0;
-        let m_key: string= "";
+        let m_position: number = 0;
+        let m_key: string = "";
 
         self.getKey = function() {
             return m_key;
@@ -61,6 +62,24 @@
         };
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSConnect {
+
+  export interface IcColumnInfo {
+
+    getKey: () => String;
+    setKey: (String) => void;
+    getName: () => String;
+    setName: (String) => void;
+    getColumnType: () => CSDataBase.csDataType;
+    setColumnType: (CSDataBase.csDataType) => void;
+    getPosition: () => int;
+    setPosition: (int) => void;
+  }
+}

@@ -24,7 +24,8 @@
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     globalObject.CSReportEditor.Properties.createResources = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.Properties.IResources = {};
 
         let global::System.Resources.ResourceManager: static = null;resourceMan;
 
@@ -40,7 +41,7 @@
 UNKNOWN >>         internal static global::System.Resources.ResourceManager ResourceManager {
 UNKNOWN >>             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    let temp: global::System.Resources.ResourceManager= new global::System.Resources.ResourceManager("CSReportEditor.Properties.Resources", typeof(Resources).Assembly);
+                    let temp: global::System.Resources.ResourceManager = new global::System.Resources.ResourceManager("CSReportEditor.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
 
                 return resourceMan;
@@ -63,109 +64,117 @@ UNKNOWN >>             set {
 
 UNKNOWN >>         internal static System.Drawing.Bitmap application_side_boxes {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("application_side_boxes", resourceCulture);
+                let obj: object = ResourceManager.GetObject("application_side_boxes", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap config_page {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("config_page", resourceCulture);
+                let obj: object = ResourceManager.GetObject("config_page", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap database_gear {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("database_gear", resourceCulture);
+                let obj: object = ResourceManager.GetObject("database_gear", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap disk {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("disk", resourceCulture);
+                let obj: object = ResourceManager.GetObject("disk", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap disk_multiple {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("disk_multiple", resourceCulture);
+                let obj: object = ResourceManager.GetObject("disk_multiple", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap find {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("find", resourceCulture);
+                let obj: object = ResourceManager.GetObject("find", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap folder_page {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("folder_page", resourceCulture);
+                let obj: object = ResourceManager.GetObject("folder_page", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap lightning {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("lightning", resourceCulture);
+                let obj: object = ResourceManager.GetObject("lightning", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap page {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("page", resourceCulture);
+                let obj: object = ResourceManager.GetObject("page", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap printer {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("printer", resourceCulture);
+                let obj: object = ResourceManager.GetObject("printer", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap text_align_center {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("text_align_center", resourceCulture);
+                let obj: object = ResourceManager.GetObject("text_align_center", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap text_align_left {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("text_align_left", resourceCulture);
+                let obj: object = ResourceManager.GetObject("text_align_left", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap text_align_right {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("text_align_right", resourceCulture);
+                let obj: object = ResourceManager.GetObject("text_align_right", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap text_bold {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("text_bold", resourceCulture);
+                let obj: object = ResourceManager.GetObject("text_bold", resourceCulture);
                 return ();
             }
         }
 
 UNKNOWN >>         internal static System.Drawing.Bitmap wrench {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("wrench", resourceCulture);
+                let obj: object = ResourceManager.GetObject("wrench", resourceCulture);
                 return ();
             }
         }
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor.Properties {
+
+  export interface IResources {
+
+  }
+}

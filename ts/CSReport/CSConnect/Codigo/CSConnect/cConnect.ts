@@ -4,12 +4,13 @@
 
     globalObject.CSConnect.createCConnect = function() {
 
-        const self = {};
-        let m_parameters: cParameters= new cParameters();
-        let m_columnsInfo: cColumnsInfo= new cColumnsInfo();
+        // @ts-ignore
+        let self: CSConnect.IcConnect = {};
+        let m_parameters: cParameters = new cParameters();
+        let m_columnsInfo: cColumnsInfo = new cColumnsInfo();
 
-        let m_strConnect: string= "";
-        let m_dataSource: string= "";
+        let m_strConnect: string = "";
+        let m_dataSource: string = "";
         let m_dataSourceType: csDataSourceType = null;
 
 		self.getParameters = function() {
@@ -21,20 +22,20 @@
         };
 
         self.fillParameters = function(dataSource) {
-            let db: cDataBase= new cDataBase(csDatabaseEngine.SQL_SERVER);
+            let db: cDataBase = new cDataBase(csDatabaseEngine.SQL_SERVER);
             if (db.initDb(m_strConnect)) {
-                let restrictions: string[]= new string[4];
+                let restrictions: string[] = new string[4];
                 restrictions[2] = dataSource;
-                let dt: DataTable= db.openSchema("ProcedureParameters", restrictions);
+                let dt: DataTable = db.openSchema("ProcedureParameters", restrictions);
 
                 if (m_parameters === null) m_parameters = new cParameters(); {
 
-                let parameters: cParameters= new cParameters();
+                let parameters: cParameters = new cParameters();
 
                 for(var i_ = 0; i_ < dt.Rows.length; i_++) {
                     if (row["parameter_mode"].ToString() !== "OUT")  {
-                        let p: cParameter= null;
-                        let found: boolean= false;
+                        let p: cParameter = null;
+                        let found: boolean = false;
                         for (var i = 0; i < m_parameters.count(); i++) {
                             p = m_parameters.item(i);
                             if (p.getName() === row["parameter_name"].ToString()) {
@@ -53,11 +54,11 @@
                 // openSchema can be sorted by any column (usually by name)
                 // we need this collection to be sorted by position
                 //
-                m_parameters =  globalObject.CSReportDll.createCParameters();
+                m_parameters = globalObject.CSConnect.createCParameters();
 
                 for (var j = 1; j < parameters.count() + 1; j++) {
-                    let p: cParameter= null;
-                    let found: boolean= false;
+                    let p: cParameter = null;
+                    let found: boolean = false;
                     for (var i = 0; i < parameters.count(); i++) {
                         p = parameters.item(i);
                         if (p.getPosition() === j) {
@@ -87,7 +88,7 @@ UNKNOWN >>             string sqlstmt;
                     return false;
                 }
 
-                let f: fParameters= new fParameters();
+                let f: fParameters = new fParameters();
                 f.setParameters(m_parameters);
                 f.ShowDialog();
                 if (f.getOk()) {
@@ -105,12 +106,12 @@ UNKNOWN >>             string sqlstmt;
 		};
 
         const fillColumns = function(sqlstmt) {
-            let db: var= new cDataBase(csDatabaseEngine.SQL_SERVER);
+            let db: var = new cDataBase(csDatabaseEngine.SQL_SERVER);
             if (db.initDb(m_strConnect)) {
 UNKNOWN >>                 DbDataReader rs;
                 if (db.openRs(sqlstmt, rs, "fillColumns", "cConnect", "Update columns's definition", CSKernelClient.eErrorLevel.eErrorInformation)) {
                     for(var i = 0; i < rs.FieldCount; i++) {
-                        let column: var= new cColumnInfo();
+                        let column: var = new cColumnInfo();
                         column.setName(rs.GetName(i));
                         column.setPosition(i);
                         column.setColumnType(System.Type.GetTypeCode((rs.GetFieldType(i))));
@@ -144,10 +145,28 @@ UNKNOWN >>                 DbDataReader rs;
             return m_dataSource;
 		};
 
-		self. = function() {
+		self.getDataSourceType = function() {
             return m_dataSourceType;
 		};
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSConnect {
+
+  export interface IcConnect {
+
+    getParameters: () => cParameters;
+    getColumnsInfo: () => cColumnsInfo;
+    fillParameters: (string) => bool;
+    getDataSourceColumnsInfo: (string, csDataSourceType) => bool;
+    setStrConnect: (string) => void;
+    setDataSource: (string) => void;
+    setDataSourceType: (csDataSourceType) => void;
+    showOpenConnection: () => bool;
+    getDataSource: () => string;
+    getDataSourceType: () => csDataSourceType;
+  }
+}

@@ -4,10 +4,11 @@
 
     globalObject.CSReportDll.createCReportFormulaParameter = function() {
 
-        const self = {};
-        const C_MODULE: string= "cReportFormulaParameter";
+        // @ts-ignore
+        let self: CSReportDll.IcReportFormulaParameter = {};
+        const C_MODULE: string = "cReportFormulaParameter";
 
-        let m_value: string= "";
+        let m_value: string = "";
 
         self.getValue = function() {
             return m_value;
@@ -19,6 +20,18 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportFormulaParameter {
+
+    getValue: () => String;
+    setValue: (String) => void;
+  }
+}

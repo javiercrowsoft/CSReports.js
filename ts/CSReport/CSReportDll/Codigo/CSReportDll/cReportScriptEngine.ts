@@ -4,14 +4,15 @@
 
     globalObject.CSReportDll.createCReportScriptEngine = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportScriptEngine = {};
 
         const getFunctionCall = function(code, formula) {
-            let n: number= code.IndexOf("(");
-            let functionName: var= cUtil.subString(code, 8, n-8);
-            let parameters: var= "";
+            let n: number = code.IndexOf("(");
+            let functionName: var = cUtil.subString(code, 8, n-8);
+            let parameters: var = "";
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
-                let fint: var= formula.getFormulasInt().item(_i);
+                let fint: var = formula.getFormulasInt().item(_i);
                 parameters += "globals.getVar(\"p__" + _i + "__\").getValue(),";
             }
             if (parameters.Length > 0) {
@@ -71,7 +72,8 @@
                 //
                 self.createUtil: = function() {
 
-                    const self = {};
+                    // @ts-ignore
+                    let self: CSReportDll.Iutil: = {};
         };
 
         self.compileCode = function(code, formula) {
@@ -83,14 +85,14 @@
 UNKNOWN >>             CodeDomProvider provider;
 
             if (cUtil.subString(code, 0, 8).ToLower() === "function") {
-                provider =  globalObject.CSReportDll.createMicrosoft.VisualBasic.VBCodeProvider();
+                provider = UNKNOWN >>  can't find constructor for class Microsoft.VisualBasic.VBCodeProvider();
             }
             else  {
-                provider =  globalObject.CSReportDll.createMicrosoft.CSharp.CSharpCodeProvider();
+                provider = UNKNOWN >>  can't find constructor for class Microsoft.CSharp.CSharpCodeProvider();
             }
 
             // Setup our options
-            let options: CompilerParameters= new CompilerParameters();
+            let options: CompilerParameters = new CompilerParameters();
             options.GenerateExecutable = false; // we want a Dll (or "Class Library" as its called in .Net)
             options.GenerateInMemory = true; // Saves us from deleting the Dll when we are done with it, though you could set this to false and save start-up time by next time by not having to re-compile
             // And set any others you want, there a quite a few, take some time to look through them all and decide which fit your application best!
@@ -103,7 +105,7 @@ UNKNOWN >>             CodeDomProvider provider;
             // project to store the interfaces that both this class and the other uses. Just remember, this will expose ALL public classes to
             // the "script"
 
-            let assemblies: var= Assembly.GetExecutingAssembly().GetReferencedAssemblies();
+            let assemblies: var = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
 
             for(var i_ = 0; i_ < assemblies.length; i_++) {
                 if (assemblyName.Name === "CSReportScript") {
@@ -119,17 +121,26 @@ UNKNOWN >>             CodeDomProvider provider;
 
             // Compile our code
 UNKNOWN >>             CompilerResults result;
-            let classCode: string= putCodeInClass(code, formula);
-            result = provider.CompileAssemblyFromSource(options, classCode);
+            self.create= = function() {
+
+                // @ts-ignore
+                let self: CSReportDll.I= = {};
+            self.createProvider.CompileAssemblyFromSource(options, = function() {
+
+                // @ts-ignore
+                let self: CSReportDll.Iprovider.CompileAssemblyFromSource(options, = {};
 
             if (result.Errors.HasErrors) {
-                let errors: var= "";
+                let errors: var = "";
 
                 for(var i = 0; i < result.Errors.Count; i++) {
                     errors += result.Errors[0].ErrorText + "\r\n";
                 }
 
-                cWindow.msgError(errors + "\r\n\r\nSource code:\r\n\r\n" + classCode + "\r\n\r\n");
+                self.create"\r\n\r\nSource = function() {
+
+                    // @ts-ignore
+                    let self: CSReportDll.I"\r\n\r\nSource = {};
 
                 return null;
             }
@@ -152,12 +163,12 @@ UNKNOWN >>             CompilerResults result;
                         // Get the constructor for the current type
                         // you can also specify what creation parameter types you want to pass to it,
                         // so you could possibly pass in data it might need, or a class that it can use to query the host application
-                        const constructor: ConstructorInfo= type.GetConstructor(System.Type.EmptyTypes);
+                        const constructor: ConstructorInfo = type.GetConstructor(System.Type.EmptyTypes);
                         if (constructor !== null && constructor.IsPublic) {
                             // lets be friendly and only do things legitimitely by only using valid constructors
 
                             // we specified that we wanted a constructor that doesn't take parameters, so don't pass parameters
-                            const scriptObject: cIReportScriptType= constructor.Invoke(null) as cIReportScriptType;
+                            const scriptObject: cIReportScriptType = constructor.Invoke(null) as cIReportScriptType;
                             if (scriptObject !== null) {
                                 //Lets run our script and display its results
                                 return scriptObject.RunScript(globals);
@@ -180,5 +191,14 @@ UNKNOWN >>             CompilerResults result;
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface I"\r\n\r\nSource {
+
+    eval: (Assembly, cReportCompilerGlobals) => object;
+  }
+}

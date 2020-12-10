@@ -2,9 +2,11 @@
 
     globalObject.CSReportWebServer = globalObject.CSReportWebServer || {};
 
-UNKNOWN >>     class Report
-    {
-        const C_MODULE: string= "Report";
+    globalObject.CSReportWebServer.createReport = function() {
+
+        // @ts-ignore
+        let self: CSReportWebServer.IReport = {};
+        const C_MODULE: string = "Report";
 
         let m_reportId: string = null;
         let m_webReportId: string = null;
@@ -12,11 +14,11 @@ UNKNOWN >>     class Report
         let m_report: cReport = null;
 
         let m_fProgress: fProgress = null;
-        let m_cancelPrinting: boolean= false;
+        let m_cancelPrinting: boolean = false;
 
-        let m_fPrint: cReportPrint= null;
+        let m_fPrint: cReportPrint = null;
 
-		let ILog: staticm_log = LogManager.GetLogger(typeof(Report));
+		let ILog: static m_log = LogManager.GetLogger(typeof(Report));
 
 UNKNOWN >> 		public string reportId
         {
@@ -35,7 +37,7 @@ UNKNOWN >>             get
             m_webReportId = request["message"]["webReportId"].ToString();
             m_reportId = Guid.NewGuid().ToString();
             m_database = Guid.NewGuid().ToString();
-            m_report =  globalObject.CSReportDll.createCReport();
+            m_report = globalObject.CSReportDll.createCReport();
 
 			m_log.Info("in Report.init 02");
 
@@ -46,7 +48,7 @@ UNKNOWN >>             get
 
 			m_log.Info("in Report.init 03");
 
-            let oLaunchInfo: cReportLaunchInfo= new cReportLaunchInfo();
+            let oLaunchInfo: cReportLaunchInfo = new cReportLaunchInfo();
 
             oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(printDialog));
 
@@ -56,7 +58,7 @@ UNKNOWN >>             get
 
 			m_log.Info("in Report.init 05");
 
-            const  = function() {
+            if (!m_report.init(oLaunchInfo)) { return; }
 
 			m_log.Info("in Report.init 06");
 
@@ -66,11 +68,11 @@ UNKNOWN >>             get
         self.openDocument = function(fileName) {
 			m_log.Info("in Report.openDocument 01");
 
-            let mouse: cMouseWait= new cMouseWait();
+            let mouse: cMouseWait = new cMouseWait();
             try {
 				m_log.Info("in Report.openDocument 02 " + fileName);
 
-                const  = function() {
+                if (!m_report.loadSilent(fileName)) {
 					m_log.Info("in Report.openDocument 03");
 
                     return false;
@@ -84,7 +86,7 @@ UNKNOWN >>             get
 
                 return true;
             }
-            const  = function(ex) {
+            catch (ex) {
                 return false;
             }
 UNKNOWN >>             finally
@@ -97,7 +99,7 @@ UNKNOWN >>             finally
             m_report.getLaunchInfo().setAction(csRptLaunchAction.CSRPTLAUNCHPREVIEW);
             launchReport();
 UNKNOWN >> 			int pageIndex;
-			let message: JObject= JObject.Parse(;
+			let message: JObject = JObject.Parse(;
 				"{ messageType: 'REPORT_PREVIEW_DONE', reportId: '" + m_reportId 
 				+ "', webReportId: '" + m_webReportId 
 				+ "', totalPages: " + m_report.getPages().count().ToString() 
@@ -111,13 +113,13 @@ UNKNOWN >> 			int pageIndex;
             m_report.getLaunchInfo().setAction(csRptLaunchAction.CSRPTLAUNCHPRINTER);
             launchReport();
 
-            let message: JObject= JObject.Parse("{ messageType: 'REPORT_PRINT_DONE', reportId: '" + m_reportId + "', webReportId: '" + m_webReportId + "' }");
+            let message: JObject = JObject.Parse("{ messageType: 'REPORT_PRINT_DONE', reportId: '" + m_reportId + "', webReportId: '" + m_webReportId + "' }");
             Main.sendMessage(message);
         };
 
         self.moveToPage = function(page) {
 UNKNOWN >> 			int pageIndex;
-            let message: JObject= JObject.Parse(;
+            let message: JObject = JObject.Parse(;
 				"{ messageType: 'REPORT_PREVIEW_PAGE', reportId: '" + m_reportId 
 				+ "', webReportId: '" + m_webReportId 
 				+ "' }");
@@ -127,16 +129,16 @@ UNKNOWN >> 			int pageIndex;
         };
 
         const registerDataSource = function(request) {
-            let dataSources: var= request["message"]["data"]["data"];
-            const  = function(in) {
-                let ds: cJSONDataSource= new cJSONDataSource(dataSource["name"].ToString(), dataSource["data"] as JObject);
+            let dataSources: var = request["message"]["data"]["data"];
+            for(var i_ = 0; i_ < dataSources.length; i_++) {
+                let ds: cJSONDataSource = new cJSONDataSource(dataSource["name"].ToString(), dataSource["data"] as JObject);
                 cJSONServer.registerDataSource(ds, m_database + "." + ds.getName());
             }
         };
 
         const reportDone = function(sender, e) {
             closeProgressDlg();
-            let message: JObject= JObject.Parse(;
+            let message: JObject = JObject.Parse(;
 				"{ messageType: 'REPORT_DONE', reportId: '" + m_reportId 
 				+ "', webReportId: '" + m_webReportId 
 				+ "' }");
@@ -149,13 +151,13 @@ UNKNOWN >> 			int pageIndex;
 
         const reportProgress = function(sender, e) {
 
-            let task: string= e.task;
-            let page: number= e.page;
-            let currRecord: number= e.currRecord;
-            let recordCount: number= e.recordCount;
+            let task: string = e.task;
+            let page: number = e.page;
+            let currRecord: number = e.currRecord;
+            let recordCount: number = e.recordCount;
 
-            const  = function() {
-                const  = function(want, ) {
+            if (m_cancelPrinting) {
+                if (cWindow.ask("Confirm you want to cancel the execution of this report?", MessageBoxDefaultButton.Button2)) {
                     e.cancel = true;
                     closeProgressDlg();
                     return;
@@ -192,7 +194,7 @@ UNKNOWN >> 			int pageIndex;
         const launchReport = function() {
 			m_log.Info("in Report.launchReport 01");
 
-            let mouse: cMouseWait= new cMouseWait();
+            let mouse: cMouseWait = new cMouseWait();
             try {
 				m_log.Info("in Report.launchReport 02");
 
@@ -200,7 +202,7 @@ UNKNOWN >> 			int pageIndex;
 
 				m_log.Info("in Report.launchReport 03");
 
-                let li: var= m_report.getLaunchInfo();
+                let li: var = m_report.getLaunchInfo();
 
 				m_log.Info("in Report.launchReport 04");
 
@@ -208,7 +210,7 @@ UNKNOWN >> 			int pageIndex;
 
 				m_log.Info("in Report.launchReport 05");
 
-                m_fPrint =  globalObject.CSReportDll.createCReportPrint();
+                m_fPrint = globalObject.CSReportPaint.createCReportPrint();
                 m_fPrint.setHidePreviewWindow(true);
                 li.setObjPaint(m_fPrint);
 
@@ -223,7 +225,7 @@ UNKNOWN >> 			int pageIndex;
                 m_report.launch();
 
             }
-            const  = function(ex) {
+            catch (ex) {
                 cError.mngError(ex, "launchReport", C_MODULE, "");
             }
 UNKNOWN >>             finally
@@ -246,10 +248,25 @@ UNKNOWN >>             finally
         };
 
         const closeProgressDlg = function() {
-            const  = function(null) {
+            if (m_fProgress !== null && !m_fProgress.IsDisposed) {
                 m_fProgress.Close();
             }
             m_fProgress = null;
         };
-    }
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSReportWebServer {
+
+  export interface IReport {
+
+    init: (JObject, PrintDialog) => void;
+    openDocument: (String) => bool;
+    preview: () => void;
+    printReport: () => void;
+    moveToPage: (int) => void;
+  }
 }

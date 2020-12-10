@@ -5,23 +5,24 @@
 
     globalObject.CSReportDll.createCReportConnect = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportConnect = {};
 
-        const C_MODULE: string= "cReportConnect";
+        const C_MODULE: string = "cReportConnect";
 
-        const C_RPTCONNECT: string= "RptConnect";
-        const C_RPTCOLUMNS: string= "Columns";
-        const C_RPTPARAMETERS: string= "Parameters";
+        const C_RPTCONNECT: string = "RptConnect";
+        const C_RPTCOLUMNS: string = "Columns";
+        const C_RPTPARAMETERS: string = "Parameters";
 
-        let m_strConnect: string= "";
-        let m_dataSource: string= "";
+        let m_strConnect: string = "";
+        let m_dataSource: string = "";
         let m_dataSourceType: csDataSourceType = null;
 
-        let m_parameters: cParameters= new cParameters();
-        let m_columns: cColumnsInfo= new cColumnsInfo();
+        let m_parameters: cParameters = new cParameters();
+        let m_columns: cColumnsInfo = new cColumnsInfo();
 
-        let m_connectionTimeout: number= 0;
-        let m_commandTimeout: number= 0;
+        let m_connectionTimeout: number = 0;
+        let m_commandTimeout: number = 0;
 
         self.getConnectionTimeout = function() {
             return m_connectionTimeout;
@@ -96,8 +97,8 @@
         };
 
         self.getSqlParameters = function() {
-            let s: string= "";
-            let param: cParameter= null;
+            let s: string = "";
+            let param: cParameter = null;
             for(var _i = 0; _i < m_parameters.count(); _i++) {
                 param = m_parameters.item(_i);
                 switch (param.getColumnType())
@@ -152,8 +153,8 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            let nodeObjAux: XmlNode= null;
-            let nodeObjAux2: XmlNode= null;
+            let nodeObjAux: XmlNode = null;
+            let nodeObjAux2: XmlNode = null;
 
             m_dataSource = xDoc.getNodeProperty(nodeObj, "DataSource").getValueString(eTypes.eText);
             m_dataSourceType = xDoc.getNodeProperty(nodeObj, "DataSourceType").getValueInt(eTypes.eInteger);
@@ -164,7 +165,7 @@
             if (xDoc.nodeHasChild(nodeObjAux2)) {
                 nodeObjAux = xDoc.getNodeChild(nodeObjAux2);
                 while (nodeObjAux !== null) {
-                    let key: string= xDoc.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
+                    let key: string = xDoc.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
                     if (!m_columns.add(null, key).load(xDoc, nodeObjAux)) {
                         return false;
                     }
@@ -177,7 +178,7 @@
             if (xDoc.nodeHasChild(nodeObjAux2)) {
                 nodeObjAux = xDoc.getNodeChild(nodeObjAux2);
                 while (nodeObjAux !== null) {
-                    let key: string= xDoc.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
+                    let key: string = xDoc.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
                     if (!m_parameters.add(null, key).load(xDoc, nodeObjAux)) {
                         return false;
                     }
@@ -189,10 +190,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            let nodeObjAux: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            let nodeObjAux: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName(C_RPTCONNECT);
 
@@ -220,7 +221,7 @@
             xProperty.setName(C_RPTCOLUMNS);
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            let col: cColumnInfo= null;
+            let col: cColumnInfo = null;
             for(var _i = 0; _i < m_columns.count(); _i++) {
                 col = m_columns.item(_i);
                 if (!col.save(xDoc, nodeObj)) {
@@ -233,7 +234,7 @@
             xProperty.setName(C_RPTPARAMETERS);
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            let param: cParameter= null;
+            let param: cParameter = null;
             for(var _i = 0; _i < m_parameters.count(); _i++) {
                 param = m_parameters.item(_i);
                 if (!param.save(xDoc, nodeObj)) {
@@ -245,8 +246,8 @@
         };
 
         const getXFromStrConnect = function(strConnect, x) {
-            let i: number= 0;
-            let p: number= 0;
+            let i: number = 0;
+            let p: number = 0;
 
             if (x.Substring(x.Length - 1) !== "=") {
                 x = x + "=";
@@ -267,6 +268,37 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportConnect {
+
+    getConnectionTimeout: () => int;
+    setConnectionTimeout: (int) => void;
+    getCommandTimeout: () => int;
+    setCommandTimeout: (int) => void;
+    getStrConnect: () => String;
+    setStrConnect: (String) => void;
+    getDataBase: () => String;
+    getServer: () => String;
+    getUser: () => String;
+    getPassword: () => String;
+    getDataSource: () => String;
+    setDataSource: (String) => void;
+    getDataSourceType: () => csDataSourceType;
+    setDataSourceType: (csDataSourceType) => void;
+    getParameters: () => cParameters;
+    setParameters: (cParameters) => void;
+    getColumns: () => cColumnsInfo;
+    setColumns: (cColumnsInfo) => void;
+    getSqlParameters: () => String;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

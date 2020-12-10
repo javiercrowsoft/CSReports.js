@@ -4,18 +4,19 @@
 
     globalObject.CSConnect.createCParameter = function() {
 
-        const self = {};
-        const C_MODULE: string= "cParameter";
+        // @ts-ignore
+        let self: CSConnect.IcParameter = {};
+        const C_MODULE: string = "cParameter";
 
-        let m_name: string= "";
+        let m_name: string = "";
         let m_columnType: CSDataBase.csDataType = null;
-        let m_value: string= "";
-        let m_position: number= 0;
-        let m_key: string= "";
+        let m_value: string = "";
+        let m_position: number = 0;
+        let m_key: string = "";
         let m_hasDefault: boolean = null;
-        let m_default: string= "";
-        let m_isNullable: boolean= true;
-        let m_maxLength: number= 0;
+        let m_default: string = "";
+        let m_isNullable: boolean = true;
+        let m_maxLength: number = 0;
 
         self.getKey = function() {
             return m_key;
@@ -90,5 +91,31 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSConnect {
+
+  export interface IcParameter {
+
+    getKey: () => String;
+    setKey: (String) => void;
+    getName: () => String;
+    setName: (String) => void;
+    getColumnType: () => CSDataBase.csDataType;
+    setColumnType: (CSDataBase.csDataType) => void;
+    getValue: () => String;
+    setValue: (String) => void;
+    getPosition: () => int;
+    setPosition: (int) => void;
+    getHasDefault: () => bool;
+    setHasDefault: (bool) => void;
+    getDefaultValue: () => String;
+    setDefaultValue: (String) => void;
+    getIsNullable: () => bool;
+    setIsNullable: (bool) => void;
+    getMaxLength: () => int;
+    setMaxLength: (int) => void;
+  }
+}

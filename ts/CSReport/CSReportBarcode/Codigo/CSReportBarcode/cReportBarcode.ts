@@ -4,20 +4,21 @@
 
     globalObject.CSReportBarcode.createCReportBarcode = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportBarcode.IcReportBarcode = {};
 
         self.encodeTo128 = function(dataToEncode) {
             return code128b(dataToEncode);
         };
 
         self.code128a = function(dataToEncode) {
-            let printableString: string= char.ConvertFromUtf32(203);
-            let weightedTotal: number= 103;
-            let currentValue: number= 0;
+            let printableString: string = char.ConvertFromUtf32(203);
+            let weightedTotal: number = 103;
+            let currentValue: number = 0;
 UNKNOWN >>             int currentCharNum;
-            let c128CheckDigit: string= "";
-            let charData: char[]= dataToEncode.ToCharArray();
-            let stringLength: number= dataToEncode.Length;
+            let c128CheckDigit: string = "";
+            let charData: char[] = dataToEncode.ToCharArray();
+            let stringLength: number = dataToEncode.Length;
 
             for(var i = 0; i < stringLength; i++) {
 
@@ -34,7 +35,7 @@ UNKNOWN >>                 currentValue *= i;
                 printableString += char.ConvertFromUtf32(currentCharNum);
             }
 
-            let checkDigitValue: number= weightedTotal % 103;
+            let checkDigitValue: number = weightedTotal % 103;
 
             if (checkDigitValue < 95 && checkDigitValue > 0) c128CheckDigit = char.ConvertFromUtf32(checkDigitValue + 32); {
             if (checkDigitValue > 94) c128CheckDigit = char.ConvertFromUtf32(checkDigitValue + 100); {
@@ -50,9 +51,9 @@ UNKNOWN >>                 currentValue *= i;
 
 UNKNOWN >>         public String code128c(String dataToEncode, int returnType = 0) {
 UNKNOWN >>             int currentValue;
-            let c128CheckDigit: string= "";
-            let stringLength: number= dataToEncode.Length; ;
-            let onlyCorrectData: string= "";
+            let c128CheckDigit: string = "";
+            let stringLength: number = dataToEncode.Length; ;
+            let onlyCorrectData: string = "";
 
             // additional logic needed in case ReturnType is not entered
 
@@ -68,10 +69,10 @@ UNKNOWN >>             int currentValue;
 
             if (dataToEncode.Length % 2 === 1) dataToEncode = "0" + dataToEncode; {
 
-            let printableString: string= char.ConvertFromUtf32(205);
+            let printableString: string = char.ConvertFromUtf32(205);
 
-            let weightedTotal: number= 105;
-            let weightValue: number= 1;
+            let weightedTotal: number = 105;
+            let weightValue: number = 1;
 
             stringLength = dataToEncode.Length;
 
@@ -88,7 +89,7 @@ UNKNOWN >>                 currentValue *= weightValue;
                 weightValue += 1;
             }
 
-            let checkDigitValue: number= weightedTotal % 103;
+            let checkDigitValue: number = weightedTotal % 103;
 
             if (checkDigitValue < 95 && checkDigitValue > 0) c128CheckDigit = char.ConvertFromUtf32(checkDigitValue + 32); {
 

@@ -7,24 +7,25 @@
 
     globalObject.CSKernelFile.createCFile = function() {
 
-        const self = {};
-        const c_module: string= "cFile";
+        // @ts-ignore
+        let self: CSKernelFile.IcFile = {};
+        const c_module: string = "cFile";
 
-        const c_sep_dir: string= @"\"; 		// Directory separator character;
-        const c_sep_diralt: string= @"/";	// Alternate directory separator character;
+        const c_sep_dir: string = @"\"; 		// Directory separator character;
+        const c_sep_diralt: string = @"/";	// Alternate directory separator character;
 
-        let m_file: FileStream= null;
-        let m_br: BinaryReader= null;
-        let m_bw: BinaryWriter= null;
-        let m_tr: TextReader= null;
-        let m_function: string= "";
-        let m_module: string= "";
-        let m_open: boolean= false;
-        let m_curPath: string= "";
-        let m_name: string= "";
-        let m_path: string= "";
-        let m_commDialog: object= null;
-        let m_filter: string= "";
+        let m_file: FileStream = null;
+        let m_br: BinaryReader = null;
+        let m_bw: BinaryWriter = null;
+        let m_tr: TextReader = null;
+        let m_function: string = "";
+        let m_module: string = "";
+        let m_open: boolean = false;
+        let m_curPath: string = "";
+        let m_name: string = "";
+        let m_path: string = "";
+        let m_commDialog: object = null;
+        let m_filter: string = "";
 
 UNKNOWN >>         public bool isEof
         {
@@ -96,11 +97,11 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                          bool createFile, bool silens, eFileAccess access,
                          bool withDialog, bool canOpenOther)
         {
-            let exists: boolean= false;
+            let exists: boolean = false;
             close();
 
             if (fullFileName.Length > 0) {
-                let fi: FileInfo= new FileInfo(fullFileName);
+                let fi: FileInfo = new FileInfo(fullFileName);
                 exists = (fi.Exists);
             }
             else {
@@ -122,7 +123,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
             }
 
             if (createFile) {
-                let fi: FileInfo= new FileInfo(fullFileName);
+                let fi: FileInfo = new FileInfo(fullFileName);
                 if (fi.Exists) {
                     try {
                         fi.Delete();
@@ -140,19 +141,19 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.Append,
                                                         FileAccess.Write,
                                                         FileShare.ReadWrite);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.Append,
                                                         FileAccess.Write,
                                                         FileShare.Read);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.Append,
                                                         FileAccess.Write,
                                                         FileShare.None);
@@ -166,19 +167,19 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.ReadWrite);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.Read);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.None);
@@ -191,19 +192,19 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.ReadWrite);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.Read);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.None);
@@ -217,25 +218,25 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.ReadWrite);
-                                m_bw =  globalObject.CSReportDll.createBinaryWriter(m_file);
+                                m_bw = UNKNOWN >>  can't find constructor for class BinaryWriter(m_file);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.Read);
-                                m_bw =  globalObject.CSReportDll.createBinaryWriter(m_file);
+                                m_bw = UNKNOWN >>  can't find constructor for class BinaryWriter(m_file);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.None);
-                                m_bw =  globalObject.CSReportDll.createBinaryWriter(m_file);
+                                m_bw = UNKNOWN >>  can't find constructor for class BinaryWriter(m_file);
                                 break;
                             default:
                                 return false;
@@ -245,25 +246,25 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.ReadWrite);
-                                m_br =  globalObject.CSReportDll.createBinaryReader(m_file);
+                                m_br = UNKNOWN >>  can't find constructor for class BinaryReader(m_file);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.Read);
-                                m_br =  globalObject.CSReportDll.createBinaryReader(m_file);
+                                m_br = UNKNOWN >>  can't find constructor for class BinaryReader(m_file);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file =  globalObject.CSReportDll.createFileStream(fullFileName,
+                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.None);
-                                m_br =  globalObject.CSReportDll.createBinaryReader(m_file);
+                                m_br = UNKNOWN >>  can't find constructor for class BinaryReader(m_file);
                                 break;
                             default:
                                 return false;
@@ -294,7 +295,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
             }
             if (userSearchFile(fullFileName, true, description, true, false)) {
                 if (fullFileName.Length > 0) {
-                    let fi: FileInfo= new FileInfo(fullFileName);
+                    let fi: FileInfo = new FileInfo(fullFileName);
                     exists = fi.Exists;
                     if (exists) {
                         if ((fi.Attributes & FileAttributes.Normal
@@ -320,7 +321,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
         self.write = function(text) {
             if (!m_open) return false; {
             try {
-                let tw: TextWriter= new StreamWriter(m_file);
+                let tw: TextWriter = new StreamWriter(m_file);
                 tw.WriteLine(text);
                 tw.Close();
                 return true;
@@ -338,7 +339,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
             try {
 
                 if (m_tr === null) {
-                    m_tr =  globalObject.CSReportDll.createStreamReader(m_file);
+                    m_tr = UNKNOWN >>  can't find constructor for class StreamReader(m_file);
                 }
 
                 text = m_tr.ReadLine();
@@ -378,9 +379,9 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                     buffer = null;
                 }
                 else {
-                    let bytesInFile: number= m_file.Length - m_file.Position;
+                    let bytesInFile: number = m_file.Length - m_file.Position;
                     if (bytesInFile < buffer.Length) {
-                        buffer =  globalObject.CSReportDll.createByte[bytesInFile];
+                        buffer = UNKNOWN >>  can't find constructor for class byte[bytesInFile];
                     }
                     buffer = m_br.ReadBytes(buffer.Length);
                 }
@@ -419,10 +420,10 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                                    bool saving,
                                    bool canOpenOther)
         {
-            let userFile: string= "";
-            let extValid: boolean= false;
-            let nameValid: boolean= false;
-            let exists: boolean= false;
+            let userFile: string = "";
+            let extValid: boolean = false;
+            let nameValid: boolean = false;
+            let exists: boolean = false;
 
             do {
 
@@ -484,9 +485,9 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                                     bool saving)
         {
             userFile = "";
-            let fd: FileDialog= m_commDialog as FileDialog;
+            let fd: FileDialog = m_commDialog as FileDialog;
             if (curDir.Length > 0 && curDir !== " ") {
-                let di: DirectoryInfo= new DirectoryInfo(curDir);
+                let di: DirectoryInfo = new DirectoryInfo(curDir);
                 if (di.Exists) {
                     fd.InitialDirectory = curDir;
                 }
@@ -505,7 +506,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
             }
             fd.Title = title;
             if (saving) {
-                let fs: SaveFileDialog= m_commDialog as SaveFileDialog;
+                let fs: SaveFileDialog = m_commDialog as SaveFileDialog;
                 if (fs.ShowDialog() === DialogResult.OK) {
                     userFile = fs.FileName;
                     return true;
@@ -515,7 +516,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                 }
             }
             else {
-                let fc: OpenFileDialog= m_commDialog as OpenFileDialog;
+                let fc: OpenFileDialog = m_commDialog as OpenFileDialog;
                 if (fc.ShowDialog() === DialogResult.OK) {
                     userFile = fc.FileName;
                     return true;
@@ -531,10 +532,10 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
         };
 
         self.getFileExt = function(fullFileName) {
-            let path: string= "";
-            let fileName: string= "";
-            let sepPos: number= 0;
-            let sep: string= "";
+            let path: string = "";
+            let fileName: string = "";
+            let sepPos: number = 0;
+            let sep: string = "";
 
             getPathAndFileName(fullFileName, path, fileName);
             sepPos = fileName.Length;
@@ -560,10 +561,10 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
         };
 
         self.getFileWithoutExt = function(fullFileName) {
-            let path: string= "";
-            let fileName: string= "";
-            let sepPos: number= 0;
-            let sep: string= "";
+            let path: string = "";
+            let fileName: string = "";
+            let sepPos: number = 0;
+            let sep: string = "";
 
             getPathAndFileName(fullFileName, path, fileName);
             sepPos = fileName.Length;
@@ -588,8 +589,8 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
         };
 
         self.getPath = function(fullFileName) {
-            let path: string= "";
-            let fileName: string= "";
+            let path: string = "";
+            let fileName: string = "";
 
             getPathAndFileName(fullFileName, path, fileName);
             return path;
@@ -599,8 +600,8 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                                               string path,
                                               string fileName)
         {
-            let sepPos: number= 0;
-            let sep: string= "";
+            let sepPos: number = 0;
+            let sep: string = "";
 
             sepPos = fullFileName.Length;
             if (sepPos === 0) {
@@ -661,7 +662,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                     return false;
                 }
                 else  {
-                    let fi: FileInfo= new FileInfo(fullFileName);
+                    let fi: FileInfo = new FileInfo(fullFileName);
                     return fi.Exists;                
                 }
             }
@@ -674,5 +675,34 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelFile {
+
+  export interface IcFile {
+
+    setFilter: (string) => void;
+    getName: () => string;
+    getPath: () => string;
+    init: (string, string, object) => void;
+    open: (string, eFileMode) => bool;
+    open: (string, eFileMode, ) => bool;
+    open: (string, eFileMode, ) => bool;
+    save: (string, ) => bool;
+    write: (string) => bool;
+    read: (string, bool) => bool;
+    binaryWrite: (byte[]) => bool;
+    binaryRead: (byte[], bool) => bool;
+    close: () => void;
+    userSearchFile: (string, ) => bool;
+    showOpenFileDlg: (string, ) => bool;
+    getFileName: (string) => string;
+    getFileExt: (string) => string;
+    getFileWithoutExt: (string) => string;
+    getPath: (string) => string;
+    getPathAndFileName: (string, ) => void;
+    copyFile: (string, string) => bool;
+  }
+}

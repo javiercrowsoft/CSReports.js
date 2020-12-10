@@ -5,49 +5,50 @@
 
     globalObject.CSReportPaint.createCReportPaint = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportPaint.IcReportPaint = {};
 
-        const C_MODULE: string= "cReportPaint";
+        const C_MODULE: string = "cReportPaint";
 
-        const C_GRID_AREA_WIDTH: number= 200;
-        const C_GRID_AREA_HEIGHT: number= 67;
+        const C_GRID_AREA_WIDTH: number = 200;
+        const C_GRID_AREA_HEIGHT: number = 67;
 
-        const C_KEY_PAINT_OBJ: string= "P";
-        const C_KEY_PAINT_SEC: string= "S";
+        const C_KEY_PAINT_OBJ: string = "P";
+        const C_KEY_PAINT_SEC: string = "S";
 
-        let m_paintObjects: cReportPaintObjects= new cReportPaintObjects();
-        let m_paintSections: cReportPaintObjects= new cReportPaintObjects();
-        let m_paintGridAreas: cReportPaintObjects= new cReportPaintObjects();
+        let m_paintObjects: cReportPaintObjects = new cReportPaintObjects();
+        let m_paintSections: cReportPaintObjects = new cReportPaintObjects();
+        let m_paintGridAreas: cReportPaintObjects = new cReportPaintObjects();
 
-        let m_nextKey: number= 0;
+        let m_nextKey: number = 0;
         let m_brushGrid: HatchBrush = null;
 
-        let m_x1: number= 0;
-        let m_y1: number= 0;
-        let m_y2: number= 0;
-        let m_x2: number= 0;
+        let m_x1: number = 0;
+        let m_y1: number = 0;
+        let m_y2: number = 0;
+        let m_x2: number = 0;
 
-        let m_x1Ex: number= 0;
-        let m_y1Ex: number= 0;
-        let m_y2Ex: number= 0;
-        let m_x2Ex: number= 0;
+        let m_x1Ex: number = 0;
+        let m_y1Ex: number = 0;
+        let m_y2Ex: number = 0;
+        let m_x2Ex: number = 0;
 
         let m_beginMoveDone: boolean = null;
 
-        let m_keyFocus: string= "";
-        let m_vGridObjs: String[,]= null;
+        let m_keyFocus: string = "";
+        let m_vGridObjs: String[,] = null;
         let m_notBorder: boolean = null;
 
         let m_fnt: Font[] = null;
 
-        let m_gridHeight: number= 0;
+        let m_gridHeight: number = 0;
 
-        let m_vSelectedKeys: String[]= null;
+        let m_vSelectedKeys: String[] = null;
 
-        let m_zoom: number= 0;
+        let m_zoom: number = 0;
 
-        let m_scaleX: number= 0;
-        let m_scaleY: number= 0;
+        let m_scaleX: number = 0;
+        let m_scaleY: number = 0;
 
         let m_bitmap: Bitmap = null;
 
@@ -154,7 +155,7 @@
 
         self.getPaintObjectForTag = function(tag) {
             for(var i = 0; i < m_paintObjects.count(); i++) {
-                let paintObj: cReportPaintObject= m_paintObjects.item(i);
+                let paintObj: cReportPaintObject = m_paintObjects.item(i);
                 if (paintObj.getTag() === tag) {
                     return paintObj;
                 }
@@ -164,7 +165,7 @@
 
         self.getPaintSectionForTag = function(tag) {
             for(var i = 0; i < m_paintSections.count(); i++) {
-                let paintObj: cReportPaintObject= m_paintSections.item(i);
+                let paintObj: cReportPaintObject = m_paintSections.item(i);
                 if (paintObj.getTag() === tag) {
                     return paintObj;
                 }
@@ -173,9 +174,9 @@
         };
 
         self.getNewObject = function(paintTypeObject) {
-            let key: string= "";
+            let key: string = "";
             key = getKeyPaintObj();
-            let paintObj: cReportPaintObject= null;
+            let paintObj: cReportPaintObject = null;
             paintObj = m_paintObjects.add(paintObj, key);
             paintObj.setKey(key);
             paintObj.setPaintType(paintTypeObject);
@@ -183,9 +184,9 @@
         };
 
         self.getNewSection = function(paintTypeObject) {
-            let key: string= "";
+            let key: string = "";
             key = getKeyPaintSec();
-            let paintObj: cReportPaintObject= null;
+            let paintObj: cReportPaintObject = null;
             paintObj = m_paintSections.add(paintObj, key);
             paintObj.setKey(key);
             paintObj.setPaintType(paintTypeObject);
@@ -197,7 +198,7 @@
         };
 
 		self.pointIsInObject = function(x, y, sKey) {
-			let regionType: csRptPaintRegionType= csRptPaintRegionType.CRPTPNTRGNTYPEBODY;
+			let regionType: csRptPaintRegionType = csRptPaintRegionType.CRPTPNTRGNTYPEBODY;
 			return pointIsInObject(x, y, sKey, regionType);
 		};
 
@@ -247,21 +248,21 @@
            * ByRef sKey As String, 
            * Optional ByRef RegionType As csRptPaintRegionType */
 
-            self.int: constC_WIDTH_REGION = 3;
+            self.C_WIDTH_REGION: number = 3;
 
-            let yY: number= 0;
-            let xX: number= 0;
+            let yY: number = 0;
+            let xX: number = 0;
 
-            let top: number= 0;
-            let height: number= 0;
-            let width: number= 0;
-            let left: number= 0;
+            let top: number = 0;
+            let height: number = 0;
+            let width: number = 0;
+            let left: number = 0;
 
             if (paintObj === null) {
                 return false;
             }
             else {
-                let w_aspect: cReportAspect= paintObj.getAspect();
+                let w_aspect: cReportAspect = paintObj.getAspect();
                 left = w_aspect.getLeft();
                 width = w_aspect.getWidth();
                 top = w_aspect.getTop() - w_aspect.getOffset();
@@ -431,12 +432,12 @@
         // Grid
         //
         self.initGrid = function(picGrid, typeGrid) {
-            let x: number= 0;
-            let y: number= 0;
-            let c: cReportPaintObject= null;
-            let top: number= 0;
-            let left: number= 0;
-            let i: number= 0;
+            let x: number = 0;
+            let y: number = 0;
+            let c: cReportPaintObject = null;
+            let top: number = 0;
+            let left: number = 0;
+            let i: number = 0;
 
             pCreateBrushGrid(picGrid, typeGrid);
 
@@ -448,21 +449,21 @@
 
             G.redim(m_vGridObjs, x, y);
 
-            let l: number= 0;
-            let t: number= 0;
+            let l: number = 0;
+            let t: number = 0;
 
             for (i = 0; i < y * x; i++) {
                 c = m_paintGridAreas.add(c, getKey());
 
                 left = C_GRID_AREA_WIDTH * l;
                 top = C_GRID_AREA_HEIGHT * t;
-                let w_aspect: cReportAspect= c.getAspect();
+                let w_aspect: cReportAspect = c.getAspect();
                 w_aspect.setLeft(left);
                 w_aspect.setTop(top);
                 w_aspect.setWidth(C_GRID_AREA_WIDTH);
                 w_aspect.setHeight(C_GRID_AREA_HEIGHT);
 
-                let t]: m_vGridObjs[l,= c.getKey();
+                let t]: m_vGridObjs[l, = c.getKey();
 
                 c = null;
 
@@ -533,24 +534,24 @@
             toBottom, 
             toRight, 
             resizing) {
-            let z1: number= 0;
-            let q1: number= 0;
-            let maxY: number= 0;
-            let maxX: number= 0;
-            let gridObjAspect: cReportAspect= null;
+            let z1: number = 0;
+            let q1: number = 0;
+            let maxY: number = 0;
+            let maxX: number = 0;
+            let gridObjAspect: cReportAspect = null;
 
             maxX = m_vGridObjs.GetLength(0)-1;
             maxY = m_vGridObjs.GetLength(1)-1;
 
-            let top: number= 0;
-            let left: number= 0;
-            let width: number= 0;
-            let height: number= 0;
-            let offset: number= 0;
-            self.float: constpointSeparation = 0.6f;
-            self.float: constoffSetPointSep = 0.3f;
+            let top: number = 0;
+            let left: number = 0;
+            let width: number = 0;
+            let height: number = 0;
+            let offset: number = 0;
+            self.pointSeparation: number = 0.6f;
+            self.offSetPointSep: number = 0.3f;
 
-            let paintObjs: cReportPaintObjects= null;
+            let paintObjs: cReportPaintObjects = null;
 
             if (sKey.Substring(0, 1) === C_KEY_PAINT_SEC) {
                 paintObjs = m_paintSections;
@@ -559,11 +560,11 @@
                 paintObjs = m_paintObjects;
             }
 
-            let nLeft: number= 0;
-            let nTop: number= 0;
+            let nLeft: number = 0;
+            let nTop: number = 0;
 
-            let w_item: cReportPaintObject= paintObjs.item(sKey);
-            let w_aspect: cReportAspect= w_item.getAspect();
+            let w_item: cReportPaintObject = paintObjs.item(sKey);
+            let w_aspect: cReportAspect = w_item.getAspect();
             nLeft = w_aspect.getLeft() - offSetPointSep;
             nTop = w_aspect.getTop() - w_aspect.getOffset() - offSetPointSep;
 
@@ -686,7 +687,7 @@ UNKNOWN >>                                 - offSetPointSep
             // check the width of the paintObject for this section
             // is into the bounds of the page
             //
-            let aspect: cReportAspect= m_paintSections.item(key).getAspect();
+            let aspect: cReportAspect = m_paintSections.item(key).getAspect();
             if (aspect.getWidth() > m_bitmap.Size.Width-2) {
                 aspect.setWidth(m_bitmap.Size.Width-2);
             }
@@ -694,16 +695,16 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         self.drawRule = function(key, graph) {
-            self.int: constLINE_COLOR = 0xcc6600;
-            let top: number= 0;
-            let heightSec: number= 0;
-            let aspect: cReportAspect= null;
+            self.LINE_COLOR: number = 0xcc6600;
+            let top: number = 0;
+            let heightSec: number = 0;
+            let aspect: cReportAspect = null;
 
-            aspect =  globalObject.CSReportDll.createCReportAspect();
+            aspect = globalObject.CSReportDll.createCReportAspect();
 
-            let w_item: cReportPaintObject= m_paintSections.item(key);
+            let w_item: cReportPaintObject = m_paintSections.item(key);
             heightSec = w_item.getHeightSecLine() * 0.5f;
-            let w_aspect: cReportAspect= w_item.getAspect();
+            let w_aspect: cReportAspect = w_item.getAspect();
             aspect.setTop(w_aspect.getTop() + 3 - heightSec);
             aspect.setOffset(w_aspect.getOffset());
             aspect.setTransparent(true);
@@ -789,11 +790,11 @@ UNKNOWN >>                                 - offSetPointSep
 
 		self.moveObjToXY = function(sKey, x, y, graph) {
             if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
-                let w_aspect: cReportAspect= m_paintObjects.item(sKey).getAspect();
+                let w_aspect: cReportAspect = m_paintObjects.item(sKey).getAspect();
                 move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
-                let w_aspect: cReportAspect= m_paintSections.item(sKey).getAspect();
+                let w_aspect: cReportAspect = m_paintSections.item(sKey).getAspect();
                 move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         };
@@ -827,22 +828,22 @@ UNKNOWN >>                                 - offSetPointSep
 
 		self.moveVertical = function(sKey, y, graph) {
             if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
-                let w_aspect: cReportAspect= m_paintObjects.item(sKey).getAspect();
+                let w_aspect: cReportAspect = m_paintObjects.item(sKey).getAspect();
                 move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
-                let w_aspect: cReportAspect= m_paintSections.item(sKey).getAspect();
+                let w_aspect: cReportAspect = m_paintSections.item(sKey).getAspect();
                 move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         };
 
 		self.moveHorizontal = function(sKey, x, graph) {
             if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
-                let w_aspect: cReportAspect= m_paintObjects.item(sKey).getAspect();
+                let w_aspect: cReportAspect = m_paintObjects.item(sKey).getAspect();
                 move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
-                let w_aspect: cReportAspect= m_paintSections.item(sKey).getAspect();
+                let w_aspect: cReportAspect = m_paintSections.item(sKey).getAspect();
                 move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         };
@@ -873,20 +874,20 @@ UNKNOWN >>                                 - offSetPointSep
                                         csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT));
                 }
 
-                let oPaintObj: cReportPaintObject= null;
-                let x1: number= 0;
-                let y1: number= 0;
-                let y2: number= 0;
-                let x2: number= 0;
-                let colorIn: number= 0;
-                let colorOut: number= 0;
-                let filled: boolean= false;
+                let oPaintObj: cReportPaintObject = null;
+                let x1: number = 0;
+                let y1: number = 0;
+                let y2: number = 0;
+                let x2: number = 0;
+                let colorIn: number = 0;
+                let colorOut: number = 0;
+                let filled: boolean = false;
 
                 oPaintObj = collObjs.item(key);
 
                 if (oPaintObj === null) { return false; }
 
-                let w_aspect: cReportAspect= oPaintObj.getAspect();
+                let w_aspect: cReportAspect = oPaintObj.getAspect();
 
                 x1 = w_aspect.getLeft();
                 x2 = x1 + w_aspect.getWidth();
@@ -929,8 +930,8 @@ UNKNOWN >>                                 - offSetPointSep
                                     colorIn,
                                     0xC0C000);
 
-                        let bmpWidth: number= 0;
-                        let bmpHeight: number= 0;
+                        let bmpWidth: number = 0;
+                        let bmpHeight: number = 0;
 
                         if (oPaintObj.getImage() !== null) {
                             cGlobals.getBitmapSize(oPaintObj.getImage(), bmpWidth, bmpHeight, true);
@@ -1005,8 +1006,8 @@ UNKNOWN >>                                 - offSetPointSep
               DeleteObject hDC
              */
 
-            let sourceRect: Rectangle= new Rectangle(0, 0, bmpWidth, bmpHeight);
-            let destRect: Rectangle= new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), bmpWidth, bmpHeight);
+            let sourceRect: Rectangle = new Rectangle(0, 0, bmpWidth, bmpHeight);
+            let destRect: Rectangle = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), bmpWidth, bmpHeight);
 
             graph.DrawImage(image, destRect, sourceRect, GraphicsUnit.Pixel);
         };
@@ -1016,7 +1017,7 @@ UNKNOWN >>                                 - offSetPointSep
 
             if (!pAllreadySelected(sKey)) {
                 G.redimPreserve(m_vSelectedKeys, m_vSelectedKeys.Length + 1);
-                let -1]: m_vSelectedKeys[m_vSelectedKeys.Length= sKey;
+                let -1]: m_vSelectedKeys[m_vSelectedKeys.Length = sKey;
             }
 
             m_keyFocus = sKey;
@@ -1024,7 +1025,7 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         self.removeFromSelected = function(sKey, graph) {
-            let i: number= 0;
+            let i: number = 0;
 
             for (i = 0; i < m_vSelectedKeys.Length; i++) {
                 if (m_vSelectedKeys[i] === sKey) {
@@ -1063,9 +1064,9 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         const setFocusAux = function(sKey, graph) {
-            let paintObjAsp: cReportPaintObject= null;
-            let color: number= 0;
-            let bCircle: boolean= false;
+            let paintObjAsp: cReportPaintObject = null;
+            let color: number = 0;
+            let bCircle: boolean = false;
 
             m_keyFocus = sKey;
 
@@ -1082,7 +1083,7 @@ UNKNOWN >>                                 - offSetPointSep
 
             if (paintObjAsp === null) { return; }
 
-            let w_aspect: cReportAspect= paintObjAsp.getAspect();
+            let w_aspect: cReportAspect = paintObjAsp.getAspect();
             showHandles(graph, 
                         Convert.ToInt32(w_aspect.getLeft()), 
                         Convert.ToInt32(w_aspect.getTop() - w_aspect.getOffset()), 
@@ -1112,10 +1113,10 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         self.resize = function(graph, sKey, left, top, x2, y2) {
-            self.int: constC_MIN_WIDTH = 1;
-            self.int: constC_MIN_HEIGHT = 1;
+            self.C_MIN_WIDTH: number = 1;
+            self.C_MIN_HEIGHT: number = 1;
 
-            let paintObjAsp: cReportAspect= null;
+            let paintObjAsp: cReportAspect = null;
 
             if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
                 paintObjAsp = m_paintObjects.item(sKey).getAspect();
@@ -1174,7 +1175,7 @@ UNKNOWN >>                                 - offSetPointSep
         };
 
         self.createBackgroundBitmap = function(graph) {
-            m_bitmap =  globalObject.CSReportDll.createBitmap(graph.VisibleClipBounds.Width + 1, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???
+            m_bitmap = UNKNOWN >>  can't find constructor for class Bitmap(graph.VisibleClipBounds.Width + 1, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???
         };
 
         const refreshBackgroundPicture = function(graph, color) {
@@ -1222,15 +1223,15 @@ UNKNOWN >>                                 - offSetPointSep
 
             createBackgroundBitmap(graph);
 
-            let bitmapGraphic: Graphics= Graphics.FromImage(m_bitmap);
+            let bitmapGraphic: Graphics = Graphics.FromImage(m_bitmap);
 
-            let rect: Rectangle= cGlobals.newRectangle(0, 0, (int)graph.VisibleClipBounds.Width, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???;
+            let rect: Rectangle = cGlobals.newRectangle(0, 0, (int)graph.VisibleClipBounds.Width, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???;
 
             if (m_brushGrid !== null) {
                 bitmapGraphic.FillRectangle(m_brushGrid, rect);
             }
             else  {
-                let brush: Brush= new SolidBrush(cColor.colorFromRGB(color));
+                let brush: Brush = new SolidBrush(cColor.colorFromRGB(color));
                 bitmapGraphic.FillRectangle(brush, rect);
                 brush.Dispose();            
             }
@@ -1319,7 +1320,7 @@ UNKNOWN >>                                 - offSetPointSep
 
 UNKNOWN >>             Pen pen;
 
-            pen =  globalObject.CSReportDll.createPen(cColor.colorFromRGB(colorOut), width);
+            pen = UNKNOWN >>  can't find constructor for class Pen(cColor.colorFromRGB(colorOut), width);
 
             if (dash) {
                 pen.DashStyle = DashStyle.Dot;
@@ -1331,11 +1332,11 @@ UNKNOWN >>             Pen pen;
                 x1 = x1 * m_scaleX;
                 x2 = x2 * m_scaleX;
 
-                let extGraph: cGraphics= new cGraphics(graph);
+                let extGraph: cGraphics = new cGraphics(graph);
                 extGraph.DrawRoundRectangle(pen, x1, y1, x2-x1, y2-y1, 8f);
             }
             else {
-                let rect: Rectangle= cGlobals.newRectangle(Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(x2), Convert.ToInt32(y2));
+                let rect: Rectangle = cGlobals.newRectangle(Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(x2), Convert.ToInt32(y2));
 
                 if (y2 !== y1 && x1 !== x2) {
                     if (filled) {
@@ -1346,7 +1347,7 @@ UNKNOWN >>             Pen pen;
                             rect.Inflate(-1, -1);
                         }
                         */
-                        let brush: Brush= new SolidBrush(cColor.colorFromRGB(colorInside));
+                        let brush: Brush = new SolidBrush(cColor.colorFromRGB(colorInside));
                         graph.FillRectangle(brush, rect);
                         brush.Dispose();
                     }
@@ -1485,15 +1486,15 @@ UNKNOWN >>             Pen pen;
              */
 
             // padding
-            self.int: constc_Margen_Y = 1; // 20 twips;
-            self.int: constc_Margen_X = 4; // 80 twips;
-            self.int: constc_Margen_Bottom = 4; // 80 twips;
+            self.c_Margen_Y: number = 1; // 20 twips;
+            self.c_Margen_X: number = 4; // 80 twips;
+            self.c_Margen_Bottom: number = 4; // 80 twips;
 
-            let idx: number= cGlobals.addFontIfRequired(aspect.getFont(), m_fnt);
+            let idx: number = cGlobals.addFontIfRequired(aspect.getFont(), m_fnt);
 
-            let font: Font= m_fnt[idx];
+            let font: Font = m_fnt[idx];
 
-            let format: StringFormat= new StringFormat();
+            let format: StringFormat = new StringFormat();
 
             format.Trimming = StringTrimming.EllipsisWord;
             format.Alignment = StringAlignment.Near;
@@ -1502,8 +1503,8 @@ UNKNOWN >>             Pen pen;
                 format.FormatFlags = StringFormatFlags.NoWrap;
             }
 
-            let stringWidth: number= getPlEvaluateTextWidth(sText, font, m_scaleX);
-            let stringHeight: number= getPlEvaluateTextHeight(sText, font, aspect.getWidth(), format, m_scaleY, m_scaleX);
+            let stringWidth: number = getPlEvaluateTextWidth(sText, font, m_scaleX);
+            let stringHeight: number = getPlEvaluateTextHeight(sText, font, aspect.getWidth(), format, m_scaleY, m_scaleX);
 
             // TODO: translate this to English if it is really needed
             //
@@ -1517,8 +1518,8 @@ UNKNOWN >>             Pen pen;
             //
             stringHeight += 25; //+ 400 the original code was in twips;
 
-            let margenX: number= c_Margen_X;
-            let margenY: number= c_Margen_Y;
+            let margenX: number = c_Margen_X;
+            let margenY: number = c_Margen_Y;
 
             if (image !== null) {
                 margenX += image.Size.Width;
@@ -1532,14 +1533,14 @@ UNKNOWN >>             Pen pen;
                 }
             }
 
-            let nWidth: number= Convert.ToInt32(aspect.getWidth() - margenX * 2);
+            let nWidth: number = Convert.ToInt32(aspect.getWidth() - margenX * 2);
 
             if (stringWidth > nWidth)  {
                 stringWidth = nWidth;
             }
 
-            let x: number= 0;
-            let y: number= 0;
+            let x: number = 0;
+            let y: number = 0;
 
             switch (aspect.getAlign())
             {
@@ -1556,9 +1557,9 @@ UNKNOWN >>             Pen pen;
 
             y = Convert.ToInt32(aspect.getTop() - aspect.getOffset() + margenY);
 
-            let rect: RectangleF= cGlobals.newRectangleF(x, y, Convert.ToInt32(x + aspect.getWidth() - margenX), y + stringHeight);
+            let rect: RectangleF = cGlobals.newRectangleF(x, y, Convert.ToInt32(x + aspect.getWidth() - margenX), y + stringHeight);
 
-            let brush: SolidBrush= new SolidBrush(cColor.colorFromRGB(aspect.getFont().getForeColor()));
+            let brush: SolidBrush = new SolidBrush(cColor.colorFromRGB(aspect.getFont().getForeColor()));
 
             graph.DrawString(sText, font, brush, rect, format);
 
@@ -1702,7 +1703,7 @@ UNKNOWN >>             Pen pen;
                 DeleteObject(hBrush);
             }
             */
-            self.int: constiSize = 7;
+            self.iSize: number = 7;
 
             if (x1 - iSize < 0) { x1 = iSize; }
             if (y1 - iSize < 0) { y1 = iSize; }
@@ -1710,9 +1711,9 @@ UNKNOWN >>             Pen pen;
             if (x1 - iSize < 0) { x1 = iSize; }
             if (y1 - iSize < 0) { y1 = iSize; }            
 
-            let brush: Brush= new SolidBrush(cColor.colorFromRGB(color));
+            let brush: Brush = new SolidBrush(cColor.colorFromRGB(color));
 
-            let rect: Rectangle= cGlobals.newRectangle(x1 - iSize, y1 - iSize - 1, x1, y1);
+            let rect: Rectangle = cGlobals.newRectangle(x1 - iSize, y1 - iSize - 1, x1, y1);
             showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x1 - iSize, y2, x1, y2 + iSize);
@@ -1724,14 +1725,14 @@ UNKNOWN >>             Pen pen;
             rect = cGlobals.newRectangle(x2, y2, x2 + iSize, y2 + iSize);
             showHandle(graph, brush, rect, bCircle);
 
-            let x: number= Convert.ToInt32((x1 +  / 2f) - iSize / 2f);
+            let x: number = Convert.ToInt32((x1 +  / 2f) - iSize / 2f);
             rect = cGlobals.newRectangle(x, y2, x + iSize, y2 + iSize);
             showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x, y1 - iSize - 1, x + iSize, y1);
             showHandle(graph, brush, rect, bCircle);
 
-            let y: number= Convert.ToInt32((y1 +  / 2f) - iSize / 2f);
+            let y: number = Convert.ToInt32((y1 +  / 2f) - iSize / 2f);
             rect = cGlobals.newRectangle(x1 - iSize, y, x1, y + iSize);
             showHandle(graph, brush, rect, bCircle);
 
@@ -1783,7 +1784,7 @@ UNKNOWN >>             Pen pen;
             }
             */
 
-            let rect: Rectangle= cGlobals.newRectangle(0, 0, m_bitmap.Size.Width, m_bitmap.Size.Height);
+            let rect: Rectangle = cGlobals.newRectangle(0, 0, m_bitmap.Size.Width, m_bitmap.Size.Height);
             if (m_zoom === 100) {
                 //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, m_hMemDC, 0, 0, vbSrcCopy);
                 graph.DrawImage(m_bitmap, rect, rect, GraphicsUnit.Pixel);
@@ -1805,7 +1806,7 @@ UNKNOWN >>             Pen pen;
 
             m_beginMoveDone = true;
 
-            let graphic: Graphics= Graphics.FromImage(m_bitmap);
+            let graphic: Graphics = Graphics.FromImage(m_bitmap);
             for(var i = 0; i < m_vSelectedKeys.Length; i++) {
                 setFocusAux(m_vSelectedKeys[i], graphic);
             }
@@ -1833,7 +1834,7 @@ UNKNOWN >>             Pen pen;
 
                       BitBlt(graph.hDC, tR.left, tR.top, tR.right - tR.left, tR.bottom - tR.top, m_hMemDC, tR.left, tR.top, vbSrcCopy);
              * */
-            let rect: Rectangle= cGlobals.newRectangle(0, 0, m_bitmap.Size.Width, m_bitmap.Size.Height);
+            let rect: Rectangle = cGlobals.newRectangle(0, 0, m_bitmap.Size.Width, m_bitmap.Size.Height);
             if (m_zoom === 100) {
                 //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, m_hMemDC, 0, 0, vbSrcCopy);
                 graph.DrawImage(m_bitmap, rect, rect, GraphicsUnit.Pixel);
@@ -1892,31 +1893,31 @@ UNKNOWN >>             Pen pen;
             switch (typeGrid)
             {
                 case csETypeGrid.CSEGRIDLINES:
-                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
+                    m_brushGrid = UNKNOWN >>  can't find constructor for class HatchBrush(
                                             HatchStyle.Cross,
                                             cColor.colorFromRGB(0xC0C0C0),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDPOINTS:
-                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
+                    m_brushGrid = UNKNOWN >>  can't find constructor for class HatchBrush(
                                             HatchStyle.DottedGrid,
                                             cColor.colorFromRGB(0xC0C0C0),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDLINESHORIZONTAL:
-                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
+                    m_brushGrid = UNKNOWN >>  can't find constructor for class HatchBrush(
                                             HatchStyle.Horizontal,
                                             cColor.colorFromRGB(0xC0C0C0),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDLINESVERTICAL:
-                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
+                    m_brushGrid = UNKNOWN >>  can't find constructor for class HatchBrush(
                                             HatchStyle.Vertical,
                                             cColor.colorFromRGB(0xC0C0C0),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDNONE:
-                    m_brushGrid =  globalObject.CSReportDll.createHatchBrush(
+                    m_brushGrid = UNKNOWN >>  can't find constructor for class HatchBrush(
                                             HatchStyle.DottedGrid,
                                             cColor.colorFromRGB(0xCCCCCC),
                                             Color.White);
@@ -1927,28 +1928,28 @@ UNKNOWN >>             Pen pen;
         //
         //
         const getPlEvaluateTextWidth = function(text, font, scaleX) {
-            let graph: Graphics= Graphics.FromImage(m_bitmap);
-            let stringSize: SizeF= graph.MeasureString(text, font);
+            let graph: Graphics = Graphics.FromImage(m_bitmap);
+            let stringSize: SizeF = graph.MeasureString(text, font);
             graph.Dispose();
             return Convert.ToInt32(stringSize.Width / scaleX); // TODO: check if it is / or *
         };
 
         const getPlEvaluateTextHeight = function(text, font, width, format, scaleY, scaleX) {
-            let graph: Graphics= Graphics.FromImage(m_bitmap);
-            let stringSize: SizeF= graph.MeasureString(text, font, Convert.ToInt32(width * scaleX), format);
+            let graph: Graphics = Graphics.FromImage(m_bitmap);
+            let stringSize: SizeF = graph.MeasureString(text, font, Convert.ToInt32(width * scaleX), format);
             graph.Dispose();
             return Convert.ToInt32(stringSize.Height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
         };
 
         const pClearObject = function(key, graph) {
-            let oPaintObj: cReportPaintObject= null;
+            let oPaintObj: cReportPaintObject = null;
 
             oPaintObj = m_paintObjects.item(key);
 
             if (oPaintObj === null) { return; }
 
-            let w_aspect: cReportAspect= oPaintObj.getAspect();
-            let tR: RectangleF= cGlobals.newRectangleF(w_aspect.getLeft(), w_aspect.getTop(), w_aspect.getLeft() + w_aspect.getWidth(), w_aspect.getTop() + w_aspect.getHeight());
+            let w_aspect: cReportAspect = oPaintObj.getAspect();
+            let tR: RectangleF = cGlobals.newRectangleF(w_aspect.getLeft(), w_aspect.getTop(), w_aspect.getLeft() + w_aspect.getWidth(), w_aspect.getTop() + w_aspect.getHeight());
 
             if (tR.Right > graph.ClipBounds.Width) { tR.Width = cGlobals.setRectangleWidth(graph.ClipBounds.Width - tR.Left); }
             if (tR.Bottom > graph.ClipBounds.Height) { tR.Height = cGlobals.setRectangleHeight(graph.ClipBounds.Height - tR.Top); }
@@ -2012,8 +2013,8 @@ UNKNOWN >>             Pen pen;
                     //       we need to fix it but the fix will break all reports so first we need to update
                     //       those reports to set the BorderType to CSRPTBSNONE
                     //
-                    let dash: boolean= false;
-                    self.int: constborderWidth = 1;
+                    let dash: boolean = false;
+                    self.borderWidth: number = 1;
 
                     if (m_notBorder === false 
                             && (
@@ -2048,44 +2049,2698 @@ UNKNOWN >>             Pen pen;
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
 
 
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 /*);
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 http://stackoverflow.com/questions/7507602/best-practice-for-onpaint-invalidate-clipping-and-regions(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 Since a lot of people are viewing this question I will go ahead and answer it to the best of my current knowledge.(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 The Graphics class supplied with PaintEventArgs is always hard-clipped by the invalidation request. This is usually done by the operating system, but it can be done by your code.(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 You can't reset this clip or escape from these clip bounds, but you shouldn't need to. When painting, you generally shouldn't care about how it's being clipped unless you desperately need to maximize performance.(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 The graphics class uses a stack of containers to apply clipping and transformations. You can extend this stack yourself by using Graphics.BeginContainer and Graphics.EndContainer. Each time you begin a container, any changes you make to the Transform or the Clip are temporary and they are applied after any previous Transform or Clip which was configured before the BeginContainer. So essentially, when you get an OnPaint event it has already been clipped and you are in a new container so you can't see the clip (your Clip region or ClipRect will show as being infinite) and you can't break of those clip bounds.(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 When the state of your visual objects change (for example, on mouse or keyboard events or reacting to data changes), it's normally fine to simply call Invalidate() which will repaint the entire control. Windows will call OnPaint during moments of low CPU usage. Each call to Invalidate() usually will not always correspond to an OnPaint event. Invalidate could be called multiple times before the next paint. So if 10 properties in your data model change all at once, you can safely call Invalidate 10 times on each property change and you'll likely only trigger a single OnPaint event.(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 I've noticed you should be careful with using Update() and Refresh(). These force a synchronous OnPaint immediately. They're useful for drawing during a single threaded operation (updating a progress bar perhaps), but using them at the wrong times could lead to excessive and unnecessary painting.(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 If you want to use clip rectangles to improve performance while repainting a scene, you need not keep track of an aggregated clip area yourself. Windows will do this for you. Just invalidate a rectangle or a region that requires invalidation and paint as normal. For example, if an object that you are painting is moved, each time you want to invalidate it's old bounds and it's new bounds, so that you repaint the background where it originally was in addition to painting it in its new location. You must also take into account pen stroke sizes, etc.(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 And as Hans Passant mentioned, always use 32bppPArgb as the bitmap format for high resolution images. Here's a code snippet on how to load an image as "high performance":(globalObject));
 
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 public static Bitmap GetHighPerformanceBitmap(Image original));
-{(globalObject));
-Bitmap bitmap;(globalObject));
 
-bitmap = new Bitmap(original.Width, original.Height, PixelFormat.Format32bppPArgb);(globalObject));
-bitmap.SetResolution(original.HorizontalResolution, original.VerticalResolution);(globalObject));
 
-using (Graphics g = Graphics.FromImage(bitmap)));
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 {(globalObject));
-g.DrawImage(original, new Rectangle(new Point(0, 0), bitmap.Size), new Rectangle(new Point(0, 0), bitmap.Size), GraphicsUnit.Pixel);(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+    Bitmap bitmap;(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+    bitmap = new Bitmap(original.Width, original.Height, PixelFormat.Format32bppPArgb);(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+    bitmap.SetResolution(original.HorizontalResolution, original.VerticalResolution);(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+    using (Graphics g = Graphics.FromImage(bitmap)));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+    {(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+        g.DrawImage(original, new Rectangle(new Point(0, 0), bitmap.Size), new Rectangle(new Point(0, 0), bitmap.Size), GraphicsUnit.Pixel);(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+    }(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+    return bitmap;(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
 }(globalObject));
 
-return bitmap;(globalObject));
-}(globalObject));
 
-*/(globalObject));
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+);
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}
+ */(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaint {
+
+    "constructor",: cError.mngError(ex,;
+    setGridHeight: (float) => void;
+    getPaintSections: () => cReportPaintObjects;
+    getPaintObjects: () => cReportPaintObjects;
+    getNotBorder: () => bool;
+    setNotBorder: (bool) => void;
+    getZoom: () => int;
+    setZoom: (int) => void;
+    setScaleY: (float) => void;
+    setScaleX: (float) => void;
+    getScaleY: () => float;
+    getScaleX: () => float;
+    getPaintObject: (String) => cReportPaintObject;
+    getPaintObjectForTag: (String) => cReportPaintObject;
+    getPaintSectionForTag: (String) => cReportPaintObject;
+    getNewObject: (csRptPaintObjType) => cReportPaintObject;
+    getNewSection: (csRptPaintObjType) => cReportPaintObject;
+    paintObjIsSection: (String) => bool;
+    pointIsInObject: (float, float, String) => bool;
+    pointIsInObject: (float, float, String, csRptPaintRegionType) => bool;
+    pointIsInThisObject: (float, float, String, csRptPaintRegionType) => bool;
+    C_WIDTH_REGION: number;
+    initGrid: (Graphics, csETypeGrid) => void;
+    alingObjTopToGrid: (String) => void;
+    alingObjLeftToGrid: (String) => void;
+    alingObjBottomToGrid: (String) => void;
+    alingObjRightToGrid: (String) => void;
+    alingObjLeftTopToGrid: (String) => void;
+    alingObjLeftBottomToGrid: (String) => void;
+    alingObjRightTopToGrid: (String) => void;
+    alingObjRightBottomToGrid: (String) => void;
+    alingToGrid: (String) => void;
+    pointSeparation: number;
+    offSetPointSep: number;
+    clearPage: (object) => void;
+    refreshObject: (String, Graphics) => bool;
+    drawObject: (String, Graphics) => bool;
+    drawSection: (String, Graphics) => bool;
+    drawRule: (String, Graphics) => bool;
+    LINE_COLOR: number;
+    moveObjToXY: (String, float, float, Graphics) => void;
+    moveObjToXYEx: (String, float, float, Graphics, bool) => void;
+    moveVertical: (String, float, Graphics) => void;
+    moveHorizontal: (String, float, Graphics) => void;
+    endMove: (Graphics) => void;
+    setFocus: (String, Graphics, bool) => void;
+    removeFromSelected: (String, Graphics) => void;
+    resize: (Graphics, String, float, float, float, float) => void;
+    C_MIN_WIDTH: number;
+    C_MIN_HEIGHT: number;
+    createPicture: (Graphics) => void;
+    createBackgroundBitmap: (Graphics) => void;
+    c_Margen_Y: number;
+    c_Margen_X: number;
+    c_Margen_Bottom: number;
+    iSize: number;
+    paintPicture: (Graphics, bool) => void;
+    beginMove: () => void;
+    borderWidth: number;
+    getBitmap: () => Image;
+  }
+}

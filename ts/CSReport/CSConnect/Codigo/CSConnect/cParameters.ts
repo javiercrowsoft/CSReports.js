@@ -4,7 +4,8 @@
 
     globalObject.CSConnect.createCParameters = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSConnect.IcParameters = {};
 
         // Creates an empty collection.
         const cParameters = function() {
@@ -115,7 +116,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null) {
-                    c =  globalObject.CSReportDll.createCParameter();
+                    c = globalObject.CSConnect.createCParameter();
                 }
 
                 if (key === "") {
@@ -151,7 +152,7 @@ UNKNOWN >>             get
 
         self.getByPosition = function(position) {
             for (var i = 0; i < count(); i++) {
-                let p: cParameter= item(i);
+                let p: cParameter = item(i);
                 if (p.getPosition() === position)  {
                     return p;
                 }
@@ -169,5 +170,25 @@ UNKNOWN >>             get
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSConnect {
+
+  export interface IcParameters {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    add: (cParameter, String) => cParameter;
+    count: () => int;
+    item: (String) => cParameter;
+    getByPosition: (int) => cParameter;
+    item: (int) => cParameter;
+  }
+}

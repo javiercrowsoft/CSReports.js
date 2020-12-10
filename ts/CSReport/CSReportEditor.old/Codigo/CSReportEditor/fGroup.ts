@@ -4,8 +4,9 @@
 
     globalObject.CSReportEditor.createFGroup = function() {
 
-        const self = {};
-        let m_ok: boolean= false;
+        // @ts-ignore
+        let self: CSReportEditor.IfGroup = {};
+        let m_ok: boolean = false;
 
         const fGroup = function() {
             InitializeComponent();
@@ -83,27 +84,27 @@
             return m_ok;
         };
 
-		self. = function() {
+		self.getDbField = function() {
 			throw new NotImplementedException ();
 		};
 
-		self. = function() {
+		self.getFieldType = function() {
 			throw new NotImplementedException ();
 		};
 
-		self. = function() {
+		self.getIndex = function() {
 			throw new NotImplementedException ();
 		};
 
-		self. = function(sField) {
+		self.setDbField = function(sField) {
 			throw new NotImplementedException ();
 		};
 
-		self. = function(nFieldType) {
+		self.setFieldType = function(nFieldType) {
 			throw new NotImplementedException ();
 		};
 
-		self. = function(nIndex) {
+		self.setIndex = function(nIndex) {
 			throw new NotImplementedException ();
 		};
 
@@ -118,5 +119,37 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfGroup {
+
+    getTxName: () => cMaskEdit;
+    getTxDbField: () => cMaskEdit;
+    getAsc: () => bool;
+    setAsc: (bool) => void;
+    setDesc: (bool) => void;
+    getPrintInNewPage: () => bool;
+    setPrintInNewPage: (bool) => void;
+    getReprintGroup: () => bool;
+    setReprintGroup: (bool) => void;
+    getGrandTotal: () => bool;
+    setGrandTotal: (bool) => void;
+    getSortByDate: () => bool;
+    setSortByDate: (bool) => void;
+    getSortByNumber: () => bool;
+    setSortByNumber: (bool) => void;
+    getSortByText: () => bool;
+    setSortByText: (bool) => void;
+    getOk: () => bool;
+    getDbField: () => string;
+    getFieldType: () => int;
+    getIndex: () => int;
+    setDbField: (string) => void;
+    setFieldType: (int) => void;
+    setIndex: (int) => void;
+  }
+}

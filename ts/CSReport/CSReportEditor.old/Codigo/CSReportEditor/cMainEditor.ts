@@ -4,42 +4,43 @@
 
 	globalObject.CSReportEditor.createCMainEditor = function() {
 
-	    const self = {};
+	    // @ts-ignore
+	    let self: CSReportEditor.IcMainEditor = {};
 
-	    const C_MODULE: string= "mPublic";
+	    const C_MODULE: string = "mPublic";
 
-	    const NOERROR: number= 0;
+	    const NOERROR: number = 0;
 
-		self.CSNOFECHA: DateTime= DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+		self.CSNOFECHA: DateTime = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
 
-	    self.C_HEIGHT_BAR_SECTION: number= 120;
-	    self.C_HEIGHT_NEW_SECTION: number= 350;
+	    self.C_HEIGHT_BAR_SECTION: number = 120;
+	    self.C_HEIGHT_NEW_SECTION: number = 350;
 
-	    const C_KEYRECENTLIST: string= "Recent";
+	    const C_KEYRECENTLIST: string = "Recent";
 
-	    const C_CONFIG: string= "Interfaz";
-	    const C_LEFTBARCOLOR: string= "LeftBarColor";
-	    const C_HIDELEFTBAR: string= "HideLeftBar";
-	    const C_BACKCOLOR: string= "BackColor";
-	    const C_WORKFOLDER: string= "WorkFolder";
+	    const C_CONFIG: string = "Interfaz";
+	    const C_LEFTBARCOLOR: string = "LeftBarColor";
+	    const C_HIDELEFTBAR: string = "HideLeftBar";
+	    const C_BACKCOLOR: string = "BackColor";
+	    const C_WORKFOLDER: string = "WorkFolder";
 
-	    self.int: staticgNextReport = 0;
+	    self.int: static gNextReport = 0;
 	    let cEditor: static = null;m_editor;
 	    let cEditor: static = null;m_toolBoxOwner;
 	    let cEditor: static = null;m_ctrlBoxOwner;
 	    let cEditor: static = null;m_ctrlTreeBoxOwner;
 
-		self.int: staticgBackColor = 0;
-	    self.int: staticgLeftBarColor = 0;
+		self.int: static gBackColor = 0;
+	    self.int: static gLeftBarColor = 0;
 	    self.bool: static = null;gHideLeftBar;
-	    self.String: staticgWorkFolder = "";
+	    self.String: static gWorkFolder = "";
 	    self.bool: static = null;gbFirstOpen;
 
         let fMain: static = null;fmain;
 
         self.initEditor = function() {
             if (fmain === null) {
-                fmain =  globalObject.CSReportDll.createFMain();
+                fmain = globalObject.CSReportEditor.createFMain();
             }
             return fmain;
         };
@@ -143,11 +144,14 @@
 
         return self;
 
-	}
+	}	}
+        return self;
+
 
 	self.createRectangle = function() {
 
-	    const self = {};
+	    // @ts-ignore
+	    let self: CSReportEditor.IRectangle = {};
 		self.height: number = null;
 		self.width: number = null;
 
@@ -157,7 +161,11 @@
         };
         return self;
 
-	}
+	}	}
+        return self;
+
+
+        return self;
 
 
 UNKNOWN >> 	public enum SpecialFolderIDs {
@@ -184,7 +192,11 @@ UNKNOWN >> 	public enum SpecialFolderIDs {
 	    SFIDCOMMONFILES = 0x10001
         return self;
 
-	}
+	}	}
+        return self;
+
+
+        return self;
 
 
 UNKNOWN >> 	public enum csEAlignConst {
@@ -201,7 +213,29 @@ UNKNOWN >> 	public enum csEAlignConst {
 UNKNOWN >> 	    CSEALIGNCTLHEIGHT
         return self;
 
-	}
+	}	}
+        return self;
+
 
 }(globalObject));
 
+
+namespace CSReportEditor {
+
+  export interface IRectangle {
+
+    height;: number;
+    width;: number;
+  }
+}
+);
+
+
+namespace CSReportEditor {
+
+  export interface IRectangle {
+
+    height;: number;
+    width;: number;
+  }
+}

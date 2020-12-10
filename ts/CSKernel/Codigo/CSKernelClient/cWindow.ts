@@ -4,8 +4,9 @@
 
     globalObject.CSKernelClient.createCWindow = function() {
 
-        const self = {};
-        let String: staticm_title = "Message";
+        // @ts-ignore
+        let self: CSKernelClient.IcWindow = {};
+        let String: static m_title = "Message";
 
         self.setTitle = function(value) {
             m_title = value;
@@ -53,7 +54,7 @@
 
         const pMsgAux = function(msg, icon, title, details) {
             if (title === "@@@@@") { title = m_title; }
-            let fmsg: fMsg= new fMsg();
+            let fmsg: fMsg = new fMsg();
             fmsg.setIcon(icon);
             fmsg.setMessage(msg);
             fmsg.setTitle(title);
@@ -71,11 +72,33 @@
         };
 
         self.locateFormAtTop = function(form) {
-            let top: var= (Screen.FromControl(form).Bounds.Height - form.Height) / 2 - 200;
+            let top: var = (Screen.FromControl(form).Bounds.Height - form.Height) / 2 - 200;
             form.Left = (Screen.FromControl(form).Bounds.Width - form.Width) / 2;
             form.Top = top;
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IcWindow {
+
+    setTitle: (String) => void;
+    msgError: (String, String, String) => void;
+    msgError: (String, String) => void;
+    msgError: (String) => void;
+    msgWarning: (String, String, String) => void;
+    msgWarning: (String, String) => void;
+    msgWarning: (String) => void;
+    ask: (String, MessageBoxDefaultButton) => bool;
+    ask: (String, MessageBoxDefaultButton, String) => bool;
+    msgInfo: (String) => void;
+    msgInfo: (String, String) => void;
+    centerForm: (Form) => void;
+    locateFormAtLeft: (Form) => void;
+    locateFormAtTop: (Form) => void;
+  }
+}

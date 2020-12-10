@@ -1,19 +1,21 @@
 (function(globalObject) {
     globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-UNKNOWN >>     partial class fMain
-    {
+    globalObject.CSReportEditor.createFMain = function() {
+
+        // @ts-ignore
+        let self: CSReportEditor.IfMain = {};
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer= null;
+        let components: System.ComponentModel.IContainer = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self. = function(disposing) {
-            const  = function(null) {
+        self.Dispose = function(disposing) {
+            if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,110 +28,110 @@ UNKNOWN >>         #region Windows Form Designer generated code
         /// the contents of this method with the code editor.
         /// </summary>
         const InitializeComponent = function() {
-            this.mnMain =  globalObject.CSReportDll.createSystem.Windows.Forms.MenuStrip();
-            this.mnFile =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuNewReport =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuOpenReport =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuFileRecentList =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuSaveReport =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuReportSaveAs =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.printerSettingsToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.mnuPreviewReport =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.mnuPrintReport =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.openRecentToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuExit =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnEdit =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.cutToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator10 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.mnuEditSearch =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.mnuEditAddSec =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuEditAddHeader =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuEditAddGroup =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuEditAddFooter =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.controlsToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuEditAddLabel =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuEditAddLine =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuEditAddControl =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.imageToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.chartToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator12 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.mnuEditMove =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.horizontalToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.verticalToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.lockToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.allDirectionsToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator13 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.sizeOfMoveStepWithKeyboardToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnView =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuViewToolbar =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuViewControls =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator14 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.mnuViewTreeViewCtrls =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.viewGridToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.pointsToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.linesToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuViewGridMain =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnDatabase =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.connectionSettingsToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.viewParametersToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator15 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.mnuDataBaseConnectsAuxCfg =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator16 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.mnuDataBaseSetDisconnected =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.manualSettingsToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuDataBaseEditStrConnect =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuDataBaseConnectConfig =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuDataBaseEditEx =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnuDataBaseSetToMainConnect =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnTool =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.mnHelp =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripMenuItem();
-            this.tbMain =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStrip();
-            this.tsbNew =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripButton14 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton4 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton5 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton7 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.btnAlignLeft =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.btnAligntCenter =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.btnAlignRight =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton12 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton13 =  globalObject.CSReportDll.createSystem.Windows.Forms.ToolStripButton();
-            this.sbMain =  globalObject.CSReportDll.createSystem.Windows.Forms.StatusStrip();
-            this.splitContainer1 =  globalObject.CSReportDll.createSystem.Windows.Forms.SplitContainer();
-            this.panel1 =  globalObject.CSReportDll.createSystem.Windows.Forms.Panel();
-            this.tabControl2 =  globalObject.CSReportDll.createSystem.Windows.Forms.TabControl();
-            this.tabPage3 =  globalObject.CSReportDll.createSystem.Windows.Forms.TabPage();
-            this.listView2 =  globalObject.CSReportDll.createSystem.Windows.Forms.ListView();
-            this.tabPage4 =  globalObject.CSReportDll.createSystem.Windows.Forms.TabPage();
-            this.listView1 =  globalObject.CSReportDll.createSystem.Windows.Forms.ListView();
-            this.tabPage5 =  globalObject.CSReportDll.createSystem.Windows.Forms.TabPage();
-            this.treeView1 =  globalObject.CSReportDll.createSystem.Windows.Forms.TreeView();
-            this.tabReports =  globalObject.CSReportDll.createSystem.Windows.Forms.TabControl();
-            this.tbpEditor =  globalObject.CSReportDll.createSystem.Windows.Forms.TabPage();
-            this.pnEditor =  globalObject.CSReportDll.createSystem.Windows.Forms.Panel();
-            this.pnRule =  globalObject.CSReportDll.createSystem.Windows.Forms.PictureBox();
-            this.pnReport =  globalObject.CSReportDll.createSystem.Windows.Forms.PictureBox();
-            this.openFileDlg =  globalObject.CSReportDll.createSystem.Windows.Forms.OpenFileDialog();
-            this.saveFielDlg =  globalObject.CSReportDll.createSystem.Windows.Forms.SaveFileDialog();
+            this.mnMain = UNKNOWN >>  can't find constructor for class System.Windows.Forms.MenuStrip();
+            this.mnFile = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNewReport = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuOpenReport = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileRecentList = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSaveReport = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuReportSaveAs = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.printerSettingsToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.mnuPreviewReport = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.mnuPrintReport = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.openRecentToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExit = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnEdit = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.cutToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.mnuEditSearch = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.mnuEditAddSec = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditAddHeader = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditAddGroup = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditAddFooter = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.controlsToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditAddLabel = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditAddLine = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditAddControl = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.imageToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.chartToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.mnuEditMove = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.horizontalToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.verticalToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.lockToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.allDirectionsToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.sizeOfMoveStepWithKeyboardToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnView = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuViewToolbar = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuViewControls = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator14 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.mnuViewTreeViewCtrls = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.viewGridToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.pointsToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.linesToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuViewGridMain = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnDatabase = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.connectionSettingsToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.viewParametersToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator15 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.mnuDataBaseConnectsAuxCfg = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator16 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.mnuDataBaseSetDisconnected = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.manualSettingsToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDataBaseEditStrConnect = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDataBaseConnectConfig = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDataBaseEditEx = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDataBaseSetToMainConnect = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnTool = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.mnHelp = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripMenuItem();
+            this.tbMain = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStrip();
+            this.tsbNew = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripButton14 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton4 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton5 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton7 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripButton8 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.btnAlignLeft = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.btnAligntCenter = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.btnAlignRight = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton12 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton13 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ToolStripButton();
+            this.sbMain = UNKNOWN >>  can't find constructor for class System.Windows.Forms.StatusStrip();
+            this.splitContainer1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.SplitContainer();
+            this.panel1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Panel();
+            this.tabControl2 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TabControl();
+            this.tabPage3 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TabPage();
+            this.listView2 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ListView();
+            this.tabPage4 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TabPage();
+            this.listView1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ListView();
+            this.tabPage5 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TabPage();
+            this.treeView1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TreeView();
+            this.tabReports = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TabControl();
+            this.tbpEditor = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TabPage();
+            this.pnEditor = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Panel();
+            this.pnRule = UNKNOWN >>  can't find constructor for class System.Windows.Forms.PictureBox();
+            this.pnReport = UNKNOWN >>  can't find constructor for class System.Windows.Forms.PictureBox();
+            this.openFileDlg = UNKNOWN >>  can't find constructor for class System.Windows.Forms.OpenFileDialog();
+            this.saveFielDlg = UNKNOWN >>  can't find constructor for class System.Windows.Forms.SaveFileDialog();
             this.mnMain.SuspendLayout();
             this.tbMain.SuspendLayout();
             ().BeginInit();
@@ -157,9 +159,9 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.mnDatabase,
             this.mnTool,
             this.mnHelp});
-            this.mnMain.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 0);
+            this.mnMain.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
             this.mnMain.Name = "mnMain";
-            this.mnMain.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(682, 24);
+            this.mnMain.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(682, 24);
             this.mnMain.TabIndex = 0;
             this.mnMain.Text = "menuStrip1";
             // 
@@ -181,94 +183,94 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.openRecentToolStripMenuItem,
             this.mnuExit});
             this.mnFile.Name = "mnFile";
-            this.mnFile.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(37, 20);
+            this.mnFile.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(37, 20);
             this.mnFile.Text = "File";
             // 
             // mnuNewReport
             // 
             this.mnuNewReport.Name = "mnuNewReport";
-            this.mnuNewReport.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.mnuNewReport.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.mnuNewReport.Text = "New";
-            this.mnuNewReport.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.mnuNewReport_Click);
+            this.mnuNewReport.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.mnuNewReport_Click);
             // 
             // mnuOpenReport
             // 
             this.mnuOpenReport.Name = "mnuOpenReport";
             this.mnuOpenReport.ShortcutKeys = (());
-            this.mnuOpenReport.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.mnuOpenReport.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.mnuOpenReport.Text = "Open";
-            this.mnuOpenReport.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.mnuOpenReport_Click);
+            this.mnuOpenReport.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.mnuOpenReport_Click);
             // 
             // mnuFileRecentList
             // 
             this.mnuFileRecentList.Name = "mnuFileRecentList";
-            this.mnuFileRecentList.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.mnuFileRecentList.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.mnuFileRecentList.Text = "Open Recent Files ...";
             // 
             // mnuSaveReport
             // 
             this.mnuSaveReport.Name = "mnuSaveReport";
             this.mnuSaveReport.ShortcutKeys = (());
-            this.mnuSaveReport.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.mnuSaveReport.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.mnuSaveReport.Text = "Save";
             // 
             // mnuReportSaveAs
             // 
             this.mnuReportSaveAs.Name = "mnuReportSaveAs";
-            this.mnuReportSaveAs.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.mnuReportSaveAs.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.mnuReportSaveAs.Text = "Save As";
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(177, 6);
+            this.toolStripSeparator7.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Page Setup";
             // 
             // printerSettingsToolStripMenuItem
             // 
             this.printerSettingsToolStripMenuItem.Name = "printerSettingsToolStripMenuItem";
-            this.printerSettingsToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.printerSettingsToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.printerSettingsToolStripMenuItem.Text = "Printer Settings";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(177, 6);
+            this.toolStripSeparator8.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(177, 6);
             // 
             // mnuPreviewReport
             // 
             this.mnuPreviewReport.Name = "mnuPreviewReport";
-            this.mnuPreviewReport.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.mnuPreviewReport.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.mnuPreviewReport.Text = "Preview";
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(177, 6);
+            this.toolStripSeparator9.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(177, 6);
             // 
             // mnuPrintReport
             // 
             this.mnuPrintReport.Name = "mnuPrintReport";
             this.mnuPrintReport.ShortcutKeys = (());
-            this.mnuPrintReport.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.mnuPrintReport.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.mnuPrintReport.Text = "Print";
             // 
             // openRecentToolStripMenuItem
             // 
             this.openRecentToolStripMenuItem.Name = "openRecentToolStripMenuItem";
-            this.openRecentToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.openRecentToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.openRecentToolStripMenuItem.Text = "Open Recent";
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
             this.mnuExit.ShortcutKeys = (());
-            this.mnuExit.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(180, 22);
+            this.mnuExit.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(180, 22);
             this.mnuExit.Text = "Exit";
             // 
             // mnEdit
@@ -285,46 +287,46 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripSeparator12,
             this.mnuEditMove});
             this.mnEdit.Name = "mnEdit";
-            this.mnEdit.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(39, 20);
+            this.mnEdit.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(39, 20);
             this.mnEdit.Text = "Edit";
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = (());
-            this.copyToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(149, 22);
+            this.copyToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(149, 22);
             this.copyToolStripMenuItem.Text = "Copy";
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = (());
-            this.cutToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(149, 22);
+            this.cutToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(149, 22);
             this.cutToolStripMenuItem.Text = "Cut";
             // 
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeys = (());
-            this.pasteToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(149, 22);
+            this.pasteToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(149, 22);
             this.pasteToolStripMenuItem.Text = "Paste";
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(146, 6);
+            this.toolStripSeparator10.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(146, 6);
             // 
             // mnuEditSearch
             // 
             this.mnuEditSearch.Name = "mnuEditSearch";
             this.mnuEditSearch.ShortcutKeys = (());
-            this.mnuEditSearch.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(149, 22);
+            this.mnuEditSearch.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(149, 22);
             this.mnuEditSearch.Text = "Search";
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(146, 6);
+            this.toolStripSeparator11.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(146, 6);
             // 
             // mnuEditAddSec
             // 
@@ -333,25 +335,25 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.mnuEditAddGroup,
             this.mnuEditAddFooter});
             this.mnuEditAddSec.Name = "mnuEditAddSec";
-            this.mnuEditAddSec.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(149, 22);
+            this.mnuEditAddSec.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(149, 22);
             this.mnuEditAddSec.Text = "Sections";
             // 
             // mnuEditAddHeader
             // 
             this.mnuEditAddHeader.Name = "mnuEditAddHeader";
-            this.mnuEditAddHeader.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(137, 22);
+            this.mnuEditAddHeader.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(137, 22);
             this.mnuEditAddHeader.Text = "Add Header";
             // 
             // mnuEditAddGroup
             // 
             this.mnuEditAddGroup.Name = "mnuEditAddGroup";
-            this.mnuEditAddGroup.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(137, 22);
+            this.mnuEditAddGroup.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(137, 22);
             this.mnuEditAddGroup.Text = "Add Group";
             // 
             // mnuEditAddFooter
             // 
             this.mnuEditAddFooter.Name = "mnuEditAddFooter";
-            this.mnuEditAddFooter.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(137, 22);
+            this.mnuEditAddFooter.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(137, 22);
             this.mnuEditAddFooter.Text = "Add Footer";
             // 
             // controlsToolStripMenuItem
@@ -363,43 +365,43 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.imageToolStripMenuItem,
             this.chartToolStripMenuItem});
             this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
-            this.controlsToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(149, 22);
+            this.controlsToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(149, 22);
             this.controlsToolStripMenuItem.Text = "Controls";
             // 
             // mnuEditAddLabel
             // 
             this.mnuEditAddLabel.Name = "mnuEditAddLabel";
-            this.mnuEditAddLabel.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(150, 22);
+            this.mnuEditAddLabel.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(150, 22);
             this.mnuEditAddLabel.Text = "Label";
             // 
             // mnuEditAddLine
             // 
             this.mnuEditAddLine.Name = "mnuEditAddLine";
-            this.mnuEditAddLine.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(150, 22);
+            this.mnuEditAddLine.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(150, 22);
             this.mnuEditAddLine.Text = "Line";
             // 
             // mnuEditAddControl
             // 
             this.mnuEditAddControl.Name = "mnuEditAddControl";
-            this.mnuEditAddControl.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(150, 22);
+            this.mnuEditAddControl.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(150, 22);
             this.mnuEditAddControl.Text = "Database Field";
             // 
             // imageToolStripMenuItem
             // 
             this.imageToolStripMenuItem.Name = "imageToolStripMenuItem";
-            this.imageToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(150, 22);
+            this.imageToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(150, 22);
             this.imageToolStripMenuItem.Text = "Image";
             // 
             // chartToolStripMenuItem
             // 
             this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            this.chartToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(150, 22);
+            this.chartToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(150, 22);
             this.chartToolStripMenuItem.Text = "Chart";
             // 
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(146, 6);
+            this.toolStripSeparator12.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(146, 6);
             // 
             // mnuEditMove
             // 
@@ -411,42 +413,42 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripSeparator13,
             this.sizeOfMoveStepWithKeyboardToolStripMenuItem});
             this.mnuEditMove.Name = "mnuEditMove";
-            this.mnuEditMove.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(149, 22);
+            this.mnuEditMove.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(149, 22);
             this.mnuEditMove.Text = "Move";
             // 
             // horizontalToolStripMenuItem
             // 
             this.horizontalToolStripMenuItem.Name = "horizontalToolStripMenuItem";
-            this.horizontalToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(246, 22);
+            this.horizontalToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(246, 22);
             this.horizontalToolStripMenuItem.Text = "Horizontal";
             // 
             // verticalToolStripMenuItem
             // 
             this.verticalToolStripMenuItem.Name = "verticalToolStripMenuItem";
-            this.verticalToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(246, 22);
+            this.verticalToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(246, 22);
             this.verticalToolStripMenuItem.Text = "Vertical";
             // 
             // lockToolStripMenuItem
             // 
             this.lockToolStripMenuItem.Name = "lockToolStripMenuItem";
-            this.lockToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(246, 22);
+            this.lockToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(246, 22);
             this.lockToolStripMenuItem.Text = "Lock";
             // 
             // allDirectionsToolStripMenuItem
             // 
             this.allDirectionsToolStripMenuItem.Name = "allDirectionsToolStripMenuItem";
-            this.allDirectionsToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(246, 22);
+            this.allDirectionsToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(246, 22);
             this.allDirectionsToolStripMenuItem.Text = "All Directions";
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(243, 6);
+            this.toolStripSeparator13.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(243, 6);
             // 
             // sizeOfMoveStepWithKeyboardToolStripMenuItem
             // 
             this.sizeOfMoveStepWithKeyboardToolStripMenuItem.Name = "sizeOfMoveStepWithKeyboardToolStripMenuItem";
-            this.sizeOfMoveStepWithKeyboardToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(246, 22);
+            this.sizeOfMoveStepWithKeyboardToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(246, 22);
             this.sizeOfMoveStepWithKeyboardToolStripMenuItem.Text = "Size of Move Step with Keyboard";
             // 
             // mnView
@@ -458,30 +460,30 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.mnuViewTreeViewCtrls,
             this.viewGridToolStripMenuItem});
             this.mnView.Name = "mnView";
-            this.mnView.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(44, 20);
+            this.mnView.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(44, 20);
             this.mnView.Text = "View";
             // 
             // mnuViewToolbar
             // 
             this.mnuViewToolbar.Name = "mnuViewToolbar";
-            this.mnuViewToolbar.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(140, 22);
+            this.mnuViewToolbar.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(140, 22);
             this.mnuViewToolbar.Text = "Toolbox";
             // 
             // mnuViewControls
             // 
             this.mnuViewControls.Name = "mnuViewControls";
-            this.mnuViewControls.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(140, 22);
+            this.mnuViewControls.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(140, 22);
             this.mnuViewControls.Text = "Control Grid";
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(137, 6);
+            this.toolStripSeparator14.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(137, 6);
             // 
             // mnuViewTreeViewCtrls
             // 
             this.mnuViewTreeViewCtrls.Name = "mnuViewTreeViewCtrls";
-            this.mnuViewTreeViewCtrls.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(140, 22);
+            this.mnuViewTreeViewCtrls.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(140, 22);
             this.mnuViewTreeViewCtrls.Text = "Control Tree";
             // 
             // viewGridToolStripMenuItem
@@ -491,25 +493,25 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.linesToolStripMenuItem,
             this.mnuViewGridMain});
             this.viewGridToolStripMenuItem.Name = "viewGridToolStripMenuItem";
-            this.viewGridToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(140, 22);
+            this.viewGridToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(140, 22);
             this.viewGridToolStripMenuItem.Text = "View Grid";
             // 
             // pointsToolStripMenuItem
             // 
             this.pointsToolStripMenuItem.Name = "pointsToolStripMenuItem";
-            this.pointsToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(124, 22);
+            this.pointsToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(124, 22);
             this.pointsToolStripMenuItem.Text = "Points";
             // 
             // linesToolStripMenuItem
             // 
             this.linesToolStripMenuItem.Name = "linesToolStripMenuItem";
-            this.linesToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(124, 22);
+            this.linesToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(124, 22);
             this.linesToolStripMenuItem.Text = "Lines";
             // 
             // mnuViewGridMain
             // 
             this.mnuViewGridMain.Name = "mnuViewGridMain";
-            this.mnuViewGridMain.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(124, 22);
+            this.mnuViewGridMain.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(124, 22);
             this.mnuViewGridMain.Text = "Hide Grid";
             // 
             // mnDatabase
@@ -524,41 +526,41 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.manualSettingsToolStripMenuItem,
             this.mnuDataBaseSetToMainConnect});
             this.mnDatabase.Name = "mnDatabase";
-            this.mnDatabase.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(67, 20);
+            this.mnDatabase.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(67, 20);
             this.mnDatabase.Text = "Database";
             // 
             // connectionSettingsToolStripMenuItem
             // 
             this.connectionSettingsToolStripMenuItem.Name = "connectionSettingsToolStripMenuItem";
-            this.connectionSettingsToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(328, 22);
+            this.connectionSettingsToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(328, 22);
             this.connectionSettingsToolStripMenuItem.Text = "Connection Settings";
             // 
             // viewParametersToolStripMenuItem
             // 
             this.viewParametersToolStripMenuItem.Name = "viewParametersToolStripMenuItem";
-            this.viewParametersToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(328, 22);
+            this.viewParametersToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(328, 22);
             this.viewParametersToolStripMenuItem.Text = "View Parameters";
             // 
             // toolStripSeparator15
             // 
             this.toolStripSeparator15.Name = "toolStripSeparator15";
-            this.toolStripSeparator15.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(325, 6);
+            this.toolStripSeparator15.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(325, 6);
             // 
             // mnuDataBaseConnectsAuxCfg
             // 
             this.mnuDataBaseConnectsAuxCfg.Name = "mnuDataBaseConnectsAuxCfg";
-            this.mnuDataBaseConnectsAuxCfg.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(328, 22);
+            this.mnuDataBaseConnectsAuxCfg.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(328, 22);
             this.mnuDataBaseConnectsAuxCfg.Text = "Additional Connections";
             // 
             // toolStripSeparator16
             // 
             this.toolStripSeparator16.Name = "toolStripSeparator16";
-            this.toolStripSeparator16.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(325, 6);
+            this.toolStripSeparator16.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(325, 6);
             // 
             // mnuDataBaseSetDisconnected
             // 
             this.mnuDataBaseSetDisconnected.Name = "mnuDataBaseSetDisconnected";
-            this.mnuDataBaseSetDisconnected.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(328, 22);
+            this.mnuDataBaseSetDisconnected.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(328, 22);
             this.mnuDataBaseSetDisconnected.Text = "Not a Database Report";
             // 
             // manualSettingsToolStripMenuItem
@@ -568,31 +570,31 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.mnuDataBaseConnectConfig,
             this.mnuDataBaseEditEx});
             this.manualSettingsToolStripMenuItem.Name = "manualSettingsToolStripMenuItem";
-            this.manualSettingsToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(328, 22);
+            this.manualSettingsToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(328, 22);
             this.manualSettingsToolStripMenuItem.Text = "Manual Settings";
             // 
             // mnuDataBaseEditStrConnect
             // 
             this.mnuDataBaseEditStrConnect.Name = "mnuDataBaseEditStrConnect";
-            this.mnuDataBaseEditStrConnect.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(195, 22);
+            this.mnuDataBaseEditStrConnect.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(195, 22);
             this.mnuDataBaseEditStrConnect.Text = "SQL Server Connection";
             // 
             // mnuDataBaseConnectConfig
             // 
             this.mnuDataBaseConnectConfig.Name = "mnuDataBaseConnectConfig";
-            this.mnuDataBaseConnectConfig.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(195, 22);
+            this.mnuDataBaseConnectConfig.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(195, 22);
             this.mnuDataBaseConnectConfig.Text = "Connection String";
             // 
             // mnuDataBaseEditEx
             // 
             this.mnuDataBaseEditEx.Name = "mnuDataBaseEditEx";
-            this.mnuDataBaseEditEx.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(195, 22);
+            this.mnuDataBaseEditEx.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(195, 22);
             this.mnuDataBaseEditEx.Text = "Data Source";
             // 
             // mnuDataBaseSetToMainConnect
             // 
             this.mnuDataBaseSetToMainConnect.Name = "mnuDataBaseSetToMainConnect";
-            this.mnuDataBaseSetToMainConnect.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(328, 22);
+            this.mnuDataBaseSetToMainConnect.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(328, 22);
             this.mnuDataBaseSetToMainConnect.Text = "Apply Main Connection to Addional Conections";
             // 
             // mnTool
@@ -600,13 +602,13 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.mnTool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.optionsToolStripMenuItem});
             this.mnTool.Name = "mnTool";
-            this.mnTool.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(48, 20);
+            this.mnTool.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(48, 20);
             this.mnTool.Text = "Tools";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(116, 22);
+            this.optionsToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(116, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // mnHelp
@@ -614,13 +616,13 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.mnHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.mnHelp.Name = "mnHelp";
-            this.mnHelp.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(44, 20);
+            this.mnHelp.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(44, 20);
             this.mnHelp.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // tbMain
@@ -646,9 +648,9 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton12,
             this.toolStripSeparator6,
             this.toolStripButton13});
-            this.tbMain.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 24);
+            this.tbMain.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 24);
             this.tbMain.Name = "tbMain";
-            this.tbMain.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(682, 25);
+            this.tbMain.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(682, 25);
             this.tbMain.TabIndex = 1;
             this.tbMain.Text = "toolStrip1";
             // 
@@ -658,9 +660,9 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.tsbNew.Image = global::CSReportEditor.Properties.Resources.page;
             this.tsbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbNew.Name = "tsbNew";
-            this.tsbNew.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.tsbNew.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.tsbNew.Text = "toolStripButton1";
-            this.tsbNew.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.tsbNew_Click);
+            this.tsbNew.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.tsbNew_Click);
             // 
             // toolStripButton2
             // 
@@ -668,7 +670,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton2.Image = global::CSReportEditor.Properties.Resources.folder_page;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton2.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton2.Text = "toolStripButton2";
             // 
             // toolStripButton3
@@ -677,7 +679,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton3.Image = global::CSReportEditor.Properties.Resources.disk;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton3.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton3.Text = "toolStripButton3";
             // 
             // toolStripButton14
@@ -686,13 +688,13 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton14.Image = global::CSReportEditor.Properties.Resources.disk_multiple;
             this.toolStripButton14.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton14.Name = "toolStripButton14";
-            this.toolStripButton14.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton14.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton14.Text = "toolStripButton14";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(6, 25);
             // 
             // toolStripButton4
             // 
@@ -700,13 +702,13 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton4.Image = global::CSReportEditor.Properties.Resources.database_gear;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton4.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton4.Text = "toolStripButton4";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(6, 25);
             // 
             // toolStripButton5
             // 
@@ -714,7 +716,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton5.Image = global::CSReportEditor.Properties.Resources.lightning;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton5.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton5.Text = "toolStripButton5";
             // 
             // toolStripButton6
@@ -723,13 +725,13 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton6.Image = global::CSReportEditor.Properties.Resources.printer;
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton6.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton6.Text = "toolStripButton6";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(6, 25);
             // 
             // toolStripButton7
             // 
@@ -737,7 +739,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton7.Image = global::CSReportEditor.Properties.Resources.application_side_boxes;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton7.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton7.Text = "toolStripButton7";
             // 
             // toolStripButton8
@@ -746,13 +748,13 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton8.Image = global::CSReportEditor.Properties.Resources.wrench;
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton8.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton8.Text = "toolStripButton8";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(6, 25);
+            this.toolStripSeparator4.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(6, 25);
             // 
             // btnAlignLeft
             // 
@@ -760,7 +762,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.btnAlignLeft.Image = global::CSReportEditor.Properties.Resources.text_align_left;
             this.btnAlignLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAlignLeft.Name = "btnAlignLeft";
-            this.btnAlignLeft.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.btnAlignLeft.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.btnAlignLeft.Text = "toolStripButton9";
             // 
             // btnAligntCenter
@@ -769,7 +771,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.btnAligntCenter.Image = global::CSReportEditor.Properties.Resources.text_align_center;
             this.btnAligntCenter.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAligntCenter.Name = "btnAligntCenter";
-            this.btnAligntCenter.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.btnAligntCenter.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.btnAligntCenter.Text = "toolStripButton10";
             // 
             // btnAlignRight
@@ -778,13 +780,13 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.btnAlignRight.Image = global::CSReportEditor.Properties.Resources.text_align_right;
             this.btnAlignRight.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAlignRight.Name = "btnAlignRight";
-            this.btnAlignRight.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.btnAlignRight.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.btnAlignRight.Text = "toolStripButton11";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(6, 25);
+            this.toolStripSeparator5.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(6, 25);
             // 
             // toolStripButton12
             // 
@@ -792,13 +794,13 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton12.Image = global::CSReportEditor.Properties.Resources.text_bold;
             this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton12.Name = "toolStripButton12";
-            this.toolStripButton12.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton12.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton12.Text = "toolStripButton12";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(6, 25);
+            this.toolStripSeparator6.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(6, 25);
             // 
             // toolStripButton13
             // 
@@ -806,21 +808,21 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.toolStripButton13.Image = global::CSReportEditor.Properties.Resources.find;
             this.toolStripButton13.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton13.Name = "toolStripButton13";
-            this.toolStripButton13.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(23, 22);
+            this.toolStripButton13.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(23, 22);
             this.toolStripButton13.Text = "toolStripButton13";
             // 
             // sbMain
             // 
-            this.sbMain.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 310);
+            this.sbMain.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 310);
             this.sbMain.Name = "sbMain";
-            this.sbMain.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(682, 22);
+            this.sbMain.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(682, 22);
             this.sbMain.TabIndex = 3;
             this.sbMain.Text = "statusStrip1";
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 49);
+            this.splitContainer1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 49);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -830,7 +832,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabReports);
-            this.splitContainer1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(682, 261);
+            this.splitContainer1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(682, 261);
             this.splitContainer1.SplitterDistance = 226;
             this.splitContainer1.TabIndex = 4;
             // 
@@ -838,9 +840,9 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // 
             this.panel1.Controls.Add(this.tabControl2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 0);
+            this.panel1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(226, 261);
+            this.panel1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(226, 261);
             this.panel1.TabIndex = 0;
             // 
             // tabControl2
@@ -849,19 +851,19 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.tabControl2.Controls.Add(this.tabPage4);
             this.tabControl2.Controls.Add(this.tabPage5);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 0);
+            this.tabControl2.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(226, 261);
+            this.tabControl2.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(226, 261);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.listView2);
-            this.tabPage3.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(4, 22);
+            this.tabPage3.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding =  globalObject.CSReportDll.createSystem.Windows.Forms.Padding(3);
-            this.tabPage3.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(218, 235);
+            this.tabPage3.Padding = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(218, 235);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Controls";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -869,19 +871,19 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // listView2
             // 
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView2.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(3, 3);
+            this.listView2.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(3, 3);
             this.listView2.Name = "listView2";
-            this.listView2.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(212, 229);
+            this.listView2.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(212, 229);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.listView1);
-            this.tabPage4.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(4, 22);
+            this.tabPage4.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding =  globalObject.CSReportDll.createSystem.Windows.Forms.Padding(3);
-            this.tabPage4.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(218, 235);
+            this.tabPage4.Padding = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(218, 235);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Database";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -889,18 +891,18 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // listView1
             // 
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(3, 3);
+            this.listView1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(3, 3);
             this.listView1.Name = "listView1";
-            this.listView1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(212, 229);
+            this.listView1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(212, 229);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.treeView1);
-            this.tabPage5.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(4, 22);
+            this.tabPage5.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(218, 235);
+            this.tabPage5.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(218, 235);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Report";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -908,27 +910,27 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 0);
+            this.treeView1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(218, 235);
+            this.treeView1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(218, 235);
             this.treeView1.TabIndex = 0;
             // 
             // tabReports
             // 
             this.tabReports.Controls.Add(this.tbpEditor);
             this.tabReports.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabReports.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 0);
+            this.tabReports.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
             this.tabReports.Name = "tabReports";
             this.tabReports.SelectedIndex = 0;
-            this.tabReports.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(452, 261);
+            this.tabReports.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(452, 261);
             this.tabReports.TabIndex = 0;
             // 
             // tbpEditor
             // 
             this.tbpEditor.Controls.Add(this.pnEditor);
-            this.tbpEditor.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(4, 22);
+            this.tbpEditor.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(4, 22);
             this.tbpEditor.Name = "tbpEditor";
-            this.tbpEditor.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(444, 235);
+            this.tbpEditor.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(444, 235);
             this.tbpEditor.TabIndex = 0;
             this.tbpEditor.Text = "New Report";
             this.tbpEditor.UseVisualStyleBackColor = true;
@@ -939,35 +941,35 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.pnEditor.Controls.Add(this.pnRule);
             this.pnEditor.Controls.Add(this.pnReport);
             this.pnEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnEditor.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 0);
-            this.pnEditor.Margin =  globalObject.CSReportDll.createSystem.Windows.Forms.Padding(0);
+            this.pnEditor.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
+            this.pnEditor.Margin = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Padding(0);
             this.pnEditor.Name = "pnEditor";
-            this.pnEditor.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(444, 235);
+            this.pnEditor.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(444, 235);
             this.pnEditor.TabIndex = 1;
             // 
             // pnRule
             // 
             this.pnRule.BackColor = System.Drawing.Color.PeachPuff;
-            this.pnRule.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(3, 3);
+            this.pnRule.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(3, 3);
             this.pnRule.Name = "pnRule";
-            this.pnRule.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(100, 50);
+            this.pnRule.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(100, 50);
             this.pnRule.TabIndex = 1;
             this.pnRule.TabStop = false;
             // 
             // pnReport
             // 
             this.pnReport.BackColor = System.Drawing.Color.Beige;
-            this.pnReport.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(135, 3);
+            this.pnReport.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(135, 3);
             this.pnReport.Name = "pnReport";
-            this.pnReport.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(100, 50);
+            this.pnReport.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(100, 50);
             this.pnReport.TabIndex = 0;
             this.pnReport.TabStop = false;
             // 
             // fMain
             // 
-            this.AutoScaleDimensions =  globalObject.CSReportDll.createSystem.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = UNKNOWN >>  can't find constructor for class System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize =  globalObject.CSReportDll.createSystem.Drawing.Size(682, 332);
+            this.ClientSize = UNKNOWN >>  can't find constructor for class System.Drawing.Size(682, 332);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.sbMain);
             this.Controls.Add(this.tbMain);
@@ -1105,6 +1107,26 @@ UNKNOWN >>         #endregion
         let openFileDlg: System.Windows.Forms.OpenFileDialog = null;
         let saveFielDlg: System.Windows.Forms.SaveFileDialog = null;
 
-    }
-}
+        return self;
 
+    }    }
+}(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfMain {
+
+    Dispose: (bool) => void;
+  }
+}
+);
+
+
+namespace CSReportEditor {
+
+  export interface IfMain {
+
+    Dispose: (bool) => void;
+  }
+}

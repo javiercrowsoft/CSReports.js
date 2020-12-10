@@ -16,9 +16,10 @@
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
     globalObject.CSReportWebServer.Properties.createPartial = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportWebServer.Properties.Ipartial = {};
 
-        let Settings: staticdefaultInstance = ((global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        let Settings: static defaultInstance = ((global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
 
 UNKNOWN >>         public static Settings Default {
 UNKNOWN >>             get {
@@ -50,5 +51,13 @@ UNKNOWN >>             set {
         }
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportWebServer.Properties {
+
+  export interface Ipartial {
+
+  }
+}

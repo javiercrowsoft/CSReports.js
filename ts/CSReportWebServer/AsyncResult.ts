@@ -5,8 +5,10 @@
     /// <summary>
     /// This class is an implementation of IAsyncResult interface specific to CSReportWebServer.NativeMessaging.Port class.
     /// </summary>
-UNKNOWN >>     class AsyncResult : IAsyncResult
-    {
+    globalObject.CSReportWebServer.NativeMessaging.createAsyncResult = function() {
+
+        // @ts-ignore
+        let self: CSReportWebServer.NativeMessaging.IAsyncResult = {};
         self.AsyncState: object = null;{ get { return state; } };
         self.AsyncWaitHandle: WaitHandle = null;{ get { return wait; } };
         self.CompletedSynchronously: boolean = null;{ get { return lengthCompletedSynchronously && messageCompletedSynchronously; } };
@@ -29,11 +31,11 @@ UNKNOWN >>     class AsyncResult : IAsyncResult
         self.messageOffset: number = null;
         self.messageException: Exception = null;
 
-        self. = function(port, callback, state) {
+        const AsyncResult = function(port, callback, state) {
             this.port = port;
             this.callback = callback;
             this.state = state;
-            wait =  globalObject.CSReportDll.createManualResetEvent(false);
+            wait = UNKNOWN >>  can't find constructor for class ManualResetEvent(false);
 
             lengthIsCompleted = false;
             lengthCompletedSynchronously = false;
@@ -47,5 +49,29 @@ UNKNOWN >>     class AsyncResult : IAsyncResult
             messageOffset = 0;
             messageException = null;
         };
-    }
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSReportWebServer.NativeMessaging {
+
+  export interface IAsyncResult {
+
+    AsyncState: object;
+    AsyncWaitHandle: WaitHandle;
+    CompletedSynchronously: boolean;
+    IsCompleted: boolean;
+    lengthIsCompleted;: boolean;
+    lengthCompletedSynchronously;: boolean;
+    lengthBuffer;: byte[];
+    lengthOffset;: number;
+    lengthException;: Exception;
+    messageIsCompleted;: boolean;
+    messageCompletedSynchronously;: boolean;
+    messageBuffer;: byte[];
+    messageOffset;: number;
+    messageException;: Exception;
+  }
 }

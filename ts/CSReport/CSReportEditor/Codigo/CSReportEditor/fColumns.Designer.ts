@@ -1,19 +1,21 @@
 (function(globalObject) {
     globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-UNKNOWN >>     partial class fColumns
-    {
+    globalObject.CSReportEditor.createFColumns = function() {
+
+        // @ts-ignore
+        let self: CSReportEditor.IfColumns = {};
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer= null;
+        let components: System.ComponentModel.IContainer = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self. = function(disposing) {
-            const  = function(null) {
+        self.Dispose = function(disposing) {
+            if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,16 +28,16 @@ UNKNOWN >>         #region Windows Form Designer generated code
         /// the contents of this method with the code editor.
         /// </summary>
         const InitializeComponent = function() {
-            this.components =  globalObject.CSReportDll.createSystem.ComponentModel.Container();
-            let resources: System.ComponentModel.ComponentResourceManager= new System.ComponentModel.ComponentResourceManager(typeof(fColumns));
-            this.panel1 =  globalObject.CSReportDll.createSystem.Windows.Forms.Panel();
-            this.Label1 =  globalObject.CSReportDll.createSystem.Windows.Forms.Label();
-            this.pictureBox1 =  globalObject.CSReportDll.createSystem.Windows.Forms.PictureBox();
-            this.cmd_cancel =  globalObject.CSReportDll.createSystem.Windows.Forms.Button();
-            this.cmd_apply =  globalObject.CSReportDll.createSystem.Windows.Forms.Button();
-            this.lv_columns =  globalObject.CSReportDll.createSystem.Windows.Forms.ListView();
+            this.components = UNKNOWN >>  can't find constructor for class System.ComponentModel.Container();
+            let resources: System.ComponentModel.ComponentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(fColumns));
+            this.panel1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Panel();
+            this.Label1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Label();
+            this.pictureBox1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.PictureBox();
+            this.cmd_cancel = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Button();
+            this.cmd_apply = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Button();
+            this.lv_columns = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ListView();
             this.columnHeader1 = ((new System.Windows.Forms.ColumnHeader()));
-            this.imageList =  globalObject.CSReportDll.createSystem.Windows.Forms.ImageList(this.components);
+            this.imageList = UNKNOWN >>  can't find constructor for class System.Windows.Forms.ImageList(this.components);
             this.panel1.SuspendLayout();
             ().BeginInit();
             this.SuspendLayout();
@@ -45,62 +47,62 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.Label1);
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(0, 0);
+            this.panel1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(455, 70);
+            this.panel1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(455, 70);
             this.panel1.TabIndex = 1;
             // 
             // Label1
             // 
             this.Label1.AutoSize = true;
-            this.Label1.Font =  globalObject.CSReportDll.createSystem.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ());
-            this.Label1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(76, 18);
+            this.Label1.Font = UNKNOWN >>  can't find constructor for class System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ());
+            this.Label1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(76, 18);
             this.Label1.Name = "Label1";
-            this.Label1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(144, 37);
+            this.Label1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(144, 37);
             this.Label1.TabIndex = 2;
             this.Label1.Text = "Columns";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::CSReportEditor.Properties.Resources.config_page;
-            this.pictureBox1.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(24, 18);
+            this.pictureBox1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(24, 18);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(46, 39);
+            this.pictureBox1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(46, 39);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // cmd_cancel
             // 
-            this.cmd_cancel.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(329, 410);
+            this.cmd_cancel.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(329, 410);
             this.cmd_cancel.Name = "cmd_cancel";
-            this.cmd_cancel.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(75, 23);
+            this.cmd_cancel.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(75, 23);
             this.cmd_cancel.TabIndex = 5;
             this.cmd_cancel.Text = "Cancel";
             this.cmd_cancel.UseVisualStyleBackColor = true;
-            this.cmd_cancel.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.cmd_cancel_Click);
+            this.cmd_cancel.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.cmd_cancel_Click);
             // 
             // cmd_apply
             // 
-            this.cmd_apply.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(248, 410);
+            this.cmd_apply.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(248, 410);
             this.cmd_apply.Name = "cmd_apply";
-            this.cmd_apply.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(75, 23);
+            this.cmd_apply.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(75, 23);
             this.cmd_apply.TabIndex = 4;
             this.cmd_apply.Text = "Apply";
             this.cmd_apply.UseVisualStyleBackColor = true;
-            this.cmd_apply.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.cmd_apply_Click);
+            this.cmd_apply.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.cmd_apply_Click);
             // 
             // lv_columns
             // 
             this.lv_columns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
-            this.lv_columns.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(12, 87);
+            this.lv_columns.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(12, 87);
             this.lv_columns.Name = "lv_columns";
-            this.lv_columns.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(392, 306);
+            this.lv_columns.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(392, 306);
             this.lv_columns.SmallImageList = this.imageList;
             this.lv_columns.TabIndex = 6;
             this.lv_columns.UseCompatibleStateImageBehavior = false;
             this.lv_columns.View = System.Windows.Forms.View.Details;
-            this.lv_columns.Click +=  globalObject.CSReportDll.createSystem.EventHandler(this.lv_columns_Click);
+            this.lv_columns.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.lv_columns_Click);
             // 
             // columnHeader1
             // 
@@ -115,9 +117,9 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // 
             // fColumns
             // 
-            this.AutoScaleDimensions =  globalObject.CSReportDll.createSystem.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = UNKNOWN >>  can't find constructor for class System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize =  globalObject.CSReportDll.createSystem.Drawing.Size(416, 445);
+            this.ClientSize = UNKNOWN >>  can't find constructor for class System.Drawing.Size(416, 445);
             this.Controls.Add(this.lv_columns);
             this.Controls.Add(this.cmd_cancel);
             this.Controls.Add(this.cmd_apply);
@@ -127,7 +129,7 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.MinimizeBox = false;
             this.Name = "fColumns";
             this.Text = "fColumns";
-            this.Load +=  globalObject.CSReportDll.createSystem.EventHandler(this.fColumns_Load);
+            this.Load += UNKNOWN >>  can't find constructor for class System.EventHandler(this.fColumns_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ().EndInit();
@@ -145,5 +147,16 @@ UNKNOWN >>         #endregion
         let lv_columns: System.Windows.Forms.ListView = null;
         let imageList: System.Windows.Forms.ImageList = null;
         let columnHeader1: System.Windows.Forms.ColumnHeader = null;
-    }
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfColumns {
+
+    Dispose: (bool) => void;
+  }
 }

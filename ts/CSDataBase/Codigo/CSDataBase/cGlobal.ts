@@ -11,8 +11,9 @@
 
     globalObject.CSDataBase.createCDatabaseGlobals = function() {
 
-        const self = {};
-        self.bool: staticSilent = false;
+        // @ts-ignore
+        let self: CSDataBase.IcDatabaseGlobals = {};
+        self.bool: static Silent = false;
 
         self.isNumberField = function(fieldType) {
             switch (fieldType) 
@@ -185,11 +186,13 @@
 
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum csDataType
+        return self;
+
+    public enum csDataTypeUNKNOWN >>     public enum csDataType
     {
         CSTDCHAR = System.TypeCode.Char,
         CSTDVARCHAR = System.TypeCode.String,
@@ -216,11 +219,13 @@ UNKNOWN >>         return self;
         CSTDLONGVARBINARY = System.TypeCode.Object
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum csCommandType
+        return self;
+
+    public enum csCommandTypeUNKNOWN >>     public enum csCommandType
     {
         CSCMDFILE = 256,
         CSCMDSP = 4,
@@ -230,7 +235,9 @@ UNKNOWN >>         return self;
         CSCMDUNKNOWN = -1
         return self;
 
-    }
+    }    }
+        return self;
+
 
 UNKNOWN >>     public enum csAdoDataType {
         adBigInt = 20,
@@ -275,6 +282,21 @@ UNKNOWN >>     public enum csAdoDataType {
         adWChar = 130
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSDataBase {
+
+  export interface IcDatabaseGlobals {
+
+    bool: static;
+    isNumberField: (int) => bool;
+    getDataTypeFromString: (string) => csDataType;
+    getDataTypeFromAdo: (int) => csDataType;
+    getAdoTypeFromDataType: (csDataType) => csAdoDataType;
+  }
+}

@@ -84,9 +84,9 @@ using CSKernelClient;
         }
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName(m_key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

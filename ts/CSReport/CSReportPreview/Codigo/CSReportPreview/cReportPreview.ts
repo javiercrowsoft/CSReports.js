@@ -13,7 +13,8 @@
 
     globalObject.CSReportPreview.createCReportPreview = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportPreview.IcReportPreview = {};
 //         public event FirstPage FirstPage;
 //         public event PreviousPage PreviousPage;
 //         public event MoveToPage MoveToPage;
@@ -79,7 +80,7 @@
 
         const tsbPage_KeyUp = function(sender, e) {
             if (e.KeyCode === Keys.Enter) {
-                let page: var= cUtil.valAsInt(tsbPage.Text);
+                let page: var = cUtil.valAsInt(tsbPage.Text);
                 if (page > 0)  {
                     if (MoveToPage !== null) {
                         MoveToPage(this, new PageEventArgs(page));
@@ -99,19 +100,35 @@
         };
         return self;
 
-    }
+    }    }
+        return self;
 
-        self.create = function() {
 
-            const self = {};
-        let int: readonlym_page = -1;
+        return self;
 
-        self. = function(page) {
+    public class PageEventArgs : EventArgs    self.createPageEventArgs = function() {
+
+        // @ts-ignore
+        let self: CSReportPreview.IPageEventArgs = {};
+        let int: readonly m_page = -1;
+
+        const PageEventArgs = function(page) {
             m_page = page;
         };
         self.page: number = null;{ get { return m_page; } };
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportPreview {
+
+  export interface IPageEventArgs {
+
+    page: number;
+  }
+}

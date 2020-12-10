@@ -5,24 +5,25 @@
 
     globalObject.CSReportDll.createCReportControl = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportControl = {};
 
-        let m_label: cReportLabel= new cReportLabel();
-        let m_image: cReportImage= new cReportImage();
-        let m_line: cReportLine= new cReportLine();
-        let m_field: cReportField= new cReportField();
+        let m_label: cReportLabel = new cReportLabel();
+        let m_image: cReportImage = new cReportImage();
+        let m_line: cReportLine = new cReportLine();
+        let m_field: cReportField = new cReportField();
         let m_typeSection: csRptSectionType = null;
-        let m_key: string= "";
-        let m_keyPaint: string= "";
-        let m_name: string= "";
+        let m_key: string = "";
+        let m_keyPaint: string = "";
+        let m_name: string = "";
         let m_hasFormulaHide: boolean = null;
         let m_hasFormulaValue: boolean = null;
         let m_controlType: csRptControlType = null;
-        let m_formulaHide: cReportFormula= new cReportFormula();
-        let m_formulaValue: cReportFormula= new cReportFormula();
-        let m_chart: cReportChart= new cReportChart();
-        let m_tag: string= "";
-        let m_exportColIdx: number= 0;
+        let m_formulaHide: cReportFormula = new cReportFormula();
+        let m_formulaValue: cReportFormula = new cReportFormula();
+        let m_chart: cReportChart = new cReportChart();
+        let m_tag: string = "";
+        let m_exportColIdx: number = 0;
         let m_isFreeCtrl: boolean = null;
 
         // this reference tell in which section line is this control
@@ -206,9 +207,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName(m_key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -261,6 +262,51 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportControl {
+
+    getLabel: () => cReportLabel;
+    setLabel: (cReportLabel) => void;
+    getImage: () => cReportImage;
+    setImage: (cReportImage) => void;
+    getFormulaHide: () => cReportFormula;
+    getFormulaValue: () => cReportFormula;
+    getHasFormulaValue: () => bool;
+    setHasFormulaValue: (bool) => void;
+    getLine: () => cReportLine;
+    setLine: (cReportLine) => void;
+    getField: () => cReportField;
+    setField: (cReportField) => void;
+    getKey: () => String;
+    setKey: (String) => void;
+    getKeyPaint: () => String;
+    setKeyPaint: (String) => void;
+    getChart: () => cReportChart;
+    getTag: () => String;
+    setTag: (String) => void;
+    getTypeSection: () => csRptSectionType;
+    setTypeSection: (csRptSectionType) => void;
+    getSectionLine: () => cReportSectionLine;
+    setSectionLine: (cReportSectionLine) => void;
+    getName: () => String;
+    setName: (String) => void;
+    getHasFormulaHide: () => bool;
+    setHasFormulaHide: (bool) => void;
+    getControlType: () => csRptControlType;
+    setControlType: (csRptControlType) => void;
+    setExportColIdx: (int) => void;
+    getExportColIdx: () => int;
+    setIsFreeCtrl: (bool) => void;
+    getIsFreeCtrl: () => bool;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

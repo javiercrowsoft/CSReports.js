@@ -4,47 +4,65 @@
 
     globalObject.CSReportEditor.createFSimpleConnect = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfSimpleConnect = {};
         const fSimpleConnect = function() {
             InitializeComponent();
         };
 
-		self. = function(str) {
+		self.setServer = function(str) {
 			throw new NotImplementedException ();
 		};
 
-		self. = function(str) {
+		self.setDataBase = function(str) {
 			throw new NotImplementedException ();
 		};
 
-		self. = function(str) {
+		self.setUser = function(str) {
 			throw new NotImplementedException ();
 		};
 
-		self. = function(str) {
+		self.setPassword = function(str) {
 			throw new NotImplementedException ();
 		};
 
-		self. = function() {
+		self.getUser = function() {
 			throw new NotImplementedException ();
 		};
 
-		self. = function() {
+		self.setConnectTypeToNT = function() {
 			throw new NotImplementedException ();
 		};
 
-		self. = function() {
+		self.setConnectTypeToSQL = function() {
 			throw new NotImplementedException ();
 		};
 
-		self. = function() {
+		self.getOk = function() {
 			throw new NotImplementedException ();
 		};
 
-		self. = function() {
+		self.getStrConnect = function() {
 			throw new NotImplementedException ();
 		};
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfSimpleConnect {
+
+    setServer: (string) => void;
+    setDataBase: (string) => void;
+    setUser: (string) => void;
+    setPassword: (string) => void;
+    getUser: () => string;
+    setConnectTypeToNT: () => void;
+    setConnectTypeToSQL: () => void;
+    getOk: () => bool;
+    getStrConnect: () => string;
+  }
+}

@@ -4,14 +4,15 @@
 
     globalObject.CSKernelNumberToString.createCNumberToString = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelNumberToString.IcNumberToString = {};
 
-        const C_MODULE: string= "cNumberToString";
+        const C_MODULE: string = "cNumberToString";
 
         self.secondsToString = function(count) {
-            let hours: number= 0;
-            let minutes: number= 0;
-            let second: number= 0;
+            let hours: number = 0;
+            let minutes: number = 0;
+            let second: number = 0;
 
             hours = count / 3600;
             minutes =  / 60;
@@ -23,9 +24,9 @@
         };
 
         self.spanishNumberToString = function(iNumber) {
-            let iMillion: number= 0;
-            let iThousand: number= 0;
-            let rtn: string= "";
+            let iMillion: number = 0;
+            let iThousand: number = 0;
+            let rtn: string = "";
 
             iNumber = Math.Round(iNumber, 2);
 
@@ -53,9 +54,9 @@
         };
 
         self.frenchNumberToString = function(iNumber) {
-            let iMillion: number= 0;
-            let iThousand: number= 0;
-            let rtn: string= "";
+            let iMillion: number = 0;
+            let iThousand: number = 0;
+            let rtn: string = "";
 
             iNumber = Math.Round(iNumber, 2);
 
@@ -88,9 +89,9 @@
         };
 
         self.englishNumberToString = function(iNumber) {
-            let iMillion: number= 0;
-            let iThousand: number= 0;
-            let rtn: string= "";
+            let iMillion: number = 0;
+            let iThousand: number = 0;
+            let rtn: string = "";
 
             iNumber = Math.Round(iNumber, 2);
 
@@ -116,11 +117,11 @@
         // Spanish
 
         const pSpanishGetNumber = function(iNumber, bPutOne) {
-            let rtn: string= "";
-            let iTens: number= 0;
-            let iUnit: number= 0;
-            let iNumAux: number= 0;
-            let bPutOneAux: boolean= false;
+            let rtn: string = "";
+            let iTens: number = 0;
+            let iUnit: number = 0;
+            let iNumAux: number = 0;
+            let bPutOneAux: boolean = false;
 
             if (iNumber === 100) {
                 rtn = "Cien ";
@@ -199,7 +200,7 @@
         };
 
         const pSpanishGetNameHundred = function(iNumber) {
-            let number: number= iNumber;
+            let number: number = iNumber;
 
             if (number >= 900) return "Novecientos"; {
             else if (number >= 800) return "Ochocientos"; {
@@ -214,7 +215,7 @@
         };
 
         const pSpanishGetNameTens = function(iNumber) {
-            let number: number= iNumber;
+            let number: number = iNumber;
 
             if (number >= 90) return "Noventa"; {
             else if (number >= 80) return "Ochenta"; {
@@ -234,11 +235,11 @@
         // French
 
         const pFrenchGetNumber = function(iNumber, bPutOne) {
-            let rtn: string= "";
-            let iTens: number= 0;
-            let iUnit: number= 0;
-            let iNumAux: number= 0;
-            let bPutOneAux: boolean= false;
+            let rtn: string = "";
+            let iTens: number = 0;
+            let iUnit: number = 0;
+            let iNumAux: number = 0;
+            let bPutOneAux: boolean = false;
 
             if (iNumber === 100) {
                 rtn = "Cent ";
@@ -334,8 +335,8 @@
         };
 
         const pFrenchGetNameHundred = function(iNumber) {
-            let rtn: string= "";
-            let number: number= iNumber;
+            let rtn: string = "";
+            let number: number = iNumber;
 
             if (number >= 900) rtn = "Neuf "; {
             else if (number >= 800) rtn = "Huit "; {
@@ -358,7 +359,7 @@
         };
 
         const pFrenchGetNameTens = function(iNumber) {
-            let number: number= iNumber;
+            let number: number = iNumber;
 
             if (number >= 90) return "Quatre Vingt "; {
             else if (number >= 80) return "Quatre Vingt"; {
@@ -378,11 +379,11 @@
         // English
 
         const pEnglishGetNumber = function(iNumber, bPutOne) {
-            let rtn: string= "";
-            let iTens: number= 0;
-            let iUnit: number= 0;
-            let iNumAux: number= 0;
-            let bPutOneAux: boolean= false;
+            let rtn: string = "";
+            let iTens: number = 0;
+            let iUnit: number = 0;
+            let iNumAux: number = 0;
+            let bPutOneAux: boolean = false;
 
             if (iNumber === 100) {
                 rtn = "Hundred ";
@@ -452,7 +453,7 @@
         };
 
         const pEnglishGetNameTens = function(iNumber) {
-            let number: number= iNumber;
+            let number: number = iNumber;
 
             if (number >= 90) return "Ninety"; {
             else if (number >= 80) return "Eighty"; {
@@ -472,7 +473,7 @@
         // generics
         //
         const pGetDecimalAux = function(iNumber, word) {
-            let iDecimal: number= 0;
+            let iDecimal: number = 0;
 
             iNumber = Math.Round(iNumber, 2);
             iDecimal = Math.Round((iNumber - Math.Truncate(iNumber)) * 100, 2);
@@ -496,6 +497,20 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSKernelNumberToString {
+
+  export interface IcNumberToString {
+
+    secondsToString: (int) => String;
+    spanishNumberToString: (double) => String;
+    frenchNumberToString: (double) => String;
+    englishNumberToString: (double) => String;
+  }
+}

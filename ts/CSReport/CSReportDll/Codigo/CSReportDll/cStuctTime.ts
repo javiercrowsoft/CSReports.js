@@ -4,11 +4,12 @@
 
     globalObject.CSReportDll.createCStructTime = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcStructTime = {};
 
-        let m_hour: number= 0;
-        let m_minute: number= 0;
-        let m_second: number= 0;
+        let m_hour: number = 0;
+        let m_minute: number = 0;
+        let m_second: number = 0;
 
         self.getHour = function() {
             return m_hour;
@@ -36,6 +37,22 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcStructTime {
+
+    getHour: () => int;
+    setHour: (int) => void;
+    getMinute: () => int;
+    setMinute: (int) => void;
+    getSecond: () => int;
+    setSecond: (int) => void;
+  }
+}

@@ -5,7 +5,8 @@
 
     globalObject.CSReportDll.createCReportControls2 = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportControls2 = {};
 
         // Creates an empty collection.
         const cReportControls2 = function() {
@@ -138,7 +139,7 @@ UNKNOWN >>             get
         self.add2 = function(c, key) {
             try {
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCReportControl();
+                    c = globalObject.CSReportDll.createCReportControl();
                 }
                 if (key === "") {
                     Add(getDummyKey(), c);
@@ -160,6 +161,27 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportControls2 {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    count: () => int;
+    item: (String) => cReportControl;
+    item: (int) => cReportControl;
+    add2: (cReportControl, String) => cReportControl;
+  }
+}

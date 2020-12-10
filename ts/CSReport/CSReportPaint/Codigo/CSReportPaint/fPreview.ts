@@ -4,7 +4,8 @@
 
     globalObject.CSReportPaint.createFPreview = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportPaint.IfPreview = {};
         const fPreview = function() {
             InitializeComponent();
         };
@@ -20,5 +21,14 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IfPreview {
+
+    getRpwReport: () => CSReportPreview.cReportPreview;
+  }
+}

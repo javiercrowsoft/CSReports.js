@@ -5,22 +5,23 @@
 
     globalObject.CSReportDll.createCReportLaunchInfo = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportLaunchInfo = {};
 
-        const C_LAUNCHINFO: string= "RptLaunchInfo";
+        const C_LAUNCHINFO: string = "RptLaunchInfo";
 
-        let m_file: string= "";
-        let m_dataSource: object= null;
-        let m_sqlstmt: string= "";
-        let m_strConnect: string= "";
+        let m_file: string = "";
+        let m_dataSource: object = null;
+        let m_sqlstmt: string = "";
+        let m_strConnect: string = "";
         let m_printer: cPrinter = null;
         let m_showPrintersDialog: boolean = null;
         let m_internalPreview: boolean = null;
         let m_action: csRptLaunchAction = null;
-        let m_copies: number= 0;
+        let m_copies: number = 0;
         let m_silent: boolean = null;
         let m_fileFormat: csRptFileFormat = null;
-        let m_hWnd: number= 0;
+        let m_hWnd: number = 0;
 
         let m_objPaint: CSIReportPrint.cIReportPrint = null;
 
@@ -140,7 +141,7 @@
             if (m_printer === null) { return; }
 
             if (paperBin.Length === 0) {
-                let idPaperBin: number= 0;
+                let idPaperBin: number = 0;
                 idPaperBin = cPrintAPI.printerPaperBinNameToId(m_printer.getDeviceName(),
                                                                 m_printer.getPort(), 
                                                                 paperBin);
@@ -163,8 +164,8 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= new CSXml.cXmlProperty();
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = new CSXml.cXmlProperty();
+            let nodeObj: XmlNode = null;
 
             xProperty.setName(C_LAUNCHINFO);
 
@@ -216,6 +217,47 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportLaunchInfo {
+
+    getHwnd: () => int;
+    setHwnd: (int) => void;
+    getFile: () => String;
+    setFile: (String) => void;
+    getDataSource: () => object;
+    setDataSource: (object) => void;
+    getSqlstmt: () => String;
+    setSqlstmt: (String) => void;
+    getStrConnect: () => String;
+    setStrConnect: (String) => void;
+    getPrinter: () => cPrinter;
+    setPrinter: (cPrinter) => void;
+    getFileFormat: () => csRptFileFormat;
+    setFileFormat: (csRptFileFormat) => void;
+    getObjPaint: () => CSIReportPrint.cIReportPrint;
+    setObjPaint: (CSIReportPrint.cIReportPrint) => void;
+    getAction: () => csRptLaunchAction;
+    setAction: (csRptLaunchAction) => void;
+    getShowPrintersDialog: () => bool;
+    setShowPrintersDialog: (bool) => void;
+    getInternalPreview: () => bool;
+    setInternalPreview: (bool) => void;
+    getCopies: () => int;
+    setCopies: (int) => void;
+    getSilent: () => bool;
+    setSilent: (bool) => void;
+    initPrinter: (PrintDialog, String, String, String) => void;
+    setPaperBin: (String) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+    <<<ERROR>>> {{undefined}}: (eTypes.eBoolean, m_internalPreview) => m_internalPreview);;
+  }
+}

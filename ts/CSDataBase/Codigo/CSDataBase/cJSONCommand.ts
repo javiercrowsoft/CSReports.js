@@ -2,14 +2,16 @@
 
     globalObject.CSDataBase = globalObject.CSDataBase || {};
 
-UNKNOWN >>     class cJSONCommand : DbCommand
-    {
-        let m_cmdText: string= "";
-        let m_connection: cJSONServerConnection= null;
+    globalObject.CSDataBase.createCJSONCommand = function() {
+
+        // @ts-ignore
+        let self: CSDataBase.IcJSONCommand = {};
+        let m_cmdText: string = "";
+        let m_connection: cJSONServerConnection = null;
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlCommand class.
-        self. = function() {
+        const cJSONCommand = function() {
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlCommand class with
@@ -18,7 +20,7 @@ UNKNOWN >>     class cJSONCommand : DbCommand
         // Parameters:
         //   cmdText:
         //     The text of the query.
-        self. = function(cmdText) {
+        const cJSONCommand = function(cmdText) {
             m_cmdText = cmdText;
         };
         //
@@ -33,7 +35,7 @@ UNKNOWN >>     class cJSONCommand : DbCommand
         //   connection:
         //     A System.Data.SqlClient.SqlConnection that represents the connection to an instance
         //     of SQL Server.
-        self. = function(cmdText, connection) {
+        const cJSONCommand = function(cmdText, connection) {
             m_cmdText = cmdText;
             m_connection = connection;
         };
@@ -128,7 +130,7 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //
         // Summary:
         //     Tries to cancel the execution of a System.Data.SqlClient.SqlCommand.
-        self. = function() {
+        self.Cancel = function() {
 
         //
         // Summary:
@@ -136,9 +138,9 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //
         // Returns:
         //     A System.Data.SqlClient.SqlParameter object.
-        self. = function() {
+        self.CreateParameter = function() {
 
-        self. = function() {
+        self.ExecuteNonQuery = function() {
         //
         // Summary:
         //     Sends the System.Data.SqlClient.SqlCommand.CommandText to the System.Data.SqlClient.SqlCommand.Connection
@@ -156,7 +158,7 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //   T:System.InvalidOperationException:
         //     The current state of the connection is closed. System.Data.SqlClient.SqlCommand.ExecuteReader
         //     requires an open System.Data.SqlClient.SqlConnection.
-        self. = function() {
+        self.ExecuteReader = function() {
         //
         // Summary:
         //     Sends the System.Data.SqlClient.SqlCommand.CommandText to the System.Data.SqlClient.SqlCommand.Connection,
@@ -169,9 +171,9 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //
         // Returns:
         //     A System.Data.SqlClient.SqlDataReader object.
-        self. = function(behavior) {
-            let cmdName: var= getCommandName();
-            let data: var= cJSONServer.getDataSource(m_connection.ConnectionString + "." + cmdName);
+        self.ExecuteReader = function(behavior) {
+            let cmdName: var = getCommandName();
+            let data: var = cJSONServer.getDataSource(m_connection.ConnectionString + "." + cmdName);
             return new cJSONDataReader(data);
         };
         //
@@ -188,7 +190,7 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //     An exception occurred while executing the command against a locked row. This
         //     exception is not generated when you are using Microsoft .NET Framework version
         //     1.0.
-        self. = function() {
+        self.ExecuteScalar = function() {
         //
         // Summary:
         //     Creates a prepared version of the command on an instance of SQL Server.
@@ -197,26 +199,52 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //   T:System.InvalidOperationException:
         //     The System.Data.SqlClient.SqlCommand.Connection is not set.-or- The System.Data.SqlClient.SqlCommand.Connection
         //     is not System.Data.SqlClient.SqlConnection.Open.
-        self. = function() {
-        self. = function() {
-        self. = function(behavior) {
+        self.Prepare = function() {
+        self.CreateDbParameter = function() {
+        self.ExecuteDbDataReader = function(behavior) {
             return ExecuteReader(behavior);
         };
 
         const getCommandName = function() {
-            let cmdText: var= m_cmdText;
-            let startIndex: var= cmdText.IndexOf("exec");
+            let cmdText: var = m_cmdText;
+            let startIndex: var = cmdText.IndexOf("exec");
 
-            const  = function(0) {
+            if (startIndex < 0) {
                 throw new ArgumentException("The command text for this command object is invalid. Format must be 'exec [SP_NAME] param_list");
             }
 
             startIndex += 5;
 
             cmdText = cmdText.Substring(startIndex);
-            let length: var= cmdText.IndexOf(" ", 1);
+            let length: var = cmdText.IndexOf(" ", 1);
 
             return cmdText.Substring(0, length).Replace("[","").Replace("]","");
         };
-    }
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSDataBase {
+
+  export interface IcJSONCommand {
+
+    int: override;
+    CommandType: override;
+    cJSONServerConnection: new;
+    bool: override;
+    DbParameterCollection: new;
+    DbTransaction: new;
+    UpdateRowSource: override;
+    Cancel: () => void;
+    CreateParameter: () => DbParameter;
+    ExecuteNonQuery: () => int;
+    ExecuteReader: () => cJSONDataReader;
+    ExecuteReader: (CommandBehavior) => cJSONDataReader;
+    ExecuteScalar: () => object;
+    Prepare: () => void;
+    CreateDbParameter: () => DbParameter;
+    ExecuteDbDataReader: (CommandBehavior) => DbDataReader;
+  }
 }

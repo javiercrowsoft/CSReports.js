@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCReportPageFields = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportPageFields = {};
 
         // Creates an empty collection.
         const cReportPageFields = function() {
@@ -119,7 +120,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCReportPageField();
+                    c = globalObject.CSReportDll.createCReportPageField();
                 }
 
                 if (key === "") {
@@ -159,6 +160,28 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportPageFields {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    add: (cReportPageField) => cReportPageField;
+    add: (cReportPageField, String) => cReportPageField;
+    count: () => int;
+    item: (String) => cReportPageField;
+    item: (int) => cReportPageField;
+  }
+}

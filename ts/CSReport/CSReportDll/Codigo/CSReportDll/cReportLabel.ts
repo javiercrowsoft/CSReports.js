@@ -4,14 +4,15 @@
 
     globalObject.CSReportDll.createCReportLabel = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportLabel = {};
 
         let m_aspect: cReportAspect = null;
-        let m_text: string= "";
+        let m_text: string = "";
         let m_canGrow: boolean = null;
 
         const cReportLabel = function() {
-            m_aspect =  globalObject.CSReportDll.createCReportAspect();
+            m_aspect = globalObject.CSReportDll.createCReportAspect();
         };
 
         self.getAspect = function() {
@@ -45,9 +46,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Label");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -65,6 +66,24 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportLabel {
+
+    getAspect: () => cReportAspect;
+    setAspect: (cReportAspect) => void;
+    getText: () => String;
+    setText: (String) => void;
+    getCanGrow: () => bool;
+    setCanGrow: (bool) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

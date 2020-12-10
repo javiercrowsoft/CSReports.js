@@ -4,13 +4,14 @@
 
     globalObject.CSReportPaint.createCGlobals = function() {
 
-        const self = {};
-        let int: staticm_nextKey = 1000;
+        // @ts-ignore
+        let self: CSReportPaint.IcGlobals = {};
+        let int: static m_nextKey = 1000;
 
-        const C_MODULE: string= "cGlobals";
+        const C_MODULE: string = "cGlobals";
 
-        let Bitmap: static_flag = new Bitmap(1, 1);
-        let Graphics: static_g = Graphics.FromImage(_flag);
+        let Bitmap: static _flag = new Bitmap(1, 1);
+        let Graphics: static _g = Graphics.FromImage(_flag);
 
         self.getNextKey = function() {
             m_nextKey++;
@@ -69,7 +70,7 @@
         };
 
         self.getRectFromPaperSize = function(info, paperSize, orientation) {
-            let rtn: RectangleF= new RectangleF();
+            let rtn: RectangleF = new RectangleF();
 
             switch (paperSize)
             {
@@ -95,7 +96,7 @@
 
                 case csReportPaperType.CSRPTPAPERUSER:
                     if (info === null) {
-                        let msg: string= "The settings for the custome user paper size is not defined";
+                        let msg: string = "The settings for the custome user paper size is not defined";
                         throw new ReportPaintException(csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT, C_MODULE, msg);
                     }
                     else {
@@ -106,7 +107,7 @@
             }
 
             if (orientation === csRptPageOrientation.LANDSCAPE) {
-                let tmp: number= 0;
+                let tmp: number = 0;
                 tmp = rtn.Height;
                 rtn.Height = rtn.Width;
                 rtn.Width = tmp;
@@ -118,22 +119,22 @@
         // fonts
 
         self.redim = function(vFonts, size) {
-            vFonts =  globalObject.CSReportDll.createFont[size];
+            vFonts = UNKNOWN >>  can't find constructor for class Font[size];
         };
 
         self.redimPreserve = function(vFonts, size) {
             if (size === 0) {
-                vFonts =  globalObject.CSReportDll.createFont[0];
+                vFonts = UNKNOWN >>  can't find constructor for class Font[0];
             }
             else {
                 if (vFonts === null) {
-                    vFonts =  globalObject.CSReportDll.createFont[size];
+                    vFonts = UNKNOWN >>  can't find constructor for class Font[size];
                 }
                 else if (vFonts.Length === 0) {
-                    vFonts =  globalObject.CSReportDll.createFont[size];
+                    vFonts = UNKNOWN >>  can't find constructor for class Font[size];
                 }
                 else {
-                    let newArray: Font[]= new Font[size];
+                    let newArray: Font[] = new Font[size];
                     Array.Copy(vFonts, newArray, vFonts.Length);
                     vFonts = newArray;
                 }
@@ -154,13 +155,13 @@
 
             redimPreserve(m_fnt, m_fnt.Length + 1);
 
-            let fontStyle: FontStyle= FontStyle.Regular;
+            let fontStyle: FontStyle = FontStyle.Regular;
             if (font.getBold()) fontStyle = fontStyle | FontStyle.Bold; {
             if (font.getItalic()) fontStyle = fontStyle | FontStyle.Italic; {
             if (font.getUnderline()) fontStyle = fontStyle | FontStyle.Underline; {
             if (font.getStrike()) fontStyle = fontStyle | FontStyle.Strikeout; {
 
-            let afont: Font= new Font(font.getName(), ((font.getSize() > 0) ? font.getSize() : 3), fontStyle);
+            let afont: Font = new Font(font.getName(), ((font.getSize() > 0) ? font.getSize() : 3), fontStyle);
 
             m_fnt[m_fnt.Length - 1] = afont;
 
@@ -168,7 +169,9 @@
         };
         return self;
 
-    }
+    }    }
+        return self;
+
 
 UNKNOWN >>     public enum csETypeGrid {
         CSEGRIDNONE,
@@ -178,11 +181,13 @@ UNKNOWN >>     public enum csETypeGrid {
 UNKNOWN >>         CSEGRIDLINESHORIZONTAL
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum csRptPaintObjType
+        return self;
+
+    public enum csRptPaintObjTypeUNKNOWN >>     public enum csRptPaintObjType
     {
         CSRPTPAINTOBJBOX,
         CSRPTPAINTOBJLINE,
@@ -190,11 +195,13 @@ UNKNOWN >>         return self;
 UNKNOWN >>         CSRPTPAINTOBJIMAGE
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum csRptPaintRegionType
+        return self;
+
+    public enum csRptPaintRegionTypeUNKNOWN >>     public enum csRptPaintRegionType
     {
         CRPTPNTRGNTYPEBODY,
         CRPTPNTRGNTYPELEFTUP,
@@ -207,11 +214,13 @@ UNKNOWN >>         return self;
 UNKNOWN >>         CRPTPNTRGNTYPERIGHT
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum csEMoveTo
+        return self;
+
+    public enum csEMoveToUNKNOWN >>     public enum csEMoveTo
     {
         C_FIRSTPAGE = 1,
         C_NEXTPAGE = -1,
@@ -219,18 +228,43 @@ UNKNOWN >>         return self;
         C_LASTPAGE = -3
         return self;
 
-    }
+    }    }
+        return self;
 
 
-UNKNOWN >>         return self;
+        return self;
 
-    public enum csPDFQuality
+
+        return self;
+
+    public enum csPDFQualityUNKNOWN >>     public enum csPDFQuality
     {
         PDFQUALITYFULL = 1,
         PDFQUALITYSMALL = 2,
         PDFQUALITYMEDIUM = 3
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcGlobals {
+
+    getNextKey: () => int;
+    getKey: (String) => String;
+    getBitmapSize: (Image, int, int, bool) => void;
+    setRectangleWidth: (Single) => Single;
+    setRectangleHeight: (Single) => Single;
+    newRectangleF: (Single, Single, Single, Single) => RectangleF;
+    newRectangle: (int, int, int, int) => Rectangle;
+    getRectFromPaperSize: (cReportPaperInfo, csReportPaperType, int) => RectangleF;
+    redim: (Font[], int) => void;
+    redimPreserve: (Font[], int) => void;
+    addFontIfRequired: (cReportFont, Font[]) => int;
+  }
+}

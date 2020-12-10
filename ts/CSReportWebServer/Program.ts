@@ -2,9 +2,11 @@
 
     globalObject.CSReportWebServer = globalObject.CSReportWebServer || {};
 
-UNKNOWN >>     static class Program
-    {
-		let ILog: staticlog = LogManager.GetLogger(typeof(Program));
+    globalObject.CSReportWebServer.createProgram = function() {
+
+        // @ts-ignore
+        let self: CSReportWebServer.IProgram = {};
+		let ILog: static log = LogManager.GetLogger(typeof(Program));
 
         /// <summary>
         /// The main entry point for the application.
@@ -20,6 +22,16 @@ UNKNOWN >>     static class Program
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new fMain(args));            
-        }
-    }
+        };
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSReportWebServer {
+
+  export interface IProgram {
+
+  }
 }

@@ -4,8 +4,9 @@
 
     globalObject.CSDataBase.createCJSONServer = function() {
 
-        const self = {};
-        let cJSONDataSources: staticm_dataSources = new cJSONDataSources();
+        // @ts-ignore
+        let self: CSDataBase.IcJSONServer = {};
+        let cJSONDataSources: static m_dataSources = new cJSONDataSources();
 
         self.registerDataSource = function(dataSource, name) {
             m_dataSources.add(dataSource, name.ToLower());
@@ -16,16 +17,20 @@
         };
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    class cJSONServerConnection : DbConnection
-    {
+        return self;
+
+    class cJSONServerConnection : DbConnection    self.createCJSONServerConnection = function() {
+
+        // @ts-ignore
+        let self: CSDataBase.IcJSONServerConnection = {};
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlConnection class.
-        self. = function() {
+        const cJSONServerConnection = function() {
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlConnection class when
@@ -34,7 +39,7 @@ UNKNOWN >>         return self;
         // Parameters:
         //   connectionString:
         //     The connection used to open the SQL Server database.
-        self. = function(connectionString) {
+        const cJSONServerConnection = function(connectionString) {
             this.ConnectionString = connectionString;
         };
 
@@ -152,7 +157,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         //
         //   T:System.Data.SqlClient.SqlException:
         //     Cannot change the database.
-        self. = function(database) {
+        self.ChangeDatabase = function(database) {
         //
         // Summary:
         //     Closes the connection to the database. This is the preferred method of closing
@@ -161,7 +166,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         // Exceptions:
         //   T:System.Data.SqlClient.SqlException:
         //     The connection-level error that occurred while opening the connection.
-        self. = function() {
+        self.Close = function() {
 
         //
         // Summary:
@@ -177,7 +182,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         //
         // Returns:
         //     A System.Data.DataTable that contains schema information.
-        self. = function() {
+        self.GetSchema = function() {
         //
         // Summary:
         //     Returns schema information for the data source of this System.Data.SqlClient.SqlConnection
@@ -193,7 +198,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         // Exceptions:
         //   T:System.ArgumentException:
         //     collectionName is specified as null.
-        self. = function(collectionName) {
+        self.GetSchema = function(collectionName) {
         //
         // Summary:
         //     Returns schema information for the data source of this System.Data.SqlClient.SqlConnection
@@ -213,7 +218,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         // Exceptions:
         //   T:System.ArgumentException:
         //     collectionName is specified as null.
-        self. = function(collectionName, restrictionValues) {
+        self.GetSchema = function(collectionName, restrictionValues) {
         //
         // Summary:
         //     Opens a database connection with the property settings specified by the System.Data.SqlClient.SqlConnection.ConnectionString.
@@ -232,13 +237,40 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         //   T:System.ArgumentException:
         //     A Connection Plan is specified together with one of the following:FailOverPartner,
         //     AttachDbFileName, UserInstance=true, or contextConnection=true.
-        self. = function() {
+        self.Open = function() {
 
-        self. = function(isolationLevel) {
-        self. = function() {
-        self. = function(disposing) {
+        self.BeginDbTransaction = function(isolationLevel) {
+        self.CreateDbCommand = function() {
+        self.Dispose = function(disposing) {
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSDataBase {
+
+  export interface IcJSONServerConnection {
+
+    string: override;
+    int: override;
+    string: override;
+    string: override;
+    FireInfoMessageEventOnUserErrors: boolean;
+    PacketSize: number;
+    string: override;
+    ConnectionState: override;
+    StatisticsEnabled: boolean;
+    WorkstationId: string;
+    ChangeDatabase: (string) => void;
+    Close: () => void;
+    GetSchema: () => DataTable;
+    GetSchema: (string) => DataTable;
+    GetSchema: (string, string[]) => DataTable;
+    Open: () => void;
+    BeginDbTransaction: (IsolationLevel) => DbTransaction;
+    CreateDbCommand: () => DbCommand;
+    Dispose: (bool) => void;
+  }
+}

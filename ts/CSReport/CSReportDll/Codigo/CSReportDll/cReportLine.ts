@@ -4,9 +4,10 @@
 
     globalObject.CSReportDll.createCReportLine = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportLine = {};
 
-        let m_aspect: cReportAspect= new cReportAspect();
+        let m_aspect: cReportAspect = new cReportAspect();
 
         self.getAspect = function() {
             return m_aspect;
@@ -22,10 +23,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Line");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -35,6 +36,20 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportLine {
+
+    getAspect: () => cReportAspect;
+    setAspect: (cReportAspect) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

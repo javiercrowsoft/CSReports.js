@@ -4,9 +4,10 @@
 
     globalObject.CSReportScript.createCReportCompilerVar = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportScript.IcReportCompilerVar = {};
 
-        let m_value: object= null;
+        let m_value: object = null;
 
         self.getValue = function() {
             return m_value;
@@ -18,6 +19,18 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportScript {
+
+  export interface IcReportCompilerVar {
+
+    getValue: () => object;
+    setValue: (object) => void;
+  }
+}

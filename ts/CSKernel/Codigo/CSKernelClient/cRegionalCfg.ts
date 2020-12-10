@@ -17,11 +17,12 @@
 
     globalObject.CSKernelClient.createCRegionalCfg = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.IcRegionalCfg = {};
 
-        let string: staticm_decimalPoint = "";
-        const c_error_1: string= "No se pudo determinar cual es el separador decimal. Confirme en el 'panel de control/configuración regional' que los valores de la ficha número coincidan con los valores de la ficha moneda en los campos 'simbolo decimal' y 'simbolo de separación de miles'.";
-        const c_error_2: string= "Se debe invocar el metodo init de la clase cReginalCfg de la dll CSKernelClient, antes de utilizar cualquier metodo que invoque a la propiedad decimalPoint.";
+        let string: static m_decimalPoint = "";
+        const c_error_1: string = "No se pudo determinar cual es el separador decimal. Confirme en el 'panel de control/configuración regional' que los valores de la ficha número coincidan con los valores de la ficha moneda en los campos 'simbolo decimal' y 'simbolo de separación de miles'.";
+        const c_error_2: string = "Se debe invocar el metodo init de la clase cReginalCfg de la dll CSKernelClient, antes de utilizar cualquier metodo que invoque a la propiedad decimalPoint.";
 
         self.init = function() {
             double number; {
@@ -54,5 +55,14 @@ UNKNOWN >>             get
         }
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IcRegionalCfg {
+
+    init: () => void;
+  }
+}

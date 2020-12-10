@@ -4,25 +4,26 @@
 
     globalObject.CSReportPaint.createCReportPaintObject = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportPaint.IcReportPaintObject = {};
 
-        const C_MODULE: string= "cReportPaintObject";
+        const C_MODULE: string = "cReportPaintObject";
 
-        let m_aspect: cReportAspect= new cReportAspect();
-        let m_key: string= "";
-        let m_text: string= "";
+        let m_aspect: cReportAspect = new cReportAspect();
+        let m_key: string = "";
+        let m_text: string = "";
         let m_paintType: csRptPaintObjType = null;
-        let m_tag: string= "";
+        let m_tag: string = "";
         let m_rptType: csRptSectionType = null;
-        let m_rptKeySec: string= "";
-        let m_image: Image= null;
-        let m_indexField: number= 0;
+        let m_rptKeySec: string = "";
+        let m_image: Image = null;
+        let m_indexField: number = 0;
 
         let m_isSection: boolean = null;
 
-        let m_heightSec: number= 0;
-        let m_heightSecLine: number= 0;
-        let m_textLine: string= "";
+        let m_heightSec: number = 0;
+        let m_heightSecLine: number = 0;
+        let m_textLine: string = "";
 
         self.getImage = function() {
             return m_image;
@@ -130,6 +131,42 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaintObject {
+
+    getImage: () => Image;
+    setImage: (Image) => void;
+    getAspect: () => cReportAspect;
+    setAspect: (cReportAspect) => void;
+    getKey: () => String;
+    setKey: (String) => void;
+    getText: () => String;
+    setText: (String) => void;
+    getPaintType: () => csRptPaintObjType;
+    setPaintType: (csRptPaintObjType) => void;
+    getRptType: () => csRptSectionType;
+    setRptType: (csRptSectionType) => void;
+    getTag: () => String;
+    setTag: (String) => void;
+    getRptKeySec: () => String;
+    setRptKeySec: (String) => void;
+    getIndexField: () => int;
+    setIndexField: (int) => void;
+    getHeightSec: () => float;
+    setHeightSec: (float) => void;
+    getHeightSecLine: () => float;
+    setHeightSecLine: (float) => void;
+    getTextLine: () => String;
+    setTextLine: (String) => void;
+    getIsSection: () => bool;
+    setIsSection: (bool) => void;
+  }
+}

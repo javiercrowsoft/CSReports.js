@@ -4,19 +4,20 @@
 
     globalObject.CSReportDll.createCReportPageField = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportPageField = {};
 
-        const C_MODULE: string= "cReportPageField";
+        const C_MODULE: string = "cReportPageField";
 
-        let m_value: string= "";
+        let m_value: string = "";
         let m_info: cReportPageInfo = null;
         let m_visible: boolean = null;
         let m_objectID: cReportPageID = null;
-        let m_indexLine: number= 0;
-        let m_top: number= 0;
-        let m_height: number= 0;
-        let m_width: number= 0;
-        let m_image: Image= null;
+        let m_indexLine: number = 0;
+        let m_top: number = 0;
+        let m_height: number = 0;
+        let m_width: number = 0;
+        let m_image: Image = null;
 
         self.getValue = function() {
             return m_value;
@@ -91,8 +92,8 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            m_objectID =  globalObject.CSReportDll.createCReportPageID();
-            m_info =  globalObject.CSReportDll.createCReportPageInfo();
+            m_objectID = globalObject.CSReportDll.createCReportPageID();
+            m_info = globalObject.CSReportDll.createCReportPageInfo();
 
             m_value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
             m_visible = xDoc.getNodeProperty(nodeObj, "Visible").getValueBool(eTypes.eBoolean);
@@ -100,7 +101,7 @@
             m_height = xDoc.getNodeProperty(nodeObj, "Height").getValueInt(eTypes.eLong);
             m_width = xDoc.getNodeProperty(nodeObj, "Width").getValueInt(eTypes.eLong);
 
-            let nodeObjAux: XmlNode= null;
+            let nodeObjAux: XmlNode = null;
             nodeObjAux = nodeObj;
             if (!m_objectID.load(xDoc, nodeObjAux))  {
                 return false; 
@@ -114,9 +115,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Field");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -154,9 +155,9 @@
         };
 
         self.saveForWeb = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Field");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -171,6 +172,37 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportPageField {
+
+    getValue: () => String;
+    setValue: (String) => void;
+    getInfo: () => cReportPageInfo;
+    setInfo: (cReportPageInfo) => void;
+    getVisible: () => bool;
+    setVisible: (bool) => void;
+    getObjectID: () => cReportPageID;
+    setObjectID: (cReportPageID) => void;
+    getTop: () => float;
+    setTop: (float) => void;
+    getHeight: () => float;
+    setHeight: (float) => void;
+    getWidth: () => float;
+    setWidth: (float) => void;
+    getImage: () => Image;
+    setImage: (Image) => void;
+    getIndexLine: () => int;
+    setIndexLine: (int) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+    saveForWeb: (CSXml.cXml, XmlNode) => bool;
+  }
+}

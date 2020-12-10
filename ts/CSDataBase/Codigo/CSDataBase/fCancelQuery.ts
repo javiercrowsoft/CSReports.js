@@ -4,19 +4,20 @@
 
     globalObject.CSDataBase.createFCancelQuery = function() {
 
-        const self = {};
-        let m_cancel: boolean= false;
+        // @ts-ignore
+        let self: CSDataBase.IfCancelQuery = {};
+        let m_cancel: boolean = false;
         let m_timer: Timer = null;
-        let m_minutes: number= 0;
-        let m_seconds: number= 0;
+        let m_minutes: number = 0;
+        let m_seconds: number = 0;
 
         const fCancelQuery = function() {
             InitializeComponent();
 
-            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.Database.png"));
-            m_timer =  globalObject.CSReportDll.createTimer();
-            m_timer.Tick +=  globalObject.CSReportDll.createEventHandler(timer_tick);
+            let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.Database.png"));
+            m_timer = UNKNOWN >>  can't find constructor for class Timer();
+            m_timer.Tick += UNKNOWN >>  can't find constructor for class EventHandler(timer_tick);
             m_timer.Interval = 1000;
             m_timer.Start();
         };
@@ -52,5 +53,13 @@ UNKNOWN >>             get {
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSDataBase {
+
+  export interface IfCancelQuery {
+
+  }
+}

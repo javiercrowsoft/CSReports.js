@@ -5,14 +5,15 @@
 
     globalObject.CSReportDll.createCReportSectionLines = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportSectionLines = {};
 
         // it is a reference to the controls collection of cReport
         //
         let m_copyColl: cReportControls2 = null;
         let m_typeSection: csRptSectionType = null;
-        let m_coll: Hashtable= new Hashtable();
-        let m_keys: List= new List();
+        let m_coll: Hashtable = new Hashtable();
+        let m_keys: List = new List();
 
         // Creates an empty collection.
         const cReportSectionLines = function() {
@@ -27,7 +28,7 @@
         };
 
         self.setCopyColl = function(rhs) {
-            let sectionLn: cReportSectionLine= null;
+            let sectionLn: cReportSectionLine = null;
             m_copyColl = rhs;
 
             for(var _i = 0; _i < this.count(); _i++) {
@@ -46,7 +47,7 @@
         self.add = function(c, key, index) {
             try {
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCReportSectionLine();
+                    c = globalObject.CSReportDll.createCReportSectionLine();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -82,7 +83,7 @@
 
         self.clear = function() {
             try {
-                let n: number= this.count();
+                let n: number = this.count();
                 for(var i = 0; i < n; i++) {
                     remove(0);
                 }
@@ -94,7 +95,7 @@
 
         self.remove = function(key) {
             try {
-                let w_item: cReportSectionLine= item(key);
+                let w_item: cReportSectionLine = item(key);
                 if (w_item !== null) {
                     if (w_item.getControls() !== null) {
                         w_item.getControls().clear();
@@ -113,7 +114,7 @@
 
         self.remove = function(index) {
             try {
-                let w_item: cReportSectionLine= item(index);
+                let w_item: cReportSectionLine = item(index);
                 if (w_item !== null) {
                     if (w_item.getControls() !== null) {
                         w_item.getControls().clear();
@@ -160,6 +161,28 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportSectionLines {
+
+    getTypeSection: () => csRptSectionType;
+    setTypeSection: (csRptSectionType) => void;
+    setCopyColl: (cReportControls2) => void;
+    getCopyColl: () => cReportControls2;
+    add: () => cReportSectionLine;
+    add: (cReportSectionLine, String, int) => cReportSectionLine;
+    clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    count: () => int;
+    item: (String) => cReportSectionLine;
+    item: (int) => cReportSectionLine;
+  }
+}

@@ -1,19 +1,21 @@
 (function(globalObject) {
     globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-UNKNOWN >>     partial class fSimpleConnect
-    {
+    globalObject.CSReportEditor.createFSimpleConnect = function() {
+
+        // @ts-ignore
+        let self: CSReportEditor.IfSimpleConnect = {};
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer= null;
+        let components: System.ComponentModel.IContainer = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self. = function(disposing) {
-            const  = function(null) {
+        self.Dispose = function(disposing) {
+            if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -30,9 +32,9 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // 
             // fSimpleConnect
             // 
-            this.AutoScaleDimensions =  globalObject.CSReportDll.createSystem.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = UNKNOWN >>  can't find constructor for class System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize =  globalObject.CSReportDll.createSystem.Drawing.Size(284, 262);
+            this.ClientSize = UNKNOWN >>  can't find constructor for class System.Drawing.Size(284, 262);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "fSimpleConnect";
             this.Text = "Connection Settings";
@@ -41,5 +43,16 @@ UNKNOWN >>         #region Windows Form Designer generated code
         };
 
 UNKNOWN >>         #endregion
-    }
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfSimpleConnect {
+
+    Dispose: (bool) => void;
+  }
 }

@@ -16,9 +16,10 @@
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "10.0.0.0")]
     globalObject.CSReportEditor.Properties.createPartial = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.Properties.Ipartial = {};
 
-        let Settings: staticdefaultInstance = ((global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        let Settings: static defaultInstance = ((global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
 
 UNKNOWN >>         public static Settings Default {
 UNKNOWN >>             get {
@@ -27,5 +28,13 @@ UNKNOWN >>             get {
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor.Properties {
+
+  export interface Ipartial {
+
+  }
+}

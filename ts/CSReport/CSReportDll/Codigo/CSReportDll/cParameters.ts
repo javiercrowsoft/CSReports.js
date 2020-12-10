@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCParameters = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcParameters = {};
 
         // Creates an empty collection.
         const cParameters = function() {
@@ -115,7 +116,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCParameter();
+                    c = globalObject.CSConnect.createCParameter();
                 }
 
                 if (key === "") {
@@ -160,6 +161,27 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcParameters {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    add: (cParameter, String) => cParameter;
+    count: () => int;
+    item: (String) => cParameter;
+    item: (int) => cParameter;
+  }
+}

@@ -4,19 +4,23 @@
 
     globalObject.CSReportDll.createCReportError = function() {
 
-        const self = {};
-        const C_MODULE: string= "cReportError";
+        // @ts-ignore
+        let self: CSReportDll.IcReportError = {};
+        const C_MODULE: string = "cReportError";
 
-        self.String: staticgDebugControl = "";
-        self.int: staticgDebugSectionLine = 0;
-        self.String: staticgDebugSection = "";
+        self.String: static gDebugControl = "";
+        self.int: static gDebugSectionLine = 0;
+        self.String: static gDebugSection = "";
 
         self.errGetDescript = function(rptErrCode, x) {
-            let s: string= "";
+            let s: string = "";
             switch (rptErrCode)
             {
                 case csRptErrors.LAUNCH_INFO_UNDEFINED:
-                    s = "The cReport launch metodh must be called with an instance of oLaunchInfo class or the cReport init method must be called before calling launch.";
+                    self.create"The = function() {
+
+                        // @ts-ignore
+                        let self: CSReportDll.I"The = {};
                     break;
 
                 case csRptErrors.SINTAX_ERROR_MISSING_BRAKETS:
@@ -64,7 +68,7 @@
                     break;
             }
 
-            let i: number= 0;
+            let i: number = 0;
 
             for (i = 0; i < x.Length; i++) {
                 s = s.Replace("$" + .ToString(), x[i]);
@@ -79,5 +83,13 @@
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface I"The {
+
+  }
+}

@@ -5,10 +5,21 @@
     [System.Serializable]
     globalObject.CSReportWebServer.NativeMessaging.createNativeMessagingException = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportWebServer.NativeMessaging.INativeMessagingException = {};
         const NativeMessagingException = function() {
         const NativeMessagingException = function(message) {
         const NativeMessagingException = function(message, innerException) {
         const NativeMessagingException = function(info, context) {
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportWebServer.NativeMessaging {
+
+  export interface INativeMessagingException {
+
+  }
+}

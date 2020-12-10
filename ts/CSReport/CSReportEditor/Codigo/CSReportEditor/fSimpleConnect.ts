@@ -4,8 +4,9 @@
 
     globalObject.CSReportEditor.createFSimpleConnect = function() {
 
-        const self = {};
-        let m_ok: boolean= false;
+        // @ts-ignore
+        let self: CSReportEditor.IfSimpleConnect = {};
+        let m_ok: boolean = false;
 
         const fSimpleConnect = function() {
             InitializeComponent();
@@ -27,7 +28,7 @@
             tx_password.Text = value;
 		};
 
-		self. = function() {
+		self.getUser = function() {
             return tx_user.Text;
 		};
 
@@ -39,11 +40,11 @@
             op_sqlConnection.Checked = true;
 		};
 
-		self. = function() {
+		self.getOk = function() {
             return m_ok;
 		};
 
-		self. = function() {
+		self.getStrConnect = function() {
 UNKNOWN >>             string strConnect;
 			if(op_trustedConnection.Checked) {
                 strConnect = "Provider=SQLOLEDB.1;";
@@ -96,5 +97,22 @@ UNKNOWN >>             string strConnect;
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfSimpleConnect {
+
+    setServer: (string) => void;
+    setDataBase: (string) => void;
+    setUser: (string) => void;
+    setPassword: (string) => void;
+    getUser: () => string;
+    setConnectTypeToNT: () => void;
+    setConnectTypeToSQL: () => void;
+    getOk: () => bool;
+    getStrConnect: () => string;
+  }
+}

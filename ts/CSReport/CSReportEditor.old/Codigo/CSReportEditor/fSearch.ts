@@ -4,11 +4,20 @@
 
     globalObject.CSReportEditor.createFSearch = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfSearch = {};
         const fSearch = function() {
             InitializeComponent();
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfSearch {
+
+  }
+}

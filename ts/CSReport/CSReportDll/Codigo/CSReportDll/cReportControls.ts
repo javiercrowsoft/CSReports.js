@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCReportControls = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportControls = {};
 
         // Creates an empty collection.
         const cReportControls = function() {
@@ -97,7 +98,7 @@ UNKNOWN >>             get
             this.BaseClear();
         };
 
-        const C_MODULE: string= "cReportControls";
+        const C_MODULE: string = "cReportControls";
 
         // it is a reference to the controls collection of cReport
         //
@@ -132,7 +133,7 @@ UNKNOWN >>             get
         self.setSectionLine = function(rhs) {
             m_sectionLine = rhs;
 
-            let ctrl: cReportControl= null;
+            let ctrl: cReportControl = null;
             for(var _i = 0; _i < this.Count; _i++) {
                 ctrl = item(_i);
                 ctrl.setSectionLine(rhs);
@@ -151,7 +152,7 @@ UNKNOWN >>             get
             try {
 
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCReportControl();
+                    c = globalObject.CSReportDll.createCReportControl();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -180,7 +181,7 @@ UNKNOWN >>             get
 
         self.clear = function() {
             try {
-                let n: number= this.count();
+                let n: number = this.count();
                 for(var i = 0; i < n; i++) {
                     remove(0);
                 }
@@ -236,11 +237,11 @@ UNKNOWN >>             get
         };
 
         self.orderCollByLeft = function() {
-            let j: number= 0;
-            let i: number= 0;
-            let tmp: number= 0;
-            let ctl1: cReportControl= null;
-            let ctl2: cReportControl= null;
+            let j: number = 0;
+            let i: number = 0;
+            let tmp: number = 0;
+            let ctl1: cReportControl = null;
+            let ctl2: cReportControl = null;
 
             G.redim(m_collByLeft, this.Count);
 
@@ -276,7 +277,7 @@ UNKNOWN >>             get
         };
 
         // Track whether Dispose has been called.
-        let disposed: boolean= false;
+        let disposed: boolean = false;
 
         // Dispose(bool disposing) executes in two distinct scenarios.
         // If disposing equals true, the method has been called directly
@@ -324,6 +325,35 @@ UNKNOWN >>             cReportControl ctrl;
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportControls {
+
+    Add: (String, Object) => void;
+    getTypeSection: () => csRptSectionType;
+    setTypeSection: (csRptSectionType) => void;
+    getCopyColl: () => cReportControls2;
+    setCopyColl: (cReportControls2) => void;
+    getSectionLine: () => cReportSectionLine;
+    setSectionLine: (cReportSectionLine) => void;
+    getCollByLeft: () => int[];
+    add: () => cReportControl;
+    add: (cReportControl, String) => cReportControl;
+    clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    count: () => int;
+    item: (String) => cReportControl;
+    item: (int) => cReportControl;
+    orderCollByLeft: () => void;
+    Dispose: () => void;
+    Dispose: (bool) => void;
+  }
+}

@@ -5,15 +5,16 @@
 
     globalObject.CSXml.createCXml = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSXml.IcXml = {};
 
-        const C_MODULE: string= "cXml";
+        const C_MODULE: string = "cXml";
 
-        let m_name: string= "";
-        let m_path: string= "";
-        let m_domDoc: XmlDocument= new XmlDocument();
-        let m_commDialog: object= null;
-        let m_filter: string= "";
+        let m_name: string = "";
+        let m_path: string = "";
+        let m_domDoc: XmlDocument = new XmlDocument();
+        let m_commDialog: object = null;
+        let m_filter: string = "";
 
         self.getName = function() {
             return m_name;
@@ -24,7 +25,7 @@
         };
 
         self.getPath = function() {
-            let _rtn: string= "";
+            let _rtn: string = "";
             if (m_path.Substring(m_path.Length - 1) === Path.DirectorySeparatorChar.ToString()) {
                 _rtn = m_path;
             }
@@ -52,7 +53,7 @@
 
         self.openXmlWithDialog = function() {
             try {
-                let file: CSKernelFile.cFile= new CSKernelFile.cFile();
+                let file: CSKernelFile.cFile = new CSKernelFile.cFile();
                 file.setFilter(m_filter);
                 file.init("OpenXmlWithDialog", C_MODULE, m_commDialog);
 
@@ -84,11 +85,11 @@
 
         self.openXml = function() {
             try {
-                let file: string= "";
-                m_domDoc =  globalObject.CSReportDll.createXmlDocument();
+                let file: string = "";
+                m_domDoc = UNKNOWN >>  can't find constructor for class XmlDocument();
                 file = getPath() + m_name;
 
-                let fileEx: CSKernelFile.cFileEx= new CSKernelFile.cFileEx();
+                let fileEx: CSKernelFile.cFileEx = new CSKernelFile.cFileEx();
                 if (fileEx.fileExists(file)) {
                     if (!loadXml(file)) {
                         return false;
@@ -109,14 +110,14 @@
 
         self.newXmlWithDialog = function() {
             try {
-                let msg: string= "";
-                let file: CSKernelFile.cFile= new CSKernelFile.cFile();
+                let msg: string = "";
+                let file: CSKernelFile.cFile = new CSKernelFile.cFile();
 
                 file.init("NewXmlWithDialog", C_MODULE, m_commDialog);
                 file.setFilter(m_filter);
 
-                let bExists: boolean= false;
-                let bReadonly: boolean= false;
+                let bExists: boolean = false;
+                let bReadonly: boolean = false;
 
                 if (!file.save(m_name, bExists, bReadonly, ""))  {
                     return false; 
@@ -152,8 +153,8 @@
 
         self.newXml = function() {
             try {
-                m_domDoc =  globalObject.CSReportDll.createXmlDocument();
-                let node: XmlNode= m_domDoc.CreateNode(XmlNodeType.Element, "Root", "");
+                m_domDoc = UNKNOWN >>  can't find constructor for class XmlDocument();
+                let node: XmlNode = m_domDoc.CreateNode(XmlNodeType.Element, "Root", "");
                 m_domDoc.AppendChild(node);
 
                 return true;
@@ -166,7 +167,7 @@
 
         self.saveWithDialog = function() {
             try {
-                let file: CSKernelFile.cFile= new CSKernelFile.cFile();
+                let file: CSKernelFile.cFile = new CSKernelFile.cFile();
 
                 if (!file.open(m_name, eFileMode.eWrite, false, false, eFileAccess.eLockWrite, false, false))  {
                     return false; 
@@ -205,19 +206,19 @@
         };
 
         self.addPropertyToNodeByTag = function(nodeTag, xProperty) {
-            let w_element: XmlNodeList= m_domDoc.GetElementsByTagName(nodeTag);
+            let w_element: XmlNodeList = m_domDoc.GetElementsByTagName(nodeTag);
             return addPropertyToNode(w_element.Item(0), xProperty);
         };
 
         self.addPropertyToNode = function(node, xProperty) {
-            let attr: XmlAttribute= m_domDoc.CreateAttribute(xProperty.getName());
+            let attr: XmlAttribute = m_domDoc.CreateAttribute(xProperty.getName());
             attr.Value = xProperty.getValueString(eTypes.eVariant);
             node.Attributes.Append(attr);
             return true;
         };
 
         self.addBinaryPropertyToNode = function(node, xProperty) {
-            let attr: XmlAttribute= m_domDoc.CreateAttribute(xProperty.getName());
+            let attr: XmlAttribute = m_domDoc.CreateAttribute(xProperty.getName());
             attr.Value = Convert.ToBase64String(xProperty.getBinaryValue());
             node.Attributes.Append(attr);
             return true;
@@ -228,12 +229,12 @@
         };
 
         self.addNodeToNodeByTag = function(nodeTag, xProperty) {
-            let w_element: XmlNodeList= m_domDoc.GetElementsByTagName(nodeTag);
+            let w_element: XmlNodeList = m_domDoc.GetElementsByTagName(nodeTag);
             return addNodeToNode(w_element[0], xProperty);
         };
 
         self.addNodeToNode = function(nodeFather, xProperty) {
-            let node: XmlNode= m_domDoc.CreateNode(XmlNodeType.Element, xProperty.getName(), "");
+            let node: XmlNode = m_domDoc.CreateNode(XmlNodeType.Element, xProperty.getName(), "");
             nodeFather.AppendChild(node);
             return node;
         };
@@ -274,15 +275,15 @@
         };
 
         self.getNodeValue = function(node) {
-            let o: cXmlProperty= null;
-            o =  globalObject.CSReportDll.createCXmlProperty();
+            let o: cXmlProperty = null;
+            o = globalObject.CSXml.createCXmlProperty();
             o.setValue(eTypes.eText, node.Name);
             return o;
         };
 
         self.getNodeProperty = function(node, propertyName) {
-            let o: cXmlProperty= new cXmlProperty();
-            let txt: string= "";
+            let o: cXmlProperty = new cXmlProperty();
+            let txt: string = "";
 
             if (node.Attributes[propertyName] !== null) {
                 txt = node.Attributes[propertyName].Value;
@@ -295,11 +296,11 @@
         };
 
         self.getBinaryNodeProperty = function(node, propertyName) {
-            let attr: XmlAttribute= null;
-            let o: cXmlProperty= new cXmlProperty();
-            let vBuffer: byte[]= null;
+            let attr: XmlAttribute = null;
+            let o: cXmlProperty = new cXmlProperty();
+            let vBuffer: byte[] = null;
 
-            let element: XmlElement= node;
+            let element: XmlElement = node;
             attr = element.GetAttributeNode(propertyName);
             if (attr !== null) {
                 vBuffer = System.Convert.FromBase64String(attr.Value);
@@ -336,5 +337,44 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSXml {
+
+  export interface IcXml {
+
+    getName: () => string;
+    setName: (string) => void;
+    getPath: () => string;
+    setPath: (string) => void;
+    getFilter: () => string;
+    setFilter: (string) => void;
+    init: (object) => void;
+    openXmlWithDialog: () => bool;
+    openXml: () => bool;
+    newXmlWithDialog: () => bool;
+    newXml: () => bool;
+    saveWithDialog: () => bool;
+    setNodeText: (XmlNode, string) => void;
+    save: () => bool;
+    addProperty: (cXmlProperty) => bool;
+    addPropertyToNodeByTag: (string, cXmlProperty) => bool;
+    addPropertyToNode: (XmlNode, cXmlProperty) => bool;
+    addBinaryPropertyToNode: (XmlNode, cXmlProperty) => bool;
+    addNode: (cXmlProperty) => XmlNode;
+    addNodeToNodeByTag: (string, cXmlProperty) => XmlNode;
+    addNodeToNode: (XmlNode, cXmlProperty) => XmlNode;
+    getRootNode: () => XmlNode;
+    getNode: (string) => XmlNode;
+    getNodeFromNode: (XmlNode, string) => XmlNode;
+    getNodeChild: (XmlNode) => XmlNode;
+    getNextNode: (XmlNode) => XmlNode;
+    getNodeValue: (XmlNode) => cXmlProperty;
+    getNodeProperty: (XmlNode, string) => cXmlProperty;
+    getBinaryNodeProperty: (XmlNode, string) => cXmlProperty;
+    nodeHasChild: (XmlNode) => bool;
+    Dispose: () => void;
+  }
+}

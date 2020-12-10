@@ -1,19 +1,21 @@
 (function(globalObject) {
     globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-UNKNOWN >>     partial class fToolbox
-    {
+    globalObject.CSReportEditor.createFToolbox = function() {
+
+        // @ts-ignore
+        let self: CSReportEditor.IfToolbox = {};
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer= null;
+        let components: System.ComponentModel.IContainer = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self. = function(disposing) {
-            const  = function(null) {
+        self.Dispose = function(disposing) {
+            if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,11 +28,22 @@ UNKNOWN >>         #region Windows Form Designer generated code
         /// the contents of this method with the code editor.
         /// </summary>
         const InitializeComponent = function() {
-            this.components =  globalObject.CSReportDll.createSystem.ComponentModel.Container();
+            this.components = UNKNOWN >>  can't find constructor for class System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Text = "fToolbox";
         };
 
 UNKNOWN >>         #endregion
-    }
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfToolbox {
+
+    Dispose: (bool) => void;
+  }
 }

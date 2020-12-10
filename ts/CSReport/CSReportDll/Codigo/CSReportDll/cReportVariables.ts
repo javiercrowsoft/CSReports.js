@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCReportVariables = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportVariables = {};
 
         // Creates an empty collection.
         const cReportVariables = function() {
@@ -138,7 +139,7 @@ UNKNOWN >>             get
             try {
 
                 if (c === null) {
-                    c =  globalObject.CSReportDll.createCReportVariable();
+                    c = globalObject.CSReportDll.createCReportVariable();
                 }
 
                 if (key === "") {
@@ -160,6 +161,27 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportVariables {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    count: () => int;
+    item: (String) => cReportVariable;
+    item: (int) => cReportVariable;
+    add: (cReportVariable, String) => cReportVariable;
+  }
+}

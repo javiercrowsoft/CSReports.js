@@ -5,7 +5,8 @@
 
     globalObject.CSReportPaint.createCReportPaintObjects = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportPaint.IcReportPaintObjects = {};
 
         // Creates an empty collection.
         const cReportPaintObjects = function() {
@@ -106,7 +107,7 @@ UNKNOWN >>             get
 
         // Removes an entry in the specified index from the collection.
         self.remove = function(index) {
-            let key: string= item(index).getKey();
+            let key: string = item(index).getKey();
             this.BaseRemoveAt(index);
             removeZOrder(key);
         };
@@ -117,12 +118,12 @@ UNKNOWN >>             get
             m_zorder = null;
         };
 
-        let m_zorder: String[]= null;
+        let m_zorder: String[] = null;
 
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCReportPaintObject();
+                    c = globalObject.CSReportPaint.createCReportPaintObject();
                 }
                 if (key === "") {
                     key = cGlobals.getNextKey().ToString();
@@ -246,6 +247,33 @@ UNKNOWN >>             int i;
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportPaint {
+
+  export interface IcReportPaintObjects {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    add: (cReportPaintObject, String) => cReportPaintObject;
+    count: () => int;
+    bringToFront: (String) => void;
+    sendToBack: (String) => void;
+    zorder: (String, bool) => void;
+    getZOrderForKey: (String) => int;
+    getNextKeyForZOrder: (int) => String;
+    getNextPaintObjForZOrder: (int) => cReportPaintObject;
+    item: (String) => cReportPaintObject;
+    item: (int) => cReportPaintObject;
+  }
+}

@@ -5,11 +5,12 @@
 
     globalObject.CSReportDll.createCReportFormula = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportFormula = {};
 
-        let m_name: string= "";
-        let m_text: string= "";
-        let m_formulasInt: cReportFormulasInt= new cReportFormulasInt();
+        let m_name: string = "";
+        let m_text: string = "";
+        let m_formulasInt: cReportFormulasInt = new cReportFormulasInt();
         let m_notSave: boolean = null;
 
         // when we compile a function we parse the text and extract
@@ -24,18 +25,18 @@
         // 
         // compiled text of the function
         //
-        let m_textC: string= "";
-        let m_idxGroup: number= 0;
-        let m_idxGroup2: number= -9999;
+        let m_textC: string = "";
+        let m_idxGroup: number = 0;
+        let m_idxGroup2: number = -9999;
         let m_whenEval: csRptWhenEval = null;
         let m_haveToEval: boolean = null;
-        let m_lastResult: object= null;
+        let m_lastResult: object = null;
 
         // for debugging
         //
-        let m_controlName: string= "";
-        let m_sectionLineIndex: number= 0;
-        let m_sectionName: string= "";
+        let m_controlName: string = "";
+        let m_sectionLineIndex: number = 0;
+        let m_sectionName: string = "";
 
         let m_compiledScript: Assembly = null;
 
@@ -161,9 +162,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName(m_name);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -189,6 +190,45 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportFormula {
+
+    getCompiledScript: () => Assembly;
+    setCompiledScript: (Assembly) => void;
+    getIdxGroup: () => int;
+    setIdxGroup: (int) => void;
+    getIdxGroup2: () => int;
+    setIdxGroup2: (int) => void;
+    getWhenEval: () => csRptWhenEval;
+    setWhenEval: (csRptWhenEval) => void;
+    getName: () => String;
+    setName: (String) => void;
+    getText: () => String;
+    setText: (String) => void;
+    getControlName: () => String;
+    setControlName: (String) => void;
+    getSectionName: () => String;
+    setSectionName: (String) => void;
+    getSectionLineIndex: () => int;
+    setSectionLineIndex: (int) => void;
+    getFormulasInt: () => cReportFormulasInt;
+    getTextC: () => String;
+    setTextC: (String) => void;
+    getNotSave: () => bool;
+    setNotSave: (bool) => void;
+    getHaveToEval: () => bool;
+    setHaveToEval: (bool) => void;
+    getLastResult: () => object;
+    setLastResult: (object) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

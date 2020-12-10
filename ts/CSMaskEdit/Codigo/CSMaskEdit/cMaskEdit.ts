@@ -4,7 +4,8 @@
 
     globalObject.CSMaskEdit.createCMaskEdit = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSMaskEdit.IcMaskEdit = {};
         const cMaskEdit = function() {
             InitializeComponent();
         };
@@ -22,5 +23,13 @@
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSMaskEdit {
+
+  export interface IcMaskEdit {
+
+  }
+}

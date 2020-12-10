@@ -2,8 +2,10 @@
 
     globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-UNKNOWN >>     class cPrintWMI
-    {
+    globalObject.CSReportDll.createCPrintWMI = function() {
+
+        // @ts-ignore
+        let self: CSReportDll.IcPrintWMI = {};
         //
         // printer properties
         //
@@ -15,11 +17,11 @@ UNKNOWN >>     class cPrintWMI
         // then call this function one time for each property you need to access
         //
         self.getPrinterInfoValueFromWMI = function(propertyName, printerInfo, defaultValue) {
-            let printer: ManagementObject= printerInfo as ManagementObject;
-            const  = function(null) {
-                const  = function(in) {
+            let printer: ManagementObject = printerInfo as ManagementObject;
+            if (printer !== null) {
+                for(var i_ = 0; i_ < printer.Properties.length; i_++) {
                     //Console.WriteLine(string.Format("{0}: {1}", property.Name, property.Value));
-                    const  = function() {
+                    if (propertyName.Equals(property.Name)) {
                         return property.Value;
                     }
                 }
@@ -72,18 +74,34 @@ UNKNOWN >>     class cPrintWMI
         //
         const getInfoFromWMI = function(tableName, objectName) {
             try {
-                let query: string= string.Format("SELECT * from {0} WHERE Name = '{1}'", tableName, objectName);
-                let searcher: ManagementObjectSearcher= new ManagementObjectSearcher(query);
-                let coll: ManagementObjectCollection= searcher.Get();
+                let query: string = string.Format("SELECT * from {0} WHERE Name = '{1}'", tableName, objectName);
+                let searcher: ManagementObjectSearcher = new ManagementObjectSearcher(query);
+                let coll: ManagementObjectCollection = searcher.Get();
 
-                const  = function(in) {
+                for(var i_ = 0; i_ < coll.length; i_++) {
                     return printer;
                 }
                 return null;
             }
-            const  = function(ex) {
+            catch (ex) {
                 return null;
             }
         };
-    }
+        return self;
+
+    }    }
+}(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcPrintWMI {
+
+    getPrinterInfoValueFromWMI: (string, object, object) => object;
+    getPrinterInfoValueFromWMI: (string, string, object) => object;
+    getPrinterConfigInfoValueFromWMI: (string, object, object) => object;
+    getPrinterConfigInfoValueFromWMI: (string, string, object) => object;
+    getPrinterInfoFromWMI: (string) => object;
+    getPrinterConfigInfoFromWMI: (string) => object;
+  }
 }

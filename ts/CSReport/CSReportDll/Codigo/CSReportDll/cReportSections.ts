@@ -4,12 +4,13 @@
 
     globalObject.CSReportDll.createCReportSections = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportSections = {};
 
-        const C_MODULE: string= "cReportSections";
+        const C_MODULE: string = "cReportSections";
 
-        let m_coll: Dictionary= new Dictionary();
-        let m_keys: List= new List();
+        let m_coll: Dictionary = new Dictionary();
+        let m_keys: List = new List();
 
         // it is a reference to the controls collection of cReport
         //
@@ -37,7 +38,7 @@
             m_copyColl = rhs;
 
             if (m_coll !== null)  {
-                let section: cReportSection= null;
+                let section: cReportSection = null;
 
                 for(var _i = 0; _i < this.count(); _i++) {
                     section = item(_i);
@@ -56,7 +57,7 @@
         self.add = function(c, key, index) {
             try {
                 if (c === null) {
-                    c =  globalObject.CSReportDll.createCReportSection();
+                    c = globalObject.CSReportDll.createCReportSection();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -98,7 +99,7 @@
 
         self.clear = function() {
             try {
-                let n: number= this.count();
+                let n: number = this.count();
                 for(var i = 0; i < n; i++) {
                     remove(0);
                 }
@@ -133,7 +134,7 @@
                 m_keys.RemoveAt(index);
 
                 for(var i = 0; i < this.count(); i++) {
-                    let sec: cReportSection= m_coll[m_keys[i]];
+                    let sec: cReportSection = m_coll[m_keys[i]];
                     sec.setIndex(i);
                     sec.setName(sec.getName().Substring(0, 2).Replace("_", "")
                                 + "_" + i.ToString());
@@ -180,6 +181,29 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportSections {
+
+    getTypeSection: () => csRptSectionType;
+    setTypeSection: (csRptSectionType) => void;
+    setMainTypeSection: (csRptSectionType) => void;
+    setCopyColl: (cReportControls2) => void;
+    add: () => cReportSection;
+    add: (cReportSection, String) => cReportSection;
+    add: (cReportSection, String, int) => cReportSection;
+    clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    count: () => int;
+    item: (String) => cReportSection;
+    item: (int) => cReportSection;
+  }
+}

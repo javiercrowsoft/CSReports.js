@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCReportChartSeries = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportChartSeries = {};
 
         // Creates an empty collection.
         const cReportChartSeries = function() {
@@ -119,7 +120,7 @@ UNKNOWN >>             get
         self.add = function(c, key) {
             try {
                 if (c === null)  {
-                    c =  globalObject.CSReportDll.createCReportChartSerie();
+                    c = globalObject.CSReportDll.createCReportChartSerie();
                 }
 
                 if (key === "") {
@@ -164,5 +165,25 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportChartSeries {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    add: () => cReportChartSerie;
+    add: (cReportChartSerie, String) => cReportChartSerie;
+    count: () => int;
+    item: (String) => cReportChartSerie;
+    item: (int) => cReportChartSerie;
+  }
+}

@@ -5,30 +5,31 @@
 
     globalObject.CSReportDll.createCReportAspect = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportAspect = {};
 
-        let m_left: number= 0;
-        let m_top: number= 0;
-        let m_height: number= 0;
-        let m_width: number= 0;
-        let m_backColor: number= csColors.C_COLOR_WHITE;
-        let m_borderWidth: number= 0;
+        let m_left: number = 0;
+        let m_top: number = 0;
+        let m_height: number = 0;
+        let m_width: number = 0;
+        let m_backColor: number = csColors.C_COLOR_WHITE;
+        let m_borderWidth: number = 0;
         let m_borderType: csReportBorderType = null;
-        let m_borderColor: number= csColors.C_COLOR_BLACK;
-        let m_borderColor3d: number= 0;
-        let m_borderColor3dShadow: number= 0;
-        let m_selectColor: number= 0;
-        let m_font: cReportFont= new cReportFont();
+        let m_borderColor: number = csColors.C_COLOR_BLACK;
+        let m_borderColor3d: number = 0;
+        let m_borderColor3dShadow: number = 0;
+        let m_selectColor: number = 0;
+        let m_font: cReportFont = new cReportFont();
         let m_canGrow: boolean = null;
-        let m_nZOrder: number= 0;
-        let m_align: HorizontalAlignment= HorizontalAlignment.Left;
+        let m_nZOrder: number = 0;
+        let m_align: HorizontalAlignment = HorizontalAlignment.Left;
         let m_transparent: boolean = null;
-        let m_format: string= "";
-        let m_symbol: string= "";
+        let m_format: string = "";
+        let m_symbol: string = "";
         let m_isAccounting: boolean = null;
         let m_wordWrap: boolean = null;
         let m_borderRounded: boolean = null;
-        let m_offset: number= 0;
+        let m_offset: number = 0;
 
         self.setOffset = function(rhs) {
             m_offset = rhs;
@@ -261,9 +262,9 @@
         self.save = function(xDoc, nodeFather) {
             pixelsToTwips();
 
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Aspect");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -369,6 +370,62 @@
         };
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportAspect {
+
+    setOffset: (float) => void;
+    getOffset: () => float;
+    getLeft: () => float;
+    setLeft: (float) => void;
+    getTop: () => float;
+    setTop: (float) => void;
+    getWidth: () => float;
+    setWidth: (float) => void;
+    getHeight: () => float;
+    setHeight: (float) => void;
+    getBackColor: () => int;
+    setBackColor: (int) => void;
+    getBorderWidth: () => float;
+    setBorderWidth: (float) => void;
+    getBorderType: () => csReportBorderType;
+    setBorderType: (csReportBorderType) => void;
+    getBorderColor: () => int;
+    setBorderColor: (int) => void;
+    getBorderColor3d: () => int;
+    setBorderColor3d: (int) => void;
+    getBorderColor3dShadow: () => int;
+    setBorderColor3dShadow: (int) => void;
+    getSelectColor: () => int;
+    setSelectColor: (int) => void;
+    getFont: () => cReportFont;
+    setFont: (cReportFont) => void;
+    getCanGrow: () => bool;
+    setCanGrow: (bool) => void;
+    getNZOrder: () => int;
+    setNZOrder: (int) => void;
+    getAlign: () => HorizontalAlignment;
+    setAlign: (HorizontalAlignment) => void;
+    getTransparent: () => bool;
+    setTransparent: (bool) => void;
+    getFormat: () => String;
+    setFormat: (String) => void;
+    getSymbol: () => String;
+    setSymbol: (String) => void;
+    getIsAccounting: () => bool;
+    setIsAccounting: (bool) => void;
+    getWordWrap: () => bool;
+    setWordWrap: (bool) => void;
+    getBorderRounded: () => bool;
+    setBorderRounded: (bool) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

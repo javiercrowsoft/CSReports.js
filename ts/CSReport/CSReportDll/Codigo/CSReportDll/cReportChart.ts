@@ -5,25 +5,26 @@
 
     globalObject.CSReportDll.createCReportChart = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportChart = {};
 
-        const C_MODULE: string= "cReportChart";
+        const C_MODULE: string = "cReportChart";
 
-        let m_series: cReportChartSeries= new cReportChartSeries();
+        let m_series: cReportChartSeries = new cReportChartSeries();
         let m_chartLineStyle: csRptChartLineStyle = null;
         let m_chartBarOutline: boolean = null;
         let m_chartShowValues: boolean = null;
         let m_pieThickness: csRptChartPieThickness = null;
         let m_pieDiameter: csRptChartPieDiameter = null;
-        let m_imageFormat: csRptChartFormat= csRptChartFormat.PNG;
-        let m_copyright: string= "";
-        let m_chartTitle: string= "";
+        let m_imageFormat: csRptChartFormat = csRptChartFormat.PNG;
+        let m_copyright: string = "";
+        let m_chartTitle: string = "";
         let m_chartType: csRptChartType = null;
-        let m_top: number= 0;
+        let m_top: number = 0;
         let m_chartCreated: boolean = null;
-        let m_groupFieldName: string= "";
-        let m_groupValue: string= "";
-        let m_groupFieldIndex: number= 0;
+        let m_groupFieldName: string = "";
+        let m_groupValue: string = "";
+        let m_groupFieldIndex: number = 0;
         let m_sort: boolean = null;
         let m_image: Image = null;
 
@@ -211,9 +212,9 @@
                 m_groupFieldIndex = xDoc.getNodeProperty(nodeObj, "GroupFieldIndex").getValueInt(eTypes.eInteger);
                 m_sort = xDoc.getNodeProperty(nodeObj, "Sort").getValueBool(eTypes.eBoolean);
 
-                let nodeObjAux: XmlNode= null;
-                let nodeObjSerie: XmlNode= null;
-                let index: number= 0;
+                let nodeObjAux: XmlNode = null;
+                let nodeObjSerie: XmlNode = null;
+                let index: number = 0;
 
                 nodeObj = xDoc.getNodeFromNode(nodeObj, "Series");
 
@@ -235,10 +236,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Chart");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -302,8 +303,8 @@
             xProperty.setName("Series");
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            let serie: cReportChartSerie= null;
-            let index: number= 0;
+            let serie: cReportChartSerie = null;
+            let index: number = 0;
 
             for(var _i = 0; _i < m_series.count(); _i++) {
                 serie = m_series.item(_i);
@@ -323,7 +324,7 @@
                 return false;
             }
 
-            let chart: cWebChart= new cWebChart();
+            let chart: cWebChart = new cWebChart();
 
             chart.newChartType(m_chartType, m_chartTitle);
 
@@ -369,7 +370,7 @@
         };
 
         const pGetExt = function() {
-            let _rtn: string= "";
+            let _rtn: string = "";
             switch (m_imageFormat)
             {
                 case csRptChartFormat.BMP:
@@ -399,7 +400,7 @@
             pDestroyImage();
 
             if (fileName.Length > 0) {
-                let image: Image= Image.FromFile(fileName);
+                let image: Image = Image.FromFile(fileName);
             }
         };
 
@@ -413,13 +414,13 @@
             valueIndex, 
             labelIndex, 
             bOthers) {
-            let i: number= 0;
-            let j: number= 0;
-            let q: number= 0;
-            let value: number= 0;
-            let bFound: boolean= false;
-            let bCompare: boolean= false;
-            let newTop: number= 0;
+            let i: number = 0;
+            let j: number = 0;
+            let q: number = 0;
+            let value: number = 0;
+            let bFound: boolean = false;
+            let bCompare: boolean = false;
+            let newTop: number = 0;
 
             if (m_groupFieldIndex >= 0) {
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
@@ -532,9 +533,9 @@
                 if (bOthers) {
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                     if (rows.Count > v.Length) {
-                        let n: number= 0;
-                        let k: number= 0;
-                        let bHaveToRedim: boolean= false;
+                        let n: number = 0;
+                        let k: number = 0;
+                        let bHaveToRedim: boolean = false;
                         bHaveToRedim = true;
                         n = v.Length + 1;
                         // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
@@ -587,10 +588,10 @@
         };
 
         const pFill = function(chart, rows, strFormat) {
-            let i: number= 0;
-            let values: t_SerieValue[]= null;
-            let serie: cReportChartSerie= null;
-            let idxSerie: number= 0;
+            let i: number = 0;
+            let values: t_SerieValue[] = null;
+            let serie: cReportChartSerie = null;
+            let idxSerie: number = 0;
 
             if (m_top === 0) { m_top = 50; }
 
@@ -624,14 +625,14 @@
 
                     if (values[i].idx !== -1) {
                         if (idxSerie === 1) {
-                            let w_add: cWebChartItem= chart.getItems().add(null);
+                            let w_add: cWebChartItem = chart.getItems().add(null);
                             w_add.setPrimaryValue(values[i].value);
                             w_add.setPrimaryLabel(cReportGlobals.format(values[i].label, strFormat));
                             w_add.setPieLabel(cReportGlobals.format(values[i].label, strFormat));
                             w_add.setAlternateValue(0);
                         } 
                         else if (idxSerie === 2) {
-                            let w_item: cWebChartItem= chart.getItems().item(i);
+                            let w_item: cWebChartItem = chart.getItems().item(i);
                             w_item.setAlternateValue(values[i].value);
                             w_item.setPieLabel(cReportGlobals.format(values[i].label, strFormat));
                             w_item.setAltLabel(cReportGlobals.format(values[i].label, strFormat));
@@ -641,7 +642,7 @@
 
                 if ( && m_chartType === csRptChartType.PIE) {
 
-                    let w_item: cWebChartItem= chart.getItems().item(chart.getItems().count()-1);
+                    let w_item: cWebChartItem = chart.getItems().item(chart.getItems().count()-1);
                     w_item.setPrimaryLabel("Otros");
                     w_item.setPieLabel("Otros");
                 }
@@ -659,13 +660,13 @@
             }
             else {
                 if (vSeries === null) {
-                    vSeries =  globalObject.CSReportDll.createT_SerieValue[size];
+                    vSeries = UNKNOWN >>  can't find constructor for class t_SerieValue[size];
                 }
                 else if (vSeries.Length === 0) {
-                    vSeries =  globalObject.CSReportDll.createT_SerieValue[size];
+                    vSeries = UNKNOWN >>  can't find constructor for class t_SerieValue[size];
                 }
                 else {
-                    let newArray: t_SerieValue[]= new t_SerieValue[size];
+                    let newArray: t_SerieValue[] = new t_SerieValue[size];
                     Array.Copy(vSeries, newArray, vSeries.Length);
                     vSeries = newArray;
                 }
@@ -677,13 +678,14 @@
                 vSeries = null;
             }
             else {
-                vSeries =  globalObject.CSReportDll.createT_SerieValue[size];
+                vSeries = UNKNOWN >>  can't find constructor for class t_SerieValue[size];
             }
         };
 
         const createT_SerieValue = function() {
 
-            const self = {};
+            // @ts-ignore
+            let self: CSReportDll.It_SerieValue = {};
             self.label: string = null;
             self.value: number = null;
             self.idx: number = null;
@@ -691,5 +693,16 @@
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface It_SerieValue {
+
+    label;: string;
+    value;: number;
+    idx;: number;
+  }
+}

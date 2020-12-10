@@ -4,11 +4,12 @@
 
     globalObject.CSReportDll.createCReportField = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportField = {};
 
-        let m_name: string= "";
-        let m_index: number= 0;
-        let m_fieldType: number= 0;
+        let m_name: string = "";
+        let m_index: number = 0;
+        let m_fieldType: number = 0;
 
         self.getName = function() {
             return m_name;
@@ -43,10 +44,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Field");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -68,6 +69,24 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportField {
+
+    getName: () => String;
+    setName: (String) => void;
+    getIndex: () => int;
+    setIndex: (int) => void;
+    getFieldType: () => int;
+    setFieldType: (int) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

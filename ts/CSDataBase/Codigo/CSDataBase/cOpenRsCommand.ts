@@ -16,15 +16,16 @@
 
     globalObject.CSDataBase.createCOpenRsCommand = function() {
 
-        const self = {};
-        const c_module: string= "cDataBase";
+        // @ts-ignore
+        let self: CSDataBase.IcOpenRsCommand = {};
+        const c_module: string = "cDataBase";
 
 //         private delegate DbDataReader delegateAsyncOpenRsEx(string sqlstmt);
 
-        let m_invoke: delegateAsyncOpenRsEx= null;
-        let m_ors: DbDataReader= null;
-        let m_sqlstmt: string= "";
-        let m_done: boolean= false;
+        let m_invoke: delegateAsyncOpenRsEx = null;
+        let m_ors: DbDataReader = null;
+        let m_sqlstmt: string = "";
+        let m_done: boolean = false;
 
 UNKNOWN >>         public bool done
         {
@@ -43,7 +44,7 @@ UNKNOWN >>             get { return m_ors; }
 
         self.getExecuteCommand = function(db, sqlstmt) {
             m_sqlstmt = sqlstmt;
-            m_invoke =  globalObject.CSReportDll.createDelegateAsyncOpenRsEx(db.asyncOpenRsEx);
+            m_invoke = UNKNOWN >>  can't find constructor for class delegateAsyncOpenRsEx(db.asyncOpenRsEx);
         };
 
         self.execute = function() {
@@ -69,5 +70,15 @@ UNKNOWN >>             get { return m_ors; }
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSDataBase {
+
+  export interface IcOpenRsCommand {
+
+    getExecuteCommand: (cDataBase, string) => void;
+    execute: () => void;
+  }
+}

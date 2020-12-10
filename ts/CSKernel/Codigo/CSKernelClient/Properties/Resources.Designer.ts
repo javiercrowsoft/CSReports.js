@@ -24,7 +24,8 @@
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     globalObject.CSKernelClient.Properties.createResources = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.Properties.IResources = {};
 
         let global::System.Resources.ResourceManager: static = null;resourceMan;
 
@@ -40,7 +41,7 @@
 UNKNOWN >>         internal static global::System.Resources.ResourceManager ResourceManager {
 UNKNOWN >>             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    let temp: global::System.Resources.ResourceManager= new global::System.Resources.ResourceManager("CSKernelClient.Properties.Resources", typeof(Resources).Assembly);
+                    let temp: global::System.Resources.ResourceManager = new global::System.Resources.ResourceManager("CSKernelClient.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
 
                 return resourceMan;
@@ -63,11 +64,19 @@ UNKNOWN >>             set {
 
 UNKNOWN >>         internal static System.Drawing.Bitmap config_page {
 UNKNOWN >>             get {
-                let obj: object= ResourceManager.GetObject("config_page", resourceCulture);
+                let obj: object = ResourceManager.GetObject("config_page", resourceCulture);
                 return ();
             }
         }
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient.Properties {
+
+  export interface IResources {
+
+  }
+}

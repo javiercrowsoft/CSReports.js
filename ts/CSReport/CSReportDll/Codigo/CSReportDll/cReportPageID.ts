@@ -4,11 +4,12 @@
 
     globalObject.CSReportDll.createCReportPageID = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportPageID = {};
 
-        const C_MODULE: string= "cReportPageID";
+        const C_MODULE: string = "cReportPageID";
 
-        let m_value: string= "";
+        let m_value: string = "";
 
         self.getValue = function() {
             return m_value;
@@ -24,9 +25,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("PageID");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -40,6 +41,20 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportPageID {
+
+    getValue: () => String;
+    setValue: (String) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

@@ -4,7 +4,8 @@
 
     globalObject.CSReportEditor.createFFormulaReplace = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfFormulaReplace = {};
         const fFormulaReplace = function() {
             InitializeComponent();
         };
@@ -35,5 +36,14 @@ UNKNOWN >>             get
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfFormulaReplace {
+
+    getOk: () => bool;
+  }
+}

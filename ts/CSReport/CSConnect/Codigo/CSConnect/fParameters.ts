@@ -4,9 +4,10 @@
 
     globalObject.CSConnect.createFParameters = function() {
 
-        const self = {};
-        let m_ok: boolean= false;
-        let m_texts: TextBox[]= null;
+        // @ts-ignore
+        let self: CSConnect.IfParameters = {};
+        let m_ok: boolean = false;
+        let m_texts: TextBox[] = null;
 
         let m_parameters: cParameters = null;
 
@@ -38,14 +39,14 @@
         };
 
         self.getSqlParameters = function() {
-            let parameters: var= "";
+            let parameters: var = "";
 
             for(var i = 0; i < m_parameters.count(); i++) {
-                let input: var= m_texts[i];
+                let input: var = m_texts[i];
 
                 m_parameters.item(i).setValue(input.Text);
 
-                let value: var= "";
+                let value: var = "";
                 switch(input.Tag.ToString())
                 {
                     case "T":
@@ -69,21 +70,21 @@
         };
 
         const loadParameters = function() {
-            let top: number= 20;
+            let top: number = 20;
 
-            m_texts =  globalObject.CSReportDll.createTextBox[m_parameters.count()];
+            m_texts = UNKNOWN >>  can't find constructor for class TextBox[m_parameters.count()];
 
             for(var j = 0; j < m_parameters.count(); j++)  {
-                let parameter: cParameter= m_parameters.getByPosition(j+1);
+                let parameter: cParameter = m_parameters.getByPosition(j+1);
 
-                let label: System.Windows.Forms.Label= new System.Windows.Forms.Label();
+                let label: System.Windows.Forms.Label = new System.Windows.Forms.Label();
                 label.AutoSize = true;
-                label.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(30, top);
+                label.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(30, top);
                 label.Text = parameter.getName();
 
-                let input: System.Windows.Forms.TextBox= new System.Windows.Forms.TextBox();
-                input.Location =  globalObject.CSReportDll.createSystem.Drawing.Point(150, top);
-                input.Size =  globalObject.CSReportDll.createSystem.Drawing.Size(150, 20);
+                let input: System.Windows.Forms.TextBox = new System.Windows.Forms.TextBox();
+                input.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(150, top);
+                input.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(150, 20);
                 input.Text = parameter.getValue();
                 input.Tag = parameter.getKey();
 
@@ -125,5 +126,16 @@
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSConnect {
+
+  export interface IfParameters {
+
+    getOk: () => bool;
+    setParameters: (cParameters) => void;
+    getSqlParameters: () => string;
+  }
+}

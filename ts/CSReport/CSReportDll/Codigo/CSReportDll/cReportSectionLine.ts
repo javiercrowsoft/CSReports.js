@@ -5,17 +5,18 @@
 
     globalObject.CSReportDll.createCReportSectionLine = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportSectionLine = {};
 
-        const C_NODERPTCONTROLS: string= "RptControls";
+        const C_NODERPTCONTROLS: string = "RptControls";
 
-        let m_controls: cReportControls= new cReportControls();
-        let m_aspect: cReportAspect= new cReportAspect();
-        let m_index: number= 0;
-        let m_realIndex: number= 0;
-        let m_key: string= "";
-        let m_keyPaint: string= "";
-        let m_formulaHide: cReportFormula= new cReportFormula();
+        let m_controls: cReportControls = new cReportControls();
+        let m_aspect: cReportAspect = new cReportAspect();
+        let m_index: number = 0;
+        let m_realIndex: number = 0;
+        let m_key: string = "";
+        let m_keyPaint: string = "";
+        let m_formulaHide: cReportFormula = new cReportFormula();
         let m_hasFormulaHide: boolean = null;
 
         // it is the name of the control which have the id of the line
@@ -26,11 +27,11 @@
         // control contains the id of the record expressed in the line selected
         // by the user.
         //
-        let m_idField: string= "";
+        let m_idField: string = "";
 
         // for debugging
         //
-        let m_sectionName: string= "";
+        let m_sectionName: string = "";
 
         const cReportSectionLine = function() {
             m_controls.setSectionLine(this);
@@ -135,11 +136,11 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            let nodeObjCtrls: XmlNode= null;
-            let nodeObjCtrl: XmlNode= null;
-            let nodeObjAspect: XmlNode= null;
+            let nodeObjCtrls: XmlNode = null;
+            let nodeObjCtrl: XmlNode = null;
+            let nodeObjAspect: XmlNode = null;
 
-            let ctrl: cReportControl= null;
+            let ctrl: cReportControl = null;
 
             // TODO: fix me - this is Spanish - English bug we should use Index
             //
@@ -149,7 +150,7 @@
 
             nodeObjAspect = nodeObj;
 
-            let nodeObjAux: XmlNode= nodeObj;
+            let nodeObjAux: XmlNode = nodeObj;
             if (!m_formulaHide.load(xDoc, nodeObjAux))  {
                 return false; 
             }
@@ -164,7 +165,7 @@
                 nodeObjCtrl = xDoc.getNodeChild(nodeObjCtrls);
 
                 while (nodeObjCtrl !== null) {
-                    let key: string= xDoc.getNodeProperty(nodeObjCtrl, "Key").getValueString(eTypes.eText);
+                    let key: string = xDoc.getNodeProperty(nodeObjCtrl, "Key").getValueString(eTypes.eText);
                     ctrl = m_controls.add(null, key);
                     if (!ctrl.load(xDoc, nodeObjCtrl))  {
                         return false; 
@@ -177,10 +178,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName(m_key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -213,7 +214,7 @@
             xProperty.setName(C_NODERPTCONTROLS);
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            let ctrl: cReportControl= null;
+            let ctrl: cReportControl = null;
             for(var _i = 0; _i < m_controls.count(); _i++) {
                 ctrl = m_controls.item(_i);
                 ctrl.save(xDoc, nodeObj);
@@ -236,7 +237,7 @@
         };
 
         // Track whether Dispose has been called.
-        let disposed: boolean= false;
+        let disposed: boolean = false;
 
         // Dispose(bool disposing) executes in two distinct scenarios.
         // If disposing equals true, the method has been called directly
@@ -291,6 +292,44 @@
         };
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportSectionLine {
+
+    getKeyPaint: () => String;
+    setKeyPaint: (String) => void;
+    getControls: () => cReportControls;
+    setControls: (cReportControls) => void;
+    getIdField: () => String;
+    setIdField: (String) => void;
+    getKey: () => String;
+    setKey: (String) => void;
+    getAspect: () => cReportAspect;
+    setAspect: (cReportAspect) => void;
+    getName: () => string;
+    setName: (string) => void;
+    getIndex: () => int;
+    setIndex: (int) => void;
+    getRealIndex: () => int;
+    setRealIndex: (int) => void;
+    getHasFormulaHide: () => bool;
+    setHasFormulaHide: (bool) => void;
+    getFormulaHide: () => cReportFormula;
+    getTypeSection: () => csRptSectionType;
+    setTypeSection: (csRptSectionType) => void;
+    getSectionName: () => String;
+    setSectionName: (String) => void;
+    setCopyColl: (cReportControls2) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+    Dispose: () => void;
+    Dispose: (bool) => void;
+  }
+}

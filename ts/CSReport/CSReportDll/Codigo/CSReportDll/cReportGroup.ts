@@ -5,15 +5,16 @@
 
     globalObject.CSReportDll.createCReportGroup = function() {
 
-        const self = {};
-        const C_HEADER: string= "H";
-        const C_FOOTER: string= "F";
+        // @ts-ignore
+        let self: CSReportDll.IcReportGroup = {};
+        const C_HEADER: string = "H";
+        const C_FOOTER: string = "F";
 
         let m_header: cReportSection = null;
         let m_footer: cReportSection = null;
-        let m_index: number= 0;
+        let m_index: number = 0;
 
-        let m_name: string= "";
+        let m_name: string = "";
 
         let m_oderType: csRptGrpOrderType = null;
         let m_comparisonType: csRptGrpComparisonType = null;
@@ -26,8 +27,8 @@
         //
         let m_rePrintInNewPage: boolean = null;
         let m_grandTotalGroup: boolean = null;
-        let m_fieldName: string= "";
-        let m_key: string= "";
+        let m_fieldName: string = "";
+        let m_key: string = "";
 
         self.getHeader = function() {
             return m_header;
@@ -133,7 +134,7 @@
 
             fixName();
 
-            let nodeObjAux: XmlNode= null;
+            let nodeObjAux: XmlNode = null;
 
             nodeObjAux = nodeObj;
             nodeObjAux = xDoc.getNodeFromNode(nodeObj, C_HEADER);
@@ -170,10 +171,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName(m_name);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -217,7 +218,7 @@
             xProperty.setValue(eTypes.eBoolean, m_grandTotalGroup);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            let nodeObjAux: XmlNode= null;
+            let nodeObjAux: XmlNode = null;
             nodeObjAux = nodeObj;
             xProperty.setName(C_HEADER);
             nodeObjAux = xDoc.addNodeToNode(nodeObjAux, xProperty);
@@ -234,6 +235,41 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportGroup {
+
+    getHeader: () => cReportSection;
+    setHeader: (cReportSection) => void;
+    getFooter: () => cReportSection;
+    setFooter: (cReportSection) => void;
+    getIndex: () => int;
+    setIndex: (int) => void;
+    getOderType: () => csRptGrpOrderType;
+    setOderType: (csRptGrpOrderType) => void;
+    getComparisonType: () => csRptGrpComparisonType;
+    setComparisonType: (csRptGrpComparisonType) => void;
+    getPrintInNewPage: () => bool;
+    setPrintInNewPage: (bool) => void;
+    getRePrintInNewPage: () => bool;
+    setRePrintInNewPage: (bool) => void;
+    getGrandTotalGroup: () => bool;
+    setGrandTotalGroup: (bool) => void;
+    getFieldName: () => String;
+    setFieldName: (String) => void;
+    getName: () => String;
+    setName: (String) => void;
+    getKey: () => String;
+    setKey: (String) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    fixName: () => void;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

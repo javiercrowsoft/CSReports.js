@@ -4,11 +4,12 @@
 
     globalObject.CSReportDll.createCReportFont = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportFont = {};
 
-        let m_foreColor: number= csColors.C_COLOR_BLACK;
-        let m_size: number= 8;
-        let m_name: string= "Tahoma";
+        let m_foreColor: number = csColors.C_COLOR_BLACK;
+        let m_size: number = 8;
+        let m_name: string = "Tahoma";
         let m_underline: boolean = null;
         let m_bold: boolean = null;
         let m_italic: boolean = null;
@@ -84,9 +85,9 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Font");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -124,6 +125,32 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportFont {
+
+    getForeColor: () => int;
+    setForeColor: (int) => void;
+    getSize: () => float;
+    setSize: (float) => void;
+    getName: () => String;
+    setName: (String) => void;
+    getUnderline: () => bool;
+    setUnderline: (bool) => void;
+    getBold: () => bool;
+    setBold: (bool) => void;
+    getItalic: () => bool;
+    setItalic: (bool) => void;
+    getStrike: () => bool;
+    setStrike: (bool) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

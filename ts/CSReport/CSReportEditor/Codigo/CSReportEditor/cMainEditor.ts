@@ -4,37 +4,38 @@
 
 	globalObject.CSReportEditor.createCMainEditor = function() {
 
-	    const self = {};
+	    // @ts-ignore
+	    let self: CSReportEditor.IcMainEditor = {};
 
-	    const C_MODULE: string= "mPublic";
+	    const C_MODULE: string = "mPublic";
 
-	    const NOERROR: number= 0;
+	    const NOERROR: number = 0;
 
-		self.CSNOFECHA: DateTime= DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+		self.CSNOFECHA: DateTime = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
 
-	    self.C_HEIGHT_BAR_SECTION: number= 120;
-	    self.C_HEIGHT_NEW_SECTION: number= 350;
+	    self.C_HEIGHT_BAR_SECTION: number = 120;
+	    self.C_HEIGHT_NEW_SECTION: number = 350;
 
-	    const C_KEYRECENTLIST: string= "Recent";
+	    const C_KEYRECENTLIST: string = "Recent";
 
-	    const C_CONFIG: string= "Interfaz";
-	    const C_LEFTBARCOLOR: string= "LeftBarColor";
-	    const C_HIDELEFTBAR: string= "HideLeftBar";
-	    const C_BACKCOLOR: string= "BackColor";
-	    const C_WORKFOLDER: string= "WorkFolder";
+	    const C_CONFIG: string = "Interfaz";
+	    const C_LEFTBARCOLOR: string = "LeftBarColor";
+	    const C_HIDELEFTBAR: string = "HideLeftBar";
+	    const C_BACKCOLOR: string = "BackColor";
+	    const C_WORKFOLDER: string = "WorkFolder";
 
-	    self.int: staticgNextReport = 0;
+	    self.int: static gNextReport = 0;
 	    let cEditor: static = null;m_editor;
 
-        let fToolbox: staticm_fToolbox = null;
-        let fControls: staticm_fControls = null;
-        let fTreeViewCtrls: staticm_fTreeViewCtrls = null;
-        let fSearch: staticm_fSearch = null;
+        let fToolbox: static m_fToolbox = null;
+        let fControls: static m_fControls = null;
+        let fTreeViewCtrls: static m_fTreeViewCtrls = null;
+        let fSearch: static m_fSearch = null;
 
-		self.int: staticgBackColor = 0;
-	    self.int: staticgLeftBarColor = 0;
+		self.int: static gBackColor = 0;
+	    self.int: static gLeftBarColor = 0;
 	    self.bool: static = null;gHideLeftBar;
-	    self.String: staticgWorkFolder = "";
+	    self.String: static gWorkFolder = "";
 	    self.bool: static = null;gbFirstOpen;
 
         let fMain: static = null;fmain;
@@ -44,7 +45,7 @@
             cRegionalCfg.init();
 
             if (fmain === null) {
-                fmain =  globalObject.CSReportDll.createFMain();
+                fmain = globalObject.CSReportEditor.createFMain();
                 fmain.init();
             }
             return fmain;
@@ -62,7 +63,7 @@
 	        m_editor = editor;
 	        setMenu();
             if (editor !== null) {
-                let editorTab: TabPage= editor.getEditorTab();
+                let editorTab: TabPage = editor.getEditorTab();
                 .SelectedTab = editorTab;
 
                 if (m_fToolbox !== null && !m_fToolbox.IsDisposed && m_fToolbox.Visible) {
@@ -173,7 +174,7 @@
 
         self.getSearch = function(editor) {
             if (m_fSearch === null || m_fSearch.IsDisposed) {
-                m_fSearch =  globalObject.CSReportDll.createFSearch();
+                m_fSearch = globalObject.CSReportEditor.createFSearch();
             }
             m_fSearch.setHandler(editor);
             return m_fSearch;
@@ -185,7 +186,7 @@
 
         self.getToolbox = function(editor) {
             if (m_fToolbox === null || m_fToolbox.IsDisposed) {
-                m_fToolbox =  globalObject.CSReportDll.createFToolbox();
+                m_fToolbox = globalObject.CSReportEditor.createFToolbox();
             }
             m_fToolbox.setHandler(editor);
             return m_fToolbox;
@@ -197,7 +198,7 @@
 
         self.getCtrlBox = function(editor) {
             if (m_fControls === null || m_fControls.IsDisposed) {
-                m_fControls =  globalObject.CSReportDll.createFControls();
+                m_fControls = globalObject.CSReportEditor.createFControls();
             }
             m_fControls.setHandler(editor);
             return m_fControls;
@@ -209,7 +210,7 @@
 
         self.getCtrlTreeBox = function(editor) {
             if (m_fTreeViewCtrls === null || m_fTreeViewCtrls.IsDisposed) {
-                m_fTreeViewCtrls =  globalObject.CSReportDll.createFTreeViewCtrls();
+                m_fTreeViewCtrls = globalObject.CSReportEditor.createFTreeViewCtrls();
             }
             m_fTreeViewCtrls.setHandler(editor);
             return m_fTreeViewCtrls;
@@ -228,7 +229,9 @@
         };
         return self;
 
-    }
+    }    }
+        return self;
+
 
 UNKNOWN >> 	public enum SpecialFolderIDs {
 	    SFIDDESKTOP = 0x0,
@@ -254,7 +257,11 @@ UNKNOWN >> 	public enum SpecialFolderIDs {
 	    SFIDCOMMONFILES = 0x10001
         return self;
 
-	}
+	}	}
+        return self;
+
+
+        return self;
 
 
 UNKNOWN >> 	public enum csEAlignConst {
@@ -271,7 +278,91 @@ UNKNOWN >> 	public enum csEAlignConst {
 UNKNOWN >> 	    CSEALIGNCTLHEIGHT
         return self;
 
-	}
+	}	}
+        return self;
+
 
 }(globalObject));
 
+
+namespace CSReportEditor {
+
+  export interface IcMainEditor {
+
+    CSNOFECHA: DateTime;
+    C_HEIGHT_BAR_SECTION: number;
+    C_HEIGHT_NEW_SECTION: number;
+    int: static;
+    int: static;
+    int: static;
+    bool: static;
+    String: static;
+    bool: static;
+    initEditor: () => fMain;
+    getEditor: () => fMain;
+    getDocActive: () => cEditor;
+    setDocActive: (cEditor) => void;
+    setDocInacActive: (cEditor) => void;
+    setStatus: () => void;
+    setStatus: (String) => void;
+    setBarText: (String) => void;
+    setDisconnectedReport: (bool) => void;
+    setEditAlignTextState: (bool) => void;
+    setEditAlignCtlState: (bool) => void;
+    setMenuAux: (bool) => void;
+    addToRecentList: (String) => void;
+    setEditFontBoldValue: (int) => void;
+    getSearch: () => fSearch;
+    getSearch: (cEditor) => fSearch;
+    getToolbox: () => fToolbox;
+    getToolbox: (cEditor) => fToolbox;
+    getCtrlBox: () => fControls;
+    getCtrlBox: (cEditor) => fControls;
+    getCtrlTreeBox: () => fTreeViewCtrls;
+    getCtrlTreeBox: (cEditor) => fTreeViewCtrls;
+    clearToolbox: (cEditor) => void;
+    showProperties: (string) => void;
+  }
+}
+);
+
+
+namespace CSReportEditor {
+
+  export interface IcMainEditor {
+
+    CSNOFECHA: DateTime;
+    C_HEIGHT_BAR_SECTION: number;
+    C_HEIGHT_NEW_SECTION: number;
+    int: static;
+    int: static;
+    int: static;
+    bool: static;
+    String: static;
+    bool: static;
+    initEditor: () => fMain;
+    getEditor: () => fMain;
+    getDocActive: () => cEditor;
+    setDocActive: (cEditor) => void;
+    setDocInacActive: (cEditor) => void;
+    setStatus: () => void;
+    setStatus: (String) => void;
+    setBarText: (String) => void;
+    setDisconnectedReport: (bool) => void;
+    setEditAlignTextState: (bool) => void;
+    setEditAlignCtlState: (bool) => void;
+    setMenuAux: (bool) => void;
+    addToRecentList: (String) => void;
+    setEditFontBoldValue: (int) => void;
+    getSearch: () => fSearch;
+    getSearch: (cEditor) => fSearch;
+    getToolbox: () => fToolbox;
+    getToolbox: (cEditor) => fToolbox;
+    getCtrlBox: () => fControls;
+    getCtrlBox: (cEditor) => fControls;
+    getCtrlTreeBox: () => fTreeViewCtrls;
+    getCtrlTreeBox: (cEditor) => fTreeViewCtrls;
+    clearToolbox: (cEditor) => void;
+    showProperties: (string) => void;
+  }
+}

@@ -4,7 +4,8 @@
 
     globalObject.CSReportEditor.createFProgress = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfProgress = {};
         const fProgress = function() {
             InitializeComponent();
         };
@@ -54,5 +55,13 @@ UNKNOWN >>             get
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfProgress {
+
+  }
+}

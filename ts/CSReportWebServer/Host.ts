@@ -7,24 +7,25 @@
     /// </summary>
     globalObject.CSReportWebServer.createHost = function() {
 
-        const self = {};
-        let ILog: staticlog = LogManager.GetLogger(typeof(Host));
+        // @ts-ignore
+        let self: CSReportWebServer.IHost = {};
+        let ILog: static log = LogManager.GetLogger(typeof(Host));
 
         let stop: ManualResetEvent = null;
         let port: Port = null;
 
         let m_f: fMain = null;
         let m_messageQueue: SizeQueue = null;
-        let m_partialMessages: Dictionary= new Dictionary();
+        let m_partialMessages: Dictionary = new Dictionary();
 
-        const C_EXTENSION_NAME: string= "CSReportWebServer.Echo";
+        const C_EXTENSION_NAME: string = "CSReportWebServer.Echo";
 
         /// <summary>
         /// Creates a new instance of native messaging host.
         /// </summary>
         const Host = function(f, messageQueue) {
-            port =  globalObject.CSReportDll.createPort();
-            stop =  globalObject.CSReportDll.createManualResetEvent(false);
+            port = globalObject.CSReportWebServer.NativeMessaging.createPort();
+            stop = UNKNOWN >>  can't find constructor for class ManualResetEvent(false);
             m_f = f;
             m_messageQueue = messageQueue;
         };
@@ -44,14 +45,14 @@
                     //
                     // read a message
                     //
-                    let message: string= port.Read();
+                    let message: string = port.Read();
 
                     // log
                     //
                     log.DebugFormat("request message\n{0}", message);
                     m_f.log("request message " + message);
 
-                    let request: JObject= JObject.Parse(message);
+                    let request: JObject = JObject.Parse(message);
 
                     //
                     // execute the request
@@ -61,11 +62,11 @@
                     //
                     // prepare a response
                     //
-                    let reply: JObject= new JObject();
+                    let reply: JObject = new JObject();
                     if (request["source"] !== null) reply["source"] = request["destination"]; {
                     if (request["destination"] !== null) reply["destination"] = request["source"]; {
 
-                    reply["message"] =  globalObject.CSReportDll.createJObject();
+                    reply["message"] = UNKNOWN >>  can't find constructor for class JObject();
                     reply["message"]["id"] = request["id"];
 
                     // identify service
@@ -193,11 +194,13 @@
         }
         return self;
 
-    }
+    }    }
+        return self;
+
 
         return self;
 
-    public class SizeQueue<T>
+    public class SizeQueue<T>    public class SizeQueue<T>
     {
         private readonly Queue<T> queue = new Queue<T>();
         private readonly int maxSize;
@@ -227,6 +230,24 @@
         }
         return self;
 
-    }
-}(globalObject)); {
+    }    }
+}(globalObject));
 
+
+namespace CSReportWebServer {
+
+  export interface IHost {
+
+    Run: () => void;
+  }
+}
+);
+
+
+namespace CSReportWebServer {
+
+  export interface IHost {
+
+    Run: () => void;
+  }
+}

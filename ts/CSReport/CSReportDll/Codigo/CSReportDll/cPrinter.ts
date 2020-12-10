@@ -4,15 +4,16 @@
 
     globalObject.CSReportDll.createCPrinter = function() {
 
-        const self = {};
-        const C_MODULE: string= "cPrinter";
+        // @ts-ignore
+        let self: CSReportDll.IcPrinter = {};
+        const C_MODULE: string = "cPrinter";
 
-        let m_deviceName: string= "";
-        let m_driverName: string= "";
-        let m_port: string= "";
-        let m_paperInfo: cReportPaperInfo= new cReportPaperInfo();
+        let m_deviceName: string = "";
+        let m_driverName: string = "";
+        let m_port: string = "";
+        let m_paperInfo: cReportPaperInfo = new cReportPaperInfo();
 
-        let m_copies: number= 0;
+        let m_copies: number = 0;
 
         let m_graph: Graphics = null;
 
@@ -71,11 +72,11 @@
         };
 
         self.showDialog = function(pages) {
-            let paperSize: csReportPaperType= 0;
-            let orientation: number= 0;
-            let fromPage: number= 0;
-            let toPage: number= 0;
-            let paperBin: number= 0;
+            let paperSize: csReportPaperType = 0;
+            let orientation: number = 0;
+            let fromPage: number = 0;
+            let toPage: number = 0;
+            let paperBin: number = 0;
 
             paperSize = m_paperInfo.getPaperSize();
             orientation = m_paperInfo.getOrientation();
@@ -107,7 +108,7 @@
         };
 
         const getPaperSize = function(paperSize) {
-            let size: PaperSize= new PaperSize();
+            let size: PaperSize = new PaperSize();
 
             switch (paperSize) {
                 case csReportPaperType.CSRPTPAPERTYPEA4:
@@ -134,6 +135,30 @@
         };
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcPrinter {
+
+    getCopies: () => int;
+    setCopies: (int) => void;
+    getGraph: () => Graphics;
+    setGraph: (Graphics) => void;
+    getDeviceName: () => String;
+    setDeviceName: (String) => void;
+    getDriverName: () => String;
+    setDriverName: (String) => void;
+    getPort: () => String;
+    setPort: (String) => void;
+    getPaperInfo: () => cReportPaperInfo;
+    setPaperInfo: (cReportPaperInfo) => void;
+    showDialog: (int) => bool;
+    starDoc: (PrintDocument, String, csReportPaperType, int) => bool;
+  }
+}

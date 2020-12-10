@@ -4,7 +4,8 @@
 
     globalObject.CSKernelClient.createFMsg = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.IfMsg = {};
         const fMsg = function() {
             InitializeComponent();
         };
@@ -28,16 +29,16 @@
             this.txMsg.Text = value;
         };
         self.setErrorIcon = function() {
-            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.error.png"));
+            let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.error.png"));
         };
         self.setErrorInfo = function() {
-            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.information.png"));
+            let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.information.png"));
         };
         self.setErrorWarning = function() {
-            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.warning.png"));
+            let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.warning.png"));
         };
 
         const cmdOk_Click = function(sender, e) {
@@ -48,7 +49,7 @@
             txMsg.SelectionStart = 0;
             txMsg.SelectionLength = 0;
 
-            let height: var= txMsg.Lines.Length * 20;
+            let height: var = txMsg.Lines.Length * 20;
             if (height > this.Height - 100) {
                 this.Height = height + 100;
                 txMsg.Height = height;
@@ -59,5 +60,19 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IfMsg {
+
+    setTitle: (String) => void;
+    setIcon: (CSMSGICONS) => void;
+    setMessage: (String) => void;
+    setErrorIcon: () => void;
+    setErrorInfo: () => void;
+    setErrorWarning: () => void;
+  }
+}

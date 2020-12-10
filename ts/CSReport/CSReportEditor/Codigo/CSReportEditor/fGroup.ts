@@ -4,12 +4,13 @@
 
     globalObject.CSReportEditor.createFGroup = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfGroup = {};
         let m_editor: cEditor = null;
-        let m_ok: boolean= false;
-        let m_dbFieldChanged: boolean= false;
-        let m_index: number= 0;
-        let m_fieldType: number= 0;
+        let m_ok: boolean = false;
+        let m_dbFieldChanged: boolean = false;
+        let m_index: number = 0;
+        let m_fieldType: number = 0;
 
         const fGroup = function() {
             InitializeComponent();
@@ -167,7 +168,7 @@ UNKNOWN >>             get
             return m_ok;
         };
 
-		self. = function() {
+		self.getDbField = function() {
 			throw new NotImplementedException ();
 		};
 
@@ -212,5 +213,35 @@ UNKNOWN >>             get
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfGroup {
+
+    getAsc: () => bool;
+    setAsc: (bool) => void;
+    setDesc: (bool) => void;
+    getPrintInNewPage: () => bool;
+    setPrintInNewPage: (bool) => void;
+    getReprintGroup: () => bool;
+    setReprintGroup: (bool) => void;
+    getGrandTotal: () => bool;
+    setGrandTotal: (bool) => void;
+    getSortByDate: () => bool;
+    setSortByDate: (bool) => void;
+    getSortByNumber: () => bool;
+    setSortByNumber: (bool) => void;
+    getSortByText: () => bool;
+    setSortByText: (bool) => void;
+    getOk: () => bool;
+    getDbField: () => string;
+    getFieldType: () => int;
+    setFieldType: (int) => void;
+    getIndex: () => int;
+    setIndex: (int) => void;
+    setHandler: (cEditor) => void;
+  }
+}

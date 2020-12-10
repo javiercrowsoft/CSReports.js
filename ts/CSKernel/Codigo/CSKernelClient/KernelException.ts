@@ -2,26 +2,41 @@
 
     globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
-UNKNOWN >>     class KernelException : System.Exception
-    {
-        globalObject.CSKernelClient.createClassName = function() {
+    globalObject.CSKernelClient.createKernelException = function() {
 
-            const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.IKernelException = {};
+        self.createClassName = function() {
 
-        self. = function() {
+            // @ts-ignore
+            let self: CSKernelClient.IclassName = {};
 
-        self. = function(module, message) {
-            className = module;
-        };
+        const KernelException = function() {
+
+        const KernelException = function(module, message) {
+            self.createModule; = function() {
+
+                // @ts-ignore
+                let self: CSKernelClient.Imodule; = {};
 
         // A constructor is needed for serialization when an
         // exception propagates from a remoting server to the client. 
-        self. = function(info, context) {
+        const KernelException = function(info, context) {
 
-        self. = function() {
-            return base.ToString() + "\n\nClass Name:" + className;
-        };
+        self.ToString = function() {
+            self.create+ = function() {
+
+                // @ts-ignore
+                let self: CSKernelClient.I+ = {};
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface I+ {
+
+  }
+}

@@ -5,18 +5,19 @@
 
     globalObject.CSReportDll.createCReportPaperInfo = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportPaperInfo = {};
 
-        const C_MODULE: string= "cReportPaperInfo";
+        const C_MODULE: string = "cReportPaperInfo";
 
-        let m_width: number= 0;
-        let m_height: number= 0;
+        let m_width: number = 0;
+        let m_height: number = 0;
         let m_paperSize: csReportPaperType = null;
-        let m_orientation: number= 0;
-        let m_customHeight: number= 0;
-        let m_customWidth: number= 0;
-        let m_pagesToPrint: string= "";
-        let m_paperBin: number= 0;
+        let m_orientation: number = 0;
+        let m_customHeight: number = 0;
+        let m_customWidth: number = 0;
+        let m_pagesToPrint: string = "";
+        let m_paperBin: number = 0;
 
         self.getWidth = function() {
             return m_width;
@@ -96,10 +97,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             nodeObj = nodeFather;
 
@@ -132,6 +133,34 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportPaperInfo {
+
+    getWidth: () => float;
+    setWidth: (float) => void;
+    getHeight: () => float;
+    setHeight: (float) => void;
+    getPaperSize: () => csReportPaperType;
+    setPaperSize: (csReportPaperType) => void;
+    getOrientation: () => int;
+    setOrientation: (int) => void;
+    getCustomHeight: () => int;
+    setCustomHeight: (int) => void;
+    getCustomWidth: () => int;
+    setCustomWidth: (int) => void;
+    getPaperBin: () => int;
+    setPaperBin: (int) => void;
+    getPagesToPrint: () => String;
+    setPagesToPrint: (String) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}

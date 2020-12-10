@@ -4,8 +4,9 @@
 
     globalObject.CSKernelClient.createFInput = function() {
 
-        const self = {};
-        let m_ok: boolean= false;
+        // @ts-ignore
+        let self: CSKernelClient.IfInput = {};
+        let m_ok: boolean = false;
 
         const fInput = function() {
             InitializeComponent();
@@ -47,5 +48,18 @@
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IfInput {
+
+    getOk: () => bool;
+    setTitle: (string) => void;
+    setDescrip: (string) => void;
+    setText: (string) => void;
+    getText: () => string;
+  }
+}

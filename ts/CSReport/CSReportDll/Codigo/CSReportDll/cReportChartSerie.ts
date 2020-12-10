@@ -4,15 +4,16 @@
 
     globalObject.CSReportDll.createCReportChartSerie = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportChartSerie = {};
 
-        const C_MODULE: string= "cReportChartSerie";
+        const C_MODULE: string = "cReportChartSerie";
 
-        let m_valueFieldName: string= "";
-        let m_labelFieldName: string= "";
-        let m_color: csColors= csColors.ALICEBLUE;
-        let m_valueIndex: number= 0;
-        let m_labelIndex: number= 0;
+        let m_valueFieldName: string = "";
+        let m_labelFieldName: string = "";
+        let m_color: csColors = csColors.ALICEBLUE;
+        let m_valueIndex: number = 0;
+        let m_labelIndex: number = 0;
 
         self.getValueFieldName = function() {
             return m_valueFieldName;
@@ -66,9 +67,9 @@
         };
 
         self.save = function(xDoc, nodeFather, index) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Serie_" + index.ToString());
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -90,6 +91,28 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportChartSerie {
+
+    getValueFieldName: () => String;
+    setValueFieldName: (String) => void;
+    getLabelFieldName: () => String;
+    setLabelFieldName: (String) => void;
+    getColor: () => csColors;
+    setColor: (csColors) => void;
+    getValueIndex: () => int;
+    setValueIndex: (int) => void;
+    getLabelIndex: () => int;
+    setLabelIndex: (int) => void;
+    load: (CSXml.cXml, XmlNode, int) => bool;
+    save: (CSXml.cXml, XmlNode, int) => bool;
+  }
+}

@@ -4,16 +4,17 @@
 
     globalObject.CSKernelClient.createCUtil = function() {
 
-        const self = {};
-        const C_MODULE: string= "cUtil";
+        // @ts-ignore
+        let self: CSKernelClient.IcUtil = {};
+        const C_MODULE: string = "cUtil";
 
-        let String: staticm_sepDecimal = "";
+        let String: static m_sepDecimal = "";
 
-		let int: static_dpi = -1;
+		let int: static _dpi = -1;
 
         self.getToken = function(token, source) {
-              let i: number= 0;
-              let s: string= "";
+              let i: number = 0;
+              let s: string = "";
 UNKNOWN >>               string c;
 UNKNOWN >>               int l;
 
@@ -36,24 +37,24 @@ UNKNOWN >>               int l;
         };
 
         self.tp = function(twips) {
-            self.int: constnTwipsPerInch = 1440;
-            let dpi: number= getDPI();
+            self.nTwipsPerInch: number = 1440;
+            let dpi: number = getDPI();
             return Convert.ToInt32((twips / (float)nTwipsPerInch) * dpi);
         };
 
         self.pt = function(pixels) {
-            self.int: constnTwipsPerInch = 1440;
-            let dpi: number= getDPI();
+            self.nTwipsPerInch: number = 1440;
+            let dpi: number = getDPI();
             return Convert.ToInt32((pixels / (float)dpi) * nTwipsPerInch);
         };
 
         self.mt = function(millimeters) {
-            self.int: constnTwipsPerInch = 1440;
+            self.nTwipsPerInch: number = 1440;
             return Convert.ToInt32(mi(millimeters) * nTwipsPerInch);
         };
 
         self.mp = function(millimeters) {
-            let dpi: number= getDPI();
+            let dpi: number = getDPI();
             return Convert.ToInt32(mi(millimeters) * dpi);
         };
 
@@ -63,7 +64,7 @@ UNKNOWN >>               int l;
 
         const getDPI = function() {
 			if (_dpi < 0) {
-				let currentDPI: number= 0;
+				let currentDPI: number = 0;
 				{
 					{
 						currentDPI = g.DpiX;
@@ -118,8 +119,8 @@ UNKNOWN >>               int l;
         };
 
         self.arrayToString = function(v) {
-            let i: number= 0;
-            let s: string= "";
+            let i: number = 0;
+            let s: string = "";
             for (i = 0; i < v.Length; i++) {
                 s = s + v[i].ToString() + ",";
             }
@@ -127,8 +128,8 @@ UNKNOWN >>               int l;
         };
 
         self.arrayToString = function(v) {
-            let i: number= 0;
-            let s: string= "";
+            let i: number = 0;
+            let s: string = "";
             for (i = 0; i < v.Length; i++) {
                 s = s + v[i] + ",";
             }
@@ -254,7 +255,7 @@ UNKNOWN >>             float n;
             return (list.SelectedItem).Id;
         };
         const listItemData_ = function(list, index) {
-            let _rtn: number= 0;
+            let _rtn: number = 0;
 
             if (index < list.Items.Count) {
                 if (index === -1) {
@@ -271,7 +272,7 @@ UNKNOWN >>             float n;
             if (list.Items.Count > idx) { list.SelectedIndex = idx; }
         };
         const listSetListIndexForId_ = function(list, id) {
-            let i: number= 0;
+            let i: number = 0;
             for (i = 0; i < list.Items.Count; i++) {
                 if ((list.Items[i]).Id === id) {
                     list.SelectedIndex = i;
@@ -280,7 +281,7 @@ UNKNOWN >>             float n;
             }
         };
         const listSetListIndexForText_ = function(list, text) {
-            let i: number= 0;
+            let i: number = 0;
             for (i = 0; i < list.Items.Count; i++) {
                 if (list.Items[i].ToString() === text) {
                     list.SelectedIndex = i;
@@ -293,7 +294,7 @@ UNKNOWN >>             float n;
         };
         const listChangeText_ = function(list, idx, value) {
             if (idx < list.Items.Count && idx > -1) {
-                let item: object= list.Items[idx];
+                let item: object = list.Items[idx];
                 if (item is ListValueWithId) {
                     (item).Text = value;
                 }
@@ -332,7 +333,7 @@ UNKNOWN >>             float n;
         self.setInfoString = function(source, key, value) {
             key = "#" + key;
 
-            let i: number= source.ToLower().IndexOf(key.ToLower(), 0);
+            let i: number = source.ToLower().IndexOf(key.ToLower(), 0);
 
             // the key can't apears more than one
             //
@@ -346,14 +347,14 @@ UNKNOWN >>             float n;
                 return source + key + "=" + value + ";";
             }
             else             {
-                self.string: constc_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
+                self.c_errorstr: string = "cUtil.getInfoString: source invalid, the character {0} is not present.";
 
-                let j: number= source.ToLower().IndexOf(";".ToLower(), i);
+                let j: number = source.ToLower().IndexOf(";".ToLower(), i);
                 if (j === -1)  {
                     throw (new Exception(String.Format(c_errorstr, ";"))); 
                 }
 
-                let k: number= source.Substring(i, j-i).ToLower().IndexOf("=".ToLower(), 0);
+                let k: number = source.Substring(i, j-i).ToLower().IndexOf("=".ToLower(), 0);
                 if (k === -1)  {
                     throw (new Exception(String.Format(c_errorstr, "="))); 
                 }
@@ -370,7 +371,7 @@ UNKNOWN >>             float n;
 
             key = "#"+ key;
 
-            let i: number= source.ToLower().IndexOf(key.ToLower(), 0);
+            let i: number = source.ToLower().IndexOf(key.ToLower(), 0);
 
             // the key can't apears more than one
             //
@@ -384,14 +385,14 @@ UNKNOWN >>             float n;
               return defaultValue;
             } 
             else  {
-              self.string: constc_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
+              self.c_errorstr: string = "cUtil.getInfoString: source invalid, the character {0} is not present.";
 
-              let j: number= source.ToLower().IndexOf(";".ToLower(), i);
+              let j: number = source.ToLower().IndexOf(";".ToLower(), i);
               if (j === -1)  {
                   throw(new Exception(String.Format(c_errorstr, ";"))); 
               }
 
-              let k: number= source.Substring(i, j-i).ToLower().IndexOf("=".ToLower(), 0);
+              let k: number = source.Substring(i, j-i).ToLower().IndexOf("=".ToLower(), 0);
               if (k === -1)  {
                   throw(new Exception(String.Format(c_errorstr, "="))); 
               }
@@ -402,7 +403,7 @@ UNKNOWN >>             float n;
 
         //--------------------------------------------------------------------------------------------------------------------
         self.getInput = function(value, descrip, title) {
-            let f: fInput= new fInput();
+            let f: fInput = new fInput();
             f.setTitle(title);
             f.setDescrip(descrip);
             f.setText(value);
@@ -487,12 +488,12 @@ UNKNOWN >>             float n;
             }
             else {
 
-                let typeCode: System.TypeCode= System.Type.GetTypeCode(value.GetType());
+                let typeCode: System.TypeCode = System.Type.GetTypeCode(value.GetType());
                 switch (typeCode)
                 {
                     case System.TypeCode.Char:
                     case System.TypeCode.String:
-                        let dbl: number= 0;
+                        let dbl: number = 0;
                         if (double.TryParse(value, dbl)) {
                             return dbl;
                         }
@@ -553,11 +554,14 @@ UNKNOWN >>             float n;
          * */
         return self;
 
-    }
+    }    }
+        return self;
+
 
     self.createListValueWithId = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.IListValueWithId = {};
         let value: string = null;
         let id: number = null;
 
@@ -566,7 +570,7 @@ UNKNOWN >>             float n;
             this.id = id;
         };
 
-        self. = function() {
+        self.ToString = function() {
             return value;
         };
 
@@ -587,5 +591,14 @@ UNKNOWN >>             set
         }
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IListValueWithId {
+
+    ToString: () => string;
+  }
+}

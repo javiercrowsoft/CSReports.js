@@ -4,7 +4,8 @@
 
     globalObject.CSReportEditor.createFToolbox = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfToolbox = {};
         const fToolbox = function() {
             InitializeComponent();
         };
@@ -30,5 +31,18 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfToolbox {
+
+    addLbFormula: (string) => void;
+    addFormula: (string, string, string) => void;
+    addField: (string, int, int) => void;
+    addLabels: (string) => void;
+    getLoaded: () => bool;
+  }
+}

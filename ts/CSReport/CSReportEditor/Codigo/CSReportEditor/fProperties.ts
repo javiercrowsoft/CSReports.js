@@ -4,19 +4,20 @@
 
     globalObject.CSReportEditor.createFProperties = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfProperties = {};
         let m_editor: cEditor = null;
 
         let m_ok: boolean = null;
         let m_done: boolean = null;
 
-        let m_index: number= 0;
-        let m_fieldType: number= 0;
+        let m_index: number = 0;
+        let m_fieldType: number = 0;
 
-        let m_formulaHide: string= "";
-        let m_formulaValue: string= "";
+        let m_formulaHide: string = "";
+        let m_formulaValue: string = "";
 
-        let m_formulaName: string= "";
+        let m_formulaName: string = "";
 
         let m_isAccounting: boolean = null;
 
@@ -82,8 +83,8 @@
         let m_chartIndex: int[] = null;
         let m_chartFieldType: int[] = null;
 
-        let m_chartGroupIndex: number= 0;
-        let m_chartGroupFieldType: number= 0;
+        let m_chartGroupIndex: number = 0;
+        let m_chartGroupFieldType: number = 0;
 
         const fProperties = function() {
             InitializeComponent();
@@ -937,7 +938,7 @@
 			throw new NotImplementedException ();
 		}
         */
-		self. = function() {
+		self.getDbFieldGroupValue = function() {
 			throw new NotImplementedException ();
 		};
         /*
@@ -951,7 +952,7 @@
 			throw new NotImplementedException ();
 		}
         */
-		self. = function(sField) {
+		self.setDbFieldGroupValue = function(sField) {
 			throw new NotImplementedException ();
 		};
         /*
@@ -1697,7 +1698,7 @@ UNKNOWN >>             get
 
         const picColor = function(txColor, shColor) {
             // Show the color dialog.
-            let result: DialogResult= colorDialog.ShowDialog();
+            let result: DialogResult = colorDialog.ShowDialog();
             // See if user pressed ok.
             if (result === DialogResult.OK) {
                 // Set form background to the selected color.
@@ -1710,19 +1711,19 @@ UNKNOWN >>             get
 
             fontDialog.ShowEffects = true;
 
-            let fontStyle: FontStyle= FontStyle.Regular;
+            let fontStyle: FontStyle = FontStyle.Regular;
             if (chkFontBold.Checked) fontStyle = fontStyle | FontStyle.Bold; {
             if (chkFontItalic.Checked) fontStyle = fontStyle | FontStyle.Italic; {
             if (chkFontUnderline.Checked) fontStyle = fontStyle | FontStyle.Underline; {
             if (chkFontStrike.Checked) fontStyle = fontStyle | FontStyle.Strikeout; {
 
-            let fontSize: number= cUtil.val(txFontSize.Text);
-            let font: Font= new Font(txFont.Text, ((fontSize > 0f) ? fontSize : 3f), fontStyle);
+            let fontSize: number = cUtil.val(txFontSize.Text);
+            let font: Font = new Font(txFont.Text, ((fontSize > 0f) ? fontSize : 3f), fontStyle);
 
             fontDialog.Font = font;
             fontDialog.Color = cColor.colorFromRGB(cUtil.valAsInt(txForeColor.Text));
 
-	        let result: DialogResult= fontDialog.ShowDialog();
+	        let result: DialogResult = fontDialog.ShowDialog();
 
             if (result === DialogResult.OK) {
                 font = fontDialog.Font;
@@ -1946,5 +1947,147 @@ UNKNOWN >>             get
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfProperties {
+
+    getPictureChanged: () => bool;
+    setPictureChanged: (bool) => void;
+    getOk: () => bool;
+    getIndex: () => int;
+    getChartGroupIndex: () => int;
+    getChartIndex: (int) => int;
+    getFieldType: () => int;
+    getChartFieldType: (int) => int;
+    getChartGroupFieldType: () => int;
+    setIndex: (int) => void;
+    setChartGroupIndex: (int) => void;
+    setChartIndex: (int, int) => void;
+    setFieldType: (int) => void;
+    setChartGroupFieldType: (int) => void;
+    setChartFieldType: (int, int) => void;
+    getFormulaHide: () => String;
+    setFormulaHide: (String) => void;
+    getFormulaValue: () => String;
+    setFormulaValue: (String) => void;
+    getFormulaName: () => String;
+    setFormulaName: (String) => void;
+    getIsAccounting: () => bool;
+    setIsAccounting: (bool) => void;
+    getTextChanged: () => bool;
+    setTextChanged: (bool) => void;
+    getTagChanged: () => bool;
+    setTagChanged: (bool) => void;
+    getFontChanged: () => bool;
+    setFontChanged: (bool) => void;
+    getForeColorChanged: () => bool;
+    setForeColorChanged: (bool) => void;
+    getBackColorChanged: () => bool;
+    setBackColorChanged: (bool) => void;
+    getFormatChanged: () => bool;
+    setFormatChanged: (bool) => void;
+    getLeftChanged: () => bool;
+    setLeftChanged: (bool) => void;
+    getTopChanged: () => bool;
+    setTopChanged: (bool) => void;
+    getHeightChanged: () => bool;
+    setHeightChanged: (bool) => void;
+    getWidthChanged: () => bool;
+    setWidthChanged: (bool) => void;
+    getSymbolChanged: () => bool;
+    setSymbolChanged: (bool) => void;
+    getTransparentChanged: () => bool;
+    setTransparentChanged: (bool) => void;
+    getStrikeChanged: () => bool;
+    setStrikeChanged: (bool) => void;
+    getUnderlineChanged: () => bool;
+    setUnderlineChanged: (bool) => void;
+    getWordWrapChanged: () => bool;
+    setWordWrapChanged: (bool) => void;
+    getItalicChanged: () => bool;
+    setItalicChanged: (bool) => void;
+    getBoldChanged: () => bool;
+    setBoldChanged: (bool) => void;
+    getAlignChanged: () => bool;
+    setAlignChanged: (bool) => void;
+    getFontSizeChanged: () => bool;
+    setFontSizeChanged: (bool) => void;
+    getCanGrowChanged: () => bool;
+    setCanGrowChanged: (bool) => void;
+    getFormulaHideChanged: () => bool;
+    setFormulaHideChanged: (bool) => void;
+    getFormulaValueChanged: () => bool;
+    setFormulaValueChanged: (bool) => void;
+    getWhenEvalChanged: () => bool;
+    setWhenEvalChanged: (bool) => void;
+    getIdxGroupChanged: () => bool;
+    setIdxGroupChanged: (bool) => void;
+    getDbFieldChanged: () => bool;
+    setDbFieldChanged: (bool) => void;
+    getSetFormulaHideChanged: () => bool;
+    setSetFormulaHideChanged: (bool) => void;
+    getSetFormulaValueChanged: () => bool;
+    setSetFormulaValueChanged: (bool) => void;
+    getBorderTypeChanged: () => bool;
+    setBorderTypeChanged: (bool) => void;
+    getBorder3DChanged: () => bool;
+    setBorder3DChanged: (bool) => void;
+    getBorder3DShadowChanged: () => bool;
+    setBorder3DShadowChanged: (bool) => void;
+    getBorderRoundedChanged: () => bool;
+    setBorderRoundedChanged: (bool) => void;
+    getBorderWidthChanged: () => bool;
+    setBorderWidthChanged: (bool) => void;
+    getBorderColorChanged: () => bool;
+    setBorderColorChanged: (bool) => void;
+    getChartFieldVal1Changed: () => bool;
+    setChartFieldVal1Changed: (bool) => void;
+    getChartFieldVal2Changed: () => bool;
+    setChartFieldVal2Changed: (bool) => void;
+    getChartFieldLbl1Changed: () => bool;
+    setChartFieldLbl1Changed: (bool) => void;
+    getChartFieldGroupChanged: () => bool;
+    setChartFieldGroupChanged: (bool) => void;
+    getChartGroupValueChanged: () => bool;
+    setChartGroupValueChanged: (bool) => void;
+    getChartFieldLbl2Changed: () => bool;
+    setChartFieldLbl2Changed: (bool) => void;
+    getChartSizeChanged: () => bool;
+    setChartSizeChanged: (bool) => void;
+    getChartThicknessChanged: () => bool;
+    setChartThicknessChanged: (bool) => void;
+    getChartColorSerie1Changed: () => bool;
+    setChartColorSerie1Changed: (bool) => void;
+    getChartColorSerie2Changed: () => bool;
+    setChartColorSerie2Changed: (bool) => void;
+    getChartFormatTypeChanged: () => bool;
+    setChartFormatTypeChanged: (bool) => void;
+    getChartLinesTypeChanged: () => bool;
+    setChartLinesTypeChanged: (bool) => void;
+    getChartTypeChanged: () => bool;
+    setChartTypeChanged: (bool) => void;
+    getChartShowLinesChanged: () => bool;
+    setChartShowLinesChanged: (bool) => void;
+    getChartShowValuesChanged: () => bool;
+    setChartShowValuesChanged: (bool) => void;
+    getChartTopChanged: () => bool;
+    setChartTopChanged: (bool) => void;
+    getChartSortChanged: () => bool;
+    setChartSortChanged: (bool) => void;
+    getIsFreeCtrlChanged: () => bool;
+    setIsFreeCtrlChanged: (bool) => void;
+    getExportColIdxChanged: () => bool;
+    setExportColIdxChanged: (bool) => void;
+    resetChangedFlags: () => void;
+    hideTabField: () => void;
+    hideTabImage: () => void;
+    hideTabChart: () => void;
+    getDbFieldGroupValue: () => string;
+    setDbFieldGroupValue: (string) => void;
+    setHandler: (cEditor) => void;
+  }
+}

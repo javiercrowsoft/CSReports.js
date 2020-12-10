@@ -4,16 +4,17 @@
 
     globalObject.CSReportEditor.createFControls = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfControls = {};
         const fControls = function() {
             InitializeComponent();
         };
 
-		self. = function() {
+		self.clear = function() {
 			throw new NotImplementedException ();
 		};
 
-		self. = function(m_report) {
+		self.addCtrls = function(m_report) {
 			throw new NotImplementedException ();
 		};
 
@@ -22,5 +23,16 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfControls {
+
+    clear: () => void;
+    addCtrls: (cReport) => void;
+    getLoaded: () => bool;
+  }
+}

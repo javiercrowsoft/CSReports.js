@@ -4,7 +4,8 @@
 
     globalObject.CSDataBase.createCJSONDataSources = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSDataBase.IcJSONDataSources = {};
 
         // Creates an empty collection.
         const cJSONDataSources = function() {
@@ -158,5 +159,24 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSDataBase {
+
+  export interface IcJSONDataSources {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    add: (cJSONDataSource, String) => cJSONDataSource;
+    count: () => int;
+    item: (String) => cJSONDataSource;
+    item: (int) => cJSONDataSource;
+  }
+}

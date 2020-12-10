@@ -5,7 +5,8 @@
 
     globalObject.CSReportScript.createCReportCompilerGlobals = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportScript.IcReportCompilerGlobals = {};
 
         // Creates an empty collection.
         const cReportCompilerGlobals = function() {
@@ -113,7 +114,7 @@ UNKNOWN >>             get
             this.BaseClear();
         };
 
-        let m_mode: eReportCompilerMode= 0;
+        let m_mode: eReportCompilerMode = 0;
 
         self.getMode = function() {
             return m_mode;
@@ -148,16 +149,40 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
+        return self;
 
-UNKNOWN >>         return self;
 
-    public enum eReportCompilerMode
+        return self;
+
+    public enum eReportCompilerModeUNKNOWN >>     public enum eReportCompilerMode
     { 
         C_EVAL,
 UNKNOWN >>         C_RESULT
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportScript {
+
+  export interface IcReportCompilerGlobals {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    getMode: () => eReportCompilerMode;
+    setMode: (eReportCompilerMode) => void;
+    addVar: (String) => cReportCompilerVar;
+    count: () => int;
+    getVar: (String) => cReportCompilerVar;
+  }
+}

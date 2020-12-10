@@ -4,7 +4,8 @@
 
     globalObject.CSReportExport.createCReportPdf = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportExport.IcReportPdf = {};
         self.setExportEmailAddress = function(emailAddress) {
         };
 
@@ -20,5 +21,17 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportExport {
+
+  export interface IcReportPdf {
+
+    setExportEmailAddress: (String) => void;
+    sendMail: (String) => bool;
+    setFileName: (String) => void;
+    exportEx: (CSReportDll.cReport, object, String, bool) => bool;
+  }
+}

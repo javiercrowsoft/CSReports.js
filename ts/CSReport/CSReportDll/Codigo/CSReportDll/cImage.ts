@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCImage = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcImage = {};
         /*
 
          Private Type BITMAP '14 bytes
@@ -30,7 +31,7 @@ UNKNOWN >>         struct GDIBitmap {
         };
 
         const getIntFromByteArray = function(bytes, index) {
-            let intInBytes: byte[]= new byte[4];
+            let intInBytes: byte[] = new byte[4];
 
             Array.Copy(bytes, index, intInBytes, 0, 4);
 
@@ -50,7 +51,7 @@ UNKNOWN >>         struct GDIBitmap {
         };
 
         const getShortFromByteArray = function(bytes, index) {
-            let int16InBytes: byte[]= new byte[2];
+            let int16InBytes: byte[] = new byte[2];
 
             Array.Copy(bytes, index, int16InBytes, 0, 2);
 
@@ -73,7 +74,7 @@ UNKNOWN >>         struct GDIBitmap {
             try {
 UNKNOWN >>                 Bitmap bmp;
                 {
-                    bmp =  globalObject.CSReportDll.createBitmap(ms);
+                    bmp = UNKNOWN >>  can't find constructor for class Bitmap(ms);
                 }
                 return bmp;
             }
@@ -119,3 +120,20 @@ UNKNOWN >>                 Bitmap bmp;
 
         self.serialiseBitmap = function(image, bytes) {
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcImage {
+
+    bmType;: number;
+    bmWidth;: number;
+    bmHeight;: number;
+    bmWidthBytes;: number;
+    bmPlanes;: number;
+    bmBitsPixel;: number;
+    bmBits;: number;
+    deSerialiseBitmap: (byte[]) => Image;
+    serialiseBitmap: (object, object) => void;
+  }
+}

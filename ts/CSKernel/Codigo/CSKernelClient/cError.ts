@@ -7,14 +7,15 @@
 
     globalObject.CSKernelClient.createCError = function() {
 
-        const self = {};
-        let String: staticm_lastErrorDescription = "";
-        let String: staticm_lastErrorInfoAdd = "";
-        let String: staticm_lastErrorModule = "";
-        let String: staticm_lastErrorNumber = "";
-        let String: staticm_lastErrorLine = "";
-        let String: staticm_lastErrorFunction = "";
-        let Boolean: staticm_silent = false;
+        // @ts-ignore
+        let self: CSKernelClient.IcError = {};
+        let String: static m_lastErrorDescription = "";
+        let String: static m_lastErrorInfoAdd = "";
+        let String: static m_lastErrorModule = "";
+        let String: static m_lastErrorNumber = "";
+        let String: static m_lastErrorLine = "";
+        let String: static m_lastErrorFunction = "";
+        let Boolean: static m_silent = false;
 
         self.mngError = function(ex, ) {
                              string function,
@@ -34,7 +35,7 @@
                              object connection)
         {
             // TODO: implement function
-            let f: fErrors= new fErrors();
+            let f: fErrors = new fErrors();
             f.setErrorIcon();
             f.setDetails(ex.Message);
             f.ShowDialog();
@@ -69,5 +70,22 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IcError {
+
+    mngError: (Exception, ) => void;
+    mngError: (Exception, ) => void;
+    getLastErrorDescription: () => String;
+    getLastErrorInfoAdd: () => String;
+    getLastErrorModule: () => String;
+    getLastErrorNumber: () => String;
+    getLastErrorLine: () => String;
+    getLastErrorFunction: () => String;
+    setSilent: (bool) => void;
+  }
+}

@@ -4,7 +4,8 @@
 
     globalObject.CSReportDll.createCReportFormulaParameters = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportFormulaParameters = {};
 
         // Creates an empty collection.
         const cReportFormulaParameters = function() {
@@ -114,7 +115,7 @@ UNKNOWN >>             get
 
         self.add2 = function(value, key) {
             try {
-                let c: cReportFormulaParameter= new cReportFormulaParameter();
+                let c: cReportFormulaParameter = new cReportFormulaParameter();
                 c.setValue(value);
                 Add(key, c);
                 return c;
@@ -126,7 +127,7 @@ UNKNOWN >>             get
 
         self.add = function(value) {
             try {
-                let c: cReportFormulaParameter= new cReportFormulaParameter();
+                let c: cReportFormulaParameter = new cReportFormulaParameter();
                 Add(getDummyKey(), c);
                 c.setValue(value);
                 return c;
@@ -164,6 +165,28 @@ UNKNOWN >>             get
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportFormulaParameters {
+
+    Add: (String, Object) => void;
+    Remove: (String) => void;
+    Remove: (int) => void;
+    Clear: () => void;
+    remove: (String) => void;
+    remove: (int) => void;
+    clear: () => void;
+    add2: (String, String) => cReportFormulaParameter;
+    add: (String) => cReportFormulaParameter;
+    count: () => int;
+    item: (String) => cReportFormulaParameter;
+    item: (int) => cReportFormulaParameter;
+  }
+}

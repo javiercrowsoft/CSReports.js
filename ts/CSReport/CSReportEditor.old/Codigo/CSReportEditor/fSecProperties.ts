@@ -4,16 +4,17 @@
 
     globalObject.CSReportEditor.createFSecProperties = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfSecProperties = {};
         let m_formulaHideChanged: boolean = null;
         let m_setFormulaHideChanged: boolean = null;
-        let m_formulaHide: string= "";
+        let m_formulaHide: string = "";
 
         const fSecProperties = function() {
             InitializeComponent();
         };
 
-		self. = function() {
+		self.getFormulaName = function() {
 			throw new NotImplementedException ();
 		};
 
@@ -95,5 +96,21 @@ UNKNOWN >>             get
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfSecProperties {
+
+    getFormulaName: () => string;
+    getFormulaHide: () => String;
+    setFormulaHide: (String) => void;
+    getFormulaHideChanged: () => bool;
+    setFormulaHideChanged: (bool) => void;
+    getSetFormulaHideChanged: () => bool;
+    setSetFormulaHideChanged: (bool) => void;
+    getOk: () => bool;
+  }
+}

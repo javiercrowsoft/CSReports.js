@@ -4,10 +4,11 @@
 
     globalObject.CSReportEditor.createFMain = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportEditor.IfMain = {};
 UNKNOWN >>         static fMain instance;
 
-        const C_MODULE: string= "fMain";
+        const C_MODULE: string = "fMain";
 
         const fMain = function() {
             InitializeComponent();
@@ -16,7 +17,7 @@ UNKNOWN >>         static fMain instance;
             //
             CSKernelClient.cUtil.setSepDecimal();
 
-            let editor: cEditor= new cEditor(this, pnEditor, pnRule, pnReport, tbpEditor);
+            let editor: cEditor = new cEditor(this, pnEditor, pnRule, pnReport, tbpEditor);
         };
 
         self.getReportCopySource = function() {
@@ -24,10 +25,10 @@ UNKNOWN >>         static fMain instance;
         };
 
         const createEditor = function() {
-            let tab: TabPage= new TabPage();
-            let pnEditor: Panel= new Panel();
-            let pnRule: PictureBox= new PictureBox();
-            let pnReport: PictureBox= new PictureBox();
+            let tab: TabPage = new TabPage();
+            let pnEditor: Panel = new Panel();
+            let pnRule: PictureBox = new PictureBox();
+            let pnReport: PictureBox = new PictureBox();
 
             pnEditor.Controls.Add(pnRule);
             pnEditor.Controls.Add(pnReport);
@@ -48,7 +49,7 @@ UNKNOWN >>         static fMain instance;
         };
 
         self.setEditAlignTextState = function(status) {
-            let buttons: var= this.tbMain.Items;
+            let buttons: var = this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_ALIGN_CENTER].Enabled = status;
             buttons[cGlobals.c_BTN_ALIGN_LEFT].Enabled = status;
@@ -57,7 +58,7 @@ UNKNOWN >>         static fMain instance;
         };
 
         self.setEditAlignCtlState = function(status) {
-            let buttons: var= this.tbMain.Items;
+            let buttons: var = this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_CTL_ALIGN_BOTTOM].Enabled = status;
             buttons[cGlobals.c_BTN_CTL_ALIGN_TOP].Enabled = status;
@@ -96,7 +97,7 @@ UNKNOWN >>         static fMain instance;
             this.mnuViewControls.Enabled = enabled;
             this.mnuViewTreeViewCtrls.Enabled = enabled;
 
-            let buttons: var= this.tbMain.Items;
+            let buttons: var = this.tbMain.Items;
             buttons[cGlobals.c_BTN_PRINT].Enabled = enabled;
             buttons[cGlobals.c_BTN_PROPERTIES].Enabled = enabled;
             buttons[cGlobals.c_BTN_DB].Enabled = enabled;
@@ -107,10 +108,10 @@ UNKNOWN >>         static fMain instance;
         };
 
         self.addToRecentList = function(fileName) {
-            let i: number= 0;
-            let j: number= 0;
-            let found: boolean= false;
-            let menuItems: var= this.mnuFileRecentList.DropDownItems;
+            let i: number = 0;
+            let j: number = 0;
+            let found: boolean = false;
+            let menuItems: var = this.mnuFileRecentList.DropDownItems;
 
             for (i = 0; i < menuItems.Count; i++) {
                 if (fileName === menuItems[i].Text) {
@@ -121,7 +122,7 @@ UNKNOWN >>         static fMain instance;
             }
 
             if (menuItems.Count < cGlobals.C_TOTINRECENTLIST && found === false) {
-                let menu: var= this.mnuFileRecentList.DropDownItems.Add("");
+                let menu: var = this.mnuFileRecentList.DropDownItems.Add("");
                 menu.Visible = true;
             }
 
@@ -135,12 +136,12 @@ UNKNOWN >>         static fMain instance;
         };
 
         self.loadRecentList = function(recentList) {
-            let i: number= 0;
-            let recent: string= "";
+            let i: number = 0;
+            let recent: string = "";
 
             for (i = 0; i < Math.Min(cGlobals.C_TOTINRECENTLIST, recentList.Count); i++) {
                 recent = recentList[i];
-                let menu: var= this.mnuFileRecentList.DropDownItems.Add(recent);
+                let menu: var = this.mnuFileRecentList.DropDownItems.Add(recent);
                 menu.Visible = true;
             }
 
@@ -150,7 +151,7 @@ UNKNOWN >>         static fMain instance;
         };
 
         self.saveRecentList = function() {
-            let i: number= 0;
+            let i: number = 0;
 
             for (i = 0; i < this.mnuFileRecentList.DropDownItems.Count; i++) {
                 // TODO: implement
@@ -169,7 +170,7 @@ UNKNOWN >>         static fMain instance;
             // TODO: implement
         };
 
-		self. = function(msg) {
+		self.setsbPnlCtrl = function(msg) {
 			throw new NotImplementedException ();
 		};
 
@@ -188,7 +189,7 @@ UNKNOWN >>         static fMain instance;
         const mnuOpenReport_Click = function(sender, e) {
             try {
 
-                let editor: cEditor= createEditor();
+                let editor: cEditor = createEditor();
 
                 editor.init();
                 /*
@@ -225,5 +226,27 @@ UNKNOWN >>             get
         }
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfMain {
+
+    getReportCopySource: () => cEditor;
+    setEditAlignTextState: (bool) => void;
+    setEditAlignCtlState: (bool) => void;
+    setMenuAux: (bool) => void;
+    addToRecentList: (String) => void;
+    loadRecentList: (List<String>) => void;
+    saveRecentList: () => void;
+    setStatus: (String) => void;
+    setBarText: (String) => void;
+    setDisconnectedReport: (bool) => void;
+    setsbPnlCtrl: (string) => void;
+    setReportCopySource: (cEditor) => void;
+    getPaperSize: () => CSReportGlobals.csReportPaperType;
+    getOrientation: () => int;
+  }
+}

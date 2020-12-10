@@ -4,7 +4,8 @@
 
     globalObject.CSDataBase.createCJSONDataSource = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSDataBase.IcJSONDataSource = {};
         let m_name: string = null;
         let m_data: JObject = null;
 
@@ -22,5 +23,15 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSDataBase {
+
+  export interface IcJSONDataSource {
+
+    getName: () => string;
+    getData: () => JObject;
+  }
+}

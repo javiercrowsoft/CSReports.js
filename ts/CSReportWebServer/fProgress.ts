@@ -4,7 +4,8 @@
 
     globalObject.CSReportWebServer.createFProgress = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportWebServer.IfProgress = {};
         const fProgress = function() {
             InitializeComponent();
         };
@@ -54,5 +55,13 @@ UNKNOWN >>             get
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportWebServer {
+
+  export interface IfProgress {
+
+  }
+}

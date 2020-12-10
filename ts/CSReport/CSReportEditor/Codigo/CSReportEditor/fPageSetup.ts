@@ -4,12 +4,13 @@
 
     globalObject.CSReportEditor.createFPageSetup = function() {
 
-        const self = {};
-        let m_ok: boolean= false;
+        // @ts-ignore
+        let self: CSReportEditor.IfPageSetup = {};
+        let m_ok: boolean = false;
         let m_customHeight: number = null;
         let m_customWidth: number = null;
-        let m_orientation: number= 1;
-        let m_paperSize: csReportPaperType= csReportPaperType.CSRPTPAPERTYPEA4;
+        let m_orientation: number = 1;
+        let m_paperSize: csReportPaperType = csReportPaperType.CSRPTPAPERTYPEA4;
 
         const fPageSetup = function() {
             InitializeComponent();
@@ -97,11 +98,28 @@
         };
 
         const cb_paperSize_SelectedIndexChanged = function(sender, e) {
-            let enabled: var= cUtil.listID(cb_paperSize) === csReportPaperType.CSRPTPAPERUSER;
+            let enabled: var = cUtil.listID(cb_paperSize) === csReportPaperType.CSRPTPAPERUSER;
             tx_height.Enabled = enabled;
             tx_width.Enabled = enabled;
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfPageSetup {
+
+    initDialog: (csReportPaperType, int, int, int) => void;
+    setCustomHeight: (int) => void;
+    setCustomWidth: (int) => void;
+    setOrientation: (int) => void;
+    getPaperSize: () => csReportPaperType;
+    getCustomHeight: () => int;
+    getCustomWidth: () => int;
+    getOrientation: () => int;
+    getOk: () => bool;
+  }
+}

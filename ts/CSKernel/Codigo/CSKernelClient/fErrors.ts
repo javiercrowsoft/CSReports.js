@@ -4,7 +4,8 @@
 
     globalObject.CSKernelClient.createFErrors = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.IfErrors = {};
         const fErrors = function() {
             InitializeComponent();
         };
@@ -29,16 +30,16 @@
         };
 
         self.setErrorIcon = function() {
-            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.error.png"));
+            let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.error.png"));
         };
         self.setErrorInfo = function() {
-            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.information.png"));
+            let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.information.png"));
         };
         self.setErrorWarning = function() {
-            let assembly: System.Reflection.Assembly= System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image =  globalObject.CSReportDll.createBitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.warning.png"));
+            let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.warning.png"));
         };
 
         const fErrors_Load = function(sender, e) {
@@ -46,5 +47,17 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IfErrors {
+
+    setDetails: (string) => void;
+    setErrorIcon: () => void;
+    setErrorInfo: () => void;
+    setErrorWarning: () => void;
+  }
+}

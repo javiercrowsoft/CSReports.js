@@ -5,24 +5,25 @@
 
     globalObject.CSReportDll.createCReportPage = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportPage = {};
 
-        const C_MODULE: string= "cReportPage";
+        const C_MODULE: string = "cReportPage";
 
-        const C_NODERPTHEADER: string= "Header";
-        const C_NODERPTHEADERLINE: string= "HeaderLine";
-        const C_NODERPTDETAIL: string= "Detail";
-        const C_NODERPTDETAILLINE: string= "DetailLine";
-        const C_NODERPTFOOTER: string= "Footer";
-        const C_NODERPTFOOTERLINE: string= "FooterLine";
+        const C_NODERPTHEADER: string = "Header";
+        const C_NODERPTHEADERLINE: string = "HeaderLine";
+        const C_NODERPTDETAIL: string = "Detail";
+        const C_NODERPTDETAILLINE: string = "DetailLine";
+        const C_NODERPTFOOTER: string = "Footer";
+        const C_NODERPTFOOTERLINE: string = "FooterLine";
 
-        let m_detail: cReportPageFields= new cReportPageFields();
-        let m_header: cReportPageFields= new cReportPageFields();
-        let m_footer: cReportPageFields= new cReportPageFields();
-        let m_pageNumber: number= 0;
+        let m_detail: cReportPageFields = new cReportPageFields();
+        let m_header: cReportPageFields = new cReportPageFields();
+        let m_footer: cReportPageFields = new cReportPageFields();
+        let m_pageNumber: number = 0;
 
-        let m_headerBottom: number= 0;
-        let m_footerTop: number= 0;
+        let m_headerBottom: number = 0;
+        let m_footerTop: number = 0;
 
         self.getHeader = function() {
             return m_header;
@@ -73,7 +74,7 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            let nodeObjSecLn: XmlNode= null;
+            let nodeObjSecLn: XmlNode = null;
 
             m_pageNumber = xDoc.getNodeProperty(nodeObj, "PageNumber").getValueInt(eTypes.eInteger);
             m_headerBottom = xDoc.getNodeProperty(nodeObj, "HeaderBottom").getValueInt(eTypes.eLong);
@@ -121,10 +122,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Page");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -143,8 +144,8 @@
             xProperty.setValue(eTypes.eLong, m_footerTop);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            let pageFld: cReportPageField= null;
-            let nodeAux: XmlNode= null;
+            let pageFld: cReportPageField = null;
+            let nodeAux: XmlNode = null;
 
             xProperty.setName(C_NODERPTHEADER);
             xProperty.setValue(eTypes.eText, "");
@@ -177,22 +178,22 @@
         };
 
         self.saveForWeb = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("Page");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xDoc.setNodeText(nodeObj, "Página " + m_pageNumber);
 
-            let pageFld: cReportPageField= null;
-            let nodeAux: XmlNode= null;
-            let top: number= 0;
-            let addLine: boolean= false;
+            let pageFld: cReportPageField = null;
+            let nodeAux: XmlNode = null;
+            let top: number = 0;
+            let addLine: boolean = false;
 
-            let nHeader: number= 0;
+            let nHeader: number = 0;
 
             xProperty.setName(C_NODERPTHEADER);
             xProperty.setValue(eTypes.eText, "");
@@ -292,6 +293,31 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportPage {
+
+    getHeader: () => cReportPageFields;
+    setHeader: (cReportPageFields) => void;
+    getDetail: () => cReportPageFields;
+    setDetail: (cReportPageFields) => void;
+    getFooter: () => cReportPageFields;
+    setFooter: (cReportPageFields) => void;
+    getPageNumber: () => int;
+    setPageNumber: (int) => void;
+    getHeaderBottom: () => float;
+    setHeaderBottom: (float) => void;
+    getFooterTop: () => float;
+    setFooterTop: (float) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+    saveForWeb: (CSXml.cXml, XmlNode) => bool;
+  }
+}

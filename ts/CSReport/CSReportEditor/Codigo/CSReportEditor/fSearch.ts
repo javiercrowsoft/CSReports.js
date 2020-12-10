@@ -4,8 +4,9 @@
 
     globalObject.CSReportEditor.createFSearch = function() {
 
-        const self = {};
-        let m_editor: cEditor= null;
+        // @ts-ignore
+        let self: CSReportEditor.IfSearch = {};
+        let m_editor: cEditor = null;
 
 UNKNOWN >>         private enum csObjType {
             iTypeFormulaH = 1,
@@ -32,7 +33,7 @@ UNKNOWN >>         private enum csObjType {
                 cWindow.msgInfo("You must input some text to search");
             }
             else  {
-                let report: cReport= m_editor.getReport();
+                let report: cReport = m_editor.getReport();
                 searchInSections(report.getHeaders(), csObjType.iTypeSec);
                 searchInSections(report.getGroupsHeaders(), csObjType.iTypeSecG);
                 searchInSections(report.getDetails(), csObjType.iTypeSec);
@@ -95,7 +96,7 @@ UNKNOWN >>             string toSearch;
         };
 
         const pAddToSearchResult = function(name, objType, objType2, key, where) {
-            let item: var= lv_controls.Items.Add(name);
+            let item: var = lv_controls.Items.Add(name);
             item.ImageIndex = objType === objType2 ? (int)objType : (int)objType2;
             item.SubItems.Add(where);
             item.Tag = key;
@@ -111,7 +112,7 @@ UNKNOWN >>             string toSearch;
 
         const cmd_edit_Click = function(sender, e) {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var= lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
                 m_editor.showProperties(info);
             }
         };
@@ -126,12 +127,22 @@ UNKNOWN >>             string toSearch;
 
         const selectControl = function() {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var= lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
                 m_editor.selectCtrl(info);
             }
         };
 
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSReportEditor {
+
+  export interface IfSearch {
+
+    clear: () => void;
+    setHandler: (cEditor) => void;
+  }
+}

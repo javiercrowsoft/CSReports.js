@@ -7,9 +7,10 @@
 
     globalObject.CSKernelClient.createCDateUtils = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSKernelClient.IcDateUtils = {};
         self.isDate = function(dateValue) {
-            let t: Type= dateValue.GetType();
+            let t: Type = dateValue.GetType();
             if (typeof(DateTime) === t) {
                 return true;
             }
@@ -30,5 +31,14 @@
         };
         return self;
 
-    }
+    }    }
 }(globalObject));
+
+
+namespace CSKernelClient {
+
+  export interface IcDateUtils {
+
+    isDate: (object) => bool;
+  }
+}

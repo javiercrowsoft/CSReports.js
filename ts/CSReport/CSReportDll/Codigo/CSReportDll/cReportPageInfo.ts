@@ -4,18 +4,19 @@
 
     globalObject.CSReportDll.createCReportPageInfo = function() {
 
-        const self = {};
+        // @ts-ignore
+        let self: CSReportDll.IcReportPageInfo = {};
 
-        const C_MODULE: string= "cReportPageInfo";
+        const C_MODULE: string = "cReportPageInfo";
 
         let m_aspect: cReportAspect = null;
         let m_sectionLine: cReportSectionLine = null;
-        let m_name: string= "";
-        let m_tag: string= "";
-        let m_fieldType: number= 0;
+        let m_name: string = "";
+        let m_tag: string = "";
+        let m_fieldType: number = 0;
 
         const cReportPageInfo = function() {
-            m_aspect =  globalObject.CSReportDll.createCReportAspect();
+            m_aspect = globalObject.CSReportDll.createCReportAspect();
         };
 
         self.getName = function() {
@@ -59,7 +60,7 @@
         };
 
         self.load = function(xDoc, nodeObj) {
-            let nodeObjAspect: XmlNode= null;
+            let nodeObjAspect: XmlNode = null;
             m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
             m_fieldType = xDoc.getNodeProperty(nodeObj, "FieldType").getValueInt(eTypes.eInteger);
 
@@ -73,10 +74,10 @@
         };
 
         self.save = function(xDoc, nodeFather) {
-            let xProperty: CSXml.cXmlProperty= null;
-            let nodeObj: XmlNode= null;
+            let xProperty: CSXml.cXmlProperty = null;
+            let nodeObj: XmlNode = null;
 
-            xProperty =  globalObject.CSReportDll.createCSXml.cXmlProperty();
+            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
 
             xProperty.setName("PageInfo");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -94,6 +95,28 @@
 
         return self;
 
-    }
+    }    }
+        return self;
+
 
 }(globalObject));
+
+
+namespace CSReportDll {
+
+  export interface IcReportPageInfo {
+
+    getName: () => String;
+    setName: (String) => void;
+    getTag: () => String;
+    setTag: (String) => void;
+    getAspect: () => cReportAspect;
+    setAspect: (cReportAspect) => void;
+    getSectionLine: () => cReportSectionLine;
+    setSectionLine: (cReportSectionLine) => void;
+    getFieldType: () => int;
+    setFieldType: (int) => void;
+    load: (CSXml.cXml, XmlNode) => bool;
+    save: (CSXml.cXml, XmlNode) => bool;
+  }
+}
