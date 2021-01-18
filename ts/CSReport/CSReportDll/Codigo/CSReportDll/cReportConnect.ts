@@ -1,106 +1,106 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportConnect = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportConnect = {};
+    export class cReportConnect {
 
-        const C_MODULE: string = "cReportConnect";
 
-        const C_RPTCONNECT: string = "RptConnect";
-        const C_RPTCOLUMNS: string = "Columns";
-        const C_RPTPARAMETERS: string = "Parameters";
+    {
 
-        let m_strConnect: string = "";
-        let m_dataSource: string = "";
-        let m_dataSourceType: csDataSourceType = null;
+        private C_MODULE: string = "cReportConnect";
 
-        let m_parameters: cParameters = new cParameters();
-        let m_columns: cColumnsInfo = new cColumnsInfo();
+        private C_RPTCONNECT: string = "RptConnect";
+        private C_RPTCOLUMNS: string = "Columns";
+        private C_RPTPARAMETERS: string = "Parameters";
 
-        let m_connectionTimeout: number = 0;
-        let m_commandTimeout: number = 0;
+        private strConnect: string = "";
+        private dataSource: string = "";
+        private dataSourceType: csDataSourceType = null;
 
-        self.getConnectionTimeout = function() {
-            return m_connectionTimeout;
-        };
+        private parameters: cParameters = new cParameters();
+        private columns: cColumnsInfo = new cColumnsInfo();
 
-        self.setConnectionTimeout = function(rhs) {
-            m_connectionTimeout = rhs;
-        };
+        private connectionTimeout: number = 0;
+        private commandTimeout: number = 0;
 
-        self.getCommandTimeout = function() {
-            return m_commandTimeout;
-        };
+        public getConnectionTimeout() {
+            return this.connectionTimeout;
+        }
 
-        self.setCommandTimeout = function(rhs) {
-            m_commandTimeout = rhs;
-        };
+        public setConnectionTimeout(rhs: number) {
+            this.connectionTimeout = rhs;
+        }
 
-        self.getStrConnect = function() {
-            return m_strConnect;
-        };
+        public getCommandTimeout() {
+            return this.commandTimeout;
+        }
 
-        self.setStrConnect = function(rhs) {
-            m_strConnect = rhs;
-        };
+        public setCommandTimeout(rhs: number) {
+            this.commandTimeout = rhs;
+        }
 
-        self.getDataBase = function() {
-            return getXFromStrConnect(m_strConnect, "Initial Catalog=");
-        };
+        public getStrConnect() {
+            return this.strConnect;
+        }
 
-        self.getServer = function() {
-            return getXFromStrConnect(m_strConnect, "Data Source=");
-        };
+        public setStrConnect(rhs: string) {
+            this.strConnect = rhs;
+        }
 
-        self.getUser = function() {
-            return getXFromStrConnect(m_strConnect, "User ID=");
-        };
+        public getDataBase() {
+            return getXFromStrConnect(this.strConnect, "Initial Catalog=");
+        }
 
-        self.getPassword = function() {
-            return getXFromStrConnect(m_strConnect, "Password=");
-        };
+        public getServer() {
+            return getXFromStrConnect(this.strConnect, "Data Source=");
+        }
 
-        self.getDataSource = function() {
-            return m_dataSource;
-        };
+        public getUser() {
+            return getXFromStrConnect(this.strConnect, "User ID=");
+        }
 
-        self.setDataSource = function(rhs) {
-            m_dataSource = rhs;
-        };
+        public getPassword() {
+            return getXFromStrConnect(this.strConnect, "Password=");
+        }
 
-        self.getDataSourceType = function() {
-            return m_dataSourceType;
-        };
+        public getDataSource() {
+            return this.dataSource;
+        }
 
-        self.setDataSourceType = function(rhs) {
-            m_dataSourceType = rhs;
-        };
+        public setDataSource(rhs: string) {
+            this.dataSource = rhs;
+        }
 
-        self.getParameters = function() {
-            return m_parameters;
-        };
+        public getDataSourceType() {
+            return this.dataSourceType;
+        }
 
-        self.setParameters = function(rhs) {
-            m_parameters = rhs;
-        };
+        public setDataSourceType(rhs: csDataSourceType) {
+            this.dataSourceType = rhs;
+        }
 
-        self.getColumns = function() {
-            return m_columns;
-        };
+        public getParameters() {
+            return this.parameters;
+        }
 
-        self.setColumns = function(rhs) {
-            m_columns = rhs;
-        };
+        public setParameters(rhs: cParameters) {
+            this.parameters = rhs;
+        }
 
-        self.getSqlParameters = function() {
+        public getColumns() {
+            return this.columns;
+        }
+
+        public setColumns(rhs: cColumnsInfo) {
+            this.columns = rhs;
+        }
+
+        public getSqlParameters() {
             let s: string = "";
             let param: cParameter = null;
-            for(var _i = 0; _i < m_parameters.count(); _i++) {
-                param = m_parameters.item(_i);
+            for(var _i = 0; _i < this.parameters.count(); _i++) {
+                param = this.parameters.item(_i);
                 switch (param.getColumnType())
                 {
                     case csDataType.CSTDWCHAR:
@@ -150,15 +150,15 @@
             }
 
             return s;
-        };
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             let nodeObjAux: XmlNode = null;
             let nodeObjAux2: XmlNode = null;
 
-            m_dataSource = xDoc.getNodeProperty(nodeObj, "DataSource").getValueString(eTypes.eText);
-            m_dataSourceType = xDoc.getNodeProperty(nodeObj, "DataSourceType").getValueInt(eTypes.eInteger);
-            m_strConnect = xDoc.getNodeProperty(nodeObj, "StrConnect").getValueString(eTypes.eText);
+            this.dataSource = xDoc.getNodeProperty(nodeObj, "DataSource").getValueString(eTypes.eText);
+            this.dataSourceType = xDoc.getNodeProperty(nodeObj, "DataSourceType").getValueInt(eTypes.eInteger);
+            this.strConnect = xDoc.getNodeProperty(nodeObj, "StrConnect").getValueString(eTypes.eText);
 
             nodeObjAux2 = xDoc.getNodeFromNode(nodeObj, C_RPTCOLUMNS);
 
@@ -166,7 +166,7 @@
                 nodeObjAux = xDoc.getNodeChild(nodeObjAux2);
                 while (nodeObjAux !== null) {
                     let key: string = xDoc.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
-                    if (!m_columns.add(null, key).load(xDoc, nodeObjAux)) {
+                    if (!this.columns.add(null, key).load(xDoc, nodeObjAux)) {
                         return false;
                     }
                     nodeObjAux = xDoc.getNextNode(nodeObjAux);
@@ -179,7 +179,7 @@
                 nodeObjAux = xDoc.getNodeChild(nodeObjAux2);
                 while (nodeObjAux !== null) {
                     let key: string = xDoc.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
-                    if (!m_parameters.add(null, key).load(xDoc, nodeObjAux)) {
+                    if (!this.parameters.add(null, key).load(xDoc, nodeObjAux)) {
                         return false;
                     }
                     nodeObjAux = xDoc.getNextNode(nodeObjAux);
@@ -187,13 +187,13 @@
             }
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
             let nodeObjAux: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName(C_RPTCONNECT);
 
@@ -205,15 +205,15 @@
             }
 
             xProperty.setName("DataSource");
-            xProperty.setValue(eTypes.eText, m_dataSource);
+            xProperty.setValue(eTypes.eText, this.dataSource);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("DataSourceType");
-            xProperty.setValue(eTypes.eInteger, m_dataSourceType);
+            xProperty.setValue(eTypes.eInteger, this.dataSourceType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("StrConnect");
-            xProperty.setValue(eTypes.eText, m_strConnect);
+            xProperty.setValue(eTypes.eText, this.strConnect);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             nodeObjAux = nodeObj;
@@ -222,8 +222,8 @@
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let col: cColumnInfo = null;
-            for(var _i = 0; _i < m_columns.count(); _i++) {
-                col = m_columns.item(_i);
+            for(var _i = 0; _i < this.columns.count(); _i++) {
+                col = this.columns.item(_i);
                 if (!col.save(xDoc, nodeObj)) {
                     return false;
                 }
@@ -235,17 +235,17 @@
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let param: cParameter = null;
-            for(var _i = 0; _i < m_parameters.count(); _i++) {
-                param = m_parameters.item(_i);
+            for(var _i = 0; _i < this.parameters.count(); _i++) {
+                param = this.parameters.item(_i);
                 if (!param.save(xDoc, nodeObj)) {
                     return false;
                 }
             }
 
             return true;
-        };
+        }
 
-        const getXFromStrConnect = function(strConnect, x) {
+        private getXFromStrConnect(strConnect: string, x: string) {
             let i: number = 0;
             let p: number = 0;
 
@@ -264,41 +264,12 @@
             else {
                 return "";
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportConnect {
-
-    getConnectionTimeout: () => int;
-    setConnectionTimeout: (int) => void;
-    getCommandTimeout: () => int;
-    setCommandTimeout: (int) => void;
-    getStrConnect: () => String;
-    setStrConnect: (String) => void;
-    getDataBase: () => String;
-    getServer: () => String;
-    getUser: () => String;
-    getPassword: () => String;
-    getDataSource: () => String;
-    setDataSource: (String) => void;
-    getDataSourceType: () => csDataSourceType;
-    setDataSourceType: (csDataSourceType) => void;
-    getParameters: () => cParameters;
-    setParameters: (cParameters) => void;
-    getColumns: () => cColumnsInfo;
-    setColumns: (cColumnsInfo) => void;
-    getSqlParameters: () => String;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

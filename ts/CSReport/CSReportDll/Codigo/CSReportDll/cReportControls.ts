@@ -1,23 +1,23 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportControls = function() {
+namespace CSReportDll
+{
+    export class cReportControls {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportControls = {};
+
+    {
 
         // Creates an empty collection.
-        const cReportControls = function() {
-        };
+        public constructor() {
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cReportControls = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -79,80 +79,80 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        const Remove = function(key) {
+        private Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        const Remove = function(index) {
+        private Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        const Clear = function() {
+        private Clear() {
             this.BaseClear();
-        };
+        }
 
-        const C_MODULE: string = "cReportControls";
+        private C_MODULE: string = "cReportControls";
 
         // it is a reference to the controls collection of cReport
         //
-        let m_copyColl: cReportControls2 = null;
-        let m_typeSection: csRptSectionType = null;
-        let m_collByLeft: int[] = null;
+        private copyColl: cReportControls2 = null;
+        private typeSection: csRptSectionType = null;
+        private collByLeft: number[] = null;
 
         // this reference tell in which section line is this controls collection
         //
-        let m_sectionLine: cReportSectionLine = null;
+        private sectionLine: cReportSectionLine = null;
 
-        self.getTypeSection = function() {
-            return m_typeSection;
-        };
+        public getTypeSection() {
+            return this.typeSection;
+        }
 
-        self.setTypeSection = function(rhs) {
-            m_typeSection = rhs;
-        };
+        public setTypeSection(rhs: csRptSectionType) {
+            this.typeSection = rhs;
+        }
 
-        self.getCopyColl = function() {
-            return m_copyColl;
-        };
+        public getCopyColl() {
+            return this.copyColl;
+        }
 
-        self.setCopyColl = function(rhs) {
-            m_copyColl = rhs;
-        };
+        public setCopyColl(rhs: cReportControls2) {
+            this.copyColl = rhs;
+        }
 
-        self.getSectionLine = function() {
-            return m_sectionLine;
-        };
+        public getSectionLine() {
+            return this.sectionLine;
+        }
 
-        self.setSectionLine = function(rhs) {
-            m_sectionLine = rhs;
+        public setSectionLine(rhs: cReportSectionLine) {
+            this.sectionLine = rhs;
 
             let ctrl: cReportControl = null;
             for(var _i = 0; _i < this.Count; _i++) {
                 ctrl = item(_i);
                 ctrl.setSectionLine(rhs);
             }
-        };
+        }
 
-        self.getCollByLeft = function() {
-            return m_collByLeft;
-        };
+        public getCollByLeft() {
+            return this.collByLeft;
+        }
 
-		self.add = function() {
+		public add() {
 			return add(null, "");
-		};
+		}
 
-        self.add = function(c, key) {
+        public add(c: cReportControl, key: string) {
             try {
 
                 if (c === null)  {
-                    c = globalObject.CSReportDll.createCReportControl();
+                    c = new cReportControl();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -165,11 +165,11 @@ UNKNOWN >>             get
                 Add(key, c);
 
                 c.setKey(key);
-                c.setTypeSection(m_typeSection);
-                c.setSectionLine(m_sectionLine);
+                c.setTypeSection(this.typeSection);
+                c.setSectionLine(this.sectionLine);
 
-                if (m_copyColl !== null)  {
-                    m_copyColl.add2(c, key); 
+                if (this.copyColl !== null)  {
+                    this.copyColl.add2(c, key); 
                 }
 
                 return c;
@@ -177,9 +177,9 @@ UNKNOWN >>             get
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.clear = function() {
+        public clear() {
             try {
                 let n: number = this.count();
                 for(var i = 0; i < n; i++) {
@@ -188,85 +188,85 @@ UNKNOWN >>             get
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.remove = function(key) {
+        public remove(key: string) {
             try {
                 item(key).setSectionLine(null);
-                if (m_copyColl !== null) {
-                    m_copyColl.remove(item(key).getKey());
+                if (this.copyColl !== null) {
+                    this.copyColl.remove(item(key).getKey());
                 }
                 Remove(key);
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.remove = function(index) {
+        public remove(index: number) {
             try {
                 item(index).setSectionLine(null);
-                if (m_copyColl !== null) {
-                    m_copyColl.remove(item(index).getKey());
+                if (this.copyColl !== null) {
+                    this.copyColl.remove(item(index).getKey());
                 }
                 Remove(index);
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
                 return this.BaseGet(key);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
                 return this.BaseGet(index);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.orderCollByLeft = function() {
+        public orderCollByLeft() {
             let j: number = 0;
             let i: number = 0;
             let tmp: number = 0;
             let ctl1: cReportControl = null;
             let ctl2: cReportControl = null;
 
-            G.redim(m_collByLeft, this.Count);
+            G.redim(this.collByLeft, this.Count);
 
-            for (i = 0; i < m_collByLeft.Length; i++) {
-                m_collByLeft[i] = i;
+            for (i = 0; i < this.collByLeft.Length; i++) {
+                this.collByLeft[i] = i;
             }
 
             for (i = 0; i < this.Count-1; i++) {
                 for (j = i; j < this.Count-1; j++) {
-                    ctl1 = item(m_collByLeft[j]);
-                    ctl2 = item(m_collByLeft[j + 1]);
+                    ctl1 = item(this.collByLeft[j]);
+                    ctl2 = item(this.collByLeft[j + 1]);
 
                     if (ctl2.getLabel().getAspect().getLeft() < ctl1.getLabel().getAspect().getLeft()) {
-                        tmp = m_collByLeft[j];
-                        m_collByLeft[j] = m_collByLeft[j + 1];
-                        m_collByLeft[j + 1] = tmp;
+                        tmp = this.collByLeft[j];
+                        this.collByLeft[j] = this.collByLeft[j + 1];
+                        this.collByLeft[j + 1] = tmp;
                     }
                 }
             }
-        };
+        }
 
         // Implement IDisposable.
         // Do not make this method virtual.
         // A derived class should not be able to override this method.
-        self.Dispose = function() {
+        public Dispose() {
             Dispose(true);
             // This object will be cleaned up by the Dispose method.
             // Therefore, you should call GC.SupressFinalize to
@@ -274,10 +274,10 @@ UNKNOWN >>             get
             // and prevent finalization code for this object
             // from executing a second time.
             GC.SuppressFinalize(this);
-        };
+        }
 
         // Track whether Dispose has been called.
-        let disposed: boolean = false;
+        private disposed: boolean = false;
 
         // Dispose(bool disposing) executes in two distinct scenarios.
         // If disposing equals true, the method has been called directly
@@ -286,7 +286,7 @@ UNKNOWN >>             get
         // If disposing equals false, the method has been called by the
         // runtime from inside the finalizer and you should not reference
         // other objects. Only unmanaged resources can be disposed.
-        self.Dispose = function(disposing) {
+        public Dispose(disposing: boolean) {
             // Check to see if Dispose has already been called.
             if (!this.disposed) {
                 // If disposing equals true, dispose all managed
@@ -300,7 +300,7 @@ UNKNOWN >>             get
                 disposed = true;
 
             }
-        };
+        }
 
         // Use C# destructor syntax for finalization code.
         // This destructor will run only if the Dispose method
@@ -315,45 +315,18 @@ UNKNOWN >>             get
             Dispose(false);
         }
 
-        const releaseReferences = function() {
+        private releaseReferences() {
 UNKNOWN >>             cReportControl ctrl;
             for(var _i = 0; _i < this.Count; _i++) {
                 ctrl = item(_i);
                 ctrl.setSectionLine(null);
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportControls {
-
-    Add: (String, Object) => void;
-    getTypeSection: () => csRptSectionType;
-    setTypeSection: (csRptSectionType) => void;
-    getCopyColl: () => cReportControls2;
-    setCopyColl: (cReportControls2) => void;
-    getSectionLine: () => cReportSectionLine;
-    setSectionLine: (cReportSectionLine) => void;
-    getCollByLeft: () => int[];
-    add: () => cReportControl;
-    add: (cReportControl, String) => cReportControl;
-    clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    count: () => int;
-    item: (String) => cReportControl;
-    item: (int) => cReportControl;
-    orderCollByLeft: () => void;
-    Dispose: () => void;
-    Dispose: (bool) => void;
-  }
 }

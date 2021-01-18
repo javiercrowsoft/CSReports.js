@@ -1,125 +1,108 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFPageSetup = function() {
+namespace CSReportEditor
+{
+    export class fPageSetup {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfPageSetup = {};
-        let m_ok: boolean = false;
-        let m_customHeight: number = null;
-        let m_customWidth: number = null;
-        let m_orientation: number = 1;
-        let m_paperSize: csReportPaperType = csReportPaperType.CSRPTPAPERTYPEA4;
 
-        const fPageSetup = function() {
+    {
+        private ok: boolean = false;
+        private customHeight: number = null;
+        private customWidth: number = null;
+        private orientation: number = 1;
+        private paperSize: csReportPaperType = csReportPaperType.CSRPTPAPERTYPEA4;
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.initDialog = function(paperSize, customHeight, customWidth, orientation) {
-            m_customHeight = customHeight;
-            m_customWidth = customWidth;
-            m_orientation = orientation;
-            m_paperSize = paperSize;
-        };
+        public initDialog(paperSize: csReportPaperType, customHeight: number, customWidth: number, orientation: number) {
+            this.customHeight = customHeight;
+            this.customWidth = customWidth;
+            this.orientation = orientation;
+            this.paperSize = paperSize;
+        }
 
-        self.setCustomHeight = function(rhs) {
-            m_customHeight = rhs;
-        };
+        public setCustomHeight(rhs: number) {
+            this.customHeight = rhs;
+        }
 
-        self.setCustomWidth = function(rhs) {
-            m_customWidth = rhs;
-        };
+        public setCustomWidth(rhs: number) {
+            this.customWidth = rhs;
+        }
 
-        self.setOrientation = function(rhs) {
-            m_orientation = rhs;
-        };
+        public setOrientation(rhs: number) {
+            this.orientation = rhs;
+        }
 
-        self.getPaperSize = function() {
-            return m_paperSize;
-        };
+        public getPaperSize() {
+            return this.paperSize;
+        }
 
-        self.getCustomHeight = function() {
-            return m_customHeight;
-        };
+        public getCustomHeight() {
+            return this.customHeight;
+        }
 
-        self.getCustomWidth = function() {
-            return m_customWidth;
-        };
+        public getCustomWidth() {
+            return this.customWidth;
+        }
 
-        self.getOrientation = function() {
-            return m_orientation;
-        };
+        public getOrientation() {
+            return this.orientation;
+        }
 
-        self.getOk = function() {
-            return m_ok;
-        };
+        public getOk() {
+            return this.ok;
+        }
 
-        const op_portrait_CheckedChanged = function(sender, e) {
+        private op_portrait_CheckedChanged(sender: object, e: EventArgs) {
             pic_landscape.Visible = false;
             pic_portrait.Visible = true;
-        };
+        }
 
-        const op_landscape_CheckedChanged = function(sender, e) {
+        private op_landscape_CheckedChanged(sender: object, e: EventArgs) {
             pic_portrait.Visible = false;
             pic_landscape.Visible = true;
-        };
+        }
 
-        const cmd_cancel_Click = function(sender, e) {
-            m_ok = false;
+        private cmd_cancel_Click(sender: object, e: EventArgs) {
+            this.ok = false;
             this.Hide();
-        };
+        }
 
-        const cmd_apply_Click = function(sender, e) {
-            m_ok = true;
-            m_customHeight = cUtil.val(tx_height.Text);
-            m_customWidth = cUtil.val(tx_width.Text);
-            m_paperSize = cUtil.listID(cb_paperSize);
-            m_orientation = op_landscape.Checked ? (int)csRptPageOrientation.LANDSCAPE : (int)csRptPageOrientation.PORTRAIT;
+        private cmd_apply_Click(sender: object, e: EventArgs) {
+            this.ok = true;
+            this.customHeight = cUtil.val(tx_height.Text);
+            this.customWidth = cUtil.val(tx_width.Text);
+            this.paperSize = cUtil.listID(cb_paperSize);
+            this.orientation = op_landscape.Checked ? (int)csRptPageOrientation.LANDSCAPE : (int)csRptPageOrientation.PORTRAIT;
             this.Hide();
-        };
+        }
 
-        const fPageSetup_Load = function(sender, e) {
+        private fPageSetup_Load(sender: object, e: EventArgs) {
             cUtil.listAdd(cb_paperSize, "Letter", (int)csReportPaperType.CSRPTPAPERTYPELETTER);
             cUtil.listAdd(cb_paperSize, "A4", (int)csReportPaperType.CSRPTPAPERTYPEA4);
             cUtil.listAdd(cb_paperSize, "Legal", (int)csReportPaperType.CSRPTPAPERTYPELEGAL);
             cUtil.listAdd(cb_paperSize, "A3", (int)csReportPaperType.CSRPTPAPERTYPEA3);
             cUtil.listAdd(cb_paperSize, "User", (int)csReportPaperType.CSRPTPAPERUSER);
-            cUtil.listSetListIndexForId(cb_paperSize, (int)m_paperSize);
-            tx_height.Text = m_customHeight.ToString();
-            tx_width.Text = m_customWidth.ToString();
-            if (m_orientation === csRptPageOrientation.LANDSCAPE) {
+            cUtil.listSetListIndexForId(cb_paperSize, (int)this.paperSize);
+            tx_height.Text = this.customHeight.ToString();
+            tx_width.Text = this.customWidth.ToString();
+            if (this.orientation === csRptPageOrientation.LANDSCAPE) {
                 op_landscape.Checked = true;
             }
             else {
                 op_portrait.Checked = true;
             }
             cWindow.centerForm(this);
-        };
+        }
 
-        const cb_paperSize_SelectedIndexChanged = function(sender, e) {
+        private cb_paperSize_SelectedIndexChanged(sender: object, e: EventArgs) {
             let enabled: var = cUtil.listID(cb_paperSize) === csReportPaperType.CSRPTPAPERUSER;
             tx_height.Enabled = enabled;
             tx_width.Enabled = enabled;
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfPageSetup {
-
-    initDialog: (csReportPaperType, int, int, int) => void;
-    setCustomHeight: (int) => void;
-    setCustomWidth: (int) => void;
-    setOrientation: (int) => void;
-    getPaperSize: () => csReportPaperType;
-    getCustomHeight: () => int;
-    getCustomWidth: () => int;
-    getOrientation: () => int;
-    getOk: () => bool;
-  }
 }

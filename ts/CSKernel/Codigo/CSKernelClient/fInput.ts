@@ -1,65 +1,52 @@
-(function(globalObject) {
 
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
-    globalObject.CSKernelClient.createFInput = function() {
+namespace CSKernelClient
+{
+    export class fInput {
 
-        // @ts-ignore
-        let self: CSKernelClient.IfInput = {};
-        let m_ok: boolean = false;
 
-        const fInput = function() {
+    {
+        private ok: boolean = false;
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.getOk = function() {
-            return m_ok;
-        };
+        public getOk() {
+            return this.ok;
+        }
 
-        self.setTitle = function(title) {
+        public setTitle(title: string) {
             lb_title.Text = title;
-        };
+        }
 
-        self.setDescrip = function(descrip) {
+        public setDescrip(descrip: string) {
             lb_descrip.Text = descrip;
-        };
+        }
 
-        self.setText = function(text) {
+        public setText(text: string) {
             tx_server.Text = text;
-        };
+        }
 
-        self.getText = function() {
+        public getText() {
             return tx_server.Text;
-        };
+        }
 
-        const cmd_apply_Click = function(sender, e) {
-            m_ok = true;
+        private cmd_apply_Click(sender: object, e: EventArgs) {
+            this.ok = true;
             this.Close();
-        };
+        }
 
-        const cmd_cancel_Click = function(sender, e) {
-            m_ok = false;
+        private cmd_cancel_Click(sender: object, e: EventArgs) {
+            this.ok = false;
             this.Close();
-        };
+        }
 
-        const fInput_Load = function(sender, e) {
+        private fInput_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
-        };
+        }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelClient {
-
-  export interface IfInput {
-
-    getOk: () => bool;
-    setTitle: (string) => void;
-    setDescrip: (string) => void;
-    setText: (string) => void;
-    getText: () => string;
-  }
 }

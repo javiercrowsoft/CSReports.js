@@ -1,50 +1,50 @@
-(function(globalObject) {
 
-    globalObject.CSConnect = globalObject.CSConnect || {};
 
-    globalObject.CSConnect.createFParameters = function() {
+namespace CSConnect
+{
+    export class fParameters {
 
-        // @ts-ignore
-        let self: CSConnect.IfParameters = {};
-        let m_ok: boolean = false;
-        let m_texts: TextBox[] = null;
 
-        let m_parameters: cParameters = null;
+    {
+        private ok: boolean = false;
+        private texts: TextBox[] = null;
 
-        const fParameters = function() {
+        private parameters: cParameters = null;
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.getOk = function() {
-            return m_ok;
-        };
+        public getOk() {
+            return this.ok;
+        }
 
-        const cmd_apply_Click = function(sender, e) {
-            m_ok = true;
+        private cmd_apply_Click(sender: object, e: EventArgs) {
+            this.ok = true;
             this.Hide();
-        };
+        }
 
-        const cmd_cancel_Click = function(sender, e) {
-            m_ok = false;
+        private cmd_cancel_Click(sender: object, e: EventArgs) {
+            this.ok = false;
             this.Hide();
-        };
+        }
 
-        const fParameters_Load = function(sender, e) {
+        private fParameters_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
             loadParameters();
-        };
+        }
 
-        self.setParameters = function(value) {
-            m_parameters = value;
-        };
+        public setParameters(value: cParameters) {
+            this.parameters = value;
+        }
 
-        self.getSqlParameters = function() {
+        public getSqlParameters() {
             let parameters: var = "";
 
-            for(var i = 0; i < m_parameters.count(); i++) {
-                let input: var = m_texts[i];
+            for(var i = 0; i < this.parameters.count(); i++) {
+                let input: var = this.texts[i];
 
-                m_parameters.item(i).setValue(input.Text);
+                this.parameters.item(i).setValue(input.Text);
 
                 let value: var = "";
                 switch(input.Tag.ToString())
@@ -67,24 +67,24 @@
             }
 
             return parameters;
-        };
+        }
 
-        const loadParameters = function() {
+        private loadParameters() {
             let top: number = 20;
 
-            m_texts = UNKNOWN >>  can't find constructor for class TextBox[m_parameters.count()];
+            this.texts = new TextBox[this.parameters.count()];
 
-            for(var j = 0; j < m_parameters.count(); j++)  {
-                let parameter: cParameter = m_parameters.getByPosition(j+1);
+            for(var j = 0; j < this.parameters.count(); j++)  {
+                let parameter: cParameter = this.parameters.getByPosition(j+1);
 
                 let label: System.Windows.Forms.Label = new System.Windows.Forms.Label();
                 label.AutoSize = true;
-                label.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(30, top);
+                label.Location = new System.Drawing.Point(30, top);
                 label.Text = parameter.getName();
 
                 let input: System.Windows.Forms.TextBox = new System.Windows.Forms.TextBox();
-                input.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(150, top);
-                input.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(150, 20);
+                input.Location = new System.Drawing.Point(150, top);
+                input.Size = new System.Drawing.Size(150, 20);
                 input.Text = parameter.getValue();
                 input.Tag = parameter.getKey();
 
@@ -115,27 +115,16 @@
                         break;
                 }
 
-                m_texts[j] = input;
+                this.texts[j] = input;
 
                 pnlParameters.Controls.Add(label);
                 pnlParameters.Controls.Add(input);
 
                 top += 30;
             }
-        }; 
+        } 
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSConnect {
-
-  export interface IfParameters {
-
-    getOk: () => bool;
-    setParameters: (cParameters) => void;
-    getSqlParameters: () => string;
-  }
 }

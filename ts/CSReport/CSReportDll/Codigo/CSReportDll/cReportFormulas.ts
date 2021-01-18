@@ -1,23 +1,23 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportFormulas = function() {
+namespace CSReportDll
+{
+    export class cReportFormulas {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportFormulas = {};
+
+    {
 
         // Creates an empty collection.
-        const cReportFormulas = function() {
-        };
+        public constructor() {
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cReportFormulas = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -79,41 +79,41 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.Remove = function(key) {
+        public Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.Remove = function(index) {
+        public Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.Clear = function() {
+        public Clear() {
             this.BaseClear();
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.remove = function(key) {
+        public remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.remove = function(index) {
+        public remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.clear = function() {
+        public clear() {
             this.BaseClear();
-        };
+        }
 
-        self.add = function(name) {
+        public add(name: string) {
             try {
                 let c: cReportFormula = new cReportFormula();
                 c.setName(name);
@@ -123,64 +123,44 @@ UNKNOWN >>             get
             catch (ex) {
                 return null;
             }
-        };
+        }
 
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
                 return this.BaseGet(key);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
                 return this.BaseGet(index);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.add2 = function(formula, name) {
+        public add2(formula: cReportFormula, name: string) {
             try {
                 Add(name, formula);
                 formula.setNotSave(true);
             }
             catch (ex) {
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportFormulas {
-
-    Add: (String, Object) => void;
-    Remove: (String) => void;
-    Remove: (int) => void;
-    Clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    clear: () => void;
-    add: (String) => cReportFormula;
-    count: () => int;
-    item: (String) => cReportFormula;
-    item: (int) => cReportFormula;
-    add2: (cReportFormula, String) => void;
-  }
 }

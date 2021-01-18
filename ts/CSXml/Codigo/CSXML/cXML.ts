@@ -1,63 +1,63 @@
-(function(globalObject) {
-
-    globalObject.CSXml = globalObject.CSXml || {};
 
 
-    globalObject.CSXml.createCXml = function() {
+namespace CSXml
+{
 
-        // @ts-ignore
-        let self: CSXml.IcXml = {};
+    export class cXml {
 
-        const C_MODULE: string = "cXml";
 
-        let m_name: string = "";
-        let m_path: string = "";
-        let m_domDoc: XmlDocument = new XmlDocument();
-        let m_commDialog: object = null;
-        let m_filter: string = "";
+    {
 
-        self.getName = function() {
-            return m_name;
-        };
+        private C_MODULE: string = "cXml";
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        private name: string = "";
+        private path: string = "";
+        private domDoc: XmlDocument = new XmlDocument();
+        private commDialog: object = null;
+        private filter: string = "";
 
-        self.getPath = function() {
+        public getName() {
+            return this.name;
+        }
+
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
+
+        public getPath() {
             let _rtn: string = "";
-            if (m_path.Substring(m_path.Length - 1) === Path.DirectorySeparatorChar.ToString()) {
-                _rtn = m_path;
+            if (this.path.Substring(this.path.Length - 1) === Path.DirectorySeparatorChar.ToString()) {
+                _rtn = this.path;
             }
             else {
-                _rtn = m_path + Path.DirectorySeparatorChar;
+                _rtn = this.path + Path.DirectorySeparatorChar;
             }
             return _rtn;
-        };
+        }
 
-        self.setPath = function(rhs) {
-            m_path = rhs;
-        };
+        public setPath(rhs: string) {
+            this.path = rhs;
+        }
 
-        self.getFilter = function() {
-            return m_filter;
-        };
+        public getFilter() {
+            return this.filter;
+        }
 
-        self.setFilter = function(rhs) {
-            m_filter = rhs;
-        };
+        public setFilter(rhs: string) {
+            this.filter = rhs;
+        }
 
-        self.init = function(commDialog) {
-            m_commDialog = commDialog;
-        };
+        public init(commDialog: object) {
+            this.commDialog = commDialog;
+        }
 
-        self.openXmlWithDialog = function() {
+        public openXmlWithDialog() {
             try {
                 let file: CSKernelFile.cFile = new CSKernelFile.cFile();
-                file.setFilter(m_filter);
-                file.init("OpenXmlWithDialog", C_MODULE, m_commDialog);
+                file.setFilter(this.filter);
+                file.init("OpenXmlWithDialog", C_MODULE, this.commDialog);
 
-                if (!file.open(m_name,
+                if (!file.open(this.name,
                                 eFileMode.eRead, 
                                 false, 
                                 false, 
@@ -67,8 +67,8 @@
                     return false; 
                 }
 
-                m_name = file.getName();
-                m_path = file.getPath();
+                this.name = file.getName();
+                this.path = file.getPath();
 
                 file.close();
 
@@ -78,16 +78,16 @@
 
             }
             catch (ex) {
-                cError.mngError(ex, "OpenXmlWithDialog", C_MODULE, "There was an error trying to open file: " + m_name);
+                cError.mngError(ex, "OpenXmlWithDialog", C_MODULE, "There was an error trying to open file: " + this.name);
                 return false;
             }
-        };
+        }
 
-        self.openXml = function() {
+        public openXml() {
             try {
                 let file: string = "";
-                m_domDoc = UNKNOWN >>  can't find constructor for class XmlDocument();
-                file = getPath() + m_name;
+                this.domDoc = new XmlDocument();
+                file = getPath() + this.name;
 
                 let fileEx: CSKernelFile.cFileEx = new CSKernelFile.cFileEx();
                 if (fileEx.fileExists(file)) {
@@ -103,23 +103,23 @@
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "OpenXml", C_MODULE, "There was an error trying to open the file: " + m_name);
+                cError.mngError(ex, "OpenXml", C_MODULE, "There was an error trying to open the file: " + this.name);
                 return false;
             }
-        };
+        }
 
-        self.newXmlWithDialog = function() {
+        public newXmlWithDialog() {
             try {
                 let msg: string = "";
                 let file: CSKernelFile.cFile = new CSKernelFile.cFile();
 
-                file.init("NewXmlWithDialog", C_MODULE, m_commDialog);
-                file.setFilter(m_filter);
+                file.init("NewXmlWithDialog", C_MODULE, this.commDialog);
+                file.setFilter(this.filter);
 
                 let bExists: boolean = false;
                 let bReadonly: boolean = false;
 
-                if (!file.save(m_name, bExists, bReadonly, ""))  {
+                if (!file.save(this.name, bExists, bReadonly, ""))  {
                     return false; 
                 }
 
@@ -127,7 +127,7 @@
                     msg = "There is already a file with this name and it is read only. Do you want to replace this file?";
                 }
                 else if (bExists) {
-                    if (m_name !== file.getName()) {
+                    if (this.name !== file.getName()) {
                         msg = "There is already a file with this name. Do you want to replace this file?";
                     }
                 }
@@ -138,150 +138,150 @@
                     }
                 }
 
-                m_name = file.getName();
-                m_path = file.getPath();
+                this.name = file.getName();
+                this.path = file.getPath();
 
                 file = null;
 
                 return newXml();
             }
             catch (ex) {
-                cError.mngError(ex, "NewXmlWithDialog", C_MODULE, "There was an error trying to create the file: " + m_name);
+                cError.mngError(ex, "NewXmlWithDialog", C_MODULE, "There was an error trying to create the file: " + this.name);
                 return false;
             }
-        };
+        }
 
-        self.newXml = function() {
+        public newXml() {
             try {
-                m_domDoc = UNKNOWN >>  can't find constructor for class XmlDocument();
-                let node: XmlNode = m_domDoc.CreateNode(XmlNodeType.Element, "Root", "");
-                m_domDoc.AppendChild(node);
+                this.domDoc = new XmlDocument();
+                let node: XmlNode = this.domDoc.CreateNode(XmlNodeType.Element, "Root", "");
+                this.domDoc.AppendChild(node);
 
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "NewXml", C_MODULE, "There was an error trying to create the file: " + m_name);
+                cError.mngError(ex, "NewXml", C_MODULE, "There was an error trying to create the file: " + this.name);
                 return false;
             }
-        };
+        }
 
-        self.saveWithDialog = function() {
+        public saveWithDialog() {
             try {
                 let file: CSKernelFile.cFile = new CSKernelFile.cFile();
 
-                if (!file.open(m_name, eFileMode.eWrite, false, false, eFileAccess.eLockWrite, false, false))  {
+                if (!file.open(this.name, eFileMode.eWrite, false, false, eFileAccess.eLockWrite, false, false))  {
                     return false; 
                 }
 
-                m_name = file.getName();
-                m_path = file.getPath();
+                this.name = file.getName();
+                this.path = file.getPath();
 
                 file = null;
 
                 return save();
             }
             catch (ex) {
-                cError.mngError(ex, "SaveWithDialog", C_MODULE, "There was an error trying to save the file: " + m_name);
+                cError.mngError(ex, "SaveWithDialog", C_MODULE, "There was an error trying to save the file: " + this.name);
                 return false;
             }            
-        };
+        }
 
-        self.setNodeText = function(node, text) {
+        public setNodeText(node: XmlNode, text: string) {
             node.Value = text;
-        };
+        }
 
-        self.save = function() {
+        public save() {
             try {
-                m_domDoc.Save(getPath() + m_name);
+                this.domDoc.Save(getPath() + this.name);
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "Save", C_MODULE, "There was an error trying to save the file: " + m_name);
+                cError.mngError(ex, "Save", C_MODULE, "There was an error trying to save the file: " + this.name);
                 return false;
             }
-        };
+        }
 
-        self.addProperty = function(xProperty) {
+        public addProperty(xProperty: cXmlProperty) {
             return addPropertyToNodeByTag("Root", xProperty);
-        };
+        }
 
-        self.addPropertyToNodeByTag = function(nodeTag, xProperty) {
-            let w_element: XmlNodeList = m_domDoc.GetElementsByTagName(nodeTag);
+        public addPropertyToNodeByTag(nodeTag: string, xProperty: cXmlProperty) {
+            let w_element: XmlNodeList = this.domDoc.GetElementsByTagName(nodeTag);
             return addPropertyToNode(w_element.Item(0), xProperty);
-        };
+        }
 
-        self.addPropertyToNode = function(node, xProperty) {
-            let attr: XmlAttribute = m_domDoc.CreateAttribute(xProperty.getName());
+        public addPropertyToNode(node: XmlNode, xProperty: cXmlProperty) {
+            let attr: XmlAttribute = this.domDoc.CreateAttribute(xProperty.getName());
             attr.Value = xProperty.getValueString(eTypes.eVariant);
             node.Attributes.Append(attr);
             return true;
-        };
+        }
 
-        self.addBinaryPropertyToNode = function(node, xProperty) {
-            let attr: XmlAttribute = m_domDoc.CreateAttribute(xProperty.getName());
+        public addBinaryPropertyToNode(node: XmlNode, xProperty: cXmlProperty) {
+            let attr: XmlAttribute = this.domDoc.CreateAttribute(xProperty.getName());
             attr.Value = Convert.ToBase64String(xProperty.getBinaryValue());
             node.Attributes.Append(attr);
             return true;
-        };
+        }
 
-        self.addNode = function(xProperty) {
+        public addNode(xProperty: cXmlProperty) {
             return addNodeToNodeByTag("Root", xProperty);
-        };
+        }
 
-        self.addNodeToNodeByTag = function(nodeTag, xProperty) {
-            let w_element: XmlNodeList = m_domDoc.GetElementsByTagName(nodeTag);
+        public addNodeToNodeByTag(nodeTag: string, xProperty: cXmlProperty) {
+            let w_element: XmlNodeList = this.domDoc.GetElementsByTagName(nodeTag);
             return addNodeToNode(w_element[0], xProperty);
-        };
+        }
 
-        self.addNodeToNode = function(nodeFather, xProperty) {
-            let node: XmlNode = m_domDoc.CreateNode(XmlNodeType.Element, xProperty.getName(), "");
+        public addNodeToNode(nodeFather: XmlNode, xProperty: cXmlProperty) {
+            let node: XmlNode = this.domDoc.CreateNode(XmlNodeType.Element, xProperty.getName(), "");
             nodeFather.AppendChild(node);
             return node;
-        };
+        }
 
-        self.getRootNode = function() {
-            if (m_domDoc.GetElementsByTagName("Root").Count > 0) {
-                return m_domDoc.GetElementsByTagName("Root")[0];
+        public getRootNode() {
+            if (this.domDoc.GetElementsByTagName("Root").Count > 0) {
+                return this.domDoc.GetElementsByTagName("Root")[0];
             }
             else {
                 return null;
             }
-        };
+        }
 
-        self.getNode = function(nodeTag) {
-            if (m_domDoc.GetElementsByTagName(nodeTag).Count > 0) {
-                return m_domDoc.GetElementsByTagName(nodeTag)[0];
+        public getNode(nodeTag: string) {
+            if (this.domDoc.GetElementsByTagName(nodeTag).Count > 0) {
+                return this.domDoc.GetElementsByTagName(nodeTag)[0];
             }
             else {
                 return null;
             }
-        };
+        }
 
-        self.getNodeFromNode = function(node, nodeTag) {
+        public getNodeFromNode(node: XmlNode, nodeTag: string) {
             return node.SelectSingleNode(nodeTag);
-        };
+        }
 
-        self.getNodeChild = function(node) {
+        public getNodeChild(node: XmlNode) {
             if (nodeHasChild(node)) {
                 return node.ChildNodes[0];
             }
             else {
                 return null;
             }
-        };
+        }
 
-        self.getNextNode = function(node) {
+        public getNextNode(node: XmlNode) {
             return node.NextSibling;
-        };
+        }
 
-        self.getNodeValue = function(node) {
+        public getNodeValue(node: XmlNode) {
             let o: cXmlProperty = null;
-            o = globalObject.CSXml.createCXmlProperty();
+            o = new cXmlProperty();
             o.setValue(eTypes.eText, node.Name);
             return o;
-        };
+        }
 
-        self.getNodeProperty = function(node, propertyName) {
+        public getNodeProperty(node: XmlNode, propertyName: string) {
             let o: cXmlProperty = new cXmlProperty();
             let txt: string = "";
 
@@ -293,9 +293,9 @@
             //txt = txt.Replace("\n", "\\n");
             o.setValue(eTypes.eVariant, txt);
             return o;
-        };
+        }
 
-        self.getBinaryNodeProperty = function(node, propertyName) {
+        public getBinaryNodeProperty(node: XmlNode, propertyName: string) {
             let attr: XmlAttribute = null;
             let o: cXmlProperty = new cXmlProperty();
             let vBuffer: byte[] = null;
@@ -311,15 +311,15 @@
 
             o.setBinaryValue(vBuffer);
             return o;
-        };
+        }
 
-        self.nodeHasChild = function(node) {
+        public nodeHasChild(node: XmlNode) {
             return node.ChildNodes.Count > 0;
-        };
+        }
 
-        const loadXml = function(file) {
+        private loadXml(file: string) {
             try {
-                m_domDoc.Load(file);
+                this.domDoc.Load(file);
                 return true;
             }
             catch (ex) {
@@ -329,52 +329,13 @@
                                     + ex.Message);
                 return false;
             }
-        };
+        }
 
-        self.Dispose = function() {
-            m_domDoc = null;
-            m_commDialog = null;
-        };
-        return self;
+        public Dispose() {
+            this.domDoc = null;
+            this.commDialog = null;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSXml {
-
-  export interface IcXml {
-
-    getName: () => string;
-    setName: (string) => void;
-    getPath: () => string;
-    setPath: (string) => void;
-    getFilter: () => string;
-    setFilter: (string) => void;
-    init: (object) => void;
-    openXmlWithDialog: () => bool;
-    openXml: () => bool;
-    newXmlWithDialog: () => bool;
-    newXml: () => bool;
-    saveWithDialog: () => bool;
-    setNodeText: (XmlNode, string) => void;
-    save: () => bool;
-    addProperty: (cXmlProperty) => bool;
-    addPropertyToNodeByTag: (string, cXmlProperty) => bool;
-    addPropertyToNode: (XmlNode, cXmlProperty) => bool;
-    addBinaryPropertyToNode: (XmlNode, cXmlProperty) => bool;
-    addNode: (cXmlProperty) => XmlNode;
-    addNodeToNodeByTag: (string, cXmlProperty) => XmlNode;
-    addNodeToNode: (XmlNode, cXmlProperty) => XmlNode;
-    getRootNode: () => XmlNode;
-    getNode: (string) => XmlNode;
-    getNodeFromNode: (XmlNode, string) => XmlNode;
-    getNodeChild: (XmlNode) => XmlNode;
-    getNextNode: (XmlNode) => XmlNode;
-    getNodeValue: (XmlNode) => cXmlProperty;
-    getNodeProperty: (XmlNode, string) => cXmlProperty;
-    getBinaryNodeProperty: (XmlNode, string) => cXmlProperty;
-    nodeHasChild: (XmlNode) => bool;
-    Dispose: () => void;
-  }
 }

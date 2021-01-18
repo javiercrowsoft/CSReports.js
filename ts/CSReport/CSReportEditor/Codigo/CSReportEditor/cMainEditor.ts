@@ -1,107 +1,106 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-	globalObject.CSReportEditor.createCMainEditor = function() {
+namespace CSReportEditor
+{
+	export class cMainEditor {
 
-	    // @ts-ignore
-	    let self: CSReportEditor.IcMainEditor = {};
 
-	    const C_MODULE: string = "mPublic";
 
-	    const NOERROR: number = 0;
+	    private C_MODULE: string = "mPublic";
 
-		self.CSNOFECHA: DateTime = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+	    private NOERROR: number = 0;
 
-	    self.C_HEIGHT_BAR_SECTION: number = 120;
-	    self.C_HEIGHT_NEW_SECTION: number = 350;
+		public CSNOFECHA: DateTime = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
 
-	    const C_KEYRECENTLIST: string = "Recent";
+	    public C_HEIGHT_BAR_SECTION: number = 120;
+	    public C_HEIGHT_NEW_SECTION: number = 350;
 
-	    const C_CONFIG: string = "Interfaz";
-	    const C_LEFTBARCOLOR: string = "LeftBarColor";
-	    const C_HIDELEFTBAR: string = "HideLeftBar";
-	    const C_BACKCOLOR: string = "BackColor";
-	    const C_WORKFOLDER: string = "WorkFolder";
+	    private C_KEYRECENTLIST: string = "Recent";
 
-	    self.int: static gNextReport = 0;
-	    let cEditor: static = null;m_editor;
+	    private C_CONFIG: string = "Interfaz";
+	    private C_LEFTBARCOLOR: string = "LeftBarColor";
+	    private C_HIDELEFTBAR: string = "HideLeftBar";
+	    private C_BACKCOLOR: string = "BackColor";
+	    private C_WORKFOLDER: string = "WorkFolder";
 
-        let fToolbox: static m_fToolbox = null;
-        let fControls: static m_fControls = null;
-        let fTreeViewCtrls: static m_fTreeViewCtrls = null;
-        let fSearch: static m_fSearch = null;
+	    public int: static gNextReport = 0;
+	    private cEditor: static = null;this.editor;
 
-		self.int: static gBackColor = 0;
-	    self.int: static gLeftBarColor = 0;
-	    self.bool: static = null;gHideLeftBar;
-	    self.String: static gWorkFolder = "";
-	    self.bool: static = null;gbFirstOpen;
+        private fToolbox: static this.fToolbox = null;
+        private fControls: static this.fControls = null;
+        private fTreeViewCtrls: static this.fTreeViewCtrls = null;
+        private fSearch: static this.fSearch = null;
 
-        let fMain: static = null;fmain;
+		public int: static gBackColor = 0;
+	    public int: static gLeftBarColor = 0;
+	    public bool: static = null;gHideLeftBar;
+	    public String: static gWorkFolder = "";
+	    public bool: static = null;gbFirstOpen;
 
-        self.initEditor = function() {
+        private fMain: static = null;fmain;
+
+        public initEditor() {
 
             cRegionalCfg.init();
 
             if (fmain === null) {
-                fmain = globalObject.CSReportEditor.createFMain();
+                fmain = new fMain();
                 fmain.init();
             }
             return fmain;
-        };
+        }
 
-        self.getEditor = function() {
+        public getEditor() {
             return fmain;
-        };
+        }
 
-	    self.getDocActive = function() {
-	        return m_editor;
-	    };
+	    public getDocActive() {
+	        return this.editor;
+	    }
 
-	    self.setDocActive = function(editor) {
-	        m_editor = editor;
+	    public setDocActive(editor: cEditor) {
+	        this.editor = editor;
 	        setMenu();
             if (editor !== null) {
                 let editorTab: TabPage = editor.getEditorTab();
                 .SelectedTab = editorTab;
 
-                if (m_fToolbox !== null && !m_fToolbox.IsDisposed && m_fToolbox.Visible) {
+                if (this.fToolbox !== null && !this.fToolbox.IsDisposed && this.fToolbox.Visible) {
                     if (getToolbox(editor) !== null) { editor.showToolbox(); }
                 }
-                if (m_fControls !== null && !m_fControls.IsDisposed && m_fControls.Visible) {
+                if (this.fControls !== null && !this.fControls.IsDisposed && this.fControls.Visible) {
                     if (getCtrlBox(editor) !== null) { editor.showControls(); }
                 }
-                if (m_fTreeViewCtrls !== null && !m_fTreeViewCtrls.IsDisposed && m_fTreeViewCtrls.Visible) {
+                if (this.fTreeViewCtrls !== null && !this.fTreeViewCtrls.IsDisposed && this.fTreeViewCtrls.Visible) {
                     if (getCtrlTreeBox(editor) !== null) { editor.showControlsTree(); }
                 }
             }
             else {
-                if (m_fToolbox !== null && !m_fToolbox.IsDisposed && m_fToolbox.Visible) {
-                    m_fToolbox.clear();
+                if (this.fToolbox !== null && !this.fToolbox.IsDisposed && this.fToolbox.Visible) {
+                    this.fToolbox.clear();
                 }
-                if (m_fControls !== null && !m_fControls.IsDisposed && m_fControls.Visible) {
-                    m_fControls.clear();
+                if (this.fControls !== null && !this.fControls.IsDisposed && this.fControls.Visible) {
+                    this.fControls.clear();
                 }
-                if (m_fTreeViewCtrls !== null && !m_fTreeViewCtrls.IsDisposed && m_fTreeViewCtrls.Visible) {
-                    m_fTreeViewCtrls.clear();
+                if (this.fTreeViewCtrls !== null && !this.fTreeViewCtrls.IsDisposed && this.fTreeViewCtrls.Visible) {
+                    this.fTreeViewCtrls.clear();
                 }
             }
             fmain.showControls(editor);
             fmain.showControlsTree(editor);
             fmain.showFields(editor);
-        };
+        }
 
-	    self.setDocInacActive = function(editor) {
-	        if (m_editor !== editor) { return; }
-	        m_editor = null;
+	    public setDocInacActive(editor: cEditor) {
+	        if (this.editor !== editor) { return; }
+	        this.editor = null;
 	        setMenu();
 	        setEditAlignTextState(false);
-	    };
+	    }
 
-	    self.setStatus = function() {
+	    public setStatus() {
 	        try {
-	            if (m_editor === null) {
+	            if (this.editor === null) {
 	                setStatus("");
 	            } 
 	            else {
@@ -111,126 +110,126 @@
 	        } catch (Exception ex) {
 	            cError.mngError(ex, "setStatus", C_MODULE, "");
 	        }
-	    };
+	    }
 
-        self.setStatus = function(status) {
+        public setStatus(status: string) {
 
-        };
+        }
 
-        self.setBarText = function(text) {
+        public setBarText(text: string) {
 
-        };
+        }
 
-        self.setDisconnectedReport = function(isDisconnectedReport) {
+        public setDisconnectedReport(isDisconnectedReport: boolean) {
 
-        };
+        }
 
-        self.setEditAlignTextState = function(status) {
+        public setEditAlignTextState(status: boolean) {
             fmain.setEditAlignTextState(status);
-        };
+        }
 
-        self.setEditAlignCtlState = function(status) {
+        public setEditAlignCtlState(status: boolean) {
             fmain.setEditAlignCtlState(status);
-        };
+        }
 
-        self.setMenuAux = function(enabled) {
+        public setMenuAux(enabled: boolean) {
             fmain.setMenuAux(enabled);
-        };
+        }
 
-        self.addToRecentList = function(fileName) {
+        public addToRecentList(fileName: string) {
             fmain.addToRecentList(fileName);
-        };
+        }
 
-	    self.setEditFontBoldValue = function(bBold) {
+	    public setEditFontBoldValue(bBold: number) {
 			// TODO: implement
-	    };
+	    }
 
-	    const setMenu = function() {
+	    private setMenu() {
 	        try {
 
-                if (m_editor === null || m_editor.getReport() === null) {
+                if (this.editor === null || this.editor.getReport() === null) {
 	                fmain.setMenuAux(false);
 	                fmain.setBarText("");
 	                fmain.setStatus("");
 	            } 
 	            else {
 	                fmain.setMenuAux(true);
-	                fmain.setDisconnectedReport(m_editor.getReport().getReportDisconnected());
-	                fmain.setBarText(m_editor.getReport().getName());
+	                fmain.setDisconnectedReport(this.editor.getReport().getReportDisconnected());
+	                fmain.setBarText(this.editor.getReport().getName());
 	                fmain.setStatus(pGetStatus());
 	            }
 	        } catch (Exception ex) {
 	            cError.mngError(ex, "SetMenu", C_MODULE, "");
 	        }
-	    };
+	    }
 
-        const pGetStatus = function() {
+        private pGetStatus() {
             return "";
-        };
+        }
 
-        self.getSearch = function() {
-            return m_fSearch;
-        };
+        public getSearch() {
+            return this.fSearch;
+        }
 
-        self.getSearch = function(editor) {
-            if (m_fSearch === null || m_fSearch.IsDisposed) {
-                m_fSearch = globalObject.CSReportEditor.createFSearch();
+        public getSearch(editor: cEditor) {
+            if (this.fSearch === null || this.fSearch.IsDisposed) {
+                this.fSearch = new fSearch();
             }
-            m_fSearch.setHandler(editor);
-            return m_fSearch;
-        };
+            this.fSearch.setHandler(editor);
+            return this.fSearch;
+        }
 
-        self.getToolbox = function() {
-            return m_fToolbox;
-        };
+        public getToolbox() {
+            return this.fToolbox;
+        }
 
-        self.getToolbox = function(editor) {
-            if (m_fToolbox === null || m_fToolbox.IsDisposed) {
-                m_fToolbox = globalObject.CSReportEditor.createFToolbox();
+        public getToolbox(editor: cEditor) {
+            if (this.fToolbox === null || this.fToolbox.IsDisposed) {
+                this.fToolbox = new fToolbox();
             }
-            m_fToolbox.setHandler(editor);
-            return m_fToolbox;
-        };
+            this.fToolbox.setHandler(editor);
+            return this.fToolbox;
+        }
 
-        self.getCtrlBox = function() {
-            return m_fControls;
-        };
+        public getCtrlBox() {
+            return this.fControls;
+        }
 
-        self.getCtrlBox = function(editor) {
-            if (m_fControls === null || m_fControls.IsDisposed) {
-                m_fControls = globalObject.CSReportEditor.createFControls();
+        public getCtrlBox(editor: cEditor) {
+            if (this.fControls === null || this.fControls.IsDisposed) {
+                this.fControls = new fControls();
             }
-            m_fControls.setHandler(editor);
-            return m_fControls;
-        };
+            this.fControls.setHandler(editor);
+            return this.fControls;
+        }
 
-        self.getCtrlTreeBox = function() {
-            return m_fTreeViewCtrls;
-        };
+        public getCtrlTreeBox() {
+            return this.fTreeViewCtrls;
+        }
 
-        self.getCtrlTreeBox = function(editor) {
-            if (m_fTreeViewCtrls === null || m_fTreeViewCtrls.IsDisposed) {
-                m_fTreeViewCtrls = globalObject.CSReportEditor.createFTreeViewCtrls();
+        public getCtrlTreeBox(editor: cEditor) {
+            if (this.fTreeViewCtrls === null || this.fTreeViewCtrls.IsDisposed) {
+                this.fTreeViewCtrls = new fTreeViewCtrls();
             }
-            m_fTreeViewCtrls.setHandler(editor);
-            return m_fTreeViewCtrls;
-        };
+            this.fTreeViewCtrls.setHandler(editor);
+            return this.fTreeViewCtrls;
+        }
 
-        self.clearToolbox = function(editor) {
-            if (m_editor === editor) {
-                if (m_fToolbox !== null && !m_fToolbox.IsDisposed && m_fToolbox.Visible) {
-                    m_fToolbox.clear();
+        public clearToolbox(editor: cEditor) {
+            if (this.editor === editor) {
+                if (this.fToolbox !== null && !this.fToolbox.IsDisposed && this.fToolbox.Visible) {
+                    this.fToolbox.clear();
                 }
             }
-        };
+        }
 
-        self.showProperties = function(key) {
-            fmain.showProperties(m_editor, key);            
-        };
-        return self;
+        public showProperties(key: string) {
+            fmain.showProperties(this.editor, key);            
+        }
+
 
     }    }
-        return self;
+
 
 
 UNKNOWN >> 	public enum SpecialFolderIDs {
@@ -255,13 +254,13 @@ UNKNOWN >> 	public enum SpecialFolderIDs {
 	    SFIDPROGRAMS_FILES = 0x26,
 	    SFIDPROGRAMFILES = 0x10000,
 	    SFIDCOMMONFILES = 0x10001
-        return self;
+
 
 	}	}
-        return self;
 
 
-        return self;
+
+
 
 
 UNKNOWN >> 	public enum csEAlignConst {
@@ -276,93 +275,11 @@ UNKNOWN >> 	public enum csEAlignConst {
 	    CSEALIGNCTLBOTTOM,
 	    CSEALIGNCTLWIDTH,
 UNKNOWN >> 	    CSEALIGNCTLHEIGHT
-        return self;
+
 
 	}	}
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportEditor {
-
-  export interface IcMainEditor {
-
-    CSNOFECHA: DateTime;
-    C_HEIGHT_BAR_SECTION: number;
-    C_HEIGHT_NEW_SECTION: number;
-    int: static;
-    int: static;
-    int: static;
-    bool: static;
-    String: static;
-    bool: static;
-    initEditor: () => fMain;
-    getEditor: () => fMain;
-    getDocActive: () => cEditor;
-    setDocActive: (cEditor) => void;
-    setDocInacActive: (cEditor) => void;
-    setStatus: () => void;
-    setStatus: (String) => void;
-    setBarText: (String) => void;
-    setDisconnectedReport: (bool) => void;
-    setEditAlignTextState: (bool) => void;
-    setEditAlignCtlState: (bool) => void;
-    setMenuAux: (bool) => void;
-    addToRecentList: (String) => void;
-    setEditFontBoldValue: (int) => void;
-    getSearch: () => fSearch;
-    getSearch: (cEditor) => fSearch;
-    getToolbox: () => fToolbox;
-    getToolbox: (cEditor) => fToolbox;
-    getCtrlBox: () => fControls;
-    getCtrlBox: (cEditor) => fControls;
-    getCtrlTreeBox: () => fTreeViewCtrls;
-    getCtrlTreeBox: (cEditor) => fTreeViewCtrls;
-    clearToolbox: (cEditor) => void;
-    showProperties: (string) => void;
-  }
 }
-);
 
-
-namespace CSReportEditor {
-
-  export interface IcMainEditor {
-
-    CSNOFECHA: DateTime;
-    C_HEIGHT_BAR_SECTION: number;
-    C_HEIGHT_NEW_SECTION: number;
-    int: static;
-    int: static;
-    int: static;
-    bool: static;
-    String: static;
-    bool: static;
-    initEditor: () => fMain;
-    getEditor: () => fMain;
-    getDocActive: () => cEditor;
-    setDocActive: (cEditor) => void;
-    setDocInacActive: (cEditor) => void;
-    setStatus: () => void;
-    setStatus: (String) => void;
-    setBarText: (String) => void;
-    setDisconnectedReport: (bool) => void;
-    setEditAlignTextState: (bool) => void;
-    setEditAlignCtlState: (bool) => void;
-    setMenuAux: (bool) => void;
-    addToRecentList: (String) => void;
-    setEditFontBoldValue: (int) => void;
-    getSearch: () => fSearch;
-    getSearch: (cEditor) => fSearch;
-    getToolbox: () => fToolbox;
-    getToolbox: (cEditor) => fToolbox;
-    getCtrlBox: () => fControls;
-    getCtrlBox: (cEditor) => fControls;
-    getCtrlTreeBox: () => fTreeViewCtrls;
-    getCtrlTreeBox: (cEditor) => fTreeViewCtrls;
-    clearToolbox: (cEditor) => void;
-    showProperties: (string) => void;
-  }
-}

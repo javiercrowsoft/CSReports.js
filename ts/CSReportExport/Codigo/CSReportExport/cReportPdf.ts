@@ -1,37 +1,25 @@
-(function(globalObject) {
 
-    globalObject.CSReportExport = globalObject.CSReportExport || {};
 
-    globalObject.CSReportExport.createCReportPdf = function() {
+namespace CSReportExport
+{
+    export class cReportPdf {
 
-        // @ts-ignore
-        let self: CSReportExport.IcReportPdf = {};
-        self.setExportEmailAddress = function(emailAddress) {
-        };
 
-        self.sendMail = function(files) {
+    {
+        public setExportEmailAddress(emailAddress: string) {
+        }
+
+        public sendMail(files: string) {
             return false;
-        };
+        }
 
-        self.setFileName = function(fileName) {
-        };
+        public setFileName(fileName: string) {
+        }
 
-        self.exportEx = function(report, caller, outputFile, showPDFWindow) {
+        public exportEx(report: CSReportDll.cReport, caller: object, outputFile: string, showPDFWindow: boolean) {
             return false;
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportExport {
-
-  export interface IcReportPdf {
-
-    setExportEmailAddress: (String) => void;
-    sendMail: (String) => bool;
-    setFileName: (String) => void;
-    exportEx: (CSReportDll.cReport, object, String, bool) => bool;
-  }
 }

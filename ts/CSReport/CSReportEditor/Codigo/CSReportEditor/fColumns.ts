@@ -1,40 +1,40 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFColumns = function() {
+namespace CSReportEditor
+{
+    export class fColumns {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfColumns = {};
 
-        const C_FIELDTYPE: string = "t";
-        const C_INDEX: string = "i";
+    {
 
-        let m_field: string = "";
-        let m_fieldType: number = -1;
-        let m_fieldIndex: number = -1;
+        private C_FIELDTYPE: string = "t";
+        private C_INDEX: string = "i";
 
-        let m_ok: boolean = false;
+        private field: string = "";
+        private fieldType: number = -1;
+        private fieldIndex: number = -1;
 
-        const fColumns = function() {
+        private ok: boolean = false;
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        const cmd_apply_Click = function(sender, e) {
-            m_ok = true;
+        private cmd_apply_Click(sender: object, e: EventArgs) {
+            this.ok = true;
             this.Hide();
-        };
+        }
 
-        const cmd_cancel_Click = function(sender, e) {
-            m_ok = false;
+        private cmd_cancel_Click(sender: object, e: EventArgs) {
+            this.ok = false;
             this.Hide();
-        };
+        }
 
-        self.clearColumns = function() {
+        public clearColumns() {
             lv_columns.Items.Clear();
-        };
+        }
 
-        self.fillColumns = function(dataSource, columns, add) {
+        public fillColumns(dataSource: string, columns: cColumnsInfo, add: boolean) {
             cGlobals.fillColumns(dataSource, columns, lv_columns, C_INDEX, C_FIELDTYPE, add);
             /*
             foreach (cColumnInfo column in columns) 
@@ -46,10 +46,10 @@
                 item.Tag = info;
             }
              */ 
-        };
+        }
 
-        self.setField = function(field) {
-            m_field = field;
+        public setField(field: string) {
+            this.field = field;
             for(var i_ = 0; i_ < lv_columns.Items.length; i_++) {
                 if (item.Text === field)  {
                     item.Selected = true;
@@ -58,53 +58,38 @@
                     break;
                 }
             }
-        };
+        }
 
-        self.getOk = function() {
-            return m_ok;
-        };
+        public getOk() {
+            return this.ok;
+        }
 
-        self.getField = function() {
-            return m_field;
-        };
+        public getField() {
+            return this.field;
+        }
 
-        self.getFieldType = function() {
-            return m_fieldType;
-        };
+        public getFieldType() {
+            return this.fieldType;
+        }
 
-        self.getIndex = function() {
-            return m_fieldIndex;
-        };
+        public getIndex() {
+            return this.fieldIndex;
+        }
 
-        const lv_columns_Click = function(sender, e) {
+        private lv_columns_Click(sender: object, e: EventArgs) {
             if (lv_columns.SelectedItems.Count > 0) {
                 let item: ListViewItem = lv_columns.SelectedItems[0];
-                m_field = item.Text;
+                this.field = item.Text;
                 let info: var = item.Tag.ToString();
-                m_fieldType = cUtil.valAsInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
-                m_fieldIndex = cUtil.valAsInt(cUtil.getInfoString(info, C_INDEX, "-1"));
+                this.fieldType = cUtil.valAsInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
+                this.fieldIndex = cUtil.valAsInt(cUtil.getInfoString(info, C_INDEX, "-1"));
             }
-        };
+        }
 
-        const fColumns_Load = function(sender, e) {
+        private fColumns_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfColumns {
-
-    clearColumns: () => void;
-    fillColumns: (string, cColumnsInfo, bool) => void;
-    setField: (string) => void;
-    getOk: () => bool;
-    getField: () => string;
-    getFieldType: () => int;
-    getIndex: () => int;
-  }
 }

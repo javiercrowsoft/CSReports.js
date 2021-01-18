@@ -1,189 +1,161 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCParameter = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcParameter = {};
-        const C_MODULE: string = "cParameter";
+    export class cParameter {
 
-        let m_name: string = "";
-        let m_columnType: csDataType = null;
-        let m_value: string = "";
-        let m_position: number = 0;
-        let m_key: string = "";
-        let m_hasDefault: boolean = null;
-        let m_default: string = "";
-        let m_isNullable: boolean = null;
-        let m_maxLength: number = 0;
 
-        self.getKey = function() {
-            return m_key;
-        };
+    {
+        private C_MODULE: string = "cParameter";
 
-        self.setKey = function(rhs) {
-            m_key = rhs;
-        };
+        private name: string = "";
+        private columnType: csDataType = null;
+        private value: string = "";
+        private position: number = 0;
+        private key: string = "";
+        private hasDefault: boolean = null;
+        private default: string = "";
+        private isNullable: boolean = null;
+        private maxLength: number = 0;
 
-        self.getName = function() {
-            return m_name;
-        };
+        public getKey() {
+            return this.key;
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public setKey(rhs: string) {
+            this.key = rhs;
+        }
 
-        self.getColumnType = function() {
-            return m_columnType;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.setColumnType = function(rhs) {
-            m_columnType = rhs;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.getValue = function() {
-            return m_value;
-        };
+        public getColumnType() {
+            return this.columnType;
+        }
 
-        self.setValue = function(rhs) {
-            m_value = rhs;
-        };
+        public setColumnType(rhs: csDataType) {
+            this.columnType = rhs;
+        }
 
-        self.getPosition = function() {
-            return m_position;
-        };
+        public getValue() {
+            return this.value;
+        }
 
-        self.setPosition = function(rhs) {
-            m_position = rhs;
-        };
+        public setValue(rhs: string) {
+            this.value = rhs;
+        }
 
-        self.getHasDefault = function() {
-            return m_hasDefault;
-        };
+        public getPosition() {
+            return this.position;
+        }
 
-        self.setHasDefault = function(rhs) {
-            m_hasDefault = rhs;
-        };
+        public setPosition(rhs: number) {
+            this.position = rhs;
+        }
 
-        self.getDefaultValue = function() {
-            return m_default;
-        };
+        public getHasDefault() {
+            return this.hasDefault;
+        }
 
-        self.setDefaultValue = function(rhs) {
-            m_default = rhs;
-        };
+        public setHasDefault(rhs: boolean) {
+            this.hasDefault = rhs;
+        }
 
-        self.getIsNullable = function() {
-            return m_isNullable;
-        };
+        public getDefaultValue() {
+            return this.default;
+        }
 
-        self.setIsNullable = function(rhs) {
-            m_isNullable = rhs;
-        };
+        public setDefaultValue(rhs: string) {
+            this.default = rhs;
+        }
 
-        self.getMaxLength = function() {
-            return m_maxLength;
-        };
+        public getIsNullable() {
+            return this.isNullable;
+        }
 
-        self.setMaxLength = function(rhs) {
-            m_maxLength = rhs;
-        };
+        public setIsNullable(rhs: boolean) {
+            this.isNullable = rhs;
+        }
 
-        self.load = function(xDoc, nodeObj) {
-            m_columnType = cDatabaseGlobals.getDataTypeFromAdo(xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger));
-            m_value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
-            m_position = xDoc.getNodeProperty(nodeObj, "Position").getValueInt(eTypes.eInteger);
-            m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
-            m_maxLength = xDoc.getNodeProperty(nodeObj, "MaxLength").getValueInt(eTypes.eInteger);
-            m_key = xDoc.getNodeProperty(nodeObj, "Key").getValueString(eTypes.eText);
-            m_isNullable = xDoc.getNodeProperty(nodeObj, "IsNullable").getValueBool(eTypes.eBoolean);
-            m_hasDefault = xDoc.getNodeProperty(nodeObj, "HasDefault").getValueBool(eTypes.eBoolean);
-            m_default = xDoc.getNodeProperty(nodeObj, "Default").getValueString(eTypes.eText);
+        public getMaxLength() {
+            return this.maxLength;
+        }
+
+        public setMaxLength(rhs: number) {
+            this.maxLength = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
+            this.columnType = cDatabaseGlobals.getDataTypeFromAdo(xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger));
+            this.value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
+            this.position = xDoc.getNodeProperty(nodeObj, "Position").getValueInt(eTypes.eInteger);
+            this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
+            this.maxLength = xDoc.getNodeProperty(nodeObj, "MaxLength").getValueInt(eTypes.eInteger);
+            this.key = xDoc.getNodeProperty(nodeObj, "Key").getValueString(eTypes.eText);
+            this.isNullable = xDoc.getNodeProperty(nodeObj, "IsNullable").getValueBool(eTypes.eBoolean);
+            this.hasDefault = xDoc.getNodeProperty(nodeObj, "HasDefault").getValueBool(eTypes.eBoolean);
+            this.default = xDoc.getNodeProperty(nodeObj, "Default").getValueString(eTypes.eText);
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
-            xProperty.setName(m_key);
+            xProperty.setName(this.key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Key");
-            xProperty.setValue(eTypes.eText, m_key);
+            xProperty.setValue(eTypes.eText, this.key);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Name");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Position");
-            xProperty.setValue(eTypes.eInteger, m_position);
+            xProperty.setValue(eTypes.eInteger, this.position);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("TypeColumn");
-            xProperty.setValue(eTypes.eInteger, cDatabaseGlobals.getAdoTypeFromDataType(m_columnType));
+            xProperty.setValue(eTypes.eInteger, cDatabaseGlobals.getAdoTypeFromDataType(this.columnType));
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Value");
-            xProperty.setValue(eTypes.eText, m_value);
+            xProperty.setValue(eTypes.eText, this.value);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("MaxLength");
-            xProperty.setValue(eTypes.eInteger, m_maxLength);
+            xProperty.setValue(eTypes.eInteger, this.maxLength);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("IsNullable");
-            xProperty.setValue(eTypes.eBoolean, m_isNullable);
+            xProperty.setValue(eTypes.eBoolean, this.isNullable);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("HasDefault");
-            xProperty.setValue(eTypes.eBoolean, m_hasDefault);
+            xProperty.setValue(eTypes.eBoolean, this.hasDefault);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Default");
-            xProperty.setValue(eTypes.eText, m_default);
+            xProperty.setValue(eTypes.eText, this.default);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcParameter {
-
-    getKey: () => String;
-    setKey: (String) => void;
-    getName: () => String;
-    setName: (String) => void;
-    getColumnType: () => csDataType;
-    setColumnType: (csDataType) => void;
-    getValue: () => String;
-    setValue: (String) => void;
-    getPosition: () => int;
-    setPosition: (int) => void;
-    getHasDefault: () => bool;
-    setHasDefault: (bool) => void;
-    getDefaultValue: () => String;
-    setDefaultValue: (String) => void;
-    getIsNullable: () => bool;
-    setIsNullable: (bool) => void;
-    getMaxLength: () => int;
-    setMaxLength: (int) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

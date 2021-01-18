@@ -1,7 +1,7 @@
-(function(globalObject) {
 
-    globalObject.CSReportPreview = globalObject.CSReportPreview || {};
 
+namespace CSReportPreview
+{
 //     public delegate void FirstPage(object sender, EventArgs e);
 //     public delegate void PreviousPage(object sender, EventArgs e);
 //     public delegate void MoveToPage(object sender, PageEventArgs e);
@@ -11,10 +11,10 @@
 //     public delegate void Print(object sender, EventArgs e);
 //     public delegate void ExportToPDF(object sender, EventArgs e);
 
-    globalObject.CSReportPreview.createCReportPreview = function() {
+    export class cReportPreview {
 
-        // @ts-ignore
-        let self: CSReportPreview.IcReportPreview = {};
+
+    {
 //         public event FirstPage FirstPage;
 //         public event PreviousPage PreviousPage;
 //         public event MoveToPage MoveToPage;
@@ -24,61 +24,61 @@
 //         public event Print Print;
 //         public event ExportToPDF ExportToPDF;
 
-        const cReportPreview = function() {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.getBody = function() {
+        public getBody() {
             return pnReport;
-        };
+        }
 
-        self.getGraph = function() {
+        public getGraph() {
             return null;
-        };
+        }
 
-        self.getParent = function() {
+        public getParent() {
             return Parent;
-        };
+        }
 
-        self.setCurrPage = function(page) {
+        public setCurrPage(page: number) {
             tsbPage.Text = .ToString();
-        };
+        }
 
-        self.setPages = function(pages) {
+        public setPages(pages: number) {
             tsbPages.Text = pages.ToString();
-        };
+        }
 
-        const tsbFirstPage_Click = function(sender, e) {
+        private tsbFirstPage_Click(sender: object, e: EventArgs) {
             if (FirstPage !== null) {
                 FirstPage(this, EventArgs.Empty);
             }
-        };
+        }
 
-        const tsbPreviousPage_Click = function(sender, e) {
+        private tsbPreviousPage_Click(sender: object, e: EventArgs) {
             if (PreviousPage !== null) {
                 PreviousPage(this, EventArgs.Empty);
             }
-        };
+        }
 
-        const tsbNextPage_Click = function(sender, e) {
+        private tsbNextPage_Click(sender: object, e: EventArgs) {
             if (NextPage !== null) {
                 NextPage(this, EventArgs.Empty);
             }
-        };
+        }
 
-        const tsbLastPage_Click = function(sender, e) {
+        private tsbLastPage_Click(sender: object, e: EventArgs) {
             if (LastPage !== null) {
                 LastPage(this, EventArgs.Empty);
             }
-        };
+        }
 
-        const tsbExportPDF_Click = function(sender, e) {
+        private tsbExportPDF_Click(sender: object, e: EventArgs) {
             if (ExportToPDF !== null) {
                 ExportToPDF(this, EventArgs.Empty);
             }
-        };
+        }
 
-        const tsbPage_KeyUp = function(sender, e) {
+        private tsbPage_KeyUp(sender: object, e: KeyEventArgs) {
             if (e.KeyCode === Keys.Enter) {
                 let page: var = cUtil.valAsInt(tsbPage.Text);
                 if (page > 0)  {
@@ -87,48 +87,39 @@
                     }
                 }
             }
-        };
+        }
 
-        const tsbPrint_Click = function(sender, e) {
+        private tsbPrint_Click(sender: object, e: EventArgs) {
             if (Print !== null) {
                 Print(this, EventArgs.Empty);
             }
-        };
+        }
 
-        const pnReport_Click = function(sender, e) {
+        private pnReport_Click(sender: object, e: EventArgs) {
             pnEditor.Focus();
-        };
-        return self;
+        }
+
 
     }    }
-        return self;
 
 
-        return self;
 
-    public class PageEventArgs : EventArgs    self.createPageEventArgs = function() {
 
-        // @ts-ignore
-        let self: CSReportPreview.IPageEventArgs = {};
-        let int: readonly m_page = -1;
 
-        const PageEventArgs = function(page) {
-            m_page = page;
-        };
-        self.page: number = null;{ get { return m_page; } };
-        return self;
+    public class PageEventArgs : EventArgs    export class PageEventArgs {
+
+
+    {
+        private int: readonly this.page = -1;
+
+        public constructor(page: number) {
+            this.page = page;
+        }
+        public page: number = null;{ get { return this.page; } };
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportPreview {
-
-  export interface IPageEventArgs {
-
-    page: number;
-  }
 }

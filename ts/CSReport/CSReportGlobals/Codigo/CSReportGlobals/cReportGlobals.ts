@@ -1,23 +1,23 @@
-(function(globalObject) {
 
-    globalObject.CSReportGlobals = globalObject.CSReportGlobals || {};
 
-    globalObject.CSReportGlobals.createCReportGlobals = function() {
+namespace CSReportGlobals
+{
+    export class cReportGlobals {
 
-        // @ts-ignore
-        let self: CSReportGlobals.IcReportGlobals = {};
-        self.C_KEYINDEXCOL: string = "indexcol";
-        self.C_KEYINDEXCOL2: string = "indexcol2";
-        self.C_KEYINDEXGROUP: string = "indexgroup";
 
-        let int: static m_nextKey = 1000;
+    {
+        public C_KEYINDEXCOL: string = "indexcol";
+        public C_KEYINDEXCOL2: string = "indexcol2";
+        public C_KEYINDEXGROUP: string = "indexgroup";
 
-        self.getNextKey = function() {
-            m_nextKey++;
-            return m_nextKey;
-        };
+        private int: static this.nextKey = 1000;
 
-        self.refreshNextKey = function(key) {
+        public getNextKey() {
+            this.nextKey++;
+            return this.nextKey;
+        }
+
+        public refreshNextKey(key: string) {
             let keyNumber: number = 0;
             if (G.isNumeric(key)) {
                 keyNumber = int.Parse(key);
@@ -30,25 +30,25 @@
                 }
             }
 
-            if (m_nextKey < keyNumber) {
-                m_nextKey = keyNumber + 1;
+            if (this.nextKey < keyNumber) {
+                this.nextKey = keyNumber + 1;
             }
-        };
+        }
 
-        self.getKey = function(value) {
+        public getKey(value: string) {
             if (value.Length > 0) {
                 if ("0123456789".Contains(value.Substring(0, 1))) {
                     value = "K" + value;
                 }
             }
             return value;
-        };
+        }
 
-        self.isDbNull = function(val) {
+        public isDbNull(val: object) {
             return val === null;
-        };
+        }
 
-        self.dateValue = function(value) {
+        public dateValue(value: object) {
             if (value === null) {
                 return CSDataBase.cConstants.C_NO_DATE;
             }
@@ -62,14 +62,14 @@ UNKNOWN >>                 DateTime date;
                 }
             }
 
-        };
+        }
 
-        self.isDate = function(date) {
+        public isDate(date: string) {
 UNKNOWN >>             DateTime dummyDate;
             return DateTime.TryParse(date, dummyDate);
-        };
+        }
 
-        self.valVariant = function(var) {
+        public valVariant(var: object) {
             if (var === null) {
                 let typeCode: System.TypeCode = System.Type.GetTypeCode(var.GetType());
                 switch (typeCode)
@@ -98,9 +98,9 @@ UNKNOWN >>             DateTime dummyDate;
             else {
                 return var;
             }
-        };
+        }
 
-        self.format = function(expression, strFormat) {
+        public format(expression: object, strFormat: string) {
             if (expression === null) {
                 return "";
             }
@@ -126,9 +126,9 @@ UNKNOWN >>             DateTime dummyDate;
                     }                    
                 }
             }
-        };
+        }
 
-        self.getRealName = function(name) {
+        public getRealName(name: string) {
             let n: number = name.IndexOf("}.", 1);
             if (n > -1) {
                 n = n + 2;
@@ -137,15 +137,15 @@ UNKNOWN >>             DateTime dummyDate;
                 n = 0;
             }
             return name.Substring(n);
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptControlType UNKNOWN >>     public enum csRptControlType 
     {
@@ -154,13 +154,13 @@ UNKNOWN >>             DateTime dummyDate;
         CSRPTCTIMAGE = 3,
         CSRPTCTDBIMAGE = 4,
         CSRPTCTCHART = 5
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptSectionType UNKNOWN >>     public enum csRptSectionType 
     { 
@@ -178,50 +178,50 @@ UNKNOWN >>             DateTime dummyDate;
 		SECLN_FOOTER = 1002,
 		SECLN_GROUPH = 1003,
 		SECLN_GROUPF = 1004
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptLaunchActionUNKNOWN >>     public enum csRptLaunchAction
     {
         CSRPTLAUNCHPRINTER = 0,
         CSRPTLAUNCHFILE = 1,
         CSRPTLAUNCHPREVIEW = 2
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptWhenEvalUNKNOWN >>     public enum csRptWhenEval
     {
         CSRPTEVALPRE = 0,
         CSRPTEVALPOST = 1
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csDataSourceTypeUNKNOWN >>     public enum csDataSourceType
     {
         CSDTTABLE = 1,
         CDDTPROCEDURE = 2
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptErrorsUNKNOWN >>     public enum csRptErrors
     {
@@ -238,13 +238,13 @@ UNKNOWN >>             DateTime dummyDate;
         CSRPTERRPARAMNOTDEFINED,
         ERROR_IN_SCRIPT,
 UNKNOWN >>         ERROR_WHEN_RUNNING_REPORT
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csReportPaperTypeUNKNOWN >>     public enum csReportPaperType
     {
@@ -254,38 +254,38 @@ UNKNOWN >>         ERROR_WHEN_RUNNING_REPORT
         CSRPTPAPERTYPELEGAL = 5,
         CSRPTPAPERNOTSUPORTED = 0,
         CSRPTPAPERUSER = 99
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptGrpOrderTypeUNKNOWN >>     public enum csRptGrpOrderType
     {
         CSRPTGRPASC = 1,
         CSRPTGRPDESC = 2
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptGrpComparisonTypeUNKNOWN >>     public enum csRptGrpComparisonType
     {
         CSRPTGRPTEXT = 1,
         CSRPTGRPNUMBER = 2,
         CSRPTGRPDATE = 3
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csColors : uintUNKNOWN >>     public enum csColors : uint
     {
@@ -433,13 +433,13 @@ UNKNOWN >>         ERROR_WHEN_RUNNING_REPORT
 
         C_COLOR_BLACK = 0,
         C_COLOR_WHITE = 255
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptFormulaTypeUNKNOWN >>     public enum csRptFormulaType
     {
@@ -477,13 +477,13 @@ UNKNOWN >>         ERROR_WHEN_RUNNING_REPORT
         CSRPTF_IS_IN_RS = 10031,
         CSRPTF_TEXT_REPLACE = 10032,
         CSRPTF_GET_BARCODE = 10033
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptFileFormatUNKNOWN >>     public enum csRptFileFormat
     {
@@ -493,39 +493,39 @@ UNKNOWN >>         ERROR_WHEN_RUNNING_REPORT
         CSRPTEXPORTTXT = 3,
         CSRPTEXPORTTXTTAB = 4,
         CSRPTEXPORTXML = 5
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum HorizontalAlignmentUNKNOWN >>     public enum HorizontalAlignment
     {
         Left = 0,
         Right = 1,
         Center = 2
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csReportBorderTypeUNKNOWN >>     public enum csReportBorderType
     {
         CSRPTBSNONE = 0,
         CSRPTBSFIXED = 1,
         CSRPTBS3D = 2
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptGetLineResultUNKNOWN >>     public enum csRptGetLineResult
     {
@@ -537,44 +537,44 @@ UNKNOWN >>         ERROR_WHEN_RUNNING_REPORT
         CSRPTGLNEWPAGE = 5,
         CSRPTGLVIRTUALH = 6,
         CSRPTGLVIRTUALF = 7,
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
 
-        return self;
+
+
+
 
     public enum csRptNewPageResultUNKNOWN >>     public enum csRptNewPageResult
     {
         CSRPTNPERROR = 1,
         CSRPTNPSUCCESS = 2,
         CSRPTNPEND = 3
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
 
-        return self;
+
+
+
 
     public enum csRptEndPageResultUNKNOWN >>     public enum csRptEndPageResult
     {
         CSRPTEPERROR = csRptNewPageResult.CSRPTNPERROR,
         CSRPTEPSUCCESS = csRptNewPageResult.CSRPTNPSUCCESS
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptChartLineStyleUNKNOWN >>     public enum csRptChartLineStyle
     {
@@ -582,16 +582,16 @@ UNKNOWN >>         ERROR_WHEN_RUNNING_REPORT
         HORIZONTAL,
         NUMBERED,
 UNKNOWN >>         BOTH
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
 
-        return self;
+
+
+
 
     public enum csRptChartPieThicknessUNKNOWN >>     public enum csRptChartPieThickness
     {
@@ -601,16 +601,16 @@ UNKNOWN >>         BOTH
         MEDIUM = 8,
         THICK = 16,
         THICKEST = 32
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
 
-        return self;
+
+
+
 
     public enum csRptChartPieDiameterUNKNOWN >>     public enum csRptChartPieDiameter
     {
@@ -621,16 +621,16 @@ UNKNOWN >>         BOTH
         LARGE = 250,
         LARGER = 350,
         LARGEST = 450
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
 
-        return self;
+
+
+
 
     public enum csRptChartFormatUNKNOWN >>     public enum csRptChartFormat
     {
@@ -638,44 +638,44 @@ UNKNOWN >>         BOTH
         JPEG,
         PNG,
 UNKNOWN >>         BMP
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
 
-        return self;
+
+
+
 
     public enum csRptChartTypeUNKNOWN >>     public enum csRptChartType
     {
         PIE,
 UNKNOWN >>         BAR
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
 
-        return self;
+
+
+
 
     public enum csEZoomUNKNOWN >>     public enum csEZoom
     {
         csEZoomCustom = -1,
         csEZoomAllPage = -2,
         csEZoomWidth = -3
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
 	public enum csEAlignConstUNKNOWN >> 	public enum csEAlignConst
     {
@@ -692,13 +692,13 @@ UNKNOWN >>         BAR
 
         csEAlignCtlWidth,
 UNKNOWN >>         csEAlignCtlHeight
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
 	public enum csECtlAlignConstUNKNOWN >> 	public enum csECtlAlignConst
     {
@@ -710,42 +710,22 @@ UNKNOWN >>         csEAlignCtlHeight
         csECtlAlignBottom = csEAlignConst.csEAlignCtlBottom,
         csECtlAlignWidth = csEAlignConst.csEAlignCtlWidth,
         csECtlAlignHeight = csEAlignConst.csEAlignCtlHeight
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptPageOrientationUNKNOWN >>     public enum csRptPageOrientation
     {
         PORTRAIT = 1,
         LANDSCAPE = 2
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportGlobals {
-
-  export interface IcReportGlobals {
-
-    C_KEYINDEXCOL: string;
-    C_KEYINDEXCOL2: string;
-    C_KEYINDEXGROUP: string;
-    getNextKey: () => int;
-    refreshNextKey: (String) => void;
-    getKey: (String) => String;
-    isDbNull: (object) => bool;
-    dateValue: (object) => DateTime;
-    isDate: (String) => bool;
-    valVariant: (object) => object;
-    format: (object, String) => String;
-    getRealName: (String) => String;
-  }
 }

@@ -1,17 +1,17 @@
-(function(globalObject) {
 
-    globalObject.CSReportBarcode = globalObject.CSReportBarcode || {};
 
-    globalObject.CSReportBarcode.createCReportBarcode = function() {
+namespace CSReportBarcode
+{
+    export class cReportBarcode {
 
-        // @ts-ignore
-        let self: CSReportBarcode.IcReportBarcode = {};
 
-        self.encodeTo128 = function(dataToEncode) {
+    {
+
+        public encodeTo128(dataToEncode: string) {
             return code128b(dataToEncode);
-        };
+        }
 
-        self.code128a = function(dataToEncode) {
+        public code128a(dataToEncode: string) {
             let printableString: string = char.ConvertFromUtf32(203);
             let weightedTotal: number = 103;
             let currentValue: number = 0;
@@ -42,12 +42,12 @@ UNKNOWN >>                 currentValue *= i;
             if (checkDigitValue === 0) c128CheckDigit = char.ConvertFromUtf32(194); {
 
             return printableString + c128CheckDigit + char.ConvertFromUtf32(206);
-        };
+        }
 
-        const isNumeric = function(value) {
+        private isNumeric(value: string) {
             double dummyNumber; {
             return Double.TryParse(value, dummyNumber);
-        };
+        }
 
 UNKNOWN >>         public String code128c(String dataToEncode, int returnType = 0) {
 UNKNOWN >>             int currentValue;

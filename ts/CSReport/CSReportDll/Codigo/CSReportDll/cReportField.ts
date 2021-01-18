@@ -1,92 +1,76 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportField = function() {
+namespace CSReportDll
+{
+    export class cReportField {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportField = {};
 
-        let m_name: string = "";
-        let m_index: number = 0;
-        let m_fieldType: number = 0;
+    {
 
-        self.getName = function() {
-            return m_name;
-        };
+        private name: string = "";
+        private index: number = 0;
+        private fieldType: number = 0;
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.getIndex = function() {
-            return m_index;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.setIndex = function(rhs) {
-            m_index = rhs;
-        };
+        public getIndex() {
+            return this.index;
+        }
 
-        self.getFieldType = function() {
-            return m_fieldType;
-        };
+        public setIndex(rhs: number) {
+            this.index = rhs;
+        }
 
-        self.setFieldType = function(rhs) {
-            m_fieldType = rhs;
-        };
+        public getFieldType() {
+            return this.fieldType;
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public setFieldType(rhs: number) {
+            this.fieldType = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Field");
-            m_index = xDoc.getNodeProperty(nodeObj, "Index").getValueInt(eTypes.eInteger);
-            m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
-            m_fieldType = xDoc.getNodeProperty(nodeObj, "FieldType").getValueInt(eTypes.eInteger);
+            this.index = xDoc.getNodeProperty(nodeObj, "Index").getValueInt(eTypes.eInteger);
+            this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
+            this.fieldType = xDoc.getNodeProperty(nodeObj, "FieldType").getValueInt(eTypes.eInteger);
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Field");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Index");
-            xProperty.setValue(eTypes.eInteger, m_index);
+            xProperty.setValue(eTypes.eInteger, this.index);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Name");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("FieldType");
-            xProperty.setValue(eTypes.eInteger, m_fieldType);
+            xProperty.setValue(eTypes.eInteger, this.fieldType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportField {
-
-    getName: () => String;
-    setName: (String) => void;
-    getIndex: () => int;
-    setIndex: (int) => void;
-    getFieldType: () => int;
-    setFieldType: (int) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

@@ -1,608 +1,608 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFProperties = function() {
+namespace CSReportEditor
+{
+    export class fProperties {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfProperties = {};
-        let m_ok: boolean = null;
-        let m_done: boolean = null;
 
-        let m_index: number = 0;
-        let m_fieldType: number = 0;
+    {
+        private ok: boolean = null;
+        private done: boolean = null;
 
-        let m_formulaHide: string = "";
-        let m_formulaValue: string = "";
+        private index: number = 0;
+        private fieldType: number = 0;
 
-        let m_formulaName: string = "";
+        private formulaHide: string = "";
+        private formulaValue: string = "";
 
-        let m_isAccounting: boolean = null;
+        private formulaName: string = "";
 
-        let m_mouse: cMouseWait = null;
+        private isAccounting: boolean = null;
 
-        const C_LABEL: number = 0;
-        const C_FORMULA: number = 1;
-        const C_FIELD: number = 2;
-        const C_IMAGE: number = 3;
-        const C_CHART: number = 5;
+        private mouse: cMouseWait = null;
 
-        let m_textChanged: boolean = null;
-        let m_tagChanged: boolean = null;
-        let m_fontChanged: boolean = null;
-        let m_foreColorChanged: boolean = null;
-        let m_backColorChanged: boolean = null;
-        let m_formatChanged: boolean = null;
-        let m_leftChanged: boolean = null;
-        let m_topChanged: boolean = null;
-        let m_heightChanged: boolean = null;
-        let m_widthChanged: boolean = null;
-        let m_symbolChanged: boolean = null;
-        let m_transparentChanged: boolean = null;
-        let m_strikeChanged: boolean = null;
-        let m_underlineChanged: boolean = null;
-        let m_wordWrapChanged: boolean = null;
-        let m_italicChanged: boolean = null;
-        let m_boldChanged: boolean = null;
-        let m_alignChanged: boolean = null;
-        let m_fontSizeChanged: boolean = null;
-        let m_canGrowChanged: boolean = null;
-        let m_formulaHideChanged: boolean = null;
-        let m_formulaValueChanged: boolean = null;
-        let m_idxGroupChanged: boolean = null;
-        let m_whenEvalChanged: boolean = null;
-        let m_dbFieldChanged: boolean = null;
-        let m_setFormulaHideChanged: boolean = null;
-        let m_setFormulaValueChanged: boolean = null;
-        let m_pictureChanged: boolean = null;
-        let m_borderTypeChanged: boolean = null;
-        let m_border3DChanged: boolean = null;
-        let m_border3DShadowChanged: boolean = null;
-        let m_borderRoundedChanged: boolean = null;
-        let m_borderWidthChanged: boolean = null;
-        let m_borderColorChanged: boolean = null;
+        private C_LABEL: number = 0;
+        private C_FORMULA: number = 1;
+        private C_FIELD: number = 2;
+        private C_IMAGE: number = 3;
+        private C_CHART: number = 5;
 
-        let m_chartFieldVal1Changed: boolean = null;
-        let m_chartFieldVal2Changed: boolean = null;
-        let m_chartFieldLbl1Changed: boolean = null;
-        let m_chartFieldLbl2Changed: boolean = null;
-        let m_chartSizeChanged: boolean = null;
-        let m_chartThicknessChanged: boolean = null;
-        let m_chartColorSerie1Changed: boolean = null;
-        let m_chartColorSerie2Changed: boolean = null;
-        let m_chartFormatTypeChanged: boolean = null;
-        let m_chartLinesTypeChanged: boolean = null;
-        let m_chartTypeChanged: boolean = null;
-        let m_chartShowLinesChanged: boolean = null;
-        let m_chartShowValuesChanged: boolean = null;
-        let m_chartTopChanged: boolean = null;
-        let m_chartSortChanged: boolean = null;
+        private textChanged: boolean = null;
+        private tagChanged: boolean = null;
+        private fontChanged: boolean = null;
+        private foreColorChanged: boolean = null;
+        private backColorChanged: boolean = null;
+        private formatChanged: boolean = null;
+        private leftChanged: boolean = null;
+        private topChanged: boolean = null;
+        private heightChanged: boolean = null;
+        private widthChanged: boolean = null;
+        private symbolChanged: boolean = null;
+        private transparentChanged: boolean = null;
+        private strikeChanged: boolean = null;
+        private underlineChanged: boolean = null;
+        private wordWrapChanged: boolean = null;
+        private italicChanged: boolean = null;
+        private boldChanged: boolean = null;
+        private alignChanged: boolean = null;
+        private fontSizeChanged: boolean = null;
+        private canGrowChanged: boolean = null;
+        private formulaHideChanged: boolean = null;
+        private formulaValueChanged: boolean = null;
+        private idxGroupChanged: boolean = null;
+        private whenEvalChanged: boolean = null;
+        private dbFieldChanged: boolean = null;
+        private setFormulaHideChanged: boolean = null;
+        private setFormulaValueChanged: boolean = null;
+        private pictureChanged: boolean = null;
+        private borderTypeChanged: boolean = null;
+        private border3DChanged: boolean = null;
+        private border3DShadowChanged: boolean = null;
+        private borderRoundedChanged: boolean = null;
+        private borderWidthChanged: boolean = null;
+        private borderColorChanged: boolean = null;
 
-        let m_chartFieldGroupChanged: boolean = null;
-        let m_chartGroupValueChanged: boolean = null;
+        private chartFieldVal1Changed: boolean = null;
+        private chartFieldVal2Changed: boolean = null;
+        private chartFieldLbl1Changed: boolean = null;
+        private chartFieldLbl2Changed: boolean = null;
+        private chartSizeChanged: boolean = null;
+        private chartThicknessChanged: boolean = null;
+        private chartColorSerie1Changed: boolean = null;
+        private chartColorSerie2Changed: boolean = null;
+        private chartFormatTypeChanged: boolean = null;
+        private chartLinesTypeChanged: boolean = null;
+        private chartTypeChanged: boolean = null;
+        private chartShowLinesChanged: boolean = null;
+        private chartShowValuesChanged: boolean = null;
+        private chartTopChanged: boolean = null;
+        private chartSortChanged: boolean = null;
 
-        let m_isFreeCtrlChanged: boolean = null;
-        let m_exportColIdxChanged: boolean = null;
+        private chartFieldGroupChanged: boolean = null;
+        private chartGroupValueChanged: boolean = null;
 
-        let m_chartIndex: int[] = null;
-        let m_chartFieldType: int[] = null;
+        private isFreeCtrlChanged: boolean = null;
+        private exportColIdxChanged: boolean = null;
 
-        let m_chartGroupIndex: number = 0;
-        let m_chartGroupFieldType: number = 0;
+        private chartIndex: number[] = null;
+        private chartFieldType: number[] = null;
 
-        const fProperties = function() {
+        private chartGroupIndex: number = 0;
+        private chartGroupFieldType: number = 0;
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
         // properties
 
-        self.getPictureChanged = function() {
-            return m_pictureChanged;
-        };
-
-        self.setPictureChanged = function(rhs) {
-            m_pictureChanged = rhs;
-        };
-
-        self.getOk = function() {
-            return m_ok;
-        };
-
-        self.getIndex = function() {
-            return m_index;
-        };
-
-        self.getChartGroupIndex = function() {
-            return m_chartGroupIndex;
-        };
-
-        self.getChartIndex = function(idx) {
-            return m_chartIndex[idx];
-        };
-
-        self.getFieldType = function() {
-            return m_fieldType;
-        };
-
-        self.getChartFieldType = function(idx) {
-            return m_chartFieldType[idx];
-        };
-
-        self.getChartGroupFieldType = function() {
-            return m_chartGroupFieldType;
-        };
-
-        self.setIndex = function(rhs) {
-            m_index = rhs;
-        };
-
-        self.setChartGroupIndex = function(rhs) {
-            m_chartGroupIndex = rhs;
-        };
-
-        self.setChartIndex = function(idx, rhs) {
-            m_chartIndex[idx] = rhs;
-        };
-
-        self.setFieldType = function(rhs) {
-            m_fieldType = rhs;
-        };
-
-        self.setChartGroupFieldType = function(rhs) {
-            m_chartGroupFieldType = rhs;
-        };
-
-        self.setChartFieldType = function(idx, rhs) {
-            m_chartFieldType[idx] = rhs;
-        };
-
-        self.getFormulaHide = function() {
-            return m_formulaHide;
-        };
-
-        self.setFormulaHide = function(rhs) {
-            m_formulaHide = rhs;
-        };
-
-        self.getFormulaValue = function() {
-            return m_formulaValue;
-        };
-
-        self.setFormulaValue = function(rhs) {
-            m_formulaValue = rhs;
-        };
-
-        self.getFormulaName = function() {
-            return m_formulaName;
-        };
-
-        self.setFormulaName = function(rhs) {
-            m_formulaName = rhs;
-        };
-
-        self.getIsAccounting = function() {
-            return m_isAccounting;
-        };
-
-        self.setIsAccounting = function(rhs) {
-            m_isAccounting = rhs;
-        };
-
-        self.getTextChanged = function() {
-            return m_textChanged;
-        };
-
-        self.setTextChanged = function(rhs) {
-            m_textChanged = rhs;
-        };
-
-        self.getTagChanged = function() {
-            return m_tagChanged;
-        };
-
-        self.setTagChanged = function(rhs) {
-            m_tagChanged = rhs;
-        };
-
-        self.getFontChanged = function() {
-            return m_fontChanged;
-        };
-
-        self.setFontChanged = function(rhs) {
-            m_fontChanged = rhs;
-        };
-
-        self.getForeColorChanged = function() {
-            return m_foreColorChanged;
-        };
-
-        self.setForeColorChanged = function(rhs) {
-            m_foreColorChanged = rhs;
-        };
-
-        self.getBackColorChanged = function() {
-            return m_backColorChanged;
-        };
-
-        self.setBackColorChanged = function(rhs) {
-            m_backColorChanged = rhs;
-        };
-
-        self.getFormatChanged = function() {
-            return m_formatChanged;
-        };
-
-        self.setFormatChanged = function(rhs) {
-            m_formatChanged = rhs;
-        };
-
-        self.getLeftChanged = function() {
-            return m_leftChanged;
-        };
-
-        self.setLeftChanged = function(rhs) {
-            m_leftChanged = rhs;
-        };
-
-        self.getTopChanged = function() {
-            return m_topChanged;
-        };
-
-        self.setTopChanged = function(rhs) {
-            m_topChanged = rhs;
-        };
-
-        self.getHeightChanged = function() {
-            return m_heightChanged;
-        };
-
-        self.setHeightChanged = function(rhs) {
-            m_heightChanged = rhs;
-        };
-
-        self.getWidthChanged = function() {
-            return m_widthChanged;
-        };
-
-        self.setWidthChanged = function(rhs) {
-            m_widthChanged = rhs;
-        };
-
-        self.getSymbolChanged = function() {
-            return m_symbolChanged;
-        };
-
-        self.setSymbolChanged = function(rhs) {
-            m_symbolChanged = rhs;
-        };
-
-        self.getTransparentChanged = function() {
-            return m_transparentChanged;
-        };
-
-        self.setTransparentChanged = function(rhs) {
-            m_transparentChanged = rhs;
-        };
-
-        self.getStrikeChanged = function() {
-            return m_strikeChanged;
-        };
-
-        self.setStrikeChanged = function(rhs) {
-            m_strikeChanged = rhs;
-        };
-
-        self.getUnderlineChanged = function() {
-            return m_underlineChanged;
-        };
-
-        self.setUnderlineChanged = function(rhs) {
-            m_underlineChanged = rhs;
-        };
-
-        self.getWordWrapChanged = function() {
-            return m_wordWrapChanged;
-        };
-
-        self.setWordWrapChanged = function(rhs) {
-            m_wordWrapChanged = rhs;
-        };
-
-        self.getItalicChanged = function() {
-            return m_italicChanged;
-        };
-
-        self.setItalicChanged = function(rhs) {
-            m_italicChanged = rhs;
-        };
-
-        self.getBoldChanged = function() {
-            return m_boldChanged;
-        };
-
-        self.setBoldChanged = function(rhs) {
-            m_boldChanged = rhs;
-        };
-
-        self.getAlignChanged = function() {
-            return m_alignChanged;
-        };
-
-        self.setAlignChanged = function(rhs) {
-            m_alignChanged = rhs;
-        };
-
-        self.getFontSizeChanged = function() {
-            return m_fontSizeChanged;
-        };
-
-        self.setFontSizeChanged = function(rhs) {
-            m_fontSizeChanged = rhs;
-        };
-
-        self.getCanGrowChanged = function() {
-            return m_canGrowChanged;
-        };
-
-        self.setCanGrowChanged = function(rhs) {
-            m_canGrowChanged = rhs;
-        };
-
-        self.getFormulaHideChanged = function() {
-            return m_formulaHideChanged;
-        };
-
-        self.setFormulaHideChanged = function(rhs) {
-            m_formulaHideChanged = rhs;
-        };
-
-        self.getFormulaValueChanged = function() {
-            return m_formulaValueChanged;
-        };
-
-        self.setFormulaValueChanged = function(rhs) {
-            m_formulaValueChanged = rhs;
-        };
-
-        self.getWhenEvalChanged = function() {
-            return m_whenEvalChanged;
-        };
-
-        self.setWhenEvalChanged = function(rhs) {
-            m_whenEvalChanged = rhs;
-        };
-
-        self.getIdxGroupChanged = function() {
-            return m_idxGroupChanged;
-        };
-
-        self.setIdxGroupChanged = function(rhs) {
-            m_idxGroupChanged = rhs;
-        };
-
-        self.getDbFieldChanged = function() {
-            return m_dbFieldChanged;
-        };
-
-        self.setDbFieldChanged = function(rhs) {
-            m_dbFieldChanged = rhs;
-        };
-
-        self.getSetFormulaHideChanged = function() {
-            return m_setFormulaHideChanged;
-        };
-
-        self.setSetFormulaHideChanged = function(rhs) {
-            m_setFormulaHideChanged = rhs;
-        };
-
-        self.getSetFormulaValueChanged = function() {
-            return m_setFormulaValueChanged;
-        };
-
-        self.setSetFormulaValueChanged = function(rhs) {
-            m_setFormulaValueChanged = rhs;
-        };
-
-        self.getBorderTypeChanged = function() {
-            return m_borderTypeChanged;
-        };
-
-        self.setBorderTypeChanged = function(rhs) {
-            m_borderTypeChanged = rhs;
-        };
-
-        self.getBorder3DChanged = function() {
-            return m_border3DChanged;
-        };
-
-        self.setBorder3DChanged = function(rhs) {
-            m_border3DChanged = rhs;
-        };
-
-        self.getBorder3DShadowChanged = function() {
-            return m_border3DShadowChanged;
-        };
-
-        self.setBorder3DShadowChanged = function(rhs) {
-            m_border3DShadowChanged = rhs;
-        };
-
-        self.getBorderRoundedChanged = function() {
-            return m_borderRoundedChanged;
-        };
-
-        self.setBorderRoundedChanged = function(rhs) {
-            m_borderRoundedChanged = rhs;
-        };
-
-        self.getBorderWidthChanged = function() {
-            return m_borderWidthChanged;
-        };
-
-        self.setBorderWidthChanged = function(rhs) {
-            m_borderWidthChanged = rhs;
-        };
-
-        self.getBorderColorChanged = function() {
-            return m_borderColorChanged;
-        };
-
-        self.setBorderColorChanged = function(rhs) {
-            m_borderColorChanged = rhs;
-        };
-
-        self.getChartFieldVal1Changed = function() {
-            return m_chartFieldVal1Changed;
-        };
-
-        self.setChartFieldVal1Changed = function(rhs) {
-            m_chartFieldVal1Changed = rhs;
-        };
-
-        self.getChartFieldVal2Changed = function() {
-            return m_chartFieldVal2Changed;
-        };
-
-        self.setChartFieldVal2Changed = function(rhs) {
-            m_chartFieldVal2Changed = rhs;
-        };
-
-        self.getChartFieldLbl1Changed = function() {
-            return m_chartFieldLbl1Changed;
-        };
-
-        self.setChartFieldLbl1Changed = function(rhs) {
-            m_chartFieldLbl1Changed = rhs;
-        };
-
-        self.getChartFieldGroupChanged = function() {
-            return m_chartFieldGroupChanged;
-        };
-
-        self.setChartFieldGroupChanged = function(rhs) {
-            m_chartFieldGroupChanged = rhs;
-        };
-
-        self.getChartGroupValueChanged = function() {
-            return m_chartGroupValueChanged;
-        };
-
-        self.setChartGroupValueChanged = function(rhs) {
-            m_chartGroupValueChanged = rhs;
-        };
-
-        self.getChartFieldLbl2Changed = function() {
-            return m_chartFieldLbl2Changed;
-        };
-
-        self.setChartFieldLbl2Changed = function(rhs) {
-            m_chartFieldLbl2Changed = rhs;
-        };
-
-        self.getChartSizeChanged = function() {
-            return m_chartSizeChanged;
-        };
-
-        self.setChartSizeChanged = function(rhs) {
-            m_chartSizeChanged = rhs;
-        };
-
-        self.getChartThicknessChanged = function() {
-            return m_chartThicknessChanged;
-        };
-
-        self.setChartThicknessChanged = function(rhs) {
-            m_chartThicknessChanged = rhs;
-        };
-
-        self.getChartColorSerie1Changed = function() {
-            return m_chartColorSerie1Changed;
-        };
-
-        self.setChartColorSerie1Changed = function(rhs) {
-            m_chartColorSerie1Changed = rhs;
-        };
-
-        self.getChartColorSerie2Changed = function() {
-            return m_chartColorSerie2Changed;
-        };
-
-        self.setChartColorSerie2Changed = function(rhs) {
-            m_chartColorSerie2Changed = rhs;
-        };
-
-        self.getChartFormatTypeChanged = function() {
-            return m_chartFormatTypeChanged;
-        };
-
-        self.setChartFormatTypeChanged = function(rhs) {
-            m_chartFormatTypeChanged = rhs;
-        };
-
-        self.getChartLinesTypeChanged = function() {
-            return m_chartLinesTypeChanged;
-        };
-
-        self.setChartLinesTypeChanged = function(rhs) {
-            m_chartLinesTypeChanged = rhs;
-        };
-
-        self.getChartTypeChanged = function() {
-            return m_chartTypeChanged;
-        };
-
-        self.setChartTypeChanged = function(rhs) {
-            m_chartTypeChanged = rhs;
-        };
-
-        self.getChartShowLinesChanged = function() {
-            return m_chartShowLinesChanged;
-        };
-
-        self.setChartShowLinesChanged = function(rhs) {
-            m_chartShowLinesChanged = rhs;
-        };
-
-        self.getChartShowValuesChanged = function() {
-            return m_chartShowValuesChanged;
-        };
-
-        self.setChartShowValuesChanged = function(rhs) {
-            m_chartShowValuesChanged = rhs;
-        };
-
-        self.getChartTopChanged = function() {
-            return m_chartTopChanged;
-        };
-
-        self.setChartTopChanged = function(rhs) {
-            m_chartTopChanged = rhs;
-        };
-
-        self.getChartSortChanged = function() {
-            return m_chartSortChanged;
-        };
-
-        self.setChartSortChanged = function(rhs) {
-            m_chartSortChanged = rhs;
-        };
-
-        self.getIsFreeCtrlChanged = function() {
-            return m_isFreeCtrlChanged;
-        };
-
-        self.setIsFreeCtrlChanged = function(rhs) {
-            m_isFreeCtrlChanged = rhs;
-        };
-
-        self.getExportColIdxChanged = function() {
-            return m_exportColIdxChanged;
-        };
-
-        self.setExportColIdxChanged = function(rhs) {
-            m_exportColIdxChanged = rhs;
-        };        
+        public getPictureChanged() {
+            return this.pictureChanged;
+        }
+
+        public setPictureChanged(rhs: boolean) {
+            this.pictureChanged = rhs;
+        }
+
+        public getOk() {
+            return this.ok;
+        }
+
+        public getIndex() {
+            return this.index;
+        }
+
+        public getChartGroupIndex() {
+            return this.chartGroupIndex;
+        }
+
+        public getChartIndex(idx: number) {
+            return this.chartIndex[idx];
+        }
+
+        public getFieldType() {
+            return this.fieldType;
+        }
+
+        public getChartFieldType(idx: number) {
+            return this.chartFieldType[idx];
+        }
+
+        public getChartGroupFieldType() {
+            return this.chartGroupFieldType;
+        }
+
+        public setIndex(rhs: number) {
+            this.index = rhs;
+        }
+
+        public setChartGroupIndex(rhs: number) {
+            this.chartGroupIndex = rhs;
+        }
+
+        public setChartIndex(idx: number, rhs: number) {
+            this.chartIndex[idx] = rhs;
+        }
+
+        public setFieldType(rhs: number) {
+            this.fieldType = rhs;
+        }
+
+        public setChartGroupFieldType(rhs: number) {
+            this.chartGroupFieldType = rhs;
+        }
+
+        public setChartFieldType(idx: number, rhs: number) {
+            this.chartFieldType[idx] = rhs;
+        }
+
+        public getFormulaHide() {
+            return this.formulaHide;
+        }
+
+        public setFormulaHide(rhs: string) {
+            this.formulaHide = rhs;
+        }
+
+        public getFormulaValue() {
+            return this.formulaValue;
+        }
+
+        public setFormulaValue(rhs: string) {
+            this.formulaValue = rhs;
+        }
+
+        public getFormulaName() {
+            return this.formulaName;
+        }
+
+        public setFormulaName(rhs: string) {
+            this.formulaName = rhs;
+        }
+
+        public getIsAccounting() {
+            return this.isAccounting;
+        }
+
+        public setIsAccounting(rhs: boolean) {
+            this.isAccounting = rhs;
+        }
+
+        public getTextChanged() {
+            return this.textChanged;
+        }
+
+        public setTextChanged(rhs: boolean) {
+            this.textChanged = rhs;
+        }
+
+        public getTagChanged() {
+            return this.tagChanged;
+        }
+
+        public setTagChanged(rhs: boolean) {
+            this.tagChanged = rhs;
+        }
+
+        public getFontChanged() {
+            return this.fontChanged;
+        }
+
+        public setFontChanged(rhs: boolean) {
+            this.fontChanged = rhs;
+        }
+
+        public getForeColorChanged() {
+            return this.foreColorChanged;
+        }
+
+        public setForeColorChanged(rhs: boolean) {
+            this.foreColorChanged = rhs;
+        }
+
+        public getBackColorChanged() {
+            return this.backColorChanged;
+        }
+
+        public setBackColorChanged(rhs: boolean) {
+            this.backColorChanged = rhs;
+        }
+
+        public getFormatChanged() {
+            return this.formatChanged;
+        }
+
+        public setFormatChanged(rhs: boolean) {
+            this.formatChanged = rhs;
+        }
+
+        public getLeftChanged() {
+            return this.leftChanged;
+        }
+
+        public setLeftChanged(rhs: boolean) {
+            this.leftChanged = rhs;
+        }
+
+        public getTopChanged() {
+            return this.topChanged;
+        }
+
+        public setTopChanged(rhs: boolean) {
+            this.topChanged = rhs;
+        }
+
+        public getHeightChanged() {
+            return this.heightChanged;
+        }
+
+        public setHeightChanged(rhs: boolean) {
+            this.heightChanged = rhs;
+        }
+
+        public getWidthChanged() {
+            return this.widthChanged;
+        }
+
+        public setWidthChanged(rhs: boolean) {
+            this.widthChanged = rhs;
+        }
+
+        public getSymbolChanged() {
+            return this.symbolChanged;
+        }
+
+        public setSymbolChanged(rhs: boolean) {
+            this.symbolChanged = rhs;
+        }
+
+        public getTransparentChanged() {
+            return this.transparentChanged;
+        }
+
+        public setTransparentChanged(rhs: boolean) {
+            this.transparentChanged = rhs;
+        }
+
+        public getStrikeChanged() {
+            return this.strikeChanged;
+        }
+
+        public setStrikeChanged(rhs: boolean) {
+            this.strikeChanged = rhs;
+        }
+
+        public getUnderlineChanged() {
+            return this.underlineChanged;
+        }
+
+        public setUnderlineChanged(rhs: boolean) {
+            this.underlineChanged = rhs;
+        }
+
+        public getWordWrapChanged() {
+            return this.wordWrapChanged;
+        }
+
+        public setWordWrapChanged(rhs: boolean) {
+            this.wordWrapChanged = rhs;
+        }
+
+        public getItalicChanged() {
+            return this.italicChanged;
+        }
+
+        public setItalicChanged(rhs: boolean) {
+            this.italicChanged = rhs;
+        }
+
+        public getBoldChanged() {
+            return this.boldChanged;
+        }
+
+        public setBoldChanged(rhs: boolean) {
+            this.boldChanged = rhs;
+        }
+
+        public getAlignChanged() {
+            return this.alignChanged;
+        }
+
+        public setAlignChanged(rhs: boolean) {
+            this.alignChanged = rhs;
+        }
+
+        public getFontSizeChanged() {
+            return this.fontSizeChanged;
+        }
+
+        public setFontSizeChanged(rhs: boolean) {
+            this.fontSizeChanged = rhs;
+        }
+
+        public getCanGrowChanged() {
+            return this.canGrowChanged;
+        }
+
+        public setCanGrowChanged(rhs: boolean) {
+            this.canGrowChanged = rhs;
+        }
+
+        public getFormulaHideChanged() {
+            return this.formulaHideChanged;
+        }
+
+        public setFormulaHideChanged(rhs: boolean) {
+            this.formulaHideChanged = rhs;
+        }
+
+        public getFormulaValueChanged() {
+            return this.formulaValueChanged;
+        }
+
+        public setFormulaValueChanged(rhs: boolean) {
+            this.formulaValueChanged = rhs;
+        }
+
+        public getWhenEvalChanged() {
+            return this.whenEvalChanged;
+        }
+
+        public setWhenEvalChanged(rhs: boolean) {
+            this.whenEvalChanged = rhs;
+        }
+
+        public getIdxGroupChanged() {
+            return this.idxGroupChanged;
+        }
+
+        public setIdxGroupChanged(rhs: boolean) {
+            this.idxGroupChanged = rhs;
+        }
+
+        public getDbFieldChanged() {
+            return this.dbFieldChanged;
+        }
+
+        public setDbFieldChanged(rhs: boolean) {
+            this.dbFieldChanged = rhs;
+        }
+
+        public getSetFormulaHideChanged() {
+            return this.setFormulaHideChanged;
+        }
+
+        public setSetFormulaHideChanged(rhs: boolean) {
+            this.setFormulaHideChanged = rhs;
+        }
+
+        public getSetFormulaValueChanged() {
+            return this.setFormulaValueChanged;
+        }
+
+        public setSetFormulaValueChanged(rhs: boolean) {
+            this.setFormulaValueChanged = rhs;
+        }
+
+        public getBorderTypeChanged() {
+            return this.borderTypeChanged;
+        }
+
+        public setBorderTypeChanged(rhs: boolean) {
+            this.borderTypeChanged = rhs;
+        }
+
+        public getBorder3DChanged() {
+            return this.border3DChanged;
+        }
+
+        public setBorder3DChanged(rhs: boolean) {
+            this.border3DChanged = rhs;
+        }
+
+        public getBorder3DShadowChanged() {
+            return this.border3DShadowChanged;
+        }
+
+        public setBorder3DShadowChanged(rhs: boolean) {
+            this.border3DShadowChanged = rhs;
+        }
+
+        public getBorderRoundedChanged() {
+            return this.borderRoundedChanged;
+        }
+
+        public setBorderRoundedChanged(rhs: boolean) {
+            this.borderRoundedChanged = rhs;
+        }
+
+        public getBorderWidthChanged() {
+            return this.borderWidthChanged;
+        }
+
+        public setBorderWidthChanged(rhs: boolean) {
+            this.borderWidthChanged = rhs;
+        }
+
+        public getBorderColorChanged() {
+            return this.borderColorChanged;
+        }
+
+        public setBorderColorChanged(rhs: boolean) {
+            this.borderColorChanged = rhs;
+        }
+
+        public getChartFieldVal1Changed() {
+            return this.chartFieldVal1Changed;
+        }
+
+        public setChartFieldVal1Changed(rhs: boolean) {
+            this.chartFieldVal1Changed = rhs;
+        }
+
+        public getChartFieldVal2Changed() {
+            return this.chartFieldVal2Changed;
+        }
+
+        public setChartFieldVal2Changed(rhs: boolean) {
+            this.chartFieldVal2Changed = rhs;
+        }
+
+        public getChartFieldLbl1Changed() {
+            return this.chartFieldLbl1Changed;
+        }
+
+        public setChartFieldLbl1Changed(rhs: boolean) {
+            this.chartFieldLbl1Changed = rhs;
+        }
+
+        public getChartFieldGroupChanged() {
+            return this.chartFieldGroupChanged;
+        }
+
+        public setChartFieldGroupChanged(rhs: boolean) {
+            this.chartFieldGroupChanged = rhs;
+        }
+
+        public getChartGroupValueChanged() {
+            return this.chartGroupValueChanged;
+        }
+
+        public setChartGroupValueChanged(rhs: boolean) {
+            this.chartGroupValueChanged = rhs;
+        }
+
+        public getChartFieldLbl2Changed() {
+            return this.chartFieldLbl2Changed;
+        }
+
+        public setChartFieldLbl2Changed(rhs: boolean) {
+            this.chartFieldLbl2Changed = rhs;
+        }
+
+        public getChartSizeChanged() {
+            return this.chartSizeChanged;
+        }
+
+        public setChartSizeChanged(rhs: boolean) {
+            this.chartSizeChanged = rhs;
+        }
+
+        public getChartThicknessChanged() {
+            return this.chartThicknessChanged;
+        }
+
+        public setChartThicknessChanged(rhs: boolean) {
+            this.chartThicknessChanged = rhs;
+        }
+
+        public getChartColorSerie1Changed() {
+            return this.chartColorSerie1Changed;
+        }
+
+        public setChartColorSerie1Changed(rhs: boolean) {
+            this.chartColorSerie1Changed = rhs;
+        }
+
+        public getChartColorSerie2Changed() {
+            return this.chartColorSerie2Changed;
+        }
+
+        public setChartColorSerie2Changed(rhs: boolean) {
+            this.chartColorSerie2Changed = rhs;
+        }
+
+        public getChartFormatTypeChanged() {
+            return this.chartFormatTypeChanged;
+        }
+
+        public setChartFormatTypeChanged(rhs: boolean) {
+            this.chartFormatTypeChanged = rhs;
+        }
+
+        public getChartLinesTypeChanged() {
+            return this.chartLinesTypeChanged;
+        }
+
+        public setChartLinesTypeChanged(rhs: boolean) {
+            this.chartLinesTypeChanged = rhs;
+        }
+
+        public getChartTypeChanged() {
+            return this.chartTypeChanged;
+        }
+
+        public setChartTypeChanged(rhs: boolean) {
+            this.chartTypeChanged = rhs;
+        }
+
+        public getChartShowLinesChanged() {
+            return this.chartShowLinesChanged;
+        }
+
+        public setChartShowLinesChanged(rhs: boolean) {
+            this.chartShowLinesChanged = rhs;
+        }
+
+        public getChartShowValuesChanged() {
+            return this.chartShowValuesChanged;
+        }
+
+        public setChartShowValuesChanged(rhs: boolean) {
+            this.chartShowValuesChanged = rhs;
+        }
+
+        public getChartTopChanged() {
+            return this.chartTopChanged;
+        }
+
+        public setChartTopChanged(rhs: boolean) {
+            this.chartTopChanged = rhs;
+        }
+
+        public getChartSortChanged() {
+            return this.chartSortChanged;
+        }
+
+        public setChartSortChanged(rhs: boolean) {
+            this.chartSortChanged = rhs;
+        }
+
+        public getIsFreeCtrlChanged() {
+            return this.isFreeCtrlChanged;
+        }
+
+        public setIsFreeCtrlChanged(rhs: boolean) {
+            this.isFreeCtrlChanged = rhs;
+        }
+
+        public getExportColIdxChanged() {
+            return this.exportColIdxChanged;
+        }
+
+        public setExportColIdxChanged(rhs: boolean) {
+            this.exportColIdxChanged = rhs;
+        }        
 
         //------------------------------------------------------------------------------------------------------------------
 
@@ -610,72 +610,72 @@
 
         //------------------------------------------------------------------------------------------------------------------
 
-        const cb_align_Click = function(sender, e) {
-            m_alignChanged = true;
-        };
+        private cb_align_Click(sender: object, e: EventArgs) {
+            this.alignChanged = true;
+        }
 
-        const cb_borderType_Click = function(sender, e) {
-            m_borderTypeChanged = true;
-        };
+        private cb_borderType_Click(sender: object, e: EventArgs) {
+            this.borderTypeChanged = true;
+        }
 
-        const chk_borderRounded_Click = function(sender, e) {
-            m_borderRoundedChanged = true;
-        };
+        private chk_borderRounded_Click(sender: object, e: EventArgs) {
+            this.borderRoundedChanged = true;
+        }
 
-        const chk_formulaHide_Click = function(sender, e) {
-            m_setFormulaHideChanged = true;
-        };
+        private chk_formulaHide_Click(sender: object, e: EventArgs) {
+            this.setFormulaHideChanged = true;
+        }
 
-        const chk_formulaValue_Click = function(sender, e) {
-            m_setFormulaValueChanged = true;
-        };
+        private chk_formulaValue_Click(sender: object, e: EventArgs) {
+            this.setFormulaValueChanged = true;
+        }
 
-        const cmd_formulaHide_Click = function(sender, e) {
+        private cmd_formulaHide_Click(sender: object, e: EventArgs) {
             let cancel: boolean = false;
-            m_formulaName = "Ocultar";
-            showFormula(m_formulaHide, cancel);
+            this.formulaName = "Ocultar";
+            showFormula(this.formulaHide, cancel);
             if (!cancel) {
-                m_formulaHideChanged = true;
-                lb_formulaHide.Text = m_formulaHide;
+                this.formulaHideChanged = true;
+                lb_formulaHide.Text = this.formulaHide;
             }
-        };
+        }
 
-        const cmd_formulaValue_Click = function(sender, e) {
+        private cmd_formulaValue_Click(sender: object, e: EventArgs) {
             let cancel: boolean = false;
-            m_formulaName = "Valor";
-            showFormula(m_formulaValue, cancel);
+            this.formulaName = "Valor";
+            showFormula(this.formulaValue, cancel);
             if (!cancel) {
-                m_formulaValueChanged = true;
-                lbFormulaValue.Text = m_formulaValue;
+                this.formulaValueChanged = true;
+                lbFormulaValue.Text = this.formulaValue;
             }
-        };
+        }
 
-        const showFormula = function(formula, cancel) {
+        private showFormula(formula: string, cancel: boolean) {
             //TODO: fix me
             cancel = false;
             /*
-          Iterator listeners = m_listeners.iterator();
+          Iterator listeners = this.listeners.iterator();
           while(listeners.hasNext()) {
               (listeners.next()).showEditFormula(formula, cancel);
           };*/
-        };
+        }
 
-        const op_afterPrint_Click = function(sender, e) {
-            m_whenEvalChanged = true;
-        };
+        private op_afterPrint_Click(sender: object, e: EventArgs) {
+            this.whenEvalChanged = true;
+        }
 
-        const op_beforePrint_Click = function(sender, e) {
-            m_whenEvalChanged = true;
-        };
+        private op_beforePrint_Click(sender: object, e: EventArgs) {
+            this.whenEvalChanged = true;
+        }
 
-        const tx_border3D_LostFocus = function(sender, e) {
+        private tx_border3D_LostFocus(sender: object, e: EventArgs) {
             try {
                 shBorder3D.BackColor = Color.FromArgb(Int32.Parse(txBorder3D.Text));
             }
             catch (ignore) { }
-        };
+        }
 
-        const cmd_border3D_click = function(sender, e) {
+        private cmd_border3D_click(sender: object, e: EventArgs) {
             try {
                 // TODO: fix me
                 /*
@@ -691,16 +691,16 @@
                  */
             }
             catch (ignore) { }
-        };
+        }
 
-        const tx_borderColor_LostFocus = function(sender, e) {
+        private tx_borderColor_LostFocus(sender: object, e: EventArgs) {
             try {
                 shBorderColor.BackColor = Color.FromArgb(Int32.Parse(txBorderColor.Text));
             }
             catch (ignore) { }
-        };
+        }
 
-        const cmd_borderColor_Click = function(sender, e) {
+        private cmd_borderColor_Click(sender: object, e: EventArgs) {
             try {
                 // TODO: fix me
                 /*
@@ -716,16 +716,16 @@
                  */
             }
             catch (ignore) { }
-        };
+        }
 
-        const tx_borderShadow_LostFocus = function(sender, e) {
+        private tx_borderShadow_LostFocus(sender: object, e: EventArgs) {
             try {
                 shBorderShadow.BackColor = Color.FromArgb(Int32.Parse(txBorderShadow.Text));
             }
             catch (ignore) { }
-        };
+        }
 
-        const cmd_borderShadow_Click = function(sender, e) {
+        private cmd_borderShadow_Click(sender: object, e: EventArgs) {
             try {
                 // TODO: fix me
                 /*
@@ -741,99 +741,99 @@
                  */
             }
             catch (ignore) { }
-        };
+        }
 
-        const tx_BorderWidth_TextChanged = function(sender, e) {
-            m_borderWidthChanged = true;
-        };
+        private tx_BorderWidth_TextChanged(sender: object, e: EventArgs) {
+            this.borderWidthChanged = true;
+        }
 
-        const tx_ChartGroupValue_TextChanged = function(sender, e) {
-            m_chartGroupValueChanged = true;
-        };
+        private tx_ChartGroupValue_TextChanged(sender: object, e: EventArgs) {
+            this.chartGroupValueChanged = true;
+        }
 
-        const tx_ChartTop_TextChanged = function(sender, e) {
-            m_chartTopChanged = true;
-        };
+        private tx_ChartTop_TextChanged(sender: object, e: EventArgs) {
+            this.chartTopChanged = true;
+        }
 
-        const cmd_dbField_Click = function(sender, e) {
+        private cmd_dbField_Click(sender: object, e: EventArgs) {
             /* TODO: fix me
             bool cancel = false;
-            Iterator listeners = m_listeners.iterator();
+            Iterator listeners = this.listeners.iterator();
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpDbField(cancel);
             };
             if (!cancel) {
-              m_dbFieldChanged = true;
+              this.dbFieldChanged = true;
             }
              * */
-        };
+        }
 
-        const cmd_dbFieldGroupValue_Click = function(sender, e) {
+        private cmd_dbFieldGroupValue_Click(sender: object, e: EventArgs) {
             /* TODO: fix me
             bool cancel = false;
-            Iterator listeners = m_listeners.iterator();
+            Iterator listeners = this.listeners.iterator();
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartGroupField(cancel);
             };
             if (!cancel) {
-              m_chartFieldGroupChanged = true;
+              this.chartFieldGroupChanged = true;
             }
              * */
-        };
+        }
 
-        const cmd_dbFieldLbl1_Click = function(sender, e) {
+        private cmd_dbFieldLbl1_Click(sender: object, e: EventArgs) {
             /* TODO: fix me
             bool cancel = false;
-            Iterator listeners = m_listeners.iterator();
+            Iterator listeners = this.listeners.iterator();
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartField(cancel, TxDbFieldLbl1, 2);
             };
             if (!cancel) {
-              m_chartFieldLbl1Changed = true;
+              this.chartFieldLbl1Changed = true;
             }
              * */
-        };
+        }
 
-        const cmd_dbFieldLbl2_Click = function(sender, e) {
+        private cmd_dbFieldLbl2_Click(sender: object, e: EventArgs) {
             /* TODO: fix me
             bool cancel = false;
-            Iterator listeners = m_listeners.iterator();
+            Iterator listeners = this.listeners.iterator();
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartField(cancel, TxDbFieldLbl2, 3);
             };
             if (!cancel) {
-              m_chartFieldLbl2Changed = true;
+              this.chartFieldLbl2Changed = true;
             }
              * */
-        };
+        }
 
-        const cmd_dbFieldVal1_Click = function(sender, e) {
+        private cmd_dbFieldVal1_Click(sender: object, e: EventArgs) {
             /* TODO: fix me
             bool cancel = false;
-            Iterator listeners = m_listeners.iterator();
+            Iterator listeners = this.listeners.iterator();
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartField(cancel, TxDbFieldVal1, 0);
             };
             if (!cancel) {
-              m_chartFieldVal1Changed = true;
+              this.chartFieldVal1Changed = true;
             }
              * */
-        };
+        }
 
-        const cmd_dbFieldVal2_Click = function(sender, e) {
+        private cmd_dbFieldVal2_Click(sender: object, e: EventArgs) {
             /* TODO: fix me
             bool cancel = false;
-            Iterator listeners = m_listeners.iterator();
+            Iterator listeners = this.listeners.iterator();
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartField(cancel, TxDbFieldVal2, 1);
             };
             if (!cancel) {
-              m_chartFieldVal2Changed = true;
+              this.chartFieldVal2Changed = true;
             }
              * */
-        };
+        }
 
-        const cmd_foreColor_Click = function(sender, e) {
+        private cmd_foreColor_Click(sender: object, e: EventArgs) {
             try {
                 /* TODO: fix me
                 __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = CommDialog;
@@ -849,16 +849,16 @@
                  * */
             }
             catch (ignore) { }
-        };
+        }
 
-        const tx_foreColor_LostFocus = function(sender, e) {
+        private tx_foreColor_LostFocus(sender: object, e: EventArgs) {
             try {
                 shForeColor.BackColor = Color.FromArgb(Int32.Parse(tx_foreColor.Text));
             }
             catch (ignore) { }
-        };
+        }
 
-        const cmd_backColor_Click = function(sender, e) {
+        private cmd_backColor_Click(sender: object, e: EventArgs) {
             try {
                 /* TODO: fix me
                 __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = CommDialog;
@@ -872,16 +872,16 @@
                  * */
             }
             catch (ignore) { }
-        };
+        }
 
-        const tx_backColor_LostFocus = function(sender, e) {
+        private tx_backColor_LostFocus(sender: object, e: EventArgs) {
             try {
                 shBackColor.BackColor = Color.FromArgb(Int32.Parse(tx_backColor.Text));
             }
             catch (ignore) { }
-        };
+        }
 
-        const cmd_font_Click = function(sender, e) {
+        private cmd_font_Click(sender: object, e: EventArgs) {
             try {
 
                 /* TODO: fix me
@@ -910,7 +910,7 @@
                  * */
             }
             catch (ignore) { }
-        };
+        }
 
         //------------------------------------------------------------------------------------------------------------------
 
@@ -918,79 +918,79 @@
 
         //------------------------------------------------------------------------------------------------------------------
 
-        self.resetChangedFlags = function() {
-            m_textChanged = false;
-            m_tagChanged = false;
-            m_fontChanged = false;
-            m_foreColorChanged = false;
-            m_backColorChanged = false;
-            m_formatChanged = false;
-            m_leftChanged = false;
-            m_topChanged = false;
-            m_heightChanged = false;
-            m_widthChanged = false;
-            m_symbolChanged = false;
-            m_transparentChanged = false;
-            m_strikeChanged = false;
-            m_underlineChanged = false;
-            m_wordWrapChanged = false;
-            m_italicChanged = false;
-            m_boldChanged = false;
-            m_alignChanged = false;
-            m_fontSizeChanged = false;
-            m_canGrowChanged = false;
-            m_formulaHideChanged = false;
-            m_formulaValueChanged = false;
-            m_idxGroupChanged = false;
-            m_whenEvalChanged = false;
-            m_dbFieldChanged = false;
-            m_setFormulaHideChanged = false;
-            m_setFormulaValueChanged = false;
-            m_pictureChanged = false;
-            m_borderTypeChanged = false;
-            m_border3DChanged = false;
-            m_border3DShadowChanged = false;
-            m_borderRoundedChanged = false;
-            m_borderWidthChanged = false;
-            m_borderColorChanged = false;
+        public resetChangedFlags() {
+            this.textChanged = false;
+            this.tagChanged = false;
+            this.fontChanged = false;
+            this.foreColorChanged = false;
+            this.backColorChanged = false;
+            this.formatChanged = false;
+            this.leftChanged = false;
+            this.topChanged = false;
+            this.heightChanged = false;
+            this.widthChanged = false;
+            this.symbolChanged = false;
+            this.transparentChanged = false;
+            this.strikeChanged = false;
+            this.underlineChanged = false;
+            this.wordWrapChanged = false;
+            this.italicChanged = false;
+            this.boldChanged = false;
+            this.alignChanged = false;
+            this.fontSizeChanged = false;
+            this.canGrowChanged = false;
+            this.formulaHideChanged = false;
+            this.formulaValueChanged = false;
+            this.idxGroupChanged = false;
+            this.whenEvalChanged = false;
+            this.dbFieldChanged = false;
+            this.setFormulaHideChanged = false;
+            this.setFormulaValueChanged = false;
+            this.pictureChanged = false;
+            this.borderTypeChanged = false;
+            this.border3DChanged = false;
+            this.border3DShadowChanged = false;
+            this.borderRoundedChanged = false;
+            this.borderWidthChanged = false;
+            this.borderColorChanged = false;
 
-            m_chartFieldGroupChanged = false;
-            m_chartFieldLbl1Changed = false;
-            m_chartFieldLbl2Changed = false;
-            m_chartFieldVal1Changed = false;
-            m_chartFieldVal2Changed = false;
+            this.chartFieldGroupChanged = false;
+            this.chartFieldLbl1Changed = false;
+            this.chartFieldLbl2Changed = false;
+            this.chartFieldVal1Changed = false;
+            this.chartFieldVal2Changed = false;
 
-            m_chartSizeChanged = false;
-            m_chartThicknessChanged = false;
-            m_chartColorSerie1Changed = false;
-            m_chartColorSerie2Changed = false;
-            m_chartFormatTypeChanged = false;
-            m_chartLinesTypeChanged = false;
-            m_chartTypeChanged = false;
-            m_chartShowLinesChanged = false;
-            m_chartShowValuesChanged = false;
-            m_chartTopChanged = false;
-            m_chartTopChanged = false;
+            this.chartSizeChanged = false;
+            this.chartThicknessChanged = false;
+            this.chartColorSerie1Changed = false;
+            this.chartColorSerie2Changed = false;
+            this.chartFormatTypeChanged = false;
+            this.chartLinesTypeChanged = false;
+            this.chartTypeChanged = false;
+            this.chartShowLinesChanged = false;
+            this.chartShowValuesChanged = false;
+            this.chartTopChanged = false;
+            this.chartTopChanged = false;
 
-            m_chartFieldGroupChanged = false;
-            m_chartGroupValueChanged = false;
+            this.chartFieldGroupChanged = false;
+            this.chartGroupValueChanged = false;
 
-            m_isFreeCtrlChanged = false;
-            m_exportColIdxChanged = false;
+            this.isFreeCtrlChanged = false;
+            this.exportColIdxChanged = false;
 
-        };
+        }
 
-        self.hideTabField = function() {
+        public hideTabField() {
             tab_main.TabPages.RemoveAt(C_FIELD);
-        };
+        }
 
-        self.hideTabImage = function() {
+        public hideTabImage() {
             tab_main.TabPages.RemoveAt(C_IMAGE);
-        };
+        }
 
-        self.hideTabChart = function() {
+        public hideTabChart() {
             tab_main.TabPages.RemoveAt(C_CHART);
-        };
+        }
 
         //------------------------------------------------------------------------------------------------------------------
 
@@ -1024,9 +1024,9 @@
 			throw new NotImplementedException ();
 		}
         */
-		self.getDbFieldGroupValue = function() {
+		public getDbFieldGroupValue() {
 			throw new NotImplementedException ();
-		};
+		}
         /*
 		public int getChartGroupFieldType ()
 		{
@@ -1038,9 +1038,9 @@
 			throw new NotImplementedException ();
 		}
         */
-		self.setDbFieldGroupValue = function(sField) {
+		public setDbFieldGroupValue(sField: string) {
 			throw new NotImplementedException ();
-		};
+		}
         /*
 		public void setChartGroupFieldType (int nFieldType)
 		{
@@ -1570,148 +1570,7 @@ UNKNOWN >>             get
                 return tx_dbFieldGroupValue;
             }
         }
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfProperties {
-
-    getPictureChanged: () => bool;
-    setPictureChanged: (bool) => void;
-    getOk: () => bool;
-    getIndex: () => int;
-    getChartGroupIndex: () => int;
-    getChartIndex: (int) => int;
-    getFieldType: () => int;
-    getChartFieldType: (int) => int;
-    getChartGroupFieldType: () => int;
-    setIndex: (int) => void;
-    setChartGroupIndex: (int) => void;
-    setChartIndex: (int, int) => void;
-    setFieldType: (int) => void;
-    setChartGroupFieldType: (int) => void;
-    setChartFieldType: (int, int) => void;
-    getFormulaHide: () => String;
-    setFormulaHide: (String) => void;
-    getFormulaValue: () => String;
-    setFormulaValue: (String) => void;
-    getFormulaName: () => String;
-    setFormulaName: (String) => void;
-    getIsAccounting: () => bool;
-    setIsAccounting: (bool) => void;
-    getTextChanged: () => bool;
-    setTextChanged: (bool) => void;
-    getTagChanged: () => bool;
-    setTagChanged: (bool) => void;
-    getFontChanged: () => bool;
-    setFontChanged: (bool) => void;
-    getForeColorChanged: () => bool;
-    setForeColorChanged: (bool) => void;
-    getBackColorChanged: () => bool;
-    setBackColorChanged: (bool) => void;
-    getFormatChanged: () => bool;
-    setFormatChanged: (bool) => void;
-    getLeftChanged: () => bool;
-    setLeftChanged: (bool) => void;
-    getTopChanged: () => bool;
-    setTopChanged: (bool) => void;
-    getHeightChanged: () => bool;
-    setHeightChanged: (bool) => void;
-    getWidthChanged: () => bool;
-    setWidthChanged: (bool) => void;
-    getSymbolChanged: () => bool;
-    setSymbolChanged: (bool) => void;
-    getTransparentChanged: () => bool;
-    setTransparentChanged: (bool) => void;
-    getStrikeChanged: () => bool;
-    setStrikeChanged: (bool) => void;
-    getUnderlineChanged: () => bool;
-    setUnderlineChanged: (bool) => void;
-    getWordWrapChanged: () => bool;
-    setWordWrapChanged: (bool) => void;
-    getItalicChanged: () => bool;
-    setItalicChanged: (bool) => void;
-    getBoldChanged: () => bool;
-    setBoldChanged: (bool) => void;
-    getAlignChanged: () => bool;
-    setAlignChanged: (bool) => void;
-    getFontSizeChanged: () => bool;
-    setFontSizeChanged: (bool) => void;
-    getCanGrowChanged: () => bool;
-    setCanGrowChanged: (bool) => void;
-    getFormulaHideChanged: () => bool;
-    setFormulaHideChanged: (bool) => void;
-    getFormulaValueChanged: () => bool;
-    setFormulaValueChanged: (bool) => void;
-    getWhenEvalChanged: () => bool;
-    setWhenEvalChanged: (bool) => void;
-    getIdxGroupChanged: () => bool;
-    setIdxGroupChanged: (bool) => void;
-    getDbFieldChanged: () => bool;
-    setDbFieldChanged: (bool) => void;
-    getSetFormulaHideChanged: () => bool;
-    setSetFormulaHideChanged: (bool) => void;
-    getSetFormulaValueChanged: () => bool;
-    setSetFormulaValueChanged: (bool) => void;
-    getBorderTypeChanged: () => bool;
-    setBorderTypeChanged: (bool) => void;
-    getBorder3DChanged: () => bool;
-    setBorder3DChanged: (bool) => void;
-    getBorder3DShadowChanged: () => bool;
-    setBorder3DShadowChanged: (bool) => void;
-    getBorderRoundedChanged: () => bool;
-    setBorderRoundedChanged: (bool) => void;
-    getBorderWidthChanged: () => bool;
-    setBorderWidthChanged: (bool) => void;
-    getBorderColorChanged: () => bool;
-    setBorderColorChanged: (bool) => void;
-    getChartFieldVal1Changed: () => bool;
-    setChartFieldVal1Changed: (bool) => void;
-    getChartFieldVal2Changed: () => bool;
-    setChartFieldVal2Changed: (bool) => void;
-    getChartFieldLbl1Changed: () => bool;
-    setChartFieldLbl1Changed: (bool) => void;
-    getChartFieldGroupChanged: () => bool;
-    setChartFieldGroupChanged: (bool) => void;
-    getChartGroupValueChanged: () => bool;
-    setChartGroupValueChanged: (bool) => void;
-    getChartFieldLbl2Changed: () => bool;
-    setChartFieldLbl2Changed: (bool) => void;
-    getChartSizeChanged: () => bool;
-    setChartSizeChanged: (bool) => void;
-    getChartThicknessChanged: () => bool;
-    setChartThicknessChanged: (bool) => void;
-    getChartColorSerie1Changed: () => bool;
-    setChartColorSerie1Changed: (bool) => void;
-    getChartColorSerie2Changed: () => bool;
-    setChartColorSerie2Changed: (bool) => void;
-    getChartFormatTypeChanged: () => bool;
-    setChartFormatTypeChanged: (bool) => void;
-    getChartLinesTypeChanged: () => bool;
-    setChartLinesTypeChanged: (bool) => void;
-    getChartTypeChanged: () => bool;
-    setChartTypeChanged: (bool) => void;
-    getChartShowLinesChanged: () => bool;
-    setChartShowLinesChanged: (bool) => void;
-    getChartShowValuesChanged: () => bool;
-    setChartShowValuesChanged: (bool) => void;
-    getChartTopChanged: () => bool;
-    setChartTopChanged: (bool) => void;
-    getChartSortChanged: () => bool;
-    setChartSortChanged: (bool) => void;
-    getIsFreeCtrlChanged: () => bool;
-    setIsFreeCtrlChanged: (bool) => void;
-    getExportColIdxChanged: () => bool;
-    setExportColIdxChanged: (bool) => void;
-    resetChangedFlags: () => void;
-    hideTabField: () => void;
-    hideTabImage: () => void;
-    hideTabChart: () => void;
-    getDbFieldGroupValue: () => string;
-    setDbFieldGroupValue: (string) => void;
-  }
 }

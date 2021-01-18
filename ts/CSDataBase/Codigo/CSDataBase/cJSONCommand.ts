@@ -1,17 +1,17 @@
-(function(globalObject) {
 
-    globalObject.CSDataBase = globalObject.CSDataBase || {};
 
-    globalObject.CSDataBase.createCJSONCommand = function() {
+namespace CSDataBase
+{
+    export class cJSONCommand {
 
-        // @ts-ignore
-        let self: CSDataBase.IcJSONCommand = {};
-        let m_cmdText: string = "";
-        let m_connection: cJSONServerConnection = null;
+
+    {
+        private cmdText: string = "";
+        private connection: cJSONServerConnection = null;
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlCommand class.
-        const cJSONCommand = function() {
+        public constructor() {
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlCommand class with
@@ -20,9 +20,9 @@
         // Parameters:
         //   cmdText:
         //     The text of the query.
-        const cJSONCommand = function(cmdText) {
-            m_cmdText = cmdText;
-        };
+        public constructor(cmdText: string) {
+            this.cmdText = cmdText;
+        }
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlCommand class with
@@ -35,10 +35,10 @@
         //   connection:
         //     A System.Data.SqlClient.SqlConnection that represents the connection to an instance
         //     of SQL Server.
-        const cJSONCommand = function(cmdText, connection) {
-            m_cmdText = cmdText;
-            m_connection = connection;
-        };
+        public constructor(cmdText: string, connection: cJSONServerConnection) {
+            this.cmdText = cmdText;
+            this.connection = connection;
+        }
 
         //
         // Summary:
@@ -51,11 +51,11 @@
 UNKNOWN >>         public override string CommandText {
 UNKNOWN >>             get
             {
-                return m_cmdText;
+                return this.cmdText;
             }
 UNKNOWN >>             set
             {
-                m_cmdText = value;
+                this.cmdText = value;
             }
         }
         //
@@ -65,7 +65,7 @@ UNKNOWN >>             set
         //
         // Returns:
         //     The time in seconds to wait for the command to execute. The default is 30 seconds.
-        self.int: override = null;CommandTimeout { get; set; };
+        public int: override = null;CommandTimeout { get; set; };
         //
         // Summary:
         //     Gets or sets a value indicating how the System.Data.SqlClient.SqlCommand.CommandText
@@ -77,7 +77,7 @@ UNKNOWN >>             set
         // Exceptions:
         //   T:System.ArgumentException:
         //     The value was not a valid System.Data.CommandType.
-        self.CommandType: override = null;CommandType { get; set; };
+        public CommandType: override = null;CommandType { get; set; };
         //
         // Summary:
         //     Gets or sets the System.Data.SqlClient.SqlConnection used by this instance of
@@ -90,7 +90,7 @@ UNKNOWN >>             set
         //   T:System.InvalidOperationException:
         //     The System.Data.SqlClient.SqlCommand.Connection property was changed while the
         //     command was enlisted in a transaction..
-        self.cJSONServerConnection: new = null;Connection { get; set; };
+        public cJSONServerConnection: new = null;Connection { get; set; };
         //
         // Summary:
         //     Gets or sets a value indicating whether the command object should be visible
@@ -99,14 +99,14 @@ UNKNOWN >>             set
         // Returns:
         //     A value indicating whether the command object should be visible in a control.
         //     The default is true.
-        self.bool: override = null;DesignTimeVisible { get; set; };
+        public bool: override = null;DesignTimeVisible { get; set; };
         //
         // Summary:
         //     Gets the collection of System.Data.Common.DbParameter objects.
         //
         // Returns:
         //     The parameters of the SQL statement or stored procedure.
-        self.DbParameterCollection: new = null;Parameters { get; };
+        public DbParameterCollection: new = null;Parameters { get; };
         //
         // Summary:
         //     Gets or sets the System.Data.SqlClient.SqlTransaction within which the System.Data.SqlClient.SqlCommand
@@ -114,7 +114,7 @@ UNKNOWN >>             set
         //
         // Returns:
         //     The System.Data.SqlClient.SqlTransaction. The default value is null.
-        self.DbTransaction: new = null;Transaction { get; set; };
+        public DbTransaction: new = null;Transaction { get; set; };
         //
         // Summary:
         //     Gets or sets how command results are applied to the System.Data.DataRow when
@@ -122,7 +122,7 @@ UNKNOWN >>             set
         //
         // Returns:
         //     One of the System.Data.UpdateRowSource values.
-        self.UpdateRowSource: override = null;UpdatedRowSource { get; set; };
+        public UpdateRowSource: override = null;UpdatedRowSource { get; set; };
 UNKNOWN >>         protected override DbConnection DbConnection { get; set; }
 UNKNOWN >>         protected override DbParameterCollection DbParameterCollection { get; }
 UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
@@ -130,7 +130,7 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //
         // Summary:
         //     Tries to cancel the execution of a System.Data.SqlClient.SqlCommand.
-        self.Cancel = function() {
+        public Cancel() {
 
         //
         // Summary:
@@ -138,9 +138,9 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //
         // Returns:
         //     A System.Data.SqlClient.SqlParameter object.
-        self.CreateParameter = function() {
+        public CreateParameter() {
 
-        self.ExecuteNonQuery = function() {
+        public ExecuteNonQuery() {
         //
         // Summary:
         //     Sends the System.Data.SqlClient.SqlCommand.CommandText to the System.Data.SqlClient.SqlCommand.Connection
@@ -158,7 +158,7 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //   T:System.InvalidOperationException:
         //     The current state of the connection is closed. System.Data.SqlClient.SqlCommand.ExecuteReader
         //     requires an open System.Data.SqlClient.SqlConnection.
-        self.ExecuteReader = function() {
+        public ExecuteReader() {
         //
         // Summary:
         //     Sends the System.Data.SqlClient.SqlCommand.CommandText to the System.Data.SqlClient.SqlCommand.Connection,
@@ -171,11 +171,11 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //
         // Returns:
         //     A System.Data.SqlClient.SqlDataReader object.
-        self.ExecuteReader = function(behavior) {
+        public ExecuteReader(behavior: CommandBehavior) {
             let cmdName: var = getCommandName();
-            let data: var = cJSONServer.getDataSource(m_connection.ConnectionString + "." + cmdName);
+            let data: var = cJSONServer.getDataSource(this.connection.ConnectionString + "." + cmdName);
             return new cJSONDataReader(data);
-        };
+        }
         //
         // Summary:
         //     Executes the query, and returns the first column of the first row in the result
@@ -190,7 +190,7 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //     An exception occurred while executing the command against a locked row. This
         //     exception is not generated when you are using Microsoft .NET Framework version
         //     1.0.
-        self.ExecuteScalar = function() {
+        public ExecuteScalar() {
         //
         // Summary:
         //     Creates a prepared version of the command on an instance of SQL Server.
@@ -199,18 +199,18 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
         //   T:System.InvalidOperationException:
         //     The System.Data.SqlClient.SqlCommand.Connection is not set.-or- The System.Data.SqlClient.SqlCommand.Connection
         //     is not System.Data.SqlClient.SqlConnection.Open.
-        self.Prepare = function() {
-        self.CreateDbParameter = function() {
-        self.ExecuteDbDataReader = function(behavior) {
+        public Prepare() {
+        public CreateDbParameter() {
+        public ExecuteDbDataReader(behavior: CommandBehavior) {
             return ExecuteReader(behavior);
-        };
+        }
 
-        const getCommandName = function() {
-            let cmdText: var = m_cmdText;
+        private getCommandName() {
+            let cmdText: var = this.cmdText;
             let startIndex: var = cmdText.IndexOf("exec");
 
             if (startIndex < 0) {
-                throw new ArgumentException("The command text for this command object is invalid. Format must be 'exec [SP_NAME] param_list");
+                throw new ArgumentException("The command text for this command object is invalid. Format must be 'exec [SP_NAME] parathis.list");
             }
 
             startIndex += 5;
@@ -219,32 +219,8 @@ UNKNOWN >>         protected override DbTransaction DbTransaction { get; set; }
             let length: var = cmdText.IndexOf(" ", 1);
 
             return cmdText.Substring(0, length).Replace("[","").Replace("]","");
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSDataBase {
-
-  export interface IcJSONCommand {
-
-    int: override;
-    CommandType: override;
-    cJSONServerConnection: new;
-    bool: override;
-    DbParameterCollection: new;
-    DbTransaction: new;
-    UpdateRowSource: override;
-    Cancel: () => void;
-    CreateParameter: () => DbParameter;
-    ExecuteNonQuery: () => int;
-    ExecuteReader: () => cJSONDataReader;
-    ExecuteReader: (CommandBehavior) => cJSONDataReader;
-    ExecuteScalar: () => object;
-    Prepare: () => void;
-    CreateDbParameter: () => DbParameter;
-    ExecuteDbDataReader: (CommandBehavior) => DbDataReader;
-  }
 }

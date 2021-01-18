@@ -1,26 +1,26 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportConnectsAux = function() {
+namespace CSReportDll
+{
+    export class cReportConnectsAux {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportConnectsAux = {};
 
-        const C_MODULE: string = "cReportConnectsAux";
-        const C_RPTCONNECTSAUX: string = "RptConnectsAux";
+    {
+
+        private C_MODULE: string = "cReportConnectsAux";
+        private C_RPTCONNECTSAUX: string = "RptConnectsAux";
 
         // Creates an empty collection.
-        const cReportConnectsAux = function() {
-        };
+        public constructor() {
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cReportConnectsAux = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -82,46 +82,46 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.Remove = function(key) {
+        public Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.Remove = function(index) {
+        public Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.Clear = function() {
+        public Clear() {
             this.BaseClear();
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.remove = function(key) {
+        public remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.remove = function(index) {
+        public remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.clear = function() {
+        public clear() {
             this.BaseClear();
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let connect: cReportConnect = null;
 
             if (nodeFather === null) {
                 let xProperty: CSXml.cXmlProperty = null;
-                xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+                xProperty = new CSXml.cXmlProperty();
                 xProperty.setName(C_RPTCONNECTSAUX);
                 nodeFather = xDoc.addNode(xProperty);
             }
@@ -134,9 +134,9 @@ UNKNOWN >>             get
             }
 
             return true;
-        };
+        }
 
-        self.load = function(xDoc, nodeFather) {
+        public load(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let nodeObj: XmlNode = null;
             clear();
             if (nodeFather !== null) {
@@ -152,16 +152,16 @@ UNKNOWN >>             get
             }
 
             return true;
-        };
+        }
 
-		self.add = function(c) {
+		public add(c: cReportConnect) {
 			return add (c, null);
-		};
+		}
 
-        self.add = function(c, key) {
+        public add(c: cReportConnect, key: string) {
             try {
                 if (c === null)  {
-                    c = globalObject.CSReportDll.createCReportConnect();
+                    c = new cReportConnect();
                 }
 
                 if (key === null) {
@@ -176,60 +176,38 @@ UNKNOWN >>             get
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
                 return this.BaseGet(key);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
                 return this.BaseGet(index);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        const getDummyKey = function() {
+        private getDummyKey() {
             return "dummy_key_" + this.Count.ToString();
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportConnectsAux {
-
-    Add: (String, Object) => void;
-    Remove: (String) => void;
-    Remove: (int) => void;
-    Clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    clear: () => void;
-    save: (CSXml.cXml, XmlNode) => bool;
-    load: (CSXml.cXml, XmlNode) => bool;
-    add: (cReportConnect) => cReportConnect;
-    add: (cReportConnect, String) => cReportConnect;
-    count: () => int;
-    item: (String) => cReportConnect;
-    item: (int) => cReportConnect;
-  }
 }

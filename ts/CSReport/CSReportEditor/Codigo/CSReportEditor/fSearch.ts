@@ -1,12 +1,12 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFSearch = function() {
+namespace CSReportEditor
+{
+    export class fSearch {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfSearch = {};
-        let m_editor: cEditor = null;
+
+    {
+        private editor: cEditor = null;
 
 UNKNOWN >>         private enum csObjType {
             iTypeFormulaH = 1,
@@ -17,32 +17,32 @@ UNKNOWN >>         private enum csObjType {
             iTypeSec = 5,
             iTypeSecLn = 6,
             iTypeText = 7
-        };
+        }
 
 
-        const fSearch = function() {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.clear = function() {
+        public clear() {
             lv_controls.Items.Clear();
-        };
+        }
 
-        const cmd_search_Click = function(sender, e) {
+        private cmd_search_Click(sender: object, e: EventArgs) {
             if (tx_toSearch.Text.Trim() === "") {
                 cWindow.msgInfo("You must input some text to search");
             }
             else  {
-                let report: cReport = m_editor.getReport();
+                let report: cReport = this.editor.getReport();
                 searchInSections(report.getHeaders(), csObjType.iTypeSec);
                 searchInSections(report.getGroupsHeaders(), csObjType.iTypeSecG);
                 searchInSections(report.getDetails(), csObjType.iTypeSec);
                 searchInSections(report.getGroupsFooters(), csObjType.iTypeSecG);
                 searchInSections(report.getFooters(), csObjType.iTypeSec);
             }
-        };
+        }
 
-        const searchInSections = function(sections, objType) {
+        private searchInSections(sections: cIReportGroupSections, objType: csObjType) {
 UNKNOWN >>             cReportSection sec;
 UNKNOWN >>             cReportSectionLine secLn;
 UNKNOWN >>             cReportControl ctrl;
@@ -89,60 +89,50 @@ UNKNOWN >>             string toSearch;
                     }
                 }
             }
-        };
+        }
 
-        const pAddToSearchResult = function(name, objType, objType2, key) {
+        private pAddToSearchResult(name: string, objType: csObjType, objType2: csObjType, key: string) {
             pAddToSearchResult(name, objType, objType2, key, "");
-        };
+        }
 
-        const pAddToSearchResult = function(name, objType, objType2, key, where) {
+        private pAddToSearchResult(name: string, objType: csObjType, objType2: csObjType, key: string, where: string) {
             let item: var = lv_controls.Items.Add(name);
             item.ImageIndex = objType === objType2 ? (int)objType : (int)objType2;
             item.SubItems.Add(where);
             item.Tag = key;
-        };
+        }
 
-        self.setHandler = function(editor) {
-            m_editor = editor;
-        };
+        public setHandler(editor: cEditor) {
+            this.editor = editor;
+        }
 
-        const cmd_close_Click = function(sender, e) {
+        private cmd_close_Click(sender: object, e: EventArgs) {
             this.Close();
-        };
+        }
 
-        const cmd_edit_Click = function(sender, e) {
+        private cmd_edit_Click(sender: object, e: EventArgs) {
             if (lv_controls.SelectedItems.Count > 0) {
                 let info: var = lv_controls.SelectedItems[0].Tag.ToString();
-                m_editor.showProperties(info);
+                this.editor.showProperties(info);
             }
-        };
+        }
 
-        const lv_controls_KeyUp = function(sender, e) {
+        private lv_controls_KeyUp(sender: object, e: KeyEventArgs) {
             selectControl();
-        };
+        }
 
-        const lv_controls_MouseClick = function(sender, e) {
+        private lv_controls_MouseClick(sender: object, e: MouseEventArgs) {
             selectControl();
-        };
+        }
 
-        const selectControl = function() {
+        private selectControl() {
             if (lv_controls.SelectedItems.Count > 0) {
                 let info: var = lv_controls.SelectedItems[0].Tag.ToString();
-                m_editor.selectCtrl(info);
+                this.editor.selectCtrl(info);
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfSearch {
-
-    clear: () => void;
-    setHandler: (cEditor) => void;
-  }
 }

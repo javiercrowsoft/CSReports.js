@@ -1,118 +1,98 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportChartSerie = function() {
+namespace CSReportDll
+{
+    export class cReportChartSerie {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportChartSerie = {};
 
-        const C_MODULE: string = "cReportChartSerie";
+    {
 
-        let m_valueFieldName: string = "";
-        let m_labelFieldName: string = "";
-        let m_color: csColors = csColors.ALICEBLUE;
-        let m_valueIndex: number = 0;
-        let m_labelIndex: number = 0;
+        private C_MODULE: string = "cReportChartSerie";
 
-        self.getValueFieldName = function() {
-            return m_valueFieldName;
-        };
+        private valueFieldName: string = "";
+        private labelFieldName: string = "";
+        private color: csColors = csColors.ALICEBLUE;
+        private valueIndex: number = 0;
+        private labelIndex: number = 0;
 
-        self.setValueFieldName = function(rhs) {
-            m_valueFieldName = rhs;
-        };
+        public getValueFieldName() {
+            return this.valueFieldName;
+        }
 
-        self.getLabelFieldName = function() {
-            return m_labelFieldName;
-        };
+        public setValueFieldName(rhs: string) {
+            this.valueFieldName = rhs;
+        }
 
-        self.setLabelFieldName = function(rhs) {
-            m_labelFieldName = rhs;
-        };
+        public getLabelFieldName() {
+            return this.labelFieldName;
+        }
 
-        self.getColor = function() {
-            return m_color;
-        };
+        public setLabelFieldName(rhs: string) {
+            this.labelFieldName = rhs;
+        }
 
-        self.setColor = function(value) {
-            m_color = value;
-        };
+        public getColor() {
+            return this.color;
+        }
 
-        self.getValueIndex = function() {
-            return m_valueIndex;
-        };
+        public setColor(value: csColors) {
+            this.color = value;
+        }
 
-        self.setValueIndex = function(rhs) {
-            m_valueIndex = rhs;
-        };
+        public getValueIndex() {
+            return this.valueIndex;
+        }
 
-        self.getLabelIndex = function() {
-            return m_labelIndex;
-        };
+        public setValueIndex(rhs: number) {
+            this.valueIndex = rhs;
+        }
 
-        self.setLabelIndex = function(rhs) {
-            m_labelIndex = rhs;
-        };
+        public getLabelIndex() {
+            return this.labelIndex;
+        }
 
-        self.load = function(xDoc, nodeObj, index) {
-            try { m_valueFieldName = xDoc.getNodeProperty(nodeObj, "ValueFieldName").getValueString(eTypes.eText); }
+        public setLabelIndex(rhs: number) {
+            this.labelIndex = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode, index: number) {
+            try { this.valueFieldName = xDoc.getNodeProperty(nodeObj, "ValueFieldName").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { m_labelFieldName = xDoc.getNodeProperty(nodeObj, "LabelFieldName").getValueString(eTypes.eText); }
+            try { this.labelFieldName = xDoc.getNodeProperty(nodeObj, "LabelFieldName").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { m_color = xDoc.getNodeProperty(nodeObj, "Color").getValueInt(eTypes.eLong); }
+            try { this.color = xDoc.getNodeProperty(nodeObj, "Color").getValueInt(eTypes.eLong); }
             catch  (ex) { }
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather, index) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode, index: number) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Serie_" + index.ToString());
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("ValueFieldName");
-            xProperty.setValue(eTypes.eText, m_valueFieldName);
+            xProperty.setValue(eTypes.eText, this.valueFieldName);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("LabelFieldName");
-            xProperty.setValue(eTypes.eText, m_labelFieldName);
+            xProperty.setValue(eTypes.eText, this.labelFieldName);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Color");
-            xProperty.setValue(eTypes.eLong, m_color);
+            xProperty.setValue(eTypes.eLong, this.color);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportChartSerie {
-
-    getValueFieldName: () => String;
-    setValueFieldName: (String) => void;
-    getLabelFieldName: () => String;
-    setLabelFieldName: (String) => void;
-    getColor: () => csColors;
-    setColor: (csColors) => void;
-    getValueIndex: () => int;
-    setValueIndex: (int) => void;
-    getLabelIndex: () => int;
-    setLabelIndex: (int) => void;
-    load: (CSXml.cXml, XmlNode, int) => bool;
-    save: (CSXml.cXml, XmlNode, int) => bool;
-  }
 }

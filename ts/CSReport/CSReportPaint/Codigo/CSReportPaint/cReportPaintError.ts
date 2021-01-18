@@ -1,12 +1,12 @@
-(function(globalObject) {
 
-    globalObject.CSReportPaint = globalObject.CSReportPaint || {};
 
-    globalObject.CSReportPaint.createCReportPaintError = function() {
+namespace CSReportPaint
+{
+    export class cReportPaintError {
 
-        // @ts-ignore
-        let self: CSReportPaint.IcReportPaintError = {};
-        self.errGetDescript = function(rptErrCode) {
+
+    {
+        public errGetDescript(rptErrCode: csRptPaintErrors) {
             switch (rptErrCode)
             {
                 case csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT:
@@ -16,30 +16,21 @@
                 default:
                     return "There is not information for this error";
             }
-        };
-        return self;
+        }
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptPaintErrorsUNKNOWN >>     public enum csRptPaintErrors
     {
         CSRPT_PAINT_ERR_OBJ_CLIENT = 2001,
         CSRPT_PAINT_ERR_OBJ_CLIENT_INVALID,
 UNKNOWN >>         CSRPT_PAINT_ERR_PRINTING
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportPaint {
-
-  export interface IcReportPaintError {
-
-    errGetDescript: (csRptPaintErrors) => String;
-  }
 }

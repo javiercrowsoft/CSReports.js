@@ -1,27 +1,27 @@
-(function(globalObject) {
-
-    globalObject.CSXml = globalObject.CSXml || {};
 
 
+namespace CSXml
+{
 
-    globalObject.CSXml.createCXmlProperty = function() {
 
-        // @ts-ignore
-        let self: CSXml.IcXmlProperty = {};
-        const c_module: string = "cXmlProperty";
+    export class cXmlProperty {
 
-        let m_name: string = "";
-        let m_value: string = "";
-        let m_parent: string = "";
-        let m_binaryValue: object = null;
+
+    {
+        private c_module: string = "cXmlProperty";
+
+        private name: string = "";
+        private value: string = "";
+        private parent: string = "";
+        private binaryValue: object = null;
 
 UNKNOWN >>         public object binaryValue
         {
-UNKNOWN >>             get { return m_binaryValue; }
+UNKNOWN >>             get { return this.binaryValue; }
 UNKNOWN >>             set
             {
                 if (value === null) {
-                    m_binaryValue = null;
+                    this.binaryValue = null;
                 }
                 else {
                     let t: Type = value.GetType();
@@ -29,46 +29,46 @@ UNKNOWN >>             set
                         let valueArray: byte[] = value;
                         let newArray: byte[] = new byte[valueArray.Length];
                         Array.Copy(valueArray, newArray, valueArray.Length);
-                        m_binaryValue = newArray;
+                        this.binaryValue = newArray;
                     }
                     else {
-                        m_binaryValue = null;
+                        this.binaryValue = null;
                     }
                 }
             }
-        };
+        }
 
 UNKNOWN >>         public string name
         {
-UNKNOWN >>             get { return m_name; }
-UNKNOWN >>             set { m_name = value; }
+UNKNOWN >>             get { return this.name; }
+UNKNOWN >>             set { this.name = value; }
         }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.setName = function(value) {
-            m_name = value;
-        };
+        public setName(value: string) {
+            this.name = value;
+        }
 
-        self.getValueInt = function(type) {
+        public getValueInt(type: eTypes) {
             return Convert.ToInt32(getValue(type));
-        };
+        }
 
-        self.getValueString = function(type) {
+        public getValueString(type: eTypes) {
             return getValue(type);
-        };
+        }
 
-        self.getValueBool = function(type) {
+        public getValueBool(type: eTypes) {
             return (getValue(type) !== 0);
-        };
+        }
 
-        self.getValue = function(type) {
+        public getValue(type: eTypes) {
             switch (type)
             {
                 case eTypes.eBoolean:
-                    switch (m_value.ToLower())
+                    switch (this.value.ToLower())
                     {
                         case "true":
                         case "verdadero":
@@ -83,8 +83,8 @@ UNKNOWN >>             set { m_name = value; }
                     }
                 case eTypes.eDate:
                 case eTypes.eDateOrNull:
-                    if (cDateUtils.isDate(m_value)) {
-                        return m_value;
+                    if (cDateUtils.isDate(this.value)) {
+                        return this.value;
                     }
                     else {
                         return 0;
@@ -95,8 +95,8 @@ UNKNOWN >>             set { m_name = value; }
                 case eTypes.eSingle:
                 case eTypes.eCurrency:
                     double dummy; {
-                    if (double.TryParse(m_value, dummy)) {
-                        return m_value;
+                    if (double.TryParse(this.value, dummy)) {
+                        return this.value;
                     }
                     else {
                         return 0;
@@ -104,70 +104,52 @@ UNKNOWN >>             set { m_name = value; }
                 case eTypes.eText:
                 case eTypes.eVariant:
                 case eTypes.eCuit:
-                    return m_value;
+                    return this.value;
                 default:
-                    return m_value;
+                    return this.value;
             }
-        };
+        }
 
-        self.setValue = function(type, value) {
+        public setValue(type: eTypes, value: object) {
             if (type === eTypes.eBoolean) {
-                m_value = value ? "-1" : "0";
+                this.value = value ? "-1" : "0";
             }
             else if (type === eTypes.eInteger) {
-                m_value = Convert.ToInt64(value).ToString();
+                this.value = Convert.ToInt64(value).ToString();
             }
             else {
-                m_value = value.ToString();
+                this.value = value.ToString();
             }
-        };
+        }
 
-        self.setValue = function(value) {
+        public setValue(value: object) {
             let t: Type = value.GetType();
             if (typeof(bool) === t) {
-                m_value = value ? "-1" : "0";
+                this.value = value ? "-1" : "0";
             }
             else {
-                m_value = value.ToString();
+                this.value = value.ToString();
             }
-        };
+        }
 
-        self.getBinaryValue = function() {
-            return m_binaryValue; 
-        };
+        public getBinaryValue() {
+            return this.binaryValue; 
+        }
 
-        self.setBinaryValue = function(value) {
+        public setBinaryValue(value: byte[]) {
             binaryValue = value;
-        };
+        }
 
 UNKNOWN >>         public string parent
         {
-UNKNOWN >>             get { return m_parent; }
-UNKNOWN >>             set { m_parent = value; }
+UNKNOWN >>             get { return this.parent; }
+UNKNOWN >>             set { this.parent = value; }
         }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSXml {
-
-  export interface IcXmlProperty {
-
-    getName: () => string;
-    setName: (string) => void;
-    getValueInt: (eTypes) => int;
-    getValueString: (eTypes) => string;
-    getValueBool: (eTypes) => bool;
-    getValue: (eTypes) => object;
-    setValue: (eTypes, object) => void;
-    setValue: (object) => void;
-    getBinaryValue: () => byte[];
-    setBinaryValue: (byte[]) => void;
-  }
 }

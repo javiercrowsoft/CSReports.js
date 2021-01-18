@@ -1,23 +1,15 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFProgress = function() {
+namespace CSReportEditor
+{
+    export class fProgress {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfProgress = {};
-        const fProgress = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfProgress {
-
-  }
 }

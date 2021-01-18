@@ -1,69 +1,68 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-	globalObject.CSReportEditor.createCMainEditor = function() {
+namespace CSReportEditor
+{
+	export class cMainEditor {
 
-	    // @ts-ignore
-	    let self: CSReportEditor.IcMainEditor = {};
 
-	    const C_MODULE: string = "mPublic";
 
-	    const NOERROR: number = 0;
+	    private C_MODULE: string = "mPublic";
 
-		self.CSNOFECHA: DateTime = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+	    private NOERROR: number = 0;
 
-	    self.C_HEIGHT_BAR_SECTION: number = 120;
-	    self.C_HEIGHT_NEW_SECTION: number = 350;
+		public CSNOFECHA: DateTime = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
 
-	    const C_KEYRECENTLIST: string = "Recent";
+	    public C_HEIGHT_BAR_SECTION: number = 120;
+	    public C_HEIGHT_NEW_SECTION: number = 350;
 
-	    const C_CONFIG: string = "Interfaz";
-	    const C_LEFTBARCOLOR: string = "LeftBarColor";
-	    const C_HIDELEFTBAR: string = "HideLeftBar";
-	    const C_BACKCOLOR: string = "BackColor";
-	    const C_WORKFOLDER: string = "WorkFolder";
+	    private C_KEYRECENTLIST: string = "Recent";
 
-	    self.int: static gNextReport = 0;
-	    let cEditor: static = null;m_editor;
-	    let cEditor: static = null;m_toolBoxOwner;
-	    let cEditor: static = null;m_ctrlBoxOwner;
-	    let cEditor: static = null;m_ctrlTreeBoxOwner;
+	    private C_CONFIG: string = "Interfaz";
+	    private C_LEFTBARCOLOR: string = "LeftBarColor";
+	    private C_HIDELEFTBAR: string = "HideLeftBar";
+	    private C_BACKCOLOR: string = "BackColor";
+	    private C_WORKFOLDER: string = "WorkFolder";
 
-		self.int: static gBackColor = 0;
-	    self.int: static gLeftBarColor = 0;
-	    self.bool: static = null;gHideLeftBar;
-	    self.String: static gWorkFolder = "";
-	    self.bool: static = null;gbFirstOpen;
+	    public int: static gNextReport = 0;
+	    private cEditor: static = null;this.editor;
+	    private cEditor: static = null;this.toolBoxOwner;
+	    private cEditor: static = null;this.ctrlBoxOwner;
+	    private cEditor: static = null;this.ctrlTreeBoxOwner;
 
-        let fMain: static = null;fmain;
+		public int: static gBackColor = 0;
+	    public int: static gLeftBarColor = 0;
+	    public bool: static = null;gHideLeftBar;
+	    public String: static gWorkFolder = "";
+	    public bool: static = null;gbFirstOpen;
 
-        self.initEditor = function() {
+        private fMain: static = null;fmain;
+
+        public initEditor() {
             if (fmain === null) {
-                fmain = globalObject.CSReportEditor.createFMain();
+                fmain = new fMain();
             }
             return fmain;
-        };
+        }
 
-	    self.getDocActive = function() {
-	        return m_editor;
-	    };
+	    public getDocActive() {
+	        return this.editor;
+	    }
 
-	    self.setDocActive = function(f) {
-	        m_editor = f;
+	    public setDocActive(f: cEditor) {
+	        this.editor = f;
 	        setMenu();
-	    };
+	    }
 
-	    self.setDocInacActive = function(f) {
-	        if (m_editor !== f) { return; }
-	        m_editor = null;
+	    public setDocInacActive(f: cEditor) {
+	        if (this.editor !== f) { return; }
+	        this.editor = null;
 	        setMenu();
 	        setEditAlignTextState(false);
-	    };
+	    }
 
-	    self.setStatus = function() {
+	    public setStatus() {
 	        try {
-	            if (m_editor === null) {
+	            if (this.editor === null) {
 	                setStatus("");
 	            } 
 	            else {
@@ -73,99 +72,98 @@
 	        } catch (Exception ex) {
 	            cError.mngError(ex, "setStatus", C_MODULE, "");
 	        }
-	    };
+	    }
 
-        self.setStatus = function(status) {
+        public setStatus(status: string) {
 
-        };
+        }
 
-        self.setBarText = function(text) {
+        public setBarText(text: string) {
 
-        };
+        }
 
-        self.setDisconnectedReport = function(isDisconnectedReport) {
+        public setDisconnectedReport(isDisconnectedReport: boolean) {
 
-        };
+        }
 
-        self.setEditAlignTextState = function(status) {
+        public setEditAlignTextState(status: boolean) {
             fmain.setEditAlignTextState(status);
-        };
+        }
 
-        self.setEditAlignCtlState = function(status) {
+        public setEditAlignCtlState(status: boolean) {
             fmain.setEditAlignCtlState(status);
-        };
+        }
 
-        self.setMenuAux = function(enabled) {
+        public setMenuAux(enabled: boolean) {
             fmain.setMenuAux(enabled);
-        };
+        }
 
-        self.addToRecentList = function(fileName) {
+        public addToRecentList(fileName: string) {
             fmain.addToRecentList(fileName);
-        };
+        }
 
-        self.loadRecentList = function() {
+        public loadRecentList() {
             // TODO: implement
             fmain.loadRecentList(new List<String>());
-        };
+        }
 
-        self.saveRecentList = function() {
+        public saveRecentList() {
             fmain.saveRecentList();
-        };
-	    self.setEditFontBoldValue = function(bBold) {
+        }
+	    public setEditFontBoldValue(bBold: number) {
 			// TODO: implement
-	    };
+	    }
 
-		self.setEditAlignValue = function(align) {
+		public setEditAlignValue(align: HorizontalAlignment) {
 			// TODO: implement
-	    };
+	    }
 
-	    const setMenu = function() {
+	    private setMenu() {
 	        try {
 
-	            if (m_editor === null) {
+	            if (this.editor === null) {
 	                fmain.setMenuAux(false);
 	                fmain.setBarText("");
 	                fmain.setStatus("");
 	            } 
 	            else {
 	                fmain.setMenuAux(true);
-	                fmain.setDisconnectedReport(m_editor.getReport().getReportDisconnected());
-	                fmain.setBarText(m_editor.getReport().getName());
+	                fmain.setDisconnectedReport(this.editor.getReport().getReportDisconnected());
+	                fmain.setBarText(this.editor.getReport().getName());
 	                fmain.setStatus(pGetStatus());
 	            }
 	        } catch (Exception ex) {
 	            cError.mngError(ex, "SetMenu", C_MODULE, "");
 	        }
-	    };
+	    }
 
-        const pGetStatus = function() {
+        private pGetStatus() {
             return "";
-        };
+        }
 
-        return self;
+
 
 	}	}
-        return self;
 
 
-	self.createRectangle = function() {
 
-	    // @ts-ignore
-	    let self: CSReportEditor.IRectangle = {};
-		self.height: number = null;
-		self.width: number = null;
+	export class Rectangle {
 
-        const Rectangle = function(rect) {
+
+		public height: number = null;
+		public width: number = null;
+
+        public constructor(rect: RectangleF) {
             height = rect.Height;
             width = rect.Width;
-        };
-        return self;
+        }
+
 
 	}	}
-        return self;
 
 
-        return self;
+
+
 
 
 UNKNOWN >> 	public enum SpecialFolderIDs {
@@ -190,13 +188,13 @@ UNKNOWN >> 	public enum SpecialFolderIDs {
 	    SFIDPROGRAMS_FILES = 0x26,
 	    SFIDPROGRAMFILES = 0x10000,
 	    SFIDCOMMONFILES = 0x10001
-        return self;
+
 
 	}	}
-        return self;
 
 
-        return self;
+
+
 
 
 UNKNOWN >> 	public enum csEAlignConst {
@@ -211,31 +209,11 @@ UNKNOWN >> 	public enum csEAlignConst {
 	    CSEALIGNCTLBOTTOM,
 	    CSEALIGNCTLWIDTH,
 UNKNOWN >> 	    CSEALIGNCTLHEIGHT
-        return self;
+
 
 	}	}
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportEditor {
-
-  export interface IRectangle {
-
-    height;: number;
-    width;: number;
-  }
 }
-);
 
-
-namespace CSReportEditor {
-
-  export interface IRectangle {
-
-    height;: number;
-    width;: number;
-  }
-}

@@ -1,26 +1,25 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportError = function() {
+namespace CSReportDll
+{
+    export class cReportError {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportError = {};
-        const C_MODULE: string = "cReportError";
 
-        self.String: static gDebugControl = "";
-        self.int: static gDebugSectionLine = 0;
-        self.String: static gDebugSection = "";
+    {
+        private C_MODULE: string = "cReportError";
 
-        self.errGetDescript = function(rptErrCode, x) {
+        public String: static gDebugControl = "";
+        public int: static gDebugSectionLine = 0;
+        public String: static gDebugSection = "";
+
+        public errGetDescript(rptErrCode: csRptErrors, x: string[]) {
             let s: string = "";
             switch (rptErrCode)
             {
                 case csRptErrors.LAUNCH_INFO_UNDEFINED:
-                    self.create"The = function() {
+                    export class "The {
 
-                        // @ts-ignore
-                        let self: CSReportDll.I"The = {};
+
                     break;
 
                 case csRptErrors.SINTAX_ERROR_MISSING_BRAKETS:
@@ -79,17 +78,9 @@
                     + "\nControl  : " + gDebugControl + "\n";
 
             return s;
-        };
+        }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportDll {
-
-  export interface I"The {
-
-  }
 }

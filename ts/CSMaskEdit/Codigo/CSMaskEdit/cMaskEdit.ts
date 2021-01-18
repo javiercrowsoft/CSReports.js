@@ -1,16 +1,16 @@
-(function(globalObject) {
 
-    globalObject.CSMaskEdit = globalObject.CSMaskEdit || {};
 
-    globalObject.CSMaskEdit.createCMaskEdit = function() {
+namespace CSMaskEdit
+{
+    export class cMaskEdit {
 
-        // @ts-ignore
-        let self: CSMaskEdit.IcMaskEdit = {};
-        const cMaskEdit = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        const cMaskEdit_SizeChanged = function(sender, e) {
+        private cMaskEdit_SizeChanged(sender: object, e: EventArgs) {
             try {
                 cmdButton.Left = this.ClientSize.Width - cmdButton.Width;
                 cmdButton.Height = this.ClientSize.Height;
@@ -19,17 +19,9 @@
             }
             catch(ex) {
             { }
-        };
+        }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSMaskEdit {
-
-  export interface IcMaskEdit {
-
-  }
 }

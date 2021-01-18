@@ -1,73 +1,55 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFFormula = function() {
+namespace CSReportEditor
+{
+    export class fFormula {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfFormula = {};
-        const fFormula = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-		self.createTree = function() {
+		public createTree() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.addFormula = function(csRptFormulaType, str, str2, str3, i) {
+		public addFormula(csRptFormulaType: csRptFormulaType, str: string, str2: string, str3: string, i: number) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.addDBField = function(str, str2) {
+		public addDBField(str: string, str2: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.addLabel = function(str) {
+		public addLabel(str: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setFormula = function(formula) {
+		public setFormula(formula: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.expandTree = function() {
+		public expandTree() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.center = function() {
+		public center() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.getOk = function() {
+		public getOk() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.getFormula = function() {
+		public getFormula() {
 			throw new NotImplementedException ();
-		};
+		}
 
-        self.addLabel = function() {
+        public addLabel() {
             throw new NotImplementedException();
-        };        
-        return self;
+        }        
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfFormula {
-
-    createTree: () => void;
-    addFormula: (csRptFormulaType, string, string, string, int) => void;
-    addDBField: (string, string) => void;
-    addLabel: (string) => void;
-    setFormula: (string) => void;
-    expandTree: () => void;
-    center: () => void;
-    getOk: () => bool;
-    getFormula: () => string;
-    addLabel: () => void;
-  }
 }

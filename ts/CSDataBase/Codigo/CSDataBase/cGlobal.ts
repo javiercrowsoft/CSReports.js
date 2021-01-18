@@ -1,7 +1,7 @@
-(function(globalObject) {
 
-    globalObject.CSDataBase = globalObject.CSDataBase || {};
 
+namespace CSDataBase
+{
     //
     // TODO: has a function to translate from Ado.net to csAdoDataType which is the value
     //       we use to save in csr files
@@ -9,13 +9,13 @@
     //       use the table here http://www.frentonline.com/Knowledgebase/MSSQLServer/Datatype/tabid/362/Default.aspx
     //
 
-    globalObject.CSDataBase.createCDatabaseGlobals = function() {
+    export class cDatabaseGlobals {
 
-        // @ts-ignore
-        let self: CSDataBase.IcDatabaseGlobals = {};
-        self.bool: static Silent = false;
 
-        self.isNumberField = function(fieldType) {
+    {
+        public bool: static Silent = false;
+
+        public isNumberField(fieldType: number) {
             switch (fieldType) 
             { 
                 case csAdoDataType.adDecimal:
@@ -35,9 +35,9 @@
                     return true;
             }
             return false;
-        };
+        }
 
-        self.getDataTypeFromString = function(dataType) {
+        public getDataTypeFromString(dataType: string) {
             switch (dataType)
             { 
                 case "datetime":
@@ -74,9 +74,9 @@
                     return csDataType.CSTDVARCHAR;
             }
             throw new Exception("The data type [" + dataType + "] is not matched in CSDatabase.cDatabaseGlobals.getDataTypeFromString");
-        };
+        }
 
-        self.getDataTypeFromAdo = function(adoDBType) {
+        public getDataTypeFromAdo(adoDBType: number) {
             switch (adoDBType)
             {
                 case csAdoDataType.adBigInt:
@@ -145,9 +145,9 @@
             }
 
             throw new Exception("This datatype is not supported [" + adoDBType.ToString() + "]");
-        };
+        }
 
-        self.getAdoTypeFromDataType = function(dataType) {
+        public getAdoTypeFromDataType(dataType: csDataType) {
             switch (dataType)
             {
                 case csDataType.CSTDBIGINT:
@@ -182,15 +182,15 @@
             }
 
             throw new Exception("This datatype is not supported [" + dataType.ToString() + "]");
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csDataTypeUNKNOWN >>     public enum csDataType
     {
@@ -217,13 +217,13 @@
         CSTDBOOLEAN = System.TypeCode.Boolean,
         CSTDBINARY = System.TypeCode.Object,
         CSTDLONGVARBINARY = System.TypeCode.Object
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csCommandTypeUNKNOWN >>     public enum csCommandType
     {
@@ -233,10 +233,10 @@
         CSCMDTABLEDIRECT = 512,
         CSCMDTEXT = 1,
         CSCMDUNKNOWN = -1
-        return self;
+
 
     }    }
-        return self;
+
 
 
 UNKNOWN >>     public enum csAdoDataType {
@@ -280,23 +280,10 @@ UNKNOWN >>     public enum csAdoDataType {
         adVarNumeric = 139,
         adVarWChar = 202,
         adWChar = 130
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSDataBase {
-
-  export interface IcDatabaseGlobals {
-
-    bool: static;
-    isNumberField: (int) => bool;
-    getDataTypeFromString: (string) => csDataType;
-    getDataTypeFromAdo: (int) => csDataType;
-    getAdoTypeFromDataType: (csDataType) => csAdoDataType;
-  }
 }

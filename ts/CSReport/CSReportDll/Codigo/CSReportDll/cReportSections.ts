@@ -1,43 +1,43 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportSections = function() {
+namespace CSReportDll
+{
+    export class cReportSections {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportSections = {};
 
-        const C_MODULE: string = "cReportSections";
+    {
 
-        let m_coll: Dictionary = new Dictionary();
-        let m_keys: List = new List();
+        private C_MODULE: string = "cReportSections";
+
+        private coll: Dictionary = new Dictionary();
+        private keys: List = new List();
 
         // it is a reference to the controls collection of cReport
         //
-        let m_copyColl: cReportControls2 = null;
-        let m_typeSection: csRptSectionType = null;
-        let m_mainTypeSection: csRptSectionType = null;
+        private copyColl: cReportControls2 = null;
+        private typeSection: csRptSectionType = null;
+        private mainTypeSection: csRptSectionType = null;
 
         // Creates an empty collection.
-        const cReportSections = function() {
-        };
+        public constructor() {
+        }
 
-        self.getTypeSection = function() {
-            return m_typeSection;
-        };
+        public getTypeSection() {
+            return this.typeSection;
+        }
 
-        self.setTypeSection = function(rhs) {
-            m_typeSection = rhs;
-        };
+        public setTypeSection(rhs: csRptSectionType) {
+            this.typeSection = rhs;
+        }
 
-        self.setMainTypeSection = function(rhs) {
-            m_mainTypeSection = rhs;
-        };
+        public setMainTypeSection(rhs: csRptSectionType) {
+            this.mainTypeSection = rhs;
+        }
 
-        self.setCopyColl = function(rhs) {
-            m_copyColl = rhs;
+        public setCopyColl(rhs: cReportControls2) {
+            this.copyColl = rhs;
 
-            if (m_coll !== null)  {
+            if (this.coll !== null)  {
                 let section: cReportSection = null;
 
                 for(var _i = 0; _i < this.count(); _i++) {
@@ -45,19 +45,19 @@
                     section.setCopyColl(rhs);
                 }
             }
-        };
+        }
 
-		self.add = function() {
+		public add() {
 			return add(null, "");
-		};
-        self.add = function(c, key) {
+		}
+        public add(c: cReportSection, key: string) {
             return add(c, key, -1);
-        };
+        }
 
-        self.add = function(c, key, index) {
+        public add(c: cReportSection, key: string, index: number) {
             try {
                 if (c === null) {
-                    c = globalObject.CSReportDll.createCReportSection();
+                    c = new cReportSection();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -69,20 +69,20 @@
                 key = cReportGlobals.getKey(key);
 
                 if ( && this.count() > 0) {
-                    m_keys.Insert(index, key);
+                    this.keys.Insert(index, key);
                 }
                 else {
-                    m_keys.Add(key);
+                    this.keys.Add(key);
                 }
 
-                m_coll.Add(key, c);
-                c.setCopyColl(m_copyColl);
+                this.coll.Add(key, c);
+                c.setCopyColl(this.copyColl);
 
                 if (this.count() === 1) {
-                    c.setTypeSection(m_mainTypeSection);
+                    c.setTypeSection(this.mainTypeSection);
                 }
                 else {
-                    c.setTypeSection(m_typeSection);
+                    c.setTypeSection(this.typeSection);
                 }
 
                 pRefreshIndex();
@@ -95,9 +95,9 @@
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.clear = function() {
+        public clear() {
             try {
                 let n: number = this.count();
                 for(var i = 0; i < n; i++) {
@@ -107,17 +107,17 @@
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.remove = function(key) {
+        public remove(key: string) {
             try {
                 item(key).getSectionLines().clear();
-                m_coll.Remove(key);
-                m_keys.Remove(key);
+                this.coll.Remove(key);
+                this.keys.Remove(key);
 
                 for(var i = 0; i < this.count(); i++) {
-                    m_coll[m_keys[i]].setIndex(i);
-                    m_coll[m_keys[i]].setName(m_coll[m_keys[i]].getName().Substring(0, 2).Replace("_", "") 
+                    this.coll[this.keys[i]].setIndex(i);
+                    this.coll[this.keys[i]].setName(this.coll[this.keys[i]].getName().Substring(0, 2).Replace("_", "") 
                                                 + "_" + i.ToString());
                 }
                 pRefreshIndex();
@@ -125,16 +125,16 @@
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.remove = function(index) {
+        public remove(index: number) {
             try {
                 item(index).getSectionLines().clear();
-                m_coll.Remove(m_keys[index]);
-                m_keys.RemoveAt(index);
+                this.coll.Remove(this.keys[index]);
+                this.keys.RemoveAt(index);
 
                 for(var i = 0; i < this.count(); i++) {
-                    let sec: cReportSection = m_coll[m_keys[i]];
+                    let sec: cReportSection = this.coll[this.keys[i]];
                     sec.setIndex(i);
                     sec.setName(sec.getName().Substring(0, 2).Replace("_", "")
                                 + "_" + i.ToString());
@@ -144,16 +144,16 @@
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.count = function() {
-            return m_coll.Count;
-        };
+        public count() {
+            return this.coll.Count;
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
-                if (m_coll.ContainsKey(key)) {
-                    return m_coll[key];
+                if (this.coll.ContainsKey(key)) {
+                    return this.coll[key];
                 }
                 else {
                     return null;
@@ -162,48 +162,27 @@
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
-                return m_coll[m_keys[index]];
+                return this.coll[this.keys[index]];
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        const pRefreshIndex = function() {
+        private pRefreshIndex() {
             for(var i = 0; i < this.count(); i++) {
                 item(i).setRealIndex(i);
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportSections {
-
-    getTypeSection: () => csRptSectionType;
-    setTypeSection: (csRptSectionType) => void;
-    setMainTypeSection: (csRptSectionType) => void;
-    setCopyColl: (cReportControls2) => void;
-    add: () => cReportSection;
-    add: (cReportSection, String) => cReportSection;
-    add: (cReportSection, String, int) => cReportSection;
-    clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    count: () => int;
-    item: (String) => cReportSection;
-    item: (int) => cReportSection;
-  }
 }

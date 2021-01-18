@@ -1,71 +1,71 @@
-(function(globalObject) {
 
-    globalObject.CSReportPaint = globalObject.CSReportPaint || {};
 
-	globalObject.CSReportPaint.createCReportPrint = function() {
+namespace CSReportPaint
+{
+	export class cReportPrint {
 
-	    // @ts-ignore
-	    let self: CSReportPaint.IcReportPrint = {};
 
-        const C_MODULE: string = "cReportPrint";
+    {
 
-        const C_OFFSETHEADER: number = 0;
-        const C_OFFSETDETAIL: number = 100000;
-        const C_OFFSETFOOTER: number = 1000000;
+        private C_MODULE: string = "cReportPrint";
 
-        let m_report: CSReportDll.cReport = null;
-        let m_paint: cReportPaint = null;
-        let m_rpwPrint: CSReportPreview.cReportPreview = null;
-        let m_fPreview: fPreview = null;
+        private C_OFFSETHEADER: number = 0;
+        private C_OFFSETDETAIL: number = 100000;
+        private C_OFFSETFOOTER: number = 1000000;
 
-        let m_lastIndexField: number = 0;
+        private report: CSReportDll.cReport = null;
+        private paint: cReportPaint = null;
+        private rpwPrint: CSReportPreview.cReportPreview = null;
+        private fPreview: fPreview = null;
 
-        let m_currPage: number = -1;
+        private lastIndexField: number = 0;
 
-        let m_fnt: Font[] = null;
+        private currPage: number = -1;
 
-        let m_x: number = 0;
-        let m_y: number = 0;
+        private fnt: Font[] = null;
 
-        let m_rePaintObject: boolean = null;
+        private x: number = 0;
+        private y: number = 0;
 
-        let m_realWidth: number = 0;
-        let m_realHeight: number = 0;
+        private rePaintObject: boolean = null;
 
-        let m_scaleFont: number = 1;
+        private realWidth: number = 0;
+        private realHeight: number = 0;
 
-        let m_scaleY: number = 1;
-        let m_scaleX: number = 1;
+        private scaleFont: number = 1;
 
-        let m_bModal: boolean = null;
+        private scaleY: number = 1;
+        private scaleX: number = 1;
 
-        let m_bHidePreviewWindow: boolean = null;
+        private bModal: boolean = null;
 
-        let m_fileToSavePDF: string = "";
-        let m_pDFQuality: csPDFQuality = null;
+        private bHidePreviewWindow: boolean = null;
 
-        let m_exportFileName: string = "";
+        private fileToSavePDF: string = "";
+        private pDFQuality: csPDFQuality = null;
 
-        let m_objClientToPrint: cIPrintClient = null;
-        let m_pagesToPrint: int[] = null;
-        let m_pageToPrint: number = -1;
+        private exportFileName: string = "";
 
-        let m_oldZoom: number = 0;
-        let m_oldScaleY: number = 0;
-        let m_oldScaleX: number = 0;
-        let m_oldScaleFont: number = 0;
+        private objClientToPrint: cIPrintClient = null;
+        private pagesToPrint: number[] = null;
+        private pageToPrint: number = -1;
 
-        const cReportPrint = function() {
+        private oldZoom: number = 0;
+        private oldScaleY: number = 0;
+        private oldScaleX: number = 0;
+        private oldScaleFont: number = 0;
+
+        public constructor() {
             try {
-                m_scaleX = 1;
-                m_scaleY = 1;
+                this.scaleX = 1;
+                this.scaleY = 1;
 
-                cGlobals.redim(m_fnt, 0);
+                cGlobals.redim(this.fnt, 0);
             }
             catch (ex) {
-                self."constructor",: cError.mngError(ex, = null;C_MODULE, "");
+                public "constructor",: cError.mngError(ex, = null;C_MODULE, "");
             }
-        };
+        }
 
         //---------------------------------------------------------------------------
         //
@@ -73,68 +73,68 @@
 
         // for cExportPDF
         //
-        self.getFileToSavePDF = function() {
-            return m_fileToSavePDF;
-        };
+        public getFileToSavePDF() {
+            return this.fileToSavePDF;
+        }
 
-        self.setFileToSavePDF = function(rhs) {
-            m_fileToSavePDF = rhs;
-        };
+        public setFileToSavePDF(rhs: string) {
+            this.fileToSavePDF = rhs;
+        }
 
-        self.getPDFQuality = function() {
-            return m_pDFQuality;
-        };
+        public getPDFQuality() {
+            return this.pDFQuality;
+        }
 
-        self.setPDFQuality = function(rhs) {
-            m_pDFQuality = rhs;
-        };
+        public setPDFQuality(rhs: csPDFQuality) {
+            this.pDFQuality = rhs;
+        }
 
         // for cPrintManager
         //
-        self.getExportFileName = function() {
-            return m_exportFileName;
-        };
+        public getExportFileName() {
+            return this.exportFileName;
+        }
 
-        self.setExportFileName = function(rhs) {
-            m_exportFileName = rhs;
-        };
+        public setExportFileName(rhs: string) {
+            this.exportFileName = rhs;
+        }
 
         //
         //---------------------------------------------------------------------------
 
-        self.getReport = function() {
-            return m_report;
-        };
+        public getReport() {
+            return this.report;
+        }
 
-        self.setPreviewControl = function(rhs) {
-            m_rpwPrint = rhs;
-        };
+        public setPreviewControl(rhs: CSReportPreview.cReportPreview) {
+            this.rpwPrint = rhs;
+        }
 
-        self.getCurrPage = function() {
-            return m_currPage;
-        };
+        public getCurrPage() {
+            return this.currPage;
+        }
 
-        self.setCurrPage = function(rhs) {
-            m_currPage = rhs;
-        };
+        public setCurrPage(rhs: number) {
+            this.currPage = rhs;
+        }
 
-        self.setModal = function(rhs) {
-            m_bModal = rhs;
-        };
+        public setModal(rhs: boolean) {
+            this.bModal = rhs;
+        }
 
-        self.setHidePreviewWindow = function(rhs) {
-            m_bHidePreviewWindow = rhs;
-        };
+        public setHidePreviewWindow(rhs: boolean) {
+            this.bHidePreviewWindow = rhs;
+        }
 
-        const setReport = function(rhs) {
-            m_report = rhs;
-        };
+        private setReport(rhs: CSReportDll.cReport) {
+            this.report = rhs;
+        }
 
-        self.closePreviewWindow = function() {
+        public closePreviewWindow() {
             try {
-                if (m_fPreview !== null) {
-                    m_fPreview.Dispose();
-                    m_fPreview = null;
+                if (this.fPreview !== null) {
+                    this.fPreview.Dispose();
+                    this.fPreview = null;
                 }
                 return true;
 
@@ -143,9 +143,9 @@
                 cError.mngError(ex, "ClosePreviewWindow", C_MODULE, "");
                 return false;
             }
-        };
+        }
 
-        self.getLine = function(indexField) {
+        public getLine(indexField: number) {
             let fld: CSReportDll.cReportPageField = null;
             fld = getField(indexField);
 
@@ -153,7 +153,7 @@
                 return null;
             }
             else {
-                let w_item: CSReportDll.cReportPage = m_report.getPages().item(m_currPage);
+                let w_item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
                 if (indexField < C_OFFSETDETAIL) {
                     return pGetLineAux(fld.getIndexLine(), w_item.getHeader());
                 }
@@ -164,22 +164,22 @@
                     return pGetLineAux(fld.getIndexLine(), w_item.getFooter());
                 }
             }
-        };
+        }
 
-        self.getCtrlFooter = function(ctrlName) {
-            return getFieldByCtrlName(ctrlName, m_report.getPages().item(m_currPage).getFooter());
-        };
+        public getCtrlFooter(ctrlName: string) {
+            return getFieldByCtrlName(ctrlName, this.report.getPages().item(this.currPage).getFooter());
+        }
 
-        self.getIndexFieldByName = function(ctrlName) {
-            return m_paint.getPaintObjects().item(ctrlName).getIndexField();
-        };
+        public getIndexFieldByName(ctrlName: string) {
+            return this.paint.getPaintObjects().item(ctrlName).getIndexField();
+        }
 
-        self.refreshCtrl = function(indexField) {
+        public refreshCtrl(indexField: number) {
             let paintObj: cReportPaintObject = null;
             let fld: CSReportDll.cReportPageField = null;
             let page: CSReportDll.cReportPage = null;
 
-            page = m_report.getPages().item(m_currPage);
+            page = this.report.getPages().item(this.currPage);
 
             if (indexField < C_OFFSETDETAIL) {
                 if (!pGetFieldFromIndexAux(page.getHeader(), indexField, fld)) {
@@ -212,26 +212,26 @@
             w_font.setStrike(ctrlFont.getStrike());
 			w_font.setUnderline(ctrlFont.getUnderline());
 
-            m_paint.refreshObject(paintObj.getKey(), m_rpwPrint.getGraph());
-        };
+            this.paint.refreshObject(paintObj.getKey(), this.rpwPrint.getGraph());
+        }
 
-        self.refreshCtrlFooter = function(ctrlName) {
+        public refreshCtrlFooter(ctrlName: string) {
             let paintObj: cReportPaintObject = null;
-            paintObj = pGetPaintObjByCtrlName(ctrlName, m_report.getPages().item(m_currPage).getFooter(), C_OFFSETFOOTER);
+            paintObj = pGetPaintObjByCtrlName(ctrlName, this.report.getPages().item(this.currPage).getFooter(), C_OFFSETFOOTER);
             paintObj.setText(getCtrlFooter(ctrlName).getValue());
-            m_paint.refreshObject(paintObj.getKey(), m_rpwPrint.getGraph());
-        };
+            this.paint.refreshObject(paintObj.getKey(), this.rpwPrint.getGraph());
+        }
 
-        self.getFieldByCtrlName = function(
-            ctrlName, 
-            fields) {
+        public getFieldByCtrlName(
+            ctrlName: string
+            fields: CSReportDll.cReportPageFields) {
             return getFieldByCtrlName(ctrlName, fields, 0);
-        };
+        }
 
-        self.getFieldByCtrlName = function(
-            ctrlName, 
-            fields, 
-            indexField) {
+        public getFieldByCtrlName(
+            ctrlName: string
+            fields: CSReportDll.cReportPageFields
+            indexField: number) {
             let fld: CSReportDll.cReportPageField = null;
 
             for(var _i = 0; _i < fields.count(); _i++) {
@@ -243,14 +243,14 @@
                 }
             }
             return null;
-        };
+        }
 
-        self.getPaintObjByCtrlNameEx = function(ctrlName, indexField) {
+        public getPaintObjByCtrlNameEx(ctrlName: string, indexField: number) {
             let fld: CSReportDll.cReportPageField = null;
             let fields: CSReportDll.cReportPageFields = null;
             let offset: number = 0;
 
-            let w_item: CSReportDll.cReportPage = m_report.getPages().item(m_currPage);
+            let w_item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
 
             fields = w_item.getHeader();
             offset = C_OFFSETHEADER;
@@ -270,8 +270,8 @@
                     }
                 }
             }
-            for(var _i = 0; _i < m_paint.getPaintObjects().count(); _i++) {
-                let paintObj: var = m_paint.getPaintObjects().item(_i);
+            for(var _i = 0; _i < this.paint.getPaintObjects().count(); _i++) {
+                let paintObj: var = this.paint.getPaintObjects().item(_i);
                 if (fields.item(paintObj.getIndexField() - offset) === fld) {
                     if (isInThisLine(ctrlName, indexField, fld)) {
                         return paintObj;
@@ -279,12 +279,12 @@
                 }
             }
             return null;
-        };
+        }
 
-        self.isInThisLine = function(
-            ctrlName, 
-            indexField, 
-            testFld) {
+        public isInThisLine(
+            ctrlName: string
+            indexField: number
+            testFld: CSReportDll.cReportPageField) {
             let fields: CSReportDll.cReportPageFields = null;
             let fld: CSReportDll.cReportPageField = null;
 
@@ -302,13 +302,13 @@
                 }
             }
             return false;
-        };
+        }
 
-        self.getField = function(indexField) {
+        public getField(indexField: number) {
             let rtn: CSReportDll.cReportPageField = null;
             let page: CSReportDll.cReportPage = null;
 
-            page = m_report.getPages().item(m_currPage);
+            page = this.report.getPages().item(this.currPage);
 
             if (indexField < C_OFFSETDETAIL) {
                 if (!pGetFieldFromIndexAux(page.getHeader(), indexField, rtn)) {
@@ -326,60 +326,60 @@
                 }
             }
             return rtn;
-        };
+        }
 
-        self.fieldIsInDetail = function(indexField) {
+        public fieldIsInDetail(indexField: number) {
             return indexField >= C_OFFSETDETAIL && indexField < C_OFFSETFOOTER;
-        };
+        }
 
-        self.printPage = function(moveTo) {
+        public printPage(moveTo: number) {
             printPage(moveTo, false);
-        };
+        }
 
-        self.printPage = function(nPage, inPrinter) {
+        public printPage(nPage: number, inPrinter: boolean) {
             let page: CSReportDll.cReportPage = null;
 
             let mouse: cMouseWait = new cMouseWait();
 
-            m_rePaintObject = true;
+            this.rePaintObject = true;
 
             if (nPage > 1) {
-                m_currPage = nPage-1;
+                this.currPage = nPage-1;
             }
             else {
                 switch (nPage)
                 {
                     case csEMoveTo.C_FIRSTPAGE:
-                        m_currPage = 0;
+                        this.currPage = 0;
                         break;
                     case csEMoveTo.C_LASTPAGE:
-                        m_currPage = m_report.getPages().count()-1;
+                        this.currPage = this.report.getPages().count()-1;
                         break;
                     case csEMoveTo.C_NEXTPAGE:
-                        if (m_currPage + 1 < m_report.getPages().count()) {
-                            m_currPage = m_currPage + 1;
+                        if (this.currPage + 1 < this.report.getPages().count()) {
+                            this.currPage = this.currPage + 1;
                         }
                         else {
-                            m_currPage = m_report.getPages().count()-1;
+                            this.currPage = this.report.getPages().count()-1;
                         }
                         break;
                     case csEMoveTo.C_PREVIOUSPAGE:
-                        if (m_currPage - 1 >= 0) {
-                            m_currPage = m_currPage - 1;
+                        if (this.currPage - 1 >= 0) {
+                            this.currPage = this.currPage - 1;
                         }
                         else {
-                            m_currPage = 0;
+                            this.currPage = 0;
                         }
                         break;
                 }
             }
-            if (m_currPage === -1 || m_currPage > m_report.getPages().count()-1) { return; }
+            if (this.currPage === -1 || this.currPage > this.report.getPages().count()-1) { return; }
 
-            page = m_report.getPages().item(m_currPage);
+            page = this.report.getPages().item(this.currPage);
 
             // we need to clear the print object
             //
-            m_paint.getPaintObjects().clear();
+            this.paint.getPaintObjects().clear();
 
             createPaintObjects(page.getHeader(), C_OFFSETHEADER);
             createPaintObjects(page.getDetail(), C_OFFSETDETAIL);
@@ -388,44 +388,44 @@
             if (!inPrinter) {
                 // set the current page in the preview window
                 //
-                m_rpwPrint.setCurrPage(m_currPage);
+                this.rpwPrint.setCurrPage(this.currPage);
 
-                m_rpwPrint.getBody().Refresh();
+                this.rpwPrint.getBody().Refresh();
             }
-        };
+        }
 
-        self.doPrint = function(objClient) {
+        public doPrint(objClient: cIPrintClient) {
             return pDoPrint(objClient);
-        };
+        }
 
         //----------------------------------------------------
         // cIReportPrint implementation
         //
-        self.makeReport = function() {
+        public makeReport() {
             return make();
-        };
+        }
 
-        self.makeXml = function() {
+        public makeXml() {
             // TODO: not implemented yet
             //
             return false;
-        };
+        }
 
-        self.previewReport = function() {
+        public previewReport() {
             setPreviewForm();
 
             pCreatePaint();
 
-            m_rpwPrint.setPages(m_report.getPages().count());
+            this.rpwPrint.setPages(this.report.getPages().count());
             printPage(csEMoveTo.C_FIRSTPAGE, false);
 
-            let f: Form = m_rpwPrint.Parent;
+            let f: Form = this.rpwPrint.Parent;
 
-            if (m_bModal) {
+            if (this.bModal) {
                 f.ShowDialog();
             }
             else {
-                if (!m_bHidePreviewWindow) {
+                if (!this.bHidePreviewWindow) {
                     f.Show();
                     if (f.WindowState === FormWindowState.Minimized) {
                         f.WindowState = FormWindowState.Normal;
@@ -434,45 +434,45 @@
             }
 
             return true;
-        };
+        }
 
-        self.cIReportPrint_PrintReport = function() {
+        public cIReportPrint_PrintReport() {
             return pDoPrint(null);
-        };
+        }
 
-        const pDoPrint = function(objClient) {
+        private pDoPrint(objClient: cIPrintClient) {
             try {
                 let copies: number = 0;
                 let q: number = 0;
 
                 pCreatePaint();
 
-                m_rePaintObject = true;
+                this.rePaintObject = true;
 
                 let printer: cPrinter = null;
 
                 // if the printer is not defined
                 //
-                if (m_report.getLaunchInfo().getPrinter() === null) {
+                if (this.report.getLaunchInfo().getPrinter() === null) {
                     printer = cPrintAPI.getcPrinterFromDefaultPrinter(null);
                 }
                 // we use the printer asigned by the caller
                 //
                 else {
-                    printer = m_report.getLaunchInfo().getPrinter();
+                    printer = this.report.getLaunchInfo().getPrinter();
                 }
 
-                let w_launchInfo: cReportLaunchInfo = m_report.getLaunchInfo();
+                let w_launchInfo: cReportLaunchInfo = this.report.getLaunchInfo();
                 copies = w_launchInfo.getCopies();
                 if (w_launchInfo.getShowPrintersDialog()) {
                     printer.setCopies(copies);
-                    if (!printer.showDialog(m_report.getPages().count())) {
+                    if (!printer.showDialog(this.report.getPages().count())) {
                         return false;
                     }
                     copies = printer.getCopies();
                 }
                 else {
-                    printer.getPaperInfo().setPagesToPrint("1-" + m_report.getPages().count().ToString());
+                    printer.getPaperInfo().setPagesToPrint("1-" + this.report.getPages().count().ToString());
                 }
 
                 for (q = 0; q < copies; q++) {
@@ -490,58 +490,58 @@
             }
 UNKNOWN >>             finally
             {
-                if (m_rpwPrint !== null) {
-                    printPage(m_currPage, false);
-                    m_rpwPrint.getBody().Refresh();
+                if (this.rpwPrint !== null) {
+                    printPage(this.currPage, false);
+                    this.rpwPrint.getBody().Refresh();
                 }
             }
-        };
+        }
 
-        const pGetPaintObjByIndex = function(indexField) {
-            for(var _i = 0; _i < m_paint.getPaintObjects().count(); _i++) {
-                let po: cReportPaintObject = m_paint.getPaintObjects().item(_i);
+        private pGetPaintObjByIndex(indexField: number) {
+            for(var _i = 0; _i < this.paint.getPaintObjects().count(); _i++) {
+                let po: cReportPaintObject = this.paint.getPaintObjects().item(_i);
                 if (po.getIndexField() === indexField) {
                     return po;
                 }
             }
             return null;
-        };
+        }
 
-        const pGetPaintObjByCtrlName = function(
-            ctrlName, 
-            fields, 
-            offset) {
+        private pGetPaintObjByCtrlName(
+            ctrlName: string
+            fields: CSReportDll.cReportPageFields
+            offset: number) {
             let fld: CSReportDll.cReportPageField = getFieldByCtrlName(ctrlName, fields);
 
-            for(var _i = 0; _i < m_paint.getPaintObjects().count(); _i++) {
-                let rtn: cReportPaintObject = m_paint.getPaintObjects().item(_i);
+            for(var _i = 0; _i < this.paint.getPaintObjects().count(); _i++) {
+                let rtn: cReportPaintObject = this.paint.getPaintObjects().item(_i);
                 if (fields.item(rtn.getIndexField() - offset) === fld) {
                     return rtn;
                 }
             }
             return null;
-        };
+        }
 
-        const pCreatePaint = function() {
-            if (m_paint === null) {
-                m_paint = globalObject.CSReportPaint.createCReportPaint();
+        private pCreatePaint() {
+            if (this.paint === null) {
+                this.paint = new cReportPaint();
             }
-            m_paint.setNotBorder(true);
-        };
+            this.paint.setNotBorder(true);
+        }
 
-        const printPagesToPrinter = function(printer, objClient) {
+        private printPagesToPrinter(printer: cPrinter, objClient: cIPrintClient) {
             try {
                 let printDoc: PrintDocument = new PrintDocument();
 
-                let w_paperInfo: cReportPaperInfo = m_report.getPaperInfo();
+                let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
                 if (!printer.starDoc(printDoc,
-                                        m_report.getName(),
+                                        this.report.getName(),
                                         w_paperInfo.getPaperSize(),
                                         w_paperInfo.getOrientation())) {
                     return false;
                 }
 
-                printDoc.PrintPage += UNKNOWN >>  can't find constructor for class PrintPageEventHandler(printPage);
+                printDoc.PrintPage += new PrintPageEventHandler(printPage);
                 printDoc.PrinterSettings.PrinterName = printer.getDeviceName();
 
                 //PrintDialog printDialog = new PrintDialog();
@@ -550,14 +550,14 @@ UNKNOWN >>             finally
                 //DialogResult dialogResult = printDialog.ShowDialog();
                 //if (dialogResult === DialogResult.OK)
                 //{
-                    m_pageToPrint = -1;
-                    m_pagesToPrint = pGetPagesToPrint(printer.getPaperInfo().getPagesToPrint());
-                    m_objClientToPrint = objClient;
+                    this.pageToPrint = -1;
+                    this.pagesToPrint = pGetPagesToPrint(printer.getPaperInfo().getPagesToPrint());
+                    this.objClientToPrint = objClient;
                     printDoc.Print();
                 //}
 
                 /*
-                for (i = 0; i < m_report.getPages().count(); i++)
+                for (i = 0; i < this.report.getPages().count(); i++)
                 {
                     if (pHaveToPrintThisPage(i, vPages))
                     {
@@ -603,9 +603,9 @@ UNKNOWN >>             finally
                 cError.mngError(ex, "printPagePrinter", C_MODULE, "");
                 return false;
             }
-        };
+        }
 
-        const printPage = function(sender, e) {
+        private printPage(sender: object, e: PrintPageEventArgs) {
             /*
             if (!printer.starPage())
             {
@@ -620,48 +620,48 @@ UNKNOWN >>             finally
             TODO: after some testing we must remove ScaleX and ScaleY
             */
 
-            if (m_pageToPrint === -1) {
+            if (this.pageToPrint === -1) {
 
                 let dpiX: number = 0;
                 let dpiY: number = 0;
 
-                m_oldScaleX = m_paint.getScaleX();
-                m_oldScaleY = m_paint.getScaleY();
-                m_oldScaleFont = m_scaleFont;
-                m_oldZoom = m_paint.getZoom();
+                this.oldScaleX = this.paint.getScaleX();
+                this.oldScaleY = this.paint.getScaleY();
+                this.oldScaleFont = this.scaleFont;
+                this.oldZoom = this.paint.getZoom();
 
                 let graph: var = e.Graphics;
                 dpiX = graph.DpiX;
                 dpiY = graph.DpiY;
 
-                m_scaleX = dpiX / 100;
-                m_scaleY = dpiY / 100;
+                this.scaleX = dpiX / 100;
+                this.scaleY = dpiY / 100;
 
                 let twipsPerPixelX: number = 1440f / dpiX;
                 let dPI: number = 0;
                 dPI = (1440f / twipsPerPixelX);
 
                 if (dPI !== 96 && dPI > 0) {
-                    m_scaleX = m_scaleX * (96f / dPI);
-                    m_scaleY = m_scaleY * (96f / dPI);
+                    this.scaleX = this.scaleX * (96f / dPI);
+                    this.scaleY = this.scaleY * (96f / dPI);
                 }
 
                 // we are not using scaleX and scaleY
-                m_scaleX = 1;
-                m_scaleY = 1;
+                this.scaleX = 1;
+                this.scaleY = 1;
 
-                m_paint.setScaleX(m_scaleX);
-                m_paint.setScaleY(m_scaleY);
+                this.paint.setScaleX(this.scaleX);
+                this.paint.setScaleY(this.scaleY);
 
-                m_paint.setZoom(100);
-                m_scaleFont = 1;
+                this.paint.setZoom(100);
+                this.scaleFont = 1;
             }
 
-            m_pageToPrint += 1;
+            this.pageToPrint += 1;
 
-            while (m_pageToPrint < m_report.getPages().count()) {
-                if (pHaveToPrintThisPage(m_pageToPrint+1, m_pagesToPrint)) {
-                    printPage(m_pageToPrint+1, true);
+            while (this.pageToPrint < this.report.getPages().count()) {
+                if (pHaveToPrintThisPage(this.pageToPrint+1, this.pagesToPrint)) {
+                    printPage(this.pageToPrint+1, true);
                     let graph: var = e.Graphics;
 
                     if (!drawPage(graph, true)) {
@@ -671,53 +671,53 @@ UNKNOWN >>             finally
                                                   );
                     }
 
-                    if (!pRefreshObjClient(m_pageToPrint, m_objClientToPrint)) {
+                    if (!pRefreshObjClient(this.pageToPrint, this.objClientToPrint)) {
                         throw new ReportPaintException(csRptPaintErrors.CSRPT_PAINT_ERR_PRINTING,
                                                   C_MODULE,
                                                   "Ocurrio un error al imprimir el reporte."
                                                   );
                     }
 
-                    e.HasMorePages = (m_pageToPrint+1 < m_pagesToPrint.Last());
+                    e.HasMorePages = (this.pageToPrint+1 < this.pagesToPrint.Last());
                     return;
                 }
                 else {
-                    m_pageToPrint += 1;
+                    this.pageToPrint += 1;
                 }
             }
 
-            m_paint.setZoom(m_oldZoom);
-            m_scaleX = m_oldScaleX;
-            m_scaleY = m_oldScaleY;
-            m_paint.setScaleX(m_oldScaleX);
-            m_paint.setScaleY(m_oldScaleY);
-            m_scaleFont = m_oldScaleFont;
+            this.paint.setZoom(this.oldZoom);
+            this.scaleX = this.oldScaleX;
+            this.scaleY = this.oldScaleY;
+            this.paint.setScaleX(this.oldScaleX);
+            this.paint.setScaleY(this.oldScaleY);
+            this.scaleFont = this.oldScaleFont;
 
             e.HasMorePages = false;
-        };
+        }
 
-        const pRefreshObjClient = function(iPage, objClient) {
+        private pRefreshObjClient(iPage: number, objClient: cIPrintClient) {
             if (objClient === null) {
                 return true;
             }
             else {
                 return objClient.printingPage(iPage);
             }
-        };
+        }
 
-        const pHaveToPrintThisPage = function(page, v) {
+        private pHaveToPrintThisPage(page: number, v: number[]) {
             for(var n = 0; n < v.Length; n++) {
                 if (page === v[n]) {
                     return true;
                 }
             }
             return false;
-        };
+        }
 
-        const pGetPagesToPrint = function(pagesToPrint) {
-            let v: String[] = null;
-            let n: int[] = null;
-            let v2: String[] = null;
+        private pGetPagesToPrint(pagesToPrint: string) {
+            let v: string[] = null;
+            let n: number[] = null;
+            let v2: string[] = null;
             let t: number = 0;
             let r: number = 0;
             let addInterval: boolean = false;
@@ -755,13 +755,13 @@ UNKNOWN >>             finally
                 }
             }
             return n;
-        };
+        }
 
-        self.setReport = function(rhs) {
-            m_report = rhs;
-        };
+        public setReport(rhs: object) {
+            this.report = rhs;
+        }
 
-        const pGetLineAux = function(indexLine, fields) {
+        private pGetLineAux(indexLine: number, fields: CSReportDll.cReportPageFields) {
             let flds: CSReportDll.cReportPageFields = new CSReportDll.cReportPageFields();
 
             for(var _i = 0; _i < fields.count(); _i++) {
@@ -771,9 +771,9 @@ UNKNOWN >>             finally
                 }
             }
             return flds;
-        };
+        }
 
-        const make = function() {
+        private make() {
             let detailHeight: number = 0;
             let lineHeight: number = 0;
 
@@ -787,21 +787,21 @@ UNKNOWN >>             csRptNewPageResult rsltNewPage;
             let topSection: number = 0;
             let heightSection: number = 0;
             let secLnIndex: number = -1;
-            let offsetTop: float[] = null;
-            let vdummy: float[] = null;
+            let offsetTop: number[] = null;
+            let vdummy: number[] = null;
 
             let mouse: cMouseWait = new cMouseWait();
 
             printerSetSizeAndOrient(
-                m_report.getLaunchInfo().getPrinter().getDeviceName(),
-                m_report.getPaperInfo().getPaperSize(),
-                m_report.getPaperInfo().getOrientation());
+                this.report.getLaunchInfo().getPrinter().getDeviceName(),
+                this.report.getPaperInfo().getPaperSize(),
+                this.report.getPaperInfo().getOrientation());
 
-            m_currPage = -1;
+            this.currPage = -1;
 
             // we create the first page
             //
-            rsltNewPage = m_report.newPage();
+            rsltNewPage = this.report.newPage();
 
             // if it has failed
             //
@@ -812,30 +812,30 @@ UNKNOWN >>             csRptNewPageResult rsltNewPage;
             // if there is no data
             //
             if (rsltNewPage === csRptNewPageResult.CSRPTNPEND) {
-                return m_report.endPage() !== csRptEndPageResult.CSRPTEPERROR;
+                return this.report.endPage() !== csRptEndPageResult.CSRPTEPERROR;
             }
 
             // we are goin to evaluate the detail's first line
             // or group header's first line only if there are not
             // groups
             //
-            if (m_report.getGroups().count() === 0) {
-                m_report.evalPreGroupHeader();
-                m_report.evalPre();
+            if (this.report.getGroups().count() === 0) {
+                this.report.evalPreGroupHeader();
+                this.report.evalPre();
             }
 
             // get details dimensions
             //
-            detailHeight = getDetailHeight(m_report.getPages().item(m_report.getPages().count()-1), top);
+            detailHeight = getDetailHeight(this.report.getPages().item(this.report.getPages().count()-1), top);
 
             // add the height of the images for controls which can grow and are in the header
             //
-            getLineHeight(m_report.getPages().item(m_report.getPages().count()-1).getHeader(), vdummy);
+            getLineHeight(this.report.getPages().item(this.report.getPages().count()-1).getHeader(), vdummy);
 
             do {
                 // get the line
                 //
-                rslt = m_report.getLine(fields);
+                rslt = this.report.getLine(fields);
 
                 // if we have finished
                 //
@@ -849,14 +849,14 @@ UNKNOWN >>             csRptNewPageResult rsltNewPage;
                 //
                 if (rslt === csRptGetLineResult.CSRPTGLVIRTUALH) {
 
-                    m_report.evalPreGroupHeader();
+                    this.report.evalPreGroupHeader();
 
                     // idem for footers
                     //
                 }
                 else if (rslt === csRptGetLineResult.CSRPTGLVIRTUALF) {
 
-                    m_report.evalPreGroupFooter();
+                    this.report.evalPreGroupFooter();
 
                     // if the engine responded that we need to create a new page
                     //
@@ -894,7 +894,7 @@ UNKNOWN >>             csRptNewPageResult rsltNewPage;
                         //
                         // add the line to the page
                         //
-                        detail = m_report.getPages().item(m_report.getPages().count()-1).getDetail();
+                        detail = this.report.getPages().item(this.report.getPages().count()-1).getDetail();
 
                         for(var _i = 0; _i < fields.count(); _i++) {
                             field = fields.item(_i);
@@ -929,73 +929,73 @@ UNKNOWN >>                             field.setTop(top
                         // notify the engine about the groups' staste
                         //
                         if (rslt === csRptGetLineResult.CSRPTGLGROUPHEADER) {
-                            m_report.markGroupHeaderPrinted();
+                            this.report.markGroupHeaderPrinted();
 
                             // evaluate every function which are mark 
                             // to be printed after printing
                             //
-                            m_report.evalPostGroupHeader();
+                            this.report.evalPostGroupHeader();
 
                         }
                         else if (rslt === csRptGetLineResult.CSRPTGLGROUPFOOTER) {
-                            m_report.markGroupFooterPrinted();
+                            this.report.markGroupFooterPrinted();
 
                             // evaluate every function which are mark 
                             // to be printed after printing
                             //
-                            m_report.evalPostGroupFooter();
+                            this.report.evalPostGroupFooter();
 
                         }
                         else if (rslt === csRptGetLineResult.CSRPTGLDETAIL) {
-                            m_report.evalPost();
-                            m_report.moveToNext();
+                            this.report.evalPost();
+                            this.report.moveToNext();
                         }
-                        if (m_report.getLineType() === csRptGetLineResult.CSRPTGLDETAIL) {
-                            m_report.evalPre();
+                        if (this.report.getLineType() === csRptGetLineResult.CSRPTGLDETAIL) {
+                            this.report.evalPre();
                         }
                     }
                 }
             } while (true);
 
-            return m_report.endPage() !== csRptEndPageResult.CSRPTEPERROR;
-        };
+            return this.report.endPage() !== csRptEndPageResult.CSRPTEPERROR;
+        }
 
-        const printerSetSizeAndOrient = function(p, csReportPaperType, p_2) {
+        private printerSetSizeAndOrient(p: string, csReportPaperType: csReportPaperType, p_2: number) {
             // TODO: implement this
             // throw new NotImplementedException();
-        };
+        }
 
-        const pNewPage = function(top, detailHeight) {
+        private pNewPage(top: number, detailHeight: number) {
 UNKNOWN >>             csRptNewPageResult rsltNewPage;
 UNKNOWN >>             csRptEndPageResult rsltEndPage;
 
-            rsltEndPage = m_report.endPage();
+            rsltEndPage = this.report.endPage();
             if (rsltEndPage === csRptEndPageResult.CSRPTEPERROR) {
                 return false;
             }
 
-            rsltNewPage = m_report.newPage();
+            rsltNewPage = this.report.newPage();
             if (rsltNewPage === csRptNewPageResult.CSRPTNPERROR) {
                 return false;
             }
 
             // get details' dimentions
             //
-            detailHeight = getDetailHeight(m_report.getPages().item(m_report.getPages().count()-1), top);
+            detailHeight = getDetailHeight(this.report.getPages().item(this.report.getPages().count()-1), top);
 
             return true;
-        };
+        }
 
         // returns details' height of this page
         //
-        const getDetailHeight = function(page, top) {
+        private getDetailHeight(page: CSReportDll.cReportPage, top: number) {
             top = page.getHeaderBottom();
             return page.getFooterTop() - top;
-        };
+        }
 
         // returns the bigger control's height and set the height of every control
         //
-        const getLineHeight = function(fields, offsetTop) {
+        private getLineHeight(fields: CSReportDll.cReportPageFields, offsetTop: number[]) {
             let field: CSReportDll.cReportPageField = null;
             let offBottom: number = 0;
             let aspectHeight: number = 0;
@@ -1019,7 +1019,7 @@ UNKNOWN >>             csRptEndPageResult rsltEndPage;
             let indexSection: number = -1;
             let heightSection: number = 0;
 
-            offsetTop = UNKNOWN >>  can't find constructor for class float[1];
+            offsetTop = new float[1];
 
             if (fields.count() > 0) {
 
@@ -1119,9 +1119,9 @@ UNKNOWN >>                                             || ECGTextAlignFlags.DT_L
 UNKNOWN >>                                             || ECGTextAlignFlags.DT_NOPREFIX*/;
                                 }
 
-                                let idx: number = cGlobals.addFontIfRequired(aspect.getFont(), m_fnt);
+                                let idx: number = cGlobals.addFontIfRequired(aspect.getFont(), this.fnt);
 
-                                font = m_fnt[idx];
+                                font = this.fnt[idx];
 
                                 field.setHeight(
                                     evaluateTextHeight(
@@ -1129,8 +1129,8 @@ UNKNOWN >>                                             || ECGTextAlignFlags.DT_N
                                         font, 
                                         aspect.getWidth(), 
                                         flags, 
-                                        m_scaleY, 
-                                        m_scaleX));
+                                        this.scaleY, 
+                                        this.scaleX));
                                 if (field.getHeight() < aspectHeight) { field.setHeight(aspectHeight); }
                             }
                         }
@@ -1171,56 +1171,56 @@ UNKNOWN >>                                             || ECGTextAlignFlags.DT_N
             // return the height of the section
             //
             return heightSection;
-        };
+        }
 
         // TODO: check if we should have a bitmap as a member field so it is not created everytime
         //
-        const evaluateTextHeight = function(text, font, width, flags, scaleY, scaleX) {
+        private evaluateTextHeight(text: string, font: Font, width: number, flags: number, scaleY: number, scaleX: number) {
             let bmp: Bitmap = new Bitmap(1, 1);
             let graph: Graphics = Graphics.FromImage(bmp);
             let stringSize: SizeF = graph.MeasureString(text, font, Convert.ToInt32(width * scaleX));
             graph.Dispose();
             bmp.Dispose();
             return stringSize.Height * scaleY;
-        };
+        }
 
         // if the caller hasn't assigned a preview object
         // we use the internal preview object
         //
-        const setPreviewForm = function() {
-            if (m_rpwPrint === null) {
-                if (m_fPreview === null) {
-                    m_fPreview = globalObject.CSReportPaint.createFPreview();
+        private setPreviewForm() {
+            if (this.rpwPrint === null) {
+                if (this.fPreview === null) {
+                    this.fPreview = new fPreview();
                 }
-                m_rpwPrint = m_fPreview.getRpwReport();
+                this.rpwPrint = this.fPreview.getRpwReport();
             }
             else {
-                if (m_rpwPrint.Parent !== null) {
-                    if (!(m_rpwPrint.Parent.GetType() === typeof(Form))) {
-                        m_fPreview = globalObject.CSReportPaint.createFPreview();
-                        m_rpwPrint = m_fPreview.getRpwReport();
+                if (this.rpwPrint.Parent !== null) {
+                    if (!(this.rpwPrint.Parent.GetType() === typeof(Form))) {
+                        this.fPreview = new fPreview();
+                        this.rpwPrint = this.fPreview.getRpwReport();
                     }
                 }
                 else {
-                    m_fPreview = globalObject.CSReportPaint.createFPreview();
-                    m_rpwPrint = m_fPreview.getRpwReport();
+                    this.fPreview = new fPreview();
+                    this.rpwPrint = this.fPreview.getRpwReport();
                 }
             }
 
 UNKNOWN >>             RectangleF tR;
 
-            let w_printer: cPrinter = m_report.getLaunchInfo().getPrinter();
+            let w_printer: cPrinter = this.report.getLaunchInfo().getPrinter();
             tR = cGlobals.getRectFromPaperSize(w_printer.getPaperInfo(), w_printer.getPaperInfo().getPaperSize(), w_printer.getPaperInfo().getOrientation());
 
-            m_realWidth = tR.Width;
-            m_realHeight = tR.Height;
+            this.realWidth = tR.Width;
+            this.realHeight = tR.Height;
 
-            m_rpwPrint.getBody().Width = m_realWidth;
-            m_rpwPrint.getBody().Height = m_realHeight;
+            this.rpwPrint.getBody().Width = this.realWidth;
+            this.rpwPrint.getBody().Height = this.realHeight;
 
-            if (!m_bModal) {
-                if (!m_bHidePreviewWindow) {
-                    let obj: var = m_rpwPrint.getParent();
+            if (!this.bModal) {
+                if (!this.bHidePreviewWindow) {
+                    let obj: var = this.rpwPrint.getParent();
                     if (obj.GetType() === typeof(Form))  {
                         let f: Form = obj as Form;
                         f.Show();
@@ -1228,15 +1228,15 @@ UNKNOWN >>             RectangleF tR;
                 }
             }
 
-            m_rpwPrint.getBody().Paint += UNKNOWN >>  can't find constructor for class PaintEventHandler(rpwPrintBodyPaint);
-            m_rpwPrint.FirstPage += UNKNOWN >>  can't find constructor for class CSReportPreview.FirstPage(rpwPrintMoveFirst);
-            m_rpwPrint.PreviousPage += UNKNOWN >>  can't find constructor for class CSReportPreview.PreviousPage(rpwPrintMovePrevious);
-            m_rpwPrint.MoveToPage += UNKNOWN >>  can't find constructor for class CSReportPreview.MoveToPage(rpwPrintMoveToPage);
-            m_rpwPrint.NextPage += UNKNOWN >>  can't find constructor for class CSReportPreview.NextPage(rpwPrintMoveNext);
-            m_rpwPrint.LastPage += UNKNOWN >>  can't find constructor for class CSReportPreview.LastPage(rpwPrintMoveLast);
-        };
+            this.rpwPrint.getBody().Paint += new PaintEventHandler(rpwPrintBodyPaint);
+            this.rpwPrint.FirstPage += new CSReportPreview.FirstPage(rpwPrintMoveFirst);
+            this.rpwPrint.PreviousPage += new CSReportPreview.PreviousPage(rpwPrintMovePrevious);
+            this.rpwPrint.MoveToPage += new CSReportPreview.MoveToPage(rpwPrintMoveToPage);
+            this.rpwPrint.NextPage += new CSReportPreview.NextPage(rpwPrintMoveNext);
+            this.rpwPrint.LastPage += new CSReportPreview.LastPage(rpwPrintMoveLast);
+        }
 
-        const createPaintObjects = function(fields, offset) {
+        private createPaintObjects(fields: CSReportDll.cReportPageFields, offset: number) {
             let field: CSReportDll.cReportPageField = null;
 
             let rptAspect: CSReportDll.cReportAspect = null;
@@ -1252,7 +1252,7 @@ UNKNOWN >>             RectangleF tR;
 
                     rptAspect = field.getInfo().getAspect();
 
-                    let w_add: cReportPaintObject = m_paint.getPaintObjects().add(null, "");
+                    let w_add: cReportPaintObject = this.paint.getPaintObjects().add(null, "");
                     let w_aspect: CSReportDll.cReportAspect = w_add.getAspect();
                     if (field.getTop() > 0) {
                         w_aspect.setTop(field.getTop());
@@ -1291,7 +1291,7 @@ UNKNOWN >>             RectangleF tR;
                     w_font.setForeColor(rptFont.getForeColor());
                     w_font.setItalic(rptFont.getItalic());
                     w_font.setName(rptFont.getName());
-                    w_font.setSize(rptFont.getSize() * m_scaleFont);
+                    w_font.setSize(rptFont.getSize() * this.scaleFont);
                     w_font.setStrike(rptFont.getStrike());
 					w_font.setUnderline(rptFont.getUnderline());
 
@@ -1307,44 +1307,44 @@ UNKNOWN >>             RectangleF tR;
                     }
                 }
             }
-        };
+        }
 
         // TODO: see how to implement this functionality
         //
-        const m_fPreview_FormUnload = function() {
-            m_rpwPrint = null;
-            m_report.getLaunchInfo().getObjPaint().setReport(null);
-            m_report.getLaunchInfo().setObjPaint(null);
-        };
+        private fPreview_FormUnload() {
+            this.rpwPrint = null;
+            this.report.getLaunchInfo().getObjPaint().setReport(null);
+            this.report.getLaunchInfo().setObjPaint(null);
+        }
 
         //------------------------------------------------------------------
         // preview events
         //
-        const m_rpwPrint_BodyDblClick = function() {
+        private rpwPrint_BodyDblClick() {
             /*
             try {
 
                 String sKey = "";
 
-                if (m_paint === null) { return; }
-                if (m_paint.pointIsInObject(m_x, m_y, sKey)) {
-                    Iterator listeners = m_listeners.iterator();
+                if (this.paint === null) { return; }
+                if (this.paint.pointIsInObject(this.x, this.y, sKey)) {
+                    Iterator listeners = this.listeners.iterator();
                     while(listeners.hasNext()) {
-                        (listeners.next()).dblClickOnField(m_paint.getPaintObjects(sKey).IndexField);
+                        (listeners.next()).dblClickOnField(this.paint.getPaintObjects(sKey).IndexField);
                     }
                 }
 
                 //*TODO:** goto found: GoTo ExitProc;
             } catch (Exception ex) {
-                cError.mngError(ex, "m_rpwPrint_BodyDblClick", C_MODULE, "");
+                cError.mngError(ex, "this.rpwPrint_BodyDblClick", C_MODULE, "");
                 if (VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
 
             }
         */
-        };
+        }
 
-        const pGetFieldFromIndexAux = function(fields, index, rtn) {
+        private pGetFieldFromIndexAux(fields: CSReportDll.cReportPageFields, index: number, rtn: CSReportDll.cReportPageField) {
             try {
                 rtn = fields.item(index);
                 return true;
@@ -1352,28 +1352,28 @@ UNKNOWN >>             RectangleF tR;
             catch(ex) {
                 return false;
             }
-        };
+        }
 
 
-        const m_rpwPrint_BodyMouseDown = function(button, shift, x, y) {
+        private rpwPrint_BodyMouseDown(button: number, shift: number, x: number, y: number) {
             /*
             try {
                 String sKey = "";
 
-                if (m_paint === null) { return; }
+                if (this.paint === null) { return; }
 
-                if (m_paint.pointIsInObject(x, y, sKey)) {
+                if (this.paint.pointIsInObject(x, y, sKey)) {
                     int index = 0;
-                    index = m_paint.getPaintObjects(sKey).IndexField;
+                    index = this.paint.getPaintObjects(sKey).IndexField;
 
                     bool cancel = null;
-                    Iterator listeners = m_listeners.iterator();
+                    Iterator listeners = this.listeners.iterator();
                     while(listeners.hasNext()) {
                         (listeners.next()).mouseDownOnField(index, button, shift, cancel, x, y);
                     }
 
                     if (!cancel) {
-                        Iterator listeners = m_listeners.iterator();
+                        Iterator listeners = this.listeners.iterator();
                         while(listeners.hasNext()) {
                             (listeners.next()).clickOnField(index);
                         }
@@ -1383,63 +1383,63 @@ UNKNOWN >>             RectangleF tR;
 
                 //*TODO:** goto found: GoTo ExitProc;
             } catch (Exception ex) {
-                cError.mngError(ex, "m_rpwPrint_BodyMouseDown", C_MODULE, "");
+                cError.mngError(ex, "this.rpwPrint_BodyMouseDown", C_MODULE, "");
                 if (VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
 
             }
         */
-        };
+        }
 
-        const m_rpwPrint_BodyMouseMove = function(button, shift, x, y) {
+        private rpwPrint_BodyMouseMove(button: number, shift: number, x: number, y: number) {
             /*
             try {
 
                 String sKey = "";
                 int indexField = 0;
 
-                if (m_paint === null) { return; }
+                if (this.paint === null) { return; }
 
-                if (m_paint.pointIsInObject(x, y, sKey)) {
-                    indexField = m_paint.getPaintObjects(sKey).IndexField;
-                    if (m_lastIndexField !== indexField) {
-                        Iterator listeners = m_listeners.iterator();
+                if (this.paint.pointIsInObject(x, y, sKey)) {
+                    indexField = this.paint.getPaintObjects(sKey).IndexField;
+                    if (this.lastIndexField !== indexField) {
+                        Iterator listeners = this.listeners.iterator();
                         while(listeners.hasNext()) {
                             (listeners.next()).mouseOnField(indexField);
                         }
-                        m_lastIndexField = indexField;
+                        this.lastIndexField = indexField;
                     }
                 } 
                 else {
-                    if (m_lastIndexField) {
-                        Iterator listeners = m_listeners.iterator();
+                    if (this.lastIndexField) {
+                        Iterator listeners = this.listeners.iterator();
                         while(listeners.hasNext()) {
                             (listeners.next()).mouseOutField();
                         }
-                        m_lastIndexField = 0;
+                        this.lastIndexField = 0;
                     }
                 }
 
-                m_x = x;
-                m_y = y;
+                this.x = x;
+                this.y = y;
 
                 //*TODO:** goto found: GoTo ExitProc;
             } catch (Exception ex) {
-                cError.mngError(ex, "m_rpwPrint_BodyMouseMove", C_MODULE, "");
+                cError.mngError(ex, "this.rpwPrint_BodyMouseMove", C_MODULE, "");
                 if (VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
 
             }
         */
-        };
+        }
 
-        const rpwPrintBodyPaint = function(sender, e) {
-            if (m_paint !== null) {
+        private rpwPrintBodyPaint(sender: object, e: PaintEventArgs) {
+            if (this.paint !== null) {
                 drawPage(e.Graphics, false);
             }
-        };
+        }
 
-        const m_rpwPrint_ChangeZoom = function(zoom) {
+        private rpwPrint_ChangeZoom(zoom: number) {
             let nZoom: number = 0;
             let width: number = 0;
             let height: number = 0;
@@ -1448,14 +1448,14 @@ UNKNOWN >>             RectangleF tR;
             {
                 case csEZoom.csEZoomAllPage:
 
-                    width = m_rpwPrint.Width / m_realWidth;
-                    height = m_rpwPrint.Height / m_realHeight;
+                    width = this.rpwPrint.Width / this.realWidth;
+                    height = this.rpwPrint.Height / this.realHeight;
 
                     if (width < height) {
-                        nZoom = m_rpwPrint.Width / m_realWidth;
+                        nZoom = this.rpwPrint.Width / this.realWidth;
                     }
                     else {
-                        nZoom = m_rpwPrint.Height / m_realHeight;
+                        nZoom = this.rpwPrint.Height / this.realHeight;
                     }
 
                     break;
@@ -1463,7 +1463,7 @@ UNKNOWN >>             RectangleF tR;
                     nZoom = 1;
                     break;
                 case csEZoom.csEZoomWidth:
-                    nZoom = m_rpwPrint.Width / m_realWidth;
+                    nZoom = this.rpwPrint.Width / this.realWidth;
                     break;
                 default:
                     nZoom = zoom / 100;
@@ -1472,30 +1472,30 @@ UNKNOWN >>             RectangleF tR;
 
             if (nZoom < 0.01) { nZoom = 0.01f; }
 
-            let pic: PictureBox = m_rpwPrint.getBody();
-            pic.Width = (m_realWidth * nZoom);
-            pic.Height = (m_realHeight * nZoom);
+            let pic: PictureBox = this.rpwPrint.getBody();
+            pic.Width = (this.realWidth * nZoom);
+            pic.Height = (this.realHeight * nZoom);
 
             if (nZoom > 0.5) {
-                m_paint.setZoom(100);
-                m_paint.setScaleX(nZoom);
-                m_paint.setScaleY(nZoom);
-                m_scaleFont = nZoom;
-                printPage(m_currPage);
+                this.paint.setZoom(100);
+                this.paint.setScaleX(nZoom);
+                this.paint.setScaleY(nZoom);
+                this.scaleFont = nZoom;
+                printPage(this.currPage);
             }
             else {
-                m_paint.setZoom(zoom);
-                m_rpwPrint.getBody().Refresh();
+                this.paint.setZoom(zoom);
+                this.rpwPrint.getBody().Refresh();
             }
-        };
+        }
 
-        const m_rpwPrint_DoPrint = function() {
+        private rpwPrint_DoPrint() {
             cIReportPrint_PrintReport();
-        };
+        }
 
         /*TODO: we need to decide if it is useful
          * 
-            private void m_rpwPrint_ExportExcel() {
+            private void this.rpwPrint_ExportExcel() {
                 try {
 
                     cMouseWait mouse = new cMouseWait();
@@ -1505,168 +1505,168 @@ UNKNOWN >>             RectangleF tR;
                     CSReportExport.cReportExcel expExcel = null;
                     expExcel = new CSReportExport.cReportExcel();
 
-                    expExcel.export(m_report);
+                    expExcel.export(this.report);
 
                 } catch (Exception ex) {
-                    cError.mngError(ex, "m_rpwPrint_ExportExcel", C_MODULE, "");
+                    cError.mngError(ex, "this.rpwPrint_ExportExcel", C_MODULE, "");
                 }
             }
         */
-        const m_rpwPrint_ExportPDF = function() {
+        private rpwPrint_ExportPDF() {
             exportPDF();
-        };
+        }
 
         // Files is a list of file names separated by |
         //
-        self.sendMail = function(files, emailAddress) {
+        public sendMail(files: string, emailAddress: string) {
             let expPDF: cReportPdf = null;
-            expPDF = globalObject.CSReportExport.createCReportPdf();
+            expPDF = new cReportPdf();
 
             expPDF.setExportEmailAddress(emailAddress);
             return expPDF.sendMail(files);
-        };
+        }
 
-        self.exportPDFEx = function(outputFile, bShowPDFWindow) {
+        public exportPDFEx(outputFile: string, bShowPDFWindow: boolean) {
             return pExportPDF(outputFile, bShowPDFWindow);
-        };
+        }
 
-        self.exportPDF = function() {
+        public exportPDF() {
             let dummy: string = "";
             return pExportPDF(dummy, true);
-        };
+        }
 
-        const pGetExportFileName = function() {
-            if (m_exportFileName !== "") {
-                return m_exportFileName;
+        private pGetExportFileName() {
+            if (this.exportFileName !== "") {
+                return this.exportFileName;
             }
             else {
-                return m_report.getName();
+                return this.report.getName();
             }
-        };
+        }
 
-        const pExportPDF = function(outputFile, bShowPDFWindow) {
+        private pExportPDF(outputFile: string, bShowPDFWindow: boolean) {
             try {
                 let mouse: cMouseWait = new cMouseWait();
 
                 let expPDF: CSReportExport.cReportPdf = null;
-                expPDF = UNKNOWN >>  can't find constructor for class CSReportExport.cReportPdf();
+                expPDF = new CSReportExport.cReportPdf();
 
                 expPDF.setFileName(cUtil.getValidPath(System.Environment.GetEnvironmentVariable("TEMP")) + pGetExportFileName());
-                expPDF.setExportEmailAddress(m_report.getExportEmailAddress());
+                expPDF.setExportEmailAddress(this.report.getExportEmailAddress());
 
-                return expPDF.exportEx(m_report, this, outputFile, bShowPDFWindow);
+                return expPDF.exportEx(this.report, this, outputFile, bShowPDFWindow);
 
             }
             catch (ex) {
                 cError.mngError(ex, "pExportPDF", C_MODULE, "");
                 return false;
             }
-        };
+        }
 
         /* We need to decide if it is useful
          * 
-            private void m_rpwPrint_ExportWord() {
+            private void this.rpwPrint_ExportWord() {
                 try {
                     cMouseWait mouse = new cMouseWait();
 
                     CSReportExport.cReportWord expWord = null;
                     expWord = new CSReportExport.cReportWord();
 
-                    expWord.export(m_report);
+                    expWord.export(this.report);
 
                 } catch (Exception ex) {
-                    cError.mngError(ex, "m_rpwPrint_ExportWord", C_MODULE, "");
+                    cError.mngError(ex, "this.rpwPrint_ExportWord", C_MODULE, "");
                 }
             }
         */
-        const rpwPrintMoveFirst = function(sender, e) {
+        private rpwPrintMoveFirst(sender: object, e: EventArgs) {
             printPage(csEMoveTo.C_FIRSTPAGE);
-        };
+        }
 
-        const rpwPrintMoveLast = function(sender, e) {
+        private rpwPrintMoveLast(sender: object, e: EventArgs) {
             printPage(csEMoveTo.C_LASTPAGE);
-        };
+        }
 
-        const rpwPrintMoveNext = function(sender, e) {
+        private rpwPrintMoveNext(sender: object, e: EventArgs) {
             printPage(csEMoveTo.C_NEXTPAGE);
-        };
+        }
 
-        const rpwPrintMovePrevious = function(sender, e) {
+        private rpwPrintMovePrevious(sender: object, e: EventArgs) {
             printPage(csEMoveTo.C_PREVIOUSPAGE);
-        };
+        }
 
-        const rpwPrintMoveToPage = function(sender, e) {
+        private rpwPrintMoveToPage(sender: object, e: PageEventArgs) {
             printPage(e.page);
-        };
+        }
 
-        const m_rpwPrint_SaveDocument = function() {
-            //If Not m_Report.SaveData(m_rpwPrint.cmFileSaveDialog) Then Exit Sub
-        };
+        private rpwPrint_SaveDocument() {
+            //If Not this.Report.SaveData(this.rpwPrint.cmFileSaveDialog) Then Exit Sub
+        }
 
-        const drawPage = function(graph, isPrinter) {
+        private drawPage(graph: Graphics, isPrinter: boolean) {
             let i: number = 0;
 
-            if (m_rePaintObject) {
+            if (this.rePaintObject) {
                 if (isPrinter) {
-                    m_paint.createBackgroundBitmap(graph);
+                    this.paint.createBackgroundBitmap(graph);
 
-                    for (i = 0; i < m_paint.getPaintObjects().count(); i++) {
-                        if (!m_paint.drawObject(m_paint.getPaintObjects().getNextKeyForZOrder(i), graph)) { return false; }
+                    for (i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                        if (!this.paint.drawObject(this.paint.getPaintObjects().getNextKeyForZOrder(i), graph)) { return false; }
                     }
 
-                    for (i = 0; i < m_paint.getPaintSections().count(); i++) {
-                        if (!m_paint.drawSection(m_paint.getPaintSections().getNextKeyForZOrder(i), graph)) { return false; }
+                    for (i = 0; i < this.paint.getPaintSections().count(); i++) {
+                        if (!this.paint.drawSection(this.paint.getPaintSections().getNextKeyForZOrder(i), graph)) { return false; }
                     }
                 }
                 else {
-                    m_paint.clearPage(m_rpwPrint.getBody().CreateGraphics());
+                    this.paint.clearPage(this.rpwPrint.getBody().CreateGraphics());
 
-                    m_rePaintObject = false;
+                    this.rePaintObject = false;
 
-                    m_paint.paintPicture(graph, false);
+                    this.paint.paintPicture(graph, false);
                 }
             }
             else {
-                m_paint.paintPicture(graph, false);
+                this.paint.paintPicture(graph, false);
             }
             return true;
-        };
+        }
 
-        const pDestroyFonts = function() {
+        private pDestroyFonts() {
             /*
             int iFnt = 0;
-            for (iFnt = 1; iFnt <= m_iFontCount; iFnt++)
+            for (iFnt = 1; iFnt <= this.iFontCount; iFnt++)
             {
-                DeleteObject(m_hFnt[iFnt]);
+                DeleteObject(this.hFnt[iFnt]);
             }
-            G.redim(m_fnt, 0);
-            G.redim(m_hFnt, 0);
+            G.redim(this.fnt, 0);
+            G.redim(this.hFnt, 0);
              */
-        };
+        }
 
-        self.Dispose = function() {
-            m_report = null;
-            m_paint = null;
-            if (m_fPreview !== null) {
-                m_fPreview.Dispose();
+        public Dispose() {
+            this.report = null;
+            this.paint = null;
+            if (this.fPreview !== null) {
+                this.fPreview.Dispose();
             }
-            m_rpwPrint = null;
-        };
+            this.rpwPrint = null;
+        }
 
-        self.printReport = function() {
+        public printReport() {
             return pDoPrint(null);
-        };
+        }
 
-        self.getPageImageAsBase64 = function(page, pageIndex) {
-            if (m_paint !== null) {
-                if(m_currPage !== page -1) printPage(page, true); {
-				pageIndex = m_currPage + 1;
+        public getPageImageAsBase64(page: number, pageIndex: number) {
+            if (this.paint !== null) {
+                if(this.currPage !== page -1) printPage(page, true); {
+				pageIndex = this.currPage + 1;
 
-                let bmp: Bitmap = new Bitmap(m_realWidth, (int)m_realHeight);
+                let bmp: Bitmap = new Bitmap(this.realWidth, (int)this.realHeight);
                 let bmpGraphics: Graphics = Graphics.FromImage(bmp);
                 drawPage(bmpGraphics, false);
                 let memoryStream: MemoryStream = new MemoryStream();
-                m_paint.getBitmap().Save(memoryStream, ImageFormat.Png);
+                this.paint.getBitmap().Save(memoryStream, ImageFormat.Png);
                 let pngData: var = memoryStream.ToArray();
                 let image: var = Convert.ToBase64String(pngData);
                 return "data:image/png;base64," + image;
@@ -1675,56 +1675,9 @@ UNKNOWN >>             RectangleF tR;
 				pageIndex = -1;
                 return "";
             }            
-        };
+        }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportPaint {
-
-  export interface IcReportPrint {
-
-    "constructor",: cError.mngError(ex,;
-    getFileToSavePDF: () => String;
-    setFileToSavePDF: (String) => void;
-    getPDFQuality: () => csPDFQuality;
-    setPDFQuality: (csPDFQuality) => void;
-    getExportFileName: () => String;
-    setExportFileName: (String) => void;
-    getReport: () => CSReportDll.cReport;
-    setPreviewControl: (CSReportPreview.cReportPreview) => void;
-    getCurrPage: () => int;
-    setCurrPage: (int) => void;
-    setModal: (bool) => void;
-    setHidePreviewWindow: (bool) => void;
-    closePreviewWindow: () => bool;
-    getLine: (int) => CSReportDll.cReportPageFields;
-    getCtrlFooter: (String) => CSReportDll.cReportPageField;
-    getIndexFieldByName: (String) => int;
-    refreshCtrl: (int) => void;
-    refreshCtrlFooter: (String) => void;
-    getFieldByCtrlName: () => CSReportDll.cReportPageField;
-    getFieldByCtrlName: () => CSReportDll.cReportPageField;
-    getPaintObjByCtrlNameEx: (String, int) => cReportPaintObject;
-    isInThisLine: () => bool;
-    getField: (int) => CSReportDll.cReportPageField;
-    fieldIsInDetail: (int) => bool;
-    printPage: (int) => void;
-    printPage: (int, bool) => void;
-    doPrint: (cIPrintClient) => bool;
-    makeReport: () => bool;
-    makeXml: () => bool;
-    previewReport: () => bool;
-    cIReportPrint_PrintReport: () => bool;
-    setReport: (object) => void;
-    sendMail: (String, String) => object;
-    exportPDFEx: (String, bool) => bool;
-    exportPDF: () => bool;
-    Dispose: () => void;
-    printReport: () => bool;
-    getPageImageAsBase64: (int, int) => string;
-  }
 }

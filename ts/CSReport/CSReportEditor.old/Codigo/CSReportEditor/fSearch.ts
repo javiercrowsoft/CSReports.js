@@ -1,23 +1,15 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFSearch = function() {
+namespace CSReportEditor
+{
+    export class fSearch {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfSearch = {};
-        const fSearch = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfSearch {
-
-  }
 }

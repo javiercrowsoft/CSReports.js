@@ -1,56 +1,56 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFSecProperties = function() {
+namespace CSReportEditor
+{
+    export class fSecProperties {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfSecProperties = {};
-        let m_editor: cEditor = null;
 
-        let m_ok: boolean = false;
+    {
+        private editor: cEditor = null;
 
-        let m_formulaHideChanged: boolean = null;
-        let m_setFormulaHideChanged: boolean = null;
-        let m_formulaHide: string = "";
+        private ok: boolean = false;
 
-        let m_formulaName: string = "";
+        private formulaHideChanged: boolean = null;
+        private setFormulaHideChanged: boolean = null;
+        private formulaHide: string = "";
 
-        const fSecProperties = function() {
+        private formulaName: string = "";
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.setHandler = function(editor) {
-            m_editor = editor;
-        };
+        public setHandler(editor: cEditor) {
+            this.editor = editor;
+        }
 
-		self.getFormulaName = function() {
-			return m_formulaName;
-		};
+		public getFormulaName() {
+			return this.formulaName;
+		}
 
-        self.getFormulaHide = function() {
-            return m_formulaHide;
-        };
+        public getFormulaHide() {
+            return this.formulaHide;
+        }
 
-        self.setFormulaHide = function(rhs) {
-            m_formulaHide = rhs;
-        };
+        public setFormulaHide(rhs: string) {
+            this.formulaHide = rhs;
+        }
 
-        self.getFormulaHideChanged = function() {
-            return m_formulaHideChanged;
-        };
+        public getFormulaHideChanged() {
+            return this.formulaHideChanged;
+        }
 
-        self.setFormulaHideChanged = function(rhs) {
-            m_formulaHideChanged = rhs;
-        };
+        public setFormulaHideChanged(rhs: boolean) {
+            this.formulaHideChanged = rhs;
+        }
 
-        self.getSetFormulaHideChanged = function() {
-            return m_setFormulaHideChanged;
-        };
+        public getSetFormulaHideChanged() {
+            return this.setFormulaHideChanged;
+        }
 
-        self.setSetFormulaHideChanged = function(rhs) {
-            m_setFormulaHideChanged = rhs;
-        };
+        public setSetFormulaHideChanged(rhs: boolean) {
+            this.setFormulaHideChanged = rhs;
+        }
 
         //------------------------------------------------------------------------------------------------------------------
 
@@ -94,50 +94,33 @@ UNKNOWN >>             get
             }
         }
 
-        self.getOk = function() {
-            return m_ok;
-        };
+        public getOk() {
+            return this.ok;
+        }
 
-        const fSecProperties_Load = function(sender, e) {
+        private fSecProperties_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
-            lb_formulaHide.Text = m_formulaHide;
-        };
+            lb_formulaHide.Text = this.formulaHide;
+        }
 
-        const cmd_apply_Click = function(sender, e) {
-            m_ok = true;
+        private cmd_apply_Click(sender: object, e: EventArgs) {
+            this.ok = true;
             this.Hide();
-        };
+        }
 
-        const cmd_cancel_Click = function(sender, e) {
-            m_ok = false;
+        private cmd_cancel_Click(sender: object, e: EventArgs) {
+            this.ok = false;
             this.Hide();
-        };
+        }
 
-        const cmd_formulaHide_Click = function(sender, e) {
-            m_formulaName = "Ocultar";
-            if (m_editor.showEditFormula(m_formulaHide)) {
-                m_formulaHideChanged = true;
-                lb_formulaHide.Text = m_formulaHide;
+        private cmd_formulaHide_Click(sender: object, e: EventArgs) {
+            this.formulaName = "Ocultar";
+            if (this.editor.showEditFormula(this.formulaHide)) {
+                this.formulaHideChanged = true;
+                lb_formulaHide.Text = this.formulaHide;
             }
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfSecProperties {
-
-    setHandler: (cEditor) => void;
-    getFormulaName: () => string;
-    getFormulaHide: () => String;
-    setFormulaHide: (String) => void;
-    getFormulaHideChanged: () => bool;
-    setFormulaHideChanged: (bool) => void;
-    getSetFormulaHideChanged: () => bool;
-    setSetFormulaHideChanged: (bool) => void;
-    getOk: () => bool;
-  }
 }

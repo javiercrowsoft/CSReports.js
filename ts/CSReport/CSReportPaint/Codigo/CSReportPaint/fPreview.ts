@@ -1,34 +1,25 @@
-(function(globalObject) {
 
-    globalObject.CSReportPaint = globalObject.CSReportPaint || {};
 
-    globalObject.CSReportPaint.createFPreview = function() {
+namespace CSReportPaint
+{
+    export class fPreview {
 
-        // @ts-ignore
-        let self: CSReportPaint.IfPreview = {};
-        const fPreview = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.getRpwReport = function() {
+        public getRpwReport() {
             return rpwReport;
-        };
+        }
 
-        const fPreview_Load = function(sender, e) {
+        private fPreview_Load(sender: object, e: EventArgs) {
             this.Height = 990;
             this.Width = 950;
             cWindow.centerForm(this);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportPaint {
-
-  export interface IfPreview {
-
-    getRpwReport: () => CSReportPreview.cReportPreview;
-  }
 }

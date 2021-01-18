@@ -1,14 +1,14 @@
-(function(globalObject) {
 
-    globalObject.CSReportWebServer = globalObject.CSReportWebServer || {};
 
-    globalObject.CSReportWebServer.createFProgress = function() {
+namespace CSReportWebServer
+{
+    export class fProgress {
 
-        // @ts-ignore
-        let self: CSReportWebServer.IfProgress = {};
-        const fProgress = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
 UNKNOWN >>         public Label lbTask
         {
@@ -50,18 +50,10 @@ UNKNOWN >>             get
             }
         }
 
-        const fProgress_Load = function(sender, e) {
+        private fProgress_Load(sender: object, e: EventArgs) {
             cWindow.locateFormAtTop(this);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportWebServer {
-
-  export interface IfProgress {
-
-  }
 }

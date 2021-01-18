@@ -1,46 +1,46 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFSecProperties = function() {
+namespace CSReportEditor
+{
+    export class fSecProperties {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfSecProperties = {};
-        let m_formulaHideChanged: boolean = null;
-        let m_setFormulaHideChanged: boolean = null;
-        let m_formulaHide: string = "";
 
-        const fSecProperties = function() {
+    {
+        private formulaHideChanged: boolean = null;
+        private setFormulaHideChanged: boolean = null;
+        private formulaHide: string = "";
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-		self.getFormulaName = function() {
+		public getFormulaName() {
 			throw new NotImplementedException ();
-		};
+		}
 
-        self.getFormulaHide = function() {
-            return m_formulaHide;
-        };
+        public getFormulaHide() {
+            return this.formulaHide;
+        }
 
-        self.setFormulaHide = function(rhs) {
-            m_formulaHide = rhs;
-        };
+        public setFormulaHide(rhs: string) {
+            this.formulaHide = rhs;
+        }
 
-        self.getFormulaHideChanged = function() {
-            return m_formulaHideChanged;
-        };
+        public getFormulaHideChanged() {
+            return this.formulaHideChanged;
+        }
 
-        self.setFormulaHideChanged = function(rhs) {
-            m_formulaHideChanged = rhs;
-        };
+        public setFormulaHideChanged(rhs: boolean) {
+            this.formulaHideChanged = rhs;
+        }
 
-        self.getSetFormulaHideChanged = function() {
-            return m_setFormulaHideChanged;
-        };
+        public getSetFormulaHideChanged() {
+            return this.setFormulaHideChanged;
+        }
 
-        self.setSetFormulaHideChanged = function(rhs) {
-            m_setFormulaHideChanged = rhs;
-        };
+        public setSetFormulaHideChanged(rhs: boolean) {
+            this.setFormulaHideChanged = rhs;
+        }
 
         //------------------------------------------------------------------------------------------------------------------
 
@@ -91,26 +91,10 @@ UNKNOWN >>             get
             }
         }
 
-        self.getOk = function() {
+        public getOk() {
             throw new NotImplementedException();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfSecProperties {
-
-    getFormulaName: () => string;
-    getFormulaHide: () => String;
-    setFormulaHide: (String) => void;
-    getFormulaHideChanged: () => bool;
-    setFormulaHideChanged: (bool) => void;
-    getSetFormulaHideChanged: () => bool;
-    setSetFormulaHideChanged: (bool) => void;
-    getOk: () => bool;
-  }
 }

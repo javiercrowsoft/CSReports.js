@@ -1,94 +1,94 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportPage = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportPage = {};
+    export class cReportPage {
 
-        const C_MODULE: string = "cReportPage";
 
-        const C_NODERPTHEADER: string = "Header";
-        const C_NODERPTHEADERLINE: string = "HeaderLine";
-        const C_NODERPTDETAIL: string = "Detail";
-        const C_NODERPTDETAILLINE: string = "DetailLine";
-        const C_NODERPTFOOTER: string = "Footer";
-        const C_NODERPTFOOTERLINE: string = "FooterLine";
+    {
 
-        let m_detail: cReportPageFields = new cReportPageFields();
-        let m_header: cReportPageFields = new cReportPageFields();
-        let m_footer: cReportPageFields = new cReportPageFields();
-        let m_pageNumber: number = 0;
+        private C_MODULE: string = "cReportPage";
 
-        let m_headerBottom: number = 0;
-        let m_footerTop: number = 0;
+        private C_NODERPTHEADER: string = "Header";
+        private C_NODERPTHEADERLINE: string = "HeaderLine";
+        private C_NODERPTDETAIL: string = "Detail";
+        private C_NODERPTDETAILLINE: string = "DetailLine";
+        private C_NODERPTFOOTER: string = "Footer";
+        private C_NODERPTFOOTERLINE: string = "FooterLine";
 
-        self.getHeader = function() {
-            return m_header;
-        };
+        private detail: cReportPageFields = new cReportPageFields();
+        private header: cReportPageFields = new cReportPageFields();
+        private footer: cReportPageFields = new cReportPageFields();
+        private pageNumber: number = 0;
 
-        self.setHeader = function(rhs) {
-            m_header = rhs;
-        };
+        private headerBottom: number = 0;
+        private footerTop: number = 0;
 
-        self.getDetail = function() {
-            return m_detail;
-        };
+        public getHeader() {
+            return this.header;
+        }
 
-        self.setDetail = function(rhs) {
-            m_detail = rhs;
-        };
+        public setHeader(rhs: cReportPageFields) {
+            this.header = rhs;
+        }
 
-        self.getFooter = function() {
-            return m_footer;
-        };
+        public getDetail() {
+            return this.detail;
+        }
 
-        self.setFooter = function(rhs) {
-            m_footer = rhs;
-        };
+        public setDetail(rhs: cReportPageFields) {
+            this.detail = rhs;
+        }
 
-        self.getPageNumber = function() {
-            return m_pageNumber;
-        };
+        public getFooter() {
+            return this.footer;
+        }
 
-        self.setPageNumber = function(rhs) {
-            m_pageNumber = rhs;
-        };
+        public setFooter(rhs: cReportPageFields) {
+            this.footer = rhs;
+        }
 
-        self.getHeaderBottom = function() {
-            return m_headerBottom;
-        };
+        public getPageNumber() {
+            return this.pageNumber;
+        }
 
-        self.setHeaderBottom = function(rhs) {
-            m_headerBottom = rhs;
-        };
+        public setPageNumber(rhs: number) {
+            this.pageNumber = rhs;
+        }
 
-        self.getFooterTop = function() {
-            return m_footerTop;
-        };
+        public getHeaderBottom() {
+            return this.headerBottom;
+        }
 
-        self.setFooterTop = function(rhs) {
-            m_footerTop = rhs;
-        };
+        public setHeaderBottom(rhs: number) {
+            this.headerBottom = rhs;
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public getFooterTop() {
+            return this.footerTop;
+        }
+
+        public setFooterTop(rhs: number) {
+            this.footerTop = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             let nodeObjSecLn: XmlNode = null;
 
-            m_pageNumber = xDoc.getNodeProperty(nodeObj, "PageNumber").getValueInt(eTypes.eInteger);
-            m_headerBottom = xDoc.getNodeProperty(nodeObj, "HeaderBottom").getValueInt(eTypes.eLong);
-            m_footerTop = xDoc.getNodeProperty(nodeObj, "FooterTop").getValueInt(eTypes.eLong);
+            this.pageNumber = xDoc.getNodeProperty(nodeObj, "PageNumber").getValueInt(eTypes.eInteger);
+            this.headerBottom = xDoc.getNodeProperty(nodeObj, "HeaderBottom").getValueInt(eTypes.eLong);
+            this.footerTop = xDoc.getNodeProperty(nodeObj, "FooterTop").getValueInt(eTypes.eLong);
 
-            m_header.clear();
-            m_detail.clear();
-            m_footer.clear();
+            this.header.clear();
+            this.detail.clear();
+            this.footer.clear();
 
             nodeObj = xDoc.getNodeFromNode(nodeObj, C_NODERPTHEADER);
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if (!m_header.add(null).load(xDoc, nodeObjSecLn))  {
+                    if (!this.header.add(null).load(xDoc, nodeObjSecLn))  {
                         return false; 
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
@@ -99,7 +99,7 @@
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if (!m_detail.add(null).load(xDoc, nodeObjSecLn))  {
+                    if (!this.detail.add(null).load(xDoc, nodeObjSecLn))  {
                         return false; 
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
@@ -110,7 +110,7 @@
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if (!m_footer.add(null).load(xDoc, nodeObjSecLn))  {
+                    if (!this.footer.add(null).load(xDoc, nodeObjSecLn))  {
                         return false; 
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
@@ -119,29 +119,29 @@
 
             return true;
 
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Page");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
-            xDoc.setNodeText(nodeObj, "Página " + m_pageNumber);
+            xDoc.setNodeText(nodeObj, "Página " + this.pageNumber);
 
             xProperty.setName("PageNumber");
-            xProperty.setValue(eTypes.eInteger, m_pageNumber);
+            xProperty.setValue(eTypes.eInteger, this.pageNumber);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("HeaderBottom");
-            xProperty.setValue(eTypes.eLong, m_headerBottom);
+            xProperty.setValue(eTypes.eLong, this.headerBottom);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("FooterTop");
-            xProperty.setValue(eTypes.eLong, m_footerTop);
+            xProperty.setValue(eTypes.eLong, this.footerTop);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             let pageFld: cReportPageField = null;
@@ -151,8 +151,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < m_header.count(); _i++) {
-                pageFld = m_header.item(_i);
+            for(var _i = 0; _i < this.header.count(); _i++) {
+                pageFld = this.header.item(_i);
                 pageFld.save(xDoc, nodeAux);
             }
 
@@ -160,8 +160,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < m_detail.count(); _i++) {
-                pageFld = m_detail.item(_i);
+            for(var _i = 0; _i < this.detail.count(); _i++) {
+                pageFld = this.detail.item(_i);
                 pageFld.save(xDoc, nodeAux);
             }
 
@@ -169,24 +169,24 @@
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < m_footer.count(); _i++) {
-                pageFld = m_footer.item(_i);
+            for(var _i = 0; _i < this.footer.count(); _i++) {
+                pageFld = this.footer.item(_i);
                 pageFld.save(xDoc, nodeAux);
             }
 
             return true;
-        };
+        }
 
-        self.saveForWeb = function(xDoc, nodeFather) {
+        public saveForWeb(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Page");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
-            xDoc.setNodeText(nodeObj, "Página " + m_pageNumber);
+            xDoc.setNodeText(nodeObj, "Página " + this.pageNumber);
 
             let pageFld: cReportPageField = null;
             let nodeAux: XmlNode = null;
@@ -199,8 +199,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < m_header.count(); _i++) {
-                pageFld = m_header.item(_i);
+            for(var _i = 0; _i < this.header.count(); _i++) {
+                pageFld = this.header.item(_i);
                 addLine = false;
 
                 if (pageFld.getTop() === 0) {
@@ -231,8 +231,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < m_detail.count(); _i++) {
-                pageFld = m_detail.item(_i);
+            for(var _i = 0; _i < this.detail.count(); _i++) {
+                pageFld = this.detail.item(_i);
 
                 addLine = false;
 
@@ -262,8 +262,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < m_footer.count(); _i++) {
-                pageFld = m_footer.item(_i);
+            for(var _i = 0; _i < this.footer.count(); _i++) {
+                pageFld = this.footer.item(_i);
                 addLine = false;
 
                 if (pageFld.getTop() === 0) {
@@ -289,35 +289,12 @@
             }
 
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportPage {
-
-    getHeader: () => cReportPageFields;
-    setHeader: (cReportPageFields) => void;
-    getDetail: () => cReportPageFields;
-    setDetail: (cReportPageFields) => void;
-    getFooter: () => cReportPageFields;
-    setFooter: (cReportPageFields) => void;
-    getPageNumber: () => int;
-    setPageNumber: (int) => void;
-    getHeaderBottom: () => float;
-    setHeaderBottom: (float) => void;
-    getFooterTop: () => float;
-    setFooterTop: (float) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-    saveForWeb: (CSXml.cXml, XmlNode) => bool;
-  }
 }

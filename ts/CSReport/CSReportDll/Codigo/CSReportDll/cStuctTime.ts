@@ -1,58 +1,44 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCStructTime = function() {
+namespace CSReportDll
+{
+    export class cStructTime {
 
-        // @ts-ignore
-        let self: CSReportDll.IcStructTime = {};
 
-        let m_hour: number = 0;
-        let m_minute: number = 0;
-        let m_second: number = 0;
+    {
 
-        self.getHour = function() {
-            return m_hour;
-        };
+        private hour: number = 0;
+        private minute: number = 0;
+        private second: number = 0;
 
-        self.setHour = function(rhs) {
-            m_hour = rhs;
-        };
+        public getHour() {
+            return this.hour;
+        }
 
-        self.getMinute = function() {
-            return m_minute;
-        };
+        public setHour(rhs: number) {
+            this.hour = rhs;
+        }
 
-        self.setMinute = function(rhs) {
-            m_minute = rhs;
-        };
+        public getMinute() {
+            return this.minute;
+        }
 
-        self.getSecond = function() {
-            return m_second;
-        };
+        public setMinute(rhs: number) {
+            this.minute = rhs;
+        }
 
-        self.setSecond = function(rhs) {
-            m_second = rhs;
-        };
+        public getSecond() {
+            return this.second;
+        }
 
-        return self;
+        public setSecond(rhs: number) {
+            this.second = rhs;
+        }
+
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcStructTime {
-
-    getHour: () => int;
-    setHour: (int) => void;
-    getMinute: () => int;
-    setMinute: (int) => void;
-    getSecond: () => int;
-    setSecond: (int) => void;
-  }
 }

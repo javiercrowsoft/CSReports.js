@@ -1,23 +1,23 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportGroups = function() {
+namespace CSReportDll
+{
+    export class cReportGroups {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportGroups = {};
+
+    {
 
         // Creates an empty collection.
-        const cReportGroups = function() {
-        };
+        public constructor() {
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cReportGroups = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var t_ = 0; t_ < d.length; t_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -79,48 +79,48 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        const Remove = function(key) {
+        private Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        const Remove = function(index) {
+        private Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        const Clear = function() {
+        private Clear() {
             this.BaseClear();
-        };
+        }
 
-        let m_groupsHeaders: cReportSections = new cReportSections();
-        let m_groupsFooters: cReportSections = new cReportSections();
+        private groupsHeaders: cReportSections = new cReportSections();
+        private groupsFooters: cReportSections = new cReportSections();
 
-        self.getGroupsHeaders = function() {
-            return m_groupsHeaders;
-        };
+        public getGroupsHeaders() {
+            return this.groupsHeaders;
+        }
 
-        self.setGroupsHeaders = function(rhs) {
-            m_groupsHeaders = rhs;
-        };
+        public setGroupsHeaders(rhs: cReportSections) {
+            this.groupsHeaders = rhs;
+        }
 
-        self.getGroupsFooters = function() {
-            return m_groupsFooters;
-        };
+        public getGroupsFooters() {
+            return this.groupsFooters;
+        }
 
-        self.setGroupsFooters = function(rhs) {
-            m_groupsFooters = rhs;
-        };
+        public setGroupsFooters(rhs: cReportSections) {
+            this.groupsFooters = rhs;
+        }
 
-        self.add = function(c, key) {
+        public add(c: cReportGroup, key: string) {
             try  {
                 if (c === null)  {
-                    c = globalObject.CSReportDll.createCReportGroup();
+                    c = new cReportGroup();
                 }
                 if (key === "")  {
                     key = cReportGlobals.getNextKey().ToString();
@@ -135,8 +135,8 @@ UNKNOWN >>             get
                 c.setKey(key);
                 c.setIndex(count()-1);
 
-                c.setHeader(m_groupsHeaders.add(null, "", -1));
-                c.setFooter(m_groupsFooters.add(null, "", 0));
+                c.setHeader(this.groupsHeaders.add(null, "", -1));
+                c.setFooter(this.groupsFooters.add(null, "", 0));
 
                 pSetName(c, "G_" + c.getIndex().ToString());
                 pSetName(c.getHeader(), c.getName());
@@ -150,12 +150,12 @@ UNKNOWN >>             get
             catch (ex) {
                 return null;
             }
-        };
+        }
 
-        self.add2 = function(c, key) {
+        public add2(c: cReportGroup, key: string) {
             try  {
                 if (c === null)  {
-                    c = globalObject.CSReportDll.createCReportGroup();
+                    c = new cReportGroup();
                 }
                 if (key === "")  {
                     key = cReportGlobals.getNextKey().ToString();
@@ -170,8 +170,8 @@ UNKNOWN >>             get
                 c.setKey(key);
                 c.setIndex(this.Count);
 
-                m_groupsHeaders.add(c.getHeader(), "", -1);
-                m_groupsFooters.add(c.getFooter(), "", 0);
+                this.groupsHeaders.add(c.getHeader(), "", -1);
+                this.groupsFooters.add(c.getFooter(), "", 0);
 
                 pSetName(c, "G_" + c.getIndex().ToString());
                 pSetName(c.getHeader(), c.getName());
@@ -185,15 +185,15 @@ UNKNOWN >>             get
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        const pSetName = function(c, name) {
+        private pSetName(c: cReportGroup, name: string) {
             c.setName(pSetName(c.getName(), name));
-        };
-        const pSetName = function(c, name) {
+        }
+        private pSetName(c: cReportSection, name: string) {
             c.setName(pSetName(c.getName(), name));
-        };
-        const pSetName = function(section, name) {
+        }
+        private pSetName(section: string, name: string) {
             let sectionName: string = section.ToLower();
             if (sectionName.Length === 0
                 || cUtil.subString(sectionName, 0, 5) === "group"
@@ -207,9 +207,9 @@ UNKNOWN >>             get
             else {
                 return section;
             }
-        };
+        }
 
-        self.clear = function() {
+        public clear() {
             try {
                 let n: number = this.count();
                 for(var i = 0; i < n; i++) {
@@ -219,18 +219,18 @@ UNKNOWN >>             get
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.remove = function(key) {
+        public remove(key: string) {
             try {
                 let keyH: string = "";
                 let keyF: string = "";
 
-                keyH = m_groupsHeaders.item(item(key).getHeader().getKey()).getKey();
-                keyF = m_groupsFooters.item(item(key).getFooter().getKey()).getKey();
+                keyH = this.groupsHeaders.item(item(key).getHeader().getKey()).getKey();
+                keyF = this.groupsFooters.item(item(key).getFooter().getKey()).getKey();
 
-                m_groupsHeaders.remove(keyH);
-                m_groupsFooters.remove(keyF);
+                this.groupsHeaders.remove(keyH);
+                this.groupsFooters.remove(keyF);
 
                 Remove(key);
 
@@ -242,18 +242,18 @@ UNKNOWN >>             get
             }
             catch (ex) {
             }
-        };
+        }
 
-        self.remove = function(index) {
+        public remove(index: number) {
             try {
                 let keyH: string = "";
                 let keyF: string = "";
 
-                keyH = m_groupsHeaders.item(item(index).getHeader().getKey()).getKey();
-                keyF = m_groupsFooters.item(item(index).getFooter().getKey()).getKey();
+                keyH = this.groupsHeaders.item(item(index).getHeader().getKey()).getKey();
+                keyF = this.groupsFooters.item(item(index).getFooter().getKey()).getKey();
 
-                m_groupsHeaders.remove(keyH);
-                m_groupsFooters.remove(keyF);
+                this.groupsHeaders.remove(keyH);
+                this.groupsFooters.remove(keyF);
 
                 Remove(index);
 
@@ -266,55 +266,34 @@ UNKNOWN >>             get
             }
             catch (ex) {
             }
-        };
+        }
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
                 return this.BaseGet(key);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
                 return this.BaseGet(index);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportGroups {
-
-    Add: (String, Object) => void;
-    getGroupsHeaders: () => cReportSections;
-    setGroupsHeaders: (cReportSections) => void;
-    getGroupsFooters: () => cReportSections;
-    setGroupsFooters: (cReportSections) => void;
-    add: (cReportGroup, String) => cReportGroup;
-    add2: (cReportGroup, String) => cReportGroup;
-    clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    count: () => int;
-    item: (String) => cReportGroup;
-    item: (int) => cReportGroup;
-  }
 }

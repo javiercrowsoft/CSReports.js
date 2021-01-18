@@ -1,25 +1,17 @@
-(function(globalObject) {
 
-    globalObject.CSReportWebServer.NativeMessaging = globalObject.CSReportWebServer.NativeMessaging || {};
 
+namespace CSReportWebServer.NativeMessaging
+{
     [System.Serializable]
-    globalObject.CSReportWebServer.NativeMessaging.createNativeMessagingException = function() {
-
-        // @ts-ignore
-        let self: CSReportWebServer.NativeMessaging.INativeMessagingException = {};
-        const NativeMessagingException = function() {
-        const NativeMessagingException = function(message) {
-        const NativeMessagingException = function(message, innerException) {
-        const NativeMessagingException = function(info, context) {
-        return self;
+    export class NativeMessagingException {
 
 
-}(globalObject));
+    {
+        public constructor() {
+        public constructor(message: string) {
+        public constructor(message: string, innerException: Exception) {
+        public constructor(info: SerializationInfo, context: StreamingContext) {
 
 
-namespace CSReportWebServer.NativeMessaging {
 
-  export interface INativeMessagingException {
-
-  }
 }

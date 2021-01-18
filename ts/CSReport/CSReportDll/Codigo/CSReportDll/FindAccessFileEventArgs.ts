@@ -1,11 +1,11 @@
-(function(globalObject) {
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
+namespace CSReportDll
 {
 
     public class FindAccessFileEventArgs : EventArgs

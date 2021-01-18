@@ -1,53 +1,41 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
-
+namespace CSReportDll {
 
 //     public delegate void ReportDoneHandler(object sender, EventArgs e);
 //     public delegate void ProgressHandler(object sender, ProgressEventArgs e);
 //     public delegate void FindAccessFileHandler(object sender, FindAccessFileEventArgs e);
 
-    globalObject.CSReportDll.createCReport = function() {
+    export class T_Group {
+        public first: number = null;
+        public last: number = null;
+    }
 
-        // @ts-ignore
-        let self: CSReportDll.IcReport = {};
+    export class T_Groups {
+        public value: object = null;
+        public indexField: number = null;
+        public changed: boolean = null;
+        public reprintHeader: boolean = null;
+        public footerMustBeClosed: boolean = null;
+        public comparisonType: csRptGrpComparisonType = null;
+        public oderType: csRptGrpOrderType = null;
+        public grandTotalGroup: boolean = null;
+        public groups: T_Group[] = null;
+        public lastHPreRowEvalued: number = null;
+        public lastHPostRowEvalued: number = null;
+        public lastFPreRowEvalued: number = null;
+        public lastFPostRowEvalued: number = null;
+        // to know which is the line number when we are in a group
+        //
+        // it is incremented only when the detail section is printed
+        // it doesn't care if the details contains more than one line
+        //
+        public lineNumber: number = null;
+    }
+
+    export class cReport {
 //         public event ReportDoneHandler ReportDone;
 //         public event ProgressHandler Progress;
 //         public event FindAccessFileHandler FindAccessFile;
 
-        const createT_Group = function() {
-
-            // @ts-ignore
-            let self: CSReportDll.IT_Group = {};
-            self.first: number = null;
-            self.last: number = null;
-        };
-
-
-        const createT_Groups = function() {
-
-            // @ts-ignore
-            let self: CSReportDll.IT_Groups = {};
-            self.value: object = null;
-            self.indexField: number = null;
-            self.changed: boolean = null;
-            self.reprintHeader: boolean = null;
-            self.footerMustBeClosed: boolean = null;
-            self.comparisonType: csRptGrpComparisonType = null;
-            self.oderType: csRptGrpOrderType = null;
-            self.grandTotalGroup: boolean = null;
-            self.groups: T_Group[] = null;
-            self.lastHPreRowEvalued: number = null;
-            self.lastHPostRowEvalued: number = null;
-            self.lastFPreRowEvalued: number = null;
-            self.lastFPostRowEvalued: number = null;
-            // to know which is the line number when we are in a group
-            //
-            // it is incremented only when the detail section is printed
-            // it doesn't care if the details contains more than one line
-            //
-            self.lineNumber: number = null;
-        };
 
         // remember mark any change that could bring errors 
         // with the label WARNING and the date
@@ -88,77 +76,77 @@
 
         //--------------------------------------------------------------------------------
 
-        const C_MODULE: string = "cReport";
-        const C_HEADERS: number = 1;
-        const C_FOOTERS: number = 2;
-        const C_NODERPTHEADERS: string = "RptHeaders";
-        const C_NODERPTDETAILS: string = "RptDetails";
-        const C_NODEGROUPS: string = "RptGroups";
-        const C_NODERPTFOOTERS: string = "RptFooters";
-        const C_RPTCONNECT: string = "RptConnect";
-        const C_RPTCONNECTSAUX: string = "RptConnectsAux";
-        const C_LAUNCHINFO: string = "RptLaunchInfo";
-        const C_NODERPTFORMULAS: string = "RptFormulas";
-        const C_NODERPTPAGESSETTING: string = "RptPagesSetting";
-        const C_NODERPTPAGES: string = "RptPages";
-        const C_NODEPAPERINFO: string = "PaperInfo";
-        const C_FILEEX: string = "CrowSoft Report|*.csr| Archivos Xml|*.xml";
-        const C_FILEDATAEX: string = "CrowSoft Report data|*.csd| Archivos Xml|*.xml";
+        private C_MODULE: string = "cReport";
+        private C_HEADERS: number = 1;
+        private C_FOOTERS: number = 2;
+        private C_NODERPTHEADERS: string = "RptHeaders";
+        private C_NODERPTDETAILS: string = "RptDetails";
+        private C_NODEGROUPS: string = "RptGroups";
+        private C_NODERPTFOOTERS: string = "RptFooters";
+        private C_RPTCONNECT: string = "RptConnect";
+        private C_RPTCONNECTSAUX: string = "RptConnectsAux";
+        private C_LAUNCHINFO: string = "RptLaunchInfo";
+        private C_NODERPTFORMULAS: string = "RptFormulas";
+        private C_NODERPTPAGESSETTING: string = "RptPagesSetting";
+        private C_NODERPTPAGES: string = "RptPages";
+        private C_NODEPAPERINFO: string = "PaperInfo";
+        private C_FILEEX: string = "CrowSoft Report|*.csr| Archivos Xml|*.xml";
+        private C_FILEDATAEX: string = "CrowSoft Report data|*.csd| Archivos Xml|*.xml";
 
         // every formula in a header
         //
-        const C_IDX_GROUP_HEADER: number = -1000;
+        private C_IDX_GROUP_HEADER: number = -1000;
         // every formula in detail
         //
-        const C_IDX_GROUP_DETAIL: number = 0;
+        private C_IDX_GROUP_DETAIL: number = 0;
         // every formula in a footer
         //
-        const C_IDX_GROUP_FOOTER: number = -1001;
+        private C_IDX_GROUP_FOOTER: number = -1001;
         // every formumal in groups
         //
-        const C_IDX_GROUP_REPORTHEADER: number = -2000;
-        const C_IDX_GROUP_REPORTFOOTER: number = -2001;
+        private C_IDX_GROUP_REPORTHEADER: number = -2000;
+        private C_IDX_GROUP_REPORTFOOTER: number = -2001;
 
-        const C_IDX_H_LAST_ROW_EVALUED: number = 0;
-        const C_IDX_D_LAST_ROW_EVALUED: number = 1;
-        const C_IDX_F_LAST_ROW_EVALUED: number = 2;
+        private C_IDX_H_LAST_ROW_EVALUED: number = 0;
+        private C_IDX_D_LAST_ROW_EVALUED: number = 1;
+        private C_IDX_F_LAST_ROW_EVALUED: number = 2;
 
-        // flag to know if we need to check in the group (m_vGroups)
+        // flag to know if we need to check in the group (this.vGroups)
         // which row was the last evaluated
-        // instead of checking in m_LastRow..Evalued
+        // instead of checking in this.LastRow..Evalued
         //
-        const C_IDX_G_LAST_ROW_EVALUED: number = -1;
+        private C_IDX_G_LAST_ROW_EVALUED: number = -1;
 
-        let m_launchInfo: cReportLaunchInfo = null;
+        private launchInfo: cReportLaunchInfo = null;
 
-        let m_groups: cReportGroups = null;
-        let m_details: cReportSections = null;
-        let m_headers: cReportSections = null;
-        let m_footers: cReportSections = null;
-        let m_groupsHeaders: cReportSections = null;
-        let m_groupsFooters: cReportSections = null;
-        let m_paperInfo: cReportPaperInfo = null;
-        let m_originalHeight: number = 0;
-        let m_controls: cReportControls2 = null;
-        let m_formulas: cReportFormulas = null;
-        let m_formulaTypes: cReportFormulaTypes = null;
-        let m_name: string = "";
-        let m_path: string = "";
-        let m_pathDefault: string = "";
+        private groups: cReportGroups = null;
+        private details: cReportSections = null;
+        private headers: cReportSections = null;
+        private footers: cReportSections = null;
+        private groupsHeaders: cReportSections = null;
+        private groupsFooters: cReportSections = null;
+        private paperInfo: cReportPaperInfo = null;
+        private originalHeight: number = 0;
+        private controls: cReportControls2 = null;
+        private formulas: cReportFormulas = null;
+        private formulaTypes: cReportFormulaTypes = null;
+        private name: string = "";
+        private path: string = "";
+        private pathDefault: string = "";
 
-        let m_descripUser: string = "";
+        private descripUser: string = "";
 
-        let m_connect: cReportConnect = null;
-        let m_connectsAux: cReportConnectsAux = null;
+        private connect: cReportConnect = null;
+        private connectsAux: cReportConnectsAux = null;
 
-        let m_pageSetting: cReportPageSettings = null;
-        let m_pages: cReportPages = null;
+        private pageSetting: cReportPageSettings = null;
+        private pages: cReportPages = null;
 
-        let m_compiler: cReportCompiler = null;
-        let m_currenPage: number = 0;
-        let m_totalPages: number = 0;
+        private compiler: cReportCompiler = null;
+        private currenPage: number = 0;
+        private totalPages: number = 0;
 
-        let m_reportDisconnected: boolean = null;
+        private reportDisconnected: boolean = null;
 
         // to sort groups
         //
@@ -168,49 +156,49 @@
         // the function pGetData() reserves a position for every recordset
         // in the additional connections
         //
-        let m_collRows: DataTable[] = null;
+        private collRows: DataTable[] = null;
 
-        let m_images: Dictionary = null;
-        let m_rows: DataTable = null;
-        let m_recordCount: number = 0;
-        let m_vRowsIndex: int[] = null;
-        let m_lastRowIndex: number = -1;
-        let m_vRowsIndexAux: int[] = null;
-        let m_iRow: number = 0;
-        let m_iRow2: number = 0;
-        let m_iRowFormula: number = 0;
-        let m_lineIndex: number = 0;
+        private images: Dictionary = null;
+        private rows: DataTable = null;
+        private recordCount: number = 0;
+        private vRowsIndex: number[] = null;
+        private lastRowIndex: number = -1;
+        private vRowsIndexAux: number[] = null;
+        private iRow: number = 0;
+        private iRow2: number = 0;
+        private iRowFormula: number = 0;
+        private lineIndex: number = 0;
 
-        let m_lastRowPreEvalued: int[] = null;
-        let m_lastRowPostEvalued: int[] = null;
+        private lastRowPreEvalued: number[] = null;
+        private lastRowPostEvalued: number[] = null;
 
         // flag to know if there are group headers to re-print in a new page
         // if it is false we can print a footer as the first line in a new page
         //
-        let m_bExistsGrpToRePrintInNP: boolean = null;
-        let m_bHaveToRePrintGroup: boolean = null;
+        private bExistsGrpToRePrintInNP: boolean = null;
+        private bHaveToRePrintGroup: boolean = null;
 
-        const NO_GROUP_INDEX: number = 0;
+        private NO_GROUP_INDEX: number = 0;
 
         // to print groups in a new page when a group changes
         //
-        let m_idxGroupToPrintNP: number = NO_GROUP_INDEX;
+        private idxGroupToPrintNP: number = NO_GROUP_INDEX;
 
         // index of the current group header
         //
-        let m_idxGroupHeader: number = NO_GROUP_INDEX;
+        private idxGroupHeader: number = NO_GROUP_INDEX;
 
         // index of the current group footer
         //
-        let m_idxGroupFooter: number = NO_GROUP_INDEX;
+        private idxGroupFooter: number = NO_GROUP_INDEX;
 
-        let m_bPrintFooter: boolean = null;
-        let m_bLastFootersWasPrinted: boolean = null;
-        let m_groupIndexChange: number = NO_GROUP_INDEX;
+        private bPrintFooter: boolean = null;
+        private bLastFootersWasPrinted: boolean = null;
+        private groupIndexChange: number = NO_GROUP_INDEX;
 
-        let m_bEvalPreGroups: boolean = null;
-        let m_bCloseFooter: boolean = null;
-        let m_bOpenHeader: boolean = null;
+        private bEvalPreGroups: boolean = null;
+        private bCloseFooter: boolean = null;
+        private bOpenHeader: boolean = null;
 
 
         // it is incremented only when a the detail section is printed
@@ -218,216 +206,216 @@
         //
         // index of the current line
         //
-        let m_lineNumber: number = 0;
+        private lineNumber: number = 0;
 
-        let m_vGroups: T_Groups[] = null;
-        let m_firstGroup: boolean = null;
-        let m_groupCount: number = 0;
+        private vGroups: T_Groups[] = null;
+        private firstGroup: boolean = null;
+        private groupCount: number = 0;
 
-        let m_isForWeb: boolean = null;
+        private isForWeb: boolean = null;
 
-        let m_databaseEngine: csDatabaseEngine = csDatabaseEngine.SQL_SERVER;
+        private databaseEngine: csDatabaseEngine = csDatabaseEngine.SQL_SERVER;
 
-        let m_exportEmailAddress: string = "";
+        private exportEmailAddress: string = "";
 
-        const cReport = function() {
+        public constructor() {
             try {
-                m_headers = globalObject.CSReportDll.createCReportSections();
-                m_details = globalObject.CSReportDll.createCReportSections();
-                m_footers = globalObject.CSReportDll.createCReportSections();
-                m_groups = globalObject.CSReportDll.createCReportGroups();
-                m_groupsHeaders = getGroups().getGroupsHeaders();
-                m_groupsFooters = getGroups().getGroupsFooters();
-                m_paperInfo = globalObject.CSReportDll.createCReportPaperInfo();
-                m_controls = globalObject.CSReportDll.createCReportControls2();
-                m_formulas = globalObject.CSReportDll.createCReportFormulas();
-                m_formulaTypes = globalObject.CSReportDll.createCReportFormulaTypes();
-                m_connect = globalObject.CSReportDll.createCReportConnect();
-                m_pageSetting = globalObject.CSReportDll.createCReportPageSettings();
-                m_pages = globalObject.CSReportDll.createCReportPages();
+                this.headers = new cReportSections();
+                this.details = new cReportSections();
+                this.footers = new cReportSections();
+                this.groups = new cReportGroups();
+                this.groupsHeaders = getGroups().getGroupsHeaders();
+                this.groupsFooters = getGroups().getGroupsFooters();
+                this.paperInfo = new cReportPaperInfo();
+                this.controls = new cReportControls2();
+                this.formulas = new cReportFormulas();
+                this.formulaTypes = new cReportFormulaTypes();
+                this.connect = new cReportConnect();
+                this.pageSetting = new cReportPageSettings();
+                this.pages = new cReportPages();
 
-                m_compiler = globalObject.CSReportDll.createCReportCompiler();
+                this.compiler = new cReportCompiler();
 
                 setConnectsAux(new cReportConnectsAux());
 
-                m_details.setCopyColl(m_controls);
-                m_headers.setCopyColl(m_controls);
-                m_footers.setCopyColl(m_controls);
-                m_groupsHeaders.setCopyColl(m_controls);
-                m_groupsFooters.setCopyColl(m_controls);
+                this.details.setCopyColl(this.controls);
+                this.headers.setCopyColl(this.controls);
+                this.footers.setCopyColl(this.controls);
+                this.groupsHeaders.setCopyColl(this.controls);
+                this.groupsFooters.setCopyColl(this.controls);
 
-                m_details.setTypeSection(csRptSectionType.DETAIL);
-                m_headers.setTypeSection(csRptSectionType.HEADER);
-                m_footers.setTypeSection(csRptSectionType.FOOTER);
-                m_groupsHeaders.setTypeSection(csRptSectionType.GROUP_HEADER);
-                m_groupsFooters.setTypeSection(csRptSectionType.GROUP_FOOTER);
+                this.details.setTypeSection(csRptSectionType.DETAIL);
+                this.headers.setTypeSection(csRptSectionType.HEADER);
+                this.footers.setTypeSection(csRptSectionType.FOOTER);
+                this.groupsHeaders.setTypeSection(csRptSectionType.GROUP_HEADER);
+                this.groupsFooters.setTypeSection(csRptSectionType.GROUP_FOOTER);
 
-                m_details.setMainTypeSection(csRptSectionType.MAIN_DETAIL);
-                m_headers.setMainTypeSection(csRptSectionType.MAIN_HEADER);
-                m_footers.setMainTypeSection(csRptSectionType.MAIN_FOOTER);
+                this.details.setMainTypeSection(csRptSectionType.MAIN_DETAIL);
+                this.headers.setMainTypeSection(csRptSectionType.MAIN_HEADER);
+                this.footers.setMainTypeSection(csRptSectionType.MAIN_FOOTER);
             }
             catch (ex) {
                 cError.mngError(ex, "Class_Initialize", C_MODULE, "");
             }
-        };
+        }
 
-        self.getExportEmailAddress = function() {
-            return m_exportEmailAddress;
-        };
+        public getExportEmailAddress() {
+            return this.exportEmailAddress;
+        }
 
-        self.setExportEmailAddress = function(rhs) {
-            m_exportEmailAddress = rhs;
-        };
+        public setExportEmailAddress(rhs: string) {
+            this.exportEmailAddress = rhs;
+        }
 
-        self.getIsForWeb = function() {
-            return m_isForWeb;
-        };
+        public getIsForWeb() {
+            return this.isForWeb;
+        }
 
-        self.setIsForWeb = function(rhs) {
-            m_isForWeb = rhs;
-        };
+        public setIsForWeb(rhs: boolean) {
+            this.isForWeb = rhs;
+        }
 
-        self.setDatabaseEngine = function(databaseEngine) {
-            m_databaseEngine = databaseEngine;
-        };
+        public setDatabaseEngine(databaseEngine: csDatabaseEngine) {
+            this.databaseEngine = databaseEngine;
+        }
 
-        self.getConnectsAux = function() {
-            return m_connectsAux;
-        };
+        public getConnectsAux() {
+            return this.connectsAux;
+        }
 
-        self.setConnectsAux = function(rhs) {
-            m_connectsAux = rhs;
-        };
+        public setConnectsAux(rhs: cReportConnectsAux) {
+            this.connectsAux = rhs;
+        }
 
-        self.getGroups = function() {
-            return m_groups;
-        };
+        public getGroups() {
+            return this.groups;
+        }
 
-        self.setGroups = function(rhs) {
-            m_groups = rhs;
-        };
+        public setGroups(rhs: cReportGroups) {
+            this.groups = rhs;
+        }
 
-        self.getDetails = function() {
-            return m_details;
-        };
+        public getDetails() {
+            return this.details;
+        }
 
-        self.setDetails = function(rhs) {
-            m_details = rhs;
-        };
+        public setDetails(rhs: cReportSections) {
+            this.details = rhs;
+        }
 
-        self.getHeaders = function() {
-            return m_headers;
-        };
+        public getHeaders() {
+            return this.headers;
+        }
 
-        self.setHeaders = function(rhs) {
-            m_headers = rhs;
-        };
+        public setHeaders(rhs: cReportSections) {
+            this.headers = rhs;
+        }
 
-        self.getFooters = function() {
-            return m_footers;
-        };
+        public getFooters() {
+            return this.footers;
+        }
 
-        self.setFooters = function(rhs) {
-            m_footers = rhs;
-        };
+        public setFooters(rhs: cReportSections) {
+            this.footers = rhs;
+        }
 
-        self.getGroupsHeaders = function() {
-            return m_groupsHeaders;
-        };
+        public getGroupsHeaders() {
+            return this.groupsHeaders;
+        }
 
-        self.getGroupsFooters = function() {
-            return m_groupsFooters;
-        };
+        public getGroupsFooters() {
+            return this.groupsFooters;
+        }
 
-        self.getPaperInfo = function() {
-            return m_paperInfo;
-        };
+        public getPaperInfo() {
+            return this.paperInfo;
+        }
 
-        self.setPaperInfo = function(rhs) {
-            m_paperInfo = rhs;
-        };
+        public setPaperInfo(rhs: cReportPaperInfo) {
+            this.paperInfo = rhs;
+        }
 
-        self.getControls = function() {
-            return m_controls;
-        };
+        public getControls() {
+            return this.controls;
+        }
 
-        self.getFormulas = function() {
-            return m_formulas;
-        };
+        public getFormulas() {
+            return this.formulas;
+        }
 
-        self.getFormulaTypes = function() {
-            return m_formulaTypes;
-        };
+        public getFormulaTypes() {
+            return this.formulaTypes;
+        }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.getPath = function() {
-            return m_path;
-        };
+        public getPath() {
+            return this.path;
+        }
 
-        self.setPathDefault = function(rhs) {
-            m_pathDefault = rhs;
-        };
+        public setPathDefault(rhs: string) {
+            this.pathDefault = rhs;
+        }
 
-        self.getConnect = function() {
-            return m_connect;
-        };
+        public getConnect() {
+            return this.connect;
+        }
 
-        self.getPages = function() {
-            return m_pages;
-        };
+        public getPages() {
+            return this.pages;
+        }
 
-        self.getPageSetting = function() {
-            return m_pageSetting;
-        };
+        public getPageSetting() {
+            return this.pageSetting;
+        }
 
-        self.setPageSetting = function(rhs) {
-            m_pageSetting = rhs;
-        };
+        public setPageSetting(rhs: cReportPageSettings) {
+            this.pageSetting = rhs;
+        }
 
-        self.getLaunchInfo = function() {
-            return m_launchInfo;
-        };
+        public getLaunchInfo() {
+            return this.launchInfo;
+        }
 
-        self.getCompiler = function() {
-            return m_compiler;
-        };
+        public getCompiler() {
+            return this.compiler;
+        }
 
-        self.getReportDisconnected = function() {
-            return m_reportDisconnected;
-        };
+        public getReportDisconnected() {
+            return this.reportDisconnected;
+        }
 
-        self.setReportDisconnected = function(rhs) {
-            m_reportDisconnected = rhs;
-        };
+        public setReportDisconnected(rhs: boolean) {
+            this.reportDisconnected = rhs;
+        }
 
-        self.getDescripUser = function() {
-            return m_descripUser;
-        };
+        public getDescripUser() {
+            return this.descripUser;
+        }
 
-        self.setDescripUser = function(rhs) {
-            m_descripUser = rhs;
-        };
+        public setDescripUser(rhs: string) {
+            this.descripUser = rhs;
+        }
 
-        self.getCurrenPage = function() {
-            return m_pages.count();
-        };
+        public getCurrenPage() {
+            return this.pages.count();
+        }
 
-        self.getTotalPages = function() {
-            return m_pages.count();
-        };
+        public getTotalPages() {
+            return this.pages.count();
+        }
 
-        self.moveGroup = function(from, to) {
-            if (from < 1 || from > m_groups.count()) {
+        public moveGroup(from: number, to: number) {
+            if (from < 1 || from > this.groups.count()) {
                 return false;
             }
-            if (to < 1 || to > m_groups.count()) {
+            if (to < 1 || to > this.groups.count()) {
                 return false;
             }
 
@@ -436,12 +424,12 @@
                 let group: cReportGroup = null;
                 let collGroups: cReportGroups = new cReportGroups();
 
-                for(var _i = 0; _i < m_groups.count(); _i++) {
-                    group = m_groups.item(_i);
+                for(var _i = 0; _i < this.groups.count(); _i++) {
+                    group = this.groups.item(_i);
                     collGroups.add(group, group.getKey());
                 }
 
-                m_groups.clear();
+                this.groups.clear();
 
                 let index: number = 0;
 
@@ -451,32 +439,32 @@
                     if (index !== from) {
                         if (index === to) {
                             let group2: cReportGroup = collGroups.item(from);
-                            m_groups.add2(group2, group2.getKey());
+                            this.groups.add2(group2, group2.getKey());
                         }
-                        m_groups.add2(group, group.getKey());
+                        this.groups.add2(group, group.getKey());
                     }
                 }
             }
             return true;
-        };
+        }
 
         // this function is called by the print component every time a page is printed
         // the function add a new cReportPage object to the pages collection
         // and then set every header in the new cReportPage
         //
-        self.newPage = function() {
-            let page: cReportPage = m_pages.add(null, "");
-            page.setPageNumber(m_pages.count());
+        public newPage() {
+            let page: cReportPage = this.pages.add(null, "");
+            page.setPageNumber(this.pages.count());
 
             // if the user has canceled we return an error
             //
-            if (!OnProgress("", m_pages.count(), 0, 0)) {
+            if (!OnProgress("", this.pages.count(), 0, 0)) {
                 return csRptNewPageResult.CSRPTNPERROR;
             }
 
             // if it is the first page we evaluate the headers of the report
             //
-            if (m_pages.count() === 1) {
+            if (this.pages.count() === 1) {
                 evalFunctions(C_IDX_GROUP_REPORTHEADER, csRptWhenEval.CSRPTEVALPRE);
             }
 
@@ -486,7 +474,7 @@
 
             // add field from every header to the page
             //
-            addFieldToNewPage(m_headers, page, C_HEADERS);
+            addFieldToNewPage(this.headers, page, C_HEADERS);
 
             // only formulas located in header sections
             //
@@ -494,7 +482,7 @@
 
             // if it is the first page we evaluate the headers of the report
             //
-            if (m_pages.count() === 1) {
+            if (this.pages.count() === 1) {
                 evalFunctions(C_IDX_GROUP_REPORTHEADER, csRptWhenEval.CSRPTEVALPOST);
             }
 
@@ -503,18 +491,18 @@
             page.setHeaderBottom(getHeightHeader());
             page.setFooterTop(getTopFooter());
 
-            if (m_rows === null) {
+            if (this.rows === null) {
                 return csRptNewPageResult.CSRPTNPEND;
             }
-            else if (m_iRow > m_lastRowIndex) {
+            else if (this.iRow > this.lastRowIndex) {
                 return csRptNewPageResult.CSRPTNPEND;
             }
 
             // if there are group headers which need to be reprinted
             // in the new page
             //
-            if (m_bExistsGrpToRePrintInNP) {
-                m_bHaveToRePrintGroup = true;
+            if (this.bExistsGrpToRePrintInNP) {
+                this.bHaveToRePrintGroup = true;
 
                 // set on the flag to know we need to re-print group headers
                 //
@@ -522,56 +510,56 @@
             }
 
             return csRptNewPageResult.CSRPTNPSUCCESS;
-        };
+        }
 
-        const pMarkGroupHeadersToReprint = function() {
+        private pMarkGroupHeadersToReprint() {
             // if this is the first page we do nothing
             //
-            if (m_firstGroup) {
+            if (this.firstGroup) {
                 return;
             }
 
-            for(var i = 0; i < m_groupCount; i++) {
-                if (m_groups.item(i).getRePrintInNewPage()) {
-                    m_vGroups[i].reprintHeader = true;
+            for(var i = 0; i < this.groupCount; i++) {
+                if (this.groups.item(i).getRePrintInNewPage()) {
+                    this.vGroups[i].reprintHeader = true;
                 }
             }
-        };
+        }
 
-        const pExistsGroupHeadersToReprint = function() {
-            for(var i = 0; i < m_groupCount; i++) {
-                if (m_vGroups[i].reprintHeader) {
-                    m_idxGroupHeader = i + 1;
-                    m_bOpenHeader = true;
+        private pExistsGroupHeadersToReprint() {
+            for(var i = 0; i < this.groupCount; i++) {
+                if (this.vGroups[i].reprintHeader) {
+                    this.idxGroupHeader = i + 1;
+                    this.bOpenHeader = true;
                     return true;
                 }
             }
 
             // there are no more groups to re-print
             //
-            m_bHaveToRePrintGroup = false;
+            this.bHaveToRePrintGroup = false;
             return false;
-        };
+        }
 
-        const pCheckExistsGroupHToReprint = function() {
-            for(var i = 0; i < m_groupCount; i++) {
-                if (m_vGroups[i].reprintHeader) {
+        private pCheckExistsGroupHToReprint() {
+            for(var i = 0; i < this.groupCount; i++) {
+                if (this.vGroups[i].reprintHeader) {
                     return;
                 }
             }
 
             // there are no more groups to re-print
             //
-            m_bHaveToRePrintGroup = false;
-        };
+            this.bHaveToRePrintGroup = false;
+        }
 
         // this function is called by the print component every time a page is printed
-        // the function set the footers in the last page of the m_pages collection
+        // the function set the footers in the last page of the this.pages collection
         //
-        self.endPage = function() {
+        public endPage() {
             // last page
             //
-            let page: cReportPage = m_pages.item(m_pages.count()-1);
+            let page: cReportPage = this.pages.item(this.pages.count()-1);
 
             // only formulas located in footer sections
             //
@@ -579,21 +567,21 @@
 
             // add field from every header to the page
             //
-            addFieldToNewPage(m_footers, page, C_FOOTERS);
+            addFieldToNewPage(this.footers, page, C_FOOTERS);
 
             // only formulas located in footer sections
             //
             evalFunctions(C_IDX_GROUP_FOOTER, csRptWhenEval.CSRPTEVALPOST);
 
             return csRptEndPageResult.CSRPTEPSUCCESS;
-        };
+        }
 
-        self.markGroupHeaderPrinted = function() {
+        public markGroupHeaderPrinted() {
             // if it took place in a re-print
             //
-            if (m_vGroups[m_idxGroupHeader - 1].reprintHeader) {
+            if (this.vGroups[this.idxGroupHeader - 1].reprintHeader) {
 
-                m_vGroups[m_idxGroupHeader - 1].reprintHeader = false;
+                this.vGroups[this.idxGroupHeader - 1].reprintHeader = false;
 
                 // every time we print a group
                 // because was mark as needed to re-print
@@ -609,12 +597,12 @@
                 // initialize it and then mark it as printed
                 //
             }
-            else if (m_vGroups[m_idxGroupHeader - 1].changed) {
+            else if (this.vGroups[this.idxGroupHeader - 1].changed) {
                 pMarkGroupHeaderPrintedAux();
             }
-        };
+        }
 
-        const pMarkGroupHeaderPrintedAux = function() {
+        private pMarkGroupHeaderPrintedAux() {
             let headerSec: cReportSection = null;
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
@@ -622,16 +610,16 @@
             // if we have printed the group we need to set off
             // the flag which tell us the group has changed
             //
-            m_vGroups[m_idxGroupHeader - 1].changed = false;
+            this.vGroups[this.idxGroupHeader - 1].changed = false;
 
             // if it was a group which has to be printed in a new page
             // we set off the flag because the group has been printed
             //
-            if (m_idxGroupToPrintNP === m_idxGroupHeader) {
-                m_idxGroupToPrintNP = NO_GROUP_INDEX;
+            if (this.idxGroupToPrintNP === this.idxGroupHeader) {
+                this.idxGroupToPrintNP = NO_GROUP_INDEX;
             }
 
-            headerSec = m_groups.item(m_idxGroupHeader - 1).getHeader();
+            headerSec = this.groups.item(this.idxGroupHeader - 1).getHeader();
 
             // we need to initialize the variables of every formula
             // in every control located in the header section of the group
@@ -641,16 +629,16 @@
                 for(var _j = 0; _j < secLn.getControls().count(); _j++) {
                     ctrl = secLn.getControls().item(_j);
                     if (ctrl.getHasFormulaHide()) {
-                        m_compiler.initVariable(ctrl.getFormulaHide());
+                        this.compiler.initVariable(ctrl.getFormulaHide());
                     }
                     if (ctrl.getHasFormulaValue()) {
-                        m_compiler.initVariable(ctrl.getFormulaValue());
+                        this.compiler.initVariable(ctrl.getFormulaValue());
                     }
                 }
             }
-        };
+        }
 
-        self.markGroupFooterPrinted = function() {
+        public markGroupFooterPrinted() {
             let footerSec: cReportSection = null;
             let ctrl: cReportControl = null;
             let secLn: cReportSectionLine = null;
@@ -658,9 +646,9 @@
             // if the group has been printed we set off the flag
             // used to know if it must be closed
             //
-            m_vGroups[m_idxGroupFooter - 1].footerMustBeClosed = false;
+            this.vGroups[this.idxGroupFooter - 1].footerMustBeClosed = false;
 
-            footerSec = m_groups.item(m_idxGroupFooter - 1).getFooter();
+            footerSec = this.groups.item(this.idxGroupFooter - 1).getFooter();
 
             // we need to initialize the variables of every formula
             // in the controls of every section lines in the footer group
@@ -670,125 +658,125 @@
                 for(var _j = 0; _j < secLn.getControls().count(); _j++) {
                     ctrl = secLn.getControls().item(_j);
                     if (ctrl.getHasFormulaHide()) {
-                        m_compiler.initVariable(ctrl.getFormulaHide());
+                        this.compiler.initVariable(ctrl.getFormulaHide());
                     }
                     if (ctrl.getHasFormulaValue()) {
-                        m_compiler.initVariable(ctrl.getFormulaValue());
+                        this.compiler.initVariable(ctrl.getFormulaValue());
                     }
                 }
             }
 
             if (pNotPendingFooters()) {
-                m_iRowFormula = m_iRow;
-                m_iRow2 = m_iRow;
+                this.iRowFormula = this.iRow;
+                this.iRow2 = this.iRow;
             }
-        };
+        }
 
-        self.evalPost = function() {
+        public evalPost() {
             evalFunctions(C_IDX_GROUP_DETAIL, csRptWhenEval.CSRPTEVALPOST);
-        };
+        }
 
-        self.evalPreGroupHeader = function() {
-            if (m_idxGroupHeader !== NO_GROUP_INDEX) {
-                evalFunctions(m_idxGroupHeader, csRptWhenEval.CSRPTEVALPRE);
+        public evalPreGroupHeader() {
+            if (this.idxGroupHeader !== NO_GROUP_INDEX) {
+                evalFunctions(this.idxGroupHeader, csRptWhenEval.CSRPTEVALPRE);
             }
-        };
+        }
 
-        self.evalPreGroupFooter = function() {
-            if (m_idxGroupHeader !== NO_GROUP_INDEX) {
+        public evalPreGroupFooter() {
+            if (this.idxGroupHeader !== NO_GROUP_INDEX) {
                 let idxChildGroupFooter: number = NO_GROUP_INDEX;
 
-                idxChildGroupFooter = pGetChildGroupFooterToClose(m_idxGroupHeader);
+                idxChildGroupFooter = pGetChildGroupFooterToClose(this.idxGroupHeader);
 
                 // when we close a group we need to evaluate every sub-group
                 //
-                while (idxChildGroupFooter > m_idxGroupHeader) {
+                while (idxChildGroupFooter > this.idxGroupHeader) {
                     evalFunctions(idxChildGroupFooter * -1, csRptWhenEval.CSRPTEVALPRE);
                     idxChildGroupFooter = idxChildGroupFooter - 1;
                 }
 
                 // finaly we need to evaluate the group that has changed
                 //
-                evalFunctions(m_idxGroupHeader * -1, csRptWhenEval.CSRPTEVALPRE);
+                evalFunctions(this.idxGroupHeader * -1, csRptWhenEval.CSRPTEVALPRE);
             }
-        };
+        }
 
-        self.evalPostGroupHeader = function() {
-            if (m_idxGroupHeader === NO_GROUP_INDEX) { return; }
-            evalFunctions(m_idxGroupHeader, csRptWhenEval.CSRPTEVALPOST);
-        };
+        public evalPostGroupHeader() {
+            if (this.idxGroupHeader === NO_GROUP_INDEX) { return; }
+            evalFunctions(this.idxGroupHeader, csRptWhenEval.CSRPTEVALPOST);
+        }
 
-        self.evalPostGroupFooter = function() {
-            if (m_idxGroupHeader !== NO_GROUP_INDEX) {
+        public evalPostGroupFooter() {
+            if (this.idxGroupHeader !== NO_GROUP_INDEX) {
 
                 let idxChildGroupFooter: number = 0;
 
-                idxChildGroupFooter = pGetChildGroupFooterToClose(m_idxGroupHeader);
+                idxChildGroupFooter = pGetChildGroupFooterToClose(this.idxGroupHeader);
 
                 // when we close a group we need to evaluate every sub-group
                 //
-                while (idxChildGroupFooter > m_idxGroupHeader) {
+                while (idxChildGroupFooter > this.idxGroupHeader) {
                     evalFunctions(idxChildGroupFooter * -1, csRptWhenEval.CSRPTEVALPOST);
                     idxChildGroupFooter = idxChildGroupFooter - 1;
                 }
 
                 // finaly we need to evaluate the group that has changed
                 //
-                evalFunctions(m_idxGroupHeader * -1, csRptWhenEval.CSRPTEVALPOST);
+                evalFunctions(this.idxGroupHeader * -1, csRptWhenEval.CSRPTEVALPOST);
             }
-        };
+        }
 
-        const pGetChildGroupFooterToClose = function(idxGroupFather) {
+        private pGetChildGroupFooterToClose(idxGroupFather: number) {
             let groupIndex: number = 0;
-            for(var j = idxGroupFather - 1; j < m_groupCount; j++) {
-                if (m_vGroups[j].footerMustBeClosed) {
+            for(var j = idxGroupFather - 1; j < this.groupCount; j++) {
+                if (this.vGroups[j].footerMustBeClosed) {
                     groupIndex = j + 1;
                 }
             }
             return groupIndex;
-        };
+        }
 
-        self.evalPre = function() {
+        public evalPre() {
             evalFunctions(C_IDX_GROUP_DETAIL, csRptWhenEval.CSRPTEVALPRE);
-        };
+        }
 
-        self.moveToNext = function() {
+        public moveToNext() {
             // we move to the next group
             //
-            m_iRow = m_iRow + 1;
-            m_iRow2 = m_iRow;
-            m_iRowFormula = m_iRow;
+            this.iRow = this.iRow + 1;
+            this.iRow2 = this.iRow;
+            this.iRowFormula = this.iRow;
 
             // we need to move the additional recordset too
             //
-            for(var indexRows = 0; indexRows < m_collRows.Length; indexRows++) {
-                let indexRow: number = m_vRowsIndexAux[indexRows] + 1;
-                if (m_collRows[indexRows] !== null) {
-                    if (indexRow < m_collRows[indexRows].Rows.Count) {
-                        m_vRowsIndexAux[indexRows] = indexRow;
+            for(var indexRows = 0; indexRows < this.collRows.Length; indexRows++) {
+                let indexRow: number = this.vRowsIndexAux[indexRows] + 1;
+                if (this.collRows[indexRows] !== null) {
+                    if (indexRow < this.collRows[indexRows].Rows.Count) {
+                        this.vRowsIndexAux[indexRows] = indexRow;
                     }
                 }
             }
-        };
+        }
 
-        const pExistsGroupToReprintInNP = function() {
-            m_bExistsGrpToRePrintInNP = false;
-            for(var i = 0; i < m_groupCount; i++) {
-                if (m_groups.item(i).getRePrintInNewPage()) {
-                    m_bExistsGrpToRePrintInNP = true;
+        private pExistsGroupToReprintInNP() {
+            this.bExistsGrpToRePrintInNP = false;
+            for(var i = 0; i < this.groupCount; i++) {
+                if (this.groups.item(i).getRePrintInNewPage()) {
+                    this.bExistsGrpToRePrintInNP = true;
                     return;
                 }
             }
-        };
+        }
 
-        const pNotPendingFooters = function() {
-            for(var i = 0; i < m_groupCount; i++) {
-                if (m_vGroups[i].footerMustBeClosed) {
+        private pNotPendingFooters() {
+            for(var i = 0; i < this.groupCount; i++) {
+                if (this.vGroups[i].footerMustBeClosed) {
                     return false;
                 }
             }
             return true;
-        };
+        }
 
         // it only returns one of the following:
         //
@@ -797,19 +785,19 @@
         //      GroupF
         //      End
         //
-        self.getLineType = function() {
+        public getLineType() {
             // if there are groups footers which need to be printed
             //
-            if (m_idxGroupFooter !== NO_GROUP_INDEX) {
-                if (m_vGroups[m_idxGroupFooter - 1].footerMustBeClosed) {
+            if (this.idxGroupFooter !== NO_GROUP_INDEX) {
+                if (this.vGroups[this.idxGroupFooter - 1].footerMustBeClosed) {
                     return csRptGetLineResult.CSRPTGLGROUPFOOTER;
                 }
             }
 
             // if there are groups headers which need to be printed
             //
-            if (m_idxGroupHeader !== NO_GROUP_INDEX) {
-                if (m_vGroups[m_idxGroupHeader - 1].changed) {
+            if (this.idxGroupHeader !== NO_GROUP_INDEX) {
+                if (this.vGroups[this.idxGroupHeader - 1].changed) {
                     return csRptGetLineResult.CSRPTGLGROUPHEADER;
                 }
             }
@@ -827,7 +815,7 @@
             // o
             // - which need to be re-printed because we are in a new page
             //
-            if (m_idxGroupToPrintNP > 0 || m_bHaveToRePrintGroup) {
+            if (this.idxGroupToPrintNP > 0 || this.bHaveToRePrintGroup) {
                 return csRptGetLineResult.CSRPTGLVIRTUALH;
             }
 
@@ -839,7 +827,7 @@
 
             // if there is nothing more to do we have finished
             //
-            if (m_iRow > m_lastRowIndex && pNotPendingFooters()) {
+            if (this.iRow > this.lastRowIndex && pNotPendingFooters()) {
                 return csRptGetLineResult.CSRPTGLEND;
             }
 
@@ -852,12 +840,12 @@
             // if we get here we are in line of the detail
             //
             return csRptGetLineResult.CSRPTGLDETAIL;
-        };
+        }
 
         // it returns every controls of a line
         // it moves through every row in the main recordset
         //
-        self.getLine = function(fields) {
+        public getLine(fields: cReportPageFields) {
             // to know if we need to print in a new page
             // because a group has changed its value
             //
@@ -869,7 +857,7 @@
 
             // if there are not pending calls to close or open groups
             //
-            if (!(m_bCloseFooter || m_bOpenHeader)) {
+            if (!(this.bCloseFooter || this.bOpenHeader)) {
 
                 // if there are not group headers to be re-printed in this page
                 //
@@ -891,12 +879,12 @@
 
             // if we must close footers
             //
-            if (m_bCloseFooter) {
+            if (this.bCloseFooter) {
                 return pGetLineAuxGroupFooter(fields);
             }
             // if the group has changed
             //
-            else if (m_bOpenHeader) {
+            else if (this.bOpenHeader) {
                 return pGetLineAuxGroupHeader(bGetNewPage, fields);
             }
             // process a details line
@@ -904,9 +892,9 @@
             else {
                 return pGetLineAuxDetail(fields);
             }
-        };
+        }
 
-        const pGetLineWork = function(fields, bGetNewPage) {
+        private pGetLineWork(fields: cReportPageFields, bGetNewPage: boolean) {
             bGetNewPage = false;
 
             // if the user has cancel we have finished
@@ -925,11 +913,11 @@
 
             // field collection for this line
             //
-            fields = globalObject.CSReportDll.createCReportPageFields();
+            fields = new cReportPageFields();
 
             // if we need to print the group in a new page
             //
-            if (m_idxGroupToPrintNP > 0) {
+            if (this.idxGroupToPrintNP > 0) {
                 pGetLineAuxPrintGroupInNP();
             }
             // we need to process groups
@@ -937,16 +925,16 @@
             else {
                 // if the report have groups
                 //
-                if (m_groupCount > 0) {
+                if (this.groupCount > 0) {
                     // if we don't need to re-print group headers
                     //
-                    if (!m_bHaveToRePrintGroup) {
+                    if (!this.bHaveToRePrintGroup) {
                         pEvalFooterToClose();
                     }
 
                     // if we don't need to re-print group footers
                     //
-                    if (!m_bCloseFooter) {
+                    if (!this.bCloseFooter) {
                         // if have done all the pending work we have finished
                         //
                         if (pGetLineAuxReportIsDone() === csRptGetLineResult.CSRPTGLEND) {
@@ -960,66 +948,66 @@
                 }
             }
             return csRptGetLineResult.CSRPTGLNONE;
-        };
+        }
 
-        const pGetLineAuxPrintGroupInNP = function() {
-            m_idxGroupHeader = m_idxGroupToPrintNP;
-            m_idxGroupToPrintNP = NO_GROUP_INDEX;
-            m_bOpenHeader = true;
-        };
+        private pGetLineAuxPrintGroupInNP() {
+            this.idxGroupHeader = this.idxGroupToPrintNP;
+            this.idxGroupToPrintNP = NO_GROUP_INDEX;
+            this.bOpenHeader = true;
+        }
 
-        const pReportIsDone = function() {
+        private pReportIsDone() {
             // if we have finished return csRptGLEnd
             //
-            if (m_rows === null || m_iRow > m_recordCount -1) {
+            if (this.rows === null || this.iRow > this.recordCount -1) {
                 // if there are not pending footers we have finished
                 // 
-                if (!m_bPrintFooter) {
+                if (!this.bPrintFooter) {
                     return true;
                 }
             }
             return false;
-        };
+        }
 
-        const pGetLineWorkAuxReportEnd = function() {
+        private pGetLineWorkAuxReportEnd() {
             // if we have finished return csRptGLEnd
             //
-            if (m_rows === null || m_iRow > m_recordCount - 1) {
-                if (m_iRow > m_recordCount - 1) {
-                    m_iRow2 = m_recordCount - 1;
+            if (this.rows === null || this.iRow > this.recordCount - 1) {
+                if (this.iRow > this.recordCount - 1) {
+                    this.iRow2 = this.recordCount - 1;
                 }
 
                 // if there are footer to be printed
                 //
-                if (m_bPrintFooter) {
+                if (this.bPrintFooter) {
                     // if we need to eval functions before print
                     //
-                    if (m_bEvalPreGroups) {
+                    if (this.bEvalPreGroups) {
                         // set this flag off to allow the next call to 
                         // getLine() -> pGetLineWork() -> pGetLineWorkAuxReportEnd()
                         // to print the footer
                         //
-                        m_bEvalPreGroups = false;
+                        this.bEvalPreGroups = false;
 
                         return csRptGetLineResult.CSRPTGLVIRTUALF;
                     }
                     else {
-                        if (!m_bLastFootersWasPrinted) {
+                        if (!this.bLastFootersWasPrinted) {
                             // set this flag on to know we have started to
                             // close group footers
                             //
-                            m_bLastFootersWasPrinted = true;
+                            this.bLastFootersWasPrinted = true;
 
                             // we force a change in the first group to force
                             // the close of every group footer
                             //
-                            m_groupIndexChange = 1;
+                            this.groupIndexChange = 1;
 
                             // set the flag of the last group on to force this call to
                             // print it and the next footers will be printed in sucesive
                             // calls to getLine() -> pGetLineWork() -> pGetLineWorkAuxReportEnd()
                             //
-                            m_vGroups[m_vGroups.Length - 1].footerMustBeClosed = true;
+                            this.vGroups[this.vGroups.Length - 1].footerMustBeClosed = true;
                         }
                     }
                 }
@@ -1031,92 +1019,92 @@
                 }
             }
             return csRptGetLineResult.CSRPTGLNONE;
-        };
+        }
 
-        const pGetLineAuxReportCancel = function() {
+        private pGetLineAuxReportCancel() {
             // if the user has canceled we have finished
             //
-            if (!OnProgress("", 0, m_iRow, m_recordCount)) {
+            if (!OnProgress("", 0, this.iRow, this.recordCount)) {
                 reportDone();
                 return csRptGetLineResult.CSRPTGLEND;
             }
             else {
                 return csRptGetLineResult.CSRPTGLNONE;
             }
-        };
+        }
 
-        const pGetLineAuxReportIsDone = function() {
+        private pGetLineAuxReportIsDone() {
             // if we have printed the las footer we have finished
             //
-            if (m_iRow > m_lastRowIndex && pNotPendingFooters()) {
+            if (this.iRow > this.lastRowIndex && pNotPendingFooters()) {
                 reportDone();
-                m_bPrintFooter = false;
+                this.bPrintFooter = false;
                 return csRptGetLineResult.CSRPTGLEND;
             }
             return csRptGetLineResult.CSRPTGLNONE;
-        };
+        }
 
-        const pEvalFooterToClose2 = function() {
-            for(var i = m_groupCount-1; i > -1; i--) {
-                if (m_vGroups[i].footerMustBeClosed) {
+        private pEvalFooterToClose2() {
+            for(var i = this.groupCount-1; i > -1; i--) {
+                if (this.vGroups[i].footerMustBeClosed) {
                     return true;
                 }
             }
             return false;
-        };
+        }
 
-        const pEvalFooterToClose = function() {
-            for(var i = m_groupCount-1; i > -1; i--) {
-                if (m_vGroups[i].footerMustBeClosed) {
-                    m_idxGroupFooter = i + 1;
+        private pEvalFooterToClose() {
+            for(var i = this.groupCount-1; i > -1; i--) {
+                if (this.vGroups[i].footerMustBeClosed) {
+                    this.idxGroupFooter = i + 1;
 
                     // we have to check only the footer or the group which has
                     // changed and its subgroups
                     //
-                    if (m_idxGroupFooter > m_groupIndexChange) {
+                    if (this.idxGroupFooter > this.groupIndexChange) {
 
                         // we need to close the footer of the group which contains it
                         //
-                        let -1].footerMustBeClosed: m_vGroups[i = true;
+                        let -1].footerMustBeClosed: this.vGroups[i = true;
                     }
-                    m_bCloseFooter = true;
+                    this.bCloseFooter = true;
                     break;
                 }
             }
-            return m_bCloseFooter;
-        };
+            return this.bCloseFooter;
+        }
 
-        const pGetLineAuxPrintHeader = function() {
+        private pGetLineAuxPrintHeader() {
             // we need to evaluate groups
             //
-            for(var i = 0; i < m_groupCount; i++) {
+            for(var i = 0; i < this.groupCount; i++) {
 
-                if (!m_vGroups[i].grandTotalGroup) {
+                if (!this.vGroups[i].grandTotalGroup) {
 
-                    if (m_vGroups[i].value === null) {
+                    if (this.vGroups[i].value === null) {
                         return true;
                     }
 
-                    let col: number = m_vGroups[i].indexField;
-                    let row: number = m_vRowsIndex[m_iRow2];
+                    let col: number = this.vGroups[i].indexField;
+                    let row: number = this.vRowsIndex[this.iRow2];
 
-                    switch (m_vGroups[i].comparisonType)
+                    switch (this.vGroups[i].comparisonType)
                     {
                         case csRptGrpComparisonType.CSRPTGRPTEXT:
-                            let text: string = cReportGlobals.valVariant(m_rows.Rows[row][col]).ToString().ToLower();
-                            if (m_vGroups[i].value.ToString() !== text) {
+                            let text: string = cReportGlobals.valVariant(this.rows.Rows[row][col]).ToString().ToLower();
+                            if (this.vGroups[i].value.ToString() !== text) {
                                 return true;
                             }
                             break;
                         case csRptGrpComparisonType.CSRPTGRPNUMBER:
-                            let number: number = cUtil.val(cReportGlobals.valVariant(m_rows.Rows[row][col]));
-                            if (m_vGroups[i].value !== number) {
+                            let number: number = cUtil.val(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                            if (this.vGroups[i].value !== number) {
                                 return true;
                             }
                             break;
                         case csRptGrpComparisonType.CSRPTGRPDATE:
-                            let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(m_rows.Rows[row][col]));
-                            if (m_vGroups[i].value !== date) {
+                            let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                            if (this.vGroups[i].value !== date) {
                                 return true;
                             }
                             break;
@@ -1124,9 +1112,9 @@
                 }
             }
             return false;
-        };
+        }
 
-        const orderDateAsc = function(first, last, orderBy) {
+        private orderDateAsc(first: number, last: number, orderBy: number) {
             let i: number = 0;
             let j: number = 0;
             let t: number = 0;
@@ -1138,10 +1126,10 @@
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let row1: number = m_vRowsIndex[j];
-                    let row2: number = m_vRowsIndex[j - 1];
-                    let date1: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(m_rows.Rows[row1][orderBy]));
-                    let date2: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(m_rows.Rows[row2][orderBy]));
+                    let row1: number = this.vRowsIndex[j];
+                    let row2: number = this.vRowsIndex[j - 1];
+                    let date1: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row1][orderBy]));
+                    let date2: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row2][orderBy]));
                     if (date1 < date2) {
                         if (!OnProgress("", 0, q, t)) {
                             return false;
@@ -1158,9 +1146,9 @@
                 }
             }
             return true;
-        };
+        }
 
-        const orderDateDesc = function(first, last, orderBy) {
+        private orderDateDesc(first: number, last: number, orderBy: number) {
             let i: number = 0;
             let j: number = 0;
             let t: number = 0;
@@ -1172,10 +1160,10 @@
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let row1: number = m_vRowsIndex[j];
-                    let row2: number = m_vRowsIndex[j - 1];
-                    let date1: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(m_rows.Rows[row1][orderBy]));
-                    let date2: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(m_rows.Rows[row2][orderBy]));
+                    let row1: number = this.vRowsIndex[j];
+                    let row2: number = this.vRowsIndex[j - 1];
+                    let date1: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row1][orderBy]));
+                    let date2: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row2][orderBy]));
                     if (date1 > date2) {
                         if (!OnProgress("", 0, q, t))  {
                             return false; 
@@ -1192,12 +1180,12 @@
                 }
             }
             return true;
-        };
+        }
 
-        const pGetLineAuxDoGroups = function(bGetNewPage) {
+        private pGetLineAuxDoGroups(bGetNewPage: boolean) {
             // we continue evaluating groups
             //
-            for(var i = 0; i < m_groupCount; i++) {
+            for(var i = 0; i < this.groupCount; i++) {
 
                 // if the group has changed
                 //
@@ -1209,19 +1197,19 @@
                 //
                 //  - we are in a new page and need to re-print group headers
                 //
-                if (m_vGroups[i].changed) {
+                if (this.vGroups[i].changed) {
                     pGroupChanged(i, bGetNewPage);
                     break;
                 }
                 else {
                     pEvalGroupChange(i);
 
-                    if (m_vGroups[i].changed) {
-                        m_idxGroupHeader = i + 1;
+                    if (this.vGroups[i].changed) {
+                        this.idxGroupHeader = i + 1;
 
                         // if it is the first time we are printing groups
                         //
-                        if (m_firstGroup) {
+                        if (this.firstGroup) {
                             pOpenGroupHeader(i);
                         }
                         // the first thing to do is to close footers
@@ -1233,148 +1221,148 @@
                     }
                 }
             }
-        };
+        }
 
-        const pCloseGroupFooters = function(i) {
+        private pCloseGroupFooters(i: number) {
             // save the index of the outer footer we need to close
             //
-            m_groupIndexChange = i + 1;
+            this.groupIndexChange = i + 1;
 
-            m_bCloseFooter = true;
-            m_idxGroupFooter = m_groupCount;
+            this.bCloseFooter = true;
+            this.idxGroupFooter = this.groupCount;
 
             // when a group changes we need to close from the
             // most inner group to the most outer group 
-            // which is changing (m_GroupIndexChange)
+            // which is changing (this.GroupIndexChange)
             //
-            for(var j = m_groupIndexChange - 1; j < m_idxGroupFooter; j++) {
-                m_vGroups[j].footerMustBeClosed = true;
+            for(var j = this.groupIndexChange - 1; j < this.idxGroupFooter; j++) {
+                this.vGroups[j].footerMustBeClosed = true;
             }
-        };
+        }
 
-        const pOpenGroupHeader = function(i) {
+        private pOpenGroupHeader(i: number) {
             // set this flag off to know we need to print the last footers
             //
-            m_bLastFootersWasPrinted = false;
-            m_vGroups[i].changed = false;
-            m_idxGroupHeader = i + 1;
+            this.bLastFootersWasPrinted = false;
+            this.vGroups[i].changed = false;
+            this.idxGroupHeader = i + 1;
 
             // set this flag on to know we need to close
             // the next group in a future call to getLine()
             // only if there are more group
             //
-            if (i < m_groupCount - 1) {
-                m_vGroups[i + 1].changed = true;
+            if (i < this.groupCount - 1) {
+                this.vGroups[i + 1].changed = true;
             }
-            m_bOpenHeader = true;
-        };
+            this.bOpenHeader = true;
+        }
 
-        const changeGroup = function(i, value) {
-            m_vGroups[i].value = value;
-            m_vGroups[i].changed = true;
-            if (!m_firstGroup) {
-                m_vGroups[i].footerMustBeClosed = true;
+        private changeGroup(i: number, value: object) {
+            this.vGroups[i].value = value;
+            this.vGroups[i].changed = true;
+            if (!this.firstGroup) {
+                this.vGroups[i].footerMustBeClosed = true;
             }
             pEvalGroupChangedAux(i + 1);
-        };
+        }
 
-        const pEvalGroupChange = function(i) {
-            if (m_vGroups[i].grandTotalGroup) {
-                if (m_vGroups[i].value === null) {
+        private pEvalGroupChange(i: number) {
+            if (this.vGroups[i].grandTotalGroup) {
+                if (this.vGroups[i].value === null) {
                     changeGroup(i, "1");
                 }
             }
             else {
-                let col: number = m_vGroups[i].indexField;
-                let row: number = m_vRowsIndex[m_iRow2];
-                switch (m_vGroups[i].comparisonType)
+                let col: number = this.vGroups[i].indexField;
+                let row: number = this.vRowsIndex[this.iRow2];
+                switch (this.vGroups[i].comparisonType)
                 {
                     case csRptGrpComparisonType.CSRPTGRPTEXT:
-                        let text: string = cReportGlobals.valVariant(m_rows.Rows[row][col]).ToString().ToLower();
-                        if (m_vGroups[i].value === null) {
+                        let text: string = cReportGlobals.valVariant(this.rows.Rows[row][col]).ToString().ToLower();
+                        if (this.vGroups[i].value === null) {
                             changeGroup(i, text);
                         }
-                        else if (m_vGroups[i].value.ToString() !== text) {
+                        else if (this.vGroups[i].value.ToString() !== text) {
                             changeGroup(i, text);
                         }
                         break;
 
                     case csRptGrpComparisonType.CSRPTGRPNUMBER:
-                        let number: number = cUtil.val(cReportGlobals.valVariant(m_rows.Rows[row][col]));
-                        if (m_vGroups[i].value === null) {
+                        let number: number = cUtil.val(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                        if (this.vGroups[i].value === null) {
                             changeGroup(i, number);
                         }
-                        else if (m_vGroups[i].value !== number) {
+                        else if (this.vGroups[i].value !== number) {
                             changeGroup(i, number);
                         }
                         break;
 
                     case csRptGrpComparisonType.CSRPTGRPDATE:
-                        let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(m_rows.Rows[row][col]));
-                        if (m_vGroups[i].value === null) {
+                        let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                        if (this.vGroups[i].value === null) {
                             changeGroup(i, date);
                         }
-                        else if (m_vGroups[i].value !== date) {
+                        else if (this.vGroups[i].value !== date) {
                             changeGroup(i, date);
                         }
                         break;
                 }
             }
-        };
+        }
 
-        const pEvalGroupChangedAux = function(i) {
-            for (; i < m_groupCount; i++) {
+        private pEvalGroupChangedAux(i: number) {
+            for (; i < this.groupCount; i++) {
                 pGroupChangedAux(i);
             }
-        };
+        }
 
-        const pGroupChangedAux = function(i) {
-            let col: number = m_vGroups[i].indexField;
-            let row: number = m_vRowsIndex[m_iRow2];
-            switch (m_vGroups[i].comparisonType)
+        private pGroupChangedAux(i: number) {
+            let col: number = this.vGroups[i].indexField;
+            let row: number = this.vRowsIndex[this.iRow2];
+            switch (this.vGroups[i].comparisonType)
             {
                 case csRptGrpComparisonType.CSRPTGRPTEXT:
-                    m_vGroups[i].value = cReportGlobals.valVariant(m_rows.Rows[row][col]).ToString().ToLower();
+                    this.vGroups[i].value = cReportGlobals.valVariant(this.rows.Rows[row][col]).ToString().ToLower();
                     break;
                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
-                    m_vGroups[i].value = cUtil.val(cReportGlobals.valVariant(m_rows.Rows[row][col]));
+                    this.vGroups[i].value = cUtil.val(cReportGlobals.valVariant(this.rows.Rows[row][col]));
                     break;
                 case csRptGrpComparisonType.CSRPTGRPDATE:
-                    m_vGroups[i].value = cReportGlobals.dateValue(cReportGlobals.valVariant(m_rows.Rows[row][col]));
+                    this.vGroups[i].value = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row][col]));
                     break;
             }
-        };
+        }
 
-        const pGroupChanged = function(i, bGetNewPage) {
-            m_idxGroupHeader = i + 1;
+        private pGroupChanged(i: number, bGetNewPage: boolean) {
+            this.idxGroupHeader = i + 1;
             pGroupChangedAux(i);
 
-            bGetNewPage = m_groups.item(i).getPrintInNewPage() && !m_firstGroup;
+            bGetNewPage = this.groups.item(i).getPrintInNewPage() && !this.firstGroup;
 
             // TODO: remove me
             //
-            // m_idxGroupHeader = i + 1;
+            // this.idxGroupHeader = i + 1;
 
             if (bGetNewPage) {
                 // setting it to any value but zero we mean that this group
                 // must be printed in a new page
                 //
-                m_idxGroupToPrintNP = i + 1;
+                this.idxGroupToPrintNP = i + 1;
             }
             else {
-                m_idxGroupToPrintNP = NO_GROUP_INDEX;
+                this.idxGroupToPrintNP = NO_GROUP_INDEX;
             }
 
             // set this flag ON to open this group in a future
             // call to getLine(). only if there are more groups
             //
-            if (i < m_groupCount - 1) {
-                m_vGroups[i + 1].changed = true;
+            if (i < this.groupCount - 1) {
+                this.vGroups[i + 1].changed = true;
             }
-            m_bOpenHeader = true;
-        };
+            this.bOpenHeader = true;
+        }
 
-        const pGetLineAuxGroupFooter = function(fields) {
+        private pGetLineAuxGroupFooter(fields: cReportPageFields) {
             let footerSec: cReportSection = null;
             let ctrl: cReportControl = null;
             let secLn: cReportSectionLine = null;
@@ -1382,22 +1370,22 @@
             // if we need to evaluate functions which must run
             // before printing
             //
-            if (m_bEvalPreGroups) {
+            if (this.bEvalPreGroups) {
                 // when we are evaluating this kind of formulas we must use
                 // the previous row because here we are closing groups
                 // which means the current row doesn't belong to the
                 // group we are closing
                 //
                 // NOTE: whe we have done whit printing the footers
-                // we need to set m_iRowFormula and m_iRow2 to their 
+                // we need to set this.iRowFormula and this.iRow2 to their 
                 // original values
                 //
-                m_iRowFormula = m_iRow - 1;
-                m_iRow2 = m_iRow - 1;
+                this.iRowFormula = this.iRow - 1;
+                this.iRow2 = this.iRow - 1;
 
                 // to force the next call to getLine() to close the footer
                 //
-                m_bEvalPreGroups = false;
+                this.bEvalPreGroups = false;
 
                 return csRptGetLineResult.CSRPTGLVIRTUALF;
             }
@@ -1406,28 +1394,28 @@
                 // if there are more footers to be printed this
                 // flag will be turn on in the next call to getLine()
                 //
-                m_bCloseFooter = false;
+                this.bCloseFooter = false;
 
                 // to force the next call to return CSRPTGLVIRTUALF
                 //
-                m_bEvalPreGroups = true;
+                this.bEvalPreGroups = true;
 
-                footerSec = m_groups.item(m_idxGroupFooter - 1).getFooter();
+                footerSec = this.groups.item(this.idxGroupFooter - 1).getFooter();
 
                 getLineAux(footerSec, fields);
 
                 return csRptGetLineResult.CSRPTGLGROUPFOOTER;
             }
-        };
+        }
 
-        const pGetLineAuxGroupHeader = function(bGetNewPage, fields) {
+        private pGetLineAuxGroupHeader(bGetNewPage: boolean, fields: cReportPageFields) {
             let headerSec: cReportSection = null;
 
-            if (bGetNewPage && !m_firstGroup) {
+            if (bGetNewPage && !this.firstGroup) {
                 // in the deatil and group headers the row for formulas
                 // is the current row
                 //
-                m_iRowFormula = m_iRow;
+                this.iRowFormula = this.iRow;
 
                 return csRptGetLineResult.CSRPTGLNEWPAGE;
             }
@@ -1436,53 +1424,53 @@
                 // if we need to evaluate the functions which must
                 // run before printing
                 //
-                if (m_bEvalPreGroups) {
+                if (this.bEvalPreGroups) {
                     // if we are not reprinting group headers
                     //
-                    if (!m_bHaveToRePrintGroup) {
+                    if (!this.bHaveToRePrintGroup) {
                         // in the detail and group headers the row for formulas
                         // is the current row
                         //
-                        m_iRowFormula = m_iRow;
+                        this.iRowFormula = this.iRow;
                     }
                     // to force the next call to getLine() to print the footer
                     //
-                    m_bEvalPreGroups = false;
+                    this.bEvalPreGroups = false;
 
                     return csRptGetLineResult.CSRPTGLVIRTUALH;
                 }
                 else {
 
-                    m_bOpenHeader = false;
+                    this.bOpenHeader = false;
 
                     // to force the next call to getLine() to return CSRPTGLVIRTUALF
                     //
-                    m_bEvalPreGroups = true;
-                    headerSec = m_groups.item(m_idxGroupHeader - 1).getHeader();
+                    this.bEvalPreGroups = true;
+                    headerSec = this.groups.item(this.idxGroupHeader - 1).getHeader();
                     getLineAux(headerSec, fields);
 
                     // set this flag on to indicate we have footers to close
                     //
-                    m_bPrintFooter = true;
+                    this.bPrintFooter = true;
 
                     // we return a group line
                     //
                     return csRptGetLineResult.CSRPTGLGROUPHEADER;
                 }
             }
-        };
+        }
 
-        const pGetLineAuxDetail = function(fields) {
-            m_firstGroup = false;
+        private pGetLineAuxDetail(fields: cReportPageFields) {
+            this.firstGroup = false;
 
-            getLineAux(m_details.item(0), fields);
+            getLineAux(this.details.item(0), fields);
 
             // we return a detail line
             //
             return csRptGetLineResult.CSRPTGLDETAIL;
-        };
+        }
 
-        const getLineAux = function(sec, fields) {
+        private getLineAux(sec: cReportSection, fields: cReportPageFields) {
             // for every control in every section line of sec
             // we need to create a new cPageField
             //
@@ -1507,7 +1495,7 @@
             let indexField: number = 0;
 
             if (sec.getHasFormulaHide()) {
-                isVisible = cUtil.val(m_compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                isVisible = cUtil.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
             }
             else {
                 isVisible = true;
@@ -1518,11 +1506,11 @@
                 //
                 for(var _i = 0; _i < sec.getSectionLines().count(); _i++) {
                     secLn = sec.getSectionLines().item(_i);
-                    m_lineIndex++;
+                    this.lineIndex++;
 
                     if (secLn.getHasFormulaHide()) {
-                        m_compiler.evalFunction(secLn.getFormulaHide());
-                        isVisible = cUtil.val(m_compiler.resultFunction(secLn.getFormulaHide())) !== 0;
+                        this.compiler.evalFunction(secLn.getFormulaHide());
+                        isVisible = cUtil.val(this.compiler.resultFunction(secLn.getFormulaHide())) !== 0;
                     }
                     else {
                         isVisible = true;
@@ -1531,19 +1519,19 @@
                     if (isVisible) {
                         // for every control in the section line
                         //
-                        let collByLeft: int[] = secLn.getControls().getCollByLeft();
+                        let collByLeft: number[] = secLn.getControls().getCollByLeft();
                         for (indexCtrl = 0; indexCtrl < collByLeft.Length; indexCtrl++) {
                             ctrl = secLn.getControls().item(collByLeft[indexCtrl]);
 
                             // add a new field to the collection
                             //
                             field = fields.add(null, "");
-                            field.setIndexLine(m_lineIndex);
+                            field.setIndexLine(this.lineIndex);
 
                             if (ctrl.getHasFormulaValue()) {
                                 field.setValue(
                                     cReportGlobals.format(
-                                        m_compiler.resultFunction(ctrl.getFormulaValue()),
+                                        this.compiler.resultFunction(ctrl.getFormulaValue()),
                                         ctrl.getLabel().getAspect().getFormat()));
                             }
                             else {
@@ -1554,18 +1542,18 @@
 
                                         pGetIndexRows(indexRows, indexRow, indexField, ctrl);
 
-                                        if (m_collRows[indexRows] !== null) {
+                                        if (this.collRows[indexRows] !== null) {
                                             // it looks ugly, dont think you?
                                             //
                                             // maybe this help a litle:
                                             //
-                                            //    m_vCollRows(IndexRows)    a matrix with the data 
+                                            //    this.vCollRows(IndexRows)    a matrix with the data 
                                             //                              contained in the datasource
                                             //                              referd by this control
                                             //
                                             //    (IndexField, IndexRow)    a cell in this matrix
                                             //
-                                            let value: object = m_collRows[indexRows].Rows[indexRow][indexField];
+                                            let value: object = this.collRows[indexRows].Rows[indexRow][indexField];
                                             field.setValue(
                                                 cReportGlobals.format(
                                                     cReportGlobals.valVariant(value),
@@ -1586,7 +1574,7 @@
 
                                     case csRptControlType.CSRPTCTDBIMAGE:
                                         pGetIndexRows(indexRows, indexRow, indexField, ctrl);
-                                        if (m_collRows[indexRows] !== null) {
+                                        if (this.collRows[indexRows] !== null) {
                                             field.setImage(pGetImage(indexRows, indexField, indexRow));
                                         }
                                         break;
@@ -1599,7 +1587,7 @@
                             }
 
                             if (ctrl.getHasFormulaHide()) {
-                                field.setVisible(cUtil.val(m_compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
+                                field.setVisible(cUtil.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
                             }
                             else {
                                 field.setVisible(true);
@@ -1607,31 +1595,31 @@
 
                             // set a reference to the definition of this field
                             //
-                            field.setInfo(m_pageSetting.item(ctrl.getKey()));
+                            field.setInfo(this.pageSetting.item(ctrl.getKey()));
                         }
                     }
                 }
             }
-        };
+        }
 
         // indexRows     define the datasource
         // indexRow      define the row in the datasource
         //
-        const pGetIndexRows = function(indexRows, indexRow, indexField, ctrl) {
+        private pGetIndexRows(indexRows: number, indexRow: number, indexField: number, ctrl: cReportControl) {
             // the datasource index have an offset of 1000 between each other
             //
             indexRows = (ctrl.getField().getIndex() / 1000);
             indexField = ctrl.getField().getIndex() - (indexRows * 1000);
 
             if (indexRows === 0) {
-                indexRow = m_vRowsIndex[m_iRow2];
+                indexRow = this.vRowsIndex[this.iRow2];
             }
             else {
-                indexRow = m_vRowsIndexAux[indexRows];
+                indexRow = this.vRowsIndexAux[indexRows];
             }
-        };
+        }
 
-        self.init = function(oLaunchInfo) {
+        public init(oLaunchInfo: cReportLaunchInfo) {
             try {
                 setLaunchInfo(oLaunchInfo);
                 return true;
@@ -1640,23 +1628,23 @@
                 cError.mngError(ex, "Init", C_MODULE, "");
                 return false;
             }
-        };
+        }
 
         // run report
         //
-		self.launch = function() {
+		public launch() {
 			return launch(null);
-		};
-        self.launch = function(oLaunchInfo) {
+		}
+        public launch(oLaunchInfo: cReportLaunchInfo) {
             try {
                 let recordsets: List<object[]> = null;
                 let rs: DataTable = null;
 
-                m_compiler.setReport(this);
-                m_compiler.initGlobalObject();
+                this.compiler.setReport(this);
+                this.compiler.initGlobalObject();
 
                 if (oLaunchInfo === null) {
-                    if (m_launchInfo === null) {
+                    if (this.launchInfo === null) {
                         throw new ReportLaunchInfoNoDefined(
                             C_MODULE,
                             cReportError.errGetDescript(
@@ -1667,7 +1655,7 @@
                     setLaunchInfo(oLaunchInfo);
                 }
 
-                if (m_launchInfo.getPrinter() === null) {
+                if (this.launchInfo.getPrinter() === null) {
                     throw new ReportLaunchInfoNoDefined(
                         C_MODULE,
                         cReportError.errGetDescript(
@@ -1700,19 +1688,19 @@
                     return false;
                 }
 
-                recordsets = UNKNOWN >>  can't find constructor for class List<object[]>();
+                recordsets = new List<object[]>();
 
-                m_collRows = UNKNOWN >>  can't find constructor for class DataTable[1];
+                this.collRows = new DataTable[1];
 
                 // get the main recordset
                 //
-                if (!pGetData(m_rows, rs, m_connect, true, recordsets)) {
+                if (!pGetData(this.rows, rs, this.connect, true, recordsets)) {
                     return false;
                 }
 
                 // the first element contains the main recordset
                 //
-                m_collRows[0] = m_rows;
+                this.collRows[0] = this.rows;
 
                 pInitImages();
 
@@ -1740,16 +1728,16 @@
                     return false;
                 }
 
-                m_pages.clear();
-                m_lineIndex = 0;
+                this.pages.clear();
+                this.lineIndex = 0;
 
                 // globals initialization
                 //
-                m_bPrintFooter = false;
-                m_bLastFootersWasPrinted = false;
-                m_groupIndexChange = NO_GROUP_INDEX;
-                m_iRow2 = 0;
-                m_iRowFormula = 0;
+                this.bPrintFooter = false;
+                this.bLastFootersWasPrinted = false;
+                this.groupIndexChange = NO_GROUP_INDEX;
+                this.iRow2 = 0;
+                this.iRowFormula = 0;
                 pSetGroupFormulaHeaders();
                 pSetGroupsInCtrlFormulaHide();
                 pSetIndexColInGroupFormulas(recordsets);
@@ -1761,37 +1749,37 @@
 
                 // to force the evaluate of the groups in the first page
                 //
-                m_bEvalPreGroups = true;
-                m_bCloseFooter = false;
-                m_bOpenHeader = false;
+                this.bEvalPreGroups = true;
+                this.bCloseFooter = false;
+                this.bOpenHeader = false;
 
                 let formula: cReportFormula = null;
-                for(var _i = 0; _i < m_formulas.count(); _i++) {
-                    formula = m_formulas.item(_i);
+                for(var _i = 0; _i < this.formulas.count(); _i++) {
+                    formula = this.formulas.item(_i);
                     formula.setHaveToEval(true);
                 }
 
                 // launch the report
                 //
-                m_launchInfo.getObjPaint().setReport(this);
-                if (!m_launchInfo.getObjPaint().makeReport()) {
+                this.launchInfo.getObjPaint().setReport(this);
+                if (!this.launchInfo.getObjPaint().makeReport()) {
                     return false;
                 }
 
-                switch (m_launchInfo.getAction())
+                switch (this.launchInfo.getAction())
                 {
                     case csRptLaunchAction.CSRPTLAUNCHPRINTER:
-                        if (!m_launchInfo.getObjPaint().printReport()) {
+                        if (!this.launchInfo.getObjPaint().printReport()) {
                             return false;
                         }
                         break;
                     case csRptLaunchAction.CSRPTLAUNCHFILE:
-                        if (!m_launchInfo.getObjPaint().makeXml()) {
+                        if (!this.launchInfo.getObjPaint().makeXml()) {
                             return false;
                         }
                         break;
                     case csRptLaunchAction.CSRPTLAUNCHPREVIEW:
-                        if (!m_launchInfo.getObjPaint().previewReport()) {
+                        if (!this.launchInfo.getObjPaint().previewReport()) {
                             return false;
                         }
                         break;
@@ -1801,15 +1789,15 @@
 
             }
             catch (ex) {
-                m_compiler.setReport(null);
+                this.compiler.setReport(null);
 
                 // if we haven't printed to preview
                 // we need to clear the references 
                 // between cReport and cReportLaunchInfo
                 //
-                if (m_launchInfo.getAction() !== csRptLaunchAction.CSRPTLAUNCHPREVIEW) {
-                    m_launchInfo.getObjPaint().setReport(null);
-                    m_launchInfo.setObjPaint(null);
+                if (this.launchInfo.getAction() !== csRptLaunchAction.CSRPTLAUNCHPREVIEW) {
+                    this.launchInfo.getObjPaint().setReport(null);
+                    this.launchInfo.setObjPaint(null);
                 }
 
                 throw new ReportException(csRptErrors.ERROR_WHEN_RUNNING_REPORT,
@@ -1821,33 +1809,33 @@
                                           + "Description: " + ex.ToString()
                                           );
             }
-        };
+        }
 
-        self.loadSilent = function(fileName) {
+        public loadSilent(fileName: string) {
 
             try {
                 let docXml: CSXml.cXml = null;
-                docXml = UNKNOWN >>  can't find constructor for class CSXml.cXml();
+                docXml = new CSXml.cXml();
 
                 let f: CSKernelFile.cFile = null;
-                f = UNKNOWN >>  can't find constructor for class CSKernelFile.cFile();
+                f = new CSKernelFile.cFile();
 
-                m_path = cFile.getPath(fileName);
-                m_name = cFile.getFileName(fileName);
+                this.path = cFile.getPath(fileName);
+                this.name = cFile.getFileName(fileName);
 
                 docXml.init(null); {
                 docXml.setFilter(C_FILEEX); {
-                docXml.setName(m_name); {
-                docXml.setPath(m_path); {
+                docXml.setName(this.name); {
+                docXml.setPath(this.path); {
 
                 if (!docXml.openXml()) {
                     return false;
                 }
 
-                m_path = docXml.getPath();
-                m_name = docXml.getName();
+                this.path = docXml.getPath();
+                this.name = docXml.getName();
                 let property: CSXml.cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
-                m_reportDisconnected = property.getValueBool(eTypes.eBoolean);
+                this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
                 return nLoad(docXml);
             }
@@ -1855,33 +1843,33 @@
                 cError.mngError(ex, "LoadSilent", C_MODULE, "");
                 return false;
             }
-        };
+        }
 
-        self.load = function(commDialog) {
+        public load(commDialog: object) {
             try {
                 let docXml: CSXml.cXml = null;
-                docXml = UNKNOWN >>  can't find constructor for class CSXml.cXml();
+                docXml = new CSXml.cXml();
 
                 docXml.init(commDialog); {
                 docXml.setFilter(C_FILEEX); {
 
-                if (m_name !== "") {
-                    docXml.setName(m_name); {
+                if (this.name !== "") {
+                    docXml.setName(this.name); {
                 }
                 else {
-                    docXml.setPath(m_pathDefault + "\\*." + C_FILEEX); {
+                    docXml.setPath(this.pathDefault + "\\*." + C_FILEEX); {
                 }
 
-                docXml.setPath(m_path); {
+                docXml.setPath(this.path); {
 
                 if (!docXml.openXmlWithDialog()) {
                     return false;
                 }
 
-                m_path = docXml.getPath();
-                m_name = docXml.getName();
+                this.path = docXml.getPath();
+                this.name = docXml.getName();
                 let property: CSXml.cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
-                m_reportDisconnected = property.getValueBool(eTypes.eBoolean);
+                this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
                 return nLoad(docXml);
             }
@@ -1889,16 +1877,16 @@
                 cError.mngError(ex, "Load", C_MODULE, "");
                 return false;
             }
-        };
+        }
 
-        self.save = function(commDialog, withDialog) {
+        public save(commDialog: object, withDialog: boolean) {
             let docXml: CSXml.cXml = null;
-            docXml = UNKNOWN >>  can't find constructor for class CSXml.cXml();
+            docXml = new CSXml.cXml();
 
             docXml.init(commDialog); {
             docXml.setFilter(C_FILEEX); {
-            docXml.setName(m_name); {
-            docXml.setPath(m_path); {
+            docXml.setName(this.name); {
+            docXml.setPath(this.path); {
 
             if (withDialog) {
                 if (!docXml.newXmlWithDialog()) {
@@ -1911,18 +1899,18 @@
                 }
             }
 
-            m_name = docXml.getName();
-            m_path = docXml.getPath();
+            this.name = docXml.getName();
+            this.path = docXml.getPath();
 
             let xProperty: CSXml.cXmlProperty = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("RptName");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             docXml.addProperty(xProperty); {
 
             xProperty.setName("ReportDisconnected");
-            xProperty.setValue(eTypes.eBoolean, m_reportDisconnected);
+            xProperty.setValue(eTypes.eBoolean, this.reportDisconnected);
             docXml.addProperty(xProperty); {
 
             // sections
@@ -1930,13 +1918,13 @@
             let sec: cReportSection = null;
             let nodeObj: XmlNode = null;
 
-            if (!m_connect.save(docXml, null)) {
+            if (!this.connect.save(docXml, null)) {
                 return false;
             }
-            if (!m_connectsAux.save(docXml, null)) {
+            if (!this.connectsAux.save(docXml, null)) {
                 return false;
             }
-            if (!m_launchInfo.save(docXml, null)) {
+            if (!this.launchInfo.save(docXml, null)) {
                 return false;
             }
 
@@ -1944,8 +1932,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
-            for(var _i = 0; _i < m_headers.count(); _i++) {
-                sec = m_headers.item(_i);
+            for(var _i = 0; _i < this.headers.count(); _i++) {
+                sec = this.headers.item(_i);
                 sec.save(docXml, nodeObj);
             }
 
@@ -1953,8 +1941,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
-            for(var _i = 0; _i < m_details.count(); _i++) {
-                sec = m_details.item(_i);
+            for(var _i = 0; _i < this.details.count(); _i++) {
+                sec = this.details.item(_i);
                 sec.save(docXml, nodeObj);
             }
 
@@ -1962,8 +1950,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
-            for(var _i = 0; _i < m_footers.count(); _i++) {
-                sec = m_footers.item(_i);
+            for(var _i = 0; _i < this.footers.count(); _i++) {
+                sec = this.footers.item(_i);
                 sec.save(docXml, nodeObj);
             }
 
@@ -1973,8 +1961,8 @@
 
             let group: cReportGroup = null;
 
-            for(var _i = 0; _i < m_groups.count(); _i++) {
-                group = m_groups.item(_i);
+            for(var _i = 0; _i < this.groups.count(); _i++) {
+                group = this.groups.item(_i);
                 group.save(docXml, nodeObj);
             }
 
@@ -1983,8 +1971,8 @@
             nodeObj = docXml.addNode(xProperty);
 
             let formula: cReportFormula = null;
-            for(var _i = 0; _i < m_formulas.count(); _i++) {
-                formula = m_formulas.item(_i);
+            for(var _i = 0; _i < this.formulas.count(); _i++) {
+                formula = this.formulas.item(_i);
                 if (!formula.getNotSave()) {
                     formula.save(docXml, nodeObj);
                 }
@@ -1993,7 +1981,7 @@
             xProperty.setName(C_NODEPAPERINFO);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
-            m_paperInfo.save(docXml, nodeObj);
+            this.paperInfo.save(docXml, nodeObj);
 
             if (!docXml.save()) {
                 return false;
@@ -2008,62 +1996,62 @@
             }
 
             return true;
-        };
+        }
 
-        self.loadSilentData = function(fileName) {
+        public loadSilentData(fileName: string) {
             let docXml: CSXml.cXml = null;
-            docXml = UNKNOWN >>  can't find constructor for class CSXml.cXml();
+            docXml = new CSXml.cXml();
 
-            m_path = CSKernelFile.cFile.getPath(fileName);
-            m_name = CSKernelFile.cFile.getFileName(fileName);
+            this.path = CSKernelFile.cFile.getPath(fileName);
+            this.name = CSKernelFile.cFile.getFileName(fileName);
 
             docXml.init(null); {
             docXml.setFilter(C_FILEDATAEX); {
-            docXml.setName(m_name); {
-            docXml.setPath(m_path); {
+            docXml.setName(this.name); {
+            docXml.setPath(this.path); {
 
             if (!docXml.openXml()) {
                 return false;
             }
 
-            m_path = docXml.getPath();
-            m_name = docXml.getName();
+            this.path = docXml.getPath();
+            this.name = docXml.getName();
 
             let property: CSXml.cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
-            m_reportDisconnected = property.getValueBool(eTypes.eBoolean);
+            this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
             return nLoadData(docXml);
-        };
+        }
 
-        self.loadData = function(commDialog) {
+        public loadData(commDialog: object) {
             let docXml: CSXml.cXml = null;
-            docXml = UNKNOWN >>  can't find constructor for class CSXml.cXml();
+            docXml = new CSXml.cXml();
 
             docXml.init(commDialog); {
             docXml.setFilter(C_FILEDATAEX); {
-            docXml.setName(m_name); {
-            docXml.setPath(m_path); {
+            docXml.setName(this.name); {
+            docXml.setPath(this.path); {
 
             if (!docXml.openXmlWithDialog()) {
                 return false;
             }
 
-            m_path = docXml.getPath();
-            m_name = docXml.getName();
+            this.path = docXml.getPath();
+            this.name = docXml.getName();
             let property: CSXml.cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
-            m_reportDisconnected = property.getValueBool(eTypes.eBoolean);
+            this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
             return nLoadData(docXml);
-        };
+        }
 
-        self.saveData = function(commDialog, withDialog) {
+        public saveData(commDialog: object, withDialog: boolean) {
             let docXml: CSXml.cXml = null;
-            docXml = UNKNOWN >>  can't find constructor for class CSXml.cXml();
+            docXml = new CSXml.cXml();
 
             docXml.init(commDialog); {
             docXml.setFilter(C_FILEDATAEX); {
-            docXml.setName(getFileName(m_name) + "-data.csd"); {
-            docXml.setPath(m_path); {
+            docXml.setName(getFileName(this.name) + "-data.csd"); {
+            docXml.setPath(this.path); {
 
             if (withDialog) {
                 if (!docXml.newXmlWithDialog()) {
@@ -2086,7 +2074,7 @@
             dataPath = docXml.getPath();
 
             let xProperty: CSXml.cXmlProperty = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("RptName");
             xProperty.setValue(eTypes.eText, dataName);
@@ -2103,8 +2091,8 @@
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
-            for(var _i = 0; _i < m_pages.count(); _i++) {
-                page = m_pages.item(_i);
+            for(var _i = 0; _i < this.pages.count(); _i++) {
+                page = this.pages.item(_i);
                 page.save(docXml, nodeObj);
                 if (!saveDataForWeb(page, dataName, dataPath)) {
                     return false;
@@ -2126,11 +2114,11 @@
             mouse.Dispose();
 
             return true;
-        };
+        }
 
-        const saveDataForWeb = function(page, dataName, dataPath) {
+        private saveDataForWeb(page: cReportPage, dataName: string, dataPath: string) {
             let docXml: CSXml.cXml = null;
-            docXml = UNKNOWN >>  can't find constructor for class CSXml.cXml();
+            docXml = new CSXml.cXml();
 
             docXml.init(null); {
             docXml.setFilter("xml"); {
@@ -2144,7 +2132,7 @@
             dataName = docXml.getName();
 
             let xProperty: CSXml.cXmlProperty = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Page_" + page.getPageNumber().ToString());
             xProperty.setValue(eTypes.eText, dataName);
@@ -2159,13 +2147,13 @@
             page.saveForWeb(docXml, nodeObj);
 
             return docXml.save();
-        };
+        }
 
-        self.getValueFromRs = function(colIndex) {
-            return m_rows.Rows[m_vRowsIndex[m_iRow2]][colIndex];
-        };
+        public getValueFromRs(colIndex: number) {
+            return this.rows.Rows[this.vRowsIndex[this.iRow2]][colIndex];
+        }
 
-        self.getValueString = function(controlName) {
+        public getValueString(controlName: string) {
             let value: var = getValue(controlName, false);
             if (value === null) {
                 return "";
@@ -2173,26 +2161,26 @@
             else {
                 return value.ToString();
             }
-        };
+        }
 
-        self.getValue = function(controlName) {
+        public getValue(controlName: string) {
             return getValue(controlName, false);
-        };
+        }
 
-        self.getValue = function(controlName, notFormat) {
+        public getValue(controlName: string, notFormat: boolean) {
             let ctrl: cReportControl = null;
             let found: boolean = false;
             let iRow: number = 0;
 
-            if (m_iRowFormula > m_lastRowIndex) {
-                iRow = m_lastRowIndex;
+            if (this.iRowFormula > this.lastRowIndex) {
+                iRow = this.lastRowIndex;
             }
             else {
-                iRow = m_iRowFormula;
+                iRow = this.iRowFormula;
             }
 
-            for(var _i = 0; _i < m_controls.count(); _i++) {
-                ctrl = m_controls.item(_i);
+            for(var _i = 0; _i < this.controls.count(); _i++) {
+                ctrl = this.controls.item(_i);
                 if (ctrl.getName().ToUpper() === controlName.ToUpper()) {
                     found = true;
                     break;
@@ -2225,24 +2213,24 @@
                     indexField = ctrl.getField().getIndex() - (indexRows * 1000);
 
                     if (indexRows === 0) {
-                        indexRow = m_vRowsIndex[iRow];
+                        indexRow = this.vRowsIndex[iRow];
                     }
                     else {
-                        indexRow = m_vRowsIndexAux[indexRows];
+                        indexRow = this.vRowsIndexAux[indexRows];
                     }
 
-                    if (m_collRows[indexRows] !== null) {
+                    if (this.collRows[indexRows] !== null) {
                         // it looks ugly, dont think you?
                         //
                         // maybe this help a litle:
                         //
-                        //    m_vCollRows(IndexRows)    a matrix with the data 
+                        //    this.vCollRows(IndexRows)    a matrix with the data 
                         //                              contained in the datasource
                         //                              referd by this control
                         //
                         //    (IndexField, IndexRow)    a cell in this matrix
                         //
-                        let value: object = m_collRows[indexRows].Rows[indexRow][indexField];
+                        let value: object = this.collRows[indexRows].Rows[indexRow][indexField];
                         if (ctrl.getLabel().getAspect().getFormat() !== "" && notFormat === false) {
                             return cReportGlobals.format(
                                         cReportGlobals.valVariant(value),
@@ -2262,7 +2250,7 @@
                 case csRptControlType.CSRPTCTIMAGE:
                     if (ctrl.getHasFormulaValue()) {
                         if (ctrl.getFormulaValue().getHaveToEval()) {
-                            let value: object = m_compiler.resultFunction(ctrl.getFormulaValue());
+                            let value: object = this.compiler.resultFunction(ctrl.getFormulaValue());
                             if (ctrl.getLabel().getAspect().getFormat() !== "" && notFormat === false) {
                                 return cReportGlobals.format(value, ctrl.getLabel().getAspect().getFormat());
                             }
@@ -2286,15 +2274,15 @@
                 default:
                     return null;
             }
-        };
+        }
 
-        const initControls = function(recordsets) {
+        private initControls(recordsets: List<object[]>) {
             let ctrl: cReportControl = null;
             let serie: cReportChartSerie = null;
             let idx: number = 0;
 
-            for(var _i = 0; _i < m_controls.count(); _i++) {
-                ctrl = m_controls.item(_i);
+            for(var _i = 0; _i < this.controls.count(); _i++) {
+                ctrl = this.controls.item(_i);
                 if (ctrl.getControlType() === csRptControlType.CSRPTCTFIELD
                     || ctrl.getControlType() === csRptControlType.CSRPTCTDBIMAGE) {
                     idx = ctrl.getField().getIndex();
@@ -2330,18 +2318,18 @@
                 }
             }
             return true;
-        };
+        }
 
-        const compareColumnName = function(columnName, fieldName) {
+        private compareColumnName(columnName: string, fieldName: string) {
             if (columnName === fieldName) {
                 return true;
             }
             else {
                 return columnName === fieldName.Replace(" ", "_").Replace(".","");
             }
-        };
+        }
 
-        const pInitCtrls = function(ctrl, idx, recordsets, fieldName) {
+        private pInitCtrls(ctrl: cReportControl, idx: number, recordsets: List<object[]>, fieldName: string) {
             let found: boolean = false;
             let j: number = 0;
             let bIsDBImage: boolean = false;
@@ -2389,9 +2377,9 @@
                                             );
             }
             return true;
-        };
+        }
 
-        const pGetDataSource = function(name) {
+        private pGetDataSource(name: string) {
             let n: number = 0;
             n = name.IndexOf("}.", 0);
             if (n === -1) {
@@ -2401,48 +2389,48 @@
                 n = n - 1;
                 return name.Substring(1, n);
             }
-        };
+        }
 
-        const pInitImages = function() {
+        private pInitImages() {
             pDestroyImages();
-            m_images = UNKNOWN >>  can't find constructor for class Dictionary();
-        };
+            this.images = new Dictionary();
+        }
 
-        const pDestroyImages = function() {
-            if (m_images !== null) {
-                for(var i_ = 0; i_ < m_images.length; i_++) {
+        private pDestroyImages() {
+            if (this.images !== null) {
+                for(var i_ = 0; i_ < this.images.length; i_++) {
                     item.Value.Dispose();
                 }
-                m_images = null;
+                this.images = null;
             }
-        };
+        }
 
-        const pGetChartImage = function(indexRows, indexField, indexRow, ctrl) {
+        private pGetChartImage(indexRows: number, indexField: number, indexRow: number, ctrl: cReportControl) {
             if (ctrl.getChart().getChartCreated()) {
                 return ctrl.getChart().getImage();
             }
             else {
-                if (ctrl.getChart().make(m_collRows[indexRows].Rows, ctrl.getLabel().getAspect().getFormat(), false, "")) {
+                if (ctrl.getChart().make(this.collRows[indexRows].Rows, ctrl.getLabel().getAspect().getFormat(), false, "")) {
                     return ctrl.getChart().getImage();
                 }
                 else {
                     return null;
                 }
             }
-        };
+        }
 
         // the params are used to create a key 
         // to use as an id for every image contained 
         // in the report
         //
-        const pGetImage = function(indexRows, indexField, indexRow) {
+        private pGetImage(indexRows: number, indexField: number, indexRow: number) {
             let key: string = "";
             let image: Image = null;
             let fileInTMP: string = "";
 
             key = "k" + indexRows.ToString() + indexField.ToString() + indexRow.ToString();
-            if(m_images.ContainsKey(key)) {
-                image = m_images[key];
+            if(this.images.ContainsKey(key)) {
+                image = this.images[key];
             }
             else {
                 // we are optimistic. if I don't get a picture
@@ -2454,13 +2442,13 @@
                 //
                 // maybe this help a litle:
                 //
-                //    m_vCollRows(IndexRows)    a matrix with the data 
+                //    this.vCollRows(IndexRows)    a matrix with the data 
                 //                              contained in the datasource
                 //                              referd by this control
                 //
                 //    (IndexField, IndexRow)    a cell in this matrix
                 //
-                let value: object = m_collRows[indexRows].Rows[indexRow][indexField];
+                let value: object = this.collRows[indexRows].Rows[indexRow][indexField];
                 bytes = value;
 
                 fileInTMP = pGetFileImageInTMP(bytes);
@@ -2468,9 +2456,9 @@
                 if (fileInTMP !== "") {
                     try {
                         let tmpImage: var = Image.FromFile(fileInTMP);
-                        image = UNKNOWN >>  can't find constructor for class Bitmap(tmpImage);
+                        image = new Bitmap(tmpImage);
                         tmpImage.Dispose();
-                        m_images.Add(key, image);
+                        this.images.Add(key, image);
                     }
                     catch(ex) {
                         // we don't care
@@ -2478,14 +2466,14 @@
                 }
             }
             return image;
-        };
+        }
 
-        const pGetFileImageInTMP = function(bytes) {
+        private pGetFileImageInTMP(bytes: byte[]) {
             let fileName: string = "~csrptImage";
             fileName = cUtil.getValidPath(System.IO.Path.GetTempPath()) + fileName;
 
             let fileEx: CSKernelFile.cFileEx = null;
-            fileEx = UNKNOWN >>  can't find constructor for class CSKernelFile.cFileEx();
+            fileEx = new CSKernelFile.cFileEx();
             if (!fileEx.fileDelete(fileName)) { return ""; }
 
             let file: CSKernelFile.cFile = new CSKernelFile.cFile();
@@ -2500,38 +2488,38 @@
             file.close();
 
             return fileName;
-        };
+        }
 
-        self.setLaunchInfo = function(oLaunchInfo) {
-            m_launchInfo = globalObject.CSReportDll.createCReportLaunchInfo();
-            // copy from oLaunchInfo to m_LaunchInfo
+        public setLaunchInfo(oLaunchInfo: cReportLaunchInfo) {
+            this.launchInfo = new cReportLaunchInfo();
+            // copy from oLaunchInfo to this.LaunchInfo
             //
-            m_launchInfo.setAction(oLaunchInfo.getAction());
-            m_launchInfo.setStrConnect(oLaunchInfo.getStrConnect());
-            m_launchInfo.setCopies(oLaunchInfo.getCopies());
+            this.launchInfo.setAction(oLaunchInfo.getAction());
+            this.launchInfo.setStrConnect(oLaunchInfo.getStrConnect());
+            this.launchInfo.setCopies(oLaunchInfo.getCopies());
 
-            m_launchInfo.setObjPaint(oLaunchInfo.getObjPaint());
-            m_launchInfo.setDataSource(oLaunchInfo.getDataSource());
+            this.launchInfo.setObjPaint(oLaunchInfo.getObjPaint());
+            this.launchInfo.setDataSource(oLaunchInfo.getDataSource());
 
-            m_launchInfo.setFile(oLaunchInfo.getFile());
-            m_launchInfo.setFileFormat(oLaunchInfo.getFileFormat());
-            m_launchInfo.setInternalPreview(oLaunchInfo.getInternalPreview());
-            m_launchInfo.setShowPrintersDialog(oLaunchInfo.getShowPrintersDialog());
-            m_launchInfo.setSilent(oLaunchInfo.getSilent());
-            m_launchInfo.setSqlstmt(oLaunchInfo.getSqlstmt());
-            m_launchInfo.setPrinter(oLaunchInfo.getPrinter());
+            this.launchInfo.setFile(oLaunchInfo.getFile());
+            this.launchInfo.setFileFormat(oLaunchInfo.getFileFormat());
+            this.launchInfo.setInternalPreview(oLaunchInfo.getInternalPreview());
+            this.launchInfo.setShowPrintersDialog(oLaunchInfo.getShowPrintersDialog());
+            this.launchInfo.setSilent(oLaunchInfo.getSilent());
+            this.launchInfo.setSqlstmt(oLaunchInfo.getSqlstmt());
+            this.launchInfo.setPrinter(oLaunchInfo.getPrinter());
 
             // if the printer is not defined
             //
-            if (m_launchInfo.getPrinter() === null) {
+            if (this.launchInfo.getPrinter() === null) {
                 // we use the default printer of the OS
                 //
-                m_launchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(null));
+                this.launchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(null));
             }
 
             // if we have a reference to a printer
             //
-            if (m_launchInfo.getPrinter() !== null) {
+            if (this.launchInfo.getPrinter() !== null) {
                 // TODO: check the values of paperType after calling
                 //       getcPrinterFromDefaultPrinter() because
                 //       the constants used by the OS could be differents
@@ -2539,94 +2527,94 @@
                 //       it was the case
                 //
 
-                // finaly we copy into m_PaperInfo the definicion found in LaunchInfo.
+                // finaly we copy into this.PaperInfo the definicion found in LaunchInfo.
                 //
                 // when the report is called without define a printer
-                // whe assign a defult printer and asign m_PaperInfo 
-                // to m_LaunchInfo.Printer.PaperInfo, so sometimes we
+                // whe assign a defult printer and asign this.PaperInfo 
+                // to this.LaunchInfo.Printer.PaperInfo, so sometimes we
                 // don't need to do that
                 //
-                if (!object.ReferenceEquals(m_paperInfo, m_launchInfo.getPrinter().getPaperInfo())) {
-                    m_paperInfo.setHeight(m_launchInfo.getPrinter().getPaperInfo().getHeight());
-                    m_paperInfo.setWidth(m_launchInfo.getPrinter().getPaperInfo().getWidth());
+                if (!object.ReferenceEquals(this.paperInfo, this.launchInfo.getPrinter().getPaperInfo())) {
+                    this.paperInfo.setHeight(this.launchInfo.getPrinter().getPaperInfo().getHeight());
+                    this.paperInfo.setWidth(this.launchInfo.getPrinter().getPaperInfo().getWidth());
                 }
             }
-        };
+        }
 
-        self.getGroupTotal = function(colIndex, indexGroup) {
+        public getGroupTotal(colIndex: number, indexGroup: number) {
             let iRow: number = 0;
             let rtn: number = 0;
             let i: number = 0;
 
             if (indexGroup === -1) {
-                for (iRow = 0; iRow < m_recordCount; iRow++) {
-                    rtn = rtn + cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                for (iRow = 0; iRow < this.recordCount; iRow++) {
+                    rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                 }
             }
             else {
-                if (m_vGroups[indexGroup].grandTotalGroup) {
-                    for (iRow = 0; iRow < m_recordCount; iRow++) {
-                        rtn = rtn + cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                if (this.vGroups[indexGroup].grandTotalGroup) {
+                    for (iRow = 0; iRow < this.recordCount; iRow++) {
+                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                     }
                 }
                 else {
-                    for (iRow = m_iRow; iRow < m_recordCount; iRow++) {
+                    for (iRow = this.iRow; iRow < this.recordCount; iRow++) {
                         for (i = 0; i < indexGroup; i++) {
-                            switch (m_vGroups[i].comparisonType)
+                            switch (this.vGroups[i].comparisonType)
                             {
                                 case csRptGrpComparisonType.CSRPTGRPTEXT:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else  {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let text: string = cReportGlobals.valVariant(value);
-                                        if (m_vGroups[i].value !== text.ToLower()) {
+                                        if (this.vGroups[i].value !== text.ToLower()) {
                                             return rtn;
                                         }
                                     }
 
                                     if (i === indexGroup) {
-                                        let value: object = m_rows.Rows[colIndex][m_vRowsIndex[iRow]];
+                                        let value: object = this.rows.Rows[colIndex][this.vRowsIndex[iRow]];
                                         rtn = rtn + cReportGlobals.valVariant(value);
                                     }
                                     break;
 
                                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let number: number = cUtil.val(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== number) {
+                                        if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
                                     }
 
                                     if (i === indexGroup) {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][colIndex];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][colIndex];
                                         rtn = rtn + cReportGlobals.valVariant(value);
                                     }
                                     break;
 
                                 case csRptGrpComparisonType.CSRPTGRPDATE:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== date) {
+                                        if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
                                     }
 
                                     if (i === indexGroup) {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][colIndex];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][colIndex];
                                         rtn = rtn + cReportGlobals.valVariant(value);
                                     }
                                     break;
@@ -2636,51 +2624,51 @@
                 }
             }
             return rtn;
-        };
+        }
 
-        self.getGroupMax = function(colIndex, indexGroup) {
+        public getGroupMax(colIndex: number, indexGroup: number) {
             let iRow: number = 0;
             let rtn: number = 0;
             let i: number = 0;
 
-            rtn = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+            rtn = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
 
             if (indexGroup === -1) {
-                for (iRow = 0; iRow < m_recordCount; iRow++) {
-                    let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                for (iRow = 0; iRow < this.recordCount; iRow++) {
+                    let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                     if (rtn < value) {
                         rtn = value;
                     }
                 }
             }
             else {
-                if (m_vGroups[indexGroup].grandTotalGroup) {
-                    for (iRow = 0; iRow < m_recordCount; iRow++) {
-                        let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                if (this.vGroups[indexGroup].grandTotalGroup) {
+                    for (iRow = 0; iRow < this.recordCount; iRow++) {
+                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                         if (rtn < value) {
                             rtn = value;
                         }
                     }
                 }
                 else {
-                    for (iRow = m_iRow; iRow < m_recordCount; iRow++) {
+                    for (iRow = this.iRow; iRow < this.recordCount; iRow++) {
                         for (i = 0; i < indexGroup; i++) {
-                            switch (m_vGroups[i].comparisonType)
+                            switch (this.vGroups[i].comparisonType)
                             {
                                 case csRptGrpComparisonType.CSRPTGRPTEXT:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let text: string = cReportGlobals.valVariant(value);
-                                        if (m_vGroups[i].value !== text.ToLower()) {
+                                        if (this.vGroups[i].value !== text.ToLower()) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn < value) {
                                             rtn = value;
                                         }
@@ -2689,18 +2677,18 @@
 
                                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let number: number = cUtil.val(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== number) {
+                                        if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn < value) {
                                             rtn = value;
                                         }
@@ -2709,18 +2697,18 @@
 
                                 case csRptGrpComparisonType.CSRPTGRPDATE:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== date) {
+                                        if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn < value) {
                                             rtn = value;
                                         }
@@ -2732,51 +2720,51 @@
                 }
             }
             return rtn;
-        };
+        }
 
-        self.getGroupMin = function(colIndex, indexGroup) {
+        public getGroupMin(colIndex: number, indexGroup: number) {
             let iRow: number = 0;
             let rtn: number = 0;
             let i: number = 0;
 
-            rtn = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+            rtn = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
 
             if (indexGroup === -1) {
-                for (iRow = 0; iRow < m_recordCount; iRow++) {
-                    let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                for (iRow = 0; iRow < this.recordCount; iRow++) {
+                    let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                     if (rtn > value) {
                         rtn = value;
                     }
                 }
             }
             else {
-                if (m_vGroups[indexGroup].grandTotalGroup) {
-                    for (iRow = 0; iRow < m_recordCount; iRow++) {
-                        let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                if (this.vGroups[indexGroup].grandTotalGroup) {
+                    for (iRow = 0; iRow < this.recordCount; iRow++) {
+                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                         if (rtn > value) {
                             rtn = value;
                         }
                     }
                 }
                 else {
-                    for (iRow = m_iRow; iRow < m_recordCount; iRow++) {
+                    for (iRow = this.iRow; iRow < this.recordCount; iRow++) {
                         for (i = 0; i < indexGroup; i++) {
-                            switch (m_vGroups[i].comparisonType)
+                            switch (this.vGroups[i].comparisonType)
                             {
                                 case csRptGrpComparisonType.CSRPTGRPTEXT:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let text: string = cReportGlobals.valVariant(value);
-                                        if (m_vGroups[i].value !== text.ToLower()) {
+                                        if (this.vGroups[i].value !== text.ToLower()) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn > value) {
                                             rtn = value;
                                         }
@@ -2785,18 +2773,18 @@
 
                                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let number: number = cUtil.val(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== number) {
+                                        if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn > value) {
                                             rtn = value;
                                         }
@@ -2805,18 +2793,18 @@
 
                                 case csRptGrpComparisonType.CSRPTGRPDATE:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== date) {
+                                        if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn > value) {
                                             rtn = value;
                                         }
@@ -2828,84 +2816,84 @@
                 }
             }
             return rtn;
-        };
+        }
 
-        self.getGroupAverage = function(colIndex, indexGroup) {
+        public getGroupAverage(colIndex: number, indexGroup: number) {
             let iRow: number = 0;
             let rtn: number = 0;
             let i: number = 0;
             let count: number = 0;
 
             if (indexGroup === -1) {
-                for (iRow = 0; iRow < m_recordCount; iRow++) {
-                    rtn = rtn + cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                for (iRow = 0; iRow < this.recordCount; iRow++) {
+                    rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                     count = count + 1;
                 }
             }
             else {
-                if (m_vGroups[indexGroup].grandTotalGroup) {
+                if (this.vGroups[indexGroup].grandTotalGroup) {
 
-                    for (iRow = 0; iRow < m_recordCount; iRow++) {
-                        rtn = rtn + cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                    for (iRow = 0; iRow < this.recordCount; iRow++) {
+                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                         count = count + 1;
                     }
 
                 }
                 else {
-                    for (iRow = m_iRow; iRow < m_recordCount; iRow++) {
+                    for (iRow = this.iRow; iRow < this.recordCount; iRow++) {
                         for (i = 0; i < indexGroup; i++) {
-                            switch (m_vGroups[i].comparisonType)
+                            switch (this.vGroups[i].comparisonType)
                             {
                                 case csRptGrpComparisonType.CSRPTGRPTEXT:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let text: string = cReportGlobals.valVariant(value);
-                                        if (m_vGroups[i].value !== text.ToLower()) {
+                                        if (this.vGroups[i].value !== text.ToLower()) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        rtn = rtn + cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         count = count + 1;
                                     }
                                     break;
 
                                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let number: number = cUtil.val(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== number) {
+                                        if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        rtn = rtn + cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         count = count + 1;
                                     }
                                     break;
 
                                 case csRptGrpComparisonType.CSRPTGRPDATE:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== date) {
+                                        if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        rtn = rtn + cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[iRow]][colIndex]);
+                                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         count = count + 1;
                                     }
                                     break;
@@ -2915,43 +2903,43 @@
                 }
             }
             return cUtil.divideByZero(rtn, count);
-        };
+        }
 
-        self.getGroupLineNumber = function(indexGroup) {
+        public getGroupLineNumber(indexGroup: number) {
             if (indexGroup === -1) {
-                return m_lineNumber;
+                return this.lineNumber;
             }
             else {
-                return m_vGroups[indexGroup].lineNumber;
+                return this.vGroups[indexGroup].lineNumber;
             }
-        };
+        }
 
-        self.getGroupCount = function(colIndex, indexGroup) {
+        public getGroupCount(colIndex: number, indexGroup: number) {
             let iRow: number = 0;
             let rtn: number = 0;
             let i: number = 0;
 
             if (indexGroup === -1) {
-                rtn = m_recordCount;
+                rtn = this.recordCount;
             }
             else {
-                if (m_vGroups[indexGroup].grandTotalGroup) {
-                    rtn = m_recordCount;
+                if (this.vGroups[indexGroup].grandTotalGroup) {
+                    rtn = this.recordCount;
                 }
                 else {
-                    for (iRow = m_iRow; iRow < m_recordCount; iRow++) {
+                    for (iRow = this.iRow; iRow < this.recordCount; iRow++) {
                         for (i = 0; i < indexGroup; i++) {
-                            switch (m_vGroups[i].comparisonType)
+                            switch (this.vGroups[i].comparisonType)
                             {
                                 case csRptGrpComparisonType.CSRPTGRPTEXT:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let text: string = cReportGlobals.valVariant(value);
-                                        if (m_vGroups[i].value !== text.ToLower()) {
+                                        if (this.vGroups[i].value !== text.ToLower()) {
                                             return rtn;
                                         }
                                     }
@@ -2962,13 +2950,13 @@
 
                                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let number: number = cUtil.val(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== number) {
+                                        if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
                                     }
@@ -2979,13 +2967,13 @@
 
                                 case csRptGrpComparisonType.CSRPTGRPDATE:
 
-                                    if (m_vGroups[i].value === null) {
+                                    if (this.vGroups[i].value === null) {
                                         return rtn;
                                     }
                                     else {
-                                        let value: object = m_rows.Rows[m_vRowsIndex[iRow]][m_vGroups[i].indexField];
+                                        let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
                                         let date: DateTime = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
-                                        if (m_vGroups[i].value !== date) {
+                                        if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
                                     }
@@ -2999,31 +2987,31 @@
                 }
             }
             return rtn;
-        };
+        }
 
-        const addGroup = function(i, j, value) {
+        private addGroup(i: number, j: number, value: object) {
             // set the upper bound of the last group
             //
-            m_vGroups[i + 1].groups[m_vGroups[i + 1].groups.Length - 1].last = j - 1;
+            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.Length - 1].last = j - 1;
             // add a new group
             //
-            redimPreserve(m_vGroups[i + 1].groups, m_vGroups[i + 1].groups.Length + 1);
-            m_vGroups[i + 1].groups[m_vGroups[i + 1].groups.Length - 1].first = j;
-            m_vGroups[i + 1].value = value;       
-        };
+            redimPreserve(this.vGroups[i + 1].groups, this.vGroups[i + 1].groups.Length + 1);
+            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.Length - 1].first = j;
+            this.vGroups[i + 1].value = value;       
+        }
 
-        const initGroups = function(rs, mainDataSource) {
-            m_groupCount = m_groups.count();
-            m_firstGroup = true;
+        private initGroups(rs: DataTable, mainDataSource: string) {
+            this.groupCount = this.groups.count();
+            this.firstGroup = true;
 
-            if (m_groupCount === 0 || m_rows === null) {
-                m_vGroups = null;
+            if (this.groupCount === 0 || this.rows === null) {
+                this.vGroups = null;
                 return true;
             }
             else {
-                m_vGroups = UNKNOWN >>  can't find constructor for class T_Groups[m_groupCount];
-                for (var t = 0; t < m_groupCount; t++) {
-                    m_vGroups[t] = UNKNOWN >>  can't find constructor for class T_Groups();
+                this.vGroups = new T_Groups[this.groupCount];
+                for (var t = 0; t < this.groupCount; t++) {
+                    this.vGroups[t] = new T_Groups();
                 }
             }
 
@@ -3040,17 +3028,17 @@
 
             // we need to check every group is in the main recordset
             //
-            for (i = 0; i < m_groupCount; i++) {
-                m_vGroups[i].value = null;
+            for (i = 0; i < this.groupCount; i++) {
+                this.vGroups[i].value = null;
                 found = false;
-                fieldName = m_groups.item(i).getFieldName();
+                fieldName = this.groups.item(i).getFieldName();
                 dataSource = pGetDataSource(fieldName).ToUpper();
                 fieldName = cReportGlobals.getRealName(fieldName).ToUpper();
 
                 // the column must be in the main recordset
                 //
                 if (mainDataSource.ToUpper() !== dataSource && dataSource !== "") {
-                    let w_item: cReportGroup = m_groups.item(i);
+                    let w_item: cReportGroup = this.groups.item(i);
                     throw new ReportException(csRptErrors.GROUP_NOT_FOUND_IN_MAIN_RS,
                                                 C_MODULE,
                                                 cReportError.errGetDescript(
@@ -3059,9 +3047,9 @@
                                                                 w_item.getFieldName())
                                                 );
                 }
-                m_vGroups[i].grandTotalGroup = m_groups.item(i).getGrandTotalGroup();
+                this.vGroups[i].grandTotalGroup = this.groups.item(i).getGrandTotalGroup();
 
-                if (!m_vGroups[i].grandTotalGroup) {
+                if (!this.vGroups[i].grandTotalGroup) {
                     for (j = 0; j < rs.Columns.Count; j++) {
                         if (compareColumnName(rs.Columns[j].ColumnName.ToUpper(), fieldName)) {
                             found = true;
@@ -3069,10 +3057,10 @@
                         }
                     }
                     if (found) {
-                        m_vGroups[i].indexField = j;
+                        this.vGroups[i].indexField = j;
                     }
                     else {
-                        let w_item: cReportGroup = m_groups.item(i);
+                        let w_item: cReportGroup = this.groups.item(i);
                         throw new ReportException(csRptErrors.GROUP_NOT_FOUND_IN_MAIN_RS,
                                                     C_MODULE,
                                                     cReportError.errGetDescript(
@@ -3082,79 +3070,79 @@
                                                     );
                     }
                 }
-                m_vGroups[i].comparisonType = m_groups.item(i).getComparisonType();
-                m_vGroups[i].oderType = m_groups.item(i).getOderType();
+                this.vGroups[i].comparisonType = this.groups.item(i).getComparisonType();
+                this.vGroups[i].oderType = this.groups.item(i).getOderType();
 
-                m_vGroups[i].groups = UNKNOWN >>  can't find constructor for class T_Group[1];
-                m_vGroups[i].groups[0] = UNKNOWN >>  can't find constructor for class T_Group();
+                this.vGroups[i].groups = new T_Group[1];
+                this.vGroups[i].groups[0] = new T_Group();
             }
 
             let recordCount: number = 0;
             let q: number = 0;
 
-            m_vGroups[0].groups = UNKNOWN >>  can't find constructor for class T_Group[1];
-            m_vGroups[0].groups[0] = UNKNOWN >>  can't find constructor for class T_Group();
-            recordCount = m_vRowsIndex.Length;
-            m_vGroups[0].groups[0].first = 0;
-            m_vGroups[0].groups[0].last = recordCount-1;
-            recordCount = m_groupCount * recordCount;
+            this.vGroups[0].groups = new T_Group[1];
+            this.vGroups[0].groups[0] = new T_Group();
+            recordCount = this.vRowsIndex.Length;
+            this.vGroups[0].groups[0].first = 0;
+            this.vGroups[0].groups[0].last = recordCount-1;
+            recordCount = this.groupCount * recordCount;
 
             // we need to sort the data
             //
-            for (i = 0; i < m_groupCount; i++) {
-                for (j = 0; j < m_vGroups[i].groups.Length; j++) {
-                    if (!m_vGroups[i].grandTotalGroup) {
-                        if (m_vGroups[i].oderType === csRptGrpOrderType.CSRPTGRPASC) {
-                            switch (m_vGroups[i].comparisonType)
+            for (i = 0; i < this.groupCount; i++) {
+                for (j = 0; j < this.vGroups[i].groups.Length; j++) {
+                    if (!this.vGroups[i].grandTotalGroup) {
+                        if (this.vGroups[i].oderType === csRptGrpOrderType.CSRPTGRPASC) {
+                            switch (this.vGroups[i].comparisonType)
                             {
                                 case csRptGrpComparisonType.CSRPTGRPTEXT:
-                                    if (!orderTextAsc(m_vGroups[i].groups[j].first,
-                                                        m_vGroups[i].groups[j].last,
-                                                        m_vGroups[i].indexField)) {
+                                    if (!orderTextAsc(this.vGroups[i].groups[j].first,
+                                                        this.vGroups[i].groups[j].last,
+                                                        this.vGroups[i].indexField)) {
                                         return false;
                                     }
                                     break;
 
                                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
-                                    if (!orderNumberAsc(m_vGroups[i].groups[j].first,
-                                                        m_vGroups[i].groups[j].last,
-                                                        m_vGroups[i].indexField)) {
+                                    if (!orderNumberAsc(this.vGroups[i].groups[j].first,
+                                                        this.vGroups[i].groups[j].last,
+                                                        this.vGroups[i].indexField)) {
                                         return false;
                                     }
                                     break;
 
                                 case csRptGrpComparisonType.CSRPTGRPDATE:
-                                    if (!orderDateAsc(m_vGroups[i].groups[j].first,
-                                                        m_vGroups[i].groups[j].last,
-                                                        m_vGroups[i].indexField)) {
+                                    if (!orderDateAsc(this.vGroups[i].groups[j].first,
+                                                        this.vGroups[i].groups[j].last,
+                                                        this.vGroups[i].indexField)) {
                                         return false;
                                     }
                                     break;
                             }
                         }
                         else {
-                            switch (m_vGroups[i].comparisonType)
+                            switch (this.vGroups[i].comparisonType)
                             {
                                 case csRptGrpComparisonType.CSRPTGRPTEXT:
-                                    if (!orderTextDesc(m_vGroups[i].groups[j].first,
-                                                        m_vGroups[i].groups[j].last,
-                                                        m_vGroups[i].indexField)) {
+                                    if (!orderTextDesc(this.vGroups[i].groups[j].first,
+                                                        this.vGroups[i].groups[j].last,
+                                                        this.vGroups[i].indexField)) {
                                         return false;
                                     }
                                     break;
 
                                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
-                                    if (!orderNumberDesc(m_vGroups[i].groups[j].first,
-                                                            m_vGroups[i].groups[j].last,
-                                                            m_vGroups[i].indexField)) {
+                                    if (!orderNumberDesc(this.vGroups[i].groups[j].first,
+                                                            this.vGroups[i].groups[j].last,
+                                                            this.vGroups[i].indexField)) {
                                         return false;
                                     }
                                     break;
 
                                 case csRptGrpComparisonType.CSRPTGRPDATE:
-                                    if (!orderDateDesc(m_vGroups[i].groups[j].first,
-                                                        m_vGroups[i].groups[j].last,
-                                                        m_vGroups[i].indexField)) {
+                                    if (!orderDateDesc(this.vGroups[i].groups[j].first,
+                                                        this.vGroups[i].groups[j].last,
+                                                        this.vGroups[i].indexField)) {
                                         return false;
                                     }
                                     break;
@@ -3165,48 +3153,48 @@
 
                 // after sorting we need to prepare the next group
                 //
-                if (i < m_groupCount - 1) {
-                    for (k = 0; k < m_vGroups[i].groups.Length; k++) {
+                if (i < this.groupCount - 1) {
+                    for (k = 0; k < this.vGroups[i].groups.Length; k++) {
                         // if it is a total group the next group
                         // is from the first to the last row in 
                         // the main recordset
                         // Si es un grupo de totales el proximo grupo
                         // first (position: 0)
-                        // last  (position: m_vGroups[0].groups[0].last)
+                        // last  (position: this.vGroups[0].groups[0].last)
                         //
-                        if (m_vGroups[i].grandTotalGroup) {
+                        if (this.vGroups[i].grandTotalGroup) {
                             let t: number = i + 1;
-                            let r: number = m_vGroups[t].groups.Length - 1;
-                            m_vGroups[t].groups[r].last = -1;
+                            let r: number = this.vGroups[t].groups.Length - 1;
+                            this.vGroups[t].groups[r].last = -1;
 
                             // add a group item
                             //
-                            redimPreserve(m_vGroups[t].groups, r + 2);
-                            r = m_vGroups[t].groups.Length - 1;
+                            redimPreserve(this.vGroups[t].groups, r + 2);
+                            r = this.vGroups[t].groups.Length - 1;
 
                             // set the values of the new group item
                             //
-                            m_vGroups[t].groups[t].first = 0;
-                            m_vGroups[t].groups[t].last = m_vGroups[0].groups[0].last;
-                            m_vGroups[t].value = null;
+                            this.vGroups[t].groups[t].first = 0;
+                            this.vGroups[t].groups[t].last = this.vGroups[0].groups[0].last;
+                            this.vGroups[t].value = null;
                         }
                         else {
-                            for (j = m_vGroups[i].groups[k].first; j <= m_vGroups[i].groups[k].last; j++) {
+                            for (j = this.vGroups[i].groups[k].first; j <= this.vGroups[i].groups[k].last; j++) {
                                 q = q + 1;
                                 if (!OnProgress("", 0, q, recordCount)) {
                                     return false;
                                 }
 
-                                let value: object = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[j]][m_vGroups[i].indexField]);
-                                if (m_vGroups[i + 1].value === null) {
+                                let value: object = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][this.vGroups[i].indexField]);
+                                if (this.vGroups[i + 1].value === null) {
                                     addGroup(i, j, value);
                                 }
                                 else {
-                                    switch (m_vGroups[i].comparisonType)
+                                    switch (this.vGroups[i].comparisonType)
                                     {
                                         case csRptGrpComparisonType.CSRPTGRPTEXT:
 
-                                            let text1: string = m_vGroups[i + 1].value.ToString();
+                                            let text1: string = this.vGroups[i + 1].value.ToString();
                                             let text2: string = value.ToString();
                                             if (text1.ToLower() !== text2.ToLower()) {
                                                 addGroup(i, j, value);
@@ -3215,7 +3203,7 @@
 
                                         case csRptGrpComparisonType.CSRPTGRPNUMBER:
 
-                                            let number1: number = cUtil.val(m_vGroups[i + 1].value);
+                                            let number1: number = cUtil.val(this.vGroups[i + 1].value);
                                             let number2: number = cUtil.val(value);
                                             if (number1 !== number2) {
                                                 addGroup(i, j, value);
@@ -3224,7 +3212,7 @@
 
                                         case csRptGrpComparisonType.CSRPTGRPDATE:
 
-                                            let date1: DateTime = m_vGroups[i + 1].value;
+                                            let date1: DateTime = this.vGroups[i + 1].value;
                                             let date2: DateTime = value;
                                             if (date1 !== date2) {
                                                 addGroup(i, j, value);
@@ -3233,23 +3221,23 @@
                                     }
                                 }
                             }
-                            m_vGroups[i + 1].groups[m_vGroups[i + 1].groups.Length - 1].last = j - 1;
-                            m_vGroups[i + 1].value = null;
+                            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.Length - 1].last = j - 1;
+                            this.vGroups[i + 1].value = null;
                         }
                     }
                 }
             }
             return true;
-        };
+        }
 
-        const pEstimateLoops = function(n) {
+        private pEstimateLoops(n: number) {
             for(var q = n - 1; q > 0; q--) {
                 n = n + q;
             }
             return n;
-        };
+        }
 
-        const orderNumberAsc = function(first, last, orderBy) {
+        private orderNumberAsc(first: number, last: number, orderBy: number) {
             let i: number = 0;
             let j: number = 0;
             let t: number = 0;
@@ -3261,8 +3249,8 @@
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let value1: number = cUtil.val(m_rows.Rows[m_vRowsIndex[j]][orderBy]);
-                    let value2: number = cUtil.val(m_rows.Rows[m_vRowsIndex[j - 1]][orderBy]);
+                    let value1: number = cUtil.val(this.rows.Rows[this.vRowsIndex[j]][orderBy]);
+                    let value2: number = cUtil.val(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (value1 < value2) {
                         if (!OnProgress("", 0, q, t))  {
                             return false; 
@@ -3279,9 +3267,9 @@
                 }
             }
             return true;
-        };
+        }
 
-        const orderNumberDesc = function(first, last, orderBy) {
+        private orderNumberDesc(first: number, last: number, orderBy: number) {
             let i: number = 0;
             let j: number = 0;
             let t: number = 0;
@@ -3293,8 +3281,8 @@
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let number1: number = cUtil.val(m_rows.Rows[m_vRowsIndex[j]][orderBy]);
-                    let number2: number = cUtil.val(m_rows.Rows[m_vRowsIndex[j - 1]][orderBy]);
+                    let number1: number = cUtil.val(this.rows.Rows[this.vRowsIndex[j]][orderBy]);
+                    let number2: number = cUtil.val(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (number1 > number2) {
                         if (!OnProgress("", 0, q, t)) {
                             return false;
@@ -3311,9 +3299,9 @@
                 }
             }
             return true;
-        };
+        }
 
-        const orderTextAsc = function(first, last, orderBy) {
+        private orderTextAsc(first: number, last: number, orderBy: number) {
             let i: number = 0;
             let j: number = 0;
             let t: number = 0;
@@ -3325,8 +3313,8 @@
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let text1: string = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[j]][orderBy]).ToString();
-                    let text2: string = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[j - 1]][orderBy]).ToString();
+                    let text1: string = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][orderBy]).ToString();
+                    let text2: string = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]).ToString();
                     if (String.Compare(text1.ToLower(), 
                                         text2.ToLower(), 
                                         StringComparison.CurrentCulture) < 0) {
@@ -3345,9 +3333,9 @@
                 }
             }
             return true;
-        };
+        }
 
-        const orderTextDesc = function(first, last, orderBy) {
+        private orderTextDesc(first: number, last: number, orderBy: number) {
             let i: number = 0;
             let j: number = 0;
             let t: number = 0;
@@ -3359,8 +3347,8 @@
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let text1: string = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[j]][orderBy]).ToString();
-                    let text2: string = cReportGlobals.valVariant(m_rows.Rows[m_vRowsIndex[j - 1]][orderBy]).ToString();
+                    let text1: string = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][orderBy]).ToString();
+                    let text2: string = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]).ToString();
                     if (String.Compare(text1.ToLower(),
                                         text2.ToLower(),
                                         StringComparison.CurrentCulture) > 0) {
@@ -3379,27 +3367,27 @@
                 }
             }
             return true;
-        };
+        }
 
-        const changeRow = function(i, j) {
-            let q: number = m_vRowsIndex[j];
-            m_vRowsIndex[j] = m_vRowsIndex[i];
-            m_vRowsIndex[i] = q;
-        };
+        private changeRow(i: number, j: number) {
+            let q: number = this.vRowsIndex[j];
+            this.vRowsIndex[j] = this.vRowsIndex[i];
+            this.vRowsIndex[i] = q;
+        }
 
-        const evalFunctions = function(idxGroup, whenEval) {
+        private evalFunctions(idxGroup: number, whenEval: csRptWhenEval) {
             let formula: cReportFormula = null;
             let bHaveToEvalRow: boolean = false;
             let idxRowEvalued: number = 0;
             let recordCount: number = 0;
 
-            if (m_rows !== null) {
-                recordCount = m_vRowsIndex.Length;
+            if (this.rows !== null) {
+                recordCount = this.vRowsIndex.Length;
             }
 
             // if the row to be evaluated is valid
             //
-            if (m_iRowFormula < recordCount) {
+            if (this.iRowFormula < recordCount) {
                 switch (idxGroup)
                 {
                     case C_IDX_GROUP_HEADER:
@@ -3429,14 +3417,14 @@
                         // if it is a footer
                         //
                         if (idxGroup < 0) {
-                            bHaveToEvalRow = m_vGroups[(idxGroup * -1) - 1].lastFPreRowEvalued < m_iRowFormula;
+                            bHaveToEvalRow = this.vGroups[(idxGroup * -1) - 1].lastFPreRowEvalued < this.iRowFormula;
                         }
                         else {
-                            bHaveToEvalRow = m_vGroups[idxGroup - 1].lastHPreRowEvalued < m_iRowFormula;
+                            bHaveToEvalRow = this.vGroups[idxGroup - 1].lastHPreRowEvalued < this.iRowFormula;
                         }
                     }
                     else {
-                        bHaveToEvalRow = m_lastRowPreEvalued[idxRowEvalued] < m_iRowFormula;
+                        bHaveToEvalRow = this.lastRowPreEvalued[idxRowEvalued] < this.iRowFormula;
                     }
 
                 }
@@ -3447,38 +3435,38 @@
                         // if it is a footer
                         //
                         if (idxGroup < 0) {
-                            bHaveToEvalRow = m_vGroups[(idxGroup * -1) - 1].lastFPostRowEvalued < m_iRowFormula;
+                            bHaveToEvalRow = this.vGroups[(idxGroup * -1) - 1].lastFPostRowEvalued < this.iRowFormula;
                         }
                         else {
-                            bHaveToEvalRow = m_vGroups[idxGroup - 1].lastHPostRowEvalued < m_iRowFormula;
+                            bHaveToEvalRow = this.vGroups[idxGroup - 1].lastHPostRowEvalued < this.iRowFormula;
                         }
                     }
                     else {
-                        bHaveToEvalRow = m_lastRowPostEvalued[idxRowEvalued] < m_iRowFormula;
+                        bHaveToEvalRow = this.lastRowPostEvalued[idxRowEvalued] < this.iRowFormula;
                     }
                 }
 
                 // if we need to evaluate
                 //
                 if (bHaveToEvalRow) {
-                    for(var _i = 0; _i < m_formulas.count(); _i++) {
-                        formula = m_formulas.item(_i);
+                    for(var _i = 0; _i < this.formulas.count(); _i++) {
+                        formula = this.formulas.item(_i);
                         if (formula.getWhenEval() === whenEval
                             && (idxGroup === formula.getIdxGroup()
                                     || formula.getIdxGroup2() === idxGroup)) {
                             formula.setHaveToEval(true);
                         }
                     }
-                    for(var _i = 0; _i < m_formulas.count(); _i++) {
-                        formula = m_formulas.item(_i);
+                    for(var _i = 0; _i < this.formulas.count(); _i++) {
+                        formula = this.formulas.item(_i);
                         if (formula.getWhenEval() === whenEval
                             && (idxGroup === formula.getIdxGroup()
                                 || formula.getIdxGroup2() === idxGroup)) {
                             if (formula.getIdxGroup2() === idxGroup) {
-                                m_compiler.evalFunctionGroup(formula);
+                                this.compiler.evalFunctionGroup(formula);
                             }
                             else {
-                                m_compiler.evalFunction(formula);
+                                this.compiler.evalFunction(formula);
                             }
                         }
                     }
@@ -3493,14 +3481,14 @@
                             // if it is a footer
                             //
                             if (idxGroup < 0) {
-                                m_vGroups[(idxGroup * -1) - 1].lastFPreRowEvalued = m_iRowFormula;
+                                this.vGroups[(idxGroup * -1) - 1].lastFPreRowEvalued = this.iRowFormula;
                             }
                             else {
-                                m_vGroups[idxGroup - 1].lastHPreRowEvalued = m_iRowFormula;
+                                this.vGroups[idxGroup - 1].lastHPreRowEvalued = this.iRowFormula;
                             }
                         }
                         else {
-                            m_lastRowPreEvalued[idxRowEvalued] = m_iRowFormula;
+                            this.lastRowPreEvalued[idxRowEvalued] = this.iRowFormula;
                         }
                     }
                     // evaluate after printing
@@ -3510,39 +3498,39 @@
                             // if it is a footer
                             //
                             if (idxGroup < 0) {
-                                m_vGroups[(idxGroup * -1) - 1].lastFPostRowEvalued = m_iRowFormula;
+                                this.vGroups[(idxGroup * -1) - 1].lastFPostRowEvalued = this.iRowFormula;
                             }
                             else {
-                                m_vGroups[idxGroup - 1].lastHPostRowEvalued = m_iRowFormula;
+                                this.vGroups[idxGroup - 1].lastHPostRowEvalued = this.iRowFormula;
                             }
                         }
                         else {
-                            m_lastRowPostEvalued[idxRowEvalued] = m_iRowFormula;
+                            this.lastRowPostEvalued[idxRowEvalued] = this.iRowFormula;
                         }
                     }
                 }
             }
             return true;
-        };
+        }
 
         // all the formulas which are in headers are compile
         // only one time for page. to do this we set the idxGroup
         // of the formula to -2000
         //
-        const pSetGroupFormulaHeaders = function() {
-            pSetGroupFormulaHF(m_headers, C_IDX_GROUP_HEADER);
+        private pSetGroupFormulaHeaders() {
+            pSetGroupFormulaHF(this.headers, C_IDX_GROUP_HEADER);
 
             // the main header is -2000
             //
-            if (m_headers.item(0).getHasFormulaHide()) {
-                m_headers.item(0).getFormulaHide().setIdxGroup(C_IDX_GROUP_REPORTHEADER);
+            if (this.headers.item(0).getHasFormulaHide()) {
+                this.headers.item(0).getFormulaHide().setIdxGroup(C_IDX_GROUP_REPORTHEADER);
             }
 
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
 
-            for(var _i = 0; _i < m_headers.item(0).getSectionLines().count(); _i++) {
-                secLn = m_headers.item(0).getSectionLines().item(_i);
+            for(var _i = 0; _i < this.headers.item(0).getSectionLines().count(); _i++) {
+                secLn = this.headers.item(0).getSectionLines().item(_i);
                 for(var _j = 0; _j < secLn.getControls().count(); _j++) {
                     ctrl = secLn.getControls().item(_j);
                     if (ctrl.getHasFormulaHide()) {
@@ -3553,17 +3541,17 @@
                     }
                 }
             }
-        };
+        }
 
-        const pSetGroupsInCtrlFormulaHide = function() {
-            for(var _i = 0; _i < m_groups.count(); _i++) {
-                let group: cReportGroup = m_groups.item(_i);
+        private pSetGroupsInCtrlFormulaHide() {
+            for(var _i = 0; _i < this.groups.count(); _i++) {
+                let group: cReportGroup = this.groups.item(_i);
                 pSetGroupsInCtrlFormulaHideAux(group.getHeader().getSectionLines(), group.getIndex());
                 pSetGroupsInCtrlFormulaHideAux(group.getFooter().getSectionLines(), group.getIndex());
             }
-        };
+        }
 
-        const pSetGroupsInCtrlFormulaHideAux = function(scls, idxGrop) {
+        private pSetGroupsInCtrlFormulaHideAux(scls: cReportSectionLines, idxGrop: number) {
             let scl: cReportSectionLine = null;
             let ctrl: cReportControl = null;
 
@@ -3578,9 +3566,9 @@
                     }
                 }
             }
-        };
+        }
 
-        const pSetGroupFormulaHF = function(sections, idxGrop) {
+        private pSetGroupFormulaHF(sections: cReportSections, idxGrop: number) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
@@ -3604,15 +3592,15 @@
                     }
                 }
             }
-        };
+        }
 
-        const compileReport = function() {
+        private compileReport() {
             let ctrl: cReportControl = null;
 
-            for(var _i = 0; _i < m_controls.count(); _i++) {
-                ctrl = m_controls.item(_i);
+            for(var _i = 0; _i < this.controls.count(); _i++) {
+                ctrl = this.controls.item(_i);
                 if (ctrl.getHasFormulaHide()) {
-                    if (!m_compiler.checkSyntax(ctrl.getFormulaHide()))  {
+                    if (!this.compiler.checkSyntax(ctrl.getFormulaHide()))  {
                         return false; 
                     }
 
@@ -3627,7 +3615,7 @@
                     addFormula(ctrl.getFormulaHide(), ctrl.getName() + "_" + "H");
                 }
                 if (ctrl.getHasFormulaValue()) {
-                    if (!m_compiler.checkSyntax(ctrl.getFormulaValue()))  {
+                    if (!this.compiler.checkSyntax(ctrl.getFormulaValue()))  {
                         return false; 
                     }
 
@@ -3643,32 +3631,32 @@
                 }
             }
 
-            if (!pAddFormulasInSection(m_headers)) { return false; }
-            if (!pAddFormulasInSection(m_groupsHeaders)) { return false; }
-            if (!pAddFormulasInSection(m_groupsFooters)) { return false; }
-            if (!pAddFormulasInSection(m_details)) { return false; }
-            if (!pAddFormulasInSection(m_footers)) { return false; }
+            if (!pAddFormulasInSection(this.headers)) { return false; }
+            if (!pAddFormulasInSection(this.groupsHeaders)) { return false; }
+            if (!pAddFormulasInSection(this.groupsFooters)) { return false; }
+            if (!pAddFormulasInSection(this.details)) { return false; }
+            if (!pAddFormulasInSection(this.footers)) { return false; }
 
             let formula: cReportFormula = null;
 
-            for(var _i = 0; _i < m_formulas.count(); _i++) {
-                formula = m_formulas.item(_i);
+            for(var _i = 0; _i < this.formulas.count(); _i++) {
+                formula = this.formulas.item(_i);
                 formula.setCompiledScript(null);
-                m_compiler.initVariable(formula);
+                this.compiler.initVariable(formula);
             }
 
-            pSetIndexGroupInFormulaGroups(m_headers);
-            pSetIndexGroupInFormulaGroups(m_groupsHeaders);
-            pSetIndexGroupInFormulaGroups(m_groupsFooters);
-            pSetIndexGroupInFormulaGroups(m_details);
-            pSetIndexGroupInFormulaGroups(m_footers);
+            pSetIndexGroupInFormulaGroups(this.headers);
+            pSetIndexGroupInFormulaGroups(this.groupsHeaders);
+            pSetIndexGroupInFormulaGroups(this.groupsFooters);
+            pSetIndexGroupInFormulaGroups(this.details);
+            pSetIndexGroupInFormulaGroups(this.footers);
 
-            m_compiler.clearVariables();
+            this.compiler.clearVariables();
 
             return true;
-        };
+        }
 
-        const pSetIndexGroupInFormulaGroups = function(sections) {
+        private pSetIndexGroupInFormulaGroups(sections: cReportSections) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
@@ -3694,9 +3682,9 @@
                     }
                 }
             }
-        };
+        }
 
-        const pSetFormulaIndexGroup = function(formula, sec) {
+        private pSetFormulaIndexGroup(formula: cReportFormula, sec: cReportSection) {
             let fint: cReportFormulaInt = null;
             let indexGroup: number = 0;
 
@@ -3725,8 +3713,8 @@
                         else if (sec.getTypeSection() === csRptSectionType.MAIN_DETAIL) {
                             // index of the most internal group
                             //
-                            fint.getParameters().item(cReportGlobals.C_KEYINDEXGROUP).setValue(m_groups.count().ToString());
-                            formula.setIdxGroup(m_groups.count()-1);
+                            fint.getParameters().item(cReportGlobals.C_KEYINDEXGROUP).setValue(this.groups.count().ToString());
+                            formula.setIdxGroup(this.groups.count()-1);
                         }
                         else {
                             fint.getParameters().item(cReportGlobals.C_KEYINDEXGROUP).setValue("0");
@@ -3739,9 +3727,9 @@
                     }
                 }
             }
-        };
+        }
 
-        const pIsGroupFormula = function(formulaType) {
+        private pIsGroupFormula(formulaType: number) {
             switch (formulaType)
             {
                 case csRptFormulaType.CSRPTF_GROUP_TOTAL:
@@ -3758,16 +3746,16 @@
 
                     return false;
             }
-        };
+        }
 
-        const pAddFormulasInSection = function(sections) {
+        private pAddFormulasInSection(sections: cReportSections) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
 
             for(var _i = 0; _i < sections.count(); _i++) {
                 sec = sections.item(_i);
                 if (sec.getHasFormulaHide()) {
-                    if (!m_compiler.checkSyntax(sec.getFormulaHide()))  {
+                    if (!this.compiler.checkSyntax(sec.getFormulaHide()))  {
                         return false; 
                     }
                     // to have debug info
@@ -3781,7 +3769,7 @@
                 for(var _j = 0; _j < sec.getSectionLines().count(); _j++) {
                     secLn = sec.getSectionLines().item(_j);
                     if (secLn.getHasFormulaHide()) {
-                        if (!m_compiler.checkSyntax(secLn.getFormulaHide()))  {
+                        if (!this.compiler.checkSyntax(secLn.getFormulaHide()))  {
                             return false; 
                         }
                         // to have debug info
@@ -3797,23 +3785,23 @@
                 }
             }
             return true;
-        };
+        }
 
-        const addFormula = function(formula, name) {
-            if (m_formulas.item(name) === null) {
-                m_formulas.add2(formula, name);
+        private addFormula(formula: cReportFormula, name: string) {
+            if (this.formulas.item(name) === null) {
+                this.formulas.add2(formula, name);
             }
-        };
+        }
 
-        const getHeightHeader = function() {
+        private getHeightHeader() {
             let sec: cReportSection = null;
             let height: number = 0;
             let isVisible: boolean = false;
 
-            for(var _i = 0; _i < m_headers.count(); _i++) {
-                sec = m_headers.item(_i);
+            for(var _i = 0; _i < this.headers.count(); _i++) {
+                sec = this.headers.item(_i);
                 if (sec.getHasFormulaHide()) {
-                    isVisible = cUtil.val(m_compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                    isVisible = cUtil.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
                 }
                 else {
                     isVisible = true;
@@ -3824,21 +3812,21 @@
                 }
             }
             return height;
-        };
+        }
 
-        const getTopFooter = function() {
+        private getTopFooter() {
             let offset: number = 0;
 
-            let w_paperInfo: cReportPaperInfo = m_launchInfo.getPrinter().getPaperInfo();
+            let w_paperInfo: cReportPaperInfo = this.launchInfo.getPrinter().getPaperInfo();
             if (w_paperInfo.getPaperSize() === csReportPaperType.CSRPTPAPERUSER) {
-                offset = m_paperInfo.getCustomHeight() - w_paperInfo.getCustomHeight();
+                offset = this.paperInfo.getCustomHeight() - w_paperInfo.getCustomHeight();
             }
 
-            let w_aspect: cReportAspect = m_footers.item(0).getAspect();
+            let w_aspect: cReportAspect = this.footers.item(0).getAspect();
             return w_aspect.getTop() - offset;
-        };
+        }
 
-        const addFieldToNewPage = function(sections, page, where) {
+        private addFieldToNewPage(sections: cReportSections, page: cReportPage, where: number) {
             let field: cReportPageField = null;
             let sec: cReportSection = null;
             let secline: cReportSectionLine = null;
@@ -3848,8 +3836,8 @@
             let offset: number = 0;
             let recordCount: number = 0;
 
-            if (m_rows !== null) {
-                recordCount = m_vRowsIndex.Length;
+            if (this.rows !== null) {
+                recordCount = this.vRowsIndex.Length;
             }
 
             // this indexes means
@@ -3864,10 +3852,10 @@
 
             for(var _i = 0; _i < sections.count(); _i++) {
                 sec = sections.item(_i);
-                m_lineIndex = m_lineIndex + 1;
+                this.lineIndex = this.lineIndex + 1;
 
                 if (sec.getHasFormulaHide()) {
-                    isVisible = cUtil.val(m_compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                    isVisible = cUtil.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
                 }
                 else {
                     isVisible = true;
@@ -3876,7 +3864,7 @@
                     for(var _j = 0; _j < sec.getSectionLines().count(); _j++) {
                         secline = sec.getSectionLines().item(_j);
                         if (secline.getHasFormulaHide()) {
-                            isVisible = cUtil.val(m_compiler.resultFunction(secline.getFormulaHide())) !== 0;
+                            isVisible = cUtil.val(this.compiler.resultFunction(secline.getFormulaHide())) !== 0;
                         }
                         else {
                             isVisible = true;
@@ -3894,12 +3882,12 @@
                                     field = page.getFooter().add(null, "");
                                 }
 
-                                field.setIndexLine(m_lineIndex);
+                                field.setIndexLine(this.lineIndex);
 
                                 if (ctrl.getHasFormulaValue()) {
                                     field.setValue(
                                         cReportGlobals.format(
-                                            m_compiler.resultFunction(ctrl.getFormulaValue()), 
+                                            this.compiler.resultFunction(ctrl.getFormulaValue()), 
                                             ctrl.getLabel().getAspect().getFormat()));
                                 }
                                 else {
@@ -3909,18 +3897,18 @@
 
                                             pGetIndexRows(indexRows, indexRow, indexField, ctrl);
 
-                                            if (m_collRows[indexRows] !== null) {
+                                            if (this.collRows[indexRows] !== null) {
                                                 // it looks ugly, dont think you?
                                                 //
                                                 // maybe this help a litle:
                                                 //
-                                                //    m_vCollRows(IndexRows)    a matrix with the data 
+                                                //    this.vCollRows(IndexRows)    a matrix with the data 
                                                 //                              contained in the datasource
                                                 //                              referd by this control
                                                 //
                                                 //    (IndexField, IndexRow)    a cell in this matrix
                                                 //
-                                                let value: object = m_collRows[indexRows].Rows[indexRow][indexField];
+                                                let value: object = this.collRows[indexRows].Rows[indexRow][indexField];
                                                 field.setValue(
                                                     cReportGlobals.format(
                                                         cReportGlobals.valVariant(value),
@@ -3947,7 +3935,7 @@
 
                                             pGetIndexRows(indexRows, indexRow, indexField, ctrl);
 
-                                            if (m_collRows[indexRows] !== null) {
+                                            if (this.collRows[indexRows] !== null) {
                                                 field.setImage(pGetImage(indexRows, indexField, indexRow));
                                             }
                                             break;
@@ -3960,12 +3948,12 @@
                                     }
                                 }
 
-                                field.setInfo(m_pageSetting.item(ctrl.getKey()));
+                                field.setInfo(this.pageSetting.item(ctrl.getKey()));
                                 field.setTop(field.getInfo().getAspect().getTop() + offset);
 
                                 if (ctrl.getHasFormulaHide()) {
                                     field.setVisible(
-                                        cUtil.val(m_compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
+                                        cUtil.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
                                 }
                                 else {
                                     field.setVisible(true);
@@ -3983,14 +3971,14 @@
                     }
                 }
             }
-        };
+        }
 
-        const createPageSetting = function() {
+        private createPageSetting() {
             // clear the collection
             //
-            m_pageSetting.clear();
+            this.pageSetting.clear();
 
-            m_pageSetting.setHeight(m_launchInfo.getPrinter().getPaperInfo().getHeight());
+            this.pageSetting.setHeight(this.launchInfo.getPrinter().getPaperInfo().getHeight());
 
             let sec: cReportSection = null;
             let secline: cReportSectionLine = null;
@@ -3998,13 +3986,13 @@
 
             // headers
             //
-            for(var _i = 0; _i < m_headers.count(); _i++) {
-                sec = m_headers.item(_i);
+            for(var _i = 0; _i < this.headers.count(); _i++) {
+                sec = this.headers.item(_i);
                 for(var _j = 0; _j < sec.getSectionLines().count(); _j++) {
                     secline = sec.getSectionLines().item(_j);
                     for(var _k = 0; _k < secline.getControls().count(); _k++) {
                         ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = m_pageSetting.add(secline, null, ctrl.getKey());
+                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         pageInfo.setName(ctrl.getName());
                         pageInfo.setFieldType(ctrl.getField().getFieldType());
@@ -4014,13 +4002,13 @@
             }
             // detail
             //
-            for(var _i = 0; _i < m_details.count(); _i++) {
-                sec = m_details.item(_i);
+            for(var _i = 0; _i < this.details.count(); _i++) {
+                sec = this.details.item(_i);
                 for(var _j = 0; _j < sec.getSectionLines().count(); _j++) {
                     secline = sec.getSectionLines().item(_j);
                     for(var _k = 0; _k < secline.getControls().count(); _k++) {
                         ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = m_pageSetting.add(secline, null, ctrl.getKey());
+                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         pageInfo.setName(ctrl.getName());
                         pageInfo.setFieldType(ctrl.getField().getFieldType());
@@ -4032,17 +4020,17 @@
             //
             let offset: number = 0;
 
-            let w_paperInfo: cReportPaperInfo = m_launchInfo.getPrinter().getPaperInfo();
+            let w_paperInfo: cReportPaperInfo = this.launchInfo.getPrinter().getPaperInfo();
             if (w_paperInfo.getPaperSize() === csReportPaperType.CSRPTPAPERUSER) {
-                offset = m_originalHeight - w_paperInfo.getCustomHeight();
+                offset = this.originalHeight - w_paperInfo.getCustomHeight();
             }
-            for(var _i = 0; _i < m_footers.count(); _i++) {
-                sec = m_footers.item(_i);
+            for(var _i = 0; _i < this.footers.count(); _i++) {
+                sec = this.footers.item(_i);
                 for(var _j = 0; _j < sec.getSectionLines().count(); _j++) {
                     secline = sec.getSectionLines().item(_j);
                     for(var _k = 0; _k < secline.getControls().count(); _k++) {
                         ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = m_pageSetting.add(secline, null, ctrl.getKey());
+                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         let aspect: cReportAspect = pageInfo.getAspect();
                         aspect.setTop(aspect.getTop() - offset);
@@ -4054,15 +4042,15 @@
             }
             // groups
             //
-            for(var _i = 0; _i < m_groups.count(); _i++) {
-                let grp: cReportGroup = m_groups.item(_i);
+            for(var _i = 0; _i < this.groups.count(); _i++) {
+                let grp: cReportGroup = this.groups.item(_i);
                 // header
                 //
                 for(var _j = 0; _j < grp.getHeader().getSectionLines().count(); _j++) {
                     secline = grp.getHeader().getSectionLines().item(_j);
                     for(var _k = 0; _k < secline.getControls().count(); _k++) {
                         ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = m_pageSetting.add(secline, null, ctrl.getKey());
+                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         pageInfo.setName(ctrl.getName());
                         pageInfo.setFieldType(ctrl.getField().getFieldType());
@@ -4075,7 +4063,7 @@
                     secline = grp.getFooter().getSectionLines().item(_j);
                     for(var _k = 0; _k < secline.getControls().count(); _k++) {
                         ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = m_pageSetting.add(secline, null, ctrl.getKey());
+                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         pageInfo.setName(ctrl.getName());
                         pageInfo.setFieldType(ctrl.getField().getFieldType());
@@ -4084,35 +4072,35 @@
                 }
             }
             return true;
-        };
+        }
 
-        const pGetDataAux = function(recordsets) {
-            for(var _i = 0; _i < m_connectsAux.count(); _i++) {
-                let connect: cReportConnect = m_connectsAux.item(_i);
-                G.redimPreserve(m_collRows, m_collRows.Length + 1);
-                if (!pGetData(m_collRows[m_collRows.Length - 1], connect, false, recordsets)) {
+        private pGetDataAux(recordsets: List<object[]>) {
+            for(var _i = 0; _i < this.connectsAux.count(); _i++) {
+                let connect: cReportConnect = this.connectsAux.item(_i);
+                G.redimPreserve(this.collRows, this.collRows.Length + 1);
+                if (!pGetData(this.collRows[this.collRows.Length - 1], connect, false, recordsets)) {
                     return false;
                 }
             }
-            m_vRowsIndexAux = UNKNOWN >>  can't find constructor for class int[m_collRows.Length];
+            this.vRowsIndexAux = new int[this.collRows.Length];
             return true;
-        };
+        }
 
-        const pGetData = function(
-            vRows, 
-            connect, 
-            createIndexVector, 
-            recordsets) {
+        private pGetData(
+            vRows: DataTable
+            connect: cReportConnect
+            createIndexVector: boolean
+            recordsets: List<object[]>) {
             let dummy: DataTable = null;
             return pGetData(vRows, dummy, connect, createIndexVector, recordsets);
-        };
+        }
 
-        const pGetData = function(
-            vRows, 
-            rs, 
-            connect, 
-            createIndexVector, 
-            recordsets) {
+        private pGetData(
+            vRows: DataTable
+            rs: DataTable
+            connect: cReportConnect
+            createIndexVector: boolean
+            recordsets: List<object[]>) {
             let strConnect: string = "";
             let saveInReport: boolean = false;
             let cn: CSDataBase.cDataBase = null;
@@ -4122,10 +4110,10 @@
 
             // if we get an string connection
             //
-            if (m_launchInfo.getStrConnect().Trim() !== "") {
-                strConnect = m_launchInfo.getStrConnect();
+            if (this.launchInfo.getStrConnect().Trim() !== "") {
+                strConnect = this.launchInfo.getStrConnect();
             }
-            // if m_launchInfo.getStrConnect() is empty we will use
+            // if this.launchInfo.getStrConnect() is empty we will use
             // the connection of the connect object
             // 
             else {
@@ -4142,9 +4130,9 @@
                     return false;
                 }
 
-                cn = globalObject.CSDataBase.createCDataBase(m_databaseEngine);
+                cn = new cDataBase(this.databaseEngine);
 
-                if (m_isForWeb) {
+                if (this.isForWeb) {
                     cn.setSilent(true);
                 }
                 if (connect.getCommandTimeout() > 0) {
@@ -4168,8 +4156,8 @@
 
                 // if it was a select
                 //
-                if (m_launchInfo.getSqlstmt().Trim() !== "") {
-                    sqlstmt = m_launchInfo.getSqlstmt();
+                if (this.launchInfo.getSqlstmt().Trim() !== "") {
+                    sqlstmt = this.launchInfo.getSqlstmt();
                 }
                 else {
                     if (connect.getDataSourceType() === csDataSourceType.CDDTPROCEDURE) {
@@ -4185,7 +4173,7 @@
 
                 // open the recordset
                 //
-                cn.setOpenRsExDescript(m_descripUser);
+                cn.setOpenRsExDescript(this.descripUser);
 
                 if (!cn.loadDataTable(true,
                                         false,
@@ -4203,22 +4191,22 @@
 
                 if (rs.Rows.Count === 0) {
                     if (createIndexVector) {
-                        m_vRowsIndex = UNKNOWN >>  can't find constructor for class int[0];
-                        m_lastRowIndex = -1;
+                        this.vRowsIndex = new int[0];
+                        this.lastRowIndex = -1;
                     }
                 }
                 else {
                     if (createIndexVector) {
-                        m_vRowsIndex = UNKNOWN >>  can't find constructor for class int[vRows.Rows.Count];
-                        m_lastRowIndex = m_vRowsIndex.Length - 1;
+                        this.vRowsIndex = new int[vRows.Rows.Count];
+                        this.lastRowIndex = this.vRowsIndex.Length - 1;
                         let k: number = 0;
-                        for (k = 0; k < m_vRowsIndex.Length; k++) {
-                            m_vRowsIndex[k] = k;
+                        for (k = 0; k < this.vRowsIndex.Length; k++) {
+                            this.vRowsIndex[k] = k;
                         }
                     }
                 }
 
-                varRs = UNKNOWN >>  can't find constructor for class object[2];
+                varRs = new object[2];
                 varRs[0] = rs;
                 varRs[1] = connect.getDataSource();
                 recordsets.Add(varRs);
@@ -4228,20 +4216,20 @@
                 // recordset in the same reader)
                 //
                 while (!dr.IsClosed && dr.NextResult()) {
-                    rsAux = UNKNOWN >>  can't find constructor for class DataTable();
+                    rsAux = new DataTable();
                     rsAux.Load(dr);
 
-                    varRs = UNKNOWN >>  can't find constructor for class object[2];
+                    varRs = new object[2];
                     varRs[0] = rsAux;
                     varRs[1] = connect.getDataSource();
                     recordsets.Add(varRs);
 
                     // TODO: check if this works
                     //
-                    // we add an empty element to m_collRows to avoid
+                    // we add an empty element to this.collRows to avoid
                     // index of bounds exception
                     //
-                    G.redimPreserve(m_collRows, m_collRows.Length + 1);
+                    G.redimPreserve(this.collRows, this.collRows.Length + 1);
                 }
 
                 cn.closeDb();
@@ -4249,72 +4237,72 @@
             else {
                 vRows = null;
                 if (createIndexVector) {
-                    m_vRowsIndex = UNKNOWN >>  can't find constructor for class int[0];
-                    m_lastRowIndex = -1;
+                    this.vRowsIndex = new int[0];
+                    this.lastRowIndex = -1;
                 }
             }
-            if (m_rows !== null) {
-                m_recordCount = m_vRowsIndex.Length;
+            if (this.rows !== null) {
+                this.recordCount = this.vRowsIndex.Length;
             }
             else {
-                m_recordCount = 0;
+                this.recordCount = 0;
             }
-            m_iRow = 0;
-            m_idxGroupHeader = NO_GROUP_INDEX;
-            m_idxGroupFooter = NO_GROUP_INDEX;
+            this.iRow = 0;
+            this.idxGroupHeader = NO_GROUP_INDEX;
+            this.idxGroupFooter = NO_GROUP_INDEX;
 
             return true;
-        };
+        }
 
-        const pInitRowFormulas = function() {
+        private pInitRowFormulas() {
             let i: number = 0;
 
-            m_lastRowPreEvalued = UNKNOWN >>  can't find constructor for class int[3];
-            m_lastRowPostEvalued = UNKNOWN >>  can't find constructor for class int[3];
+            this.lastRowPreEvalued = new int[3];
+            this.lastRowPostEvalued = new int[3];
 
             for (i = 0; i < 3; i++) {
-                m_lastRowPreEvalued[i] = -1;
-                m_lastRowPostEvalued[i] = -1;
+                this.lastRowPreEvalued[i] = -1;
+                this.lastRowPostEvalued[i] = -1;
             }
 
-            for (i = 0; i < m_groupCount; i++) {
+            for (i = 0; i < this.groupCount; i++) {
                 // headers
                 //
-                m_vGroups[i].lastHPreRowEvalued = -1;
-                m_vGroups[i].lastHPostRowEvalued = -1;
+                this.vGroups[i].lastHPreRowEvalued = -1;
+                this.vGroups[i].lastHPostRowEvalued = -1;
 
                 // footers
                 //
-                m_vGroups[i].lastFPreRowEvalued = -1;
-                m_vGroups[i].lastFPostRowEvalued = -1;
+                this.vGroups[i].lastFPreRowEvalued = -1;
+                this.vGroups[i].lastFPostRowEvalued = -1;
             }
-        };
+        }
 
-        const nLoad = function(docXml) {
-            pDestroyCrossRef(m_headers);
-            pDestroyCrossRef(m_details);
-            pDestroyCrossRef(m_footers);
-            pDestroyCrossRef(m_groups.getGroupsHeaders());
-            pDestroyCrossRef(m_groups.getGroupsFooters());
+        private nLoad(docXml: CSXml.cXml) {
+            pDestroyCrossRef(this.headers);
+            pDestroyCrossRef(this.details);
+            pDestroyCrossRef(this.footers);
+            pDestroyCrossRef(this.groups.getGroupsHeaders());
+            pDestroyCrossRef(this.groups.getGroupsFooters());
 
-            m_headers.clear();
-            m_groups.clear();
-            m_details.clear();
-            m_footers.clear();
-            m_controls.clear();
-            m_formulas.clear();
-            m_connect.getColumns().clear();
-            m_connect.getParameters().clear();
+            this.headers.clear();
+            this.groups.clear();
+            this.details.clear();
+            this.footers.clear();
+            this.controls.clear();
+            this.formulas.clear();
+            this.connect.getColumns().clear();
+            this.connect.getParameters().clear();
 
-            m_details.setCopyColl(m_controls);
-            m_headers.setCopyColl(m_controls);
-            m_footers.setCopyColl(m_controls);
-            m_groupsHeaders.setCopyColl(m_controls);
-            m_groupsFooters.setCopyColl(m_controls);
+            this.details.setCopyColl(this.controls);
+            this.headers.setCopyColl(this.controls);
+            this.footers.setCopyColl(this.controls);
+            this.groupsHeaders.setCopyColl(this.controls);
+            this.groupsFooters.setCopyColl(this.controls);
 
-            if (!loadAux(docXml, m_headers, C_NODERPTHEADERS)) { return false; }
-            if (!loadAux(docXml, m_details, C_NODERPTDETAILS)) { return false; }
-            if (!loadAux(docXml, m_footers, C_NODERPTFOOTERS)) { return false; }
+            if (!loadAux(docXml, this.headers, C_NODERPTHEADERS)) { return false; }
+            if (!loadAux(docXml, this.details, C_NODERPTDETAILS)) { return false; }
+            if (!loadAux(docXml, this.footers, C_NODERPTFOOTERS)) { return false; }
 
             if (!loadGroups(docXml)) { return false; }
 
@@ -4328,36 +4316,36 @@
 
             sortCollection();
 
-            m_originalHeight = m_paperInfo.getCustomHeight();
+            this.originalHeight = this.paperInfo.getCustomHeight();
 
             return true;
-        };
+        }
 
-        const pFixGroupIndex = function() {
+        private pFixGroupIndex() {
             let idx: number = 0;
-            for(var _i = 0; _i < m_groups.count(); _i++) {
-                let group: cReportGroup = m_groups.item(_i);
+            for(var _i = 0; _i < this.groups.count(); _i++) {
+                let group: cReportGroup = this.groups.item(_i);
                 group.setIndex(idx);
                 idx = idx + 1;
             }
-        };
+        }
 
-        const loadPaperInfo = function(docXml) {
+        private loadPaperInfo(docXml: CSXml.cXml) {
             let nodeObj: XmlNode = null;
             nodeObj = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, C_NODEPAPERINFO);
-            if (!m_paperInfo.load(docXml, nodeObj)) { return; }
-        };
+            if (!this.paperInfo.load(docXml, nodeObj)) { return; }
+        }
 
-        const sortCollection = function() {
-            sortCollectionAux(m_headers);
-            sortCollectionAux(m_details);
-            sortCollectionAux(m_footers);
-            sortCollectionAux(m_groupsFooters);
-            sortCollectionAux(m_groupsHeaders);
-        };
+        private sortCollection() {
+            sortCollectionAux(this.headers);
+            sortCollectionAux(this.details);
+            sortCollectionAux(this.footers);
+            sortCollectionAux(this.groupsFooters);
+            sortCollectionAux(this.groupsHeaders);
+        }
 
-        const sortCollectionAux = function(col) {
+        private sortCollectionAux(col: cReportSections) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
 
@@ -4368,9 +4356,9 @@
                     secLn.setControls(getControlsInZOrder(secLn.getControls()));
                 }
             }
-        };
+        }
 
-        const loadAux = function(docXml, sections, keySection) {
+        private loadAux(docXml: CSXml.cXml, sections: cReportSections, keySection: string) {
             let nodeObj: XmlNode = null;
             let nodeObjAux: XmlNode = null;
             let nodeObjSec: XmlNode = null;
@@ -4392,9 +4380,9 @@
                 }
             }
             return true;
-        };
+        }
 
-        const loadFormulas = function(docXml) {
+        private loadFormulas(docXml: CSXml.cXml) {
             let nodeObj: XmlNode = null;
             let nodeObjAux: XmlNode = null;
             let nodeObjSec: XmlNode = null;
@@ -4407,7 +4395,7 @@
                 while (nodeObjSec !== null) {
                     nodeObjAux = nodeObjSec;
                     let name: string = docXml.getNodeProperty(nodeObjAux, "Name").getValueString(eTypes.eText);
-                    let formula: cReportFormula = m_formulas.add(name);
+                    let formula: cReportFormula = this.formulas.add(name);
                     if (!formula.load(docXml, nodeObjAux))  {
                         return false; 
                     }
@@ -4415,21 +4403,21 @@
                 }
             }
             return true;
-        };
+        }
 
-        const loadConnect = function(docXml) {
+        private loadConnect(docXml: CSXml.cXml) {
             let nodeObj: XmlNode = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, C_RPTCONNECT);
-            return m_connect.load(docXml, nodeObj);
-        };
+            return this.connect.load(docXml, nodeObj);
+        }
 
-        const loadConnectsAux = function(docXml) {
+        private loadConnectsAux(docXml: CSXml.cXml) {
             let nodeObj: XmlNode = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, C_RPTCONNECTSAUX);
-            return m_connectsAux.load(docXml, nodeObj);
-        };
+            return this.connectsAux.load(docXml, nodeObj);
+        }
 
-        const loadGroups = function(docXml) {
+        private loadGroups(docXml: CSXml.cXml) {
             let nodeObj: XmlNode = null;
             let nodeObjAux: XmlNode = null;
             let nodeObjGroup: XmlNode = null;
@@ -4450,24 +4438,24 @@
                 }
             }
             return true;
-        };
+        }
 
-        const loadLaunchInfo = function(docXml) {
+        private loadLaunchInfo(docXml: CSXml.cXml) {
             let nodeObj: XmlNode = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, C_LAUNCHINFO);
-            return m_launchInfo.load(docXml, nodeObj);
-        };
+            return this.launchInfo.load(docXml, nodeObj);
+        }
 
-        const getFileName = function(fileNameWithExt) {
+        private getFileName(fileNameWithExt: string) {
             return CSKernelFile.cFile.getFileWithoutExt(fileNameWithExt);
-        };
+        }
 
-        const nLoadData = function(docXml) {
+        private nLoadData(docXml: CSXml.cXml) {
             let nodeObj: XmlNode = null;
             let nodeObjAux: XmlNode = null;
             let nodeObjSec: XmlNode = null;
 
-            m_pages.clear();
+            this.pages.clear();
             nodeObj = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, C_NODERPTPAGES);
 
@@ -4475,7 +4463,7 @@
                 nodeObjSec = docXml.getNodeChild(nodeObj);
                 while (nodeObjSec !== null) {
                     nodeObjAux = nodeObjSec;
-                    let page: cReportPage = m_pages.add(null);
+                    let page: cReportPage = this.pages.add(null);
                     if (!page.load(docXml, nodeObjAux))  {
                         return false; 
                     }
@@ -4483,18 +4471,18 @@
                 }
             }
             return true;
-        };
+        }
 
-        self.OnReportDone = function() {
+        public OnReportDone() {
             if (ReportDone !== null) {
                 ReportDone(this, new EventArgs());
             }
-        };
+        }
 
-        self.OnProgress = function(task) {
+        public OnProgress(task: string) {
             return OnProgress(task, 0, 0, 0);
-        };
-        self.OnProgress = function(task, page, currRecord, recordCount) {
+        }
+        public OnProgress(task: string, page: number, currRecord: number, recordCount: number) {
             let cancel: boolean = false;
             if (Progress !== null) {
                 let e: ProgressEventArgs = new ProgressEventArgs(task, page, currRecord, recordCount);
@@ -4502,9 +4490,9 @@
                 cancel = e.cancel;
             }
             return !cancel;
-        };
+        }
 
-        const resumeDBAccessMissing = function(connectString, saveInReport, cn) {
+        private resumeDBAccessMissing(connectString: string, saveInReport: boolean, cn: CSDataBase.cDataBase) {
             try {
                 // if the database is not access we do nothing
                 //
@@ -4534,7 +4522,7 @@
                 file.filter = "Access files|*.mdb";
                 file.init("ResumeDBAccessMissing", C_MODULE, commDialog);
 
-                if (!file.open(m_pathDefault + Path.DirectorySeparatorChar + file,
+                if (!file.open(this.pathDefault + Path.DirectorySeparatorChar + file,
                                 CSKernelClient.eFileMode.eRead,
                                 false,
                                 false,
@@ -4557,7 +4545,7 @@
                 // save the new location 
                 //
                 if (saveInReport) {
-                    m_connect.setStrConnect(connectString);
+                    this.connect.setStrConnect(connectString);
                 }
                 return true;
 
@@ -4566,7 +4554,7 @@
                 cError.mngError(ex, "ResumeDBAccessMissing", C_MODULE, "");
                 return false;
             }
-        };
+        }
 
         /* TODO: remove me
         private String getToken(String source, String token)
@@ -4592,15 +4580,15 @@
             return source.Substring(p2, p);
         }*/
 
-        const pSortControlsByLeft = function() {
-            pSortControlsByLeftAux1(m_headers);
-            pSortControlsByLeftAux1(m_groupsHeaders);
-            pSortControlsByLeftAux1(m_details);
-            pSortControlsByLeftAux1(m_groupsFooters);
-            pSortControlsByLeftAux1(m_footers);
-        };
+        private pSortControlsByLeft() {
+            pSortControlsByLeftAux1(this.headers);
+            pSortControlsByLeftAux1(this.groupsHeaders);
+            pSortControlsByLeftAux1(this.details);
+            pSortControlsByLeftAux1(this.groupsFooters);
+            pSortControlsByLeftAux1(this.footers);
+        }
 
-        const pSortControlsByLeftAux1 = function(sections) {
+        private pSortControlsByLeftAux1(sections: cReportSections) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
 
@@ -4611,72 +4599,72 @@
                     secLn.getControls().orderCollByLeft();
                 }
             }
-        };
+        }
         // public functions
-        self.Dispose = function() {
-            m_rows = null;
-            m_collRows = null;
-            m_vRowsIndexAux = null;
-            m_vGroups = null;
-            m_vRowsIndex = null;
-            m_lastRowIndex = -1;
-            m_lastRowPreEvalued = null;
-            m_lastRowPostEvalued = null;
+        public Dispose() {
+            this.rows = null;
+            this.collRows = null;
+            this.vRowsIndexAux = null;
+            this.vGroups = null;
+            this.vRowsIndex = null;
+            this.lastRowIndex = -1;
+            this.lastRowPreEvalued = null;
+            this.lastRowPostEvalued = null;
 
-            m_controls.clear();
-            m_controls = null;
+            this.controls.clear();
+            this.controls = null;
 
-            pDestroyCrossRef(m_headers);
-            pDestroyCrossRef(m_details);
-            pDestroyCrossRef(m_footers);
-            pDestroyCrossRef(m_groups.getGroupsHeaders());
-            pDestroyCrossRef(m_groups.getGroupsFooters());
+            pDestroyCrossRef(this.headers);
+            pDestroyCrossRef(this.details);
+            pDestroyCrossRef(this.footers);
+            pDestroyCrossRef(this.groups.getGroupsHeaders());
+            pDestroyCrossRef(this.groups.getGroupsFooters());
 
-            m_headers.clear();
-            m_details.clear();
-            m_footers.clear();
-            m_groupsHeaders.clear();
-            m_groupsFooters.clear();
+            this.headers.clear();
+            this.details.clear();
+            this.footers.clear();
+            this.groupsHeaders.clear();
+            this.groupsFooters.clear();
 
-            m_details.setCopyColl(null);
-            m_headers.setCopyColl(null);
-            m_footers.setCopyColl(null);
-            m_groupsHeaders.setCopyColl(null);
-            m_groupsFooters.setCopyColl(null);
+            this.details.setCopyColl(null);
+            this.headers.setCopyColl(null);
+            this.footers.setCopyColl(null);
+            this.groupsHeaders.setCopyColl(null);
+            this.groupsFooters.setCopyColl(null);
 
-            m_headers = null;
-            m_details = null;
-            m_footers = null;
-            m_groupsHeaders = null;
-            m_groupsFooters = null;
+            this.headers = null;
+            this.details = null;
+            this.footers = null;
+            this.groupsHeaders = null;
+            this.groupsFooters = null;
 
-            m_paperInfo = null;
+            this.paperInfo = null;
 
-            m_formulas.clear();
-            m_formulas = null;
+            this.formulas.clear();
+            this.formulas = null;
 
-            m_formulaTypes.clear();
-            m_formulaTypes = null;
+            this.formulaTypes.clear();
+            this.formulaTypes = null;
 
-            m_connect = null;
+            this.connect = null;
 
-            m_pages.clear();
-            m_pages = null;
+            this.pages.clear();
+            this.pages = null;
 
-            m_pageSetting.clear();
-            m_pageSetting = null;
+            this.pageSetting.clear();
+            this.pageSetting = null;
 
-            m_compiler = null;
-            m_launchInfo = null;
+            this.compiler = null;
+            this.launchInfo = null;
 
-            m_connectsAux.clear();
-            m_connectsAux = null;
+            this.connectsAux.clear();
+            this.connectsAux = null;
 
             pDestroyImages();
-            m_images = null;
-        };
+            this.images = null;
+        }
 
-        const pDestroyCrossRef = function(secs) {
+        private pDestroyCrossRef(secs: cReportSections) {
             let sec: cReportSection = null;
             let secl: cReportSectionLine = null;
 
@@ -4696,26 +4684,26 @@
                 sec.setCopyColl(null);
             }
             secs.setCopyColl(null);
-        };
+        }
 
-        const pGetMainDataSource = function(recordsets) {
+        private pGetMainDataSource(recordsets: List<object[]>) {
             if (recordsets.Count > 0) {
                 return recordsets[0][1];
             }
             else  {
                 return "";
             }
-        };
+        }
 
-        const pSetIndexColInGroupFormulas = function(recordsets) {
-            pSetIndexColInGroupFormulasAux(m_headers, recordsets);
-            pSetIndexColInGroupFormulasAux(m_groupsHeaders, recordsets);
-            pSetIndexColInGroupFormulasAux(m_groupsFooters, recordsets);
-            pSetIndexColInGroupFormulasAux(m_details, recordsets);
-            pSetIndexColInGroupFormulasAux(m_footers, recordsets);
-        };
+        private pSetIndexColInGroupFormulas(recordsets: List<object[]>) {
+            pSetIndexColInGroupFormulasAux(this.headers, recordsets);
+            pSetIndexColInGroupFormulasAux(this.groupsHeaders, recordsets);
+            pSetIndexColInGroupFormulasAux(this.groupsFooters, recordsets);
+            pSetIndexColInGroupFormulasAux(this.details, recordsets);
+            pSetIndexColInGroupFormulasAux(this.footers, recordsets);
+        }
 
-        const pSetIndexColInGroupFormulasAux = function(sections, recordsets) {
+        private pSetIndexColInGroupFormulasAux(sections: cReportSections, recordsets: List<object[]>) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
@@ -4741,14 +4729,14 @@
                     }
                 }
             }
-        };
+        }
 
-        const pSetIndexColInGroupFormula = function(formula, recordsets) {
+        private pSetIndexColInGroupFormula(formula: cReportFormula, recordsets: List<object[]>) {
             let fint: cReportFormulaInt = null;
             let colName: string = "";
             let rs: DataTable = null;
 
-            if (!m_reportDisconnected) {
+            if (!this.reportDisconnected) {
                 rs = recordsets[0][0];
 
                 for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
@@ -4765,13 +4753,13 @@
                     }
                 }
             }
-        };
+        }
 
-        const pSetColIndexInGroupFormulaAux = function(
-            rs, 
-            fint, 
-            colName, 
-            keyParam) {
+        private pSetColIndexInGroupFormulaAux(
+            rs: DataTable
+            fint: cReportFormulaInt
+            colName: string
+            keyParam: string) {
             for(var i = 0; i < rs.Columns.Count; i++) {
                 if (colName.ToLower() === rs.Columns[i].ColumnName.ToLower()) {
                     if (fint.getParameters().item(keyParam) === null) {
@@ -4781,36 +4769,36 @@
                     break;
                 }
             }
-        };
+        }
 
-        const redimPreserve = function(groups, size) {
+        private redimPreserve(groups: T_Group[], size: number) {
             if (size === 0) {
                 groups = null;
             }
             else {
                 if (groups === null) {
-                    groups = UNKNOWN >>  can't find constructor for class T_Group[size];
+                    groups = new T_Group[size];
                 }
                 else if (groups.Length === 0) {
-                    groups = UNKNOWN >>  can't find constructor for class T_Group[size];
+                    groups = new T_Group[size];
                 }
                 else {
                     let newArray: T_Group[] = new T_Group[size];
                     Array.Copy(groups, newArray, groups.Length);
                     for (var t = groups.Length; t < newArray.Length; t++) {
-                        newArray[t] = UNKNOWN >>  can't find constructor for class T_Group();
+                        newArray[t] = new T_Group();
                     }
                     groups = newArray;
                 }
             }
-        };
+        }
 
-        const getControlsInZOrder = function(col) {
+        private getControlsInZOrder(col: cReportControls) {
             let i: number = 0;
             let ctrl: cReportControl = null;
             let ctrls: cReportControls = null;
 
-            ctrls = globalObject.CSReportDll.createCReportControls();
+            ctrls = new cReportControls();
             ctrls.setCopyColl(col.getCopyColl());
             ctrls.setTypeSection(col.getTypeSection());
             ctrls.setSectionLine(col.getSectionLine());
@@ -4839,141 +4827,41 @@
                 i = i + 1;
             }
             return ctrls;
-        };
+        }
 
-        const reportDone = function() {
+        private reportDone() {
             if (ReportDone !== null) {
                 ReportDone(this, new EventArgs());
             }
-        };
+        }
 
 
         //
         // debug functions
         //
-        self.debugGroupKeys = function() {
-            let keys: string[] = new String[m_groups.count() * 2];
-            let groupCount: var = m_groups.count();
+        public debugGroupKeys() {
+            let keys: string[] = new String[this.groups.count() * 2];
+            let groupCount: var = this.groups.count();
             for(var i = 0; i < groupCount; i++) {
-                let h: var = m_groups.getGroupsHeaders().item(i);
-                let f: var = m_groups.getGroupsFooters().item(i);
+                let h: var = this.groups.getGroupsHeaders().item(i);
+                let f: var = this.groups.getGroupsFooters().item(i);
                 keys[i] = "H: " + h.getKey() + " " + h.getKeyPaint() + " " + h.getName() + " " + h.getIndex() + " " + h.getRealIndex() ;
                 keys[groupCount+i] = "F: " + f.getKey() + " " + h.getKeyPaint() + " " + f.getName() + " " + f.getIndex() + " " + f.getRealIndex();
             }
             return keys;
-        };
+        }
 
-        self.debugGroupPanitKeys = function() {
-            let keys: string[] = new String[m_groups.count() * 2];
-            let groupCount: var = m_groups.count();
+        public debugGroupPanitKeys() {
+            let keys: string[] = new String[this.groups.count() * 2];
+            let groupCount: var = this.groups.count();
             for(var i = 0; i < groupCount; i++) {
-                keys[i] = "H: " + m_groups.getGroupsHeaders().item(i).getKeyPaint();
-                keys[groupCount + i] = "F: " + m_groups.getGroupsFooters().item(i).getKeyPaint();
+                keys[i] = "H: " + this.groups.getGroupsHeaders().item(i).getKeyPaint();
+                keys[groupCount + i] = "F: " + this.groups.getGroupsFooters().item(i).getKeyPaint();
             }
             return keys;
-        };
+        }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportDll {
-
-  export interface IT_Groups {
-
-    value;: object;
-    indexField;: number;
-    changed;: boolean;
-    reprintHeader;: boolean;
-    footerMustBeClosed;: boolean;
-    comparisonType;: csRptGrpComparisonType;
-    oderType;: csRptGrpOrderType;
-    grandTotalGroup;: boolean;
-    groups;: T_Group[];
-    lastHPreRowEvalued;: number;
-    lastHPostRowEvalued;: number;
-    lastFPreRowEvalued;: number;
-    lastFPostRowEvalued;: number;
-    lineNumber;: number;
-    getExportEmailAddress: () => String;
-    setExportEmailAddress: (String) => void;
-    getIsForWeb: () => bool;
-    setIsForWeb: (bool) => void;
-    setDatabaseEngine: (csDatabaseEngine) => void;
-    getConnectsAux: () => cReportConnectsAux;
-    setConnectsAux: (cReportConnectsAux) => void;
-    getGroups: () => cReportGroups;
-    setGroups: (cReportGroups) => void;
-    getDetails: () => cReportSections;
-    setDetails: (cReportSections) => void;
-    getHeaders: () => cReportSections;
-    setHeaders: (cReportSections) => void;
-    getFooters: () => cReportSections;
-    setFooters: (cReportSections) => void;
-    getGroupsHeaders: () => cIReportGroupSections;
-    getGroupsFooters: () => cIReportGroupSections;
-    getPaperInfo: () => cReportPaperInfo;
-    setPaperInfo: (cReportPaperInfo) => void;
-    getControls: () => cReportControls2;
-    getFormulas: () => cReportFormulas;
-    getFormulaTypes: () => cReportFormulaTypes;
-    getName: () => String;
-    setName: (String) => void;
-    getPath: () => String;
-    setPathDefault: (String) => void;
-    getConnect: () => cReportConnect;
-    getPages: () => cReportPages;
-    getPageSetting: () => cReportPageSettings;
-    setPageSetting: (cReportPageSettings) => void;
-    getLaunchInfo: () => cReportLaunchInfo;
-    getCompiler: () => cReportCompiler;
-    getReportDisconnected: () => bool;
-    setReportDisconnected: (bool) => void;
-    getDescripUser: () => String;
-    setDescripUser: (String) => void;
-    getCurrenPage: () => int;
-    getTotalPages: () => int;
-    moveGroup: (int, int) => bool;
-    newPage: () => csRptNewPageResult;
-    endPage: () => csRptEndPageResult;
-    markGroupHeaderPrinted: () => void;
-    markGroupFooterPrinted: () => void;
-    evalPost: () => void;
-    evalPreGroupHeader: () => void;
-    evalPreGroupFooter: () => void;
-    evalPostGroupHeader: () => void;
-    evalPostGroupFooter: () => void;
-    evalPre: () => void;
-    moveToNext: () => void;
-    getLineType: () => csRptGetLineResult;
-    getLine: (cReportPageFields) => csRptGetLineResult;
-    init: (cReportLaunchInfo) => bool;
-    launch: () => bool;
-    launch: (cReportLaunchInfo) => bool;
-    loadSilent: (String) => bool;
-    load: (object) => bool;
-    save: (object, bool) => bool;
-    loadSilentData: (String) => bool;
-    loadData: (object) => bool;
-    saveData: (object, bool) => bool;
-    getValueFromRs: (int) => object;
-    getValueString: (String) => String;
-    getValue: (String) => object;
-    getValue: (String, bool) => object;
-    setLaunchInfo: (cReportLaunchInfo) => void;
-    getGroupTotal: (int, int) => double;
-    getGroupMax: (int, int) => double;
-    getGroupMin: (int, int) => double;
-    getGroupAverage: (int, int) => double;
-    getGroupLineNumber: (int) => object;
-    getGroupCount: (int, int) => double;
-    OnReportDone: () => void;
-    OnProgress: (String) => bool;
-    OnProgress: (String, int, int, int) => bool;
-    Dispose: () => void;
-    debugGroupKeys: () => string[];
-    debugGroupPanitKeys: () => string[];
-  }
 }

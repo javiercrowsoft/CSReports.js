@@ -1,84 +1,65 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportFormulaType = function() {
+namespace CSReportDll
+{
+    export class cReportFormulaType {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportFormulaType = {};
-        let m_name: string = "";
-        let m_nameUser: string = "";
-        let m_id: csRptFormulaType = 0;
-        let m_decrip: string = "";
-        let m_helpContextId: number = 0;
 
-        self.getName = function() {
-            return m_name;
-        };
+    {
+        private name: string = "";
+        private nameUser: string = "";
+        private id: csRptFormulaType = 0;
+        private decrip: string = "";
+        private helpContextId: number = 0;
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.getNameUser = function() {
-            return m_nameUser;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.setNameUser = function(rhs) {
-            m_nameUser = rhs;
-        };
+        public getNameUser() {
+            return this.nameUser;
+        }
 
-        self.getId = function() {
-            return m_id;
-        };
+        public setNameUser(rhs: string) {
+            this.nameUser = rhs;
+        }
 
-        self.setId = function(rhs) {
-            m_id = rhs;
-        };
+        public getId() {
+            return this.id;
+        }
 
-        self.getDecrip = function() {
-            return m_decrip;
-        };
+        public setId(rhs: csRptFormulaType) {
+            this.id = rhs;
+        }
 
-        self.setDecrip = function(rhs) {
-            m_decrip = rhs;
-        };
+        public getDecrip() {
+            return this.decrip;
+        }
 
-        self.getHelpContextId = function() {
-            return m_helpContextId;
-        };
+        public setDecrip(rhs: string) {
+            this.decrip = rhs;
+        }
 
-        self.setHelpContextId = function(rhs) {
-            m_helpContextId = rhs;
-        };
+        public getHelpContextId() {
+            return this.helpContextId;
+        }
 
-        self.setHelpContextId = function(rhs) {
-            m_helpContextId = rhs;
-        };
+        public setHelpContextId(rhs: csRptFormulaType) {
+            this.helpContextId = rhs;
+        }
 
-        return self;
+        public setHelpContextId(rhs: number) {
+            this.helpContextId = rhs;
+        }
+
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportFormulaType {
-
-    getName: () => String;
-    setName: (String) => void;
-    getNameUser: () => String;
-    setNameUser: (String) => void;
-    getId: () => csRptFormulaType;
-    setId: (csRptFormulaType) => void;
-    getDecrip: () => String;
-    setDecrip: (String) => void;
-    getHelpContextId: () => int;
-    setHelpContextId: (csRptFormulaType) => void;
-    setHelpContextId: (int) => void;
-  }
 }

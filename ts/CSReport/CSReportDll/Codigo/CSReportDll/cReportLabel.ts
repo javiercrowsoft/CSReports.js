@@ -1,89 +1,73 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportLabel = function() {
+namespace CSReportDll
+{
+    export class cReportLabel {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportLabel = {};
 
-        let m_aspect: cReportAspect = null;
-        let m_text: string = "";
-        let m_canGrow: boolean = null;
+    {
 
-        const cReportLabel = function() {
-            m_aspect = globalObject.CSReportDll.createCReportAspect();
-        };
+        private aspect: cReportAspect = null;
+        private text: string = "";
+        private canGrow: boolean = null;
 
-        self.getAspect = function() {
-            return m_aspect;
-        };
+        public constructor() {
+            this.aspect = new cReportAspect();
+        }
 
-        self.setAspect = function(rhs) {
-            m_aspect = rhs;
-        };
+        public getAspect() {
+            return this.aspect;
+        }
 
-        self.getText = function() {
-            return m_text;
-        };
+        public setAspect(rhs: cReportAspect) {
+            this.aspect = rhs;
+        }
 
-        self.setText = function(rhs) {
-            m_text = rhs;
-        };
+        public getText() {
+            return this.text;
+        }
 
-        self.getCanGrow = function() {
-            return m_canGrow;
-        };
+        public setText(rhs: string) {
+            this.text = rhs;
+        }
 
-        self.setCanGrow = function(rhs) {
-            m_canGrow = rhs;
-        };
+        public getCanGrow() {
+            return this.canGrow;
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public setCanGrow(rhs: boolean) {
+            this.canGrow = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Label");
-            m_text = xDoc.getNodeProperty(nodeObj, "Text").getValueString(eTypes.eText);
-            return m_aspect.load(xDoc, nodeObj);
-        };
+            this.text = xDoc.getNodeProperty(nodeObj, "Text").getValueString(eTypes.eText);
+            return this.aspect.load(xDoc, nodeObj);
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Label");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Text");
-            xProperty.setValue(eTypes.eText, m_text);
+            xProperty.setValue(eTypes.eText, this.text);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("CanGrow");
-            xProperty.setValue(eTypes.eBoolean, m_canGrow);
+            xProperty.setValue(eTypes.eBoolean, this.canGrow);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            return m_aspect.save(xDoc, nodeObj);
-        };
+            return this.aspect.save(xDoc, nodeObj);
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportLabel {
-
-    getAspect: () => cReportAspect;
-    setAspect: (cReportAspect) => void;
-    getText: () => String;
-    setText: (String) => void;
-    getCanGrow: () => bool;
-    setCanGrow: (bool) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

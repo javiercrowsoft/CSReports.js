@@ -1,36 +1,36 @@
-(function(globalObject) {
 
-    globalObject.CSDataBase = globalObject.CSDataBase || {};
 
-    globalObject.CSDataBase.createCJSONServer = function() {
+namespace CSDataBase
+{
+    export class cJSONServer {
 
-        // @ts-ignore
-        let self: CSDataBase.IcJSONServer = {};
-        let cJSONDataSources: static m_dataSources = new cJSONDataSources();
 
-        self.registerDataSource = function(dataSource, name) {
-            m_dataSources.add(dataSource, name.ToLower());
-        };
+    {
+        private cJSONDataSources: static this.dataSources = new cJSONDataSources();
 
-        self.getDataSource = function(name) {
-            return m_dataSources.item(name.ToLower());
-        };
-        return self;
+        public registerDataSource(dataSource: cJSONDataSource, name: string) {
+            this.dataSources.add(dataSource, name.ToLower());
+        }
+
+        public getDataSource(name: string) {
+            return this.dataSources.item(name.ToLower());
+        }
+
 
     }    }
-        return self;
 
 
-        return self;
 
-    class cJSONServerConnection : DbConnection    self.createCJSONServerConnection = function() {
 
-        // @ts-ignore
-        let self: CSDataBase.IcJSONServerConnection = {};
+
+    class cJSONServerConnection : DbConnection    export class cJSONServerConnection {
+
+
+    {
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlConnection class.
-        const cJSONServerConnection = function() {
+        public constructor() {
         //
         // Summary:
         //     Initializes a new instance of the System.Data.SqlClient.SqlConnection class when
@@ -39,9 +39,9 @@
         // Parameters:
         //   connectionString:
         //     The connection used to open the SQL Server database.
-        const cJSONServerConnection = function(connectionString) {
+        public constructor(connectionString: string) {
             this.ConnectionString = connectionString;
-        };
+        }
 
         //
         // Summary:
@@ -55,7 +55,7 @@
         //   T:System.ArgumentException:
         //     An invalid connection string argument has been supplied, or a required connection
         //     string argument has not been supplied.
-        self.string: override = null;ConnectionString { get; set; };
+        public string: override = null;ConnectionString { get; set; };
         //
         // Summary:
         //     Gets the time to wait while trying to establish a connection before terminating
@@ -68,7 +68,7 @@
         // Exceptions:
         //   T:System.ArgumentException:
         //     The value set is less than 0.
-        self.int: override = null;ConnectionTimeout { get; };
+        public int: override = null;ConnectionTimeout { get; };
         //
         // Summary:
         //     Gets the name of the current database or the database to be used after a connection
@@ -77,7 +77,7 @@
         // Returns:
         //     The name of the current database or the name of the database to be used after
         //     a connection is opened. The default value is an empty string.
-        self.string: override = null;Database { get; };
+        public string: override = null;Database { get; };
         //
         // Summary:
         //     Gets the name of the instance of SQL Server to which to connect.
@@ -85,7 +85,7 @@
         // Returns:
         //     The name of the instance of SQL Server to which to connect. The default value
         //     is an empty string.
-        self.string: override = null;DataSource { get; };
+        public string: override = null;DataSource { get; };
         //
         // Summary:
         //     Gets or sets the System.Data.SqlClient.SqlConnection.FireInfoMessageEventOnUserErrors
@@ -94,7 +94,7 @@
         // Returns:
         //     true if the System.Data.SqlClient.SqlConnection.FireInfoMessageEventOnUserErrors
         //     property has been set; otherwise false.
-        self.FireInfoMessageEventOnUserErrors: boolean = null;{ get; set; };
+        public FireInfoMessageEventOnUserErrors: boolean = null;{ get; set; };
         //
         // Summary:
         //     Gets the size (in bytes) of network packets used to communicate with an instance
@@ -102,7 +102,7 @@
         //
         // Returns:
         //     The size (in bytes) of network packets. The default value is 8000.
-        self.PacketSize: number = null;{ get; };
+        public PacketSize: number = null;{ get; };
         //
         // Summary:
         //     Gets a string that contains the version of the instance of SQL Server to which
@@ -114,14 +114,14 @@
         // Exceptions:
         //   T:System.InvalidOperationException:
         //     The connection is closed.
-        self.string: override = null;ServerVersion { get; };
+        public string: override = null;ServerVersion { get; };
         //
         // Summary:
         //     Indicates the state of the System.Data.SqlClient.SqlConnection.
         //
         // Returns:
         //     An System.Data.ConnectionState enumeration.
-        self.ConnectionState: override = null;State { get; };
+        public ConnectionState: override = null;State { get; };
         //
         // Summary:
         //     When set to true, enables statistics gathering for the current connection.
@@ -129,7 +129,7 @@
         // Returns:
         //     Returns true if statistics gathering is enabled; otherwise false. false is the
         //     default.
-        self.StatisticsEnabled: boolean = null;{ get; set; };
+        public StatisticsEnabled: boolean = null;{ get; set; };
         //
         // Summary:
         //     Gets a string that identifies the database client.
@@ -137,7 +137,7 @@
         // Returns:
         //     A string that identifies the database client. If not specified, the name of the
         //     client computer. If neither is specified, the value is an empty string.
-        self.WorkstationId: string = null;{ get; };
+        public WorkstationId: string = null;{ get; };
 UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get; }
 
         //
@@ -157,7 +157,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         //
         //   T:System.Data.SqlClient.SqlException:
         //     Cannot change the database.
-        self.ChangeDatabase = function(database) {
+        public ChangeDatabase(database: string) {
         //
         // Summary:
         //     Closes the connection to the database. This is the preferred method of closing
@@ -166,7 +166,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         // Exceptions:
         //   T:System.Data.SqlClient.SqlException:
         //     The connection-level error that occurred while opening the connection.
-        self.Close = function() {
+        public Close() {
 
         //
         // Summary:
@@ -182,7 +182,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         //
         // Returns:
         //     A System.Data.DataTable that contains schema information.
-        self.GetSchema = function() {
+        public GetSchema() {
         //
         // Summary:
         //     Returns schema information for the data source of this System.Data.SqlClient.SqlConnection
@@ -198,7 +198,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         // Exceptions:
         //   T:System.ArgumentException:
         //     collectionName is specified as null.
-        self.GetSchema = function(collectionName) {
+        public GetSchema(collectionName: string) {
         //
         // Summary:
         //     Returns schema information for the data source of this System.Data.SqlClient.SqlConnection
@@ -218,7 +218,7 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         // Exceptions:
         //   T:System.ArgumentException:
         //     collectionName is specified as null.
-        self.GetSchema = function(collectionName, restrictionValues) {
+        public GetSchema(collectionName: string, restrictionValues: string[]) {
         //
         // Summary:
         //     Opens a database connection with the property settings specified by the System.Data.SqlClient.SqlConnection.ConnectionString.
@@ -237,40 +237,13 @@ UNKNOWN >>         protected override DbProviderFactory DbProviderFactory { get;
         //   T:System.ArgumentException:
         //     A Connection Plan is specified together with one of the following:FailOverPartner,
         //     AttachDbFileName, UserInstance=true, or contextConnection=true.
-        self.Open = function() {
+        public Open() {
 
-        self.BeginDbTransaction = function(isolationLevel) {
-        self.CreateDbCommand = function() {
-        self.Dispose = function(disposing) {
+        public BeginDbTransaction(isolationLevel: IsolationLevel) {
+        public CreateDbCommand() {
+        public Dispose(disposing: boolean) {
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSDataBase {
-
-  export interface IcJSONServerConnection {
-
-    string: override;
-    int: override;
-    string: override;
-    string: override;
-    FireInfoMessageEventOnUserErrors: boolean;
-    PacketSize: number;
-    string: override;
-    ConnectionState: override;
-    StatisticsEnabled: boolean;
-    WorkstationId: string;
-    ChangeDatabase: (string) => void;
-    Close: () => void;
-    GetSchema: () => DataTable;
-    GetSchema: (string) => DataTable;
-    GetSchema: (string, string[]) => DataTable;
-    Open: () => void;
-    BeginDbTransaction: (IsolationLevel) => DbTransaction;
-    CreateDbCommand: () => DbCommand;
-    Dispose: (bool) => void;
-  }
 }

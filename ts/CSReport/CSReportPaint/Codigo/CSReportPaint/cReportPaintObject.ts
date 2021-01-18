@@ -1,172 +1,138 @@
-(function(globalObject) {
 
-    globalObject.CSReportPaint = globalObject.CSReportPaint || {};
 
-    globalObject.CSReportPaint.createCReportPaintObject = function() {
+namespace CSReportPaint
+{
+    export class cReportPaintObject {
 
-        // @ts-ignore
-        let self: CSReportPaint.IcReportPaintObject = {};
 
-        const C_MODULE: string = "cReportPaintObject";
+    {
 
-        let m_aspect: cReportAspect = new cReportAspect();
-        let m_key: string = "";
-        let m_text: string = "";
-        let m_paintType: csRptPaintObjType = null;
-        let m_tag: string = "";
-        let m_rptType: csRptSectionType = null;
-        let m_rptKeySec: string = "";
-        let m_image: Image = null;
-        let m_indexField: number = 0;
+        private C_MODULE: string = "cReportPaintObject";
 
-        let m_isSection: boolean = null;
+        private aspect: cReportAspect = new cReportAspect();
+        private key: string = "";
+        private text: string = "";
+        private paintType: csRptPaintObjType = null;
+        private tag: string = "";
+        private rptType: csRptSectionType = null;
+        private rptKeySec: string = "";
+        private image: Image = null;
+        private indexField: number = 0;
 
-        let m_heightSec: number = 0;
-        let m_heightSecLine: number = 0;
-        let m_textLine: string = "";
+        private isSection: boolean = null;
 
-        self.getImage = function() {
-            return m_image;
-        };
+        private heightSec: number = 0;
+        private heightSecLine: number = 0;
+        private textLine: string = "";
 
-        self.setImage = function(rhs) {
-            m_image = rhs;
-        };
+        public getImage() {
+            return this.image;
+        }
 
-        self.getAspect = function() {
-            return m_aspect;
-        };
+        public setImage(rhs: Image) {
+            this.image = rhs;
+        }
 
-        self.setAspect = function(rhs) {
-            m_aspect = rhs;
-        };
+        public getAspect() {
+            return this.aspect;
+        }
 
-        self.getKey = function() {
-            return m_key;
-        };
+        public setAspect(rhs: cReportAspect) {
+            this.aspect = rhs;
+        }
 
-        self.setKey = function(rhs) {
-            m_key = rhs;
-        };
+        public getKey() {
+            return this.key;
+        }
 
-        self.getText = function() {
-            return m_text;
-        };
+        public setKey(rhs: string) {
+            this.key = rhs;
+        }
 
-        self.setText = function(rhs) {
-            m_text = rhs;
-        };
+        public getText() {
+            return this.text;
+        }
 
-        self.getPaintType = function() {
-            return m_paintType;
-        };
+        public setText(rhs: string) {
+            this.text = rhs;
+        }
 
-        self.setPaintType = function(rhs) {
-            m_paintType = rhs;
-        };
+        public getPaintType() {
+            return this.paintType;
+        }
 
-        self.getRptType = function() {
-            return m_rptType;
-        };
+        public setPaintType(rhs: csRptPaintObjType) {
+            this.paintType = rhs;
+        }
 
-        self.setRptType = function(rhs) {
-            m_rptType = rhs;
-        };
+        public getRptType() {
+            return this.rptType;
+        }
 
-        self.getTag = function() {
-            return m_tag;
-        };
+        public setRptType(rhs: csRptSectionType) {
+            this.rptType = rhs;
+        }
 
-        self.setTag = function(rhs) {
-            m_tag = rhs;
-        };
+        public getTag() {
+            return this.tag;
+        }
 
-        self.getRptKeySec = function() {
-            return m_rptKeySec;
-        };
+        public setTag(rhs: string) {
+            this.tag = rhs;
+        }
 
-        self.setRptKeySec = function(rhs) {
-            m_rptKeySec = rhs;
-        };
+        public getRptKeySec() {
+            return this.rptKeySec;
+        }
 
-        self.getIndexField = function() {
-            return m_indexField;
-        };
+        public setRptKeySec(rhs: string) {
+            this.rptKeySec = rhs;
+        }
 
-        self.setIndexField = function(rhs) {
-            m_indexField = rhs;
-        };
+        public getIndexField() {
+            return this.indexField;
+        }
 
-        self.getHeightSec = function() {
-            return m_heightSec;
-        };
+        public setIndexField(rhs: number) {
+            this.indexField = rhs;
+        }
 
-        self.setHeightSec = function(rhs) {
-            m_heightSec = rhs;
-        };
+        public getHeightSec() {
+            return this.heightSec;
+        }
 
-        self.getHeightSecLine = function() {
-            return m_heightSecLine;
-        };
+        public setHeightSec(rhs: number) {
+            this.heightSec = rhs;
+        }
 
-        self.setHeightSecLine = function(rhs) {
-            m_heightSecLine = rhs;
-        };
+        public getHeightSecLine() {
+            return this.heightSecLine;
+        }
 
-        self.getTextLine = function() {
-            return m_textLine;
-        };
+        public setHeightSecLine(rhs: number) {
+            this.heightSecLine = rhs;
+        }
 
-        self.setTextLine = function(rhs) {
-            m_textLine = rhs;
-        };
+        public getTextLine() {
+            return this.textLine;
+        }
 
-        self.getIsSection = function() {
-            return m_isSection;
-        };
+        public setTextLine(rhs: string) {
+            this.textLine = rhs;
+        }
 
-        self.setIsSection = function(rhs) {
-            m_isSection = rhs;
-        };
+        public getIsSection() {
+            return this.isSection;
+        }
 
-        return self;
+        public setIsSection(rhs: boolean) {
+            this.isSection = rhs;
+        }
+
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportPaint {
-
-  export interface IcReportPaintObject {
-
-    getImage: () => Image;
-    setImage: (Image) => void;
-    getAspect: () => cReportAspect;
-    setAspect: (cReportAspect) => void;
-    getKey: () => String;
-    setKey: (String) => void;
-    getText: () => String;
-    setText: (String) => void;
-    getPaintType: () => csRptPaintObjType;
-    setPaintType: (csRptPaintObjType) => void;
-    getRptType: () => csRptSectionType;
-    setRptType: (csRptSectionType) => void;
-    getTag: () => String;
-    setTag: (String) => void;
-    getRptKeySec: () => String;
-    setRptKeySec: (String) => void;
-    getIndexField: () => int;
-    setIndexField: (int) => void;
-    getHeightSec: () => float;
-    setHeightSec: (float) => void;
-    getHeightSecLine: () => float;
-    setHeightSecLine: (float) => void;
-    getTextLine: () => String;
-    setTextLine: (String) => void;
-    getIsSection: () => bool;
-    setIsSection: (bool) => void;
-  }
 }

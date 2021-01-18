@@ -1,37 +1,27 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportFormulaParameter = function() {
+namespace CSReportDll
+{
+    export class cReportFormulaParameter {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportFormulaParameter = {};
-        const C_MODULE: string = "cReportFormulaParameter";
 
-        let m_value: string = "";
+    {
+        private C_MODULE: string = "cReportFormulaParameter";
 
-        self.getValue = function() {
-            return m_value;
-        };
+        private value: string = "";
 
-        self.setValue = function(rhs) {
-            m_value = rhs;
-        };
+        public getValue() {
+            return this.value;
+        }
 
-        return self;
+        public setValue(rhs: string) {
+            this.value = rhs;
+        }
+
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportFormulaParameter {
-
-    getValue: () => String;
-    setValue: (String) => void;
-  }
 }

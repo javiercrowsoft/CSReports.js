@@ -1,68 +1,51 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFSimpleConnect = function() {
+namespace CSReportEditor
+{
+    export class fSimpleConnect {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfSimpleConnect = {};
-        const fSimpleConnect = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-		self.setServer = function(str) {
+		public setServer(str: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setDataBase = function(str) {
+		public setDataBase(str: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setUser = function(str) {
+		public setUser(str: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setPassword = function(str) {
+		public setPassword(str: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.getUser = function() {
+		public getUser() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setConnectTypeToNT = function() {
+		public setConnectTypeToNT() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setConnectTypeToSQL = function() {
+		public setConnectTypeToSQL() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.getOk = function() {
+		public getOk() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.getStrConnect = function() {
+		public getStrConnect() {
 			throw new NotImplementedException ();
-		};
-        return self;
+		}
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfSimpleConnect {
-
-    setServer: (string) => void;
-    setDataBase: (string) => void;
-    setUser: (string) => void;
-    setPassword: (string) => void;
-    getUser: () => string;
-    setConnectTypeToNT: () => void;
-    setConnectTypeToSQL: () => void;
-    getOk: () => bool;
-    getStrConnect: () => string;
-  }
 }

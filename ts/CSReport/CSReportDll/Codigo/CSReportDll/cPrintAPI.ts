@@ -1,22 +1,22 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCPrintAPI = function() {
+namespace CSReportDll
+{
+    export class cPrintAPI {
 
-        // @ts-ignore
-        let self: CSReportDll.IcPrintAPI = {};
-        self.showPrintDialog = function(
-            printDialog, 
-            deviceName, 
-            driverName, 
-            port, 
-            paperSize, 
-            orientation, 
-            fromPage, 
-            toPage, 
-            copies, 
-            paperBin) {
+
+    {
+        public showPrintDialog(
+            printDialog: PrintDialog
+            deviceName: string
+            driverName: string
+            port: string
+            paperSize: csReportPaperType
+            orientation: number
+            fromPage: number
+            toPage: number
+            copies: number
+            paperBin: number) {
             printDialog.AllowSomePages = true;
             let settings: var = printDialog.PrinterSettings;
             settings.PrinterName = deviceName;
@@ -33,25 +33,25 @@
             else {
                 return false;
             }
-        };
+        }
 
-        self.printerSetPaperBin = function(m_deviceName, m_oldPaperBin) {
+        public printerSetPaperBin(this.deviceName: string, this.oldPaperBin: number) {
             throw new NotImplementedException();
-        };
+        }
 
-        self.endDoc = function(m_hDC) {
+        public endDoc(this.hDC: number) {
             throw new NotImplementedException();
-        };
+        }
 
-        self.getcPrint = function(
-            printDialog, 
-            deviceName, 
-            driverName, 
-            port, 
-            orientation, 
-            paperSize, 
-            width, 
-            height) {
+        public getcPrint(
+            printDialog: PrintDialog
+            deviceName: string
+            driverName: string
+            port: string
+            orientation: number
+            paperSize: number
+            width: number
+            height: number) {
             let o: cPrinter = new cPrinter(printDialog);
 
             o.setDeviceName(deviceName);
@@ -70,9 +70,9 @@
             paperInfo.setWidth(width);
             paperInfo.setHeight(height);
             return o;
-        };
+        }
 
-        self.getcPrint = function(printDialog, deviceName, driverName, port) {
+        public getcPrint(printDialog: PrintDialog, deviceName: string, driverName: string, port: string) {
             let printerConfigInfo: object = cPrintWMI.getPrinterConfigInfoFromWMI(deviceName);
 
             let paperSize: number = getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperSize", printerConfigInfo, "A4") as string);
@@ -82,9 +82,9 @@
             let height: number = cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperLength", printerConfigInfo, 297);
 
             return getcPrint(printDialog, deviceName, driverName, port, orientation, paperSize, width, height);
-        };
+        }
 
-        self.getcPrinterFromDefaultPrinter = function(printDialog) {
+        public getcPrinterFromDefaultPrinter(printDialog: PrintDialog) {
             let deviceName: string = "";
             let driverName: string = "";
             let port: string = "";
@@ -101,15 +101,15 @@
             else {
                 return null;
             }
-        };
+        }
 
-        self.printerPaperBinNameToId = function(p, p_2, paperBin) {
+        public printerPaperBinNameToId(p: string, p_2: string, paperBin: string) {
             throw new NotImplementedException();
-        };
+        }
 
-        self.getDefaultPrinter = function(
-            deviceName, driverName, port, 
-            paperSize, orientation, width, height) {
+        public getDefaultPrinter(
+            deviceName: string, driverName: string, port: string
+            paperSize: number, orientation: number, width: number, height: number) {
             let settings: PrinterSettings = new PrinterSettings();
 
             deviceName = settings.PrinterName;
@@ -132,9 +132,9 @@
 
                 getSizeFromPaperSize(paperSize, orientation, width, height);
             }
-        };
+        }
 
-        const getSizeFromPaperSize = function(paperSize, orientation, width, height) {
+        private getSizeFromPaperSize(paperSize: csReportPaperType, orientation: number, width: number, height: number) {
             switch (paperSize)
             {
                 case csReportPaperType.CSRPTPAPERTYPELETTER:
@@ -169,9 +169,9 @@
                 height = width;
                 width = tmp;
             }
-        };
+        }
 
-        const getPaperSizeFromSizeName = function(sizeName) {
+        private getPaperSizeFromSizeName(sizeName: string) {
 UNKNOWN >>             int size;
             switch (sizeName.ToLower()) { 
                 case "a4":
@@ -188,25 +188,9 @@ UNKNOWN >>             int size;
                     break;
             }
             return size;
-        };
+        }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportDll {
-
-  export interface IcPrintAPI {
-
-    showPrintDialog: () => bool;
-    printerSetPaperBin: (string, int) => void;
-    endDoc: (int) => int;
-    getcPrint: () => cPrinter;
-    getcPrint: (PrintDialog, string, string, string) => cPrinter;
-    getcPrinterFromDefaultPrinter: (PrintDialog) => cPrinter;
-    printerPaperBinNameToId: (string, string, string) => int;
-    getDefaultPrinter: () => void;
-  }
 }

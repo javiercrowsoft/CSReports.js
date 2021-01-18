@@ -1,166 +1,140 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportPaperInfo = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportPaperInfo = {};
+    export class cReportPaperInfo {
 
-        const C_MODULE: string = "cReportPaperInfo";
 
-        let m_width: number = 0;
-        let m_height: number = 0;
-        let m_paperSize: csReportPaperType = null;
-        let m_orientation: number = 0;
-        let m_customHeight: number = 0;
-        let m_customWidth: number = 0;
-        let m_pagesToPrint: string = "";
-        let m_paperBin: number = 0;
+    {
 
-        self.getWidth = function() {
-            return m_width;
-        };
+        private C_MODULE: string = "cReportPaperInfo";
 
-        self.setWidth = function(rhs) {
-            m_width = rhs;
-        };
+        private width: number = 0;
+        private height: number = 0;
+        private paperSize: csReportPaperType = null;
+        private orientation: number = 0;
+        private customHeight: number = 0;
+        private customWidth: number = 0;
+        private pagesToPrint: string = "";
+        private paperBin: number = 0;
 
-        self.getHeight = function() {
-            return m_height;
-        };
+        public getWidth() {
+            return this.width;
+        }
 
-        self.setHeight = function(rhs) {
-            m_height = rhs;
-        };
+        public setWidth(rhs: number) {
+            this.width = rhs;
+        }
 
-        self.getPaperSize = function() {
-            return m_paperSize;
-        };
+        public getHeight() {
+            return this.height;
+        }
 
-        self.setPaperSize = function(rhs) {
-            m_paperSize = rhs;
-        };
+        public setHeight(rhs: number) {
+            this.height = rhs;
+        }
 
-        self.getOrientation = function() {
-            return m_orientation;
-        };
+        public getPaperSize() {
+            return this.paperSize;
+        }
 
-        self.setOrientation = function(rhs) {
-            m_orientation = rhs;
-        };
+        public setPaperSize(rhs: csReportPaperType) {
+            this.paperSize = rhs;
+        }
 
-        self.getCustomHeight = function() {
-            return m_customHeight;
-        };
+        public getOrientation() {
+            return this.orientation;
+        }
 
-        self.setCustomHeight = function(rhs) {
-            m_customHeight = rhs;
-        };
+        public setOrientation(rhs: number) {
+            this.orientation = rhs;
+        }
 
-        self.getCustomWidth = function() {
-            return m_customWidth;
-        };
+        public getCustomHeight() {
+            return this.customHeight;
+        }
 
-        self.setCustomWidth = function(rhs) {
-            m_customWidth = rhs;
-        };
+        public setCustomHeight(rhs: number) {
+            this.customHeight = rhs;
+        }
 
-        self.getPaperBin = function() {
-            return m_paperBin;
-        };
+        public getCustomWidth() {
+            return this.customWidth;
+        }
 
-        self.setPaperBin = function(rhs) {
-            m_paperBin = rhs;
-        };
+        public setCustomWidth(rhs: number) {
+            this.customWidth = rhs;
+        }
 
-        self.getPagesToPrint = function() {
-            return m_pagesToPrint;
-        };
+        public getPaperBin() {
+            return this.paperBin;
+        }
 
-        self.setPagesToPrint = function(rhs) {
-            m_pagesToPrint = rhs;
-        };
+        public setPaperBin(rhs: number) {
+            this.paperBin = rhs;
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public getPagesToPrint() {
+            return this.pagesToPrint;
+        }
+
+        public setPagesToPrint(rhs: string) {
+            this.pagesToPrint = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             if (nodeObj !== null) {
-                m_height = xDoc.getNodeProperty(nodeObj, "Height").getValueInt(eTypes.eLong);
-                m_paperSize = xDoc.getNodeProperty(nodeObj, "PaperSize").getValueInt(eTypes.eInteger);
-                m_width = xDoc.getNodeProperty(nodeObj, "Width").getValueInt(eTypes.eLong);
-                m_orientation = xDoc.getNodeProperty(nodeObj, "Orientation").getValueInt(eTypes.eInteger);
-                m_customWidth = xDoc.getNodeProperty(nodeObj, "CustomWidth").getValueInt(eTypes.eLong);
-                m_customHeight = xDoc.getNodeProperty(nodeObj, "CustomHeight").getValueInt(eTypes.eLong);
+                this.height = xDoc.getNodeProperty(nodeObj, "Height").getValueInt(eTypes.eLong);
+                this.paperSize = xDoc.getNodeProperty(nodeObj, "PaperSize").getValueInt(eTypes.eInteger);
+                this.width = xDoc.getNodeProperty(nodeObj, "Width").getValueInt(eTypes.eLong);
+                this.orientation = xDoc.getNodeProperty(nodeObj, "Orientation").getValueInt(eTypes.eInteger);
+                this.customWidth = xDoc.getNodeProperty(nodeObj, "CustomWidth").getValueInt(eTypes.eLong);
+                this.customHeight = xDoc.getNodeProperty(nodeObj, "CustomHeight").getValueInt(eTypes.eLong);
             }
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             nodeObj = nodeFather;
 
             xProperty.setName("Height");
-            xProperty.setValue(eTypes.eLong, m_height);
+            xProperty.setValue(eTypes.eLong, this.height);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("PaperSize");
-            xProperty.setValue(eTypes.eInteger, m_paperSize);
+            xProperty.setValue(eTypes.eInteger, this.paperSize);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Width");
-            xProperty.setValue(eTypes.eLong, m_width);
+            xProperty.setValue(eTypes.eLong, this.width);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Orientation");
-            xProperty.setValue(eTypes.eInteger, m_orientation);
+            xProperty.setValue(eTypes.eInteger, this.orientation);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("CustomWidth");
-            xProperty.setValue(eTypes.eLong, m_customWidth);
+            xProperty.setValue(eTypes.eLong, this.customWidth);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("CustomHeight");
-            xProperty.setValue(eTypes.eLong, m_customHeight);
+            xProperty.setValue(eTypes.eLong, this.customHeight);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportPaperInfo {
-
-    getWidth: () => float;
-    setWidth: (float) => void;
-    getHeight: () => float;
-    setHeight: (float) => void;
-    getPaperSize: () => csReportPaperType;
-    setPaperSize: (csReportPaperType) => void;
-    getOrientation: () => int;
-    setOrientation: (int) => void;
-    getCustomHeight: () => int;
-    setCustomHeight: (int) => void;
-    getCustomWidth: () => int;
-    setCustomWidth: (int) => void;
-    getPaperBin: () => int;
-    setPaperBin: (int) => void;
-    getPagesToPrint: () => String;
-    setPagesToPrint: (String) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

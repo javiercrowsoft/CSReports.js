@@ -1,4 +1,4 @@
-(function(globalObject) {
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using CSReportGlobals;
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
+namespace CSReportDll
 {
     class ReportNotDefinedFunctionException : ReportException
     {

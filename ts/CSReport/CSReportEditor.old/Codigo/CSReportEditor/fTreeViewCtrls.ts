@@ -1,33 +1,23 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFTreeViewCtrls = function() {
+namespace CSReportEditor
+{
+    export class fTreeViewCtrls {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfTreeViewCtrls = {};
-        const fTreeViewCtrls = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-		self.clear = function() {
+		public clear() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.addCtrls = function(m_report) {
+		public addCtrls(this.report: cReport) {
 			throw new NotImplementedException ();
-		};
-        return self;
+		}
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfTreeViewCtrls {
-
-    clear: () => void;
-    addCtrls: (cReport) => void;
-  }
 }

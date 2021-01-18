@@ -1,25 +1,25 @@
-(function(globalObject) {
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
-    globalObject.CSKernelClient.createFErrors = function() {
+﻿namespace CSKernelClient
+{
+    export class fErrors {
 
-        // @ts-ignore
-        let self: CSKernelClient.IfErrors = {};
+
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer = null;
+        private components: System.ComponentModel.IContainer = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self.Dispose = function(disposing) {
+        public Dispose(disposing: boolean) {
             if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
-        };
+        }
 
 UNKNOWN >>         #region Windows Form Designer generated code
 
@@ -27,65 +27,65 @@ UNKNOWN >>         #region Windows Form Designer generated code
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        const InitializeComponent = function() {
-            this.picIcon = UNKNOWN >>  can't find constructor for class System.Windows.Forms.PictureBox();
-            this.lbError = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Label();
-            this.cmdOk = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Button();
-            this.cmdDetails = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Button();
-            this.txError = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TextBox();
+        private InitializeComponent() {
+            this.picIcon = new System.Windows.Forms.PictureBox();
+            this.lbError = new System.Windows.Forms.Label();
+            this.cmdOk = new System.Windows.Forms.Button();
+            this.cmdDetails = new System.Windows.Forms.Button();
+            this.txError = new System.Windows.Forms.TextBox();
             ().BeginInit();
             this.SuspendLayout();
             // 
             // picIcon
             // 
-            this.picIcon.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(20, 19);
+            this.picIcon.Location = new System.Drawing.Point(20, 19);
             this.picIcon.Name = "picIcon";
-            this.picIcon.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(65, 50);
+            this.picIcon.Size = new System.Drawing.Size(65, 50);
             this.picIcon.TabIndex = 0;
             this.picIcon.TabStop = false;
             // 
             // lbError
             // 
             this.lbError.AutoSize = true;
-            this.lbError.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(102, 24);
+            this.lbError.Location = new System.Drawing.Point(102, 24);
             this.lbError.Name = "lbError";
-            this.lbError.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(83, 13);
+            this.lbError.Size = new System.Drawing.Size(83, 13);
             this.lbError.TabIndex = 1;
             this.lbError.Text = "Error description";
             // 
             // cmdOk
             // 
-            this.cmdOk.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(422, 25);
+            this.cmdOk.Location = new System.Drawing.Point(422, 25);
             this.cmdOk.Name = "cmdOk";
-            this.cmdOk.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(96, 29);
+            this.cmdOk.Size = new System.Drawing.Size(96, 29);
             this.cmdOk.TabIndex = 2;
             this.cmdOk.Text = "Ok";
             this.cmdOk.UseVisualStyleBackColor = true;
-            this.cmdOk.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.cmdOk_Click);
+            this.cmdOk.Click += new System.EventHandler(this.cmdOk_Click);
             // 
             // cmdDetails
             // 
-            this.cmdDetails.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(422, 60);
+            this.cmdDetails.Location = new System.Drawing.Point(422, 60);
             this.cmdDetails.Name = "cmdDetails";
-            this.cmdDetails.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(96, 29);
+            this.cmdDetails.Size = new System.Drawing.Size(96, 29);
             this.cmdDetails.TabIndex = 3;
             this.cmdDetails.Text = "Details";
             this.cmdDetails.UseVisualStyleBackColor = true;
-            this.cmdDetails.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.cmdDetails_Click);
+            this.cmdDetails.Click += new System.EventHandler(this.cmdDetails_Click);
             // 
             // txError
             // 
-            this.txError.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(15, 107);
+            this.txError.Location = new System.Drawing.Point(15, 107);
             this.txError.Multiline = true;
             this.txError.Name = "txError";
-            this.txError.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(502, 94);
+            this.txError.Size = new System.Drawing.Size(502, 94);
             this.txError.TabIndex = 4;
             // 
             // fErrors
             // 
-            this.AutoScaleDimensions = UNKNOWN >>  can't find constructor for class System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = UNKNOWN >>  can't find constructor for class System.Drawing.Size(527, 104);
+            this.ClientSize = new System.Drawing.Size(527, 104);
             this.Controls.Add(this.txError);
             this.Controls.Add(this.cmdDetails);
             this.Controls.Add(this.cmdOk);
@@ -96,30 +96,21 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.MinimizeBox = false;
             this.Name = "fErrors";
             this.Text = "Error";
-            this.Load += UNKNOWN >>  can't find constructor for class System.EventHandler(this.fErrors_Load);
+            this.Load += new System.EventHandler(this.fErrors_Load);
             ().EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        };
+        }
 
 UNKNOWN >>         #endregion
 
-        let picIcon: System.Windows.Forms.PictureBox = null;
-        let lbError: System.Windows.Forms.Label = null;
-        let cmdOk: System.Windows.Forms.Button = null;
-        let cmdDetails: System.Windows.Forms.Button = null;
-        let txError: System.Windows.Forms.TextBox = null;
-        return self;
+        private picIcon: System.Windows.Forms.PictureBox = null;
+        private lbError: System.Windows.Forms.Label = null;
+        private cmdOk: System.Windows.Forms.Button = null;
+        private cmdDetails: System.Windows.Forms.Button = null;
+        private txError: System.Windows.Forms.TextBox = null;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelClient {
-
-  export interface IfErrors {
-
-    Dispose: (bool) => void;
-  }
 }

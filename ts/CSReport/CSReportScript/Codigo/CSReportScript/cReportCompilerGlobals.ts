@@ -1,24 +1,24 @@
-(function(globalObject) {
-
-    globalObject.CSReportScript = globalObject.CSReportScript || {};
 
 
-    globalObject.CSReportScript.createCReportCompilerGlobals = function() {
+namespace CSReportScript
+{
 
-        // @ts-ignore
-        let self: CSReportScript.IcReportCompilerGlobals = {};
+    export class cReportCompilerGlobals {
+
+
+    {
 
         // Creates an empty collection.
-        const cReportCompilerGlobals = function() {
-        };
+        public constructor() {
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cReportCompilerGlobals = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -80,51 +80,51 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.Remove = function(key) {
+        public Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.Remove = function(index) {
+        public Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.Clear = function() {
+        public Clear() {
             this.BaseClear();
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.remove = function(key) {
+        public remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.remove = function(index) {
+        public remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.clear = function() {
+        public clear() {
             this.BaseClear();
-        };
+        }
 
-        let m_mode: eReportCompilerMode = 0;
+        private mode: eReportCompilerMode = 0;
 
-        self.getMode = function() {
-            return m_mode;
-        };
+        public getMode() {
+            return this.mode;
+        }
 
-        self.setMode = function(rhs) {
-            m_mode = rhs;
-        };
+        public setMode(rhs: eReportCompilerMode) {
+            this.mode = rhs;
+        }
 
-        self.addVar = function(varName) {
+        public addVar(varName: string) {
             try {
                 Add(varName, new cReportCompilerVar());
                 return getVar(varName);
@@ -132,57 +132,37 @@ UNKNOWN >>             get
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.getVar = function(varName) {
+        public getVar(varName: string) {
             try {
                 return this.BaseGet(varName);
             }
             catch (ex) {
                 return null;
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eReportCompilerModeUNKNOWN >>     public enum eReportCompilerMode
     { 
         C_EVAL,
 UNKNOWN >>         C_RESULT
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportScript {
-
-  export interface IcReportCompilerGlobals {
-
-    Add: (String, Object) => void;
-    Remove: (String) => void;
-    Remove: (int) => void;
-    Clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    clear: () => void;
-    getMode: () => eReportCompilerMode;
-    setMode: (eReportCompilerMode) => void;
-    addVar: (String) => cReportCompilerVar;
-    count: () => int;
-    getVar: (String) => cReportCompilerVar;
-  }
 }

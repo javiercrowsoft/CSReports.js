@@ -1,180 +1,180 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportSection = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportSection = {};
+    export class cReportSection {
 
-        const C_NODERPTSECTIONLINES: string = "RptSectionLines";
 
-        let m_sectionLines: cReportSectionLines = new cReportSectionLines();
-        let m_aspect: cReportAspect = new cReportAspect();
-        let m_index: number = 0;
-        let m_realIndex: number = 0;
-        let m_key: string = "";
-        let m_name: string = "";
-        let m_keyPaint: string = "";
-        let m_formulaHide: cReportFormula = new cReportFormula();
-        let m_hasFormulaHide: boolean = null;
+    {
 
-        const cReportSection = function() {
-            m_formulaHide.setName("H");
+        private C_NODERPTSECTIONLINES: string = "RptSectionLines";
+
+        private sectionLines: cReportSectionLines = new cReportSectionLines();
+        private aspect: cReportAspect = new cReportAspect();
+        private index: number = 0;
+        private realIndex: number = 0;
+        private key: string = "";
+        private name: string = "";
+        private keyPaint: string = "";
+        private formulaHide: cReportFormula = new cReportFormula();
+        private hasFormulaHide: boolean = null;
+
+        public constructor() {
+            this.formulaHide.setName("H");
 
             // when a new section is create a new line section 
             // is automatically added
             // 
-            m_sectionLines.add(null, "", -1);
-        };
+            this.sectionLines.add(null, "", -1);
+        }
 
-        self.getSectionLines = function() {
-            return m_sectionLines;
-        };
+        public getSectionLines() {
+            return this.sectionLines;
+        }
 
-        self.setSectionLines = function(rhs) {
-            m_sectionLines = rhs;
-        };
+        public setSectionLines(rhs: cReportSectionLines) {
+            this.sectionLines = rhs;
+        }
 
-        self.getAspect = function() {
-            return m_aspect;
-        };
+        public getAspect() {
+            return this.aspect;
+        }
 
-        self.setAspect = function(rhs) {
-            m_aspect = rhs;
-        };
+        public setAspect(rhs: cReportAspect) {
+            this.aspect = rhs;
+        }
 
-        self.getIndex = function() {
-            return m_index;
-        };
+        public getIndex() {
+            return this.index;
+        }
 
-        self.setIndex = function(rhs) {
-            m_index = rhs;
-        };
+        public setIndex(rhs: number) {
+            this.index = rhs;
+        }
 
-        self.getRealIndex = function() {
-            return m_realIndex;
-        };
+        public getRealIndex() {
+            return this.realIndex;
+        }
 
-        self.setRealIndex = function(rhs) {
-            m_realIndex = rhs;
-        };
+        public setRealIndex(rhs: number) {
+            this.realIndex = rhs;
+        }
 
-        self.getKey = function() {
-            return m_key;
-        };
+        public getKey() {
+            return this.key;
+        }
 
-        self.setKey = function(rhs) {
-            m_key = rhs;
-        };
+        public setKey(rhs: string) {
+            this.key = rhs;
+        }
 
-        self.getTypeSection = function() {
-            return m_sectionLines.getTypeSection();
-        };
+        public getTypeSection() {
+            return this.sectionLines.getTypeSection();
+        }
 
-        self.setTypeSection = function(rhs) {
-            m_sectionLines.setTypeSection(rhs);
-        };
+        public setTypeSection(rhs: csRptSectionType) {
+            this.sectionLines.setTypeSection(rhs);
+        }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.setCopyColl = function(rhs) {
-            if (m_sectionLines !== null) {
-                m_sectionLines.setCopyColl(rhs);
+        public setCopyColl(rhs: cReportControls2) {
+            if (this.sectionLines !== null) {
+                this.sectionLines.setCopyColl(rhs);
             }
-        };
+        }
 
-        self.getKeyPaint = function() {
-            return m_keyPaint;
-        };
+        public getKeyPaint() {
+            return this.keyPaint;
+        }
 
-        self.setKeyPaint = function(rhs) {
-            m_keyPaint = rhs;
-        };
+        public setKeyPaint(rhs: string) {
+            this.keyPaint = rhs;
+        }
 
-        self.getHasFormulaHide = function() {
-            return m_hasFormulaHide;
-        };
+        public getHasFormulaHide() {
+            return this.hasFormulaHide;
+        }
 
-        self.setHasFormulaHide = function(rhs) {
-            m_hasFormulaHide = rhs;
-        };
+        public setHasFormulaHide(rhs: boolean) {
+            this.hasFormulaHide = rhs;
+        }
 
-        self.getFormulaHide = function() {
-            return m_formulaHide;
-        };
+        public getFormulaHide() {
+            return this.formulaHide;
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             let nodeObjSecLn: XmlNode = null;
             let nodeObjAspect: XmlNode = null;
             let secLn: cReportSectionLine = null;
 
-            m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
+            this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
 
             // TODO: fix me - this is Spanish - English bug we should use Index
             //
-            m_index = xDoc.getNodeProperty(nodeObj, "Indice").getValueInt(eTypes.eInteger);
+            this.index = xDoc.getNodeProperty(nodeObj, "Indice").getValueInt(eTypes.eInteger);
 
             setTypeSection(xDoc.getNodeProperty(nodeObj, "TypeSection").getValueInt(eTypes.eInteger));
-            m_hasFormulaHide = xDoc.getNodeProperty(nodeObj, "HasFormulaHide").getValueBool(eTypes.eBoolean);
+            this.hasFormulaHide = xDoc.getNodeProperty(nodeObj, "HasFormulaHide").getValueBool(eTypes.eBoolean);
 
             nodeObjAspect = nodeObj;
-            if (!m_aspect.load(xDoc, nodeObjAspect)) {
+            if (!this.aspect.load(xDoc, nodeObjAspect)) {
                 return false;
             }
 
             let nodeObjAux: XmlNode = nodeObj;
-            if (!m_formulaHide.load(xDoc, nodeObjAux)) {
+            if (!this.formulaHide.load(xDoc, nodeObjAux)) {
                 return false;
             }
 
-            m_sectionLines.clear();
+            this.sectionLines.clear();
 
             nodeObj = xDoc.getNodeFromNode(nodeObj, C_NODERPTSECTIONLINES);
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
                     let key: string = xDoc.getNodeProperty(nodeObjSecLn, "Key").getValueString(eTypes.eText);
-                    secLn = m_sectionLines.add(null, key, -1);
+                    secLn = this.sectionLines.add(null, key, -1);
                     if (!secLn.load(xDoc, nodeObjSecLn)) {
                         return false;
                     }
-                    secLn.setSectionName(m_name);
+                    secLn.setSectionName(this.name);
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
                 }
             }
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
-            xProperty.setName(m_key);
+            xProperty.setName(this.key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Name");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Key");
-            xProperty.setValue(eTypes.eText, m_key);
+            xProperty.setValue(eTypes.eText, this.key);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             // TODO: fix me - this is Spanish - English bug we should use Index
             //
             xProperty.setName("Indice");
-            xProperty.setValue(eTypes.eInteger, m_index);
+            xProperty.setValue(eTypes.eInteger, this.index);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("TypeSection");
@@ -182,13 +182,13 @@
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("HasFormulaHide");
-            xProperty.setValue(eTypes.eBoolean, m_hasFormulaHide);
+            xProperty.setValue(eTypes.eBoolean, this.hasFormulaHide);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if (!m_aspect.save(xDoc, nodeObj))  {
+            if (!this.aspect.save(xDoc, nodeObj))  {
                 return false; 
             }
-            if (!m_formulaHide.save(xDoc, nodeObj))  {
+            if (!this.formulaHide.save(xDoc, nodeObj))  {
                 return false; 
             }
 
@@ -197,18 +197,18 @@
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let seccLn: cReportSectionLine = null;
-            for(var _i = 0; _i < m_sectionLines.count(); _i++) {
-                seccLn = m_sectionLines.item(_i);
+            for(var _i = 0; _i < this.sectionLines.count(); _i++) {
+                seccLn = this.sectionLines.item(_i);
                 seccLn.save(xDoc, nodeObj);
             }
 
             return true;
-        };
+        }
 
         // Implement IDisposable.
         // Do not make this method virtual.
         // A derived class should not be able to override this method.
-        self.Dispose = function() {
+        public Dispose() {
             Dispose(true);
             // This object will be cleaned up by the Dispose method.
             // Therefore, you should call GC.SupressFinalize to
@@ -216,10 +216,10 @@
             // and prevent finalization code for this object
             // from executing a second time.
             GC.SuppressFinalize(this);
-        };
+        }
 
         // Track whether Dispose has been called.
-        let disposed: boolean = false;
+        private disposed: boolean = false;
 
         // Dispose(bool disposing) executes in two distinct scenarios.
         // If disposing equals true, the method has been called directly
@@ -228,7 +228,7 @@
         // If disposing equals false, the method has been called by the
         // runtime from inside the finalizer and you should not reference
         // other objects. Only unmanaged resources can be disposed.
-        self.Dispose = function(disposing) {
+        public Dispose(disposing: boolean) {
             // Check to see if Dispose has already been called.
             if (!this.disposed) {
                 // If disposing equals true, dispose all managed
@@ -242,7 +242,7 @@
                 disposed = true;
 
             }
-        };
+        }
 
         // Use C# destructor syntax for finalization code.
         // This destructor will run only if the Dispose method
@@ -257,54 +257,22 @@
             Dispose(false);
         }
 
-        const releaseReferences = function() {
-            if (m_sectionLines !== null) {
-                if (m_sectionLines.getCopyColl() !== null) {
-                    m_sectionLines.getCopyColl().clear();
-                    m_sectionLines.setCopyColl(null);
+        private releaseReferences() {
+            if (this.sectionLines !== null) {
+                if (this.sectionLines.getCopyColl() !== null) {
+                    this.sectionLines.getCopyColl().clear();
+                    this.sectionLines.setCopyColl(null);
                 }
-                m_sectionLines = null;
+                this.sectionLines = null;
             }
-            m_aspect = null;
-            m_formulaHide = null;
-        };
+            this.aspect = null;
+            this.formulaHide = null;
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportSection {
-
-    getSectionLines: () => cReportSectionLines;
-    setSectionLines: (cReportSectionLines) => void;
-    getAspect: () => cReportAspect;
-    setAspect: (cReportAspect) => void;
-    getIndex: () => int;
-    setIndex: (int) => void;
-    getRealIndex: () => int;
-    setRealIndex: (int) => void;
-    getKey: () => String;
-    setKey: (String) => void;
-    getTypeSection: () => csRptSectionType;
-    setTypeSection: (csRptSectionType) => void;
-    getName: () => String;
-    setName: (String) => void;
-    setCopyColl: (cReportControls2) => void;
-    getKeyPaint: () => String;
-    setKeyPaint: (String) => void;
-    getHasFormulaHide: () => bool;
-    setHasFormulaHide: (bool) => void;
-    getFormulaHide: () => cReportFormula;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-    Dispose: () => void;
-    Dispose: (bool) => void;
-  }
 }

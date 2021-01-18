@@ -1,24 +1,24 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportPages = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportPages = {};
+    export class cReportPages {
+
+
+    {
 
         // Creates an empty collection.
-        const cReportPages = function() {
-        };
+        public constructor() {
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cReportPages = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -80,48 +80,48 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.Remove = function(key) {
+        public Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.Remove = function(index) {
+        public Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.Clear = function() {
+        public Clear() {
             this.BaseClear();
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.remove = function(key) {
+        public remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.remove = function(index) {
+        public remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.clear = function() {
+        public clear() {
             this.BaseClear();
-        };
+        }
 
-        self.add = function(c) {
+        public add(c: cReportPage) {
             return add(c, "");
-        };
+        }
 
-        self.add = function(c, key) {
+        public add(c: cReportPage, key: string) {
             try {
                 if (c === null) {
-                    c = globalObject.CSReportDll.createCReportPage();
+                    c = new cReportPage();
                 }
 
                 if (key === "") {
@@ -135,54 +135,34 @@ UNKNOWN >>             get
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
                 let (cReportPage)this.BaseGet(key): return = null;;
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
                 let (cReportPage)this.BaseGet(index): return = null;;
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportPages {
-
-    Add: (String, Object) => void;
-    Remove: (String) => void;
-    Remove: (int) => void;
-    Clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    clear: () => void;
-    add: (cReportPage) => cReportPage;
-    add: (cReportPage, String) => cReportPage;
-    count: () => int;
-    item: (String) => cReportPage;
-    item: (int) => cReportPage;
-  }
 }

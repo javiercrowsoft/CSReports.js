@@ -1,216 +1,216 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportChart = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportChart = {};
+    export class cReportChart {
 
-        const C_MODULE: string = "cReportChart";
 
-        let m_series: cReportChartSeries = new cReportChartSeries();
-        let m_chartLineStyle: csRptChartLineStyle = null;
-        let m_chartBarOutline: boolean = null;
-        let m_chartShowValues: boolean = null;
-        let m_pieThickness: csRptChartPieThickness = null;
-        let m_pieDiameter: csRptChartPieDiameter = null;
-        let m_imageFormat: csRptChartFormat = csRptChartFormat.PNG;
-        let m_copyright: string = "";
-        let m_chartTitle: string = "";
-        let m_chartType: csRptChartType = null;
-        let m_top: number = 0;
-        let m_chartCreated: boolean = null;
-        let m_groupFieldName: string = "";
-        let m_groupValue: string = "";
-        let m_groupFieldIndex: number = 0;
-        let m_sort: boolean = null;
-        let m_image: Image = null;
+    {
 
-        self.getLastErrorDescription = function() {
+        private C_MODULE: string = "cReportChart";
+
+        private series: cReportChartSeries = new cReportChartSeries();
+        private chartLineStyle: csRptChartLineStyle = null;
+        private chartBarOutline: boolean = null;
+        private chartShowValues: boolean = null;
+        private pieThickness: csRptChartPieThickness = null;
+        private pieDiameter: csRptChartPieDiameter = null;
+        private imageFormat: csRptChartFormat = csRptChartFormat.PNG;
+        private copyright: string = "";
+        private chartTitle: string = "";
+        private chartType: csRptChartType = null;
+        private top: number = 0;
+        private chartCreated: boolean = null;
+        private groupFieldName: string = "";
+        private groupValue: string = "";
+        private groupFieldIndex: number = 0;
+        private sort: boolean = null;
+        private image: Image = null;
+
+        public getLastErrorDescription() {
             return cError.getLastErrorDescription();
-        };
+        }
 
-        self.getLastErrorInfoAdd = function() {
+        public getLastErrorInfoAdd() {
             return cError.getLastErrorInfoAdd();
-        };
+        }
 
-        self.getLastErrorModule = function() {
+        public getLastErrorModule() {
             return cError.getLastErrorModule();
-        };
+        }
 
-        self.getLastErrorNumber = function() {
+        public getLastErrorNumber() {
             return cError.getLastErrorNumber();
-        };
+        }
 
-        self.getLastErrorLine = function() {
+        public getLastErrorLine() {
             return cError.getLastErrorLine();
-        };
+        }
 
-        self.getLastErrorFunction = function() {
+        public getLastErrorFunction() {
             return cError.getLastErrorFunction();
-        };
+        }
 
-        self.getSeries = function() {
-            return m_series;
-        };
+        public getSeries() {
+            return this.series;
+        }
 
-        self.setSeries = function(rhs) {
-            m_series = rhs;
-        };
+        public setSeries(rhs: cReportChartSeries) {
+            this.series = rhs;
+        }
 
-        self.getGridLines = function() {
-            return m_chartLineStyle;
-        };
+        public getGridLines() {
+            return this.chartLineStyle;
+        }
 
-        self.setGridLines = function(value) {
-            m_chartLineStyle = value;
-        };
+        public setGridLines(value: csRptChartLineStyle) {
+            this.chartLineStyle = value;
+        }
 
-        self.getOutlineBars = function() {
-            return m_chartBarOutline;
-        };
+        public getOutlineBars() {
+            return this.chartBarOutline;
+        }
 
-        self.setOutlineBars = function(value) {
-            m_chartBarOutline = value;
-        };
+        public setOutlineBars(value: boolean) {
+            this.chartBarOutline = value;
+        }
 
-        self.getShowValues = function() {
-            return m_chartShowValues;
-        };
+        public getShowValues() {
+            return this.chartShowValues;
+        }
 
-        self.setShowValues = function(value) {
-            m_chartShowValues = value;
-        };
+        public setShowValues(value: boolean) {
+            this.chartShowValues = value;
+        }
 
-        self.getThickness = function() {
-            return m_pieThickness;
-        };
+        public getThickness() {
+            return this.pieThickness;
+        }
 
-        self.setThickness = function(value) {
-            m_pieThickness = value;
-        };
+        public setThickness(value: csRptChartPieThickness) {
+            this.pieThickness = value;
+        }
 
-        self.getDiameter = function() {
-            return m_pieDiameter;
-        };
+        public getDiameter() {
+            return this.pieDiameter;
+        }
 
-        self.setDiameter = function(value) {
-            m_pieDiameter = value;
-        };
+        public setDiameter(value: csRptChartPieDiameter) {
+            this.pieDiameter = value;
+        }
 
-        self.getFormat = function() {
-            return m_imageFormat;
-        };
+        public getFormat() {
+            return this.imageFormat;
+        }
 
-        self.setFormat = function(value) {
-            m_imageFormat = value;
-        };
+        public setFormat(value: csRptChartFormat) {
+            this.imageFormat = value;
+        }
 
-        self.getCopyRight = function() {
-            return m_copyright;
-        };
+        public getCopyRight() {
+            return this.copyright;
+        }
 
-        self.setCopyRight = function(value) {
-            m_copyright = value;
-        };
+        public setCopyRight(value: string) {
+            this.copyright = value;
+        }
 
-        self.getGroupFieldName = function() {
-            return m_groupFieldName;
-        };
+        public getGroupFieldName() {
+            return this.groupFieldName;
+        }
 
-        self.setGroupFieldName = function(value) {
-            m_groupFieldName = value;
-        };
+        public setGroupFieldName(value: string) {
+            this.groupFieldName = value;
+        }
 
-        self.getGroupValue = function() {
-            return m_groupValue;
-        };
+        public getGroupValue() {
+            return this.groupValue;
+        }
 
-        self.setGroupValue = function(value) {
-            m_groupValue = value;
-        };
+        public setGroupValue(value: string) {
+            this.groupValue = value;
+        }
 
-        self.getGroupFieldIndex = function() {
-            return m_groupFieldIndex;
-        };
+        public getGroupFieldIndex() {
+            return this.groupFieldIndex;
+        }
 
-        self.setGroupFieldIndex = function(value) {
-            m_groupFieldIndex = value;
-        };
+        public setGroupFieldIndex(value: number) {
+            this.groupFieldIndex = value;
+        }
 
-        self.getChartTitle = function() {
-            return m_chartTitle;
-        };
+        public getChartTitle() {
+            return this.chartTitle;
+        }
 
-        self.setChartTitle = function(rhs) {
-            m_chartTitle = rhs;
-        };
+        public setChartTitle(rhs: string) {
+            this.chartTitle = rhs;
+        }
 
-        self.getSort = function() {
-            return m_sort;
-        };
+        public getSort() {
+            return this.sort;
+        }
 
-        self.setSort = function(rhs) {
-            m_sort = rhs;
-        };
+        public setSort(rhs: boolean) {
+            this.sort = rhs;
+        }
 
-        self.getChartType = function() {
-            return m_chartType;
-        };
+        public getChartType() {
+            return this.chartType;
+        }
 
-        self.setChartType = function(rhs) {
-            m_chartType = rhs;
-        };
+        public setChartType(rhs: csRptChartType) {
+            this.chartType = rhs;
+        }
 
-        self.getTop = function() {
-            return m_top;
-        };
+        public getTop() {
+            return this.top;
+        }
 
-        self.setTop = function(rhs) {
-            m_top = rhs;
-        };
+        public setTop(rhs: number) {
+            this.top = rhs;
+        }
 
-        self.getChartCreated = function() {
-            return m_chartCreated;
-        };
+        public getChartCreated() {
+            return this.chartCreated;
+        }
 
-        self.setChartCreated = function(rhs) {
-            m_chartCreated = rhs;
-        };
+        public setChartCreated(rhs: boolean) {
+            this.chartCreated = rhs;
+        }
 
-        self.getImage = function() {
-            return m_image;
-        };
+        public getImage() {
+            return this.image;
+        }
 
-        self.setImage = function(rhs) {
-            m_image = rhs;
-        };
+        public setImage(rhs: Image) {
+            this.image = rhs;
+        }
 
-        self.makeChartFromRs = function(rs, fileName) {
+        public makeChartFromRs(rs: DataTable, fileName: string) {
             cError.setSilent(true);
             return make(rs.Rows, "###,###,##0.00", true, fileName);
-        };
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Chart");
 
             if (nodeObj !== null) {
-                m_chartLineStyle = xDoc.getNodeProperty(nodeObj, "LineStyle").getValueInt(eTypes.eInteger);
-                m_chartBarOutline = xDoc.getNodeProperty(nodeObj, "BarOutline").getValueBool(eTypes.eBoolean);
-                m_chartShowValues = xDoc.getNodeProperty(nodeObj, "ShowValues").getValueBool(eTypes.eBoolean);
-                m_pieThickness = xDoc.getNodeProperty(nodeObj, "PieThickness").getValueInt(eTypes.eInteger);
-                m_pieDiameter = xDoc.getNodeProperty(nodeObj, "PieDiameter").getValueInt(eTypes.eInteger);
-                m_imageFormat = xDoc.getNodeProperty(nodeObj, "ImageFormat").getValueInt(eTypes.eInteger);
-                m_copyright = xDoc.getNodeProperty(nodeObj, "Copyright").getValueString(eTypes.eText);
-                m_chartTitle = xDoc.getNodeProperty(nodeObj, "ChartTitle").getValueString(eTypes.eText);
-                m_chartType = xDoc.getNodeProperty(nodeObj, "ChartType").getValueInt(eTypes.eInteger);
-                m_top = xDoc.getNodeProperty(nodeObj, "Top").getValueInt(eTypes.eInteger);
-                m_groupValue = xDoc.getNodeProperty(nodeObj, "GroupValue").getValueString(eTypes.eText);
-                m_groupFieldName = xDoc.getNodeProperty(nodeObj, "GroupFieldName").getValueString(eTypes.eText);
-                m_groupFieldIndex = xDoc.getNodeProperty(nodeObj, "GroupFieldIndex").getValueInt(eTypes.eInteger);
-                m_sort = xDoc.getNodeProperty(nodeObj, "Sort").getValueBool(eTypes.eBoolean);
+                this.chartLineStyle = xDoc.getNodeProperty(nodeObj, "LineStyle").getValueInt(eTypes.eInteger);
+                this.chartBarOutline = xDoc.getNodeProperty(nodeObj, "BarOutline").getValueBool(eTypes.eBoolean);
+                this.chartShowValues = xDoc.getNodeProperty(nodeObj, "ShowValues").getValueBool(eTypes.eBoolean);
+                this.pieThickness = xDoc.getNodeProperty(nodeObj, "PieThickness").getValueInt(eTypes.eInteger);
+                this.pieDiameter = xDoc.getNodeProperty(nodeObj, "PieDiameter").getValueInt(eTypes.eInteger);
+                this.imageFormat = xDoc.getNodeProperty(nodeObj, "ImageFormat").getValueInt(eTypes.eInteger);
+                this.copyright = xDoc.getNodeProperty(nodeObj, "Copyright").getValueString(eTypes.eText);
+                this.chartTitle = xDoc.getNodeProperty(nodeObj, "ChartTitle").getValueString(eTypes.eText);
+                this.chartType = xDoc.getNodeProperty(nodeObj, "ChartType").getValueInt(eTypes.eInteger);
+                this.top = xDoc.getNodeProperty(nodeObj, "Top").getValueInt(eTypes.eInteger);
+                this.groupValue = xDoc.getNodeProperty(nodeObj, "GroupValue").getValueString(eTypes.eText);
+                this.groupFieldName = xDoc.getNodeProperty(nodeObj, "GroupFieldName").getValueString(eTypes.eText);
+                this.groupFieldIndex = xDoc.getNodeProperty(nodeObj, "GroupFieldIndex").getValueInt(eTypes.eInteger);
+                this.sort = xDoc.getNodeProperty(nodeObj, "Sort").getValueBool(eTypes.eBoolean);
 
                 let nodeObjAux: XmlNode = null;
                 let nodeObjSerie: XmlNode = null;
@@ -233,71 +233,71 @@
             }
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Chart");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("LineStyle");
-            xProperty.setValue(eTypes.eInteger, m_chartLineStyle);
+            xProperty.setValue(eTypes.eInteger, this.chartLineStyle);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BarOutline");
-            xProperty.setValue(eTypes.eBoolean, m_chartBarOutline);
+            xProperty.setValue(eTypes.eBoolean, this.chartBarOutline);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ShowValues");
-            xProperty.setValue(eTypes.eBoolean, m_chartShowValues);
+            xProperty.setValue(eTypes.eBoolean, this.chartShowValues);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("PieThickness");
-            xProperty.setValue(eTypes.eInteger, m_pieThickness);
+            xProperty.setValue(eTypes.eInteger, this.pieThickness);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("PieDiameter");
-            xProperty.setValue(eTypes.eInteger, m_pieDiameter);
+            xProperty.setValue(eTypes.eInteger, this.pieDiameter);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ImageFormat");
-            xProperty.setValue(eTypes.eInteger, m_imageFormat);
+            xProperty.setValue(eTypes.eInteger, this.imageFormat);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Copyright");
-            xProperty.setValue(eTypes.eText, m_copyright);
+            xProperty.setValue(eTypes.eText, this.copyright);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ChartTitle");
-            xProperty.setValue(eTypes.eText, m_chartTitle);
+            xProperty.setValue(eTypes.eText, this.chartTitle);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ChartType");
-            xProperty.setValue(eTypes.eInteger, m_chartType);
+            xProperty.setValue(eTypes.eInteger, this.chartType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Top");
-            xProperty.setValue(eTypes.eInteger, m_top);
+            xProperty.setValue(eTypes.eInteger, this.top);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("GroupFieldName");
-            xProperty.setValue(eTypes.eText, m_groupFieldName);
+            xProperty.setValue(eTypes.eText, this.groupFieldName);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("GroupFieldIndex");
-            xProperty.setValue(eTypes.eInteger, m_groupFieldIndex);
+            xProperty.setValue(eTypes.eInteger, this.groupFieldIndex);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("GroupValue");
-            xProperty.setValue(eTypes.eText, m_groupValue);
+            xProperty.setValue(eTypes.eText, this.groupValue);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Sort");
-            xProperty.setValue(eTypes.eBoolean, m_sort);
+            xProperty.setValue(eTypes.eBoolean, this.sort);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Series");
@@ -306,16 +306,16 @@
             let serie: cReportChartSerie = null;
             let index: number = 0;
 
-            for(var _i = 0; _i < m_series.count(); _i++) {
-                serie = m_series.item(_i);
+            for(var _i = 0; _i < this.series.count(); _i++) {
+                serie = this.series.item(_i);
                 index = index + 1;
                 serie.save(xDoc, nodeObj, index);
             }
 
             return true;
-        };
+        }
 
-        self.make = function(rows, strFormat, bIsForWeb, fileName) {
+        public make(rows: DataRowCollection, strFormat: string, bIsForWeb: boolean, fileName: string) {
             // we need to delete any previous work image
             //
             pDestroyImage();
@@ -326,29 +326,29 @@
 
             let chart: cWebChart = new cWebChart();
 
-            chart.newChartType(m_chartType, m_chartTitle);
+            chart.newChartType(this.chartType, this.chartTitle);
 
             pFill(chart, rows, strFormat);
 
-            chart.setColorPrimary(m_series.item(0).getColor());
-            chart.setLabelPrimary(cReportGlobals.getRealName(m_series.item(0).getValueFieldName()));
-            if (m_series.count() > 1) {
-                chart.setColorAlternate(m_series.item(1).getColor());
-                chart.setLabelAlternate(cReportGlobals.getRealName(m_series.item(1).getValueFieldName()));
+            chart.setColorPrimary(this.series.item(0).getColor());
+            chart.setLabelPrimary(cReportGlobals.getRealName(this.series.item(0).getValueFieldName()));
+            if (this.series.count() > 1) {
+                chart.setColorAlternate(this.series.item(1).getColor());
+                chart.setLabelAlternate(cReportGlobals.getRealName(this.series.item(1).getValueFieldName()));
             }
-            chart.setGridLines(m_chartLineStyle);
-            chart.setOutlineBars(m_chartBarOutline);
-            chart.setShowValues(m_chartShowValues);
-            chart.setShowLegend((m_chartType === csRptChartType.BAR) ? false : m_chartShowValues);
+            chart.setGridLines(this.chartLineStyle);
+            chart.setOutlineBars(this.chartBarOutline);
+            chart.setShowValues(this.chartShowValues);
+            chart.setShowLegend((this.chartType === csRptChartType.BAR) ? false : this.chartShowValues);
 
-            chart.setThickness(m_pieThickness);
-            chart.setDiameter(m_pieDiameter);
+            chart.setThickness(this.pieThickness);
+            chart.setDiameter(this.pieDiameter);
 
             if (!bIsForWeb) {
                 fileName = cUtil.getValidPath(System.IO.Path.GetTempPath()) + "~ChartImage";
             }
 
-            chart.setFormat(m_imageFormat);
+            chart.setFormat(this.imageFormat);
 
             // saveToFile
             chart.setSaveTo(1);
@@ -356,22 +356,22 @@
 
             pKillFile(fileName);
 
-            chart.setCopyRight(m_copyright);
+            chart.setCopyRight(this.copyright);
             chart.renderWebChartImage();
 
             if (!bIsForWeb) {
                 loadChart(fileName);
             }
 
-            m_chartCreated = true;
+            this.chartCreated = true;
             return true;
 
             chart.Dispose();
-        };
+        }
 
-        const pGetExt = function() {
+        private pGetExt() {
             let _rtn: string = "";
-            switch (m_imageFormat)
+            switch (this.imageFormat)
             {
                 case csRptChartFormat.BMP:
                     _rtn = ".bmp";
@@ -387,14 +387,14 @@
                     break;
             }
             return _rtn;
-        };
+        }
 
-        const pKillFile = function(fileName) {
+        private pKillFile(fileName: string) {
             try { File.Delete(fileName); }
             catch  (ex) { }
-        };
+        }
 
-        const loadChart = function(fileName) {
+        private loadChart(fileName: string) {
             // we need to delete any previous work image
             //
             pDestroyImage();
@@ -402,18 +402,18 @@
             if (fileName.Length > 0) {
                 let image: Image = Image.FromFile(fileName);
             }
-        };
+        }
 
-        const pDestroyImage = function() {
-            m_chartCreated = false;
-        };
+        private pDestroyImage() {
+            this.chartCreated = false;
+        }
 
-        const pGetSerieValues = function(
-            rows, 
-            v, 
-            valueIndex, 
-            labelIndex, 
-            bOthers) {
+        private pGetSerieValues(
+            rows: DataRowCollection
+            v: t_SerieValue[]
+            valueIndex: number
+            labelIndex: number
+            bOthers: boolean) {
             let i: number = 0;
             let j: number = 0;
             let q: number = 0;
@@ -422,10 +422,10 @@
             let bCompare: boolean = false;
             let newTop: number = 0;
 
-            if (m_groupFieldIndex >= 0) {
+            if (this.groupFieldIndex >= 0) {
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                 for (j = 0; j < rows.Count; j++) {
-                    if (cReportGlobals.valVariant(rows[j][m_groupFieldIndex]) === m_groupValue) {
+                    if (cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                         newTop++;
                     }
                 }
@@ -437,13 +437,13 @@
                 }
             }
 
-            if (m_sort) {
+            if (this.sort) {
 
-                if (m_groupFieldIndex >= 0) {
+                if (this.groupFieldIndex >= 0) {
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                     for (j = 0; j < rows.Count; j++) {
 
-                        if (cReportGlobals.valVariant(rows[j][m_groupFieldIndex]) === m_groupValue) {
+                        if (cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                             v[0].value = cReportGlobals.valVariant(rows[j][valueIndex]);
                             v[0].label = cReportGlobals.valVariant(rows[j][labelIndex]);
                             v[0].idx = j;
@@ -460,8 +460,8 @@
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                 for (j = 0; j < rows.Count; j++) {
 
-                    if (m_groupFieldIndex >= 0) {
-                        bCompare = cReportGlobals.valVariant(rows[j][m_groupFieldIndex]) === m_groupValue;
+                    if (this.groupFieldIndex >= 0) {
+                        bCompare = cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
                     }
                     else {
                         bCompare = true;
@@ -484,8 +484,8 @@
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                     for (j = 0; j < rows.Count; j++) {
 
-                        if (m_groupFieldIndex >= 0) {
-                            bCompare = cReportGlobals.valVariant(rows[j][m_groupFieldIndex]) === m_groupValue;
+                        if (this.groupFieldIndex >= 0) {
+                            bCompare = cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
                         }
                         else {
                             bCompare = true;
@@ -520,8 +520,8 @@
                 i = 0;
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                 for (j = 0; j < rows.Count; j++) {
-                    if (m_groupFieldIndex >= 0) {
-                        if (cReportGlobals.valVariant(rows[j][m_groupFieldIndex]) === m_groupValue) {
+                    if (this.groupFieldIndex >= 0) {
+                        if (cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                             if (pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
                         }
                     }
@@ -540,8 +540,8 @@
                         n = v.Length + 1;
                         // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                         for (j = 0; j < rows.Count; j++) {
-                            if (m_groupFieldIndex >= 0) {
-                                if (cReportGlobals.valVariant(rows[j][m_groupFieldIndex]) === m_groupValue) {
+                            if (this.groupFieldIndex >= 0) {
+                                if (cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                                     if (k >= n) {
                                         if (bHaveToRedim) {
                                             pRedimPreserve(v, n);
@@ -565,16 +565,16 @@
                     }
                 }
             }
-        };
+        }
 
-        const pGetSerieValuesAux = function(
-            rows, 
-            v, 
-            valueIndex, 
-            labelIndex, 
-            i, 
-            j, 
-            bAdd) {
+        private pGetSerieValuesAux(
+            rows: DataRowCollection
+            v: t_SerieValue[]
+            valueIndex: number
+            labelIndex: number
+            i: number
+            j: number
+            bAdd: boolean) {
             if (bAdd) {
                 v[i].value = v[i].value + cReportGlobals.valVariant(rows[j][valueIndex]);
             }
@@ -585,30 +585,30 @@
             v[i].idx = j;
             i = i + 1;
             return i > v.Length;
-        };
+        }
 
-        const pFill = function(chart, rows, strFormat) {
+        private pFill(chart: cWebChart, rows: DataRowCollection, strFormat: string) {
             let i: number = 0;
             let values: t_SerieValue[] = null;
             let serie: cReportChartSerie = null;
             let idxSerie: number = 0;
 
-            if (m_top === 0) { m_top = 50; }
+            if (this.top === 0) { this.top = 50; }
 
             // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
             if (rows.Count < 0) { return; }
 
             // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-            if (rows.Count < m_top) {
+            if (rows.Count < this.top) {
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                 pRedim(values, rows.Count);
             } 
             else {
-                pRedim(values, m_top - 1);
+                pRedim(values, this.top - 1);
             }
 
-            for(var _i = 0; _i < m_series.count(); _i++) {
-                serie = m_series.item(_i);
+            for(var _i = 0; _i < this.series.count(); _i++) {
+                serie = this.series.item(_i);
 
                 // At the time we only support two series
                 //
@@ -619,7 +619,7 @@
                                 values, 
                                 serie.getValueIndex(), 
                                 serie.getLabelIndex(), 
-                                m_chartType === csRptChartType.PIE);
+                                this.chartType === csRptChartType.PIE);
 
                 for (i = 0; i < values.Length; i++) {
 
@@ -640,7 +640,7 @@
                     }
                 }
 
-                if ( && m_chartType === csRptChartType.PIE) {
+                if ( && this.chartType === csRptChartType.PIE) {
 
                     let w_item: cWebChartItem = chart.getItems().item(chart.getItems().count()-1);
                     w_item.setPrimaryLabel("Otros");
@@ -652,18 +652,18 @@
             if (chart.getItems().count() > 0) {
                 chart.getItems().item(0).setExplode(true);
             }
-        };
+        }
 
-        const pRedimPreserve = function(vSeries, size) {
+        private pRedimPreserve(vSeries: t_SerieValue[], size: number) {
             if (size === 0) {
                 vSeries = null;
             }
             else {
                 if (vSeries === null) {
-                    vSeries = UNKNOWN >>  can't find constructor for class t_SerieValue[size];
+                    vSeries = new t_SerieValue[size];
                 }
                 else if (vSeries.Length === 0) {
-                    vSeries = UNKNOWN >>  can't find constructor for class t_SerieValue[size];
+                    vSeries = new t_SerieValue[size];
                 }
                 else {
                     let newArray: t_SerieValue[] = new t_SerieValue[size];
@@ -671,38 +671,27 @@
                     vSeries = newArray;
                 }
             }
-        };
+        }
 
-        const pRedim = function(vSeries, size) {
+        private pRedim(vSeries: t_SerieValue[], size: number) {
             if (size === 0) {
                 vSeries = null;
             }
             else {
-                vSeries = UNKNOWN >>  can't find constructor for class t_SerieValue[size];
+                vSeries = new t_SerieValue[size];
             }
-        };
+        }
 
-        const createT_SerieValue = function() {
+        export class t_SerieValue {
 
-            // @ts-ignore
-            let self: CSReportDll.It_SerieValue = {};
-            self.label: string = null;
-            self.value: number = null;
-            self.idx: number = null;
-        };
 
-        return self;
+        {
+            public label: string = null;
+            public value: number = null;
+            public idx: number = null;
+        }
+
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportDll {
-
-  export interface It_SerieValue {
-
-    label;: string;
-    value;: number;
-    idx;: number;
-  }
 }

@@ -1,25 +1,25 @@
-(function(globalObject) {
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFControls = function() {
+﻿namespace CSReportEditor
+{
+    export class fControls {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfControls = {};
+
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer = null;
+        private components: System.ComponentModel.IContainer = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self.Dispose = function(disposing) {
+        public Dispose(disposing: boolean) {
             if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
-        };
+        }
 
 UNKNOWN >>         #region Windows Form Designer generated code
 
@@ -27,23 +27,14 @@ UNKNOWN >>         #region Windows Form Designer generated code
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        const InitializeComponent = function() {
-            this.components = UNKNOWN >>  can't find constructor for class System.ComponentModel.Container();
+        private InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Text = "fControls";
-        };
+        }
 
 UNKNOWN >>         #endregion
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfControls {
-
-    Dispose: (bool) => void;
-  }
 }

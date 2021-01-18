@@ -1,50 +1,38 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportFormulaInt = function() {
+namespace CSReportDll
+{
+    export class cReportFormulaInt {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportFormulaInt = {};
 
-        const C_MODULE: string = "cReportFormulaInt";
+    {
 
-        let m_variables: cReportVariables = new cReportVariables();
-        let m_parameters: cReportFormulaParameters = new cReportFormulaParameters();
-        let m_formulaType: csRptFormulaType = 0;
+        private C_MODULE: string = "cReportFormulaInt";
 
-        self.getVariables = function() {
-            return m_variables;
-        };
+        private variables: cReportVariables = new cReportVariables();
+        private parameters: cReportFormulaParameters = new cReportFormulaParameters();
+        private formulaType: csRptFormulaType = 0;
 
-        self.getParameters = function() {
-            return m_parameters;
-        };
+        public getVariables() {
+            return this.variables;
+        }
 
-        self.getFormulaType = function() {
-            return m_formulaType;
-        };
+        public getParameters() {
+            return this.parameters;
+        }
 
-        self.setFormulaType = function(rhs) {
-            m_formulaType = rhs;
-        };
+        public getFormulaType() {
+            return this.formulaType;
+        }
 
-        return self;
+        public setFormulaType(rhs: csRptFormulaType) {
+            this.formulaType = rhs;
+        }
+
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportFormulaInt {
-
-    getVariables: () => cReportVariables;
-    getParameters: () => cReportFormulaParameters;
-    getFormulaType: () => csRptFormulaType;
-    setFormulaType: (csRptFormulaType) => void;
-  }
 }

@@ -1,41 +1,41 @@
-(function(globalObject) {
 
-    globalObject.CSReportWebServer = globalObject.CSReportWebServer || {};
 
+namespace CSReportWebServer
+{
     /// <summary>
     /// Native Messaging Host.
     /// </summary>
-    globalObject.CSReportWebServer.createHost = function() {
+    export class Host {
 
-        // @ts-ignore
-        let self: CSReportWebServer.IHost = {};
-        let ILog: static log = LogManager.GetLogger(typeof(Host));
 
-        let stop: ManualResetEvent = null;
-        let port: Port = null;
+    {
+        private ILog: static log = LogManager.GetLogger(typeof(Host));
 
-        let m_f: fMain = null;
-        let m_messageQueue: SizeQueue = null;
-        let m_partialMessages: Dictionary = new Dictionary();
+        private stop: ManualResetEvent = null;
+        private port: Port = null;
 
-        const C_EXTENSION_NAME: string = "CSReportWebServer.Echo";
+        private f: fMain = null;
+        private messageQueue: SizeQueue = null;
+        private partialMessages: Dictionary = new Dictionary();
+
+        private C_EXTENSION_NAME: string = "CSReportWebServer.Echo";
 
         /// <summary>
         /// Creates a new instance of native messaging host.
         /// </summary>
-        const Host = function(f, messageQueue) {
-            port = globalObject.CSReportWebServer.NativeMessaging.createPort();
-            stop = UNKNOWN >>  can't find constructor for class ManualResetEvent(false);
-            m_f = f;
-            m_messageQueue = messageQueue;
-        };
+        public constructor(f: fMain, messageQueue: SizeQueue<JObject>) {
+            port = new Port();
+            stop = new ManualResetEvent(false);
+            this.f = f;
+            this.messageQueue = messageQueue;
+        }
 
         /// <summary>
         /// Starts native message processing.
         /// </summary>
-        self.Run = function() {
+        public Run() {
             log.Info("host started 0.0.0.1");
-            m_f.log("host started");
+            this.f.log("host started");
 
             stop.Reset();
             while (!stop.WaitOne(0)) {
@@ -50,7 +50,7 @@
                     // log
                     //
                     log.DebugFormat("request message\n{0}", message);
-                    m_f.log("request message " + message);
+                    this.f.log("request message " + message);
 
                     let request: JObject = JObject.Parse(message);
 
@@ -66,7 +66,7 @@
                     if (request["source"] !== null) reply["source"] = request["destination"]; {
                     if (request["destination"] !== null) reply["destination"] = request["source"]; {
 
-                    reply["message"] = UNKNOWN >>  can't find constructor for class JObject();
+                    reply["message"] = new JObject();
                     reply["message"]["id"] = request["id"];
 
                     // identify service
@@ -78,7 +78,7 @@
                     // log
                     //
                     log.DebugFormat("reply message\n{0}", message);
-                    m_f.log(message);
+                    this.f.log(message);
 
                     //
                     // send response
@@ -99,7 +99,7 @@
 
                 // process messages from CSReports
                 //
-                JObject jMessage = m_messageQueue.Dequeue();
+                JObject jMessage = this.messageQueue.Dequeue();
 
                 while (jMessage !== null)
                 {
@@ -112,20 +112,20 @@
                     // log
                     //
                     log.DebugFormat("reply message\n{0}", message);
-                    m_f.log(message);
+                    this.f.log(message);
 
                     //
                     // send message
                     //
                     port.Write(message);
 
-                    jMessage = m_messageQueue.Dequeue();
+                    jMessage = this.messageQueue.Dequeue();
                 }
             }
 
             log.Info("host stopped");
-            m_f.log("host stopped");
-            m_f.close();
+            this.f.log("host stopped");
+            this.f.close();
         }
 
         /// <summary>
@@ -145,16 +145,16 @@
             if (action.StartsWith("__PARTIAL_MESSAGE__"))
             {
                 var p = "";
-                if (m_partialMessages.ContainsKey(id))
+                if (this.partialMessages.ContainsKey(id))
                 {
-                    p = m_partialMessages[id];
+                    p = this.partialMessages[id];
                 }
                 p += request["message"]["data"];
-                m_partialMessages[id] = p;
+                this.partialMessages[id] = p;
             }
             else
             {
-                if (m_partialMessages.ContainsKey(id))
+                if (this.partialMessages.ContainsKey(id))
                 {
                     request["message"]["data"] = JObject.Parse(.ToString());
                 }
@@ -180,25 +180,25 @@
 
         private void previewReport(JObject request)
         {
-            m_f.preview(request);
+            this.f.preview(request);
         }
 
         private void printReport(JObject request)
         {
-            m_f.printReport(request);
+            this.f.printReport(request);
         }
 
         private void moveToPage(JObject request)
         {
-            m_f.moveToPage(request);
+            this.f.moveToPage(request);
         }
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public class SizeQueue<T>    public class SizeQueue<T>
     {
@@ -228,26 +228,8 @@
                 return item;
             }
         }
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportWebServer {
-
-  export interface IHost {
-
-    Run: () => void;
-  }
 }
-);
 
-
-namespace CSReportWebServer {
-
-  export interface IHost {
-
-    Run: () => void;
-  }
-}

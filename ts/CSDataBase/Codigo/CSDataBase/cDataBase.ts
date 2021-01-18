@@ -1,4 +1,4 @@
-(function(globalObject) {
+
 
 // http://msdn.microsoft.com/en-us/library/8627sbea%28VS.71%29.aspx
 //
@@ -7,48 +7,48 @@
 // http://msdn.microsoft.com/en-us/library/haa3afyz%28v=vs.71%29.aspx#Y1763
 // public delegate void OpenRsProgress();
 
-    globalObject.CSDataBase = globalObject.CSDataBase || {};
+namespace CSDataBase
+{
+
+    export class cDataBase {
 
 
-    globalObject.CSDataBase.createCDataBase = function() {
+    {
+        private c_module: string = "cDataBase";
+        private c_ErrorSqlInfoAdd: string = "@@ErrorSqlInfoAdd@@";
 
-        // @ts-ignore
-        let self: CSDataBase.IcDataBase = {};
-        const c_module: string = "cDataBase";
-        const c_ErrorSqlInfoAdd: string = "@@ErrorSqlInfoAdd@@";
+        private ocn: DbConnection = null;
+        private otxn: DbTransaction = null;
+        private connect: string = "";
 
-        let m_ocn: DbConnection = null;
-        let m_otxn: DbTransaction = null;
-        let m_connect: string = "";
+        private ors: DbDataReader = null;
+        private eofField: boolean = false;
+        private nextField: number = 0;
+        private fieldType: eFieldType = null;
 
-        let m_ors: DbDataReader = null;
-        let m_eofField: boolean = false;
-        let m_nextField: number = 0;
-        let m_fieldType: eFieldType = null;
+        private userId: number = 0;
+        private transactionLevel: number = 0;
 
-        let m_userId: number = 0;
-        let m_transactionLevel: number = 0;
+        private serverName: string = "";
+        private userName: string = "";
+        private password: string = "";
 
-        let m_serverName: string = "";
-        let m_userName: string = "";
-        let m_password: string = "";
+        private originalStrConnect: string = "";
 
-        let m_originalStrConnect: string = "";
+        private openRsCancel: boolean = false;
+        private openRsExDescript: string = "";
 
-        let m_openRsCancel: boolean = false;
-        let m_openRsExDescript: string = "";
+        private commandTimeout: number = 180;
+        private connectionTimeout: number = 180;
 
-        let m_commandTimeout: number = 180;
-        let m_connectionTimeout: number = 180;
+        private maxTryOpenRs: number = 2;
+        private maxTryExecute: number = 2;
 
-        let m_maxTryOpenRs: number = 2;
-        let m_maxTryExecute: number = 2;
+        private lastDbError: string = "";
 
-        let m_lastDbError: string = "";
+        private eof: boolean = false;
 
-        let m_eof: boolean = false;
-
-        let m_databaseEngine: csDatabaseEngine = csDatabaseEngine.SQL_SERVER;
+        private databaseEngine: csDatabaseEngine = csDatabaseEngine.SQL_SERVER;
 
 //         public event OpenRsProgress openRsProgress;
 
@@ -56,86 +56,86 @@ UNKNOWN >>         public bool silent
         {
 UNKNOWN >>             get { return cDatabaseGlobals.Silent; }
 UNKNOWN >>             set { cDatabaseGlobals.Silent = value; }
-        };
+        }
 
-        self.setSilent = function(rhs) {
+        public setSilent(rhs: boolean) {
             cDatabaseGlobals.Silent = rhs;
-        };
+        }
 
 UNKNOWN >>         public bool dbIsOpen
         {
 UNKNOWN >>             get
             {
-                if (m_ocn === null) {
+                if (this.ocn === null) {
                     return false;
                 }
                 else {
-                    return m_ocn.State === ConnectionState.Open;
+                    return this.ocn.State === ConnectionState.Open;
                 }
             }
         }
 
 UNKNOWN >>         public int commandTimeout
         {
-UNKNOWN >>             get { return m_commandTimeout; }
-UNKNOWN >>             set { m_commandTimeout = value; }
+UNKNOWN >>             get { return this.commandTimeout; }
+UNKNOWN >>             set { this.commandTimeout = value; }
         }
 
-        self.setCommandTimeout = function(rhs) {
-            m_commandTimeout = rhs;
-        };
+        public setCommandTimeout(rhs: number) {
+            this.commandTimeout = rhs;
+        }
 
 UNKNOWN >>         public int connectionTimeout
         {
-UNKNOWN >>             get { return m_connectionTimeout; }
-UNKNOWN >>             set { m_connectionTimeout = value; }
+UNKNOWN >>             get { return this.connectionTimeout; }
+UNKNOWN >>             set { this.connectionTimeout = value; }
         }
 
-        self.setConnectionTimeout = function(rhs) {
-            m_connectionTimeout = rhs;
-        };
+        public setConnectionTimeout(rhs: number) {
+            this.connectionTimeout = rhs;
+        }
 
 UNKNOWN >>         public bool openRsCancel
         {
-UNKNOWN >>             get { return m_openRsCancel; }
-UNKNOWN >>             set { m_openRsCancel = value; }
+UNKNOWN >>             get { return this.openRsCancel; }
+UNKNOWN >>             set { this.openRsCancel = value; }
         }
 
 UNKNOWN >>         public string originalStrConnect
         {
-UNKNOWN >>             get { return m_originalStrConnect; }
-UNKNOWN >>             set { m_originalStrConnect = value; }
+UNKNOWN >>             get { return this.originalStrConnect; }
+UNKNOWN >>             set { this.originalStrConnect = value; }
         }
 
 UNKNOWN >>         public int userId
         {
-UNKNOWN >>             get { return m_userId; }
-UNKNOWN >>             set { m_userId = value; }
+UNKNOWN >>             get { return this.userId; }
+UNKNOWN >>             set { this.userId = value; }
         }
 
 UNKNOWN >>         public int transactionLevel
         {
-UNKNOWN >>             get { return m_transactionLevel; }
+UNKNOWN >>             get { return this.transactionLevel; }
         }
 
 UNKNOWN >>         public DbDataReader ors
         {
 UNKNOWN >>             set
             {
-                m_ors = value;
-                m_eofField = false;
-                m_nextField = 0;
+                this.ors = value;
+                this.eofField = false;
+                this.nextField = 0;
             }
         }
 
 UNKNOWN >>         public bool eof
         {
-UNKNOWN >>             get { return m_eof; }
+UNKNOWN >>             get { return this.eof; }
         }
 
 UNKNOWN >>         public bool eofField
         {
-UNKNOWN >>             get { return m_eofField; }
+UNKNOWN >>             get { return this.eofField; }
         }
 
 UNKNOWN >>         public CSOAPI.eServerVersion serverVersion
@@ -143,7 +143,7 @@ UNKNOWN >>         public CSOAPI.eServerVersion serverVersion
 UNKNOWN >>             get
             {
                 let ver: string = "";
-                ver = m_ocn.ServerVersion;
+                ver = this.ocn.ServerVersion;
 
                 // TODO: this code is for sql server and the "Access if" don't work
                 //       in this version
@@ -165,18 +165,18 @@ UNKNOWN >>             get
 
 UNKNOWN >>         public eFieldType fieldType
         {
-UNKNOWN >>             get { return m_fieldType; }
+UNKNOWN >>             get { return this.fieldType; }
         }
 
 UNKNOWN >>         public string strConnect
         {
 UNKNOWN >>             get
             {
-                if (m_ocn === null) {
+                if (this.ocn === null) {
                     return "";
                 }
                 else {
-                    return m_ocn.ConnectionString;
+                    return this.ocn.ConnectionString;
                 }
             }
         }
@@ -185,8 +185,8 @@ UNKNOWN >>         public string dbName
         {
 UNKNOWN >>             get
             {
-                if (m_ocn !== null) {
-                    return m_ocn.Database;
+                if (this.ocn !== null) {
+                    return this.ocn.Database;
                 }
                 else {
                     return "";
@@ -196,48 +196,48 @@ UNKNOWN >>             get
 
 UNKNOWN >>         public string serverName
         {
-UNKNOWN >>             get { return m_serverName; }
+UNKNOWN >>             get { return this.serverName; }
         }
 
 UNKNOWN >>         public string openRsExDescript
         {
-UNKNOWN >>             get { return m_openRsExDescript; }
-UNKNOWN >>             set { m_openRsExDescript = value; }
+UNKNOWN >>             get { return this.openRsExDescript; }
+UNKNOWN >>             set { this.openRsExDescript = value; }
         }
 
-        self.setOpenRsExDescript = function(rhs) {
-            m_openRsExDescript = rhs;
-        };
+        public setOpenRsExDescript(rhs: string) {
+            this.openRsExDescript = rhs;
+        }
 
 UNKNOWN >>         public int maxTryOpenRs
         {
-UNKNOWN >>             get { return m_maxTryOpenRs; }
-UNKNOWN >>             set { m_maxTryOpenRs = value; }
+UNKNOWN >>             get { return this.maxTryOpenRs; }
+UNKNOWN >>             set { this.maxTryOpenRs = value; }
         }
 
 UNKNOWN >>         public int maxTryExecute
         {
-UNKNOWN >>             get { return m_maxTryExecute; }
-UNKNOWN >>             set { m_maxTryExecute = value; }
+UNKNOWN >>             get { return this.maxTryExecute; }
+UNKNOWN >>             set { this.maxTryExecute = value; }
         }
 
 UNKNOWN >>         public string lastDbError
         {
-UNKNOWN >>             get { return m_lastDbError; }
+UNKNOWN >>             get { return this.lastDbError; }
         }
 
 UNKNOWN >>         public string password
         {
-UNKNOWN >>             get { return m_password; }
+UNKNOWN >>             get { return this.password; }
         }
 
-        self.saveSp = function(sqlstmt, ) {
+        public saveSp(sqlstmt: string) {
                            DbDataReader ors)
         {
             return saveSp(sqlstmt, ors, -1, "", "", "Error", 0);
-        };
+        }
 
-        self.saveSp = function(sqlstmt, ) {
+        public saveSp(sqlstmt: string) {
                            DbDataReader ors,
                            int timeout,
                            string function,
@@ -246,14 +246,14 @@ UNKNOWN >>             get { return m_password; }
                            eErrorLevel level)
         {
 
-            let oldCommandTimeout: number = m_commandTimeout;
+            let oldCommandTimeout: number = this.commandTimeout;
             if (timeout !== -1) {
-                m_commandTimeout = timeout;
+                this.commandTimeout = timeout;
             }
             let rtn: boolean = openRs(sqlstmt, ors, function, module, title, level);
-            m_commandTimeout = oldCommandTimeout;
+            this.commandTimeout = oldCommandTimeout;
             return rtn;
-        };
+        }
 
         // list of sql schema names
         // https://msdn.microsoft.com/en-us/library/ms254969(v=vs.110).aspx
@@ -261,32 +261,32 @@ UNKNOWN >>             get { return m_password; }
         // how to create restriction array
         // https://msdn.microsoft.com/en-us/library/ms136366(v=vs.110).aspx
         //
-        self.openSchema = function() {
-            return m_ocn.GetSchema();
-        };
+        public openSchema() {
+            return this.ocn.GetSchema();
+        }
 
-        self.openSchema = function(collectionName) {
-            return m_ocn.GetSchema(collectionName);
-        };
+        public openSchema(collectionName: string) {
+            return this.ocn.GetSchema(collectionName);
+        }
 
-        self.openSchema = function(collectionName, restrinctionValues) {
-            return m_ocn.GetSchema(collectionName, restrinctionValues);
-        };
+        public openSchema(collectionName: string, restrinctionValues: string[]) {
+            return this.ocn.GetSchema(collectionName, restrinctionValues);
+        }
 
-        self.initDb = function(connect) {
+        public initDb(connect: string) {
             return initDbEx("", "", "", "", connect, false);
-        };
+        }
 
-        self.initDb = function(nameDb, ) {
+        public initDb(nameDb: string) {
                            string server,
                            string user,
                            string password,
                            string connect)
         {
             return initDbEx(nameDb, server, user, password, connect, false);
-        };
+        }
 
-        self.initDbEx = function(nameDb, ) {
+        public initDbEx(nameDb: string) {
                              string server,
                              string user,
                              string password,
@@ -296,25 +296,25 @@ UNKNOWN >>             get { return m_password; }
             let mouseWait: cMouseWait = new cMouseWait();
             try {
                 closeDb();
-                if (m_ocn === null) {
-                    m_ocn = createConnection();
+                if (this.ocn === null) {
+                    this.ocn = createConnection();
                 }
-                m_originalStrConnect = connect;
+                this.originalStrConnect = connect;
                 if (connect === "") {
                     connect = string.Format("Data Source={0};User Id={1};Password={2};Integrated Security=no;",
                                             server,
                                             user,
                                             password);
-                    m_serverName = server;
-                    m_userName = user;
-                    m_password = password;
+                    this.serverName = server;
+                    this.userName = user;
+                    this.password = password;
                 }
                 else {
-                    m_serverName = cUtil.getToken(connect, "Data Source=");
-                    m_userName = cUtil.getToken(connect, "User=");
-                    m_password = cUtil.getToken(connect, "Password=");
+                    this.serverName = cUtil.getToken(connect, "Data Source=");
+                    this.userName = cUtil.getToken(connect, "User=");
+                    this.password = cUtil.getToken(connect, "Password=");
                 }
-                m_connect = connect;
+                this.connect = connect;
                 pConnect();
                 return true;
             }
@@ -326,9 +326,9 @@ UNKNOWN >>             finally
             {
                 mouseWait.Dispose();
             }
-        };
+        }
 
-        self.addNew = function(dt, dr) {
+        public addNew(dt: DataTable, dr: DataRow) {
             dr = null;
             try {
                 dr = dt.NewRow();
@@ -338,9 +338,9 @@ UNKNOWN >>             finally
                 cError.mngError(ex, "addNew", c_module, "");
                 return false;
             }
-        };
+        }
 
-        self.update = function(dr, dt, da) {
+        public update(dr: DataRow, dt: DataTable, da: DbDataAdapter) {
             try {
                 dt.Rows.Add(dr);
                 da.Update(dt);
@@ -350,9 +350,9 @@ UNKNOWN >>             finally
                 cError.mngError(ex, "update", c_module, "");
                 return false;
             }
-        };
+        }
 
-        self.delete = function(dr, dt, da) {
+        public delete(dr: DataRow, dt: DataTable, da: DbDataAdapter) {
             try {
                 dt.Rows.Remove(dr);
                 da.Update(dt);
@@ -362,9 +362,9 @@ UNKNOWN >>             finally
                 cError.mngError(ex, "delete", c_module, "");
                 return false;
             }
-        };
+        }
 
-        self.openRsEx = function(showWindowCancel, ) {
+        public openRsEx(showWindowCancel: boolean) {
                              bool raiseProgressEvent,
                              bool showModal,
                              string sqlstmt,
@@ -378,9 +378,9 @@ UNKNOWN >>             finally
                             "",
                             "",
                             "");
-        };
+        }
 
-        self.loadDataTables = function(showWindowCancel, ) {
+        public loadDataTables(showWindowCancel: boolean) {
                                      bool raiseProgressEvent,
                                      bool showModal,
                                      string sqlstmt,
@@ -398,7 +398,7 @@ UNKNOWN >>             DbDataReader ors;
                             function,
                             module,
                             title)) {
-                dt = UNKNOWN >>  can't find constructor for class List();
+                dt = new List();
                 let o: var = new DataTable();
                 o.Load(ors);
                 dt.Add(o);
@@ -408,9 +408,9 @@ UNKNOWN >>             DbDataReader ors;
                 dt = null;
                 return false;
             }
-        };
+        }
 
-        self.loadDataTable = function(showWindowCancel, ) {
+        public loadDataTable(showWindowCancel: boolean) {
                                      bool raiseProgressEvent,
                                      bool showModal,
                                      string sqlstmt,
@@ -430,7 +430,7 @@ UNKNOWN >>             DbDataReader ors;
                             module,
                             title)) {
                 dr = ors;
-                dt = UNKNOWN >>  can't find constructor for class DataTable();
+                dt = new DataTable();
                 dt.Load(ors);
                 return true;
             }
@@ -439,9 +439,9 @@ UNKNOWN >>             DbDataReader ors;
                 dr = null;
                 return false;
             }
-        };
+        }
 
-        self.openRsEx = function(showWindowCancel, ) {
+        public openRsEx(showWindowCancel: boolean) {
                              bool raiseProgressEvent,
                              bool showModal,
                              string sqlstmt,
@@ -470,9 +470,9 @@ UNKNOWN >>             DbDataReader ors;
                     if (showWindowCancel && seconds > 200) {
                         // show the cancel dialog
                         if (!cancelDialogShowed) {
-                            f = globalObject.CSDataBase.createFCancelQuery();
-                            if (m_openRsExDescript !== "") {
-                                f.descript = "Getting data for: " + m_openRsExDescript;
+                            f = new fCancelQuery();
+                            if (this.openRsExDescript !== "") {
+                                f.descript = "Getting data for: " + this.openRsExDescript;
                             }
                             f.Show();
                             cancelDialogShowed = true;
@@ -519,14 +519,14 @@ UNKNOWN >>             finally
             {
                 f = null;
             }
-        };
+        }
 
-        self.asyncOpenRsEx = function(sqlstmt) {
+        public asyncOpenRsEx(sqlstmt: string) {
             let ocmd: DbCommand = createCommand(sqlstmt);
             return ocmd.ExecuteReader(CommandBehavior.Default);
-        };
+        }
 
-        self.openRs = function(sqlstmt, ) {
+        public openRs(sqlstmt: string) {
                            DbDataReader ors,
                            string function,
                            string module,
@@ -536,21 +536,21 @@ UNKNOWN >>             finally
             let tryCount: number = 0;
             ors = null;
 
-            while (tryCount < m_maxTryOpenRs) {
+            while (tryCount < this.maxTryOpenRs) {
                 if (pOpenRs(sqlstmt,
                             ors,
                             function,
                             module,
                             title,
                             level,
-                            tryCount === m_maxTryOpenRs)) {
+                            tryCount === this.maxTryOpenRs)) {
                     return true;
                 }
             }
             return false;
-        };
+        }
 
-        const pOpenRs = function(sqlstmt, ) {
+        private pOpenRs(sqlstmt: string) {
                              DbDataReader ors,
                              string function,
                              string module,
@@ -570,14 +570,14 @@ UNKNOWN >>             finally
                 }
                 return false;
             }
-        };
+        }
 
-        self.disconnectRecordset = function(sqlstmt, dt) {
+        public disconnectRecordset(sqlstmt: string, dt: DataTable) {
             dt = null;
             try {
                 let ocmd: DbCommand = createCommand(sqlstmt);
                 let oda: DbDataAdapter = new OracleDataAdapter(ocmd as OracleCommand);
-                dt = UNKNOWN >>  can't find constructor for class DataTable();
+                dt = new DataTable();
                 oda.Fill(dt);
                 return true;
             }
@@ -585,18 +585,18 @@ UNKNOWN >>             finally
                 cError.mngError(ex, "disconnectRecordset", "", "sentencia: " + sqlstmt);
                 return false;
             }
-        };
+        }
 
-        self.existsInRecordset = function(dt, ) {
+        public existsInRecordset(dt: DataTable) {
                                       string field,
                                       string val,
                                       bool founded)
         {
             return existsInRecordset(dt, field, val, founded,
                                      "", "", "", eErrorLevel.eErrorInformation);
-        };
+        }
 
-        self.existsInRecordset = function(dt, ) {
+        public existsInRecordset(dt: DataTable) {
                                       string field,
                                       string val,
                                       bool founded,
@@ -622,18 +622,18 @@ UNKNOWN >>             finally
                 cError.mngError(ex, "existsInRecordset", module, "filter: " + filter);
                 return false;
             }
-        };
+        }
 
-        self.existsInRecord = function(dr, ) {
+        public existsInRecord(dr: DataRow) {
                                    DataColumn[] columns,
                                    string val,
                                    bool founded)
         {
             return existsInRecord(dr, columns, val, founded,
                                   "", "", "", eErrorLevel.eErrorInformation);
-        };
+        }
 
-        self.existsInRecord = function(dr, ) {
+        public existsInRecord(dr: DataRow) {
                                    DataColumn[] columns,
                                    string val,
                                    bool founded,
@@ -644,9 +644,9 @@ UNKNOWN >>             finally
         {
             return pExistsInRecord(dr, columns, val, founded, true,
                                    function, module, title, level);
-        };
+        }
 
-        self.existsInRecordEx = function(dr, ) {
+        public existsInRecordEx(dr: DataRow) {
                                      DataColumn[] columns,
                                      string val,
                                      bool founded,
@@ -658,9 +658,9 @@ UNKNOWN >>             finally
         {
             return pExistsInRecord(dr, columns, val, founded, like,
                                    function, module, title, level);
-        };
+        }
 
-        const pExistsInRecord = function(dr, ) {
+        private pExistsInRecord(dr: DataRow) {
                                     DataColumn[] columns,
                                     string val,
                                     bool founded,
@@ -718,13 +718,13 @@ UNKNOWN >>                             int ival;
                 cError.mngError(ex, "existsInRecord", module, "filter: " + filter);
                 return false;
             }
-        };
+        }
 
-        self.execute = function(sqlstmt) {
+        public execute(sqlstmt: string) {
             return execute(sqlstmt, "", "", "", eErrorLevel.eErrorInformation);
-        };
+        }
 
-        self.execute = function(sqlstmt, ) {
+        public execute(sqlstmt: string) {
                             string function,
                             string module,
                             string title,
@@ -733,20 +733,20 @@ UNKNOWN >>                             int ival;
             let tryCount: number = 0;
             ors = null;
 
-            while (tryCount < m_maxTryExecute) {
+            while (tryCount < this.maxTryExecute) {
                 if (pExecute(sqlstmt,
                              function,
                              module,
                              title,
                              level,
-                             tryCount === m_maxTryExecute)) {
+                             tryCount === this.maxTryExecute)) {
                     return true;
                 }
             }
             return false;
-        };
+        }
 
-        const pExecute = function(sqlstmt, ) {
+        private pExecute(sqlstmt: string) {
                               string function,
                               string module,
                               string title,
@@ -764,13 +764,13 @@ UNKNOWN >>                             int ival;
                 }
                 return false;
             }
-        };
+        }
 
-        self.sqlString = function(val) {
+        public sqlString(val: string) {
             return "'" + val.Replace("'", "''") + "'";
-        };
+        }
 
-        self.sqlDate = function(val) {
+        public sqlDate(val: string) {
 UNKNOWN >>             DateTime dt;
             if (DateTime.TryParseExact(val, "MM/dd/yyyy", null, DateTimeStyles.None, dt)) { }
             else if (DateTime.TryParseExact(val, "dd/MM/yyyy", null, DateTimeStyles.None, dt)) { }
@@ -795,7 +795,7 @@ UNKNOWN >>             DateTime dt;
 
             else throw new Exception("Invalid date " + val); {
             return "'" + dt.ToString(cConstants.C_SQL_DATE_STRING, CultureInfo.InvariantCulture) + "'";
-        };
+        }
 
         /* TODO: remove me
         private string getNumberSql(string number)
@@ -836,7 +836,7 @@ UNKNOWN >>             DateTime dt;
         }
 
          */
-        self.sqlNumber = function(number) {
+        public sqlNumber(number: string) {
             if (!G.isNumeric(number)) {
                 return "0";
             }
@@ -848,7 +848,7 @@ UNKNOWN >>             DateTime dt;
                 }
                 return s;
             }
-        };
+        }
 
         /* TODO: remove me 
         public static string sqlNumber(string val)
@@ -884,38 +884,38 @@ UNKNOWN >>             DateTime dt;
         }
         */
 
-        self.closeDb = function() {
+        public closeDb() {
             try {
-                if (m_transactionLevel > 0) {
+                if (this.transactionLevel > 0) {
                     rollbackTransaction();
                 }
-                m_transactionLevel = 0;
-                m_userName = "";
-                m_serverName = "";
+                this.transactionLevel = 0;
+                this.userName = "";
+                this.serverName = "";
 
-                if (m_ocn !== null) {
-                    if (m_ocn.State !== ConnectionState.Closed) {
-                        m_ocn.Close();
+                if (this.ocn !== null) {
+                    if (this.ocn.State !== ConnectionState.Closed) {
+                        this.ocn.Close();
                     }
 
-                    m_ocn.Dispose();
-                    m_ocn = null;
+                    this.ocn.Dispose();
+                    this.ocn = null;
                 }
-                m_ocn = createConnection();
+                this.ocn = createConnection();
             }
             catch (ex) {
                 cError.mngError(ex, "closeDb", c_module, "");
             }
-        };
+        }
 
-        self.beginTransaction = function() {
+        public beginTransaction() {
             try {
-                if (m_transactionLevel <= 0) {
-                    m_otxn = m_ocn.BeginTransaction();
-                    m_transactionLevel = 1;
+                if (this.transactionLevel <= 0) {
+                    this.otxn = this.ocn.BeginTransaction();
+                    this.transactionLevel = 1;
                 }
                 else {
-                    m_transactionLevel++;
+                    this.transactionLevel++;
                 }
                 return true;
             }
@@ -923,20 +923,20 @@ UNKNOWN >>             DateTime dt;
                 cError.mngError(ex, "commitTransaction", c_module, "");
                 return false;
             }
-        };
+        }
 
-        self.commitTransaction = function() {
-            if (m_transactionLevel <= 0) {
-                m_transactionLevel = 0;
+        public commitTransaction() {
+            if (this.transactionLevel <= 0) {
+                this.transactionLevel = 0;
                 return false;
             }
             try {
-                if (m_transactionLevel === 1) {
-                    m_otxn.Commit();
-                    m_transactionLevel = 0;
+                if (this.transactionLevel === 1) {
+                    this.otxn.Commit();
+                    this.transactionLevel = 0;
                 }
                 else {
-                    m_transactionLevel--;
+                    this.transactionLevel--;
                 }
                 return true;
             }
@@ -944,59 +944,59 @@ UNKNOWN >>             DateTime dt;
                 cError.mngError(ex, "commitTransaction", c_module, "");
                 return false;
             }
-        };
+        }
 
-        self.rollbackTransaction = function() {
+        public rollbackTransaction() {
             try {
-                if (m_ocn !== null) {
-                    if (m_otxn !== null) {
-                        m_otxn.Rollback();
+                if (this.ocn !== null) {
+                    if (this.otxn !== null) {
+                        this.otxn.Rollback();
                     }
                 }
-                m_transactionLevel = 0;
+                this.transactionLevel = 0;
             }
             catch (ex) {
                 cError.mngError(ex, "rollbackTransaction", c_module, "");
             }
-        };
+        }
 
-        self.getData = function(table, ) {
+        public getData(table: string) {
                             string fieldId,
                             string id,
                             string field,
                             string data)
         {
             return getData(table, fieldId, id, field, data, "", "", "", eErrorLevel.eErrorInformation);
-        };
+        }
 
-        self.getData = function(table, ) {
+        public getData(table: string) {
                             string fieldId,
                             string id,
                             string field,
                             int data)
         {
             return getData(table, fieldId, id, field, data, "", "", "", eErrorLevel.eErrorInformation);
-        };
+        }
 
-        self.getData = function(table, ) {
+        public getData(table: string) {
                             string fieldId,
                             string id,
                             string field,
                             double data)
         {
             return getData(table, fieldId, id, field, data, "", "", "", eErrorLevel.eErrorInformation);
-        };
+        }
 
-        self.getData = function(table, ) {
+        public getData(table: string) {
                             string fieldId,
                             string id,
                             string field,
                             DateTime data)
         {
             return getData(table, fieldId, id, field, data, "", "", "", eErrorLevel.eErrorInformation);
-        };
+        }
 
-        self.getData = function(table, ) {
+        public getData(table: string) {
                             string fieldId,
                             string id,
                             string field,
@@ -1018,9 +1018,9 @@ UNKNOWN >>             DbDataReader ors;
                 return true;
             }
             else return false; {
-        };
+        }
 
-        self.getData = function(table, ) {
+        public getData(table: string) {
                             string fieldId,
                             string id,
                             string field,
@@ -1042,9 +1042,9 @@ UNKNOWN >>             DbDataReader ors;
                 return true;
             }
             else return false; {
-        };
+        }
 
-        self.getData = function(table, ) {
+        public getData(table: string) {
                             string fieldId,
                             string id,
                             string field,
@@ -1066,9 +1066,9 @@ UNKNOWN >>             DbDataReader ors;
                 return true;
             }
             else return false; {
-        };
+        }
 
-        self.getData = function(table, ) {
+        public getData(table: string) {
                             string fieldId,
                             string id,
                             string field,
@@ -1090,9 +1090,9 @@ UNKNOWN >>             DbDataReader ors;
                 return true;
             }
             else return false; {
-        };
+        }
 
-        const pGetData = function(table, ) {
+        private pGetData(table: string) {
                               string fieldId,
                               string id,
                               string field,
@@ -1107,9 +1107,9 @@ UNKNOWN >>             string sqlstmt;
             sqlstmt = "select " + field + " from " + table + " where " + fieldId + " = " + id;
 
             return openRs(sqlstmt, ors, function, module, title, level);
-        };
+        }
 
-        self.getNewId = function(table, ) {
+        public getNewId(table: string) {
                              string fieldId,
                              int id,
                              string function,
@@ -1141,9 +1141,9 @@ UNKNOWN >>             finally
                 mouseWait.Dispose();
             }
 
-        };
+        }
 
-        const pGetNewId = function(table, ) {
+        private pGetNewId(table: string) {
                                string fieldId,
                                int id,
                                bool showError,
@@ -1177,12 +1177,12 @@ UNKNOWN >>                 DbCommand ocmd;
                 cError.mngError(ex, "pGetNewId for " + module + "." + function, c_module, "");
                 return false;
             }
-        };
+        }
 
         //------------------------------
         // sql statment parser functions
 
-        self.getSelect = function(sqlstmt) {
+        public getSelect(sqlstmt: string) {
             let i: number = sqlstmt.ToUpper().IndexOf("FROM");
             if (i >= 0) {
                 return sqlstmt.Substring(0, i).Trim();
@@ -1190,9 +1190,9 @@ UNKNOWN >>                 DbCommand ocmd;
             else {
                 return sqlstmt;
             }
-        };
+        }
 
-        self.getFrom = function(sqlstmt) {
+        public getFrom(sqlstmt: string) {
             let i: number = sqlstmt.ToUpper().IndexOf("FROM");
             if (i >= 0) {
                 sqlstmt = sqlstmt.Substring(i);
@@ -1219,9 +1219,9 @@ UNKNOWN >>                 DbCommand ocmd;
             else {
                 return "";
             }
-        };
+        }
 
-        self.getWhere = function(sqlstmt) {
+        public getWhere(sqlstmt: string) {
             let i: number = sqlstmt.ToUpper().IndexOf("WHERE");
             if (i >= 0) {
                 sqlstmt = sqlstmt.Substring(i);
@@ -1242,9 +1242,9 @@ UNKNOWN >>                 DbCommand ocmd;
             else {
                 return "";
             }
-        };
+        }
 
-        self.getGroup = function(sqlstmt) {
+        public getGroup(sqlstmt: string) {
             let i: number = sqlstmt.ToUpper().IndexOf("GROUP BY");
             if (i >= 0) {
                 sqlstmt = sqlstmt.Substring(i);
@@ -1259,9 +1259,9 @@ UNKNOWN >>                 DbCommand ocmd;
             else {
                 return "";
             }
-        };
+        }
 
-        self.getOrder = function(sqlstmt) {
+        public getOrder(sqlstmt: string) {
             let i: number = sqlstmt.ToUpper().IndexOf("ORDER BY");
             if (i >= 0) {
                 return sqlstmt.Substring(i).Trim();
@@ -1269,9 +1269,9 @@ UNKNOWN >>                 DbCommand ocmd;
             else {
                 return "";
             }
-        };
+        }
 
-        self.getSearchSqlstmt = function(sqlstmt, toSearch) {
+        public getSearchSqlstmt(sqlstmt: string, toSearch: string) {
             try {
                 let sqlSelect: string = getSelect(sqlstmt);
                 let sqlFrom: string = getFrom(sqlstmt);
@@ -1309,9 +1309,9 @@ UNKNOWN >>                     string column;
                 cError.mngError(ex, "getSearchSqlstmt", c_module, "");
                 return "";
             }
-        };
+        }
 
-        const pGetColumnFromStatement = function(sqlstmt, i) {
+        private pGetColumnFromStatement(sqlstmt: string, i: number) {
 UNKNOWN >>             int k;
             let q: number = 0;
             for(var p = 1; p <= i; p++) {
@@ -1388,14 +1388,14 @@ UNKNOWN >>             int k;
             else {
                 return field.Trim();
             }
-        };
+        }
 
-        const pGetStmtForColumn = function(column, toSearch, sqlstmt) {
+        private pGetStmtForColumn(column: string, toSearch: string, sqlstmt: string) {
             let realName: string = pGetColNameFromColExpression(column, sqlstmt);
             return "charindex('" + toSearch + "', convert(varchar(4000)," + realName + ")) > 0";
-        };
+        }
 
-        const pGetColNameFromColExpression = function(column, sqlstmt) {
+        private pGetColNameFromColExpression(column: string, sqlstmt: string) {
             let retval: string = "";
             let sep: string = "";
             let sqlSelect: string = "";
@@ -1433,14 +1433,14 @@ UNKNOWN >>             int k;
                 retval = column;
             }
             return retval;
-        };
+        }
 
-        const pReconnect = function() {
+        private pReconnect() {
             closeDb();
             pConnect();
-        };
+        }
 
-        const pReconnectTry = function() {
+        private pReconnectTry() {
             closeDb();
             try {
                 pConnect();
@@ -1450,19 +1450,19 @@ UNKNOWN >>             int k;
                 cError.mngError(ex, "pReconnectTry", c_module, "");
                 return false;
             }
-        };
+        }
 
-        const pConnect = function() {
-            m_ocn.ConnectionString = translateFromAdoIfNeeded(m_connect);
-            m_ocn.Open();
-        };
+        private pConnect() {
+            this.ocn.ConnectionString = translateFromAdoIfNeeded(this.connect);
+            this.ocn.Open();
+        }
 
-        const cDataBase = function(databaseEngine) {
-            m_databaseEngine = databaseEngine;
-        };
+        public constructor(databaseEngine: csDatabaseEngine) {
+            this.databaseEngine = databaseEngine;
+        }
 
-        const createConnection = function() {
-            switch (m_databaseEngine)
+        private createConnection() {
+            switch (this.databaseEngine)
             { 
                 case csDatabaseEngine.SQL_SERVER:
                     return new SqlConnection();
@@ -1473,35 +1473,35 @@ UNKNOWN >>             int k;
                 case csDatabaseEngine.CSREPORT_WEB:
                     return new cJSONServerConnection();
             }
-            throw new Exception("The database engine is not supported " + m_databaseEngine.ToString());
-        };
+            throw new Exception("The database engine is not supported " + this.databaseEngine.ToString());
+        }
 
-        const createCommand = function(sqlstmt) {
+        private createCommand(sqlstmt: string) {
             let ocmd: DbCommand = null;
 
-            switch (m_databaseEngine)
+            switch (this.databaseEngine)
             {
                 case csDatabaseEngine.SQL_SERVER:
-                    ocmd = UNKNOWN >>  can't find constructor for class SqlCommand(sqlstmt, m_ocn as SqlConnection);
+                    ocmd = new SqlCommand(sqlstmt, this.ocn as SqlConnection);
                     break;
                 case csDatabaseEngine.POSTGRESQL:
                     throw new NotImplementedException();
                 case csDatabaseEngine.ORACLE:
-                    ocmd = UNKNOWN >>  can't find constructor for class OracleCommand(sqlstmt, m_ocn as OracleConnection);
+                    ocmd = new OracleCommand(sqlstmt, this.ocn as OracleConnection);
                     break;
                 case csDatabaseEngine.CSREPORT_WEB:
-                    ocmd = globalObject.CSDataBase.createCJSONCommand(sqlstmt, m_ocn as cJSONServerConnection);
+                    ocmd = new cJSONCommand(sqlstmt, this.ocn as cJSONServerConnection);
                     break;
             }
 
             if(ocmd === null) {
-                throw new Exception("The database engine is not supported " + m_databaseEngine.ToString());
+                throw new Exception("The database engine is not supported " + this.databaseEngine.ToString());
 
-            ocmd.CommandTimeout = m_commandTimeout;
+            ocmd.CommandTimeout = this.commandTimeout;
             ocmd.CommandType = CommandType.Text;
 
             return ocmd;
-        };
+        }
 
         /*
 
@@ -1527,8 +1527,8 @@ UNKNOWN >>             int k;
          * "Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=cairo;Data Source=daimaku;"
          * 
          */
-        const translateFromAdoIfNeeded = function(strConnect) {
-            if (m_databaseEngine === csDatabaseEngine.SQL_SERVER) {
+        private translateFromAdoIfNeeded(strConnect: string) {
+            if (this.databaseEngine === csDatabaseEngine.SQL_SERVER) {
 
                 if (strConnect.IndexOf("Provider=") > -1) {
                     let dataSource: var = cUtil.getToken("Data Source", strConnect);
@@ -1545,28 +1545,28 @@ UNKNOWN >>             int k;
                 }
             }
             return strConnect;
-        };
-
-        return self;
-
-    }    }
-        return self;
+        }
 
 
-        return self;
-
-    public static class csDataBaseEngineStringConnections    self.createCsDataBaseEngineStringConnections = function() {
-
-        // @ts-ignore
-        let self: CSDataBase.IcsDataBaseEngineStringConnections = {};
-        self.string: static CSREPORT_WEB = "CSREPORT_WEB";
-        return self;
 
     }    }
-        return self;
 
 
-        return self;
+
+
+
+    public static class csDataBaseEngineStringConnections    export class csDataBaseEngineStringConnections {
+
+
+    {
+        public string: static CSREPORT_WEB = "CSREPORT_WEB";
+
+
+    }    }
+
+
+
+
 
     public enum csDatabaseEngineUNKNOWN >>     public enum csDatabaseEngine
     { 
@@ -1574,16 +1574,7 @@ UNKNOWN >>             int k;
         POSTGRESQL = 2,
         ORACLE = 3,
         CSREPORT_WEB = 4
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSDataBase {
-
-  export interface IcsDataBaseEngineStringConnections {
-
-    string: static;
-  }
 }

@@ -1,22 +1,22 @@
-(function(globalObject) {
-
-
-    globalObject.CSOAPI = globalObject.CSOAPI || {};
 
 
 
-    globalObject.CSOAPI.createCConstants = function() {
+namespace CSOAPI
+{
 
-        // @ts-ignore
-        let self: CSOAPI.IcConstants = {};
 
-        return self;
+    export class cConstants {
+
+
+    {
+
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eServerVersionUNKNOWN >>     public enum eServerVersion
     {
@@ -24,15 +24,7 @@
         eVSql70 = 1,
         eVSAccess = 2,
         eVSUnknown = 99
-        return self;
-
-    }
-}(globalObject));
 
 
-namespace CSOAPI {
-
-  export interface IcConstants {
-
-  }
+    }    }
 }

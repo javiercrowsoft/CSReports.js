@@ -1,202 +1,202 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportControl = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportControl = {};
+    export class cReportControl {
 
-        let m_label: cReportLabel = new cReportLabel();
-        let m_image: cReportImage = new cReportImage();
-        let m_line: cReportLine = new cReportLine();
-        let m_field: cReportField = new cReportField();
-        let m_typeSection: csRptSectionType = null;
-        let m_key: string = "";
-        let m_keyPaint: string = "";
-        let m_name: string = "";
-        let m_hasFormulaHide: boolean = null;
-        let m_hasFormulaValue: boolean = null;
-        let m_controlType: csRptControlType = null;
-        let m_formulaHide: cReportFormula = new cReportFormula();
-        let m_formulaValue: cReportFormula = new cReportFormula();
-        let m_chart: cReportChart = new cReportChart();
-        let m_tag: string = "";
-        let m_exportColIdx: number = 0;
-        let m_isFreeCtrl: boolean = null;
+
+    {
+
+        private label: cReportLabel = new cReportLabel();
+        private image: cReportImage = new cReportImage();
+        private line: cReportLine = new cReportLine();
+        private field: cReportField = new cReportField();
+        private typeSection: csRptSectionType = null;
+        private key: string = "";
+        private keyPaint: string = "";
+        private name: string = "";
+        private hasFormulaHide: boolean = null;
+        private hasFormulaValue: boolean = null;
+        private controlType: csRptControlType = null;
+        private formulaHide: cReportFormula = new cReportFormula();
+        private formulaValue: cReportFormula = new cReportFormula();
+        private chart: cReportChart = new cReportChart();
+        private tag: string = "";
+        private exportColIdx: number = 0;
+        private isFreeCtrl: boolean = null;
 
         // this reference tell in which section line is this control
         //
-        let m_sectionLine: cReportSectionLine = null;
+        private sectionLine: cReportSectionLine = null;
 
-        const cReportControl = function() {
-            m_formulaHide.setName("H");
-            m_formulaValue.setName("V");
-        };
+        public constructor() {
+            this.formulaHide.setName("H");
+            this.formulaValue.setName("V");
+        }
 
-        self.getLabel = function() {
-            return m_label;
-        };
+        public getLabel() {
+            return this.label;
+        }
 
-        self.setLabel = function(rhs) {
-            m_label = rhs;
-        };
+        public setLabel(rhs: cReportLabel) {
+            this.label = rhs;
+        }
 
-        self.getImage = function() {
-            return m_image;
-        };
+        public getImage() {
+            return this.image;
+        }
 
-        self.setImage = function(rhs) {
-            m_image = rhs;
-        };
+        public setImage(rhs: cReportImage) {
+            this.image = rhs;
+        }
 
-        self.getFormulaHide = function() {
-            return m_formulaHide;
-        };
+        public getFormulaHide() {
+            return this.formulaHide;
+        }
 
-        self.getFormulaValue = function() {
-            return m_formulaValue;
-        };
+        public getFormulaValue() {
+            return this.formulaValue;
+        }
 
-        self.getHasFormulaValue = function() {
-            return m_hasFormulaValue;
-        };
+        public getHasFormulaValue() {
+            return this.hasFormulaValue;
+        }
 
-        self.setHasFormulaValue = function(rhs) {
-            m_hasFormulaValue = rhs;
-        };
+        public setHasFormulaValue(rhs: boolean) {
+            this.hasFormulaValue = rhs;
+        }
 
-        self.getLine = function() {
-            return m_line;
-        };
+        public getLine() {
+            return this.line;
+        }
 
-        self.setLine = function(rhs) {
-            m_line = rhs;
-        };
+        public setLine(rhs: cReportLine) {
+            this.line = rhs;
+        }
 
-        self.getField = function() {
-            return m_field;
-        };
+        public getField() {
+            return this.field;
+        }
 
-        self.setField = function(rhs) {
-            m_field = rhs;
-        };
+        public setField(rhs: cReportField) {
+            this.field = rhs;
+        }
 
-        self.getKey = function() {
-            return m_key;
-        };
+        public getKey() {
+            return this.key;
+        }
 
-        self.setKey = function(rhs) {
-            m_key = rhs;
-        };
+        public setKey(rhs: string) {
+            this.key = rhs;
+        }
 
-        self.getKeyPaint = function() {
-            return m_keyPaint;
-        };
+        public getKeyPaint() {
+            return this.keyPaint;
+        }
 
-        self.setKeyPaint = function(rhs) {
-            m_keyPaint = rhs;
-        };
+        public setKeyPaint(rhs: string) {
+            this.keyPaint = rhs;
+        }
 
-        self.getChart = function() {
-            return m_chart;
-        };
+        public getChart() {
+            return this.chart;
+        }
 
-        self.getTag = function() {
-            return m_tag;
-        };
+        public getTag() {
+            return this.tag;
+        }
 
-        self.setTag = function(rhs) {
-            m_tag = rhs;
-        };
+        public setTag(rhs: string) {
+            this.tag = rhs;
+        }
 
-        self.getTypeSection = function() {
-            return m_typeSection;
-        };
+        public getTypeSection() {
+            return this.typeSection;
+        }
 
-        self.setTypeSection = function(rhs) {
-            m_typeSection = rhs;
-        };
+        public setTypeSection(rhs: csRptSectionType) {
+            this.typeSection = rhs;
+        }
 
-        self.getSectionLine = function() {
-            return m_sectionLine;
-        };
+        public getSectionLine() {
+            return this.sectionLine;
+        }
 
-        self.setSectionLine = function(rhs) {
-            m_sectionLine = rhs;
-        };
+        public setSectionLine(rhs: cReportSectionLine) {
+            this.sectionLine = rhs;
+        }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.getHasFormulaHide = function() {
-            return m_hasFormulaHide;
-        };
+        public getHasFormulaHide() {
+            return this.hasFormulaHide;
+        }
 
-        self.setHasFormulaHide = function(rhs) {
-            m_hasFormulaHide = rhs;
-        };
+        public setHasFormulaHide(rhs: boolean) {
+            this.hasFormulaHide = rhs;
+        }
 
-        self.getControlType = function() {
-            return m_controlType;
-        };
+        public getControlType() {
+            return this.controlType;
+        }
 
-        self.setControlType = function(rhs) {
-            m_controlType = rhs;
-        };
+        public setControlType(rhs: csRptControlType) {
+            this.controlType = rhs;
+        }
 
-        self.setExportColIdx = function(rhs) {
-            m_exportColIdx = rhs;
-        };
+        public setExportColIdx(rhs: number) {
+            this.exportColIdx = rhs;
+        }
 
-        self.getExportColIdx = function() {
-            return m_exportColIdx;
-        };
+        public getExportColIdx() {
+            return this.exportColIdx;
+        }
 
-        self.setIsFreeCtrl = function(rhs) {
-            m_isFreeCtrl = rhs;
-        };
+        public setIsFreeCtrl(rhs: boolean) {
+            this.isFreeCtrl = rhs;
+        }
 
-        self.getIsFreeCtrl = function() {
-            return m_isFreeCtrl;
-        };
+        public getIsFreeCtrl() {
+            return this.isFreeCtrl;
+        }
 
-        self.load = function(xDoc, nodeObj) {
-            m_keyPaint = xDoc.getNodeProperty(nodeObj, "KeyPaint").getValueString(eTypes.eText);
-            m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
+            this.keyPaint = xDoc.getNodeProperty(nodeObj, "KeyPaint").getValueString(eTypes.eText);
+            this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
 
-            try { m_hasFormulaHide = xDoc.getNodeProperty(nodeObj, "HasFormulaHide").getValueBool(eTypes.eBoolean); }
+            try { this.hasFormulaHide = xDoc.getNodeProperty(nodeObj, "HasFormulaHide").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
-            try { m_hasFormulaValue = xDoc.getNodeProperty(nodeObj, "HasFormulaValue").getValueBool(eTypes.eBoolean); }
+            try { this.hasFormulaValue = xDoc.getNodeProperty(nodeObj, "HasFormulaValue").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
-            try { m_controlType = xDoc.getNodeProperty(nodeObj, "ControlType").getValueInt(eTypes.eInteger); }
+            try { this.controlType = xDoc.getNodeProperty(nodeObj, "ControlType").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
-            try { m_tag = xDoc.getNodeProperty(nodeObj, "Tag").getValueString(eTypes.eText); }
+            try { this.tag = xDoc.getNodeProperty(nodeObj, "Tag").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { m_exportColIdx = xDoc.getNodeProperty(nodeObj, "ExportColIdx").getValueInt(eTypes.eLong); }
+            try { this.exportColIdx = xDoc.getNodeProperty(nodeObj, "ExportColIdx").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_isFreeCtrl = xDoc.getNodeProperty(nodeObj, "IsFreeCtrl").getValueBool(eTypes.eBoolean); }
+            try { this.isFreeCtrl = xDoc.getNodeProperty(nodeObj, "IsFreeCtrl").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
 
             try {
-                if (!m_field.load(xDoc, nodeObj)) { return false; }
-                if (!m_image.load(xDoc, nodeObj)) { return false; }
-                if (!m_label.load(xDoc, nodeObj)) { return false; }
-                if (!m_line.load(xDoc, nodeObj)) { return false; }
-                if (!m_formulaHide.load(xDoc, nodeObj)) { return false; }
-                if (!m_formulaValue.load(xDoc, nodeObj)) { return false; }
-                if (!m_chart.load(xDoc, nodeObj)) { return false; }
+                if (!this.field.load(xDoc, nodeObj)) { return false; }
+                if (!this.image.load(xDoc, nodeObj)) { return false; }
+                if (!this.label.load(xDoc, nodeObj)) { return false; }
+                if (!this.line.load(xDoc, nodeObj)) { return false; }
+                if (!this.formulaHide.load(xDoc, nodeObj)) { return false; }
+                if (!this.formulaValue.load(xDoc, nodeObj)) { return false; }
+                if (!this.chart.load(xDoc, nodeObj)) { return false; }
 
                 // TODO: remove me after all reports were migrated
                 //
-                if (m_label.getAspect().getFormat() === "" && m_field.getFieldType() === CSDataBase.csAdoDataType.adDBTimeStamp) {
-                    m_label.getAspect().setFormat("dd/MM/yyyy");
+                if (this.label.getAspect().getFormat() === "" && this.field.getFieldType() === CSDataBase.csAdoDataType.adDBTimeStamp) {
+                    this.label.getAspect().setFormat("dd/MM/yyyy");
                 }
 
                 return true;
@@ -204,109 +204,66 @@
             catch(ex)  {
                 return false; 
             }
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
-            xProperty.setName(m_key);
+            xProperty.setName(this.key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Key");
-            xProperty.setValue(eTypes.eText, m_key);
+            xProperty.setValue(eTypes.eText, this.key);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Name");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("KeyPaint");
-            xProperty.setValue(eTypes.eText, m_keyPaint);
+            xProperty.setValue(eTypes.eText, this.keyPaint);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("HasFormulaHide");
-            xProperty.setValue(eTypes.eBoolean, m_hasFormulaHide);
+            xProperty.setValue(eTypes.eBoolean, this.hasFormulaHide);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("HasFormulaValue");
-            xProperty.setValue(eTypes.eBoolean, m_hasFormulaValue);
+            xProperty.setValue(eTypes.eBoolean, this.hasFormulaValue);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ControlType");
-            xProperty.setValue(eTypes.eInteger, m_controlType);
+            xProperty.setValue(eTypes.eInteger, this.controlType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Tag");
-            xProperty.setValue(eTypes.eText, m_tag);
+            xProperty.setValue(eTypes.eText, this.tag);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ExportColIdx");
-            xProperty.setValue(eTypes.eLong, m_exportColIdx);
+            xProperty.setValue(eTypes.eLong, this.exportColIdx);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("IsFreeCtrl");
-            xProperty.setValue(eTypes.eBoolean, m_isFreeCtrl);
+            xProperty.setValue(eTypes.eBoolean, this.isFreeCtrl);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if (!m_field.save(xDoc, nodeObj)) { return false; }
-            if (!m_image.save(xDoc, nodeObj)) { return false; }
-            if (!m_label.save(xDoc, nodeObj)) { return false; }
-            if (!m_line.save(xDoc, nodeObj)) { return false; }
-            if (!m_formulaHide.save(xDoc, nodeObj)) { return false; }
-            if (!m_formulaValue.save(xDoc, nodeObj)) { return false; }
-            if (!m_chart.save(xDoc, nodeObj)) { return false; }
+            if (!this.field.save(xDoc, nodeObj)) { return false; }
+            if (!this.image.save(xDoc, nodeObj)) { return false; }
+            if (!this.label.save(xDoc, nodeObj)) { return false; }
+            if (!this.line.save(xDoc, nodeObj)) { return false; }
+            if (!this.formulaHide.save(xDoc, nodeObj)) { return false; }
+            if (!this.formulaValue.save(xDoc, nodeObj)) { return false; }
+            if (!this.chart.save(xDoc, nodeObj)) { return false; }
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportControl {
-
-    getLabel: () => cReportLabel;
-    setLabel: (cReportLabel) => void;
-    getImage: () => cReportImage;
-    setImage: (cReportImage) => void;
-    getFormulaHide: () => cReportFormula;
-    getFormulaValue: () => cReportFormula;
-    getHasFormulaValue: () => bool;
-    setHasFormulaValue: (bool) => void;
-    getLine: () => cReportLine;
-    setLine: (cReportLine) => void;
-    getField: () => cReportField;
-    setField: (cReportField) => void;
-    getKey: () => String;
-    setKey: (String) => void;
-    getKeyPaint: () => String;
-    setKeyPaint: (String) => void;
-    getChart: () => cReportChart;
-    getTag: () => String;
-    setTag: (String) => void;
-    getTypeSection: () => csRptSectionType;
-    setTypeSection: (csRptSectionType) => void;
-    getSectionLine: () => cReportSectionLine;
-    setSectionLine: (cReportSectionLine) => void;
-    getName: () => String;
-    setName: (String) => void;
-    getHasFormulaHide: () => bool;
-    setHasFormulaHide: (bool) => void;
-    getControlType: () => csRptControlType;
-    setControlType: (csRptControlType) => void;
-    setExportColIdx: (int) => void;
-    getExportColIdx: () => int;
-    setIsFreeCtrl: (bool) => void;
-    getIsFreeCtrl: () => bool;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

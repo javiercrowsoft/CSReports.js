@@ -1,60 +1,48 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportPageID = function() {
+namespace CSReportDll
+{
+    export class cReportPageID {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportPageID = {};
 
-        const C_MODULE: string = "cReportPageID";
+    {
 
-        let m_value: string = "";
+        private C_MODULE: string = "cReportPageID";
 
-        self.getValue = function() {
-            return m_value;
-        };
+        private value: string = "";
 
-        self.setValue = function(rhs) {
-            m_value = rhs;
-        };
+        public getValue() {
+            return this.value;
+        }
 
-        self.load = function(xDoc, nodeObj) {
-            m_value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
+        public setValue(rhs: string) {
+            this.value = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
+            this.value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("PageID");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Value");
-            xProperty.setValue(eTypes.eText, m_value);
+            xProperty.setValue(eTypes.eText, this.value);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportPageID {
-
-    getValue: () => String;
-    setValue: (String) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

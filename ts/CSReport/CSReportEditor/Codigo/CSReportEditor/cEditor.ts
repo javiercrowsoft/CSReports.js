@@ -1,55 +1,55 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createCEditor = function() {
+namespace CSReportEditor
+{
+    export class cEditor {
 
-        // @ts-ignore
-        let self: CSReportEditor.IcEditor = {};
-        let m_fmain: fMain = null;
-        let m_editor: Panel = null;
-        let m_picRule: PictureBox = null;
-        let m_picReport: PictureBox = null;
-        let m_editorTab: TabPage = null;
-        let m_reportFullPath: string = "";
-        let m_name: string = "";
 
-        let m_isNew: boolean = false;
+    {
+        private fmain: fMain = null;
+        private editor: Panel = null;
+        private picRule: PictureBox = null;
+        private picReport: PictureBox = null;
+        private editorTab: TabPage = null;
+        private reportFullPath: string = "";
+        private name: string = "";
 
-        const cEditor = function(fmain, editor, rule, report, editorTab) {
-            m_fmain = fmain;
-            m_editor = editor;
-            m_editor.AutoScroll = true;
+        private isNew: boolean = false;
 
-            m_picRule = rule;
-            m_picRule.SetBounds(cUtil.mp(1), cUtil.mp(1), cUtil.mp(50), cUtil.mp(297));
-            m_picRule.BackColor = Color.PeachPuff;
+        public constructor(fmain: fMain, editor: Panel, rule: PictureBox, report: PictureBox, editorTab: TabPage) {
+            this.fmain = fmain;
+            this.editor = editor;
+            this.editor.AutoScroll = true;
 
-            m_picReport = report;
-            m_picReport.SetBounds(cUtil.mp(50) + cUtil.mp(1), cUtil.mp(1), cUtil.mp(210), cUtil.mp(297));
-            m_picReport.BackColor = Color.Beige;
+            this.picRule = rule;
+            this.picRule.SetBounds(cUtil.mp(1), cUtil.mp(1), cUtil.mp(50), cUtil.mp(297));
+            this.picRule.BackColor = Color.PeachPuff;
 
-            m_picReport.Paint += UNKNOWN >>  can't find constructor for class PaintEventHandler(m_picReport_Paint);
-            m_picRule.Paint += UNKNOWN >>  can't find constructor for class PaintEventHandler(m_picRule_Paint);
+            this.picReport = report;
+            this.picReport.SetBounds(cUtil.mp(50) + cUtil.mp(1), cUtil.mp(1), cUtil.mp(210), cUtil.mp(297));
+            this.picReport.BackColor = Color.Beige;
+
+            this.picReport.Paint += new PaintEventHandler(this.picReport_Paint);
+            this.picRule.Paint += new PaintEventHandler(this.picRule_Paint);
 
             // mouse events
             //
-            m_picReport.MouseDown += UNKNOWN >>  can't find constructor for class MouseEventHandler(m_picReport_MouseDown);
-            m_picReport.MouseUp += UNKNOWN >>  can't find constructor for class MouseEventHandler(m_picReport_MouseUp);
-            m_picReport.MouseMove += UNKNOWN >>  can't find constructor for class MouseEventHandler(m_picReport_MouseMove);
+            this.picReport.MouseDown += new MouseEventHandler(this.picReport_MouseDown);
+            this.picReport.MouseUp += new MouseEventHandler(this.picReport_MouseUp);
+            this.picReport.MouseMove += new MouseEventHandler(this.picReport_MouseMove);
 
             // tab
             //
-            m_editorTab = editorTab;
+            this.editorTab = editorTab;
 
-            m_editorTab.Enter += (s, e) => { cMainEditor.setDocActive(this); };
+            this.editorTab.Enter += (s, e) => { cMainEditor.setDocActive(this); };
 
-            m_editorTab.Tag = this;
-        };
+            this.editorTab.Tag = this;
+        }
 
-        const cEditor = function() {
+        public constructor() {
 
-        self.close = function() {
+        public close() {
             if (!saveChanges()) {
                 return false;
             }
@@ -58,272 +58,272 @@
                 // TODO: dispose all objects
                 return true;
             }
-        };
+        }
 
-        const C_MODULE: string = "cEditor";
-        const C_TOPBODY: number = 10;
-        const C_LEFTBODY: number = 0;
-        const C_MIN_HEIGHT_SECTION: number = 3;
-        const C_SECTIONLINE: string = "Line ";
+        private C_MODULE: string = "cEditor";
+        private C_TOPBODY: number = 10;
+        private C_LEFTBODY: number = 0;
+        private C_MIN_HEIGHT_SECTION: number = 3;
+        private C_SECTIONLINE: string = "Line ";
 
-        const C_NOMOVE: number = -1111111;
+        private C_NOMOVE: number = -1111111;
 
-        let m_report: cReport = null;
-        let m_paint: cReportPaint = null;
-        let m_keyMoving: string = "";
-        let m_moveType: csRptEditorMoveType = null;
-        let m_keySizing: string = "";
-        let m_offX: number = 0;
-        let m_offY: number = 0;
-        let m_keyObj: string = "";
-        let m_keyFocus: string = "";
-        let m_moving: boolean = false;
-        let m_opening: boolean = false;
-        let m_offSet: number = 0;
+        private report: cReport = null;
+        private paint: cReportPaint = null;
+        private keyMoving: string = "";
+        private moveType: csRptEditorMoveType = null;
+        private keySizing: string = "";
+        private offX: number = 0;
+        private offY: number = 0;
+        private keyObj: string = "";
+        private keyFocus: string = "";
+        private moving: boolean = false;
+        private opening: boolean = false;
+        private offSet: number = 0;
 
         // the first SectionLine from where we need
         // to modify the top after moving sections.
         // It is used only in footers.
-        let m_indexSecLnMoved: number = 0;
+        private indexSecLnMoved: number = 0;
 
         // it is used in MoveSection to calculate
         // the positions after adding new SectionLines.
         //
         // good explanation is found in addSectionLine
         //
-        let m_newSecLineOffSet: number = 0;
+        private newSecLineOffSet: number = 0;
 
-        let m_bMoveVertical: boolean = false;
-        let m_bMoveHorizontal: boolean = false;
-        let m_bNoMove: boolean = false;
+        private bMoveVertical: boolean = false;
+        private bMoveHorizontal: boolean = false;
+        private bNoMove: boolean = false;
 
-        let m_vSelectedKeys: String[] = new String[0];
-        let m_vCopyKeys: String[] = new String[0];
+        private vSelectedKeys: string[] = new String[0];
+        private vCopyKeys: string[] = new String[0];
 
-        let m_fProgress: fProgress = null;
-        let m_cancelPrinting: boolean = false;
+        private fProgress: fProgress = null;
+        private cancelPrinting: boolean = false;
 
-        let m_formIndex: number = 0;
+        private formIndex: number = 0;
 
-        let m_fProperties: fProperties = null;
-        let m_fSecProperties: fSecProperties = null;
-        let m_fFormula: fFormula = null;
-        let m_fGroup: fGroup = null;
-        let m_fConnectsAux: fConnectsAux = null;
+        private fProperties: fProperties = null;
+        private fSecProperties: fSecProperties = null;
+        private fFormula: fFormula = null;
+        private fGroup: fGroup = null;
+        private fConnectsAux: fConnectsAux = null;
 
         // names
-        let m_nextNameCtrl: number = 0;
-        let m_showingProperties: boolean = false;
-        let m_dataHasChanged: boolean = false;
+        private nextNameCtrl: number = 0;
+        private showingProperties: boolean = false;
+        private dataHasChanged: boolean = false;
 
         // to add new controls
-        let m_copyControls: boolean = false;
-        let m_copyControlsFromOtherReport: boolean = false;
-        let m_bCopyWithoutMoving: boolean = false;
+        private copyControls: boolean = false;
+        private copyControlsFromOtherReport: boolean = false;
+        private bCopyWithoutMoving: boolean = false;
 
-        let m_draging: boolean = false;
-        let m_controlName: string = "";
-        let m_controlType: csRptEditCtrlType = null;
-        let m_fieldName: string = "";
-        let m_fieldType: number = 0;
-        let m_fieldIndex: number = 0;
-        let m_formulaText: string = "";
+        private draging: boolean = false;
+        private controlName: string = "";
+        private controlType: csRptEditCtrlType = null;
+        private fieldName: string = "";
+        private fieldType: number = 0;
+        private fieldIndex: number = 0;
+        private formulaText: string = "";
 
-        let m_x: number = 0;
-        let m_y: number = 0;
-        let m_keyboardMove: boolean = false;
+        private x: number = 0;
+        private y: number = 0;
+        private keyboardMove: boolean = false;
 
-        let m_keyboardMoveStep: number = 5;
+        private keyboardMoveStep: number = 5;
 
-        let m_inMouseDown: boolean = false;
+        private inMouseDown: boolean = false;
 
-        let m_typeGrid: csETypeGrid = csETypeGrid.CSEGRIDPOINTS;
+        private typeGrid: csETypeGrid = csETypeGrid.CSEGRIDPOINTS;
 
-        self.getEditorTab = function() {
-            return m_editorTab;
-        };
+        public getEditorTab() {
+            return this.editorTab;
+        }
 
-        self.getVCopyKeys = function(idx) {
-            return m_vCopyKeys[idx];
-        };
+        public getVCopyKeys(idx: number) {
+            return this.vCopyKeys[idx];
+        }
 
-        self.getVCopyKeysCount = function() {
-            return m_vCopyKeys.Length;
-        };
+        public getVCopyKeysCount() {
+            return this.vCopyKeys.Length;
+        }
 
-        self.getPaint = function() {
-            return m_paint;
-        };
+        public getPaint() {
+            return this.paint;
+        }
 
-        self.setKeyboardMoveStep = function(rhs) {
-            m_keyboardMoveStep = rhs;
-        };
-        self.getBMoveNoMove = function() {
-            return m_bNoMove;
-        };
-        self.getBMoveVertical = function() {
-            return m_bMoveVertical;
-        };
-        self.getBMoveHorizontal = function() {
-            return m_bMoveHorizontal;
-        };
+        public setKeyboardMoveStep(rhs: number) {
+            this.keyboardMoveStep = rhs;
+        }
+        public getBMoveNoMove() {
+            return this.bNoMove;
+        }
+        public getBMoveVertical() {
+            return this.bMoveVertical;
+        }
+        public getBMoveHorizontal() {
+            return this.bMoveHorizontal;
+        }
 
-        self.getPaperSize = function() {
-            if (m_report === null) { return 0; }
-            return m_report.getPaperInfo().getPaperSize();
-        };
+        public getPaperSize() {
+            if (this.report === null) { return 0; }
+            return this.report.getPaperInfo().getPaperSize();
+        }
 
-        self.getOrientation = function() {
-            if (m_report === null) { return 0; }
-            return m_report.getPaperInfo().getOrientation();
-        };
+        public getOrientation() {
+            if (this.report === null) { return 0; }
+            return this.report.getPaperInfo().getOrientation();
+        }
 
-        self.getCopies = function() {
-            if (m_report === null) { return 0; }
-            return m_report.getLaunchInfo().getCopies();
-        };
+        public getCopies() {
+            if (this.report === null) { return 0; }
+            return this.report.getLaunchInfo().getCopies();
+        }
 
-        self.setPaperSize = function(rhs) {
-            if (m_report === null) { return; }
-            m_report.getPaperInfo().setPaperSize(rhs);
-        };
+        public setPaperSize(rhs: csReportPaperType) {
+            if (this.report === null) { return; }
+            this.report.getPaperInfo().setPaperSize(rhs);
+        }
 
-        self.setOrientation = function(rhs) {
-            if (m_report === null) { return; }
-            m_report.getPaperInfo().setOrientation(rhs);
-        };
+        public setOrientation(rhs: number) {
+            if (this.report === null) { return; }
+            this.report.getPaperInfo().setOrientation(rhs);
+        }
 
-        self.setCopies = function(rhs) {
-            if (m_report === null) { return; }
-            m_report.getLaunchInfo().setCopies(rhs);
-        };
+        public setCopies(rhs: number) {
+            if (this.report === null) { return; }
+            this.report.getLaunchInfo().setCopies(rhs);
+        }
 
-        self.setCustomHeight = function(rhs) {
-            if (m_report === null) { return; }
-            m_report.getPaperInfo().setCustomHeight(rhs);
-        };
+        public setCustomHeight(rhs: number) {
+            if (this.report === null) { return; }
+            this.report.getPaperInfo().setCustomHeight(rhs);
+        }
 
-        self.setCustomWidth = function(rhs) {
-            if (m_report === null) { return; }
-            m_report.getPaperInfo().setCustomWidth(rhs);
-        };
+        public setCustomWidth(rhs: number) {
+            if (this.report === null) { return; }
+            this.report.getPaperInfo().setCustomWidth(rhs);
+        }
 
-        self.getCustomHeight = function() {
-            if (m_report === null) { return 0; }
-            return m_report.getPaperInfo().getCustomHeight();
-        };
+        public getCustomHeight() {
+            if (this.report === null) { return 0; }
+            return this.report.getPaperInfo().getCustomHeight();
+        }
 
-        self.getCustomWidth = function() {
-            if (m_report === null) { return 0; }
-            return m_report.getPaperInfo().getCustomWidth();
-        };
+        public getCustomWidth() {
+            if (this.report === null) { return 0; }
+            return this.report.getPaperInfo().getCustomWidth();
+        }
 
-        self.getFileName = function() {
-            return m_report.getPath() + m_report.getName();
-        };
+        public getFileName() {
+            return this.report.getPath() + this.report.getName();
+        }
 
-        self.getShowingProperties = function() {
-            return m_showingProperties;
-        };
+        public getShowingProperties() {
+            return this.showingProperties;
+        }
 
-        self.setShowingProperties = function(rhs) {
-            m_showingProperties = rhs;
-        };
+        public setShowingProperties(rhs: boolean) {
+            this.showingProperties = rhs;
+        }
 
-        self.getFGroup = function() {
-            return m_fGroup;
-        };
+        public getFGroup() {
+            return this.fGroup;
+        }
 
-        self.setFGroup = function(rhs) {
-            m_fGroup = rhs;
-        };
+        public setFGroup(rhs: fGroup) {
+            this.fGroup = rhs;
+        }
 
-        self.getReport = function() {
-            return m_report;
-        };
+        public getReport() {
+            return this.report;
+        }
 
-        self.getDataHasChanged = function() {
-            return m_dataHasChanged;
-        };
+        public getDataHasChanged() {
+            return this.dataHasChanged;
+        }
 
-        self.setDataHasChanged = function(rhs) {
-            m_dataHasChanged = rhs;
-        };
+        public setDataHasChanged(rhs: boolean) {
+            this.dataHasChanged = rhs;
+        }
 
-        self.search = function() {
+        public search() {
             try {
                 let f: fSearch = cMainEditor.getSearch(this);
                 f.clear();
                 if (!f.Visible) {
-                    f.Show(m_fmain);
+                    f.Show(this.fmain);
                 }
             }
             catch (ex) {
                 cError.mngError(ex, "showControls", C_MODULE, "");
             }
-        };
+        }
 
-        self.moveVertical = function() {
+        public moveVertical() {
             formKeyUp(Keys.F11, false);
-        };
+        }
 
-        self.moveHorizontal = function() {
+        public moveHorizontal() {
             formKeyUp(Keys.F12, false);
-        };
+        }
 
-        self.moveNoMove = function() {
+        public moveNoMove() {
             formKeyUp(Keys.F9, false);
-        };
+        }
 
-        self.moveAll = function() {
+        public moveAll() {
             formKeyUp(Keys.F8, false);
-        };
+        }
 
-        self.showGrid = function(typeGrid) {
-            m_typeGrid = typeGrid;
-            m_paint.initGrid(m_picReport.CreateGraphics(), typeGrid);
-        };
+        public showGrid(typeGrid: csETypeGrid) {
+            this.typeGrid = typeGrid;
+            this.paint.initGrid(this.picReport.CreateGraphics(), typeGrid);
+        }
 
-        self.showConnectsAux = function() {
+        public showConnectsAux() {
             try {
-                m_fConnectsAux = globalObject.CSReportEditor.createFConnectsAux();
+                this.fConnectsAux = new fConnectsAux();
 
                 /* TODO: this code must to be moved to fConnectsAux constructor
                  *
 
-                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = m_fConnectsAux.lvColumns;
+                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = this.fConnectsAux.lvColumns;
                     w___TYPE_NOT_FOUND.ListItems.fToolbox.clear();
                     w___TYPE_NOT_FOUND.ColumnHeaders.fToolbox.clear();
                     w___TYPE_NOT_FOUND.ColumnHeaders.Add(, , "DataSource", 2500);
                     w___TYPE_NOT_FOUND.ColumnHeaders.Add(, , "StrConnect", 5000);
                 */
-                for(var _i = 0; _i < m_report.getConnectsAux().count(); _i++) {
-                    pAddConnectAuxToListView(m_report.getConnectsAux().item(_i));
+                for(var _i = 0; _i < this.report.getConnectsAux().count(); _i++) {
+                    pAddConnectAuxToListView(this.report.getConnectsAux().item(_i));
                 }
-                m_fConnectsAux.ShowDialog();
+                this.fConnectsAux.ShowDialog();
 
             } catch (Exception ex) {
                 cError.mngError(ex, "showConnectsAux", C_MODULE, "");
-                m_fConnectsAux.Close();
-                m_fConnectsAux = null;
+                this.fConnectsAux.Close();
+                this.fConnectsAux = null;
             }
-        };
+        }
 
-        const pAddConnectAuxToListView = function(connect) {
-            m_fConnectsAux.addConnect(connect.getDataSource(), connect.getStrConnect());
-        };
+        private pAddConnectAuxToListView(connect: cReportConnect) {
+            this.fConnectsAux.addConnect(connect.getDataSource(), connect.getStrConnect());
+        }
 
-        self.keyUp = function(sender, e) {
+        public keyUp(sender: object, e: KeyEventArgs) {
             e.Handled = formKeyUp(e.KeyCode, e.Control);
 
-            if (m_keyboardMove) {
-                m_keyboardMove = false;
-                m_picReport_MouseUp(this, new MouseEventArgs(MouseButtons.Left, 0, m_x, m_y, 0));
+            if (this.keyboardMove) {
+                this.keyboardMove = false;
+                this.picReport_MouseUp(this, new MouseEventArgs(MouseButtons.Left, 0, this.x, this.y, 0));
                 e.Handled = true;
             }
-        };
+        }
 
-        const formKeyUp = function(keyCode, ctrlKey) {
+        private formKeyUp(keyCode: Keys, ctrlKey: boolean) {
             // if we are in edit mode we do nothing
             //
             // if (TxEdit.Visible) { return; }
@@ -343,25 +343,25 @@
                     break;
 
                 case Keys.F11:
-                    m_bMoveVertical = true;
-                    m_bMoveHorizontal = false;
+                    this.bMoveVertical = true;
+                    this.bMoveHorizontal = false;
                     cGlobals.setStatus();
                     break;
 
                 case Keys.F12:
-                    m_bMoveHorizontal = true;
-                    m_bMoveVertical = false;
+                    this.bMoveHorizontal = true;
+                    this.bMoveVertical = false;
                     cGlobals.setStatus();
                     break;
 
                 case Keys.F8:
-                    m_bMoveHorizontal = false;
-                    m_bMoveVertical = false;
+                    this.bMoveHorizontal = false;
+                    this.bMoveVertical = false;
                     cGlobals.setStatus();
                     break;
 
                 case Keys.F9:
-                    m_bNoMove = !m_bNoMove;
+                    this.bNoMove = !this.bNoMove;
                     cGlobals.setStatus();
                     break;
 
@@ -385,35 +385,35 @@
                     return false;
             }
             return true;
-        };
+        }
 
         // TODO: this functionality must to be moved to fConnectsAux
         //
-        const m_fConnectsAux_AddConnect = function() {
+        private fConnectsAux_AddConnect() {
             try {
 
                 let rptConnect: cReportConnect = null;
-                rptConnect = globalObject.CSReportDll.createCReportConnect();
+                rptConnect = new cReportConnect();
 
                 if (!configConnection(rptConnect)) { return; }
 
-                m_report.getConnectsAux().add(rptConnect);
+                this.report.getConnectsAux().add(rptConnect);
 
                 pAddConnectAuxToListView(rptConnect);
 
             } catch (Exception ex) {
-                cError.mngError(ex, "m_fConnectsAux_AddConnect", C_MODULE, "");
+                cError.mngError(ex, "this.fConnectsAux_AddConnect", C_MODULE, "");
             }
-        };
+        }
 
         // TODO: this functionality must to be moved to fConnectsAux
         //
-        const m_fConnectsAux_DeleteConnect = function() {
+        private fConnectsAux_DeleteConnect() {
             /*
             try {
                 int index = 0;
 
-                if (m_fConnectsAux.lvColumns.SelectedItem === null) {
+                if (this.fConnectsAux.lvColumns.SelectedItem === null) {
                     cWindow.msgWarning("Select one connection", "Additional connections");
                     return;
                 }
@@ -421,69 +421,69 @@
                 // TODO: this functionality must to be refactored to separate the
                 //       UI code from the business code
                 //
-                index = m_fConnectsAux.lvColumns.SelectedItem.index;
+                index = this.fConnectsAux.lvColumns.SelectedItem.index;
 
-                m_report.getConnectsAux().remove(index);
+                this.report.getConnectsAux().remove(index);
 
-                m_fConnectsAux.lvColumns.ListItems.Remove(index);
+                this.fConnectsAux.lvColumns.ListItems.Remove(index);
 
             } catch (Exception ex) {
-                cError.mngError(ex, "m_fConnectsAux_DeleteConnect", C_MODULE, "");
+                cError.mngError(ex, "this.fConnectsAux_DeleteConnect", C_MODULE, "");
             }
             */
-        };
+        }
 
         // TODO: this functionality must to be moved to fConnectsAux
         //
-        const m_fConnectsAux_EditConnect = function() {
+        private fConnectsAux_EditConnect() {
             /*
             try {
                 int index = 0;
 
-                if (m_fConnectsAux.lvColumns.SelectedItem === null) {
+                if (this.fConnectsAux.lvColumns.SelectedItem === null) {
                     cWindow.msgWarning("Select one connection", "Additional Connections");
                     return;
                 }
 
-                index = m_fConnectsAux.lvColumns.SelectedItem.index;
+                index = this.fConnectsAux.lvColumns.SelectedItem.index;
 
-                if (!configConnection(m_report.getConnectsAux(index))) { return; }
+                if (!configConnection(this.report.getConnectsAux(index))) { return; }
 
                 //TODO:** can't found type for with block
-                //With m_fConnectsAux.lvColumns.SelectedItem
-                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = m_fConnectsAux.lvColumns.SelectedItem;
-                    w___TYPE_NOT_FOUND.Text = m_report.getConnectsAux(index).DataSource;
-                    w___TYPE_NOT_FOUND.SubItems(1) = m_report.getConnectsAux(index).strConnect;
+                //With this.fConnectsAux.lvColumns.SelectedItem
+                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = this.fConnectsAux.lvColumns.SelectedItem;
+                    w___TYPE_NOT_FOUND.Text = this.report.getConnectsAux(index).DataSource;
+                    w___TYPE_NOT_FOUND.SubItems(1) = this.report.getConnectsAux(index).strConnect;
                 // {end with: w___TYPE_NOT_FOUND}
 
             } catch (Exception ex) {
-                cError.mngError(ex, "m_fConnectsAux_EditConnect", C_MODULE, "");
+                cError.mngError(ex, "this.fConnectsAux_EditConnect", C_MODULE, "");
             }
             */
-        };
+        }
 
-        const m_fSearch_EditCtrl = function(ctrlKey) {
+        private fSearch_EditCtrl(ctrlKey: string) {
             try {
 
                 selectCtrl(ctrlKey);
                 showProperties();
 
             } catch (Exception ex) {
-                cError.mngError(ex, "m_fSearch_EditCtrl", C_MODULE, "");
+                cError.mngError(ex, "this.fSearch_EditCtrl", C_MODULE, "");
             }
-        };
+        }
 
-        const m_fSearch_SetFocusSec = function(secKey) {
+        private fSearch_SetFocusSec(secKey: string) {
             try {
 
                 pSelectSection(secKey);
 
             } catch (Exception ex) {
-                cError.mngError(ex, "m_fSearch_SetFocusSec", C_MODULE, "");
+                cError.mngError(ex, "this.fSearch_SetFocusSec", C_MODULE, "");
             }
-        };
+        }
 
-        const editCtrl = function(ctrlKey) {
+        private editCtrl(ctrlKey: string) {
             try {
 
                 selectCtrl(ctrlKey);
@@ -491,9 +491,9 @@
             } catch (Exception ex) {
                 cError.mngError(ex, "editCtrl", C_MODULE, "");
             }
-        };
+        }
 
-        self.editSection = function(secKey) {
+        public editSection(secKey: string) {
             try {
 
                 let bIsSecLn: boolean = false;
@@ -509,9 +509,9 @@
             } catch (Exception ex) {
                 cError.mngError(ex, "editCtrl", C_MODULE, "");
             }
-        };
+        }
 
-        self.setFocusCtrl = function(ctrlKey) {
+        public setFocusCtrl(ctrlKey: string) {
             try {
 
                 selectCtrl(ctrlKey);
@@ -519,27 +519,27 @@
             } catch (Exception ex) {
                 cError.mngError(ex, "setFocusCtrl", C_MODULE, "");
             }
-        };
+        }
 
-        self.getSectionOrSectionLineFromKey = function(key) {
-            let sec: object = getSectionOrSectionLineFromKey(key, m_report.getHeaders());
+        public getSectionOrSectionLineFromKey(key: string) {
+            let sec: object = getSectionOrSectionLineFromKey(key, this.report.getHeaders());
             if (sec === null) {
-                sec = getSectionOrSectionLineFromKey(key, m_report.getGroupsHeaders());
+                sec = getSectionOrSectionLineFromKey(key, this.report.getGroupsHeaders());
                 if (sec === null) {
-                    sec = getSectionOrSectionLineFromKey(key, m_report.getDetails());
+                    sec = getSectionOrSectionLineFromKey(key, this.report.getDetails());
                     if (sec === null) {
-                        sec = getSectionOrSectionLineFromKey(key, m_report.getGroupsFooters());
+                        sec = getSectionOrSectionLineFromKey(key, this.report.getGroupsFooters());
                         if (sec === null) {
-                            sec = getSectionOrSectionLineFromKey(key, m_report.getFooters());
+                            sec = getSectionOrSectionLineFromKey(key, this.report.getFooters());
                         }
                     }
                 }
             }
 
             return sec;
-        };
+        }
 
-        const getSectionOrSectionLineFromKey = function(key, sections) {
+        private getSectionOrSectionLineFromKey(key: string, sections: cIReportGroupSections) {
             for(var i = 0; i < sections.count(); i++) {
                 let sec: var = sections.item(i);
                 if (sec.getKey() === key) {
@@ -553,9 +553,9 @@
                 }
             }
             return null;
-        };
+        }
 
-        self.selectSection = function(secKey) {
+        public selectSection(secKey: string) {
             try {
 
                 pSelectSection(secKey);
@@ -563,51 +563,51 @@
             } catch (Exception ex) {
                 cError.mngError(ex, "setelectSection", C_MODULE, "");
             }
-        };
+        }
 
-        self.selectCtrl = function(ctrlKey) {
+        public selectCtrl(ctrlKey: string) {
             let bWasRemoved: boolean = false;
             let sKey: string = "";
 
-            G.redim(m_vSelectedKeys, 0);
+            G.redim(this.vSelectedKeys, 0);
             sKey = getReport().getControls().item(ctrlKey).getKeyPaint();
             pAddToSelected(sKey, false, bWasRemoved);
 
             if (bWasRemoved) { sKey = ""; }
 
-            m_keyFocus = sKey;
-            m_keyObj = sKey;
-            m_paint.setFocus(m_keyFocus, m_picReport.CreateGraphics(), true);
+            this.keyFocus = sKey;
+            this.keyObj = sKey;
+            this.paint.setFocus(this.keyFocus, this.picReport.CreateGraphics(), true);
             cMainEditor.showProperties(ctrlKey);
-        };
+        }
 
-        const pSelectSection = function(secKey) {
+        private pSelectSection(secKey: string) {
             let bIsSecLn: boolean = false;
             pSelectSection(secKey, bIsSecLn);
-        };
+        }
 
-        const pSelectSection = function(secKey, bIsSecLn) {
+        private pSelectSection(secKey: string, bIsSecLn: boolean) {
             let bWasRemoved: boolean = false;
             let sKey: string = "";
 
             bIsSecLn = false;
 
-            G.redim(m_vSelectedKeys, 0);
+            G.redim(this.vSelectedKeys, 0);
 
-            if (m_report.getHeaders().item(secKey) !== null) {
-                sKey = m_report.getHeaders().item(secKey).getKeyPaint();
+            if (this.report.getHeaders().item(secKey) !== null) {
+                sKey = this.report.getHeaders().item(secKey).getKeyPaint();
             }
-            else if (m_report.getGroupsHeaders().item(secKey) !== null) {
-                sKey = m_report.getGroupsHeaders().item(secKey).getKeyPaint();
+            else if (this.report.getGroupsHeaders().item(secKey) !== null) {
+                sKey = this.report.getGroupsHeaders().item(secKey).getKeyPaint();
             }
-            else if (m_report.getDetails().item(secKey) !== null) {
-                sKey = m_report.getDetails().item(secKey).getKeyPaint();
+            else if (this.report.getDetails().item(secKey) !== null) {
+                sKey = this.report.getDetails().item(secKey).getKeyPaint();
             }
-            else if (m_report.getGroupsFooters().item(secKey) !== null) {
-                sKey = m_report.getGroupsFooters().item(secKey).getKeyPaint();
+            else if (this.report.getGroupsFooters().item(secKey) !== null) {
+                sKey = this.report.getGroupsFooters().item(secKey).getKeyPaint();
             }
-            else if (m_report.getFooters().item(secKey) !== null) {
-                sKey = m_report.getFooters().item(secKey).getKeyPaint();
+            else if (this.report.getFooters().item(secKey) !== null) {
+                sKey = this.report.getFooters().item(secKey).getKeyPaint();
             }
             else {
                 let secLn: cReportSectionLine = null;
@@ -615,7 +615,7 @@
 
                 bIsSecLn = true;
 
-                secLn = pGetSecLnFromKey(secKey, m_report.getHeaders(), sec);
+                secLn = pGetSecLnFromKey(secKey, this.report.getHeaders(), sec);
                 if (secLn !== null) {
                     sKey = secLn.getKeyPaint();
                     if (sKey === "") {
@@ -623,7 +623,7 @@
                     }
                 }
                 else {
-                    secLn = pGetSecLnFromKey(secKey, m_report.getGroupsHeaders(), sec);
+                    secLn = pGetSecLnFromKey(secKey, this.report.getGroupsHeaders(), sec);
                     if (secLn !== null) {
                         sKey = secLn.getKeyPaint();
                         if (sKey === "") {
@@ -631,7 +631,7 @@
                         }
                     }
                     else {
-                        secLn = pGetSecLnFromKey(secKey, m_report.getDetails(), sec);
+                        secLn = pGetSecLnFromKey(secKey, this.report.getDetails(), sec);
                         if (secLn !== null) {
                             sKey = secLn.getKeyPaint();
                             if (sKey === "") {
@@ -639,7 +639,7 @@
                             }
                         }
                         else {
-                            secLn = pGetSecLnFromKey(secKey, m_report.getGroupsFooters(), sec);
+                            secLn = pGetSecLnFromKey(secKey, this.report.getGroupsFooters(), sec);
                             if (secLn !== null) {
                                 sKey = secLn.getKeyPaint();
                                 if (sKey === "") {
@@ -647,7 +647,7 @@
                                 }
                             }
                             else {
-                                secLn = pGetSecLnFromKey(secKey, m_report.getFooters(), sec);
+                                secLn = pGetSecLnFromKey(secKey, this.report.getFooters(), sec);
                                 if (secLn !== null) {
                                     sKey = secLn.getKeyPaint();
                                     if (sKey === "") {
@@ -665,16 +665,16 @@
             pAddToSelected(sKey, false, bWasRemoved);
             if (bWasRemoved) { sKey = ""; }
 
-            m_keyFocus = sKey;
-            m_keyObj = sKey;
-            m_paint.setFocus(m_keyFocus, m_picReport.CreateGraphics(), true);
+            this.keyFocus = sKey;
+            this.keyObj = sKey;
+            this.paint.setFocus(this.keyFocus, this.picReport.CreateGraphics(), true);
             cMainEditor.showProperties("S" + secKey);
-        };
+        }
 
-        const pGetSecLnFromKey = function(
-            secKey, 
-            sections, 
-            rtnSec) {
+        private pGetSecLnFromKey(
+            secKey: string
+            sections: cIReportGroupSections
+            rtnSec: cReportSection) {
             let sec: cReportSection = null;
             rtnSec = null;
             for(var _i = 0; _i < sections.count(); _i++) {
@@ -685,18 +685,18 @@
                 }
             }
             return null;
-        };
+        }
 
-        self.checkSyntax = function(code) {
+        public checkSyntax(code: string) {
             let f: cReportFormula = null;
 
-            f = globalObject.CSReportDll.createCReportFormula();
+            f = new cReportFormula();
 
-            if (m_fProperties !== null) {
-                f.setName(m_fProperties.getFormulaName());
+            if (this.fProperties !== null) {
+                f.setName(this.fProperties.getFormulaName());
             }
-            else if (m_fSecProperties !== null) {
-                f.setName(m_fSecProperties.getFormulaName());
+            else if (this.fSecProperties !== null) {
+                f.setName(this.fSecProperties.getFormulaName());
             }
             else {
                 f.setName(cMainEditor.getCtrlTreeBox().getFormulaName());
@@ -704,57 +704,57 @@
 
             f.setText(code);
 
-            return m_report.getCompiler().checkSyntax(f);
-        };
+            return this.report.getCompiler().checkSyntax(f);
+        }
 
-        self.showHelpChartField = function(ctrl, idx) {
+        public showHelpChartField(ctrl: TextBox, idx: number) {
             let nIndex: number = 0;
             let nFieldType: number = 0;
             let sField: string = "";
 
             sField = ctrl.Text;
-            nFieldType = m_fProperties.getChartFieldType(idx);
-            nIndex = m_fProperties.getChartIndex(idx);
+            nFieldType = this.fProperties.getChartFieldType(idx);
+            nIndex = this.fProperties.getChartIndex(idx);
 
             if (cGlobals.showDbFields(sField, nFieldType, nIndex, this)) {
                 ctrl.Text = sField;
-                m_fProperties.setChartFieldType(idx, nFieldType);
-                m_fProperties.setChartIndex(idx, nIndex);
+                this.fProperties.setChartFieldType(idx, nFieldType);
+                this.fProperties.setChartIndex(idx, nIndex);
                 return true;
             }
             else {
                 return false;
             }
-        };
+        }
 
-        self.showHelpChartGroupField = function() {
+        public showHelpChartGroupField() {
             let nIndex: number = 0;
             let nFieldType: number = 0;
             let sField: string = "";
 
-            sField = m_fProperties.getDbFieldGroupValue();
-            nFieldType = m_fProperties.getChartGroupFieldType();
-            nIndex = m_fProperties.getChartGroupIndex();
+            sField = this.fProperties.getDbFieldGroupValue();
+            nFieldType = this.fProperties.getChartGroupFieldType();
+            nIndex = this.fProperties.getChartGroupIndex();
 
             if(cGlobals.showDbFields(sField, nFieldType, nIndex, this)) {
-                m_fProperties.setDbFieldGroupValue(sField);
-                m_fProperties.setChartGroupFieldType(nFieldType);
-                m_fProperties.setChartGroupIndex(nIndex);
+                this.fProperties.setDbFieldGroupValue(sField);
+                this.fProperties.setChartGroupFieldType(nFieldType);
+                this.fProperties.setChartGroupIndex(nIndex);
                 return true;
             }
             else {
                 return false;
             }
-        };
+        }
 
-        self.showEditFormula = function(formula) {
+        public showEditFormula(formula: string) {
 
             try {
                 let f: cReportFormulaType = null;
                 let c: cReportControl = null;
 
-                if (m_fFormula === null) {
-                    m_fFormula = globalObject.CSReportEditor.createFFormula();
+                if (this.fFormula === null) {
+                    this.fFormula = new fFormula();
                     // TODO: set event handlers for fFormula
                 }
 
@@ -762,36 +762,36 @@
                 //
 
                 // Load formulas in the tree
-                m_fFormula.createTree();
+                this.fFormula.createTree();
 
-                for(var _i = 0; _i < m_report.getFormulaTypes().count(); _i++) {
-                    f = m_report.getFormulaTypes().item(_i);
-                    m_fFormula.addFormula(f.getId(), f.getName(), f.getNameUser(), f.getDecrip(), f.getHelpContextId());
+                for(var _i = 0; _i < this.report.getFormulaTypes().count(); _i++) {
+                    f = this.report.getFormulaTypes().item(_i);
+                    this.fFormula.addFormula(f.getId(), f.getName(), f.getNameUser(), f.getDecrip(), f.getHelpContextId());
                 }
 
-                for(var _i = 0; _i < m_report.getControls().count(); _i++) {
-                    c = m_report.getControls().item(_i);
+                for(var _i = 0; _i < this.report.getControls().count(); _i++) {
+                    c = this.report.getControls().item(_i);
                     if (c.getControlType() === csRptControlType.CSRPTCTFIELD) {
-                        m_fFormula.addDBField(c.getName(), c.getField().getName());
+                        this.fFormula.addDBField(c.getName(), c.getField().getName());
                     }
                     else if (c.getControlType() === csRptControlType.CSRPTCTLABEL) {
-                        m_fFormula.addLabel(c.getName());
+                        this.fFormula.addLabel(c.getName());
                     }
                 }
 
-                m_fFormula.setFormula(formula);
+                this.fFormula.setFormula(formula);
 
-                m_fFormula.setHandler(this);
+                this.fFormula.setHandler(this);
 
-                m_fFormula.expandTree();
+                this.fFormula.expandTree();
 
                 //
                 // TODO: end functionality to move
 
-                m_fFormula.ShowDialog();
+                this.fFormula.ShowDialog();
 
-                if (m_fFormula.getOk()) {
-                    formula = m_fFormula.getFormula();
+                if (this.fFormula.getOk()) {
+                    formula = this.fFormula.getFormula();
                     return true;
                 }
                 else {
@@ -805,81 +805,81 @@
             }
 UNKNOWN >>             finally
             {
-                m_fFormula.Hide();
-                m_fFormula = null;
+                this.fFormula.Hide();
+                this.fFormula = null;
             }
-        };
+        }
 
-        const m_fSecProperties_UnloadForm = function() {
-            m_fSecProperties = null;
-        };
+        private fSecProperties_UnloadForm() {
+            this.fSecProperties = null;
+        }
 
-        const m_fToolBox_AddControl = function(
-            controlName, 
-            controlType, 
-            fieldName, 
-            formulaText, 
-            fieldType, 
-            fieldIndex) {
+        private fToolBox_AddControl(
+            controlName: string
+            controlType: csRptEditCtrlType
+            fieldName: string
+            formulaText: string
+            fieldType: number
+            fieldIndex: number) {
             beginDraging();
-            m_controlName = controlName;
-            m_controlType = controlType;
-            m_fieldName = fieldName;
-            m_formulaText = formulaText;
-            m_fieldIndex = fieldIndex;
-            m_fieldType = fieldType;
-        };
+            this.controlName = controlName;
+            this.controlType = controlType;
+            this.fieldName = fieldName;
+            this.formulaText = formulaText;
+            this.fieldIndex = fieldIndex;
+            this.fieldType = fieldType;
+        }
 
-        const m_fTreeCtrls_UpdateFormulaHide = function(ctrlKey, formula) {
-            m_report.getControls().item(ctrlKey).getFormulaHide().setText(formula);
-        };
+        private fTreeCtrls_UpdateFormulaHide(ctrlKey: string, formula: string) {
+            this.report.getControls().item(ctrlKey).getFormulaHide().setText(formula);
+        }
 
-        const m_fTreeCtrls_UpdateFormulaValue = function(ctrlKey, formula) {
-            m_report.getControls().item(ctrlKey).getFormulaValue().setText(formula);
-        };
+        private fTreeCtrls_UpdateFormulaValue(ctrlKey: string, formula: string) {
+            this.report.getControls().item(ctrlKey).getFormulaValue().setText(formula);
+        }
 
-        const m_fTreeCtrls_UpdateSectionFormulaHide = function(secKey, formula) {
+        private fTreeCtrls_UpdateSectionFormulaHide(secKey: string, formula: string) {
 
-            if (m_report.getHeaders().item(secKey) !== null) {
-                m_report.getHeaders().item(secKey).getFormulaHide().setText(formula);
+            if (this.report.getHeaders().item(secKey) !== null) {
+                this.report.getHeaders().item(secKey).getFormulaHide().setText(formula);
             }
-            else if (m_report.getGroupsHeaders().item(secKey) !== null) {
-                m_report.getGroupsHeaders().item(secKey).getFormulaHide().setText(formula);
+            else if (this.report.getGroupsHeaders().item(secKey) !== null) {
+                this.report.getGroupsHeaders().item(secKey).getFormulaHide().setText(formula);
             }
-            else if (m_report.getDetails().item(secKey) !== null) {
-                m_report.getDetails().item(secKey).getFormulaHide().setText(formula);
+            else if (this.report.getDetails().item(secKey) !== null) {
+                this.report.getDetails().item(secKey).getFormulaHide().setText(formula);
             }
-            else if (m_report.getGroupsFooters().item(secKey) !== null) {
-                m_report.getGroupsFooters().item(secKey).getFormulaHide().setText(formula);
+            else if (this.report.getGroupsFooters().item(secKey) !== null) {
+                this.report.getGroupsFooters().item(secKey).getFormulaHide().setText(formula);
             }
-            else if (m_report.getFooters().item(secKey) !== null) {
-                m_report.getFooters().item(secKey).getFormulaHide().setText(formula);
+            else if (this.report.getFooters().item(secKey) !== null) {
+                this.report.getFooters().item(secKey).getFormulaHide().setText(formula);
             }
             else {
                 let secLn: cReportSectionLine = null;
                 let sec: cReportSection = null;
 
-                secLn = pGetSecLnFromKey(secKey, m_report.getHeaders(), sec);
+                secLn = pGetSecLnFromKey(secKey, this.report.getHeaders(), sec);
                 if (secLn !== null) {
                     secLn.getFormulaHide().setText(formula);
                 }
                 else {
-                    secLn = pGetSecLnFromKey(secKey, m_report.getGroupsHeaders(), sec);
+                    secLn = pGetSecLnFromKey(secKey, this.report.getGroupsHeaders(), sec);
                     if (secLn !== null) {
                         secLn.getFormulaHide().setText(formula);
                     }
                     else {
-                        secLn = pGetSecLnFromKey(secKey, m_report.getDetails(), sec);
+                        secLn = pGetSecLnFromKey(secKey, this.report.getDetails(), sec);
                         if (secLn !== null) {
                             secLn.getFormulaHide().setText(formula);
                         }
                         else {
-                            secLn = pGetSecLnFromKey(secKey, m_report.getGroupsFooters(), sec);
+                            secLn = pGetSecLnFromKey(secKey, this.report.getGroupsFooters(), sec);
                             if (secLn !== null) {
                                 secLn.getFormulaHide().setText(formula);
                             }
                             else {
-                                secLn = pGetSecLnFromKey(secKey, m_report.getFooters(), sec);
+                                secLn = pGetSecLnFromKey(secKey, this.report.getFooters(), sec);
                                 if (secLn !== null) {
                                     secLn.getFormulaHide().setText(formula);
                                 }
@@ -888,9 +888,9 @@ UNKNOWN >>             finally
                     }
                 }
             }
-        };
+        }
 
-        self.keyDown = function(sender, e) {
+        public keyDown(sender: object, e: KeyEventArgs) {
             let keyCode: Keys = e.KeyCode;
             let shift: boolean = e.Shift;
             let aspect: cReportAspect = null;
@@ -915,65 +915,65 @@ UNKNOWN >>             finally
                 let x: number = 0;
                 let y: number = 0;
 
-                if (m_vSelectedKeys.Length < 1) { return; }
+                if (this.vSelectedKeys.Length < 1) { return; }
 
-                if (!m_keyboardMove) {
-                    aspect = m_paint.getPaintObject(m_vSelectedKeys[0]).getAspect();
+                if (!this.keyboardMove) {
+                    aspect = this.paint.getPaintObject(this.vSelectedKeys[0]).getAspect();
                     y = Convert.ToInt32(aspect.getTop());
                     x = Convert.ToInt32(aspect.getLeft());
                 }
                 else {
-                    y = m_y;
-                    x = m_x;
+                    y = this.y;
+                    x = this.x;
                 }
 
                 // resize
                 //
                 if (shift) {
 
-                    if (m_keySizing === "") {
-                        m_keySizing = m_paint.getPaintObject(m_vSelectedKeys[0]).getKey();
+                    if (this.keySizing === "") {
+                        this.keySizing = this.paint.getPaintObject(this.vSelectedKeys[0]).getKey();
                     }
 
-                    if (!m_keyboardMove) {
+                    if (!this.keyboardMove) {
 
-                        aspect = m_paint.getPaintObject(m_vSelectedKeys[0]).getAspect();
+                        aspect = this.paint.getPaintObject(this.vSelectedKeys[0]).getAspect();
                         y += Convert.ToInt32(aspect.getHeight());
                         x += Convert.ToInt32(aspect.getWidth());
 
                         pSetMovingFromKeyboard(x, y);
 
-                        if (m_keySizing === "") {
-                            m_keySizing = m_paint.getPaintObject(m_vSelectedKeys[0]).getKey();
+                        if (this.keySizing === "") {
+                            this.keySizing = this.paint.getPaintObject(this.vSelectedKeys[0]).getKey();
                         }
 
                         switch (keyCode) {
 
                         case Keys.Down:
                         case Keys.Up:
-                                m_keyMoving = "";
-                                m_moveType = csRptEditorMoveType.CSRPTEDMOVDOWN;
+                                this.keyMoving = "";
+                                this.moveType = csRptEditorMoveType.CSRPTEDMOVDOWN;
                                 break;
                         case Keys.Right:
                         case Keys.Left:
-                                m_keyMoving = "";
-                                m_moveType = csRptEditorMoveType.CSRPTEDMOVRIGHT;
+                                this.keyMoving = "";
+                                this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHT;
                                 break;
                         }
                     }
 
                     switch (keyCode) {
                     case Keys.Up:
-                            y = y - m_keyboardMoveStep;
+                            y = y - this.keyboardMoveStep;
                             break;
                     case Keys.Down:
-                            y = y + m_keyboardMoveStep;
+                            y = y + this.keyboardMoveStep;
                             break;
                     case Keys.Left:
-                            x = x - m_keyboardMoveStep;
+                            x = x - this.keyboardMoveStep;
                             break;
                     case Keys.Right:
-                            x = x + m_keyboardMoveStep;
+                            x = x + this.keyboardMoveStep;
                             break;
                     }
 
@@ -982,53 +982,53 @@ UNKNOWN >>             finally
                 }
                 else {
 
-                    if (!m_keyboardMove) {
+                    if (!this.keyboardMove) {
                         pSetMovingFromKeyboard(x, y);
                     }
 
-                    if (m_keyMoving === "") {
-                        m_keyMoving = m_paint.getPaintObject(m_vSelectedKeys[0]).getKey();
+                    if (this.keyMoving === "") {
+                        this.keyMoving = this.paint.getPaintObject(this.vSelectedKeys[0]).getKey();
                     }
 
                     switch (keyCode) {
                     case Keys.Up:
-                            y = y - m_keyboardMoveStep;
+                            y = y - this.keyboardMoveStep;
                             break;
                     case Keys.Down:
-                            y = y + m_keyboardMoveStep;
+                            y = y + this.keyboardMoveStep;
                             break;
                     case Keys.Left:
-                            x = x - m_keyboardMoveStep;
+                            x = x - this.keyboardMoveStep;
                             break;
                     case Keys.Right:
-                            x = x + m_keyboardMoveStep;
+                            x = x + this.keyboardMoveStep;
                             break;
                     }
                 }
 
-                m_picReport_MouseMove(this, new MouseEventArgs(MouseButtons.Left, 0, x, y, 0));
-                m_x = x;
-                m_y = y;
+                this.picReport_MouseMove(this, new MouseEventArgs(MouseButtons.Left, 0, x, y, 0));
+                this.x = x;
+                this.y = y;
 
-                m_keyboardMove = true;
+                this.keyboardMove = true;
 
             } catch (Exception ex) {
-                cError.mngError(ex, "m_picReport_KeyDown", C_MODULE, "");
+                cError.mngError(ex, "this.picReport_KeyDown", C_MODULE, "");
             }
-        };
+        }
 
-        const pSetMovingFromKeyboard = function(x, y) {
+        private pSetMovingFromKeyboard(x: number, y: number) {
 
-            m_keyMoving = m_keyFocus;
+            this.keyMoving = this.keyFocus;
 
-            let po: cReportPaintObject = m_paint.getPaintObject(m_keyMoving);
+            let po: cReportPaintObject = this.paint.getPaintObject(this.keyMoving);
 
             switch (po.getTag()) {
                 case cGlobals.C_KEY_DETAIL:
                 case cGlobals.C_KEY_FOOTER:
                 case cGlobals.C_KEY_HEADER:
-                    m_moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
-                    m_picReport.Cursor = Cursors.SizeNS;
+                    this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
+                    this.picReport.Cursor = Cursors.SizeNS;
                     break;
                 default:
                     if (po.getRptType() === csRptSectionType.DETAIL
@@ -1037,8 +1037,8 @@ UNKNOWN >>             finally
                         || po.getRptType() === csRptSectionType.GROUP_FOOTER
                         || po.getRptType() === csRptSectionType.FOOTER) {
 
-                        m_picReport.Cursor = Cursors.SizeNS;
-                        m_moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
+                        this.picReport.Cursor = Cursors.SizeNS;
+                        this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
 
                     }
                     else if (po.getRptType() === csRptSectionType.SECLN_HEADER
@@ -1047,32 +1047,32 @@ UNKNOWN >>             finally
                         || po.getRptType() === csRptSectionType.SECLN_GROUPH
                         || po.getRptType() === csRptSectionType.SECLN_GROUPF) {
 
-                        m_picReport.Cursor = Cursors.SizeNS;
-                        m_moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
+                        this.picReport.Cursor = Cursors.SizeNS;
+                        this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
 
                     }
                     else {
-                        m_moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
-                        m_picReport.Cursor = Cursors.SizeNS;
+                        this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
+                        this.picReport.Cursor = Cursors.SizeNS;
                     }
                     break;
             }
 
-            let aspect: cReportAspect = m_paint.getPaintObject(m_keyMoving).getAspect();
-            m_offX = x - aspect.getLeft();
-            m_offY = y - (aspect.getTop() - aspect.getOffset());
+            let aspect: cReportAspect = this.paint.getPaintObject(this.keyMoving).getAspect();
+            this.offX = x - aspect.getLeft();
+            this.offY = y - (aspect.getTop() - aspect.getOffset());
 
-            m_keyObj = m_keyMoving;
+            this.keyObj = this.keyMoving;
 
-            cGlobals.setEditAlignTextState(m_vSelectedKeys.Length);
-            cGlobals.setEditAlignCtlState(m_vSelectedKeys.Length > 1);
+            cGlobals.setEditAlignTextState(this.vSelectedKeys.Length);
+            cGlobals.setEditAlignCtlState(this.vSelectedKeys.Length > 1);
             pSetEditAlignValue();
             pSetFontBoldValue();
 
-        };
+        }
 
-        const m_picReport_MouseDown = function(sender, e) {
-            if (m_paint === null) return; {
+        private picReport_MouseDown(sender: object, e: System.Windows.Forms.MouseEventArgs) {
+            if (this.paint === null) return; {
 
             let button: MouseButtons = e.Button;
             let ctrlKey: boolean = Control.ModifierKeys.HasFlag(Keys.Control) || Control.ModifierKeys.HasFlag(Keys.Shift);
@@ -1087,11 +1087,11 @@ UNKNOWN >>             finally
                 let lastKeyObj: string = "";
 
                 // to avoid reentrancy
-                if (m_opening) { return; }
+                if (this.opening) { return; }
 
-                m_inMouseDown = true;
+                this.inMouseDown = true;
 
-                if (m_draging) {
+                if (this.draging) {
                     addControlEnd(x, y);
                     endDraging();
                 }
@@ -1102,20 +1102,20 @@ UNKNOWN >>             finally
 
                 if (button === MouseButtons.Left) {
 
-                    lastKeyObj = m_keyObj;
-                    m_keyObj = "";
+                    lastKeyObj = this.keyObj;
+                    this.keyObj = "";
 
-                    sKey = m_keyMoving !== "" ? m_keyMoving : m_keySizing;
+                    sKey = this.keyMoving !== "" ? this.keyMoving : this.keySizing;
 
                     // to force focus in the header
                     if (sKey === "") {
-                        m_paint.pointIsInObject(x, y, sKey);
+                        this.paint.pointIsInObject(x, y, sKey);
 
                         if (sKey !== "") {
 
-                            let po: cReportPaintObject = m_paint.getPaintObject(sKey);
-                            lastKeyMoving = m_keyMoving;
-                            m_keyMoving = sKey;
+                            let po: cReportPaintObject = this.paint.getPaintObject(sKey);
+                            lastKeyMoving = this.keyMoving;
+                            this.keyMoving = sKey;
 
                             switch (po.getTag())
                             {
@@ -1127,17 +1127,17 @@ UNKNOWN >>             finally
                                     //
                                     if (ctrlKey) {
 
-                                        if (m_vSelectedKeys.Length > 0) {
+                                        if (this.vSelectedKeys.Length > 0) {
                                             return;
-                                        if (m_vSelectedKeys[0].Length > 0) {
+                                        if (this.vSelectedKeys[0].Length > 0) {
                                             return;
-                                        m_keyMoving = lastKeyMoving;
-                                        m_keyObj = lastKeyObj;
+                                        this.keyMoving = lastKeyMoving;
+                                        this.keyObj = lastKeyObj;
                                         return;
                                     }
 
-                                    m_moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
-                                    m_picReport.Cursor = Cursors.SizeNS;
+                                    this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
+                                    this.picReport.Cursor = Cursors.SizeNS;
                                     break;
 
                                 default:
@@ -1151,17 +1151,17 @@ UNKNOWN >>             finally
                                         //
                                         if (ctrlKey) {
 
-                                            if (m_vSelectedKeys.Length > 0) {
+                                            if (this.vSelectedKeys.Length > 0) {
                                                 return;
-                                            if (m_vSelectedKeys[0].Length > 0) {
+                                            if (this.vSelectedKeys[0].Length > 0) {
                                                 return;
-                                            m_keyMoving = lastKeyMoving;
-                                            m_keyObj = lastKeyObj;
+                                            this.keyMoving = lastKeyMoving;
+                                            this.keyObj = lastKeyObj;
                                             return;
                                         }
 
-                                        m_picReport.Cursor = Cursors.SizeNS;
-                                        m_moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
+                                        this.picReport.Cursor = Cursors.SizeNS;
+                                        this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
 
                                     }
                                     else if (po.getRptType() === csRptSectionType.SECLN_HEADER
@@ -1173,22 +1173,22 @@ UNKNOWN >>             finally
                                         // only if no controls are selected
                                         //
                                         if (ctrlKey) {
-                                            if (m_vSelectedKeys.Length > 0) {
+                                            if (this.vSelectedKeys.Length > 0) {
                                                 return;
-                                            if (m_vSelectedKeys[0].Length > 0) {
+                                            if (this.vSelectedKeys[0].Length > 0) {
                                                 return;
-                                            m_keyMoving = lastKeyMoving;
-                                            m_keyObj = lastKeyObj;
+                                            this.keyMoving = lastKeyMoving;
+                                            this.keyObj = lastKeyObj;
                                             return;
                                         }
 
-                                        m_picReport.Cursor = Cursors.SizeNS;
-                                        m_moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
+                                        this.picReport.Cursor = Cursors.SizeNS;
+                                        this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
 
                                     }
                                     else {
-                                        m_moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
-                                        m_picReport.Cursor = Cursors.SizeAll;
+                                        this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
+                                        this.picReport.Cursor = Cursors.SizeAll;
                                     }
                                     break;
                             }
@@ -1196,21 +1196,21 @@ UNKNOWN >>             finally
                     }
 
                     let bWasRemoved: boolean = false;
-                    pAddToSelected(m_keyMoving, ctrlKey, bWasRemoved);
+                    pAddToSelected(this.keyMoving, ctrlKey, bWasRemoved);
 
                     if (bWasRemoved) { sKey = ""; }
 
                     if (sKey !== "") {
-                        let aspect: cReportAspect = m_paint.getPaintObject(sKey).getAspect();
-                        m_offX = x - aspect.getLeft();
-                        m_offY = y - (aspect.getTop() - aspect.getOffset());
+                        let aspect: cReportAspect = this.paint.getPaintObject(sKey).getAspect();
+                        this.offX = x - aspect.getLeft();
+                        this.offY = y - (aspect.getTop() - aspect.getOffset());
                     }
 
-                    m_keyFocus = sKey;
-                    m_keyObj = sKey;
-                    m_paint.setFocus(m_keyFocus, m_picReport.CreateGraphics(), bClearSelected);
+                    this.keyFocus = sKey;
+                    this.keyObj = sKey;
+                    this.paint.setFocus(this.keyFocus, this.picReport.CreateGraphics(), bClearSelected);
 
-                    let poSelected: cReportPaintObject = m_paint.getPaintObject(sKey);
+                    let poSelected: cReportPaintObject = this.paint.getPaintObject(sKey);
                     if (poSelected !== null) {
                         cMainEditor.showProperties(
                             poSelected.getIsSection()
@@ -1219,21 +1219,21 @@ UNKNOWN >>             finally
                     }
                 }
                 else if (button === MouseButtons.Right) {
-                    m_keySizing = "";
-                    m_keyMoving = "";
-                    m_keyObj = "";
+                    this.keySizing = "";
+                    this.keyMoving = "";
+                    this.keyObj = "";
 
-                    if (m_paint.pointIsInObject(x, y, sKey)) {
-                        m_keyObj = sKey;
+                    if (this.paint.pointIsInObject(x, y, sKey)) {
+                        this.keyObj = sKey;
 
                         bClearSelected = pSetSelectForRightBttn();
 
-                        m_keyFocus = sKey;
-                        m_paint.setFocus(m_keyFocus, m_picReport.CreateGraphics(), bClearSelected);
+                        this.keyFocus = sKey;
+                        this.paint.setFocus(this.keyFocus, this.picReport.CreateGraphics(), bClearSelected);
 
-                        let po: cReportPaintObject = m_paint.getPaintObject(sKey);
+                        let po: cReportPaintObject = this.paint.getPaintObject(sKey);
 
-                        if (m_paint.paintObjIsSection(sKey)) {
+                        if (this.paint.paintObjIsSection(sKey)) {
 
                             let noDelete: boolean = false;
 
@@ -1273,27 +1273,27 @@ UNKNOWN >>             finally
                     }
                 }
 
-                cGlobals.setEditAlignTextState(m_vSelectedKeys.Length);
-                cGlobals.setEditAlignCtlState(m_vSelectedKeys.Length > 1);
+                cGlobals.setEditAlignTextState(this.vSelectedKeys.Length);
+                cGlobals.setEditAlignCtlState(this.vSelectedKeys.Length > 1);
                 pSetEditAlignValue();
                 pSetFontBoldValue();
 
             }
             catch (ex) {
-                cError.mngError(ex, "m_picReport_MouseDown", C_MODULE, "");
+                cError.mngError(ex, "this.picReport_MouseDown", C_MODULE, "");
             }
 UNKNOWN >>             finally
             {
-                m_inMouseDown = false;
+                this.inMouseDown = false;
             }
-        };
+        }
 
-        self.setFontBold = function() {
+        public setFontBold() {
             let bBold: number = -2;
             let bBoldValue: boolean = false;
 
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
-                let font: cReportFont = m_paint.getPaintObject(m_vSelectedKeys[i]).getAspect().getFont();
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+                let font: cReportFont = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect().getFont();
 
                 if (bBold === -2) {
                     bBold = font.getBold() ? -1 : 0;
@@ -1314,24 +1314,24 @@ UNKNOWN >>             finally
             let paintObject: cReportPaintObject = null;
             let rptCtrl: cReportControl = null;
 
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
 
-                paintObject = m_paint.getPaintObject(m_vSelectedKeys[i]);
-                rptCtrl = m_report.getControls().item(paintObject.getTag());
+                paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
+                rptCtrl = this.report.getControls().item(paintObject.getTag());
                 rptCtrl.getLabel().getAspect().getFont().setBold(bBoldValue);
                 paintObject.getAspect().getFont().setBold(bBoldValue);
             }
 
-            m_dataHasChanged = true;
+            this.dataHasChanged = true;
             refreshAll();
             pSetFontBoldValue();
-        };
+        }
 
-        self.pSetFontBoldValue = function() {
+        public pSetFontBoldValue() {
             let bBold: number = -2;
 
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
-                let font: cReportFont = m_paint.getPaintObject(m_vSelectedKeys[i]).getAspect().getFont();
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+                let font: cReportFont = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect().getFont();
 
                 if (bBold === -2) {
                     bBold = font.getBold() ? -1 : 0;
@@ -1343,9 +1343,9 @@ UNKNOWN >>             finally
             }
 
             cGlobals.setEditFontBoldValue(bBold);
-        };
+        }
 
-        self.controlsAlign = function(align) {
+        public controlsAlign(align: CSReportGlobals.csECtlAlignConst) {
             let paintObject: cReportPaintObject = null;
             let rptCtrl: cReportControl = null;
 
@@ -1363,7 +1363,7 @@ UNKNOWN >>             cReportAspect aspect;
                 case csECtlAlignConst.csECtlAlignHeight:
                 case csECtlAlignConst.csECtlAlignWidth:
 
-                    aspect = m_paint.getPaintObject(m_vSelectedKeys[0]).getAspect();
+                    aspect = this.paint.getPaintObject(this.vSelectedKeys[0]).getAspect();
                     height = aspect.getHeight();
                     width = aspect.getWidth();
                     break;
@@ -1371,7 +1371,7 @@ UNKNOWN >>             cReportAspect aspect;
                 case csECtlAlignConst.csECtlAlignVertical:
                 case csECtlAlignConst.csECtlAlignHorizontal:
 
-                    aspect = m_paint.getPaintObject(m_vSelectedKeys[0]).getAspect();
+                    aspect = this.paint.getPaintObject(this.vSelectedKeys[0]).getAspect();
                     newTop = aspect.getTop();
                     newLeft = aspect.getLeft();
                     break;
@@ -1393,9 +1393,9 @@ UNKNOWN >>             cReportAspect aspect;
                             break;
                     }
 
-                    for(var i = 0; i < m_vSelectedKeys.Length; i++) {
+                    for(var i = 0; i < this.vSelectedKeys.Length; i++) {
 
-                        aspect = m_paint.getPaintObject(m_vSelectedKeys[i]).getAspect();
+                        aspect = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect();
                         top = aspect.getTop();
                         left = aspect.getLeft();
 
@@ -1418,10 +1418,10 @@ UNKNOWN >>             cReportAspect aspect;
                     break;
             }
 
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
 
-                paintObject = m_paint.getPaintObject(m_vSelectedKeys[i]);
-                rptCtrl = m_report.getControls().item(paintObject.getTag());
+                paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
+                rptCtrl = this.report.getControls().item(paintObject.getTag());
 
                 switch (align) {
 
@@ -1451,33 +1451,33 @@ UNKNOWN >>             cReportAspect aspect;
                 }
             }
 
-            m_dataHasChanged = true;
+            this.dataHasChanged = true;
             refreshAll();
-        };
+        }
 
-        self.textAlign = function(align) {
+        public textAlign(align: CSReportGlobals.HorizontalAlignment) {
             let paintObject: cReportPaintObject = null;
             let rptCtrl: cReportControl = null;
 
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
 
-                paintObject = m_paint.getPaintObject(m_vSelectedKeys[i]);
-                rptCtrl = m_report.getControls().item(paintObject.getTag());
+                paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
+                rptCtrl = this.report.getControls().item(paintObject.getTag());
 
                 rptCtrl.getLabel().getAspect().setAlign(align);
                 paintObject.getAspect().setAlign(align);
             }
 
-            m_dataHasChanged = true;
+            this.dataHasChanged = true;
             refreshAll();
             pSetEditAlignValue();
-        };
+        }
 
-        const pSetEditAlignValue = function() {
+        private pSetEditAlignValue() {
             let align: number = -1;
 
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
-                let aspect: CSReportDll.cReportAspect = m_paint.getPaintObject(m_vSelectedKeys[i]).getAspect();
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+                let aspect: CSReportDll.cReportAspect = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect();
 
                 if (align === -1) {
                     align = aspect.getAlign();
@@ -1488,9 +1488,9 @@ UNKNOWN >>             cReportAspect aspect;
                 }
             }
             cGlobals.setEditAlignValue(align);
-        };
+        }
 
-        const pAddToSelected = function(sKey, ctrlKey, bWasRemoved) {
+        private pAddToSelected(sKey: string, ctrlKey: boolean, bWasRemoved: boolean) {
 
             bWasRemoved = false;
             if (sKey === "") { return; }
@@ -1499,9 +1499,9 @@ UNKNOWN >>             cReportAspect aspect;
 
             if (ctrlKey) {
 
-                for(var i = 0; i < m_vSelectedKeys.Length; i++) {
+                for(var i = 0; i < this.vSelectedKeys.Length; i++) {
 
-                    if (m_vSelectedKeys[i] === sKey) {
+                    if (this.vSelectedKeys[i] === sKey) {
                         pRemoveFromSelected(sKey);
                         bWasRemoved = true;
                         return;
@@ -1512,63 +1512,63 @@ UNKNOWN >>             cReportAspect aspect;
                 if (pAllreadySelected(sKey)) { return; }
             }
 
-            G.redimPreserve(m_vSelectedKeys, m_vSelectedKeys.Length + 1);
-            m_vSelectedKeys[m_vSelectedKeys.Length - 1] = sKey;
-        };
+            G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.Length + 1);
+            this.vSelectedKeys[this.vSelectedKeys.Length - 1] = sKey;
+        }
 
-        const pAllreadySelected = function(sKey) {
+        private pAllreadySelected(sKey: string) {
             if (sKey === "") {
                 return true;
             }
 
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
-                if (m_vSelectedKeys[i] === sKey) {
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+                if (this.vSelectedKeys[i] === sKey) {
                     return true;
                 }
             }
             return false;
-        };
+        }
 
-        const pRemoveFromSelected = function(sKey) {
+        private pRemoveFromSelected(sKey: string) {
 UNKNOWN >>             int i;
 
-            for (i = 0; i < m_vSelectedKeys.Length; i++) {
-                if (m_vSelectedKeys[i] === sKey) {
+            for (i = 0; i < this.vSelectedKeys.Length; i++) {
+                if (this.vSelectedKeys[i] === sKey) {
                     break;
                 }
             }
 
-            if (i > m_vSelectedKeys.Length) { return; }
-            for (i = i + 1; i < m_vSelectedKeys.Length; i++) {
-                m_vSelectedKeys[i - 1] = m_vSelectedKeys[i];
+            if (i > this.vSelectedKeys.Length) { return; }
+            for (i = i + 1; i < this.vSelectedKeys.Length; i++) {
+                this.vSelectedKeys[i - 1] = this.vSelectedKeys[i];
             }
-            if (m_vSelectedKeys.Length > 0) {
-                G.redimPreserve(m_vSelectedKeys, m_vSelectedKeys.Length - 1);
+            if (this.vSelectedKeys.Length > 0) {
+                G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.Length - 1);
             }
             else {
-                G.redim(m_vSelectedKeys, 0);
+                G.redim(this.vSelectedKeys, 0);
             }
 
-            m_paint.removeFromSelected(sKey, m_picReport.CreateGraphics());
-        };
+            this.paint.removeFromSelected(sKey, this.picReport.CreateGraphics());
+        }
 
-        const pClearSelected = function(button, ctrlKey, x, y) {
+        private pClearSelected(button: MouseButtons, ctrlKey: boolean, x: number, y: number) {
             let sKey: string = "";
 
             if (!ctrlKey && button !== MouseButtons.Right) {
-                m_paint.pointIsInObject(x, y, sKey);
-                for(var i = 0; i < m_vSelectedKeys.Length; i++) {
-                    if (m_vSelectedKeys[i] === sKey) {
+                this.paint.pointIsInObject(x, y, sKey);
+                for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+                    if (this.vSelectedKeys[i] === sKey) {
                         return false;
                     }
                 }
-                G.redim(m_vSelectedKeys, 0);
+                G.redim(this.vSelectedKeys, 0);
                 return true;
             }
             return false;
-        };
+        }
 
-        const pShowMoveAll = function(x, y) {
+        private pShowMoveAll(x: number, y: number) {
             let i: number = 0;
             let offsetTop: number = 0;
             let offsetLeft: number = 0;
@@ -1577,49 +1577,49 @@ UNKNOWN >>             int i;
             let clear: boolean = false;
             let offSet2: number = 0;
 
-            if (m_vSelectedKeys.Length === 0) { return; }
+            if (this.vSelectedKeys.Length === 0) { return; }
 
-            let aspect: cReportAspect = m_paint.getPaintObject(m_keyMoving).getAspect();
+            let aspect: cReportAspect = this.paint.getPaintObject(this.keyMoving).getAspect();
             firstLeft = aspect.getLeft();
             firstTop = aspect.getTop();
 
             clear = true;
 
-            for (i = m_vSelectedKeys.Length-1; i > -1; i--) {
+            for (i = this.vSelectedKeys.Length-1; i > -1; i--) {
 
-                aspect = m_paint.getPaintObject(m_vSelectedKeys[i]).getAspect();
+                aspect = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect();
                 offsetLeft = pGetOffsetLeftFromControls(firstLeft, aspect.getLeft());
                 offsetTop = pGetOffsetTopFromControls(firstTop, aspect.getTop());
                 offSet2 = aspect.getOffset();
 
-                if (m_bMoveHorizontal) {
-                    m_paint.moveObjToXYEx(m_keyMoving,
-                                            x - m_offX + offsetLeft,
+                if (this.bMoveHorizontal) {
+                    this.paint.moveObjToXYEx(this.keyMoving,
+                                            x - this.offX + offsetLeft,
                                             firstTop - offSet2 + offsetTop,
-                                            m_picReport.CreateGraphics(),
+                                            this.picReport.CreateGraphics(),
                                             clear);
                 }
-                else if (m_bMoveVertical) {
-                    m_paint.moveObjToXYEx(m_keyMoving,
+                else if (this.bMoveVertical) {
+                    this.paint.moveObjToXYEx(this.keyMoving,
                                             firstLeft + offsetLeft,
-                                            y - m_offY + offsetTop,
-                                            m_picReport.CreateGraphics(),
+                                            y - this.offY + offsetTop,
+                                            this.picReport.CreateGraphics(),
                                             clear);
                 }
                 else {
-                    m_paint.moveObjToXYEx(m_keyMoving,
-                                            x - m_offX + offsetLeft,
-                                            y - m_offY + offsetTop,
-                                            m_picReport.CreateGraphics(),
+                    this.paint.moveObjToXYEx(this.keyMoving,
+                                            x - this.offX + offsetLeft,
+                                            y - this.offY + offsetTop,
+                                            this.picReport.CreateGraphics(),
                                             clear);
                 }
 
                 if (clear) { clear = false; }
             }
-        };
+        }
 
-        const m_picReport_MouseMove = function(sender, e) {
-            if (m_paint === null) return; {
+        private picReport_MouseMove(sender: object, e: System.Windows.Forms.MouseEventArgs) {
+            if (this.paint === null) return; {
 
             let button: MouseButtons = e.Button;
             let x: number = e.X;
@@ -1628,71 +1628,71 @@ UNKNOWN >>             int i;
             let sKey: string = "";
             let rgnTp: csRptPaintRegionType = csRptPaintRegionType.CRPTPNTRGNTYPEBODY;
 
-            if (m_draging) { return; }
+            if (this.draging) { return; }
 
-            if (m_inMouseDown) { return; }
+            if (this.inMouseDown) { return; }
 
             if (button === MouseButtons.Left) {
 
-                m_paint.beginMove();
+                this.paint.beginMove();
 
-                if (m_keyMoving !== "") {
+                if (this.keyMoving !== "") {
 
-                    switch (m_moveType) {
+                    switch (this.moveType) {
                         case csRptEditorMoveType.CSRPTEDMOVTALL:
                             pShowMoveAll(x, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVTHORIZONTAL:
-                            m_paint.moveHorizontal(m_keyMoving, x, m_picReport.CreateGraphics());
+                            this.paint.moveHorizontal(this.keyMoving, x, this.picReport.CreateGraphics());
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVTVERTICAL:
-                            m_paint.moveVertical(m_keyMoving, y, m_picReport.CreateGraphics());
+                            this.paint.moveVertical(this.keyMoving, y, this.picReport.CreateGraphics());
                             break;
                     }
 
-                    m_moving = true;
+                    this.moving = true;
 
                 }
-                else if (m_keySizing !== "") {
-                    switch (m_moveType) {
+                else if (this.keySizing !== "") {
+                    switch (this.moveType) {
                         case csRptEditorMoveType.CSRPTEDMOVDOWN:
-                            m_paint.resize(m_picReport.CreateGraphics(), m_keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, y);
+                            this.paint.resize(this.picReport.CreateGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFT:
-                            m_paint.resize(m_picReport.CreateGraphics(), m_keySizing, x, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.CreateGraphics(), this.keySizing, x, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHT:
-                            m_paint.resize(m_picReport.CreateGraphics(), m_keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, x, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.CreateGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, x, cGlobals.C_NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVUP:
-                            m_paint.resize(m_picReport.CreateGraphics(), m_keySizing, cGlobals.C_NO_CHANGE, y, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.CreateGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, y, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFTDOWN:
-                            m_paint.resize(m_picReport.CreateGraphics(), m_keySizing, x, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, y);
+                            this.paint.resize(this.picReport.CreateGraphics(), this.keySizing, x, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFTUP:
-                            m_paint.resize(m_picReport.CreateGraphics(), m_keySizing, x, y, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.CreateGraphics(), this.keySizing, x, y, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN:
-                            m_paint.resize(m_picReport.CreateGraphics(), m_keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, x, y);
+                            this.paint.resize(this.picReport.CreateGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, x, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHTUP:
-                            m_paint.resize(m_picReport.CreateGraphics(), m_keySizing, cGlobals.C_NO_CHANGE, y, x, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.CreateGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, y, x, cGlobals.C_NO_CHANGE);
                             break;
                     }
-                    m_moving = true;
+                    this.moving = true;
                 }
                 else {
-                    m_moving = false;
+                    this.moving = false;
                 }
             }
             else {
-                if (m_keyFocus !== "") {
-                    sKey = m_keyFocus;
-                    if (m_paint.pointIsInThisObject(x, y, m_keyFocus, rgnTp)) {
-                        let po: cReportPaintObject = m_paint.getPaintObject(sKey);
+                if (this.keyFocus !== "") {
+                    sKey = this.keyFocus;
+                    if (this.paint.pointIsInThisObject(x, y, this.keyFocus, rgnTp)) {
+                        let po: cReportPaintObject = this.paint.getPaintObject(sKey);
 
-                        let ctrl: cReportControl = m_report.getControls().item(po.getTag());
+                        let ctrl: cReportControl = this.report.getControls().item(po.getTag());
                         pSetSbPnlCtrl(
                             ctrl.getName(),
                             ctrl.getControlType(),
@@ -1703,19 +1703,19 @@ UNKNOWN >>             int i;
                             ctrl.getField().getName());
 
                         if (po.getPaintType() === csRptPaintObjType.CSRPTPAINTOBJLINE) {
-                            m_keyMoving = sKey;
-                            m_keySizing = "";
-                            m_picReport.Cursor = Cursors.SizeNS;
+                            this.keyMoving = sKey;
+                            this.keySizing = "";
+                            this.picReport.Cursor = Cursors.SizeNS;
                         }
                         else {
                             switch (po.getTag()) {
                                 case cGlobals.C_KEY_DETAIL:
                                 case cGlobals.C_KEY_FOOTER:
                                 case cGlobals.C_KEY_HEADER:
-                                    m_keyMoving = sKey;
-                                    m_keySizing = "";
-                                    m_picReport.Cursor = Cursors.SizeNS;
-                                    m_moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
+                                    this.keyMoving = sKey;
+                                    this.keySizing = "";
+                                    this.picReport.Cursor = Cursors.SizeNS;
+                                    this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     break;
 
                                 default:
@@ -1726,80 +1726,80 @@ UNKNOWN >>             int i;
                                         || po.getRptType() === csRptSectionType.GROUP_FOOTER
                                     || po.getRptType() === csRptSectionType.FOOTER) {
 
-                                        m_keyMoving = sKey;
-                                        m_keySizing = "";
-                                        m_picReport.Cursor = Cursors.SizeNS;
-                                        m_moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
+                                        this.keyMoving = sKey;
+                                        this.keySizing = "";
+                                        this.picReport.Cursor = Cursors.SizeNS;
+                                        this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     }
                                     else {
 
                                         switch (rgnTp) {
                                     case csRptPaintRegionType.CRPTPNTRGNTYPEBODY:
-                                                m_picReport.Cursor = Cursors.SizeAll;
-                                                m_keyMoving = sKey;
-                                                m_keySizing = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
+                                                this.picReport.Cursor = Cursors.SizeAll;
+                                                this.keyMoving = sKey;
+                                                this.keySizing = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPEDOWN:
-                                                m_picReport.Cursor = Cursors.SizeNS;
-                                                m_keySizing = sKey;
-                                                m_keyMoving = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVDOWN;
+                                                this.picReport.Cursor = Cursors.SizeNS;
+                                                this.keySizing = sKey;
+                                                this.keyMoving = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPEUP:
-                                                m_picReport.Cursor = Cursors.SizeNS;
-                                                m_keySizing = sKey;
-                                                m_keyMoving = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVUP;
+                                                this.picReport.Cursor = Cursors.SizeNS;
+                                                this.keySizing = sKey;
+                                                this.keyMoving = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVUP;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFT:
-                                                m_picReport.Cursor = Cursors.SizeWE;
-                                                m_keySizing = sKey;
-                                                m_keyMoving = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVLEFT;
+                                                this.picReport.Cursor = Cursors.SizeWE;
+                                                this.keySizing = sKey;
+                                                this.keyMoving = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFT;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHT:
-                                                m_picReport.Cursor = Cursors.SizeWE;
-                                                m_keySizing = sKey;
-                                                m_keyMoving = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVRIGHT;
+                                                this.picReport.Cursor = Cursors.SizeWE;
+                                                this.keySizing = sKey;
+                                                this.keyMoving = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHT;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN:
-                                                m_picReport.Cursor = Cursors.SizeNESW;
-                                                m_keySizing = sKey;
-                                                m_keyMoving = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVLEFTDOWN;
+                                                this.picReport.Cursor = Cursors.SizeNESW;
+                                                this.keySizing = sKey;
+                                                this.keyMoving = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFTDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP:
-                                                m_picReport.Cursor = Cursors.SizeNESW;
-                                                m_keySizing = sKey;
-                                                m_keyMoving = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTUP;
+                                                this.picReport.Cursor = Cursors.SizeNESW;
+                                                this.keySizing = sKey;
+                                                this.keyMoving = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTUP;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHTDOWN:
-                                                m_picReport.Cursor = Cursors.SizeNWSE;
-                                                m_keySizing = sKey;
-                                                m_keyMoving = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN;
+                                                this.picReport.Cursor = Cursors.SizeNWSE;
+                                                this.keySizing = sKey;
+                                                this.keyMoving = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP:
-                                                m_picReport.Cursor = Cursors.SizeNWSE;
-                                                m_keySizing = sKey;
-                                                m_keyMoving = "";
-                                                m_moveType = csRptEditorMoveType.CSRPTEDMOVLEFTUP;
+                                                this.picReport.Cursor = Cursors.SizeNWSE;
+                                                this.keySizing = sKey;
+                                                this.keyMoving = "";
+                                                this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFTUP;
                                                 break;
 
                                             default:
-                                                m_keySizing = "";
-                                                m_keyMoving = "";
+                                                this.keySizing = "";
+                                                this.keyMoving = "";
                                                 break;
                                         }
                                     }
@@ -1809,17 +1809,17 @@ UNKNOWN >>             int i;
                     }
                     else {
                         pSetSbPnlCtrl("");
-                        m_picReport.Cursor = Cursors.Default;
-                        m_keySizing = "";
-                        m_keyMoving = "";
+                        this.picReport.Cursor = Cursors.Default;
+                        this.keySizing = "";
+                        this.keyMoving = "";
                     }
                 }
 
-                if (m_paint.pointIsInObject(x, y, sKey, rgnTp)) {
-                    let po: cReportPaintObject = m_paint.getPaintObject(sKey);
+                if (this.paint.pointIsInObject(x, y, sKey, rgnTp)) {
+                    let po: cReportPaintObject = this.paint.getPaintObject(sKey);
                     if (po.getRptType() === csRptSectionType.CONTROL) {
                         let rptCtrl: cReportControl = null;
-                        rptCtrl = m_report.getControls().item(po.getTag());
+                        rptCtrl = this.report.getControls().item(po.getTag());
                         if (rptCtrl !== null) {
                             pSetSbPnlCtrl(rptCtrl.getName(),
                                             rptCtrl.getControlType(),
@@ -1838,20 +1838,20 @@ UNKNOWN >>             int i;
                     pSetSbPnlCtrl("");
                 }
             }
-        };
+        }
 
-        const pSetSbPnlCtrl = function(ctrlName) {
+        private pSetSbPnlCtrl(ctrlName: string) {
             pSetSbPnlCtrl (ctrlName, csRptControlType.CSRPTCTLABEL, "", "", false, false, "");
-        };
+        }
 
-        const pSetSbPnlCtrl = function(
-            ctrlName, 
-            ctrlType, 
-            formulaHide, 
-            formulaValue, 
-            hasFormulaHide, 
-            hasFormulaValue, 
-            fieldName) {
+        private pSetSbPnlCtrl(
+            ctrlName: string
+            ctrlType: csRptControlType
+            formulaHide: string
+            formulaValue: string
+            hasFormulaHide: boolean
+            hasFormulaValue: boolean
+            fieldName: string) {
 
             let msg: string = "";
             let strCtlType: string = "";
@@ -1880,31 +1880,31 @@ UNKNOWN >>             int i;
                     + "]Activa[" + ( hasFormulaValue).ToString()
                     + "]Field:[" + fieldName + "]";
             }
-            m_fmain.setsbPnlCtrl(msg);
-        };
+            this.fmain.setsbPnlCtrl(msg);
+        }
 
-        const m_picReport_MouseUp = function(sender, e) {
-            if (m_paint === null) return; {
+        private picReport_MouseUp(sender: object, e: System.Windows.Forms.MouseEventArgs) {
+            if (this.paint === null) return; {
 
             let button: MouseButtons = e.Button;
             let x: number = e.X;
             let y: number = e.Y;
 
             // to avoid reentrancy
-            if (m_opening) { return; }
+            if (this.opening) { return; }
 
             //----------------------------------------------------
             // MOVING
             //----------------------------------------------------
 
-            if (m_moving) {
-                if (m_keyMoving !== "") {
-                    switch (m_moveType) {
+            if (this.moving) {
+                if (this.keyMoving !== "") {
+                    switch (this.moveType) {
                         case csRptEditorMoveType.CSRPTEDMOVTALL:
-                            if (m_bMoveVertical) {
+                            if (this.bMoveVertical) {
                                 pMoveAll(C_NOMOVE, y);
                             }
-                            else if (m_bMoveHorizontal) {
+                            else if (this.bMoveHorizontal) {
                                 pMoveAll(x, C_NOMOVE);
                             }
                             else {
@@ -1925,67 +1925,67 @@ UNKNOWN >>             int i;
                 // SIZING
                 //----------------------------------------------------
                 }
-                else if (m_keySizing !== "") {
+                else if (this.keySizing !== "") {
                     pResizeControl(x, y);
                 }
 
                 refreshBody();
-                m_moving = false;
+                this.moving = false;
                 refreshRule();
             }
 
-            m_keySizing = "";
-            m_keyMoving = "";
-        };
+            this.keySizing = "";
+            this.keyMoving = "";
+        }
 
-        const m_picReport_Paint = function(sender, e) {
-            if (m_paint !== null) {
-                m_paint.paintPicture(e.Graphics, false);
+        private picReport_Paint(sender: object, e: PaintEventArgs) {
+            if (this.paint !== null) {
+                this.paint.paintPicture(e.Graphics, false);
             }
-        };
+        }
 
-        const m_picRule_Paint = function(sender, e) {
-            if (m_paint !== null) {
-                let ps: cReportPaintObjects = m_paint.getPaintSections();
+        private picRule_Paint(sender: object, e: PaintEventArgs) {
+            if (this.paint !== null) {
+                let ps: cReportPaintObjects = this.paint.getPaintSections();
                 for(var i = 0; i < ps.count(); i++) {
-                    m_paint.drawRule(ps.getNextKeyForZOrder(i), e.Graphics);
+                    this.paint.drawRule(ps.getNextKeyForZOrder(i), e.Graphics);
                 }
             }
-        };
+        }
 
-        self.setParameters = function() {
+        public setParameters() {
             let connect: CSConnect.cConnect = new CSConnect.cConnect();
             let param: cParameter = null;
 
-            for(var _i = 0; _i < m_report.getConnect().getParameters().count(); _i++) {
-                param = m_report.getConnect().getParameters().item(_i);
+            for(var _i = 0; _i < this.report.getConnect().getParameters().count(); _i++) {
+                param = this.report.getConnect().getParameters().item(_i);
                 let connectParam: CSConnect.cParameter = connect.getParameters().add(null, "");
                 connectParam.setName(param.getName());
                 connectParam.setValue(param.getValue());
             }
 
-            if (m_report.getConnect().getDataSource() === "") {
+            if (this.report.getConnect().getDataSource() === "") {
                 cWindow.msgWarning("Before editting the parameter info you must define a connection");
                 return;
             }
 
-            connect.setStrConnect(m_report.getConnect().getStrConnect());
-            connect.setDataSource(m_report.getConnect().getDataSource());
-            connect.setDataSourceType(m_report.getConnect().getDataSourceType());
+            connect.setStrConnect(this.report.getConnect().getStrConnect());
+            connect.setDataSource(this.report.getConnect().getDataSource());
+            connect.setDataSourceType(this.report.getConnect().getDataSourceType());
 
-            if (!connect.getDataSourceColumnsInfo(m_report.getConnect().getDataSource(),
-                m_report.getConnect().getDataSourceType())) {
+            if (!connect.getDataSourceColumnsInfo(this.report.getConnect().getDataSource(),
+                this.report.getConnect().getDataSourceType())) {
                 return;
 
-            cGlobals.setParametersAux(connect, m_report.getConnect());
-        };
+            cGlobals.setParametersAux(connect, this.report.getConnect());
+        }
 
-        self.setSimpleConnection = function() {
+        public setSimpleConnection() {
             let f: fSimpleConnect = new fSimpleConnect();
             try {
 
                 let strConnect: string = "";
-                strConnect = m_report.getConnect().getStrConnect();
+                strConnect = this.report.getConnect().getStrConnect();
                 f.setServer(cUtil.getToken("Data Source", strConnect));
                 f.setDataBase(cUtil.getToken("Initial Catalog", strConnect));
                 f.setUser(cUtil.getToken("User ID", strConnect));
@@ -2002,16 +2002,16 @@ UNKNOWN >>             int i;
                     f.Close();
                 }
                 else {
-                    m_report.getConnect().setStrConnect(f.getStrConnect());
+                    this.report.getConnect().setStrConnect(f.getStrConnect());
                 }
 
             } catch (Exception ex) {
                 cError.mngError(ex, "configConnection", C_MODULE, "");
                 f.Close();
             }
-        };
+        }
 
-        self.configConnection = function(rptConnect) {
+        public configConnection(rptConnect: cReportConnect) {
             try {
 
                 let connect: CSConnect.cConnect = new CSConnect.cConnect();
@@ -2028,7 +2028,7 @@ UNKNOWN >>             int i;
                 }
 
                 if (rptConnect === null) {
-                    cGlobals.setParametersAux(connect, m_report.getConnect());
+                    cGlobals.setParametersAux(connect, this.report.getConnect());
                 }
                 else {
                     cGlobals.setParametersAux(connect, rptConnect);
@@ -2042,23 +2042,23 @@ UNKNOWN >>             int i;
                 cError.mngError(ex, "configConnection", C_MODULE, "");
                 return false;
             }
-        };
+        }
 
-        self.setAllConnectToMainConnect = function() {
+        public setAllConnectToMainConnect() {
             try {
 
                 let connect: cReportConnect = null;
-                for(var _i = 0; _i < m_report.getConnectsAux().count(); _i++) {
-                    connect = m_report.getConnectsAux().item(_i);
-                    connect.setStrConnect(m_report.getConnect().getStrConnect());
+                for(var _i = 0; _i < this.report.getConnectsAux().count(); _i++) {
+                    connect = this.report.getConnectsAux().item(_i);
+                    connect.setStrConnect(this.report.getConnect().getStrConnect());
                 }
 
             } catch (Exception ex) {
                 cError.mngError(ex, "setAllConnectToMainConnect", C_MODULE, "");
             }
-        };
+        }
 
-        self.deleteObj = function(bDelSectionLine) {
+        public deleteObj(bDelSectionLine: boolean) {
             let sec: cReportSection = null;
             let secs: cReportSections = null;
             let secLn: cReportSectionLine = null;
@@ -2069,15 +2069,15 @@ UNKNOWN >>             int i;
             let isGroupHeader: boolean = false;
             let isSecLn: boolean = false;
 
-            if (m_keyFocus === "") { return; }
+            if (this.keyFocus === "") { return; }
 
             let group: cReportGroup = null;
             let secG: cReportSection = null;
 
-            if (m_paint.paintObjIsSection(m_keyFocus)) {
-                if (m_paint.getPaintSections().item(m_keyFocus) === null) { return; }
+            if (this.paint.paintObjIsSection(this.keyFocus)) {
+                if (this.paint.getPaintSections().item(this.keyFocus) === null) { return; }
 
-                let po: cReportPaintObject = m_paint.getPaintSections().item(m_keyFocus);
+                let po: cReportPaintObject = this.paint.getPaintSections().item(this.keyFocus);
 
                 // first we check it is not a section line
                 //
@@ -2111,10 +2111,10 @@ UNKNOWN >>             int i;
 
                     for(var _i = 0; _i < secLn.getControls().count(); _i++) {
                         ctrl = secLn.getControls().item(_i);
-                        for(var i = 0; i < m_paint.getPaintObjects().count(); i++) {
-                            paintObj = m_paint.getPaintObjects().item(i);
+                        for(var i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                            paintObj = this.paint.getPaintObjects().item(i);
                             if (paintObj.getTag() === ctrl.getKey()) {
-                                m_paint.getPaintObjects().remove(paintObj.getKey());
+                                this.paint.getPaintObjects().remove(paintObj.getKey());
                                 break;
                             }
                         }
@@ -2135,10 +2135,10 @@ UNKNOWN >>             int i;
                         secLn = sec.getSectionLines().item(_i);
                         for(var _j = 0; _j < secLn.getControls().count(); _j++) {
                             ctrl = secLn.getControls().item(_j);
-                            for(var i = 0; i < m_paint.getPaintObjects().count(); i++) {
-                                paintObj = m_paint.getPaintObjects().item(i);
+                            for(var i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                                paintObj = this.paint.getPaintObjects().item(i);
                                 if (paintObj.getTag() === ctrl.getKey()) {
-                                    m_paint.getPaintObjects().remove(paintObj.getKey());
+                                    this.paint.getPaintObjects().remove(paintObj.getKey());
                                     break;
                                 }
                             }
@@ -2150,15 +2150,15 @@ UNKNOWN >>             int i;
 
                     if (isGroupFooter || isGroupHeader) {
                         if (isGroupHeader) {
-                            for(var _i = 0; _i < m_report.getGroups().count(); _i++) {
-                                group = m_report.getGroups().item(_i);
+                            for(var _i = 0; _i < this.report.getGroups().count(); _i++) {
+                                group = this.report.getGroups().item(_i);
                                 if (group.getHeader().getKey() === sec.getKey()) { break; }
                             }
                             secG = group.getFooter();
                         }
                         else if (isGroupFooter) {
-                            for(var _i = 0; _i < m_report.getGroups().count(); _i++) {
-                                group = m_report.getGroups().item(_i);
+                            for(var _i = 0; _i < this.report.getGroups().count(); _i++) {
+                                group = this.report.getGroups().item(_i);
                                 if (group.getFooter().getKey() === sec.getKey()) { break; }
                             }
                             secG = group.getHeader();
@@ -2168,25 +2168,25 @@ UNKNOWN >>             int i;
                             secLn = secG.getSectionLines().item(_i);
                             for(var _j = 0; _j < secLn.getControls().count(); _j++) {
                                 ctrl = secLn.getControls().item(_j);
-                                for(var i = 0; i < m_paint.getPaintObjects().count(); i++) {
-                                    paintObj = m_paint.getPaintObjects().item(i);
+                                for(var i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                                    paintObj = this.paint.getPaintObjects().item(i);
                                     if (paintObj.getTag() === ctrl.getKey()) {
-                                        m_paint.getPaintObjects().remove(paintObj.getKey());
+                                        this.paint.getPaintObjects().remove(paintObj.getKey());
                                         break;
                                     }
                                 }
                             }
                         }
 
-                        for(var i = 0; i < m_paint.getPaintSections().count(); i++) {
-                            paintObj = m_paint.getPaintSections().item(i);
+                        for(var i = 0; i < this.paint.getPaintSections().count(); i++) {
+                            paintObj = this.paint.getPaintSections().item(i);
                             if (paintObj.getTag() === secG.getKey()) {
-                                m_paint.getPaintSections().remove(paintObj.getKey());
+                                this.paint.getPaintSections().remove(paintObj.getKey());
                                 break;
                             }
                         }
 
-                        m_report.getGroups().remove(group.getIndex());
+                        this.report.getGroups().remove(group.getIndex());
 
                     }
                     else {
@@ -2199,12 +2199,12 @@ UNKNOWN >>             int i;
 
                 bDeletePaintObj = true;
                 if (isSecLn) {
-                    bDeletePaintObj = sec.getKeyPaint() !== m_keyFocus;
+                    bDeletePaintObj = sec.getKeyPaint() !== this.keyFocus;
                 }
 
                 if (bDeletePaintObj) {
 
-                    m_paint.getPaintSections().remove(m_keyFocus);
+                    this.paint.getPaintSections().remove(this.keyFocus);
 
                     // if I have deleted the last section line in this
                     // section I need to delete the paint object
@@ -2214,65 +2214,65 @@ UNKNOWN >>             int i;
                 }
                 else {
                     let secLns: cReportSectionLines = sec.getSectionLines();
-                    m_paint.getPaintSections().remove(secLns.item(secLns.count() - 1).getKeyPaint());
+                    this.paint.getPaintSections().remove(secLns.item(secLns.count() - 1).getKeyPaint());
                     secLns.item(secLns.count() - 1).setKeyPaint(sec.getKeyPaint());
                 }
 
                 pResetKeysFocus();
-                G.redim(m_vSelectedKeys, 0);
+                G.redim(this.vSelectedKeys, 0);
 
                 pValidateSectionAspect();
                 updateSectionNameInPaintObjects();
             }
             else {
-                paintObj = m_paint.getPaintObjects().item(m_keyFocus);
+                paintObj = this.paint.getPaintObjects().item(this.keyFocus);
                 if (paintObj === null) { return; }
 
                 if (!cWindow.ask("Confirm you want to delete the control? ", MessageBoxDefaultButton.Button2)) { return; }
 
-                for(var i = 0; i < m_vSelectedKeys.Length; i++) {
-                    paintObj = m_paint.getPaintObjects().item(m_vSelectedKeys[i]);
-                    ctrl = m_report.getControls().item(paintObj.getTag());
+                for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+                    paintObj = this.paint.getPaintObjects().item(this.vSelectedKeys[i]);
+                    ctrl = this.report.getControls().item(paintObj.getTag());
 
-                    m_paint.getPaintObjects().remove(paintObj.getKey());
+                    this.paint.getPaintObjects().remove(paintObj.getKey());
                     if (ctrl === null) { return; }
                     ctrl.getSectionLine().getControls().remove(ctrl.getKey());
                 }
 
                 pResetKeysFocus();
-                G.redim(m_vSelectedKeys, 0);
+                G.redim(this.vSelectedKeys, 0);
             }
 
             refreshAll();
-        };
+        }
 
-        const updateSectionNameInPaintObjects = function() {
-            updateSectionNameInPaintObjects(m_report.getHeaders());
-            updateSectionNameInPaintObjects(m_report.getFooters());
-            updateSectionNameInPaintObjects(m_report.getDetails());
-            updateSectionNameInPaintObjects(m_report.getGroupsHeaders());
-            updateSectionNameInPaintObjects(m_report.getGroupsFooters());
-        };
+        private updateSectionNameInPaintObjects() {
+            updateSectionNameInPaintObjects(this.report.getHeaders());
+            updateSectionNameInPaintObjects(this.report.getFooters());
+            updateSectionNameInPaintObjects(this.report.getDetails());
+            updateSectionNameInPaintObjects(this.report.getGroupsHeaders());
+            updateSectionNameInPaintObjects(this.report.getGroupsFooters());
+        }
 
-        const updateSectionNameInPaintObjects = function(sections) {
+        private updateSectionNameInPaintObjects(sections: cIReportGroupSections) {
             for(var i =0; i < sections.count(); i++) {
                 let sec: var = sections.item(i);
-                let paintObj: var = m_paint.getPaintSections().item(sec.getKeyPaint());
+                let paintObj: var = this.paint.getPaintSections().item(sec.getKeyPaint());
                 if (paintObj !== null) {
                     paintObj.setText(sec.getName());
                 }
             }            
-        };
+        }
 
-        const pCanDeleteSection = function(
-            secs, 
-            sec, 
-            tag) {
+        private pCanDeleteSection(
+            secs: cReportSections
+            sec: cReportSection
+            tag: string) {
             let secAux: cReportSection = null;
 
             // header
             //
-            secAux = m_report.getHeaders().item(tag);
+            secAux = this.report.getHeaders().item(tag);
             secs = null;
 
             if (secAux !== null) {
@@ -2281,7 +2281,7 @@ UNKNOWN >>             int i;
                         cWindow.msgInfo("The main header can't be deleted");
                         return false;
                     }
-                    secs = m_report.getHeaders();
+                    secs = this.report.getHeaders();
                 }
             }
             // if we don't find the section yet
@@ -2290,14 +2290,14 @@ UNKNOWN >>             int i;
 
                 // footers
                 //
-                secAux = m_report.getFooters().item(tag);
+                secAux = this.report.getFooters().item(tag);
                 if (secAux !== null) {
                     if (secAux.Equals(sec) || sec === null) {
                         if (secAux.getTypeSection() === csRptSectionType.MAIN_FOOTER) {
                             cWindow.msgInfo("The main footer can't be deleted");
                             return false;
                         }
-                        secs = m_report.getFooters();
+                        secs = this.report.getFooters();
                     }
                 }
                 // if we don't find the section yet
@@ -2306,11 +2306,11 @@ UNKNOWN >>             int i;
 
                     // check for groups
                     //
-                    secAux = m_report.getGroupsHeaders().item(tag);
+                    secAux = this.report.getGroupsHeaders().item(tag);
                     if (secAux !== null) {
                         if (!((secAux.Equals(sec) || sec === null))) {
 
-                            secAux = m_report.getGroupsFooters().item(tag);
+                            secAux = this.report.getGroupsFooters().item(tag);
                             if (secAux !== null) {
                                 if (!((secAux.Equals(sec) || sec === null))) {
 
@@ -2326,16 +2326,16 @@ UNKNOWN >>             int i;
             }
 
             return true;
-        };
+        }
 
-        const pResetKeysFocus = function() {
-            m_keyFocus = "";
-            m_keyMoving = "";
-            m_keySizing = "";
-            m_picReport.Cursor = Cursors.Default;
-        };
+        private pResetKeysFocus() {
+            this.keyFocus = "";
+            this.keyMoving = "";
+            this.keySizing = "";
+            this.picReport.Cursor = Cursors.Default;
+        }
 
-        self.addDBField = function() {
+        public addDBField() {
             let sField: string = "";
             let nIndex: number = 0;
             let nFieldType: number = 0;
@@ -2344,49 +2344,49 @@ UNKNOWN >>             int i;
                 return;
 
             beginDraging();
-            m_controlName = "";
-            m_controlType = csRptEditCtrlType.field;
-            m_fieldName = sField;
-            m_formulaText = "";
-            m_fieldIndex = nIndex;
-            m_fieldType = nFieldType;
-        };
+            this.controlName = "";
+            this.controlType = csRptEditCtrlType.field;
+            this.fieldName = sField;
+            this.formulaText = "";
+            this.fieldIndex = nIndex;
+            this.fieldType = nFieldType;
+        }
 
-        self.addLabel = function() {
+        public addLabel() {
             pAddLabelAux(csRptEditCtrlType.label);
-        };
+        }
 
-        self.addLineLabel = function() {
+        public addLineLabel() {
             pAddLabelAux(csRptEditCtrlType.lineLabel);
-        };
+        }
 
-        self.addImage = function() {
+        public addImage() {
             pAddLabelAux(csRptEditCtrlType.image);
-        };
+        }
 
-        self.addChart = function() {
+        public addChart() {
             pAddLabelAux(csRptEditCtrlType.chart);
-        };
+        }
 
-        self.pAddLabelAux = function(ctrlType) {
+        public pAddLabelAux(ctrlType: csRptEditCtrlType) {
             beginDraging();
-            m_controlName = "";
-            m_controlType = ctrlType;
-            m_fieldName = "";
-            m_formulaText = "";
-            m_fieldIndex = 0;
-            m_fieldType = 0;
-        };
+            this.controlName = "";
+            this.controlType = ctrlType;
+            this.fieldName = "";
+            this.formulaText = "";
+            this.fieldIndex = 0;
+            this.fieldType = 0;
+        }
 
-        const addControlEnd = function(left, top) {
+        private addControlEnd(left: number, top: number) {
 
-            m_draging = false;
+            this.draging = false;
 
-            if (m_controlType === csRptEditCtrlType.none) {
+            if (this.controlType === csRptEditCtrlType.none) {
                 return true;
             }
 
-            m_dataHasChanged = true;
+            this.dataHasChanged = true;
 
             let originalLeft: number = 0;
             let originalTop: number = 0;
@@ -2395,23 +2395,23 @@ UNKNOWN >>             int i;
             let firstCtrlLeft: number = 0;
             let offSet: number = 0;
 
-            if (m_copyControls) {
+            if (this.copyControls) {
 
-                if (m_vCopyKeys.Length === 0) { return false; }
+                if (this.vCopyKeys.Length === 0) { return false; }
 
                 originalLeft = left;
                 originalTop = top;
 
-                let keyPaint: string = m_vCopyKeys[m_vCopyKeys.Length - 1];
-                let keyCtrl: string = m_paint.getPaintObjects().item(keyPaint).getTag();
-                movedCtrl = m_report.getControls().item(keyCtrl);
+                let keyPaint: string = this.vCopyKeys[this.vCopyKeys.Length - 1];
+                let keyCtrl: string = this.paint.getPaintObjects().item(keyPaint).getTag();
+                movedCtrl = this.report.getControls().item(keyCtrl);
                 firstCtrlLeft = movedCtrl.getLabel().getAspect().getLeft();
 
-                for(var i = m_vCopyKeys.Length-1; i > -1; i--) {
+                for(var i = this.vCopyKeys.Length-1; i > -1; i--) {
 
-                    keyPaint = m_vCopyKeys[i];
-                    keyCtrl = m_paint.getPaintObjects().item(keyPaint).getTag();
-                    copyCtrl = m_report.getControls().item(keyCtrl);
+                    keyPaint = this.vCopyKeys[i];
+                    keyCtrl = this.paint.getPaintObjects().item(keyPaint).getTag();
+                    copyCtrl = this.report.getControls().item(keyCtrl);
 
                     // starting with the first control we move the left
                     // of every control if reach the right margin
@@ -2420,36 +2420,36 @@ UNKNOWN >>             int i;
                     offSet = pGetOffsetLeftFromControls(firstCtrlLeft, copyCtrl.getLabel().getAspect().getLeft());
                     left = originalLeft + offSet;
 
-                    if (m_bCopyWithoutMoving) {
+                    if (this.bCopyWithoutMoving) {
 
                         top = copyCtrl.getLabel().getAspect().getTop();
                         left = copyCtrl.getLabel().getAspect().getLeft();
 
                     }
 
-                    if (left - 26 > m_picReport.Width) {
+                    if (left - 26 > this.picReport.Width) {
                         left = originalLeft + (offSet % originalLeft);
                         top += 6;
                     }
 
-                    if (top > m_picReport.Height) {
-                        top = m_picReport.Height - 6;
+                    if (top > this.picReport.Height) {
+                        top = this.picReport.Height - 6;
                     }
 
                     pAddControlEndAux(left, top, copyCtrl);
 
                 }
-                m_copyControls = false;
+                this.copyControls = false;
 
             }
-            else if (m_copyControlsFromOtherReport) {
+            else if (this.copyControlsFromOtherReport) {
 
-                if (m_fmain.getReportCopySource() === null) { return false; }
+                if (this.fmain.getReportCopySource() === null) { return false; }
 
                 originalLeft = left;
                 originalTop = top;
 
-                let editor: cEditor = m_fmain.getReportCopySource();
+                let editor: cEditor = this.fmain.getReportCopySource();
                 let keyPaint: string = editor.getVCopyKeys(editor.getVCopyKeysCount());
                 let keyCtrl: string = editor.getPaint().getPaintObjects().item(keyPaint).getTag();
                 movedCtrl = editor.getReport().getControls().item(keyCtrl);
@@ -2468,26 +2468,26 @@ UNKNOWN >>             int i;
                     offSet = pGetOffsetLeftFromControls(firstCtrlLeft, copyCtrl.getLabel().getAspect().getLeft());
                     left = originalLeft + offSet;
 
-                    if (m_bCopyWithoutMoving) {
+                    if (this.bCopyWithoutMoving) {
 
                         top = copyCtrl.getLabel().getAspect().getTop();
                         left = copyCtrl.getLabel().getAspect().getLeft();
 
                     }
 
-                    if (left - 400 > m_picReport.Width) {
+                    if (left - 400 > this.picReport.Width) {
                         left = originalLeft + (offSet % originalLeft);
                         top = top + 100;
                     }
 
-                    if (top > m_picReport.Height) {
-                        top = m_picReport.Height - 100;
+                    if (top > this.picReport.Height) {
+                        top = this.picReport.Height - 100;
                     }
 
                     pAddControlEndAux(left, top, copyCtrl);
                 }
 
-                m_copyControlsFromOtherReport = false;
+                this.copyControlsFromOtherReport = false;
 
             }
             else {
@@ -2497,17 +2497,17 @@ UNKNOWN >>             int i;
             refreshBody();
 
             return true;
-        };
+        }
 
-        const pGetOffsetLeftFromControls = function(leftCtrl1, leftCtrl2) {
+        private pGetOffsetLeftFromControls(leftCtrl1: number, leftCtrl2: number) {
             return leftCtrl2 - leftCtrl1;
-        };
+        }
 
-        const pGetOffsetTopFromControls = function(topCtrl1, topCtrl2) {
+        private pGetOffsetTopFromControls(topCtrl1: number, topCtrl2: number) {
             return topCtrl2 - topCtrl1;
-        };
+        }
 
-        const pAddControlEndAux = function(left, top, baseControl) {
+        private pAddControlEndAux(left: number, top: number, baseControl: cReportControl) {
             let ctrl: cReportControl = null;
 
             // first we add a control in the main header
@@ -2515,12 +2515,12 @@ UNKNOWN >>             int i;
             // we would move the control to the desired
             // section line
             //
-            ctrl = m_report.getHeaders().item(cGlobals.C_KEY_HEADER).getSectionLines().item(0).getControls().add();
+            ctrl = this.report.getHeaders().item(cGlobals.C_KEY_HEADER).getSectionLines().item(0).getControls().add();
 
             // later we will set the properties related to the type of the control
             //
-            m_nextNameCtrl = m_nextNameCtrl + 1;
-            ctrl.setName(cGlobals.C_CONTROL_NAME + m_nextNameCtrl);
+            this.nextNameCtrl = this.nextNameCtrl + 1;
+            ctrl.setName(cGlobals.C_CONTROL_NAME + this.nextNameCtrl);
 
             if (baseControl === null) {
                 pSetNewControlProperties(ctrl);
@@ -2530,9 +2530,9 @@ UNKNOWN >>             int i;
             }
 
             pSetNewControlPosition(ctrl, left, top);
-        };
+        }
 
-        const pCopyFont = function(fromFont, toFont) {
+        private pCopyFont(fromFont: cReportFont, toFont: cReportFont) {
             toFont.setBold(fromFont.getBold());
             toFont.setForeColor(fromFont.getForeColor());
             toFont.setItalic(fromFont.getItalic());
@@ -2540,7 +2540,7 @@ UNKNOWN >>             int i;
             toFont.setSize(fromFont.getSize());
             toFont.setStrike(fromFont.getStrike());
             toFont.setUnderline(fromFont.getUnderline());
-        };
+        }
 
         /* TODO: it must be removed
         private void pCopyFontPaint(cReportFont fromFont, cReportFont toFont) {
@@ -2554,7 +2554,7 @@ UNKNOWN >>             int i;
         }
          */
 
-        const pCopyChart = function(fromChart, toChart) {
+        private pCopyChart(fromChart: cReportChart, toChart: cReportChart) {
             toChart.setChartTitle(fromChart.getChartTitle());
             toChart.setChartType(fromChart.getChartType());
             toChart.setDiameter(fromChart.getDiameter());
@@ -2580,9 +2580,9 @@ UNKNOWN >>             int i;
                 serie.setValueFieldName(fromSerie.getValueFieldName());
                 serie.setValueIndex(fromSerie.getValueIndex());
             }
-        };
+        }
 
-        const pCopyAspect = function(fromAspect, toAspect) {
+        private pCopyAspect(fromAspect: cReportAspect, toAspect: cReportAspect) {
             toAspect.setAlign(fromAspect.getAlign());
             toAspect.setBackColor(fromAspect.getBackColor());
             toAspect.setBorderColor(fromAspect.getBorderColor());
@@ -2604,11 +2604,11 @@ UNKNOWN >>             int i;
             toAspect.setWordWrap(fromAspect.getWordWrap());
 
             pCopyFont(fromAspect.getFont(), toAspect.getFont());
-        };
+        }
 
         // TODO: this function shouldn't be needed
         //
-        const pCopyAspectToPaint = function(fromAspect, toAspect) {
+        private pCopyAspectToPaint(fromAspect: cReportAspect, toAspect: cReportAspect) {
             toAspect.setAlign(fromAspect.getAlign());
             toAspect.setBackColor(fromAspect.getBackColor());
             toAspect.setBorderColor(fromAspect.getBorderColor());
@@ -2630,9 +2630,9 @@ UNKNOWN >>             int i;
             toAspect.setWordWrap(fromAspect.getWordWrap());
 
             pCopyFontPaint(fromAspect.getFont(), toAspect.getFont());
-        };
+        }
 
-        const pCopyFontPaint = function(fromFont, toFont) {
+        private pCopyFontPaint(fromFont: cReportFont, toFont: cReportFont) {
             toFont.setBold(fromFont.getBold());
             toFont.setForeColor(fromFont.getForeColor());
             toFont.setItalic(fromFont.getItalic());
@@ -2640,9 +2640,9 @@ UNKNOWN >>             int i;
             toFont.setSize(fromFont.getSize());
             toFont.setStrike(fromFont.getStrike());
             toFont.setUnderline(fromFont.getUnderline());
-        };
+        }
 
-        const pCopyControl = function(fromCtrl, toCtrl) {
+        private pCopyControl(fromCtrl: cReportControl, toCtrl: cReportControl) {
             toCtrl.setControlType(fromCtrl.getControlType());
 
             let field: cReportField = toCtrl.getField();
@@ -2667,12 +2667,12 @@ UNKNOWN >>             int i;
 
             pCopyAspect(fromCtrl.getLine().getAspect(), toCtrl.getLine().getAspect());
             pCopyChart(fromCtrl.getChart(), toCtrl.getChart());
-        };
+        }
 
-        const pSetNewControlProperties = function(ctrl) {
-            self.CTRL_HEIGHT: number = 19;
-            self.CTRL_WIDTH: number = 133;
-            self.LINE_HEIGHT: number = 1;
+        private pSetNewControlProperties(ctrl: cReportControl) {
+            public CTRL_HEIGHT: number = 19;
+            public CTRL_WIDTH: number = 133;
+            public LINE_HEIGHT: number = 1;
 
             let label: cReportLabel = null;
             let aspect: cReportAspect = null;
@@ -2682,16 +2682,16 @@ UNKNOWN >>             int i;
 
             ctrl.getLabel().getAspect().setAlign(CSReportGlobals.HorizontalAlignment.Left);
 
-            switch (m_controlType) {
+            switch (this.controlType) {
                 case csRptEditCtrlType.field:
                     ctrl.setControlType(csRptControlType.CSRPTCTFIELD);
-                    ctrl.getLabel().setText(m_fieldName);
+                    ctrl.getLabel().setText(this.fieldName);
                     let field: cReportField = ctrl.getField();
-                    field.setIndex(m_fieldIndex);
-                    field.setName(m_fieldName);
-                    field.setFieldType(m_fieldType);
+                    field.setIndex(this.fieldIndex);
+                    field.setName(this.fieldName);
+                    field.setFieldType(this.fieldType);
 
-                    if (cDatabaseGlobals.isNumberField(m_fieldType)) {
+                    if (cDatabaseGlobals.isNumberField(this.fieldType)) {
                         aspect = ctrl.getLabel().getAspect();
                         aspect.setAlign(CSReportGlobals.HorizontalAlignment.Right);
                         aspect.setFormat("#0.00;-#0.00");
@@ -2700,7 +2700,7 @@ UNKNOWN >>             int i;
 
                 case csRptEditCtrlType.formula:
                     ctrl.setControlType(csRptControlType.CSRPTCTLABEL);
-                    ctrl.getFormulaValue().setText(m_formulaText + "(" + m_controlName + ")");
+                    ctrl.getFormulaValue().setText(this.formulaText + "(" + this.controlName + ")");
                     ctrl.setHasFormulaValue(true);
                     label = ctrl.getLabel();
                     aspect = label.getAspect();
@@ -2713,7 +2713,7 @@ UNKNOWN >>             int i;
                 case csRptEditCtrlType.label:
                     ctrl.setControlType(csRptControlType.CSRPTCTLABEL);
                     label = ctrl.getLabel();
-                    label.setText(m_fieldName);
+                    label.setText(this.fieldName);
                     label.getAspect().getFont().setBold(true);
                     break;
 
@@ -2721,7 +2721,7 @@ UNKNOWN >>             int i;
                     ctrlHeigth = LINE_HEIGHT;
                     ctrl.setControlType(csRptControlType.CSRPTCTLABEL);
                     label = ctrl.getLabel();
-                    label.setText(m_fieldName);
+                    label.setText(this.fieldName);
                     aspect = label.getAspect();
                     aspect.getFont().setBold(true);
                     aspect.setBackColor(Color.Gray.ToArgb());
@@ -2730,12 +2730,12 @@ UNKNOWN >>             int i;
 
                 case csRptEditCtrlType.image:
                     ctrl.setControlType(csRptControlType.CSRPTCTIMAGE);
-                    ctrl.getLabel().setText(m_fieldName);
+                    ctrl.getLabel().setText(this.fieldName);
                     break;
 
                 case csRptEditCtrlType.chart:
                     ctrl.setControlType(csRptControlType.CSRPTCTCHART);
-                    ctrl.getLabel().setText(m_fieldName);
+                    ctrl.getLabel().setText(this.fieldName);
                     break;
             }
 
@@ -2743,9 +2743,9 @@ UNKNOWN >>             int i;
             aspect.setWidth(CTRL_WIDTH);
             aspect.setHeight(ctrlHeigth);
             aspect.setTransparent(transparent);
-        };
+        }
 
-        const pSetNewControlPosition = function(ctrl, left, top) {
+        private pSetNewControlPosition(ctrl: cReportControl, left: number, top: number) {
             let aspect: cReportAspect = ctrl.getLabel().getAspect();
             aspect.setLeft(left);
             aspect.setTop(top);
@@ -2758,7 +2758,7 @@ UNKNOWN >>             int i;
                 paintType = csRptPaintObjType.CSRPTPAINTOBJIMAGE;
             }
 
-            paintObj = m_paint.getNewObject(paintType);
+            paintObj = this.paint.getNewObject(paintType);
 
             aspect = ctrl.getLabel().getAspect();
 
@@ -2778,27 +2778,27 @@ UNKNOWN >>             int i;
             //
             moveControl(paintObj.getKey());
 
-            m_paint.drawObject(paintObj.getKey(), m_picReport.CreateGraphics());
-        };
+            this.paint.drawObject(paintObj.getKey(), this.picReport.CreateGraphics());
+        }
 
-        self.addGroup = function() {
+        public addGroup() {
             pShowGroupProperties(null);
             refreshAll();
-        };
+        }
 
-        const pGetGroup = function(key) {
+        private pGetGroup(key: string) {
             let group: cReportGroup = null;
 
-            for(var _i = 0; _i < m_report.getGroups().count(); _i++) {
-                group = m_report.getGroups().item(_i);
+            for(var _i = 0; _i < this.report.getGroups().count(); _i++) {
+                group = this.report.getGroups().item(_i);
                 if (group.getHeader().getKey() === key) { break; }
                 if (group.getFooter().getKey() === key) { break; }
             }
 
             return group;
-        };
+        }
 
-        self.addSectionLine = function() {
+        public addSectionLine() {
             let sec: cReportSection = null;
             let aspect: cReportAspect = null;
             let isGroup: boolean = false;
@@ -2847,7 +2847,7 @@ UNKNOWN >>             int i;
                     // which is used to instruct moveSection to add
                     // to the section height the size of the new section line
                     //
-                    m_newSecLineOffSet = cGlobals.C_HEIGHT_NEW_SECTION;
+                    this.newSecLineOffSet = cGlobals.C_HEIGHT_NEW_SECTION;
 
                     aspect = sec.getSectionLines().add().getAspect();
                     aspect.setHeight(cGlobals.C_HEIGHT_NEW_SECTION);
@@ -2863,10 +2863,10 @@ UNKNOWN >>             int i;
 
             // we reset this variable to zero
             //
-            m_newSecLineOffSet = 0;
-        };
+            this.newSecLineOffSet = 0;
+        }
 
-        const pAddSectionLinesAux = function(sec) {
+        private pAddSectionLinesAux(sec: cReportSection) {
             let typeSecLn: csRptSectionType = csRptSectionType.CONTROL;
             let aspect: cReportAspect = null;
             let maxBottom: number = 0;
@@ -2919,8 +2919,8 @@ UNKNOWN >>             int i;
                     aspect = sec.getAspect();
                     aspect.setTop(aspect.getTop() - cGlobals.C_HEIGHT_NEW_SECTION);
                     pMoveFooter(sec.getKey(), minBottom, maxBottom);
-                    m_offY = 0;
-                    y = aspect.getHeight() + aspect.getTop() - m_offSet - cGlobals.C_HEIGHT_BAR_SECTION;
+                    this.offY = 0;
+                    y = aspect.getHeight() + aspect.getTop() - this.offSet - cGlobals.C_HEIGHT_BAR_SECTION;
                     typeSecLn = csRptSectionType.SECLN_FOOTER;
                     index = 0;
                     break;
@@ -2937,23 +2937,23 @@ UNKNOWN >>             int i;
                                 true));
 
             // section line
-            let po: cReportPaintObject = m_paint.getPaintSections().item(secL.getKeyPaint());
+            let po: cReportPaintObject = this.paint.getPaintSections().item(secL.getKeyPaint());
             po.setRptType(typeSecLn);
             po.setRptKeySec(sec.getKey());
 
             // section
-            po = m_paint.getPaintSections().item(sec.getKeyPaint());
+            po = this.paint.getPaintSections().item(sec.getKeyPaint());
             po.setTextLine(C_SECTIONLINE + (sec.getSectionLines().count() - 1).ToString());
 
-            moveSection(m_paint.getPaintSections().item(m_keyFocus), 0, y, minBottom, maxBottom, sec, false);
+            moveSection(this.paint.getPaintSections().item(this.keyFocus), 0, y, minBottom, maxBottom, sec, false);
 
             refreshBody();
             refreshRule();
-        };
+        }
 
-        self.addSection = function(typeSection) {
+        public addSection(typeSection: csRptSectionType) {
 
-            if (!m_editor.Visible) {
+            if (!this.editor.Visible) {
                 return;
 
             let rptSection: cReportSection = null;
@@ -2968,7 +2968,7 @@ UNKNOWN >>             int i;
 
             switch (typeSection) {
                 case csRptSectionType.HEADER:
-                    let w_headers: cReportSections = m_report.getHeaders();
+                    let w_headers: cReportSections = this.report.getHeaders();
                     rptSection = w_headers.add();
                     rptSection.setName("H_" + rptSection.getIndex().ToString());
                     aspect = w_headers.item(w_headers.count() - 2).getAspect();
@@ -2983,7 +2983,7 @@ UNKNOWN >>             int i;
                                                         false));
 
                     w_aspect = rptSection.getAspect();
-                    moveSection(m_paint.getPaintObject(rptSection.getKeyPaint()),
+                    moveSection(this.paint.getPaintObject(rptSection.getKeyPaint()),
                                 0,
                                 w_aspect.getTop(),
                                 w_aspect.getTop() + cGlobals.C_HEIGHT_NEW_SECTION,
@@ -2997,14 +2997,14 @@ UNKNOWN >>             int i;
 
                 case csRptSectionType.GROUP_HEADER:
 
-                    let w_groupsHeaders: cIReportGroupSections = m_report.getGroupsHeaders();
+                    let w_groupsHeaders: cIReportGroupSections = this.report.getGroupsHeaders();
                     rptSection = w_groupsHeaders.item(w_groupsHeaders.count() - 1);
                     rptSection.setName("G_" + rptSection.getIndex().ToString());
 
                     // the first group is next to the last header
                     //
                     if (w_groupsHeaders.count() === 1) {
-                        topSec = m_report.getHeaders().item(m_report.getHeaders().count() - 1);
+                        topSec = this.report.getHeaders().item(this.report.getHeaders().count() - 1);
                     }
                     else {
                         topSec = w_groupsHeaders.item(w_groupsHeaders.count() - 2);
@@ -3022,7 +3022,7 @@ UNKNOWN >>             int i;
                                                         false));
 
                     w_aspect = rptSection.getAspect();
-                    moveSection(m_paint.getPaintObject(rptSection.getKeyPaint()),
+                    moveSection(this.paint.getPaintObject(rptSection.getKeyPaint()),
                                 0,
                                 w_aspect.getTop() + cGlobals.C_HEIGHT_NEW_SECTION,
                                 w_aspect.getTop(),
@@ -3033,7 +3033,7 @@ UNKNOWN >>             int i;
 
                 case csRptSectionType.GROUP_FOOTER:
 
-                    let w_groupsFooters: cIReportGroupSections = m_report.getGroupsFooters();
+                    let w_groupsFooters: cIReportGroupSections = this.report.getGroupsFooters();
                     rptSection = w_groupsFooters.item(0);
                     rptSection.setName("G_" + rptSection.getIndex().ToString());
 
@@ -3041,7 +3041,7 @@ UNKNOWN >>             int i;
                     // beginning they are next to the detail section
                     //
 
-                    topSec = m_report.getDetails().item(m_report.getDetails().count() - 1);
+                    topSec = this.report.getDetails().item(this.report.getDetails().count() - 1);
 
                     w_aspect = topSec.getAspect();
                     rptSection.getAspect().setWidth(w_aspect.getWidth());
@@ -3054,10 +3054,10 @@ UNKNOWN >>             int i;
                                                         rptSection.getName(),
                                                         false));
 
-                    paintObj = m_paint.getPaintObject(rptSection.getKeyPaint());
+                    paintObj = this.paint.getPaintObject(rptSection.getKeyPaint());
                     pMoveGroupFooter(rptSection.getKey(), minBottom, maxBottom);
 
-                    m_offY = 0;
+                    this.offY = 0;
 
                     w_aspect = rptSection.getAspect();
                     y = w_aspect.getHeight() + w_aspect.getTop() - cGlobals.C_HEIGHT_BAR_SECTION;
@@ -3066,7 +3066,7 @@ UNKNOWN >>             int i;
                     break;
 
                 case csRptSectionType.FOOTER:
-                    let w_footers: cReportSections = m_report.getFooters();
+                    let w_footers: cReportSections = this.report.getFooters();
 
                     // all footers are added to the beginning of the collection
                     //
@@ -3084,13 +3084,13 @@ UNKNOWN >>             int i;
                                                         rptSection.getName(),
                                                         false));
 
-                    paintObj = m_paint.getPaintObject(rptSection.getKeyPaint());
+                    paintObj = this.paint.getPaintObject(rptSection.getKeyPaint());
                     pMoveFooter(rptSection.getKey(), minBottom, maxBottom);
 
-                    m_offY = 0;
+                    this.offY = 0;
 
                     w_aspect = rptSection.getAspect();
-                    y = w_aspect.getHeight() + w_aspect.getTop() - m_offSet - cGlobals.C_HEIGHT_BAR_SECTION;
+                    y = w_aspect.getHeight() + w_aspect.getTop() - this.offSet - cGlobals.C_HEIGHT_BAR_SECTION;
 
                     moveSection(paintObj, 0, y, minBottom, maxBottom, rptSection, true);
                     break;
@@ -3104,42 +3104,42 @@ UNKNOWN >>             int i;
 
             refreshBody();
             refreshRule();
-        };
+        }
 
-        self.bringToFront = function() {
-            m_paint.getPaintObjects().zorder(m_keyObj, true);
+        public bringToFront() {
+            this.paint.getPaintObjects().zorder(this.keyObj, true);
             refreshBody();
-            m_dataHasChanged = true;
-        };
+            this.dataHasChanged = true;
+        }
 
-        self.sendToBack = function() {
-            m_paint.getPaintObjects().sendToBack(m_keyObj);
+        public sendToBack() {
+            this.paint.getPaintObjects().sendToBack(this.keyObj);
             refreshBody();
-            m_dataHasChanged = true;
-        };
+            this.dataHasChanged = true;
+        }
 
-        self.preview = function() {
-            m_report.getLaunchInfo().setAction(csRptLaunchAction.CSRPTLAUNCHPREVIEW);
+        public preview() {
+            this.report.getLaunchInfo().setAction(csRptLaunchAction.CSRPTLAUNCHPREVIEW);
             launchReport();
-        };
+        }
 
-        self.printReport = function() {
-            m_report.getLaunchInfo().setAction(csRptLaunchAction.CSRPTLAUNCHPRINTER);
+        public printReport() {
+            this.report.getLaunchInfo().setAction(csRptLaunchAction.CSRPTLAUNCHPRINTER);
             launchReport();
-        };
+        }
 
-        const launchReport = function() {
+        private launchReport() {
             let mouse: cMouseWait = new cMouseWait();
             try {
                 setZOrder();
                 showProgressDlg();
 
-                m_report.getLaunchInfo().getPrinter().setPaperInfo(m_report.getPaperInfo());
-                m_report.getLaunchInfo().setObjPaint(new cReportPrint());
+                this.report.getLaunchInfo().getPrinter().setPaperInfo(this.report.getPaperInfo());
+                this.report.getLaunchInfo().setObjPaint(new cReportPrint());
                 // TODO: remove this
-                m_report.getLaunchInfo().setHwnd(0);
-                m_report.getLaunchInfo().setShowPrintersDialog(true);
-                m_report.launch();
+                this.report.getLaunchInfo().setHwnd(0);
+                this.report.getLaunchInfo().setShowPrintersDialog(true);
+                this.report.launch();
 
             } catch (Exception ex) {
                 cError.mngError(ex, "launchReport", C_MODULE, "");
@@ -3148,15 +3148,15 @@ UNKNOWN >>             finally {
                 mouse.Dispose();
                 closeProgressDlg();
             }
-        };
+        }
 
-        self.saveDocument = function(saveAs) {
+        public saveDocument(saveAs: boolean) {
             let mouse: cMouseWait = new cMouseWait();
             try {
-                let isNew: boolean = m_isNew || m_report.getName() === "";
+                let isNew: boolean = this.isNew || this.report.getName() === "";
 
                 if (isNew) {
-                    m_report.setName(m_name);
+                    this.report.setName(this.name);
                 }
 
                 if (saveAs) {
@@ -3167,8 +3167,8 @@ UNKNOWN >>             finally {
 
                 pValidateSectionAspect();
 
-                if (m_report.save(m_fmain.saveFileDialog, isNew)) {
-                    m_isNew = false;
+                if (this.report.save(this.fmain.saveFileDialog, isNew)) {
+                    this.isNew = false;
                     reLoadReport();
                     cMainEditor.setDocActive(this);
                     return true;
@@ -3184,23 +3184,23 @@ UNKNOWN >>             finally {
 UNKNOWN >>             finally {
                 mouse.Dispose();
             }
-        };
+        }
 
-        const setZOrder = function() {
+        private setZOrder() {
             let ctrl: cReportControl = null;
-            for(var _i = 0; _i < m_report.getControls().count(); _i++) {
-                ctrl = m_report.getControls().item(_i);
-                ctrl.getLabel().getAspect().setNZOrder(m_paint.getPaintObjects().getZOrderForKey(ctrl.getKeyPaint()));
+            for(var _i = 0; _i < this.report.getControls().count(); _i++) {
+                ctrl = this.report.getControls().item(_i);
+                ctrl.getLabel().getAspect().setNZOrder(this.paint.getPaintObjects().getZOrderForKey(ctrl.getKeyPaint()));
             }
-        };
+        }
 
-        self.newReport = function(report) {
+        public newReport(report: cReport) {
 
-            m_isNew = true;
+            this.isNew = true;
 
             if (report !== null) {
 
-                m_report = report;
+                this.report = report;
 
                 pValidateSectionAspect();
                 reLoadReport();
@@ -3208,41 +3208,41 @@ UNKNOWN >>             finally {
             }
             else {
 
-                m_report.setName("New report");
+                this.report.setName("New report");
 
-                m_paint.createPicture(m_picReport.CreateGraphics());
+                this.paint.createPicture(this.picReport.CreateGraphics());
                 refreshRule();
 
             }
 
             cMainEditor.setDocActive(this);
-        };
+        }
 
-        self.openDocument = function() {
+        public openDocument() {
             return openDocument("");
-        };
+        }
 
-        self.openDocument = function(fileName) {
+        public openDocument(fileName: string) {
             let mouse: cMouseWait = new cMouseWait();
             try {
 
                 // to avoid reentrancy
-                m_opening = true;
+                this.opening = true;
 
                 if (fileName === "") {
 
                     pSetInitDir();
 
-                    if (!m_report.load(m_fmain.openFileDialog)) {
+                    if (!this.report.load(this.fmain.openFileDialog)) {
 
-                        if (m_report.getName() === "") {
+                        if (this.report.getName() === "") {
                             return false;
                     }
 
                 }
                 else {
 
-                    if (!m_report.loadSilent(fileName)) {
+                    if (!this.report.loadSilent(fileName)) {
                         return false;
                     }
                 }
@@ -3253,17 +3253,17 @@ UNKNOWN >>             finally {
 
                 cMainEditor.setDocActive(this);
 
-                m_opening = false;
+                this.opening = false;
 
                 // Testing
                 //
 
-                //m_paint.initGrid(m_picReport.CreateGraphics(), m_typeGrid);
+                //this.paint.initGrid(this.picReport.CreateGraphics(), this.typeGrid);
 
-                //var bmp = m_paint.getBitmap();
+                //var bmp = this.paint.getBitmap();
 /*
                 var g = Graphics.FromImage(bmp);
-                var graph = m_picReport.CreateGraphics();
+                var graph = this.picReport.CreateGraphics();
 
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, (int)graph.VisibleClipBounds.Width, (int)graph.VisibleClipBounds.Height + 56); // TODO check why 56 ???
                 Brush brush = new SolidBrush(Color.Red);
@@ -3288,7 +3288,7 @@ UNKNOWN >>             finally {
                 graph.Dispose();
                 g.Dispose();
  */
-                //m_picReport.Image = bmp;
+                //this.picReport.Image = bmp;
 
                 return true;
             }
@@ -3298,14 +3298,14 @@ UNKNOWN >>             finally {
 UNKNOWN >>             finally {
                 mouse.Dispose();
             }
-        };
+        }
 
-        self.saveChanges = function() {
+        public saveChanges() {
 UNKNOWN >>             csAskEditResult rslt;
 
-            if (m_dataHasChanged) {
+            if (this.dataHasChanged) {
 
-                rslt = askEdit("Do you want to save changes to " + m_reportFullPath + "?", "CSReportEditor");
+                rslt = askEdit("Do you want to save changes to " + this.reportFullPath + "?", "CSReportEditor");
 
                 switch (rslt) {
                     case csAskEditResult.CSASKRSLTYES:
@@ -3318,11 +3318,11 @@ UNKNOWN >>             csAskEditResult rslt;
                 }
             }
 
-            m_dataHasChanged = false;
+            this.dataHasChanged = false;
             return true;
-        };
+        }
 
-        const askEdit = function(msg, title) {
+        private askEdit(msg: string, title: string) {
 
             let rslt: DialogResult = MessageBox.Show(;
                                         msg, title,
@@ -3337,17 +3337,17 @@ UNKNOWN >>             csAskEditResult rslt;
                 default:
                     return csAskEditResult.CSASKRSLTCANCEL;
             }
-        };
+        }
 
-        self.showHelpDbField = function() {
-            return pShowHelpDbField(m_fProperties);
-        };
+        public showHelpDbField() {
+            return pShowHelpDbField(this.fProperties);
+        }
 
-        self.showHelpDbFieldForGroup = function() {
-            return pShowHelpDbField(m_fGroup);
-        };
+        public showHelpDbFieldForGroup() {
+            return pShowHelpDbField(this.fGroup);
+        }
 
-        const pShowHelpDbField = function(f) {
+        private pShowHelpDbField(f: cIDatabaseFieldSelector) {
             let nIndex: number = 0;
             let nFieldType: number = 0;
             let sField: string = "";
@@ -3369,9 +3369,9 @@ UNKNOWN >>             csAskEditResult rslt;
             else {
                 return false;
             }
-        };
+        }
 
-        self.showGroupProperties = function() {
+        public showGroupProperties() {
             let sec: cReportSection = null;
             let group: cReportGroup = null;
             let isGroup: boolean = false;
@@ -3382,8 +3382,8 @@ UNKNOWN >>             csAskEditResult rslt;
 
             if (!isGroup) { return; }
 
-            for(var _i = 0; _i < m_report.getGroups().count(); _i++) {
-                group = m_report.getGroups().item(_i);
+            for(var _i = 0; _i < this.report.getGroups().count(); _i++) {
+                group = this.report.getGroups().item(_i);
                 if (group.getHeader().getKey() === sec.getKey()) { break; }
                 if (group.getFooter().getKey() === sec.getKey()) { break; }
             }
@@ -3391,82 +3391,82 @@ UNKNOWN >>             csAskEditResult rslt;
             pShowGroupProperties(group);
 
             refreshAll();
-        };
+        }
 
-        const pShowGroupProperties = function(group) {
+        private pShowGroupProperties(group: cReportGroup) {
 
             try {
 
                 let isNew: boolean = false;
 
-                m_showingProperties = true;
+                this.showingProperties = true;
 
-                if (m_fGroup === null) { m_fGroup = new fGroup(); }
+                if (this.fGroup === null) { this.fGroup = new fGroup(); }
 
-                m_fGroup.setHandler(this);
+                this.fGroup.setHandler(this);
 
                 if (group === null) { isNew = true; }
 
                 if (isNew) {
-                    m_fGroup.txName.Text = "Group" + m_report.getGroups().count() + 1;
+                    this.fGroup.txName.Text = "Group" + this.report.getGroups().count() + 1;
                 }
                 else {
-                    m_fGroup.txName.Text = group.getName();
-                    m_fGroup.txDbField.Text = group.getFieldName();
+                    this.fGroup.txName.Text = group.getName();
+                    this.fGroup.txDbField.Text = group.getFieldName();
 
                     if (group.getOderType() === csRptGrpOrderType.CSRPTGRPASC) {
-                      m_fGroup.opAsc.Checked = true;
+                      this.fGroup.opAsc.Checked = true;
                     }
                     else {
-                      m_fGroup.opDesc.Checked = true;
+                      this.fGroup.opDesc.Checked = true;
                     }
 
-                    m_fGroup.chkPrintInNewPage.Checked = group.getPrintInNewPage();
-                    m_fGroup.chkReprintGroup.Checked = group.getRePrintInNewPage();
-                    m_fGroup.chkGrandTotal.Checked = group.getGrandTotalGroup();
+                    this.fGroup.chkPrintInNewPage.Checked = group.getPrintInNewPage();
+                    this.fGroup.chkReprintGroup.Checked = group.getRePrintInNewPage();
+                    this.fGroup.chkGrandTotal.Checked = group.getGrandTotalGroup();
 
                     switch (group.getComparisonType()) {
                       case  csRptGrpComparisonType.CSRPTGRPDATE:
-                        m_fGroup.opDate.Checked = true;
+                        this.fGroup.opDate.Checked = true;
                         break;
 
                       case  csRptGrpComparisonType.CSRPTGRPNUMBER:
-                        m_fGroup.opNumber.Checked = true;
+                        this.fGroup.opNumber.Checked = true;
                         break;
 
                       case  csRptGrpComparisonType.CSRPTGRPTEXT:
-                        m_fGroup.opText.Checked = true;
+                        this.fGroup.opText.Checked = true;
                         break;
                     }
                 }
 
-                m_fGroup.lbGroup.Text = "Group: " + m_fGroup.txName.Text;
+                this.fGroup.lbGroup.Text = "Group: " + this.fGroup.txName.Text;
 
-                m_fGroup.ShowDialog();
+                this.fGroup.ShowDialog();
 
-                if (m_fGroup.getOk()) {
+                if (this.fGroup.getOk()) {
 
                     if (isNew) {
-                        group = m_report.getGroups().add(null, "");
+                        group = this.report.getGroups().add(null, "");
                     }
 
-                    group.setName(m_fGroup.txName.Text);
-                    group.setFieldName(m_fGroup.txDbField.Text);
+                    group.setName(this.fGroup.txName.Text);
+                    group.setFieldName(this.fGroup.txDbField.Text);
 
-                    group.setIndex(m_report.getGroups().Count);
-                    group.setOderType(m_fGroup.opAsc.Checked ? csRptGrpOrderType.CSRPTGRPASC : csRptGrpOrderType.CSRPTGRPDESC);
+                    group.setIndex(this.report.getGroups().Count);
+                    group.setOderType(this.fGroup.opAsc.Checked ? csRptGrpOrderType.CSRPTGRPASC : csRptGrpOrderType.CSRPTGRPDESC);
 
-                    group.setPrintInNewPage(m_fGroup.chkPrintInNewPage.Checked);
-                    group.setRePrintInNewPage(m_fGroup.chkReprintGroup.Checked);
-                    group.setGrandTotalGroup(m_fGroup.chkGrandTotal.Checked);
+                    group.setPrintInNewPage(this.fGroup.chkPrintInNewPage.Checked);
+                    group.setRePrintInNewPage(this.fGroup.chkReprintGroup.Checked);
+                    group.setGrandTotalGroup(this.fGroup.chkGrandTotal.Checked);
 
-                    if (m_fGroup.opDate.Checked) {
+                    if (this.fGroup.opDate.Checked) {
                         group.setComparisonType(csRptGrpComparisonType.CSRPTGRPDATE);
                     }
-                    else if (m_fGroup.opNumber.Checked) {
+                    else if (this.fGroup.opNumber.Checked) {
                         group.setComparisonType(csRptGrpComparisonType.CSRPTGRPNUMBER);
                     }
-                    else if (m_fGroup.opText.Checked) {
+                    else if (this.fGroup.opText.Checked) {
                         group.setComparisonType(csRptGrpComparisonType.CSRPTGRPTEXT);
                     }
 
@@ -3475,22 +3475,22 @@ UNKNOWN >>             csAskEditResult rslt;
                         addSection(csRptSectionType.GROUP_FOOTER);
                     }
 
-                    m_dataHasChanged = true;
+                    this.dataHasChanged = true;
                 }
 
             } catch (Exception ex) {
                 cError.mngError(ex, "showGroupProperties", C_MODULE, "");
             }
 UNKNOWN >>             finally {
-                m_showingProperties = false;
-                if (m_fGroup !== null) {
-                    m_fGroup.Close();
-                    m_fGroup = null;
+                this.showingProperties = false;
+                if (this.fGroup !== null) {
+                    this.fGroup.Close();
+                    this.fGroup = null;
                 }
             }
-        };
+        }
 
-        self.moveGroup = function() {
+        public moveGroup() {
             let sec: cReportSection = null;
             let group: cReportGroup = null;
             let isGroup: boolean = false;
@@ -3501,19 +3501,19 @@ UNKNOWN >>             finally {
 
             if (!isGroup) { return; }
 
-            for(var _i = 0; _i < m_report.getGroups().count(); _i++) {
-                group = m_report.getGroups().item(_i);
+            for(var _i = 0; _i < this.report.getGroups().count(); _i++) {
+                group = this.report.getGroups().item(_i);
                 if (group.getHeader().getKey() === sec.getKey()) { break; }
                 if (group.getFooter().getKey() === sec.getKey()) { break; }
             }
 
             cGlobals.moveGroup(group, this);
 
-            G.redim(m_vSelectedKeys, 0);
+            G.redim(this.vSelectedKeys, 0);
             refreshReport();
-        };
+        }
 
-        self.showSectionProperties = function() {
+        public showSectionProperties() {
             let sec: cReportSection = null;
             let isGroup: boolean = false;
 
@@ -3524,9 +3524,9 @@ UNKNOWN >>             finally {
             pShowSecProperties(sec);
 
             refreshAll();
-        };
+        }
 
-        self.showSecLnProperties = function() {
+        public showSecLnProperties() {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
             let isSecLn: boolean = false;
@@ -3540,102 +3540,102 @@ UNKNOWN >>             finally {
             pShowSecProperties(secLn, sec.getName() + " - line " + secLn.getIndex().ToString());
 
             refreshAll();
-        };
+        }
 
-        const pShowSecProperties = function(sec) {
+        private pShowSecProperties(sec: cIReportSection) {
             pShowSecProperties(sec, "");
-        };
+        }
 
-        const pShowSecProperties = function(sec, secLnName) {
+        private pShowSecProperties(sec: cIReportSection, secLnName: string) {
             try {
 
-                m_showingProperties = true;
+                this.showingProperties = true;
 
-                if (m_fSecProperties === null) {
-                    m_fSecProperties = globalObject.CSReportEditor.createFSecProperties();
+                if (this.fSecProperties === null) {
+                    this.fSecProperties = new fSecProperties();
                 }
 
-                m_fSecProperties.setHandler(this);
+                this.fSecProperties.setHandler(this);
 
-                m_fSecProperties.chkFormulaHide.Checked = sec.getHasFormulaHide();
-                m_fSecProperties.setFormulaHide(sec.getFormulaHide().getText());
+                this.fSecProperties.chkFormulaHide.Checked = sec.getHasFormulaHide();
+                this.fSecProperties.setFormulaHide(sec.getFormulaHide().getText());
 
                 if (sec is cReportSectionLine) {
-                    m_fSecProperties.txName.Enabled = false;
+                    this.fSecProperties.txName.Enabled = false;
                 }
 
-                m_fSecProperties.txName.Text = sec is cReportSectionLine ? secLnName : sec.getName();
+                this.fSecProperties.txName.Text = sec is cReportSectionLine ? secLnName : sec.getName();
 
-                m_fSecProperties.lbSectionName.Text = "Section: " + (sec is cReportSectionLine ? secLnName : sec.getName());
+                this.fSecProperties.lbSectionName.Text = "Section: " + (sec is cReportSectionLine ? secLnName : sec.getName());
 
-                m_fSecProperties.ShowDialog();
+                this.fSecProperties.ShowDialog();
 
-                if (m_fSecProperties.getOk()) {
-                    if (m_fSecProperties.getSetFormulaHideChanged()) { sec.setHasFormulaHide(m_fSecProperties.chkFormulaHide.Checked); }
-                    if (m_fSecProperties.getFormulaHideChanged()) { sec.getFormulaHide().setText(m_fSecProperties.getFormulaHide()); }
-                    if (sec is cReportSection) { sec.setName(m_fSecProperties.txName.Text); }
+                if (this.fSecProperties.getOk()) {
+                    if (this.fSecProperties.getSetFormulaHideChanged()) { sec.setHasFormulaHide(this.fSecProperties.chkFormulaHide.Checked); }
+                    if (this.fSecProperties.getFormulaHideChanged()) { sec.getFormulaHide().setText(this.fSecProperties.getFormulaHide()); }
+                    if (sec is cReportSection) { sec.setName(this.fSecProperties.txName.Text); }
                 }
 
             } catch (Exception ex) {
                 cError.mngError(ex, "pShowSecProperties", C_MODULE, "");
             }
 UNKNOWN >>             finally {
-                m_fSecProperties.Close();
-                m_showingProperties = false;
-                m_fSecProperties = null;
+                this.fSecProperties.Close();
+                this.showingProperties = false;
+                this.fSecProperties = null;
             }
-        };
+        }
 
         // ReturnSecLn is flag to state that the caller wants to get
         // the section line asociated with the separator of the section
         // remember that the last section line don't have a separator
         // but share it with the section.
         //
-        const pGetSection = function(
-            isGroup) {
+        private pGetSection(
+            isGroup: boolean) {
 UNKNOWN >>             bool isSecLn;
 UNKNOWN >>             bool isGroupHeader;
 UNKNOWN >>             bool isGroupFooter;
 UNKNOWN >>             cReportSectionLine secLn;
             return pGetSection(isGroup, isSecLn, secLn, false, isGroupHeader, isGroupFooter);
-        };
+        }
 
-        const pGetSection = function(
-            isGroup, 
-            isSecLn) {
+        private pGetSection(
+            isGroup: boolean
+            isSecLn: boolean) {
 UNKNOWN >>             bool isGroupHeader;
 UNKNOWN >>             bool isGroupFooter;
 UNKNOWN >>             cReportSectionLine secLn;
             return pGetSection(isGroup, isSecLn, secLn, false, isGroupHeader, isGroupFooter);
-        };
+        }
 
-        const pGetSection = function(
-            isSecLn, 
-            secLn, 
-            returnSecLn) {
+        private pGetSection(
+            isSecLn: boolean
+            secLn: cReportSectionLine
+            returnSecLn: boolean) {
 UNKNOWN >>             bool isGroupHeader;
 UNKNOWN >>             bool isGroupFooter;
 
             return pGetSection(isSecLn, secLn, returnSecLn, isGroupHeader, isGroupFooter);
-        };
+        }
 
-        const pGetSection = function(
-            isSecLn, 
-            secLn, 
-            returnSecLn, 
-            isGroupHeader, 
-            isGroupFooter) {
+        private pGetSection(
+            isSecLn: boolean
+            secLn: cReportSectionLine
+            returnSecLn: boolean
+            isGroupHeader: boolean
+            isGroupFooter: boolean) {
 UNKNOWN >>             bool isGroup;
             return pGetSection(isGroup, isSecLn, secLn, returnSecLn, isGroupHeader, isGroupFooter);
-        };
+        }
 
-        const pGetSection = function(
-            isGroup, 
-            isSecLn, 
-            secLn, 
-            returnSecLn, 
-            isGroupHeader, 
-            isGroupFooter) {
+        private pGetSection(
+            isGroup: boolean
+            isSecLn: boolean
+            secLn: cReportSectionLine
+            returnSecLn: boolean
+            isGroupHeader: boolean
+            isGroupFooter: boolean) {
 
             let sec: cReportSection = null;
 
@@ -3645,25 +3645,25 @@ UNKNOWN >>             bool isGroup;
             isGroupFooter = false;
             isGroupHeader = false;
 
-            if (m_keyFocus === "") { return null; }
+            if (this.keyFocus === "") { return null; }
 
             // get the section and show his properties
             //
-            if (!m_paint.paintObjIsSection(m_keyFocus)) { return null; }
+            if (!this.paint.paintObjIsSection(this.keyFocus)) { return null; }
 
-            let paintObj: cReportPaintObject = m_paint.getPaintSections().item(m_keyFocus);
+            let paintObj: cReportPaintObject = this.paint.getPaintSections().item(this.keyFocus);
 
             // nothing to do
             //
             if (paintObj === null) { return null; }
 
-            sec = m_report.getHeaders().item(paintObj.getTag());
+            sec = this.report.getHeaders().item(paintObj.getTag());
             if (sec !== null) {
 
                 // it's a header
             }
             else {
-                sec = m_report.getFooters().item(paintObj.getTag());
+                sec = this.report.getFooters().item(paintObj.getTag());
                 if (sec !== null) {
 
                     // it's a footer
@@ -3672,7 +3672,7 @@ UNKNOWN >>             bool isGroup;
 
                     // check if it is a group
                     //
-                    sec = m_report.getGroupsHeaders().item(paintObj.getTag());
+                    sec = this.report.getGroupsHeaders().item(paintObj.getTag());
                     if (sec !== null) {
 
                         // it's a group
@@ -3682,7 +3682,7 @@ UNKNOWN >>             bool isGroup;
 
                     }
                     else {
-                        sec = m_report.getGroupsFooters().item(paintObj.getTag());
+                        sec = this.report.getGroupsFooters().item(paintObj.getTag());
                         if (sec !== null) {
 
                             // it's a group
@@ -3694,7 +3694,7 @@ UNKNOWN >>             bool isGroup;
                         else {
                             // check if it is a detail
                             //
-                            sec = m_report.getDetails().item(paintObj.getTag());
+                            sec = this.report.getDetails().item(paintObj.getTag());
                             if (sec !== null) {
 
                                 // it's a detail
@@ -3707,19 +3707,19 @@ UNKNOWN >>             bool isGroup;
 
                                 switch (paintObj.getRptType()) {
                                     case csRptSectionType.SECLN_HEADER:
-                                        sec = m_report.getHeaders().item(paintObj.getRptKeySec());
+                                        sec = this.report.getHeaders().item(paintObj.getRptKeySec());
                                         break;
                                     case csRptSectionType.SECLN_DETAIL:
-                                        sec = m_report.getDetails().item(paintObj.getRptKeySec());
+                                        sec = this.report.getDetails().item(paintObj.getRptKeySec());
                                         break;
                                     case csRptSectionType.SECLN_FOOTER:
-                                        sec = m_report.getFooters().item(paintObj.getRptKeySec());
+                                        sec = this.report.getFooters().item(paintObj.getRptKeySec());
                                         break;
                                     case csRptSectionType.SECLN_GROUPH:
-                                        sec = m_report.getGroupsHeaders().item(paintObj.getRptKeySec());
+                                        sec = this.report.getGroupsHeaders().item(paintObj.getRptKeySec());
                                         break;
                                     case csRptSectionType.SECLN_GROUPF:
-                                        sec = m_report.getGroupsFooters().item(paintObj.getRptKeySec());
+                                        sec = this.report.getGroupsFooters().item(paintObj.getRptKeySec());
                                         break;
                                 }
                                 secLn = sec.getSectionLines().item(paintObj.getTag());
@@ -3739,9 +3739,9 @@ UNKNOWN >>             bool isGroup;
             }
 
             return sec;
-        };
+        }
 
-        self.showProperties = function(key) {
+        public showProperties(key: string) {
             if ("SL".IndexOf(cUtil.subString(key, 0, 1)) !== -1) {
                 let bIsSecLn: boolean = false;
                 pSelectSection(key.Substring(1), bIsSecLn);
@@ -3757,25 +3757,25 @@ UNKNOWN >>             bool isGroup;
                 selectCtrl(key);
                 showProperties();
             }
-        };
+        }
 
-        self.showProperties = function() {
-            if (m_keyFocus === "") { return; }
+        public showProperties() {
+            if (this.keyFocus === "") { return; }
 
             let mouse: cMouseWait = new cMouseWait();
 
-            if (m_paint.paintObjIsSection(m_keyFocus)) {
+            if (this.paint.paintObjIsSection(this.keyFocus)) {
                 showSectionProperties();
             }
             else {
-                m_keyObj = m_keyFocus;
+                this.keyObj = this.keyFocus;
                 showCtrlProperties();
             }
 
             refreshAll();
-        };
+        }
 
-        const showCtrlProperties = function() {
+        private showCtrlProperties() {
             try {
 
                 let paintObject: cReportPaintObject = null;
@@ -3784,181 +3784,181 @@ UNKNOWN >>             bool isGroup;
                 let w_font: cReportFont = null;
                 let bMultiSelect: boolean = false;
 
-                m_showingProperties = true;
+                this.showingProperties = true;
 
-                if (m_fProperties === null) {
-                    m_fProperties = globalObject.CSReportEditor.createFProperties();
+                if (this.fProperties === null) {
+                    this.fProperties = new fProperties();
                 }
 
-                m_fProperties.setHandler(this);
+                this.fProperties.setHandler(this);
 
-                paintObject = m_paint.getPaintObject(m_keyObj);
+                paintObject = this.paint.getPaintObject(this.keyObj);
                 if (paintObject === null) { return; }
 
-                m_fProperties.txText.Text = paintObject.getText();
-                rptCtrl = m_report.getControls().item(paintObject.getTag());
+                this.fProperties.txText.Text = paintObject.getText();
+                rptCtrl = this.report.getControls().item(paintObject.getTag());
 
                 if (rptCtrl.getControlType() !== csRptControlType.CSRPTCTIMAGE) {
-                    m_fProperties.hideTabImage();
+                    this.fProperties.hideTabImage();
                 }
                 else {
-                    m_fProperties.picImage.Image = rptCtrl.getImage().getImage();
+                    this.fProperties.picImage.Image = rptCtrl.getImage().getImage();
                 }
 
                 if (rptCtrl.getControlType() !== csRptControlType.CSRPTCTCHART) {
-                    m_fProperties.hideTabChart();
+                    this.fProperties.hideTabChart();
                 }
                 else {
 
-                    cUtil.listSetListIndexForId(m_fProperties.cbType, (int)rptCtrl.getChart().getChartType());
-                    cUtil.listSetListIndexForId(m_fProperties.cbFormatType, (int)rptCtrl.getChart().getFormat());
-                    cUtil.listSetListIndexForId(m_fProperties.cbChartSize, (int)rptCtrl.getChart().getDiameter());
-                    cUtil.listSetListIndexForId(m_fProperties.cbChartThickness, (int)rptCtrl.getChart().getThickness());
-                    cUtil.listSetListIndexForId(m_fProperties.cbLinesType, (int)rptCtrl.getChart().getGridLines());
+                    cUtil.listSetListIndexForId(this.fProperties.cbType, (int)rptCtrl.getChart().getChartType());
+                    cUtil.listSetListIndexForId(this.fProperties.cbFormatType, (int)rptCtrl.getChart().getFormat());
+                    cUtil.listSetListIndexForId(this.fProperties.cbChartSize, (int)rptCtrl.getChart().getDiameter());
+                    cUtil.listSetListIndexForId(this.fProperties.cbChartThickness, (int)rptCtrl.getChart().getThickness());
+                    cUtil.listSetListIndexForId(this.fProperties.cbLinesType, (int)rptCtrl.getChart().getGridLines());
 
-                    m_fProperties.txChartTop.Text = rptCtrl.getChart().getTop().ToString();
-                    m_fProperties.txDbFieldGroupValue.Text = rptCtrl.getChart().getGroupFieldName();
-                    m_fProperties.setChartGroupIndex(rptCtrl.getChart().getGroupFieldIndex());
-                    m_fProperties.txChartGroupValue.Text = rptCtrl.getChart().getGroupValue();
-                    m_fProperties.chkShowOutlines.Checked = rptCtrl.getChart().getOutlineBars();
-                    m_fProperties.chkShowBarValues.Checked = rptCtrl.getChart().getShowValues();
-                    m_fProperties.chkSort.Checked = rptCtrl.getChart().getSort();
-                    m_fProperties.txText.Text = rptCtrl.getChart().getChartTitle();
+                    this.fProperties.txChartTop.Text = rptCtrl.getChart().getTop().ToString();
+                    this.fProperties.txDbFieldGroupValue.Text = rptCtrl.getChart().getGroupFieldName();
+                    this.fProperties.setChartGroupIndex(rptCtrl.getChart().getGroupFieldIndex());
+                    this.fProperties.txChartGroupValue.Text = rptCtrl.getChart().getGroupValue();
+                    this.fProperties.chkShowOutlines.Checked = rptCtrl.getChart().getOutlineBars();
+                    this.fProperties.chkShowBarValues.Checked = rptCtrl.getChart().getShowValues();
+                    this.fProperties.chkSort.Checked = rptCtrl.getChart().getSort();
+                    this.fProperties.txText.Text = rptCtrl.getChart().getChartTitle();
 
                     if (rptCtrl.getChart().getSeries().count() > 0) {
-                        m_fProperties.txDbFieldLbl1.Text = rptCtrl.getChart().getSeries().item(0).getLabelFieldName();
-                        m_fProperties.txDbFieldVal1.Text = rptCtrl.getChart().getSeries().item(0).getValueFieldName();
+                        this.fProperties.txDbFieldLbl1.Text = rptCtrl.getChart().getSeries().item(0).getLabelFieldName();
+                        this.fProperties.txDbFieldVal1.Text = rptCtrl.getChart().getSeries().item(0).getValueFieldName();
 
-                        m_fProperties.setChartIndex(0, rptCtrl.getChart().getSeries().item(0).getLabelIndex());
-                        m_fProperties.setChartIndex(1, rptCtrl.getChart().getSeries().item(0).getValueIndex());
+                        this.fProperties.setChartIndex(0, rptCtrl.getChart().getSeries().item(0).getLabelIndex());
+                        this.fProperties.setChartIndex(1, rptCtrl.getChart().getSeries().item(0).getValueIndex());
 
-                        cUtil.listSetListIndexForId(m_fProperties.cbColorSerie1, (int)rptCtrl.getChart().getSeries().item(0).getColor());
+                        cUtil.listSetListIndexForId(this.fProperties.cbColorSerie1, (int)rptCtrl.getChart().getSeries().item(0).getColor());
 
                         if (rptCtrl.getChart().getSeries().count() > 1) {
-                            m_fProperties.txDbFieldLbl2.Text = rptCtrl.getChart().getSeries().item(1).getLabelFieldName();
-                            m_fProperties.txDbFieldVal2.Text = rptCtrl.getChart().getSeries().item(1).getValueFieldName();
+                            this.fProperties.txDbFieldLbl2.Text = rptCtrl.getChart().getSeries().item(1).getLabelFieldName();
+                            this.fProperties.txDbFieldVal2.Text = rptCtrl.getChart().getSeries().item(1).getValueFieldName();
 
-                            m_fProperties.setChartIndex(2, rptCtrl.getChart().getSeries().item(1).getLabelIndex());
-                            m_fProperties.setChartIndex(3, rptCtrl.getChart().getSeries().item(1).getValueIndex());
+                            this.fProperties.setChartIndex(2, rptCtrl.getChart().getSeries().item(1).getLabelIndex());
+                            this.fProperties.setChartIndex(3, rptCtrl.getChart().getSeries().item(1).getValueIndex());
 
-                            cUtil.listSetListIndexForId(m_fProperties.cbColorSerie2, (int)rptCtrl.getChart().getSeries().item(1).getColor());
+                            cUtil.listSetListIndexForId(this.fProperties.cbColorSerie2, (int)rptCtrl.getChart().getSeries().item(1).getColor());
                         }
                     }
                 }
 
                 if (rptCtrl.getControlType() === csRptControlType.CSRPTCTFIELD
                     || rptCtrl.getControlType() === csRptControlType.CSRPTCTDBIMAGE) {
-                    m_fProperties.txText.Enabled = false;
+                    this.fProperties.txText.Enabled = false;
                     let w_field: cReportField = rptCtrl.getField();
-                    m_fProperties.txText.Text = w_field.getName();
-                    m_fProperties.txDbField.Text = w_field.getName();
-                    m_fProperties.setFieldType(w_field.getFieldType());
-                    m_fProperties.setIndex(w_field.getIndex());
+                    this.fProperties.txText.Text = w_field.getName();
+                    this.fProperties.txDbField.Text = w_field.getName();
+                    this.fProperties.setFieldType(w_field.getFieldType());
+                    this.fProperties.setIndex(w_field.getIndex());
                 }
                 else {
-                    m_fProperties.hideTabField();
-                    m_fProperties.txText.Enabled = true;
+                    this.fProperties.hideTabField();
+                    this.fProperties.txText.Enabled = true;
                 }
 
-                m_fProperties.txName.Text = rptCtrl.getName();
-                m_fProperties.lbControl.Text = rptCtrl.getName();
-                m_fProperties.chkFormulaHide.Checked = rptCtrl.getHasFormulaHide();
-                m_fProperties.chkFormulaValue.Checked = rptCtrl.getHasFormulaValue();
+                this.fProperties.txName.Text = rptCtrl.getName();
+                this.fProperties.lbControl.Text = rptCtrl.getName();
+                this.fProperties.chkFormulaHide.Checked = rptCtrl.getHasFormulaHide();
+                this.fProperties.chkFormulaValue.Checked = rptCtrl.getHasFormulaValue();
 
-                m_fProperties.txExportColIdx.Text = rptCtrl.getExportColIdx().ToString();
-                m_fProperties.chkIsFreeCtrl.Checked = rptCtrl.getIsFreeCtrl();
+                this.fProperties.txExportColIdx.Text = rptCtrl.getExportColIdx().ToString();
+                this.fProperties.chkIsFreeCtrl.Checked = rptCtrl.getIsFreeCtrl();
 
-                m_fProperties.txTag.Text = rptCtrl.getTag();
-                m_fProperties.setFormulaHide(rptCtrl.getFormulaHide().getText());
-                m_fProperties.setFormulaValue(rptCtrl.getFormulaValue().getText());
-                m_fProperties.txIdxGroup.Text = rptCtrl.getFormulaValue().getIdxGroup().ToString();
-                m_fProperties.opBeforePrint.Checked = rptCtrl.getFormulaValue().getWhenEval() === csRptWhenEval.CSRPTEVALPRE;
-                m_fProperties.opAfterPrint.Checked = rptCtrl.getFormulaValue().getWhenEval() === csRptWhenEval.CSRPTEVALPOST;
+                this.fProperties.txTag.Text = rptCtrl.getTag();
+                this.fProperties.setFormulaHide(rptCtrl.getFormulaHide().getText());
+                this.fProperties.setFormulaValue(rptCtrl.getFormulaValue().getText());
+                this.fProperties.txIdxGroup.Text = rptCtrl.getFormulaValue().getIdxGroup().ToString();
+                this.fProperties.opBeforePrint.Checked = rptCtrl.getFormulaValue().getWhenEval() === csRptWhenEval.CSRPTEVALPRE;
+                this.fProperties.opAfterPrint.Checked = rptCtrl.getFormulaValue().getWhenEval() === csRptWhenEval.CSRPTEVALPOST;
 
                 w_aspect = rptCtrl.getLabel().getAspect();
-                m_fProperties.chkCanGrow.Checked = w_aspect.getCanGrow();
-                m_fProperties.txFormat.Text = w_aspect.getFormat();
-                m_fProperties.txSymbol.Text = w_aspect.getSymbol();
-                m_fProperties.setIsAccounting(w_aspect.getIsAccounting());
-                m_fProperties.chkWordWrap.Checked = w_aspect.getWordWrap();
+                this.fProperties.chkCanGrow.Checked = w_aspect.getCanGrow();
+                this.fProperties.txFormat.Text = w_aspect.getFormat();
+                this.fProperties.txSymbol.Text = w_aspect.getSymbol();
+                this.fProperties.setIsAccounting(w_aspect.getIsAccounting());
+                this.fProperties.chkWordWrap.Checked = w_aspect.getWordWrap();
 
-                cUtil.listSetListIndexForId(m_fProperties.cbAlign, (int)w_aspect.getAlign());
+                cUtil.listSetListIndexForId(this.fProperties.cbAlign, (int)w_aspect.getAlign());
 
-                m_fProperties.txBorderColor.Text = w_aspect.getBorderColor().ToString();
-                m_fProperties.txBorder3D.Text = w_aspect.getBorderColor3d().ToString();
-                m_fProperties.txBorderShadow.Text = w_aspect.getBorderColor3dShadow().ToString();
-                m_fProperties.chkBorderRounded.Checked = w_aspect.getBorderRounded();
-                m_fProperties.txBorderWidth.Text = w_aspect.getBorderWidth().ToString();
+                this.fProperties.txBorderColor.Text = w_aspect.getBorderColor().ToString();
+                this.fProperties.txBorder3D.Text = w_aspect.getBorderColor3d().ToString();
+                this.fProperties.txBorderShadow.Text = w_aspect.getBorderColor3dShadow().ToString();
+                this.fProperties.chkBorderRounded.Checked = w_aspect.getBorderRounded();
+                this.fProperties.txBorderWidth.Text = w_aspect.getBorderWidth().ToString();
 
-                cUtil.listSetListIndexForId(m_fProperties.cbBorderType, (int)w_aspect.getBorderType());
+                cUtil.listSetListIndexForId(this.fProperties.cbBorderType, (int)w_aspect.getBorderType());
 
                 w_font = w_aspect.getFont();
-                m_fProperties.txFont.Text = w_font.getName();
-                m_fProperties.txForeColor.Text = w_font.getForeColor().ToString();
-                m_fProperties.shForeColor.BackColor = cColor.colorFromRGB(w_font.getForeColor());
-                m_fProperties.txFontSize.Text = w_font.getSize().ToString();
-                m_fProperties.chkFontBold.Checked = w_font.getBold();
-                m_fProperties.chkFontItalic.Checked = w_font.getItalic();
-                m_fProperties.chkFontUnderline.Checked = w_font.getUnderline();
-                m_fProperties.chkFontStrike.Checked = w_font.getStrike();
+                this.fProperties.txFont.Text = w_font.getName();
+                this.fProperties.txForeColor.Text = w_font.getForeColor().ToString();
+                this.fProperties.shForeColor.BackColor = cColor.colorFromRGB(w_font.getForeColor());
+                this.fProperties.txFontSize.Text = w_font.getSize().ToString();
+                this.fProperties.chkFontBold.Checked = w_font.getBold();
+                this.fProperties.chkFontItalic.Checked = w_font.getItalic();
+                this.fProperties.chkFontUnderline.Checked = w_font.getUnderline();
+                this.fProperties.chkFontStrike.Checked = w_font.getStrike();
 
                 w_aspect = paintObject.getAspect();
-                m_fProperties.txLeft.Text = w_aspect.getLeft().ToString();
-                m_fProperties.txTop.Text = w_aspect.getTop().ToString();
-                m_fProperties.txWidth.Text = w_aspect.getWidth().ToString();
-                m_fProperties.txHeight.Text = w_aspect.getHeight().ToString();
-                m_fProperties.txBackColor.Text = w_aspect.getBackColor().ToString();
-                m_fProperties.shBackColor.BackColor = cColor.colorFromRGB(w_aspect.getBackColor());
-                m_fProperties.chkTransparent.Checked = w_aspect.getTransparent();
+                this.fProperties.txLeft.Text = w_aspect.getLeft().ToString();
+                this.fProperties.txTop.Text = w_aspect.getTop().ToString();
+                this.fProperties.txWidth.Text = w_aspect.getWidth().ToString();
+                this.fProperties.txHeight.Text = w_aspect.getHeight().ToString();
+                this.fProperties.txBackColor.Text = w_aspect.getBackColor().ToString();
+                this.fProperties.shBackColor.BackColor = cColor.colorFromRGB(w_aspect.getBackColor());
+                this.fProperties.chkTransparent.Checked = w_aspect.getTransparent();
 
-                bMultiSelect = m_vSelectedKeys.Length > 1;
+                bMultiSelect = this.vSelectedKeys.Length > 1;
 
-                m_fProperties.resetChangedFlags();
+                this.fProperties.resetChangedFlags();
 
-                m_fProperties.ShowDialog();
+                this.fProperties.ShowDialog();
 
-                if (!m_fProperties.getOk()) { return; }
+                if (!this.fProperties.getOk()) { return; }
 
-                for(var i = 0; i < m_vSelectedKeys.Length; i++) {
+                for(var i = 0; i < this.vSelectedKeys.Length; i++) {
 
-                    paintObject = m_paint.getPaintObject(m_vSelectedKeys[i]);
-                    rptCtrl = m_report.getControls().item(paintObject.getTag());
+                    paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
+                    rptCtrl = this.report.getControls().item(paintObject.getTag());
 
                     if (!bMultiSelect) {
-                        if (rptCtrl.getName() !== m_fProperties.txName.Text) {
+                        if (rptCtrl.getName() !== this.fProperties.txName.Text) {
                             if (rptCtrl.getName() !== "") {
                                 if (cWindow.ask("You have changed the name of this control.;;Do you want to update all references to this control in all formulas of this report?", MessageBoxDefaultButton.Button2)) {
-                                    pUpdateFormulas(rptCtrl.getName(), m_fProperties.txName.Text);
+                                    pUpdateFormulas(rptCtrl.getName(), this.fProperties.txName.Text);
                                 }
                             }
                         }
-                        rptCtrl.setName(m_fProperties.txName.Text);
+                        rptCtrl.setName(this.fProperties.txName.Text);
                     }
 
-                    if (m_fProperties.getTextChanged()) { rptCtrl.getLabel().setText(m_fProperties.txText.Text); }
-                    if (m_fProperties.getTagChanged()) { rptCtrl.setTag(m_fProperties.txTag.Text); }
-                    if (m_fProperties.getSetFormulaHideChanged()) { rptCtrl.setHasFormulaHide(m_fProperties.chkFormulaHide.Checked); }
-                    if (m_fProperties.getSetFormulaValueChanged()) { rptCtrl.setHasFormulaValue(m_fProperties.chkFormulaValue.Checked); }
-                    if (m_fProperties.getFormulaHideChanged()) { rptCtrl.getFormulaHide().setText(m_fProperties.getFormulaHide()); }
-                    if (m_fProperties.getFormulaValueChanged()) { rptCtrl.getFormulaValue().setText(m_fProperties.getFormulaValue()); }
-                    if (m_fProperties.getIdxGroupChanged()) { rptCtrl.getFormulaValue().setIdxGroup(cUtil.valAsInt(m_fProperties.txIdxGroup.Text)); }
-                    if (m_fProperties.getWhenEvalChanged()) { rptCtrl.getFormulaValue().setWhenEval(m_fProperties.opAfterPrint.Checked ? csRptWhenEval.CSRPTEVALPOST : csRptWhenEval.CSRPTEVALPRE); }
+                    if (this.fProperties.getTextChanged()) { rptCtrl.getLabel().setText(this.fProperties.txText.Text); }
+                    if (this.fProperties.getTagChanged()) { rptCtrl.setTag(this.fProperties.txTag.Text); }
+                    if (this.fProperties.getSetFormulaHideChanged()) { rptCtrl.setHasFormulaHide(this.fProperties.chkFormulaHide.Checked); }
+                    if (this.fProperties.getSetFormulaValueChanged()) { rptCtrl.setHasFormulaValue(this.fProperties.chkFormulaValue.Checked); }
+                    if (this.fProperties.getFormulaHideChanged()) { rptCtrl.getFormulaHide().setText(this.fProperties.getFormulaHide()); }
+                    if (this.fProperties.getFormulaValueChanged()) { rptCtrl.getFormulaValue().setText(this.fProperties.getFormulaValue()); }
+                    if (this.fProperties.getIdxGroupChanged()) { rptCtrl.getFormulaValue().setIdxGroup(cUtil.valAsInt(this.fProperties.txIdxGroup.Text)); }
+                    if (this.fProperties.getWhenEvalChanged()) { rptCtrl.getFormulaValue().setWhenEval(this.fProperties.opAfterPrint.Checked ? csRptWhenEval.CSRPTEVALPOST : csRptWhenEval.CSRPTEVALPRE); }
 
-                    if (m_fProperties.getExportColIdxChanged()) { rptCtrl.setExportColIdx(cUtil.valAsInt(m_fProperties.txExportColIdx.Text)); }
-                    if (m_fProperties.getIsFreeCtrlChanged()) { rptCtrl.setIsFreeCtrl(m_fProperties.chkIsFreeCtrl.Checked); }
+                    if (this.fProperties.getExportColIdxChanged()) { rptCtrl.setExportColIdx(cUtil.valAsInt(this.fProperties.txExportColIdx.Text)); }
+                    if (this.fProperties.getIsFreeCtrlChanged()) { rptCtrl.setIsFreeCtrl(this.fProperties.chkIsFreeCtrl.Checked); }
 
                     if (rptCtrl.getControlType() === csRptControlType.CSRPTCTFIELD || rptCtrl.getControlType() === csRptControlType.CSRPTCTDBIMAGE) {
 
                         let w_field: cReportField = rptCtrl.getField();
-                        if (m_fProperties.getDbFieldChanged()) {
-                            w_field.setFieldType(m_fProperties.getFieldType());
-                            w_field.setIndex(m_fProperties.getIndex());
-                            w_field.setName(m_fProperties.txDbField.Text);
+                        if (this.fProperties.getDbFieldChanged()) {
+                            w_field.setFieldType(this.fProperties.getFieldType());
+                            w_field.setIndex(this.fProperties.getIndex());
+                            w_field.setName(this.fProperties.txDbField.Text);
                         }
                     }
 
-                    if (m_fProperties.getPictureChanged()) {
-                        rptCtrl.getImage().setImage(new Bitmap(m_fProperties.picImage.Image));
+                    if (this.fProperties.getPictureChanged()) {
+                        rptCtrl.getImage().setImage(new Bitmap(this.fProperties.picImage.Image));
                     }
 
                     if (rptCtrl.getControlType() === csRptControlType.CSRPTCTCHART) {
@@ -3967,125 +3967,125 @@ UNKNOWN >>             bool isGroup;
                             rptCtrl.getChart().getSeries().add();
                         }
 
-                        if (m_fProperties.getChartTypeChanged()) {
-                            rptCtrl.getChart().setChartType(cUtil.listID(m_fProperties.cbType));
+                        if (this.fProperties.getChartTypeChanged()) {
+                            rptCtrl.getChart().setChartType(cUtil.listID(this.fProperties.cbType));
                         }
-                        if (m_fProperties.getChartFormatTypeChanged()) {
-                            rptCtrl.getChart().setFormat(cUtil.listID(m_fProperties.cbFormatType));
+                        if (this.fProperties.getChartFormatTypeChanged()) {
+                            rptCtrl.getChart().setFormat(cUtil.listID(this.fProperties.cbFormatType));
                         }
-                        if (m_fProperties.getChartSizeChanged()) {
-                            rptCtrl.getChart().setDiameter(cUtil.listID(m_fProperties.cbChartSize));
+                        if (this.fProperties.getChartSizeChanged()) {
+                            rptCtrl.getChart().setDiameter(cUtil.listID(this.fProperties.cbChartSize));
                         }
-                        if (m_fProperties.getChartThicknessChanged()) {
-                            rptCtrl.getChart().setThickness(cUtil.listID(m_fProperties.cbChartThickness));
+                        if (this.fProperties.getChartThicknessChanged()) {
+                            rptCtrl.getChart().setThickness(cUtil.listID(this.fProperties.cbChartThickness));
                         }
-                        if (m_fProperties.getChartLinesTypeChanged()) {
-                            rptCtrl.getChart().setGridLines(cUtil.listID(m_fProperties.cbLinesType));
-                        }
-
-                        if (m_fProperties.getChartShowLinesChanged()) {
-                            rptCtrl.getChart().setOutlineBars(m_fProperties.chkShowOutlines.Checked);
-                        }
-                        if (m_fProperties.getChartShowValuesChanged()) {
-                            rptCtrl.getChart().setShowValues(m_fProperties.chkShowBarValues.Checked);
+                        if (this.fProperties.getChartLinesTypeChanged()) {
+                            rptCtrl.getChart().setGridLines(cUtil.listID(this.fProperties.cbLinesType));
                         }
 
-                        if (m_fProperties.getTextChanged()) {
-                            rptCtrl.getChart().setChartTitle(m_fProperties.txText.Text);
+                        if (this.fProperties.getChartShowLinesChanged()) {
+                            rptCtrl.getChart().setOutlineBars(this.fProperties.chkShowOutlines.Checked);
+                        }
+                        if (this.fProperties.getChartShowValuesChanged()) {
+                            rptCtrl.getChart().setShowValues(this.fProperties.chkShowBarValues.Checked);
                         }
 
-                        if (m_fProperties.getChartTopChanged()) {
-                            rptCtrl.getChart().setTop(cUtil.valAsInt(m_fProperties.txChartTop.Text));
+                        if (this.fProperties.getTextChanged()) {
+                            rptCtrl.getChart().setChartTitle(this.fProperties.txText.Text);
                         }
 
-                        if (m_fProperties.getChartSortChanged()) {
-                            rptCtrl.getChart().setSort(m_fProperties.chkSort.Checked);
+                        if (this.fProperties.getChartTopChanged()) {
+                            rptCtrl.getChart().setTop(cUtil.valAsInt(this.fProperties.txChartTop.Text));
                         }
 
-                        if (m_fProperties.getChartGroupValueChanged()) {
-                            rptCtrl.getChart().setGroupValue(m_fProperties.txChartGroupValue.Text);
+                        if (this.fProperties.getChartSortChanged()) {
+                            rptCtrl.getChart().setSort(this.fProperties.chkSort.Checked);
                         }
 
-                        if (m_fProperties.getChartFieldGroupChanged()) {
-                            rptCtrl.getChart().setGroupFieldName(m_fProperties.txDbFieldGroupValue.Text);
-                            rptCtrl.getChart().setGroupFieldIndex(m_fProperties.getChartGroupIndex());
+                        if (this.fProperties.getChartGroupValueChanged()) {
+                            rptCtrl.getChart().setGroupValue(this.fProperties.txChartGroupValue.Text);
                         }
 
-                        if (m_fProperties.getChartFieldLbl1Changed()) {
-                            rptCtrl.getChart().getSeries().item(0).setLabelFieldName(m_fProperties.txDbFieldLbl1.Text);
-                            rptCtrl.getChart().getSeries().item(0).setLabelIndex(m_fProperties.getChartIndex(0));
-                        }
-                        if (m_fProperties.getChartFieldVal1Changed()) {
-                            rptCtrl.getChart().getSeries().item(0).setValueFieldName(m_fProperties.txDbFieldVal1.Text);
-                            rptCtrl.getChart().getSeries().item(0).setValueIndex(m_fProperties.getChartIndex(1));
+                        if (this.fProperties.getChartFieldGroupChanged()) {
+                            rptCtrl.getChart().setGroupFieldName(this.fProperties.txDbFieldGroupValue.Text);
+                            rptCtrl.getChart().setGroupFieldIndex(this.fProperties.getChartGroupIndex());
                         }
 
-                        if (m_fProperties.getChartColorSerie1Changed()) {
-                            rptCtrl.getChart().getSeries().item(0).setColor(cUtil.listID(m_fProperties.cbColorSerie1));
+                        if (this.fProperties.getChartFieldLbl1Changed()) {
+                            rptCtrl.getChart().getSeries().item(0).setLabelFieldName(this.fProperties.txDbFieldLbl1.Text);
+                            rptCtrl.getChart().getSeries().item(0).setLabelIndex(this.fProperties.getChartIndex(0));
+                        }
+                        if (this.fProperties.getChartFieldVal1Changed()) {
+                            rptCtrl.getChart().getSeries().item(0).setValueFieldName(this.fProperties.txDbFieldVal1.Text);
+                            rptCtrl.getChart().getSeries().item(0).setValueIndex(this.fProperties.getChartIndex(1));
                         }
 
-                        if (m_fProperties.getChartFieldLbl2Changed() || m_fProperties.getChartFieldVal2Changed()) {
+                        if (this.fProperties.getChartColorSerie1Changed()) {
+                            rptCtrl.getChart().getSeries().item(0).setColor(cUtil.listID(this.fProperties.cbColorSerie1));
+                        }
+
+                        if (this.fProperties.getChartFieldLbl2Changed() || this.fProperties.getChartFieldVal2Changed()) {
                             if (rptCtrl.getChart().getSeries().count() < 2) {
                                 rptCtrl.getChart().getSeries().add();
                             }
                         }
 
-                        if (m_fProperties.txDbFieldLbl2.Text === "" || m_fProperties.txDbFieldVal2.Text === "") {
+                        if (this.fProperties.txDbFieldLbl2.Text === "" || this.fProperties.txDbFieldVal2.Text === "") {
                             if (rptCtrl.getChart().getSeries().count() > 1) { rptCtrl.getChart().getSeries().remove(1); }
                         }
 
                         if (rptCtrl.getChart().getSeries().count() > 1) {
 
-                            if (m_fProperties.getChartFieldLbl2Changed()) {
-                                rptCtrl.getChart().getSeries().item(1).setLabelFieldName(m_fProperties.txDbFieldLbl2.Text);
-                                rptCtrl.getChart().getSeries().item(1).setLabelIndex(m_fProperties.getChartIndex(2));
+                            if (this.fProperties.getChartFieldLbl2Changed()) {
+                                rptCtrl.getChart().getSeries().item(1).setLabelFieldName(this.fProperties.txDbFieldLbl2.Text);
+                                rptCtrl.getChart().getSeries().item(1).setLabelIndex(this.fProperties.getChartIndex(2));
                             }
-                            if (m_fProperties.getChartFieldVal2Changed()) {
-                                rptCtrl.getChart().getSeries().item(1).setValueFieldName(m_fProperties.txDbFieldVal2.Text);
-                                rptCtrl.getChart().getSeries().item(1).setValueIndex(m_fProperties.getChartIndex(3));
+                            if (this.fProperties.getChartFieldVal2Changed()) {
+                                rptCtrl.getChart().getSeries().item(1).setValueFieldName(this.fProperties.txDbFieldVal2.Text);
+                                rptCtrl.getChart().getSeries().item(1).setValueIndex(this.fProperties.getChartIndex(3));
                             }
 
-                            if (m_fProperties.getChartColorSerie2Changed()) {
-                                rptCtrl.getChart().getSeries().item(1).setColor(cUtil.listID(m_fProperties.cbColorSerie2));
+                            if (this.fProperties.getChartColorSerie2Changed()) {
+                                rptCtrl.getChart().getSeries().item(1).setColor(cUtil.listID(this.fProperties.cbColorSerie2));
                             }
                         }
                     }
 
-                    if (m_fProperties.getTextChanged()) { paintObject.setText(m_fProperties.txText.Text); }
+                    if (this.fProperties.getTextChanged()) { paintObject.setText(this.fProperties.txText.Text); }
 
                     w_aspect = rptCtrl.getLabel().getAspect();
-                    if (m_fProperties.getLeftChanged()) { w_aspect.setLeft(cUtil.val(m_fProperties.txLeft.Text)); }
-                    if (m_fProperties.getTopChanged()) { w_aspect.setTop(cUtil.val(m_fProperties.txTop.Text)); }
-                    if (m_fProperties.getWidthChanged()) { w_aspect.setWidth(cUtil.val(m_fProperties.txWidth.Text)); }
-                    if (m_fProperties.getHeightChanged()) { w_aspect.setHeight(cUtil.val(m_fProperties.txHeight.Text)); }
-                    if (m_fProperties.getBackColorChanged()) { w_aspect.setBackColor(cUtil.valAsInt(m_fProperties.txBackColor.Text)); }
-                    if (m_fProperties.getTransparentChanged()) { w_aspect.setTransparent(m_fProperties.chkTransparent.Checked); }
-                    if (m_fProperties.getAlignChanged()) { w_aspect.setAlign(cUtil.listID(m_fProperties.cbAlign)); }
-                    if (m_fProperties.getFormatChanged()) { w_aspect.setFormat(m_fProperties.txFormat.Text); }
-                    if (m_fProperties.getSymbolChanged()) {
-                        w_aspect.setSymbol(m_fProperties.txSymbol.Text);
-                        w_aspect.setIsAccounting(m_fProperties.getIsAccounting());
+                    if (this.fProperties.getLeftChanged()) { w_aspect.setLeft(cUtil.val(this.fProperties.txLeft.Text)); }
+                    if (this.fProperties.getTopChanged()) { w_aspect.setTop(cUtil.val(this.fProperties.txTop.Text)); }
+                    if (this.fProperties.getWidthChanged()) { w_aspect.setWidth(cUtil.val(this.fProperties.txWidth.Text)); }
+                    if (this.fProperties.getHeightChanged()) { w_aspect.setHeight(cUtil.val(this.fProperties.txHeight.Text)); }
+                    if (this.fProperties.getBackColorChanged()) { w_aspect.setBackColor(cUtil.valAsInt(this.fProperties.txBackColor.Text)); }
+                    if (this.fProperties.getTransparentChanged()) { w_aspect.setTransparent(this.fProperties.chkTransparent.Checked); }
+                    if (this.fProperties.getAlignChanged()) { w_aspect.setAlign(cUtil.listID(this.fProperties.cbAlign)); }
+                    if (this.fProperties.getFormatChanged()) { w_aspect.setFormat(this.fProperties.txFormat.Text); }
+                    if (this.fProperties.getSymbolChanged()) {
+                        w_aspect.setSymbol(this.fProperties.txSymbol.Text);
+                        w_aspect.setIsAccounting(this.fProperties.getIsAccounting());
                     }
-                    if (m_fProperties.getWordWrapChanged()) { w_aspect.setWordWrap(m_fProperties.chkWordWrap.Checked); }
-                    if (m_fProperties.getCanGrowChanged()) { w_aspect.setCanGrow(m_fProperties.chkCanGrow.Checked); }
+                    if (this.fProperties.getWordWrapChanged()) { w_aspect.setWordWrap(this.fProperties.chkWordWrap.Checked); }
+                    if (this.fProperties.getCanGrowChanged()) { w_aspect.setCanGrow(this.fProperties.chkCanGrow.Checked); }
 
-                    if (m_fProperties.getBorderColorChanged()) { w_aspect.setBorderColor(cUtil.valAsInt(m_fProperties.txBorderColor.Text)); }
-                    if (m_fProperties.getBorder3DChanged()) { w_aspect.setBorderColor3d(cUtil.valAsInt(m_fProperties.txBorder3D.Text)); }
-                    if (m_fProperties.getBorder3DShadowChanged()) { w_aspect.setBorderColor3dShadow(cUtil.valAsInt(m_fProperties.txBorderShadow.Text)); }
-                    if (m_fProperties.getBorderRoundedChanged()) { w_aspect.setBorderRounded(m_fProperties.chkBorderRounded.Checked); }
-                    if (m_fProperties.getBorderWidthChanged()) { w_aspect.setBorderWidth(cUtil.valAsInt(m_fProperties.txBorderWidth.Text)); }
-                    if (m_fProperties.getBorderTypeChanged()) { w_aspect.setBorderType(cUtil.listID(m_fProperties.cbBorderType)); }
+                    if (this.fProperties.getBorderColorChanged()) { w_aspect.setBorderColor(cUtil.valAsInt(this.fProperties.txBorderColor.Text)); }
+                    if (this.fProperties.getBorder3DChanged()) { w_aspect.setBorderColor3d(cUtil.valAsInt(this.fProperties.txBorder3D.Text)); }
+                    if (this.fProperties.getBorder3DShadowChanged()) { w_aspect.setBorderColor3dShadow(cUtil.valAsInt(this.fProperties.txBorderShadow.Text)); }
+                    if (this.fProperties.getBorderRoundedChanged()) { w_aspect.setBorderRounded(this.fProperties.chkBorderRounded.Checked); }
+                    if (this.fProperties.getBorderWidthChanged()) { w_aspect.setBorderWidth(cUtil.valAsInt(this.fProperties.txBorderWidth.Text)); }
+                    if (this.fProperties.getBorderTypeChanged()) { w_aspect.setBorderType(cUtil.listID(this.fProperties.cbBorderType)); }
 
                     w_font = w_aspect.getFont();
-                    if (m_fProperties.getFontChanged()) { w_font.setName(m_fProperties.txFont.Text); }
-                    if (m_fProperties.getForeColorChanged()) { w_font.setForeColor(cUtil.valAsInt(m_fProperties.txForeColor.Text)); }
-                    if (m_fProperties.getFontSizeChanged()) { w_font.setSize(cUtil.val(m_fProperties.txFontSize.Text)); }
-                    if (m_fProperties.getBoldChanged()) { w_font.setBold(m_fProperties.chkFontBold.Checked); }
-                    if (m_fProperties.getItalicChanged()) { w_font.setItalic(m_fProperties.chkFontItalic.Checked); }
-                    if (m_fProperties.getUnderlineChanged()) { w_font.setUnderline(m_fProperties.chkFontUnderline.Checked); }
-                    if (m_fProperties.getStrikeChanged()) { w_font.setStrike(m_fProperties.chkFontStrike.Checked); }
+                    if (this.fProperties.getFontChanged()) { w_font.setName(this.fProperties.txFont.Text); }
+                    if (this.fProperties.getForeColorChanged()) { w_font.setForeColor(cUtil.valAsInt(this.fProperties.txForeColor.Text)); }
+                    if (this.fProperties.getFontSizeChanged()) { w_font.setSize(cUtil.val(this.fProperties.txFontSize.Text)); }
+                    if (this.fProperties.getBoldChanged()) { w_font.setBold(this.fProperties.chkFontBold.Checked); }
+                    if (this.fProperties.getItalicChanged()) { w_font.setItalic(this.fProperties.chkFontItalic.Checked); }
+                    if (this.fProperties.getUnderlineChanged()) { w_font.setUnderline(this.fProperties.chkFontUnderline.Checked); }
+                    if (this.fProperties.getStrikeChanged()) { w_font.setStrike(this.fProperties.chkFontStrike.Checked); }
 
-                    if (m_fProperties.getPictureChanged()) {
+                    if (this.fProperties.getPictureChanged()) {
                         paintObject.setImage(rptCtrl.getImage().getImage());
                     }
 
@@ -4094,18 +4094,18 @@ UNKNOWN >>             bool isGroup;
                     //
 
                     w_aspect = paintObject.getAspect();
-                    if (m_fProperties.getLeftChanged()) { w_aspect.setLeft(cUtil.val(m_fProperties.txLeft.Text)); }
-                    if (m_fProperties.getTopChanged()) { w_aspect.setTop(cUtil.val(m_fProperties.txTop.Text)); }
-                    if (m_fProperties.getWidthChanged()) { w_aspect.setWidth(cUtil.val(m_fProperties.txWidth.Text)); }
-                    if (m_fProperties.getHeightChanged()) { w_aspect.setHeight(cUtil.val(m_fProperties.txHeight.Text)); }
-                    if (m_fProperties.getBackColorChanged()) { w_aspect.setBackColor(cUtil.valAsInt(m_fProperties.txBackColor.Text)); }
-                    if (m_fProperties.getTransparentChanged()) { w_aspect.setTransparent(m_fProperties.chkTransparent.Checked); }
-                    if (m_fProperties.getAlignChanged()) { w_aspect.setAlign(cUtil.listID(m_fProperties.cbAlign)); }
-                    if (m_fProperties.getFormatChanged()) { w_aspect.setFormat(m_fProperties.txFormat.Text); }
-                    if (m_fProperties.getSymbolChanged()) { w_aspect.setSymbol(m_fProperties.txSymbol.Text); }
-                    if (m_fProperties.getWordWrapChanged()) { w_aspect.setWordWrap(m_fProperties.chkWordWrap.Checked); }
+                    if (this.fProperties.getLeftChanged()) { w_aspect.setLeft(cUtil.val(this.fProperties.txLeft.Text)); }
+                    if (this.fProperties.getTopChanged()) { w_aspect.setTop(cUtil.val(this.fProperties.txTop.Text)); }
+                    if (this.fProperties.getWidthChanged()) { w_aspect.setWidth(cUtil.val(this.fProperties.txWidth.Text)); }
+                    if (this.fProperties.getHeightChanged()) { w_aspect.setHeight(cUtil.val(this.fProperties.txHeight.Text)); }
+                    if (this.fProperties.getBackColorChanged()) { w_aspect.setBackColor(cUtil.valAsInt(this.fProperties.txBackColor.Text)); }
+                    if (this.fProperties.getTransparentChanged()) { w_aspect.setTransparent(this.fProperties.chkTransparent.Checked); }
+                    if (this.fProperties.getAlignChanged()) { w_aspect.setAlign(cUtil.listID(this.fProperties.cbAlign)); }
+                    if (this.fProperties.getFormatChanged()) { w_aspect.setFormat(this.fProperties.txFormat.Text); }
+                    if (this.fProperties.getSymbolChanged()) { w_aspect.setSymbol(this.fProperties.txSymbol.Text); }
+                    if (this.fProperties.getWordWrapChanged()) { w_aspect.setWordWrap(this.fProperties.chkWordWrap.Checked); }
 
-                    if (m_fProperties.getBorderTypeChanged()) { w_aspect.setBorderType(cUtil.listID(m_fProperties.cbBorderType)); }
+                    if (this.fProperties.getBorderTypeChanged()) { w_aspect.setBorderType(cUtil.listID(this.fProperties.cbBorderType)); }
 
                     if (w_aspect.getBorderType() === csReportBorderType.CSRPTBSNONE) {
                         w_aspect.setBorderColor(Color.Black.ToArgb());
@@ -4114,63 +4114,63 @@ UNKNOWN >>             bool isGroup;
                         w_aspect.setBorderType(csReportBorderType.CSRPTBSFIXED);
                     }
                     else {
-                        if (m_fProperties.getBorderColorChanged()) { w_aspect.setBorderColor(cUtil.valAsInt(m_fProperties.txBorderColor.Text)); }
-                        if (m_fProperties.getBorder3DChanged()) { w_aspect.setBorderColor3d(cUtil.valAsInt(m_fProperties.txBorder3D.Text)); }
-                        if (m_fProperties.getBorder3DShadowChanged()) { w_aspect.setBorderColor3dShadow(cUtil.valAsInt(m_fProperties.txBorderShadow.Text)); }
-                        if (m_fProperties.getBorderRoundedChanged()) { w_aspect.setBorderRounded(m_fProperties.chkBorderRounded.Checked); }
-                        if (m_fProperties.getBorderWidthChanged()) { w_aspect.setBorderWidth(cUtil.valAsInt(m_fProperties.txBorderWidth.Text)); }
+                        if (this.fProperties.getBorderColorChanged()) { w_aspect.setBorderColor(cUtil.valAsInt(this.fProperties.txBorderColor.Text)); }
+                        if (this.fProperties.getBorder3DChanged()) { w_aspect.setBorderColor3d(cUtil.valAsInt(this.fProperties.txBorder3D.Text)); }
+                        if (this.fProperties.getBorder3DShadowChanged()) { w_aspect.setBorderColor3dShadow(cUtil.valAsInt(this.fProperties.txBorderShadow.Text)); }
+                        if (this.fProperties.getBorderRoundedChanged()) { w_aspect.setBorderRounded(this.fProperties.chkBorderRounded.Checked); }
+                        if (this.fProperties.getBorderWidthChanged()) { w_aspect.setBorderWidth(cUtil.valAsInt(this.fProperties.txBorderWidth.Text)); }
                     }
 
                     w_font = w_aspect.getFont();
-                    if (m_fProperties.getFontChanged()) { w_font.setName(m_fProperties.txFont.Text); }
-                    if (m_fProperties.getForeColorChanged()) { w_font.setForeColor(cUtil.valAsInt(m_fProperties.txForeColor.Text)); }
-                    if (m_fProperties.getFontSizeChanged()) { w_font.setSize(cUtil.val(m_fProperties.txFontSize.Text)); }
-                    if (m_fProperties.getBoldChanged()) { w_font.setBold(m_fProperties.chkFontBold.Checked); }
-                    if (m_fProperties.getItalicChanged()) { w_font.setItalic(m_fProperties.chkFontItalic.Checked); }
-                    if (m_fProperties.getUnderlineChanged()) { w_font.setUnderline(m_fProperties.chkFontUnderline.Checked); }
-                    if (m_fProperties.getStrikeChanged()) { w_font.setStrike(m_fProperties.chkFontStrike.Checked); }
+                    if (this.fProperties.getFontChanged()) { w_font.setName(this.fProperties.txFont.Text); }
+                    if (this.fProperties.getForeColorChanged()) { w_font.setForeColor(cUtil.valAsInt(this.fProperties.txForeColor.Text)); }
+                    if (this.fProperties.getFontSizeChanged()) { w_font.setSize(cUtil.val(this.fProperties.txFontSize.Text)); }
+                    if (this.fProperties.getBoldChanged()) { w_font.setBold(this.fProperties.chkFontBold.Checked); }
+                    if (this.fProperties.getItalicChanged()) { w_font.setItalic(this.fProperties.chkFontItalic.Checked); }
+                    if (this.fProperties.getUnderlineChanged()) { w_font.setUnderline(this.fProperties.chkFontUnderline.Checked); }
+                    if (this.fProperties.getStrikeChanged()) { w_font.setStrike(this.fProperties.chkFontStrike.Checked); }
                 }
 
-                m_dataHasChanged = true;
+                this.dataHasChanged = true;
 
             } catch (Exception ex) {
                 cError.mngError(ex, "pShowCtrlProperties", C_MODULE, "");
             }
 UNKNOWN >>             finally {
-                m_fProperties.Hide();
-                m_showingProperties = false;
-                m_fProperties = null;
-                m_paint.endMove(m_picReport.CreateGraphics());
+                this.fProperties.Hide();
+                this.showingProperties = false;
+                this.fProperties = null;
+                this.paint.endMove(this.picReport.CreateGraphics());
             }
-        };
+        }
 
-        const beginDraging = function() {
-            m_picReport.Focus();
-            m_draging = true;
-            m_picReport.Cursor = UNKNOWN >>  can't find constructor for class Cursor("Resources" + Path.DirectorySeparatorChar + "move32x32.cur");
-        };
+        private beginDraging() {
+            this.picReport.Focus();
+            this.draging = true;
+            this.picReport.Cursor = new Cursor("Resources" + Path.DirectorySeparatorChar + "move32x32.cur");
+        }
 
-        const endDraging = function() {
-            m_draging = false;
-            m_controlType = csRptEditCtrlType.none;
-            m_picReport.Cursor = Cursors.Default;
-        };
+        private endDraging() {
+            this.draging = false;
+            this.controlType = csRptEditCtrlType.none;
+            this.picReport.Cursor = Cursors.Default;
+        }
 
-        self.showToolbox = function() {
+        public showToolbox() {
 
             let f: fToolbox = cMainEditor.getToolbox(this);
 
             f.clear();
 
-            pAddColumnsToToolbox(m_report.getConnect().getDataSource(), m_report.getConnect().getColumns(), f);
+            pAddColumnsToToolbox(this.report.getConnect().getDataSource(), this.report.getConnect().getColumns(), f);
 
-            for(var _i = 0; _i < m_report.getConnectsAux().count(); _i++) {
-                let connect: cReportConnect = m_report.getConnectsAux().item(_i);
+            for(var _i = 0; _i < this.report.getConnectsAux().count(); _i++) {
+                let connect: cReportConnect = this.report.getConnectsAux().item(_i);
                 pAddColumnsToToolbox(connect.getDataSource(), connect.getColumns(), f);
             }
 
-            for(var _i = 0; _i < m_report.getControls().count(); _i++) {
-                let ctrl: cReportControl = m_report.getControls().item(_i);
+            for(var _i = 0; _i < this.report.getControls().count(); _i++) {
+                let ctrl: cReportControl = this.report.getControls().item(_i);
                 if (cDatabaseGlobals.isNumberField(ctrl.getField().getFieldType())) {
                     f.addLbFormula(ctrl.getField().getName());
 
@@ -4185,11 +4185,11 @@ UNKNOWN >>             finally {
                 }
             }
             if (!f.Visible) {
-                f.Show(m_fmain);
+                f.Show(this.fmain);
             }
-        };
+        }
 
-        self.pAddColumnsToToolbox = function(dataSource, columns, f) {
+        public pAddColumnsToToolbox(dataSource: string, columns: cColumnsInfo, f: fToolbox) {
             for(var _i = 0; _i < columns.count(); _i++) {
                 let col: cColumnInfo = columns.item(_i);
                 f.addField(
@@ -4198,40 +4198,40 @@ UNKNOWN >>             finally {
                     col.getPosition());
                 f.addLabels(col.getName());
             }
-        };
+        }
 
-        self.copy = function() {
+        public copy() {
             try {
-                if (m_vSelectedKeys.Length === 0) { return; }
+                if (this.vSelectedKeys.Length === 0) { return; }
 
-                G.redim(m_vCopyKeys, m_vSelectedKeys.Length);
+                G.redim(this.vCopyKeys, this.vSelectedKeys.Length);
 
-                for(var i = 0; i < m_vSelectedKeys.Length; i++) {
-                    m_vCopyKeys[i] = m_vSelectedKeys[i];
+                for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+                    this.vCopyKeys[i] = this.vSelectedKeys[i];
                 }
 
-                m_fmain.setReportCopySource(this);
+                this.fmain.setReportCopySource(this);
 
             } catch (Exception ex) {
                 cError.mngError(ex, "Copy", C_MODULE, "");
             }
-        };
+        }
 
-        self.paste = function(bDontMove) {
+        public paste(bDontMove: boolean) {
             try {
 
-                m_bCopyWithoutMoving = bDontMove;
+                this.bCopyWithoutMoving = bDontMove;
 
-                if (m_vCopyKeys.Length === 0) {
+                if (this.vCopyKeys.Length === 0) {
 
-                    if (m_fmain.getReportCopySource() === null) { return; }
+                    if (this.fmain.getReportCopySource() === null) { return; }
 
-                    m_copyControlsFromOtherReport = true;
+                    this.copyControlsFromOtherReport = true;
 
                 }
                 else {
 
-                    m_copyControls = true;
+                    this.copyControls = true;
 
                 }
 
@@ -4240,23 +4240,23 @@ UNKNOWN >>             finally {
             } catch (Exception ex) {
                 cError.mngError(ex, "Paste", C_MODULE, "");
             }
-        };
+        }
 
-        self.editText = function() {
+        public editText() {
             try {
 
-                self.c_margen: number = 1;
+                public c_margen: number = 1;
 
                 let sText: string = "";
                 let paintObjAspect: cReportAspect = null;
                 let ctrl: cReportControl = null;
 
-                if (m_keyObj === "") { return; }
+                if (this.keyObj === "") { return; }
 
-                let w_getPaintObject: cReportPaintObject = m_paint.getPaintObject(m_keyObj);
+                let w_getPaintObject: cReportPaintObject = this.paint.getPaintObject(this.keyObj);
                 paintObjAspect = w_getPaintObject.getAspect();
                 sText = w_getPaintObject.getText();
-                ctrl = m_report.getControls().item(w_getPaintObject.getTag());
+                ctrl = this.report.getControls().item(w_getPaintObject.getTag());
                 if (paintObjAspect === null) { return; }
 
                 /* TODO: implement me
@@ -4277,9 +4277,9 @@ UNKNOWN >>             finally {
             } catch (Exception ex) {
                 cError.mngError(ex, "EditText", C_MODULE, "");
             }
-        };
+        }
 
-        const endEditText = function(descartar) {
+        private endEditText(descartar: boolean) {
             /* TODO: implement me
             if (!TxEdit.Visible) { return; }
 
@@ -4287,10 +4287,10 @@ UNKNOWN >>             finally {
 
             if (descartar) { return; }
 
-            m_dataHasChanged = true;
+            this.dataHasChanged = true;
 
             cReportPaintObject paintObjAspect = null;
-            paintObjAspect = m_paint.getPaintObject(m_keyObj);
+            paintObjAspect = this.paint.getPaintObject(this.keyObj);
             if (paintObjAspect === null) { return; }
 
             String sKeyRpt = "";
@@ -4298,12 +4298,12 @@ UNKNOWN >>             finally {
 
             paintObjAspect.setText(TxEdit.Text);
 
-            m_report.getControls().item(sKeyRpt).getLabel().setText(paintObjAspect.getText());
+            this.report.getControls().item(sKeyRpt).getLabel().setText(paintObjAspect.getText());
             refreshBody();
              */
-        };
+        }
 
-        const paintSection = function(aspect, ) {
+        private paintSection(aspect: cReportAspect) {
                                     String sKey,
                                     csRptSectionType rptType,
                                     String text,
@@ -4311,7 +4311,7 @@ UNKNOWN >>             finally {
         {
 
             let paintObj: cReportPaintObject = null;
-            paintObj = m_paint.getNewSection(csRptPaintObjType.CSRPTPAINTOBJBOX);
+            paintObj = this.paint.getNewSection(csRptPaintObjType.CSRPTPAINTOBJBOX);
 
             let w_aspect: cReportAspect = paintObj.getAspect();
 
@@ -4329,7 +4329,7 @@ UNKNOWN >>             finally {
                 w_aspect.setBorderColor(Color.Red.ToArgb());
             }
             else {
-                self.innerColor: number = 0x99ccff;
+                public innerColor: number = 0x99ccff;
 
                 if (rptType === csRptSectionType.GROUP_FOOTER
                     || rptType === csRptSectionType.GROUP_HEADER) {
@@ -4344,7 +4344,7 @@ UNKNOWN >>             finally {
 
             if (rptType === csRptSectionType.MAIN_FOOTER
                 || rptType === csRptSectionType.FOOTER) {
-                w_aspect.setOffset(m_offSet);
+                w_aspect.setOffset(this.offSet);
             }
 
             paintObj.setIsSection(!isSecLn);
@@ -4355,9 +4355,9 @@ UNKNOWN >>             finally {
             paintObj.setText(text);
 
             return paintObj.getKey();
-        };
+        }
 
-        const getLineRegionForControl = function(sKeyPaintObj, ) {
+        private getLineRegionForControl(sKeyPaintObj: string) {
                                                 cReportSectionLine rptSecLine,
                                                 bool isFreeCtrl)
         {
@@ -4374,7 +4374,7 @@ UNKNOWN >>             finally {
 
             let rtnSecLine: cReportSectionLine = null;
 
-            let w_aspect: cReportAspect = m_paint.getPaintObject(sKeyPaintObj).getAspect();
+            let w_aspect: cReportAspect = this.paint.getPaintObject(sKeyPaintObj).getAspect();
             if (isFreeCtrl) {
                 y = w_aspect.getTop() + w_aspect.getOffset();
             }
@@ -4424,13 +4424,13 @@ UNKNOWN >>             finally {
             else {
                 return false;
             }
-        };
+        }
 
-        const getRegionForControl = function(sKeyPaintObj, rptSection, isFreeCtrl) {
+        private getRegionForControl(sKeyPaintObj: string, rptSection: cReportSection, isFreeCtrl: boolean) {
             let x: number = 0;
             let y: number = 0;
 
-            let w_aspect: cReportAspect = m_paint.getPaintObject(sKeyPaintObj).getAspect();
+            let w_aspect: cReportAspect = this.paint.getPaintObject(sKeyPaintObj).getAspect();
 
             // Headers
             //
@@ -4442,45 +4442,45 @@ UNKNOWN >>             finally {
                 y = w_aspect.getTop() + w_aspect.getHeight() / 2;
             }
 
-            if (getRegionForControlAux(m_report.getHeaders(), x, y, rptSection, isFreeCtrl)) {
+            if (getRegionForControlAux(this.report.getHeaders(), x, y, rptSection, isFreeCtrl)) {
                 w_aspect.setOffset(0);
                 return true;
             }
 
             // Groups Headers
             //
-            if (getRegionForControlAux(m_report.getGroupsHeaders(), x, y, rptSection, isFreeCtrl)) {
+            if (getRegionForControlAux(this.report.getGroupsHeaders(), x, y, rptSection, isFreeCtrl)) {
                 w_aspect.setOffset(0);
                 return true;
             }
 
             // Details
             //
-            if (getRegionForControlAux(m_report.getDetails(), x, y, rptSection, isFreeCtrl)) {
+            if (getRegionForControlAux(this.report.getDetails(), x, y, rptSection, isFreeCtrl)) {
                 w_aspect.setOffset(0);
                 return true;
             }
 
             // Groups Footers
             //
-            if (getRegionForControlAux(m_report.getGroupsFooters(), x, y, rptSection, isFreeCtrl)) {
+            if (getRegionForControlAux(this.report.getGroupsFooters(), x, y, rptSection, isFreeCtrl)) {
                 w_aspect.setOffset(0);
                 return true;
             }
 
-            y = y + m_offSet;
+            y = y + this.offSet;
 
             // Footers
             //
-            if (getRegionForControlAux(m_report.getFooters(), x, y, rptSection, isFreeCtrl)) {
-                w_aspect.setOffset(m_offSet);
+            if (getRegionForControlAux(this.report.getFooters(), x, y, rptSection, isFreeCtrl)) {
+                w_aspect.setOffset(this.offSet);
                 return true;
             }
 
             return false;
-        };
+        }
 
-        const getRegionForControlAux = function(rptSections, ) {
+        private getRegionForControlAux(rptSections: cIReportGroupSections) {
                                             float x,
                                             float y,
                                             cReportSection rptSection,
@@ -4520,9 +4520,9 @@ UNKNOWN >>             finally {
             else {
                 return false;
             }
-        };
+        }
 
-        const pChangeTopSection = function(rptSec, ) {
+        private pChangeTopSection(rptSec: cReportSection) {
                                         float offSetTopSection,
                                         bool bChangeTop,
                                         bool bZeroOffset)
@@ -4560,7 +4560,7 @@ UNKNOWN >>             cReportPaintObject paintSec;
                     }
                     else {
 
-                        if (rptSecLine.getRealIndex() >= m_indexSecLnMoved && m_indexSecLnMoved > 0) {
+                        if (rptSecLine.getRealIndex() >= this.indexSecLnMoved && this.indexSecLnMoved > 0) {
 
                             bChangeTop = true;
                         }
@@ -4582,11 +4582,11 @@ UNKNOWN >>             cReportPaintObject paintSec;
                 secLnHeigt = secLnHeigt + secLineAspect.getHeight();
 
                 if (rptSecLine.getKeyPaint() !== "") {
-                    paintSec = m_paint.getPaintSections().item(rptSecLine.getKeyPaint());
+                    paintSec = this.paint.getPaintSections().item(rptSecLine.getKeyPaint());
                     paintSec.getAspect().setTop(secLineAspect.getTop() + secLineAspect.getHeight() - cGlobals.C_HEIGHT_BAR_SECTION);
                 }
                 else {
-                    paintSec = m_paint.getPaintSections().item(rptSec.getKeyPaint());
+                    paintSec = this.paint.getPaintSections().item(rptSec.getKeyPaint());
                 }
                 if (paintSec !== null) {
                     paintSec.setHeightSecLine(secLineAspect.getHeight());
@@ -4616,8 +4616,8 @@ UNKNOWN >>             cReportPaintObject paintSec;
                     if (newTopCtrl < secLineAspect.getTop()) { newTopCtrl = secLineAspect.getTop(); }
 
                     ctrLabelAspect.setTop(newTopCtrl);
-                    if (m_paint.getPaintObject(rptCtrl.getKeyPaint()) !== null) {
-                        m_paint.getPaintObject(rptCtrl.getKeyPaint()).getAspect().setTop(ctrLabelAspect.getTop());
+                    if (this.paint.getPaintObject(rptCtrl.getKeyPaint()) !== null) {
+                        this.paint.getPaintObject(rptCtrl.getKeyPaint()).getAspect().setTop(ctrLabelAspect.getTop());
                     }
                 }
             }
@@ -4631,7 +4631,7 @@ UNKNOWN >>             cReportPaintObject paintSec;
 
             // we only draw the bottom line of the sections
             //
-            paintSec = m_paint.getPaintSections().item(rptSec.getKeyPaint());
+            paintSec = this.paint.getPaintSections().item(rptSec.getKeyPaint());
 
             if (paintSec !== null) {
                 paintSec.getAspect().setTop(w_aspect.getTop()
@@ -4639,9 +4639,9 @@ UNKNOWN >>             cReportPaintObject paintSec;
                                             - cGlobals.C_HEIGHT_BAR_SECTION);
                 paintSec.setHeightSec(w_aspect.getHeight());
             }
-        };
+        }
 
-        const moveSection = function(paintObj, ) {
+        private moveSection(paintObj: cReportPaintObject) {
                                     float x,
                                     float y,
                                     float minBottom,
@@ -4649,18 +4649,18 @@ UNKNOWN >>             cReportPaintObject paintSec;
                                     cReportSection secToMove,
                                     bool isNew)
         {
-            if (m_bNoMove) { return; }
+            if (this.bNoMove) { return; }
 
             let oldHeight: number = 0;
 
-            m_dataHasChanged = true;
+            this.dataHasChanged = true;
 
             let w_aspect: cReportAspect = paintObj.getAspect();
 
             // if Y is contained by the allowed range everything is ok
             //
             if (y >= minBottom && y <= maxBottom) {
-                w_aspect.setTop(y - m_offY);
+                w_aspect.setTop(y - this.offY);
 
                 // because the top has been set to real dimensions
                 // of the screen we must move to the offset
@@ -4687,7 +4687,7 @@ UNKNOWN >>             cReportPaintObject paintSec;
 
             // TODO: remove after more testing - aligning the sections has an undesired result: the last section line is shrinked after five resize actions
             //
-            // m_paint.alingToGrid(paintObj.getKey());
+            // this.paint.alingToGrid(paintObj.getKey());
 
             if (isNew) {
                 oldHeight = 0;
@@ -4711,7 +4711,7 @@ UNKNOWN >>             cReportPaintObject paintSec;
 
             w_aspect = secToMove.getAspect();
 
-            offsetTop = oldHeight - (w_aspect.getHeight() + m_newSecLineOffSet);
+            offsetTop = oldHeight - (w_aspect.getHeight() + this.newSecLineOffSet);
 
             switch (secToMove.getTypeSection()) {
 
@@ -4750,20 +4750,20 @@ UNKNOWN >>             cReportPaintObject paintSec;
             }
 
             // finaly we need to update the offset of every section,
-            // apply it to every object paint in m_Paint
+            // apply it to every object paint in this.Paint
             //
             let pageHeight: number = 0;
-            let w_paperInfo: cReportPaperInfo = m_report.getPaperInfo();
+            let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
             pGetOffSet(CSReportPaint.cGlobals.getRectFromPaperSize(
-                                                        m_report.getPaperInfo(),
+                                                        this.report.getPaperInfo(),
                                                         w_paperInfo.getPaperSize(),
                                                         w_paperInfo.getOrientation()).Height,
                                                         pageHeight);
             pRefreshOffSetInPaintObjs();
-            m_paint.setGridHeight(pageHeight);
-        };
+            this.paint.setGridHeight(pageHeight);
+        }
 
-        const pChangeBottomSections = function(secToMove, offsetTop) {
+        private pChangeBottomSections(secToMove: cReportSection, offsetTop: number) {
 
             let sec: cReportSection = null;
             let bChangeTop: boolean = false;
@@ -4772,8 +4772,8 @@ UNKNOWN >>             cReportPaintObject paintSec;
                 || secToMove.getTypeSection() === csRptSectionType.MAIN_FOOTER
                 || bChangeTop) {
 
-                for(var i = m_report.getFooters().count()-1; i > -1; i--) {
-                    sec = m_report.getFooters().item(i);
+                for(var i = this.report.getFooters().count()-1; i > -1; i--) {
+                    sec = this.report.getFooters().item(i);
 
                     if (bChangeTop) {
                         pChangeTopSection(sec, offsetTop, bChangeTop, false);
@@ -4784,9 +4784,9 @@ UNKNOWN >>             cReportPaintObject paintSec;
                     }
                 }
             }
-        };
+        }
 
-        const pChangeTopSections = function(secToMove, offsetTop) {
+        private pChangeTopSections(secToMove: cReportSection, offsetTop: number) {
 
             let sec: cReportSection = null;
             let bChangeTop: boolean = false;
@@ -4794,8 +4794,8 @@ UNKNOWN >>             cReportPaintObject paintSec;
             if (secToMove.getTypeSection() === csRptSectionType.HEADER
                 || secToMove.getTypeSection() === csRptSectionType.MAIN_HEADER) {
 
-                for(var _i = 0; _i < m_report.getHeaders().count(); _i++) {
-                    sec = m_report.getHeaders().item(_i);
+                for(var _i = 0; _i < this.report.getHeaders().count(); _i++) {
+                    sec = this.report.getHeaders().item(_i);
                     if (bChangeTop) {
                         pChangeTopSection(sec, offsetTop, bChangeTop, false);
                     }
@@ -4808,8 +4808,8 @@ UNKNOWN >>             cReportPaintObject paintSec;
 
             if (secToMove.getTypeSection() === csRptSectionType.GROUP_HEADER || bChangeTop) {
 
-                for(var _i = 0; _i < m_report.getGroupsHeaders().count(); _i++) {
-                    sec = m_report.getGroupsHeaders().item(_i);
+                for(var _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
+                    sec = this.report.getGroupsHeaders().item(_i);
                     if (bChangeTop) {
                         pChangeTopSection(sec, offsetTop, bChangeTop, false);
                     }
@@ -4823,8 +4823,8 @@ UNKNOWN >>             cReportPaintObject paintSec;
             if (secToMove.getTypeSection() === csRptSectionType.MAIN_DETAIL
                 || secToMove.getTypeSection() === csRptSectionType.DETAIL || bChangeTop) {
 
-                for(var _i = 0; _i < m_report.getDetails().count(); _i++) {
-                    sec = m_report.getDetails().item(_i);
+                for(var _i = 0; _i < this.report.getDetails().count(); _i++) {
+                    sec = this.report.getDetails().item(_i);
                     if (bChangeTop) {
                         pChangeTopSection(sec, offsetTop, bChangeTop, false);
                     }
@@ -4837,8 +4837,8 @@ UNKNOWN >>             cReportPaintObject paintSec;
 
             if (secToMove.getTypeSection() === csRptSectionType.GROUP_FOOTER || bChangeTop) {
 
-                for(var _i = 0; _i < m_report.getGroupsFooters().count(); _i++) {
-                    sec = m_report.getGroupsFooters().item(_i);
+                for(var _i = 0; _i < this.report.getGroupsFooters().count(); _i++) {
+                    sec = this.report.getGroupsFooters().item(_i);
                     if (bChangeTop) {
                         pChangeTopSection(sec, offsetTop, bChangeTop, false);
                     }
@@ -4848,9 +4848,9 @@ UNKNOWN >>             cReportPaintObject paintSec;
                     }
                 }
             }
-        };
+        }
 
-        const pChangeHeightSection = function(sec, oldSecHeight) {
+        private pChangeHeightSection(sec: cReportSection, oldSecHeight: number) {
             let heightLines: number = 0;
 UNKNOWN >>             cReportAspect w_aspect;
 
@@ -4868,102 +4868,102 @@ UNKNOWN >>             cReportAspect w_aspect;
             w_aspect.setHeight(sec.getAspect().getHeight() - heightLines);
 
             pChangeTopSection(sec, 0, false, true);
-        };
+        }
 
-        const reLoadReport = function() {
+        private reLoadReport() {
 
             let paintSec: cReportPaintObject = null;
 
-            m_paint = null;
+            this.paint = null;
 
-            m_keyMoving = "";
-            m_keySizing = "";
-            m_keyObj = "";
-            m_keyFocus = "";
-            m_moveType = csRptEditorMoveType.CSRPTEDMOVTNONE;
+            this.keyMoving = "";
+            this.keySizing = "";
+            this.keyObj = "";
+            this.keyFocus = "";
+            this.moveType = csRptEditorMoveType.CSRPTEDMOVTNONE;
 
-            m_paint = globalObject.CSReportPaint.createCReportPaint();
+            this.paint = new cReportPaint();
 
-            let w_paperInfo: cReportPaperInfo = m_report.getPaperInfo();
-            m_paint.setGridHeight(
+            let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
+            this.paint.setGridHeight(
                     pSetSizePics(CSReportPaint.cGlobals.getRectFromPaperSize(
-                                                                m_report.getPaperInfo(),
+                                                                this.report.getPaperInfo(),
                                                                 w_paperInfo.getPaperSize(),
                                                                 w_paperInfo.getOrientation()).Height));
 
-            m_paint.initGrid(m_picReport.CreateGraphics(), m_typeGrid);
+            this.paint.initGrid(this.picReport.CreateGraphics(), this.typeGrid);
 
-            if (m_report.getName() !== "") {
-                m_editorTab.Text = m_report.getName() + "   [X]";
+            if (this.report.getName() !== "") {
+                this.editorTab.Text = this.report.getName() + "   [X]";
             }
 
             let sec: cReportSection = null;
 
-            for(var _i = 0; _i < m_report.getHeaders().count(); _i++) {
-                sec = m_report.getHeaders().item(_i);
+            for(var _i = 0; _i < this.report.getHeaders().count(); _i++) {
+                sec = this.report.getHeaders().item(_i);
                 sec.setKeyPaint(paintSection(sec.getAspect(),
                                                 sec.getKey(),
                                                 sec.getTypeSection(),
                                                 sec.getName(),
                                                 false));
-                paintSec = m_paint.getPaintSections().item(sec.getKeyPaint());
+                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                 paintSec.setHeightSec(sec.getAspect().getHeight());
                 pAddPaintSetcionForSecLn(sec, csRptSectionType.SECLN_HEADER);
             }
 
-            for(var _i = 0; _i < m_report.getGroupsHeaders().count(); _i++) {
-                sec = m_report.getGroupsHeaders().item(_i);
+            for(var _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
+                sec = this.report.getGroupsHeaders().item(_i);
                 sec.setKeyPaint(paintSection(sec.getAspect(),
                                                 sec.getKey(),
                                                 sec.getTypeSection(),
                                                 sec.getName(),
                                                 false));
-                paintSec = m_paint.getPaintSections().item(sec.getKeyPaint());
+                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                 paintSec.setHeightSec(sec.getAspect().getHeight());
                 pAddPaintSetcionForSecLn(sec, csRptSectionType.SECLN_GROUPH);
             }
 
-            for(var _i = 0; _i < m_report.getDetails().count(); _i++) {
-                sec = m_report.getDetails().item(_i);
+            for(var _i = 0; _i < this.report.getDetails().count(); _i++) {
+                sec = this.report.getDetails().item(_i);
                 sec.setKeyPaint(paintSection(sec.getAspect(),
                                                 sec.getKey(),
                                                 sec.getTypeSection(),
                                                 sec.getName(),
                                                 false));
-                paintSec = m_paint.getPaintSections().item(sec.getKeyPaint());
+                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                 paintSec.setHeightSec(sec.getAspect().getHeight());
                 pAddPaintSetcionForSecLn(sec, csRptSectionType.SECLN_DETAIL);
             }
 
-            for(var _i = 0; _i < m_report.getGroupsFooters().count(); _i++) {
-                sec = m_report.getGroupsFooters().item(_i);
+            for(var _i = 0; _i < this.report.getGroupsFooters().count(); _i++) {
+                sec = this.report.getGroupsFooters().item(_i);
                 sec.setKeyPaint(paintSection(sec.getAspect(),
                                                 sec.getKey(),
                                                 sec.getTypeSection(),
                                                 sec.getName(),
                                                 false));
-                paintSec = m_paint.getPaintSections().item(sec.getKeyPaint());
+                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                 paintSec.setHeightSec(sec.getAspect().getHeight());
                 pAddPaintSetcionForSecLn(sec, csRptSectionType.SECLN_GROUPF);
             }
 
-            for(var _i = 0; _i < m_report.getFooters().count(); _i++) {
-                sec = m_report.getFooters().item(_i);
+            for(var _i = 0; _i < this.report.getFooters().count(); _i++) {
+                sec = this.report.getFooters().item(_i);
                 sec.setKeyPaint(paintSection(sec.getAspect(),
                                                 sec.getKey(),
                                                 sec.getTypeSection(),
                                                 sec.getName(),
                                                 false));
-                paintSec = m_paint.getPaintSections().item(sec.getKeyPaint());
+                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                 paintSec.setHeightSec(sec.getAspect().getHeight());
                 pAddPaintSetcionForSecLn(sec, csRptSectionType.SECLN_FOOTER);
             }
 
 UNKNOWN >>             csRptPaintObjType paintType;
 
-            for(var _i = 0; _i < m_report.getControls().count(); _i++) {
+            for(var _i = 0; _i < this.report.getControls().count(); _i++) {
 
-                let rptCtrl: cReportControl = m_report.getControls().item(_i);
+                let rptCtrl: cReportControl = this.report.getControls().item(_i);
                 refreshNextNameCtrl(rptCtrl.getName());
                 let ctrlAspect: cReportAspect = rptCtrl.getLabel().getAspect();
 
@@ -4975,7 +4975,7 @@ UNKNOWN >>             csRptPaintObjType paintType;
 UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                 }
 
-               let paintObj: cReportPaintObject = m_paint.getNewObject(paintType);
+               let paintObj: cReportPaintObject = this.paint.getNewObject(paintType);
 
                 // for old reports
                 //
@@ -5011,7 +5011,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                 switch (rptCtrl.getSectionLine().getTypeSection()) {
                     case  csRptSectionType.FOOTER:
                     case  csRptSectionType.MAIN_FOOTER:
-                        w_aspect.setOffset(m_offSet);
+                        w_aspect.setOffset(this.offSet);
                         break;
                 }
 
@@ -5030,16 +5030,16 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                 rptCtrl.setKeyPaint(paintObj.getKey());
             }
 
-            m_dataHasChanged = false;
+            this.dataHasChanged = false;
 
-            m_paint.createPicture(m_picReport.CreateGraphics());
+            this.paint.createPicture(this.picReport.CreateGraphics());
 
-            m_picRule.Refresh();
-        };
+            this.picRule.Refresh();
+        }
 
-        const pAddPaintSetcionForSecLn = function(
-            sec, 
-            typeSecLn) {
+        private pAddPaintSetcionForSecLn(
+            sec: cReportSection
+            typeSecLn: csRptSectionType) {
             let paintSec: cReportPaintObject = null;
 
             if (sec.getSectionLines().count() > 1) {
@@ -5056,7 +5056,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
 
                     // we set the height of every section line
                     //
-                    paintSec = m_paint.getPaintSections().item(secLine.getKeyPaint());
+                    paintSec = this.paint.getPaintSections().item(secLine.getKeyPaint());
                     paintSec.setHeightSecLine(secLine.getAspect().getHeight());
                     paintSec.setRptType(typeSecLn);
                     paintSec.setRptKeySec(sec.getKey());
@@ -5065,39 +5065,39 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                 // if there is more than one section we use
                 // textLine to show the name of the last line
                 //
-               let po: cReportPaintObject = m_paint.getPaintSections().item(sec.getKeyPaint());
+               let po: cReportPaintObject = this.paint.getPaintSections().item(sec.getKeyPaint());
                 po.setTextLine(C_SECTIONLINE + (sec.getSectionLines().count() - 1).ToString());
             }
 
             // we set the height of the last section line
             //
-            paintSec = m_paint.getPaintSections().item(sec.getKeyPaint());
+            paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
 
             let secLines: cReportSectionLines = sec.getSectionLines();
             paintSec.setHeightSecLine(secLines.item(secLines.count() - 1).getAspect().getHeight());
-        };
+        }
 
-        const refreshNextNameCtrl = function(nameCtrl) {
+        private refreshNextNameCtrl(nameCtrl: string) {
             let x: number = 0;
             if (cUtil.subString(nameCtrl, 0, cGlobals.C_CONTROL_NAME.Length).ToUpper() === cGlobals.C_CONTROL_NAME.ToUpper()) {
                 x = cUtil.valAsInt(nameCtrl.Substring(cGlobals.C_CONTROL_NAME.Length + 1));
-                if (x > m_nextNameCtrl) {
-                    m_nextNameCtrl = x + 1;
+                if (x > this.nextNameCtrl) {
+                    this.nextNameCtrl = x + 1;
                 }
             }
-        };
+        }
 
-        const moveControl = function(sKeyPaintObj) {
+        private moveControl(sKeyPaintObj: string) {
             let rptSecLine: cReportSectionLine = null;
             let rptCtrl: cReportControl = null;
             let rptSecLineAspect: cReportAspect = null;
             let objPaintAspect: cReportAspect = null;
 
-            m_paint.alingToGrid(sKeyPaintObj);
+            this.paint.alingToGrid(sKeyPaintObj);
 
-            rptCtrl = m_report.getControls().item(m_paint.getPaintObject(sKeyPaintObj).getTag());
+            rptCtrl = this.report.getControls().item(this.paint.getPaintObject(sKeyPaintObj).getTag());
 
-            objPaintAspect = m_paint.getPaintObject(sKeyPaintObj).getAspect();
+            objPaintAspect = this.paint.getPaintObject(sKeyPaintObj).getAspect();
 
             if (rptCtrl === null) { return; }
 
@@ -5138,98 +5138,98 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
 
                 objPaintAspect.setTop(w_aspect.getTop());
             }
-        };
+        }
 
-        const showPopMenuSection = function(noDelete, showGroups, x, y) {
-            m_fmain.showPopMenuSection(this, noDelete, showGroups, m_picReport.PointToScreen(new Point(x, y)));
-        };
+        private showPopMenuSection(noDelete: boolean, showGroups: boolean, x: number, y: number) {
+            this.fmain.showPopMenuSection(this, noDelete, showGroups, this.picReport.PointToScreen(new Point(x, y)));
+        }
 
-        const showPopMenuControl = function(clickInCtrl, x, y) {
+        private showPopMenuControl(clickInCtrl: boolean, x: number, y: number) {
 
             let pasteEnabled: boolean = false;
 
-            if (m_vCopyKeys.Length > 0) {
+            if (this.vCopyKeys.Length > 0) {
                 pasteEnabled = true;
             }
-            else if (!(m_fmain.getReportCopySource() === null)) {
-                pasteEnabled = m_fmain.getReportCopySource().getVCopyKeysCount() > 0;
+            else if (!(this.fmain.getReportCopySource() === null)) {
+                pasteEnabled = this.fmain.getReportCopySource().getVCopyKeysCount() > 0;
             }
 
-            m_fmain.showPopMenuControl(this, clickInCtrl, pasteEnabled, m_picReport.PointToScreen(new Point(x, y)));
-        };
+            this.fmain.showPopMenuControl(this, clickInCtrl, pasteEnabled, this.picReport.PointToScreen(new Point(x, y)));
+        }
 
-        const m_fGroup_UnloadForm = function() {
-            m_fGroup = null;
-        };
+        private fGroup_UnloadForm() {
+            this.fGroup = null;
+        }
 
-        self.destroyPropertiesFormReference = function() {
-            m_fProperties = null;
-        };
+        public destroyPropertiesFormReference() {
+            this.fProperties = null;
+        }
 
-        const refreshBody = function() {
+        private refreshBody() {
             try {
 
-                m_paint.endMove(m_picReport.CreateGraphics());
+                this.paint.endMove(this.picReport.CreateGraphics());
 
             } catch (Exception ex) {
                 cError.mngError(ex, "ShowConnectsAux", C_MODULE, "");
             }
-        };
+        }
 
-        const refreshRule = function() {
-            m_picRule.Refresh();
-        };
+        private refreshRule() {
+            this.picRule.Refresh();
+        }
 
-        self.refreshReport = function() {
+        public refreshReport() {
 
-            let w_paperInfo: cReportPaperInfo = m_report.getPaperInfo();
-            m_paint.setGridHeight(pSetSizePics(
+            let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
+            this.paint.setGridHeight(pSetSizePics(
                                        CSReportPaint.cGlobals.getRectFromPaperSize(
-                                                                    m_report.getPaperInfo(),
+                                                                    this.report.getPaperInfo(),
                                                                     w_paperInfo.getPaperSize(),
                                                                     w_paperInfo.getOrientation()).Height));
             pValidateSectionAspect();
             reLoadReport();
-        };
+        }
 
         // TODO: remove me if not needed
-        self.refreshPostion = function() {
+        public refreshPostion() {
 
-        self.refreshAll = function() {
+        public refreshAll() {
             refreshBody();
             refreshRule();
             cMainEditor.setDocActive(this);
-        };
+        }
 
-        const reportDone = function(sender, e) {
+        private reportDone(sender: object, e: EventArgs) {
             closeProgressDlg();
-        };
+        }
 
-        const reportProgress = function(sender, e) {
+        private reportProgress(sender: object, e: ProgressEventArgs) {
 
             let task: string = e.task;
             let page: number = e.page;
             let currRecord: number = e.currRecord;
             let recordCount: number = e.recordCount;
 
-            if (m_cancelPrinting) {
+            if (this.cancelPrinting) {
                 if (cWindow.ask("Confirm you want to cancel the execution of this report?", MessageBoxDefaultButton.Button2)) {
                     e.cancel = true;
                     closeProgressDlg();
                     return;
                 }
                 else {
-                    m_cancelPrinting = false;
+                    this.cancelPrinting = false;
                 }
             }
 
-            if (m_fProgress === null) { return; }
+            if (this.fProgress === null) { return; }
 
-            if (page > 0) { m_fProgress.lbCurrPage.Text = page.ToString(); }
-            if (task !== "") { m_fProgress.lbTask.Text = task; }
-            if (currRecord > 0) { m_fProgress.lbCurrRecord.Text = currRecord.ToString(); }
-            if (recordCount > 0 && cUtil.val(m_fProgress.lbRecordCount.Text) !== recordCount) {
-                m_fProgress.lbRecordCount.Text = recordCount.ToString();
+            if (page > 0) { this.fProgress.lbCurrPage.Text = page.ToString(); }
+            if (task !== "") { this.fProgress.lbTask.Text = task; }
+            if (currRecord > 0) { this.fProgress.lbCurrRecord.Text = currRecord.ToString(); }
+            if (recordCount > 0 && cUtil.val(this.fProgress.lbRecordCount.Text) !== recordCount) {
+                this.fProgress.lbRecordCount.Text = recordCount.ToString();
             }
 
             let percent: number = 0;
@@ -5237,35 +5237,35 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                 percent = Convert.ToDouble(currRecord) / recordCount;
                 let value: var = Convert.ToInt32(percent * 100);
                 if (value > 100) value = 100; {
-                m_fProgress.prgBar.Value = value;
+                this.fProgress.prgBar.Value = value;
             }
 
             Application.DoEvents();
-        };
+        }
 
-        const closeProgressDlg = function() {
-            if (m_fProgress !== null && !m_fProgress.IsDisposed) {
-                m_fProgress.Close();
+        private closeProgressDlg() {
+            if (this.fProgress !== null && !this.fProgress.IsDisposed) {
+                this.fProgress.Close();
             }
-            m_fProgress = null;
-        };
+            this.fProgress = null;
+        }
 
-        const showProgressDlg = function() {
-            m_cancelPrinting = false;
-            if (m_fProgress === null) {
-                m_fProgress = globalObject.CSReportEditor.createFProgress();
-                // TODO: add event for m_report_Progress
+        private showProgressDlg() {
+            this.cancelPrinting = false;
+            if (this.fProgress === null) {
+                this.fProgress = new fProgress();
+                // TODO: add event for this.report_Progress
             }
-            m_fProgress.Show();
-            m_fProgress.BringToFront();
-        };
+            this.fProgress.Show();
+            this.fProgress.BringToFront();
+        }
 
-        const m_fProgress_Cancel = function() {
-            m_cancelPrinting = true;
-        };
+        private fProgress_Cancel() {
+            this.cancelPrinting = true;
+        }
 
         /* TODO: implement me
-        private void m_report_FindFileAccess(
+        private void this.report_FindFileAccess(
             bool answer,
             object commDialog,
             String file)
@@ -5274,10 +5274,10 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
             msg = "The " + file + " could not be found. ¿Do you want to find it?";
             if (!cWindow.ask(msg, VbMsgBoxResult.vbYes)) { return; }
 
-            commDialog = m_fmain.cmDialog;
+            commDialog = this.fmain.cmDialog;
             answer = true;
-            m_fProgress.BringToFront();
-            m_dataHasChanged = true;
+            this.fProgress.BringToFront();
+            this.dataHasChanged = true;
         }
          */
 
@@ -5290,40 +5290,40 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
         }
          */
 
-        const pGetLeftBody = function() {
+        private pGetLeftBody() {
             if (cMainEditor.gHideLeftBar) {
                 return C_LEFTBODY;
             }
             else {
-                return m_picRule.Width + C_LEFTBODY;
+                return this.picRule.Width + C_LEFTBODY;
             }
-        };
+        }
 
-        const pSetSizePics = function(realPageHeight) {
+        private pSetSizePics(realPageHeight: number) {
             let pageHeight: number = 0;
 
-            let w_paperInfo: cReportPaperInfo = m_report.getPaperInfo();
-            m_picReport.Width = CSReportPaint.cGlobals.getRectFromPaperSize(
-                                                                m_report.getPaperInfo(),
+            let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
+            this.picReport.Width = CSReportPaint.cGlobals.getRectFromPaperSize(
+                                                                this.report.getPaperInfo(),
                                                                 w_paperInfo.getPaperSize(),
                                                                 w_paperInfo.getOrientation()).Width;
             pGetOffSet(realPageHeight, pageHeight);
 
             if (pageHeight > realPageHeight) { realPageHeight = pageHeight; }
 
-            m_picReport.Height = realPageHeight;
-            m_picRule.Height = (realPageHeight + C_TOPBODY * 2);
+            this.picReport.Height = realPageHeight;
+            this.picRule.Height = (realPageHeight + C_TOPBODY * 2);
 
             return pageHeight;
-        };
+        }
 
-        const pMoveAll = function(x, y) {
+        private pMoveAll(x: number, y: number) {
             let rptCtrlAspect: cReportAspect = null;
             let paintObj: cReportPaintObject = null;
 
-            m_dataHasChanged = true;
+            this.dataHasChanged = true;
 
-            if (m_bNoMove) { return; }
+            if (this.bNoMove) { return; }
 
             let i: number = 0;
             let offsetTop: number = 0;
@@ -5332,18 +5332,18 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
             let firstTop: number = 0;
             let firstOffSet: number = 0;
 
-            if (m_vSelectedKeys.Length === 0) { return; }
+            if (this.vSelectedKeys.Length === 0) { return; }
 
-            paintObj = m_paint.getPaintObject(m_keyMoving);
+            paintObj = this.paint.getPaintObject(this.keyMoving);
 
             let w_aspect: cReportAspect = paintObj.getAspect();
             firstLeft = w_aspect.getLeft();
             firstTop = w_aspect.getTop();
             firstOffSet = w_aspect.getOffset();
 
-            for (i = m_vSelectedKeys.Length-1; i > -1; i--) {
+            for (i = this.vSelectedKeys.Length-1; i > -1; i--) {
 
-                paintObj = m_paint.getPaintObject(m_vSelectedKeys[i]);
+                paintObj = this.paint.getPaintObject(this.vSelectedKeys[i]);
 
                 offsetLeft = pGetOffsetLeftFromControls(firstLeft,
                                                         paintObj.getAspect().getLeft());
@@ -5355,11 +5355,11 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                 w_aspect = paintObj.getAspect();
 
                 if (x !== C_NOMOVE) {
-                    w_aspect.setLeft(x - m_offX + offsetLeft);
+                    w_aspect.setLeft(x - this.offX + offsetLeft);
                 }
 
                 if (y !== C_NOMOVE) {
-                    w_aspect.setTop(y - m_offY + offsetTop);
+                    w_aspect.setTop(y - this.offY + offsetTop);
                 }
                 else {
 
@@ -5373,23 +5373,23 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                 // only controls move in all directions
                 //
                 if (paintObj.getRptType() === csRptSectionType.CONTROL) {
-                    rptCtrlAspect = m_report.getControls().item(paintObj.getTag()).getLabel().getAspect();
+                    rptCtrlAspect = this.report.getControls().item(paintObj.getTag()).getLabel().getAspect();
                     rptCtrlAspect.setLeft(w_aspect.getLeft());
                     rptCtrlAspect.setTop(w_aspect.getTop());
                     rptCtrlAspect.setWidth(w_aspect.getWidth());
                     rptCtrlAspect.setHeight(w_aspect.getHeight());
                 }
 
-                moveControl(m_vSelectedKeys[i]);
+                moveControl(this.vSelectedKeys[i]);
             }
-        };
+        }
 
-        const pMoveHorizontal = function(x) {
-            m_dataHasChanged = true;
-            m_paint.getPaintObject(m_keyMoving).getAspect().setLeft(x - m_offX);
-        };
+        private pMoveHorizontal(x: number) {
+            this.dataHasChanged = true;
+            this.paint.getPaintObject(this.keyMoving).getAspect().setLeft(x - this.offX);
+        }
 
-        const pMoveVertical = function(x, y) {
+        private pMoveVertical(x: number, y: number) {
             let sKeySection: string = "";
 UNKNOWN >>             csRptSectionType rptType;
 
@@ -5402,9 +5402,9 @@ UNKNOWN >>             csRptSectionType rptType;
            let paintObj: cReportPaintObject = null;
             let isSecLn: boolean = false;
 
-            m_indexSecLnMoved = -1;
+            this.indexSecLnMoved = -1;
 
-            paintObj = m_paint.getPaintObject(m_keyMoving);
+            paintObj = this.paint.getPaintObject(this.keyMoving);
             let w_aspect: cReportAspect = paintObj.getAspect();
 
             sKeySection = paintObj.getTag();
@@ -5501,7 +5501,7 @@ UNKNOWN >>             csRptSectionType rptType;
                     sKeySection = paintObj.getRptKeySec();
                     rptSec = pMoveFooter(sKeySection, minBottom, maxBottom, true, paintObj.getTag(), maxBottomSectionLine);
                     isSecLn = true;
-                    m_indexSecLnMoved = rptSec.getSectionLines().item(paintObj.getTag()).getRealIndex();
+                    this.indexSecLnMoved = rptSec.getSectionLines().item(paintObj.getTag()).getRealIndex();
                     break;
             }
 
@@ -5518,14 +5518,14 @@ UNKNOWN >>             csRptSectionType rptType;
                     + pGetSecHeigthFromSecLines(rptSec)
 UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
 
-                m_offY = 0;
-                paintObj = m_paint.getPaintSections().item(rptSec.getKeyPaint());
+                this.offY = 0;
+                paintObj = this.paint.getPaintSections().item(rptSec.getKeyPaint());
             }
 
             moveSection(paintObj, x, y, minBottom, maxBottom, rptSec, false);
-        };
+        }
 
-        const pGetSecHeigthFromSecLines = function(sec) {
+        private pGetSecHeigthFromSecLines(sec: cReportSection) {
             let rtn: number = 0;
 
             for(var _i = 0; _i < sec.getSectionLines().count(); _i++) {
@@ -5534,32 +5534,32 @@ UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
             }
 
             return rtn;
-        };
+        }
 
-        const pGetMinBottomForSecLn = function(
-            sec, 
-            secLnKey, 
-            minBottom) {
+        private pGetMinBottomForSecLn(
+            sec: cReportSection
+            secLnKey: string
+            minBottom: number) {
             for(var _i = 0; _i < sec.getSectionLines().count(); _i++) {
                 let secLn: cReportSectionLine = sec.getSectionLines().item(_i);
                 if (secLn.getKey() === secLnKey) { break; }
                 minBottom = minBottom + secLn.getAspect().getHeight();
             }
             return minBottom;
-        };
+        }
 
-        const pChangeSecLnHeight = function(
-           paintObj, 
-            y, 
-            minBottom, 
-            maxBottom, 
-            secLn) {
+        private pChangeSecLnHeight(
+           paintObj: cReportPaintObject
+            y: number
+            minBottom: number
+            maxBottom: number
+            secLn: cReportSectionLine) {
             let w_aspect: cReportAspect = paintObj.getAspect();
 
             // if Y is contained between the range allowed everything is ok
             //
             if (y >= minBottom && y <= maxBottom) {
-                w_aspect.setTop(y - m_offY);
+                w_aspect.setTop(y - this.offY);
             }
             else {
                 // if it have been moved upward
@@ -5583,28 +5583,28 @@ UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
 
             // TODO: remove after more testing - aligning the sections has an undesired result: the last section line is shrinked after five resize actions
             //
-            // m_paint.alingToGrid(paintObj.getKey());
+            // this.paint.alingToGrid(paintObj.getKey());
 
             // the section line height has been changed
             //
             secLn.getAspect().setHeight(w_aspect.getTop()
                                         + cGlobals.C_HEIGHT_BAR_SECTION
                                         - secLn.getAspect().getTop());
-        };
+        }
 
-        const pResizeControl = function(x, y) {
+        private pResizeControl(x: number, y: number) {
             let height: number = 0;
             let width: number = 0;
             let left: number = 0;
             let top: number = 0;
 
-            if (m_vSelectedKeys.Length === 0) { return; }
+            if (this.vSelectedKeys.Length === 0) { return; }
 
-            m_dataHasChanged = true;
+            this.dataHasChanged = true;
 
             // first we need to modify the control which has its size changed
             //
-            let w_getPaintObject: cReportPaintObject = m_paint.getPaintObject(m_keySizing);
+            let w_getPaintObject: cReportPaintObject = this.paint.getPaintObject(this.keySizing);
             let w_aspect: cReportAspect = w_getPaintObject.getAspect();
 
             // orginal size to know how much it has changed
@@ -5614,7 +5614,7 @@ UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
             left = w_aspect.getLeft();
             top = w_aspect.getTop();
 
-            switch (m_moveType) {
+            switch (this.moveType) {
                 case  csRptEditorMoveType.CSRPTEDMOVDOWN:
                     w_aspect.setHeight(y - (w_aspect.getTop() - w_aspect.getOffset()));
                     break;
@@ -5658,11 +5658,11 @@ UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
 
             pMoveControlAfterResize(w_getPaintObject.getAspect(), true);
 
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
 
-                if (m_keySizing !== m_vSelectedKeys[i]) {
+                if (this.keySizing !== this.vSelectedKeys[i]) {
 
-                    w_getPaintObject = m_paint.getPaintObject(m_vSelectedKeys[i]);
+                    w_getPaintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
                     w_aspect = w_getPaintObject.getAspect();
 
                     w_aspect.setHeight(w_aspect.getHeight() + height);
@@ -5673,16 +5673,16 @@ UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
                     pMoveControlAfterResize(w_getPaintObject.getAspect(), false);
                 }
             }
-        };
+        }
 
-        const pMoveControlAfterResize = function(aspect, bSizing) {
-            self.C_MIN_WIDTH: number = 1;
-            self.C_MIN_HEIGHT: number = 1;
+        private pMoveControlAfterResize(aspect: cReportAspect, bSizing: boolean) {
+            public C_MIN_WIDTH: number = 1;
+            public C_MIN_HEIGHT: number = 1;
 
             let rptCtrlAspect: cReportAspect = null;
 
-            if (m_paint.getPaintObject(m_keySizing).getRptType() === csRptSectionType.CONTROL) {
-                rptCtrlAspect = m_report.getControls().item(m_paint.getPaintObject(m_keySizing).getTag()).getLabel().getAspect();
+            if (this.paint.getPaintObject(this.keySizing).getRptType() === csRptSectionType.CONTROL) {
+                rptCtrlAspect = this.report.getControls().item(this.paint.getPaintObject(this.keySizing).getTag()).getLabel().getAspect();
                 rptCtrlAspect.setLeft(aspect.getLeft());
                 if (!bSizing) {
                     rptCtrlAspect.setTop(aspect.getTop() + aspect.getOffset());
@@ -5694,30 +5694,30 @@ UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
                 rptCtrlAspect.setHeight(aspect.getHeight());
             }
 
-            switch (m_moveType) {
+            switch (this.moveType) {
                 case  csRptEditorMoveType.CSRPTEDMOVDOWN:
-                    m_paint.alingObjBottomToGrid(m_keySizing);
+                    this.paint.alingObjBottomToGrid(this.keySizing);
                     break;
                 case  csRptEditorMoveType.CSRPTEDMOVLEFT:
-                    m_paint.alingObjLeftToGrid(m_keySizing);
+                    this.paint.alingObjLeftToGrid(this.keySizing);
                     break;
                 case  csRptEditorMoveType.CSRPTEDMOVRIGHT:
-                    m_paint.alingObjRightToGrid(m_keySizing);
+                    this.paint.alingObjRightToGrid(this.keySizing);
                     break;
                 case  csRptEditorMoveType.CSRPTEDMOVUP:
-                    m_paint.alingObjTopToGrid(m_keySizing);
+                    this.paint.alingObjTopToGrid(this.keySizing);
                     break;
                 case  csRptEditorMoveType.CSRPTEDMOVLEFTDOWN:
-                    m_paint.alingObjLeftBottomToGrid(m_keySizing);
+                    this.paint.alingObjLeftBottomToGrid(this.keySizing);
                     break;
                 case  csRptEditorMoveType.CSRPTEDMOVLEFTUP:
-                    m_paint.alingObjLeftTopToGrid(m_keySizing);
+                    this.paint.alingObjLeftTopToGrid(this.keySizing);
                     break;
                 case  csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN:
-                    m_paint.alingObjRightBottomToGrid(m_keySizing);
+                    this.paint.alingObjRightBottomToGrid(this.keySizing);
                     break;
                 case  csRptEditorMoveType.CSRPTEDMOVRIGHTUP:
-                    m_paint.alingObjRightTopToGrid(m_keySizing);
+                    this.paint.alingObjRightTopToGrid(this.keySizing);
                     break;
             }
 
@@ -5730,27 +5730,27 @@ UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
             // Height can't be lower than C_MIN_HEIGHT
             //
             if (aspect.getHeight() < C_MIN_HEIGHT) { aspect.setHeight(C_MIN_HEIGHT); }
-        };
+        }
 
-        const pMoveHeader = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom) {
+        private pMoveHeader(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number) {
 UNKNOWN >>             float dummy;
             return pMoveHeader(sKeySection, minBottom, maxBottom, false, "", dummy);
-        };
+        }
 
-        const pMoveHeader = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom, 
-            isForSectionLine, 
-            secLnKey, 
-            maxBottomSectionLine) {
+        private pMoveHeader(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number
+            isForSectionLine: boolean
+            secLnKey: string
+            maxBottomSectionLine: number) {
             let index: number = 0;
             let rptSec: cReportSection = null;
 
-            rptSec = m_report.getHeaders().item(sKeySection);
+            rptSec = this.report.getHeaders().item(sKeySection);
 
             index = rptSec.getRealIndex();
 
@@ -5762,7 +5762,7 @@ UNKNOWN >>             float dummy;
             }
             else {
                 // bottom of previous header + C_Min_Height_Section
-                let w_aspect: cReportAspect = m_report.getHeaders().item(index - 1).getAspect();
+                let w_aspect: cReportAspect = this.report.getHeaders().item(index - 1).getAspect();
                 minBottom = w_aspect.getTop() + w_aspect.getHeight() + C_MIN_HEIGHT_SECTION;
             }
 
@@ -5770,31 +5770,31 @@ UNKNOWN >>             float dummy;
                 minBottom = pGetMinBottomWithSecLn(rptSec.getSectionLines(), minBottom);
             }
 
-            maxBottomSectionLine = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
-            maxBottom = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
+            maxBottomSectionLine = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
+            maxBottom = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
 
             return rptSec;
-        };
+        }
 
-        const pMoveGroupHeader = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom) {
+        private pMoveGroupHeader(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number) {
 UNKNOWN >>             float dummy;
             return pMoveGroupHeader(sKeySection, minBottom, maxBottom, false, "", dummy);
-        };
+        }
 
-        const pMoveGroupHeader = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom, 
-            isForSectionLine, 
-            secLnKey, 
-            maxBottomSectionLine) {
+        private pMoveGroupHeader(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number
+            isForSectionLine: boolean
+            secLnKey: string
+            maxBottomSectionLine: number) {
             let index: number = 0;
             let rptSec: cReportSection = null;
 
-            rptSec = m_report.getGroupsHeaders().item(sKeySection);
+            rptSec = this.report.getGroupsHeaders().item(sKeySection);
 
             index = rptSec.getRealIndex();
 
@@ -5803,13 +5803,13 @@ UNKNOWN >>             float dummy;
             //-----------
             if (index === 0) {
                 // bottom of previous header + C_Min_Height_Section
-                let w_headers: cReportSections = m_report.getHeaders();
+                let w_headers: cReportSections = this.report.getHeaders();
                 let w_aspect: cReportAspect = w_headers.item(w_headers.count()-1).getAspect();
                 minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
             }
             else {
                 // bottom of previous group header + C_Min_Height_Section
-                let w_aspect: cReportAspect = m_report.getGroupsHeaders().item(index - 1).getAspect();
+                let w_aspect: cReportAspect = this.report.getGroupsHeaders().item(index - 1).getAspect();
                 minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
             }
 
@@ -5817,13 +5817,13 @@ UNKNOWN >>             float dummy;
                 minBottom = pGetMinBottomWithSecLn(rptSec.getSectionLines(), minBottom);
             }
 
-            maxBottomSectionLine = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
-            maxBottom = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
+            maxBottomSectionLine = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
+            maxBottom = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
 
             return rptSec;
-        };
+        }
 
-        const getHeightOfSectionsBellowMe = function(section, secLnKey) {
+        private getHeightOfSectionsBellowMe(section: cReportSection, secLnKey: string) {
             let height: number = 0;
 
             if ( ! String.IsNullOrEmpty(secLnKey) ) {
@@ -5845,35 +5845,35 @@ UNKNOWN >>             float dummy;
 
                 case csRptSectionType.HEADER:
                 case csRptSectionType.MAIN_HEADER:
-                    height += getHeightFromSections(m_report.getHeaders(), section);
-                    height += getHeightFromSections(m_report.getGroupsHeaders(), null);
-                    height += getHeightFromSections(m_report.getDetails(), null);
-                    height += getHeightFromSections(m_report.getGroupsFooters(), null);
-                    height += getHeightFromSections(m_report.getFooters(), null);
+                    height += getHeightFromSections(this.report.getHeaders(), section);
+                    height += getHeightFromSections(this.report.getGroupsHeaders(), null);
+                    height += getHeightFromSections(this.report.getDetails(), null);
+                    height += getHeightFromSections(this.report.getGroupsFooters(), null);
+                    height += getHeightFromSections(this.report.getFooters(), null);
                     break;
 
                 case csRptSectionType.GROUP_HEADER:
-                    height += getHeightFromSections(m_report.getGroupsHeaders(), section);
-                    height += getHeightFromSections(m_report.getDetails(), null);
-                    height += getHeightFromSections(m_report.getGroupsFooters(), null);
-                    height += getHeightFromSections(m_report.getFooters(), null);
+                    height += getHeightFromSections(this.report.getGroupsHeaders(), section);
+                    height += getHeightFromSections(this.report.getDetails(), null);
+                    height += getHeightFromSections(this.report.getGroupsFooters(), null);
+                    height += getHeightFromSections(this.report.getFooters(), null);
                     break;
 
                 case csRptSectionType.DETAIL:
                 case csRptSectionType.MAIN_DETAIL:
-                    height += getHeightFromSections(m_report.getDetails(), section);
-                    height += getHeightFromSections(m_report.getGroupsFooters(), null);
-                    height += getHeightFromSections(m_report.getFooters(), null);
+                    height += getHeightFromSections(this.report.getDetails(), section);
+                    height += getHeightFromSections(this.report.getGroupsFooters(), null);
+                    height += getHeightFromSections(this.report.getFooters(), null);
                     break;
 
                 case csRptSectionType.GROUP_FOOTER:
-                    height += getHeightFromSections(m_report.getGroupsFooters(), section);
-                    height += getHeightFromSections(m_report.getFooters(), null);
+                    height += getHeightFromSections(this.report.getGroupsFooters(), section);
+                    height += getHeightFromSections(this.report.getFooters(), null);
                     break;
 
                 case csRptSectionType.FOOTER:
                 case csRptSectionType.MAIN_FOOTER:
-                    height += getHeightFromSections(m_report.getFooters(), section);
+                    height += getHeightFromSections(this.report.getFooters(), section);
                     break;
 
                 default:
@@ -5885,9 +5885,9 @@ UNKNOWN >>             float dummy;
             }
 
             return height;
-        };
+        }
 
-        const getHeightFromSections = function(sections, section) {
+        private getHeightFromSections(sections: cIReportGroupSections, section: cReportSection) {
             let add: boolean = section === null;
             let height: number = 0;
             for(var _i = 0; _i < sections.count(); _i++) {
@@ -5900,50 +5900,50 @@ UNKNOWN >>             float dummy;
                 }
             }
             return height;
-        };
+        }
 
-        const getAllHeadersAndGroupsAndDetailsHeight = function() {
+        private getAllHeadersAndGroupsAndDetailsHeight() {
             let sec: cReportSection = null;
 
             let height: number = 0;
 
-            for(var _i = 0; _i < m_report.getHeaders().count(); _i++) {
-                sec = m_report.getHeaders().item(_i);
+            for(var _i = 0; _i < this.report.getHeaders().count(); _i++) {
+                sec = this.report.getHeaders().item(_i);
                 height = height + sec.getAspect().getHeight();
             }
 
-            for(var _i = 0; _i < m_report.getGroupsHeaders().count(); _i++) {
-                sec = m_report.getGroupsHeaders().item(_i);
+            for(var _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
+                sec = this.report.getGroupsHeaders().item(_i);
                 height = height + sec.getAspect().getHeight();
             }
 
-            for(var _i = 0; _i < m_report.getDetails().count(); _i++) {
-                sec = m_report.getDetails().item(_i);
+            for(var _i = 0; _i < this.report.getDetails().count(); _i++) {
+                sec = this.report.getDetails().item(_i);
                 height = height + sec.getAspect().getHeight();
             }
 
             return height;
-        };
+        }
 
-        const pMoveDetails = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom) {
+        private pMoveDetails(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number) {
 UNKNOWN >>             float dummy;
             return pMoveDetails(sKeySection, minBottom, maxBottom, false, "", dummy);
-        };
+        }
 
-        const pMoveDetails = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom, 
-            isForSectionLine, 
-            secLnKey, 
-            maxBottomSectionLine) {
+        private pMoveDetails(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number
+            isForSectionLine: boolean
+            secLnKey: string
+            maxBottomSectionLine: number) {
             let index: number = 0;
             let rptSec: cReportSection = null;
 
-            rptSec = m_report.getDetails().item(sKeySection);
+            rptSec = this.report.getDetails().item(sKeySection);
 
             index = rptSec.getRealIndex();
 
@@ -5954,15 +5954,15 @@ UNKNOWN >>             float dummy;
             if (index === 0) {
                 // if there are groups
                 //
-                if (m_report.getGroupsHeaders().count() > 0) {
+                if (this.report.getGroupsHeaders().count() > 0) {
                     // top of the last group header + C_Min_Height_Section
-                    let w_groupsHeaders: cIReportGroupSections = m_report.getGroupsHeaders();
+                    let w_groupsHeaders: cIReportGroupSections = this.report.getGroupsHeaders();
                     let w_aspect: cReportAspect = w_groupsHeaders.item(w_groupsHeaders.count()-1).getAspect();
                     minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
                 }
                 else {
                     // top of the last header + C_Min_Height_Section
-                    let w_headers: cReportSections = m_report.getHeaders();
+                    let w_headers: cReportSections = this.report.getHeaders();
                     let w_aspect: cReportAspect = w_headers.item(w_headers.count()-1).getAspect();
                     minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
                 }
@@ -5970,7 +5970,7 @@ UNKNOWN >>             float dummy;
             else {
                 // top of the previous detail + C_Min_Height_Section
                 //
-                let w_aspect: cReportAspect = m_report.getDetails().item(index - 1).getAspect();
+                let w_aspect: cReportAspect = this.report.getDetails().item(index - 1).getAspect();
                 minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
             }
 
@@ -5978,31 +5978,31 @@ UNKNOWN >>             float dummy;
                 minBottom = pGetMinBottomWithSecLn(rptSec.getSectionLines(), minBottom);
             }
 
-            maxBottomSectionLine = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
-            maxBottom = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
+            maxBottomSectionLine = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
+            maxBottom = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
 
             return rptSec;
-        };
+        }
 
-        const pMoveGroupFooter = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom) {
+        private pMoveGroupFooter(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number) {
 UNKNOWN >>             float dummy;
             return pMoveGroupFooter(sKeySection, minBottom, maxBottom, false, "", dummy);
-        };
+        }
 
-        const pMoveGroupFooter = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom, 
-            isForSectionLine, 
-            secLnKey, 
-            maxBottomSectionLine) {
+        private pMoveGroupFooter(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number
+            isForSectionLine: boolean
+            secLnKey: string
+            maxBottomSectionLine: number) {
             let index: number = 0;
             let rptSec: cReportSection = null;
 
-            rptSec = m_report.getGroupsFooters().item(sKeySection);
+            rptSec = this.report.getGroupsFooters().item(sKeySection);
 
             index = rptSec.getRealIndex();
 
@@ -6012,14 +6012,14 @@ UNKNOWN >>             float dummy;
             if (index === 0) {
                 // bottom of the last detail + C_Min_Height_Section
                 //
-                let w_details: cReportSections = m_report.getDetails();
+                let w_details: cReportSections = this.report.getDetails();
                 let w_aspect: cReportAspect = w_details.item(w_details.count() - 1).getAspect();
                 minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
             }
             else {
                 // bottom of the previous group footer + C_Min_Height_Section
                 //
-                let w_aspect: cReportAspect = m_report.getGroupsFooters().item(index - 1).getAspect();
+                let w_aspect: cReportAspect = this.report.getGroupsFooters().item(index - 1).getAspect();
                 minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
             }
 
@@ -6027,32 +6027,32 @@ UNKNOWN >>             float dummy;
                 minBottom = pGetMinBottomWithSecLn(rptSec.getSectionLines(), minBottom);
             }
 
-            maxBottomSectionLine = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
-            maxBottom = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
+            maxBottomSectionLine = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
+            maxBottom = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
 
             return rptSec;
-        };
+        }
 
-        const pMoveFooter = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom) {
+        private pMoveFooter(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number) {
 UNKNOWN >>             float dummy;
             return pMoveFooter(sKeySection, minBottom, maxBottom, false, "", dummy);
-        };
+        }
 
-        const pMoveFooter = function(
-            sKeySection, 
-            minBottom, 
-            maxBottom, 
-            isForSectionLine, 
-            secLnKey, 
-            maxBottomSectionLine) {
+        private pMoveFooter(
+            sKeySection: string
+            minBottom: number
+            maxBottom: number
+            isForSectionLine: boolean
+            secLnKey: string
+            maxBottomSectionLine: number) {
 
             let index: number = 0;
             let rptSec: cReportSection = null;
 
-            rptSec = m_report.getFooters().item(sKeySection);
+            rptSec = this.report.getFooters().item(sKeySection);
 
             index = rptSec.getRealIndex();
 
@@ -6063,18 +6063,18 @@ UNKNOWN >>             float dummy;
 
                 // if there are groups
                 //
-                if (m_report.getGroupsFooters().count() > 0) {
+                if (this.report.getGroupsFooters().count() > 0) {
 
                     // the bottom of the last group footer
                     //
-                    let w_groupsFooters: cIReportGroupSections = m_report.getGroupsFooters();
+                    let w_groupsFooters: cIReportGroupSections = this.report.getGroupsFooters();
                     let w_aspect: cReportAspect = w_groupsFooters.item(w_groupsFooters.count() - 1).getAspect();
                     minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
                 }
                 else {
                     // bottom of the last detail
                     //
-                    let w_details: cReportSections = m_report.getDetails();
+                    let w_details: cReportSections = this.report.getDetails();
                     let w_aspect: cReportAspect = w_details.item(w_details.count() - 1).getAspect();
                     minBottom = w_aspect.getHeight() + w_aspect.getTop() + C_MIN_HEIGHT_SECTION;
                 }
@@ -6082,158 +6082,158 @@ UNKNOWN >>             float dummy;
             else {
                 // bottom of the previous footer
                 //
-                let w_aspect: cReportAspect = m_report.getFooters().item(index - 1).getAspect();
-                minBottom = w_aspect.getHeight() + w_aspect.getTop() - m_offSet + C_MIN_HEIGHT_SECTION;
+                let w_aspect: cReportAspect = this.report.getFooters().item(index - 1).getAspect();
+                minBottom = w_aspect.getHeight() + w_aspect.getTop() - this.offSet + C_MIN_HEIGHT_SECTION;
             }
 
             if (!isForSectionLine) {
                 minBottom = pGetMinBottomWithSecLn(rptSec.getSectionLines(), minBottom);
             }
 
-            maxBottomSectionLine = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
-            maxBottom = m_picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
+            maxBottomSectionLine = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, secLnKey);
+            maxBottom = this.picReport.Height - getHeightOfSectionsBellowMe(rptSec, "");
 
             return rptSec;
-        };
+        }
 
-        const pGetMinBottomWithSecLn = function(secLns, minBottom) {
+        private pGetMinBottomWithSecLn(secLns: cReportSectionLines, minBottom: number) {
             for(var i = 0; i < secLns.count() - 1; i++) {
                 minBottom = minBottom + secLns.item(i).getAspect().getHeight();
             }
 
             return minBottom;
-        };
+        }
 
-        const pGetOffSet = function(realPageHeight) {
+        private pGetOffSet(realPageHeight: number) {
             let pageHeight: number = 0;
             pGetOffSet(realPageHeight, pageHeight);
-        };
+        }
 
-        const pGetOffSet = function(realPageHeight, rtnPageHeight) {
+        private pGetOffSet(realPageHeight: number, rtnPageHeight: number) {
             let sec: cReportSection = null;
 
             rtnPageHeight = 0;
 
-            for(var _i = 0; _i < m_report.getHeaders().count(); _i++) {
-                sec = m_report.getHeaders().item(_i);
+            for(var _i = 0; _i < this.report.getHeaders().count(); _i++) {
+                sec = this.report.getHeaders().item(_i);
                 rtnPageHeight = rtnPageHeight + sec.getAspect().getHeight();
             }
 
-            for(var _i = 0; _i < m_report.getGroupsHeaders().count(); _i++) {
-                sec = m_report.getGroupsHeaders().item(_i);
+            for(var _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
+                sec = this.report.getGroupsHeaders().item(_i);
                 rtnPageHeight = rtnPageHeight + sec.getAspect().getHeight();
             }
 
-            for(var _i = 0; _i < m_report.getDetails().count(); _i++) {
-                sec = m_report.getDetails().item(_i);
+            for(var _i = 0; _i < this.report.getDetails().count(); _i++) {
+                sec = this.report.getDetails().item(_i);
                 rtnPageHeight = rtnPageHeight + sec.getAspect().getHeight();
             }
 
-            for(var _i = 0; _i < m_report.getGroupsFooters().count(); _i++) {
-                sec = m_report.getGroupsFooters().item(_i);
+            for(var _i = 0; _i < this.report.getGroupsFooters().count(); _i++) {
+                sec = this.report.getGroupsFooters().item(_i);
                 rtnPageHeight = rtnPageHeight + sec.getAspect().getHeight();
             }
 
-            for(var _i = 0; _i < m_report.getFooters().count(); _i++) {
-                sec = m_report.getFooters().item(_i);
+            for(var _i = 0; _i < this.report.getFooters().count(); _i++) {
+                sec = this.report.getFooters().item(_i);
                 rtnPageHeight = rtnPageHeight + sec.getAspect().getHeight();
             }
 
-            m_offSet = realPageHeight - rtnPageHeight;
+            this.offSet = realPageHeight - rtnPageHeight;
 
-            if (m_offSet < 0) { m_offSet = 0; }
-        };
+            if (this.offSet < 0) { this.offSet = 0; }
+        }
 
-        const pRefreshOffSetInPaintObjs = function() {
+        private pRefreshOffSetInPaintObjs() {
             let sec: cReportSection = null;
             let secLines: cReportSectionLine = null;
             let ctl: cReportControl = null;
 
-            let w_paintSections: cReportPaintObjects = m_paint.getPaintSections();
-                for(var _i = 0; _i < m_report.getFooters().count(); _i++) {
-                    sec = m_report.getFooters().item(_i);
-                    w_paintSections.item(sec.getKeyPaint()).getAspect().setOffset(m_offSet);
+            let w_paintSections: cReportPaintObjects = this.paint.getPaintSections();
+                for(var _i = 0; _i < this.report.getFooters().count(); _i++) {
+                    sec = this.report.getFooters().item(_i);
+                    w_paintSections.item(sec.getKeyPaint()).getAspect().setOffset(this.offSet);
                     for(var _j = 0; _j < sec.getSectionLines().count(); _j++) {
                         secLines = sec.getSectionLines().item(_j);
                         if (secLines.getKeyPaint() !== "") {
-                            w_paintSections.item(secLines.getKeyPaint()).getAspect().setOffset(m_offSet);
+                            w_paintSections.item(secLines.getKeyPaint()).getAspect().setOffset(this.offSet);
                         }
                         for(var _k = 0; _k < secLines.getControls().count(); _k++) {
                             ctl = secLines.getControls().item(_k);
 UNKNOWN >>                            cReportPaintObject po;
-                            po = m_paint.getPaintObjects().item(ctl.getKeyPaint());
-                            po.getAspect().setOffset(m_offSet);
+                            po = this.paint.getPaintObjects().item(ctl.getKeyPaint());
+                            po.getAspect().setOffset(this.offSet);
                         }
                     }
                 }
-        };
+        }
 
         // if the click was over a control which is not part of the
         // selected controls collection we clear the selected collection
         // and add the control which was clicked to the selected collection
         //
-        const pSetSelectForRightBttn = function() {
-            for(var i = 0; i < m_vSelectedKeys.Length; i++) {
-                if (m_vSelectedKeys[i] === m_keyObj) { return false; }
+        private pSetSelectForRightBttn() {
+            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+                if (this.vSelectedKeys[i] === this.keyObj) { return false; }
             }
 
-            G.redim(m_vSelectedKeys, 1);
-            m_vSelectedKeys[0] = m_keyObj;
+            G.redim(this.vSelectedKeys, 1);
+            this.vSelectedKeys[0] = this.keyObj;
 
             return true;
-        };
+        }
 
-        const pValidateSectionAspect = function() {
+        private pValidateSectionAspect() {
             let sec: cReportSection = null;
             let top: number = 0;
             let i: number = 0;
 
-            for(var _i = 0; _i < m_report.getHeaders().count(); _i++) {
-                sec = m_report.getHeaders().item(_i);
+            for(var _i = 0; _i < this.report.getHeaders().count(); _i++) {
+                sec = this.report.getHeaders().item(_i);
                 top = pValidateSectionAspecAux(top, sec);
             }
 
-            for(var _i = 0; _i < m_report.getGroupsHeaders().count(); _i++) {
-                sec = m_report.getGroupsHeaders().item(_i);
+            for(var _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
+                sec = this.report.getGroupsHeaders().item(_i);
                 top = pValidateSectionAspecAux(top, sec);
             }
 
-            for(var _i = 0; _i < m_report.getDetails().count(); _i++) {
-                sec = m_report.getDetails().item(_i);
+            for(var _i = 0; _i < this.report.getDetails().count(); _i++) {
+                sec = this.report.getDetails().item(_i);
                 top = pValidateSectionAspecAux(top, sec);
             }
 
-            for(var _i = 0; _i < m_report.getGroupsFooters().count(); _i++) {
-                sec = m_report.getGroupsFooters().item(_i);
+            for(var _i = 0; _i < this.report.getGroupsFooters().count(); _i++) {
+                sec = this.report.getGroupsFooters().item(_i);
                 top = pValidateSectionAspecAux(top, sec);
             }
 
-            let w_paperInfo: cReportPaperInfo = m_report.getPaperInfo();
-            let height: var = CSReportPaint.cGlobals.getRectFromPaperSize(m_report.getPaperInfo(),;
+            let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
+            let height: var = CSReportPaint.cGlobals.getRectFromPaperSize(this.report.getPaperInfo(),;
                                                     w_paperInfo.getPaperSize(),
                                                     w_paperInfo.getOrientation()).Height;
             top = height;
 
             pGetOffSet(height);
 
-            for (i = m_report.getFooters().count()-1; i > -1; i--) {
-                sec = m_report.getFooters().item(i);
+            for (i = this.report.getFooters().count()-1; i > -1; i--) {
+                sec = this.report.getFooters().item(i);
                 top = top - sec.getAspect().getHeight();
                 pValidateSectionAspecAux(top, sec);
             }
 
             pRefreshOffSetInPaintObjs();
-        };
+        }
 
-        const pValidateSectionAspecAux = function(top, sec) {
+        private pValidateSectionAspecAux(top: number, sec: cReportSection) {
             let secLn: cReportSectionLine = null;
             let topLn: number = 0;
             let secLnHeight: number = 0;
             let width: number = 0;
 
-            let w_paperInfo: cReportPaperInfo = m_report.getPaperInfo();
+            let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
             width = CSReportPaint.cGlobals.getRectFromPaperSize(
-                                                    m_report.getPaperInfo(),
+                                                    this.report.getPaperInfo(),
                                                     w_paperInfo.getPaperSize(),
                                                     w_paperInfo.getOrientation()).Width;
             topLn = top;
@@ -6275,132 +6275,132 @@ UNKNOWN >>             cReportAspect w_aspect;
 
             pChangeTopSection(sec, 0, false, false);
             return top;
-        };
+        }
 
-        self.showControls = function() {
+        public showControls() {
             try {
                 let f: fControls = cMainEditor.getCtrlBox(this);
                 f.clear();
-                f.addCtrls(m_report);
+                f.addCtrls(this.report);
                 if (!f.Visible) {
-                    f.Show(m_fmain);
+                    f.Show(this.fmain);
                 }
             } catch (Exception ex) {
                 cError.mngError(ex, "showControls", C_MODULE, "");
             }
-        };
+        }
 
-        self.showControlsTree = function() {
+        public showControlsTree() {
             try {
                 let f: fTreeViewCtrls = cMainEditor.getCtrlTreeBox(this);
                 f.clear();
                 f.addCtrls();
                 if (!f.Visible) {
-                    f.Show(m_fmain);
+                    f.Show(this.fmain);
                 }
             } catch (Exception ex) {
                 cError.mngError(ex, "showControlsTree", C_MODULE, "");
             }
-        };
+        }
 
-        const pSetInitDir = function() {
+        private pSetInitDir() {
             if (cMainEditor.gbFirstOpen) {
                 cMainEditor.gbFirstOpen = false;
                 // TODO: implement me
-                // m_fmain.cmDialog.InitDir = cGlobals.gWorkFolder;
+                // this.fmain.cmDialog.InitDir = cGlobals.gWorkFolder;
             }
-        };
+        }
 
         /* TODO: implement me
-        private void form_QueryUnload(int cancel, int unloadMode) {
+        private void forthis.QueryUnload(int cancel, int unloadMode) {
             cancel = !saveChanges();
             if (cancel) { cGlobals.setDocActive(this); }
         }
          */
 
         /* TODO: implement me
-        private void form_Unload(int cancel) {
-            if (m_fmain.getReportCopySource() === this) {
-                m_fmain.setReportCopySource(null);
+        private void forthis.Unload(int cancel) {
+            if (this.fmain.getReportCopySource() === this) {
+                this.fmain.setReportCopySource(null);
             }
             if (fSearch.fSearch.getFReport() === this) {
                 fSearch.fSearch.setFReport(null);
             }
-            m_report = null;
-            m_paint = null;
-            m_fToolBox = null;
-            m_fControls = null;
-            m_fTreeCtrls = null;
-            m_fConnectsAux = null;
-            m_fProperties = null;
-            m_fFormula = null;
-            m_fGroup = null;
-            m_fProgress.Hide();
-            m_fProgress = null;
+            this.report = null;
+            this.paint = null;
+            this.fToolBox = null;
+            this.fControls = null;
+            this.fTreeCtrls = null;
+            this.fConnectsAux = null;
+            this.fProperties = null;
+            this.fFormula = null;
+            this.fGroup = null;
+            this.fProgress.Hide();
+            this.fProgress = null;
             cGlobals.setDocInacActive(this);
-            G.redim(m_vSelectedKeys, 0);
-            G.redim(m_vCopyKeys, 0);
+            G.redim(this.vSelectedKeys, 0);
+            G.redim(this.vCopyKeys, 0);
         }
          */
 
-        self.init = function() {
-            m_showingProperties = false;
+        public init() {
+            this.showingProperties = false;
 
             let oLaunchInfo: cReportLaunchInfo = null;
-            m_report = globalObject.CSReportDll.createCReport();
+            this.report = new cReport();
 
             // TODO: event handler for
             //
             /*
-                        m_report_Done();
-                        m_report_Progress(task, page, currRecord, recordCount, cancel,);
-                        m_report_FindFileAccess(answer, commDialog, file,);
+                        this.report_Done();
+                        this.report_Progress(task, page, currRecord, recordCount, cancel,);
+                        this.report_FindFileAccess(answer, commDialog, file,);
             */
 
-            m_report.Progress += reportProgress;
-            m_report.ReportDone += reportDone;
+            this.report.Progress += reportProgress;
+            this.report.ReportDone += reportDone;
 
-            oLaunchInfo = globalObject.CSReportDll.createCReportLaunchInfo();
+            oLaunchInfo = new cReportLaunchInfo();
 
-            m_report.getPaperInfo().setPaperSize(m_fmain.getPaperSize());
-            m_report.getPaperInfo().setOrientation(m_fmain.getOrientation());
+            this.report.getPaperInfo().setPaperSize(this.fmain.getPaperSize());
+            this.report.getPaperInfo().setOrientation(this.fmain.getOrientation());
 
-            oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(m_fmain.printDialog));
+            oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(this.fmain.printDialog));
             oLaunchInfo.setObjPaint(new cReportPrint());
-            if (!m_report.init(oLaunchInfo)) { return; }
+            if (!this.report.init(oLaunchInfo)) { return; }
 
-            m_report.setPathDefault(Application.StartupPath);
+            this.report.setPathDefault(Application.StartupPath);
 
-            m_picReport.Top = C_TOPBODY;
-            m_picRule.Left = 0;
-            m_picReport.Left = pGetLeftBody();
+            this.picReport.Top = C_TOPBODY;
+            this.picRule.Left = 0;
+            this.picReport.Left = pGetLeftBody();
 
-            m_keyMoving = "";
-            m_keySizing = "";
-            m_keyObj = "";
-            m_keyFocus = "";
-            m_nextNameCtrl = 0;
+            this.keyMoving = "";
+            this.keySizing = "";
+            this.keyObj = "";
+            this.keyFocus = "";
+            this.nextNameCtrl = 0;
 
-            m_paint = globalObject.CSReportPaint.createCReportPaint();
+            this.paint = new cReportPaint();
 
             let tR: Rectangle = null;
-            let w_paperInfo: cReportPaperInfo = m_report.getPaperInfo();
-            tR = UNKNOWN >>  can't find constructor for class Rectangle(CSReportPaint.cGlobals.getRectFromPaperSize(
-                                                m_report.getPaperInfo(),
+            let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
+            tR = new Rectangle(CSReportPaint.cGlobals.getRectFromPaperSize(
+                                                this.report.getPaperInfo(),
                                                 w_paperInfo.getPaperSize(),
                                                 w_paperInfo.getOrientation()));
 
-            cGlobals.createStandarSections(m_report, tR);
+            cGlobals.createStandarSections(this.report, tR);
 
             reLoadReport();
-        };
+        }
 
-        const pUpdateFormulas = function(currentName, newName) {
+        private pUpdateFormulas(currentName: string, newName: string) {
             let rptCtrl: cReportControl = null;
 
-            for(var i = 0; i < m_report.getControls().count(); i++) {
+            for(var i = 0; i < this.report.getControls().count(); i++) {
 
-                rptCtrl = m_report.getControls().item(i);
+                rptCtrl = this.report.getControls().item(i);
 
                 let w_formulaHide: cReportFormula = rptCtrl.getFormulaHide();
                 if (w_formulaHide.getText() !== "") {
@@ -6416,9 +6416,9 @@ UNKNOWN >>             cReportAspect w_aspect;
                     }
                 }
             }
-        };
+        }
 
-        const pReplaceInFormula = function(formulaText, currentName, newName) {
+        private pReplaceInFormula(formulaText: string, currentName: string, newName: string) {
             let _rtn: string = "";
 
             // if it isn't an internal function we give the user
@@ -6426,7 +6426,7 @@ UNKNOWN >>             cReportAspect w_aspect;
             //
             if (cUtil.subString(formulaText, 0, 1).Trim() !== "_") {
                 let fReplace: fFormulaReplace = null;
-                fReplace = globalObject.CSReportEditor.createFFormulaReplace();
+                fReplace = new fFormulaReplace();
                 fReplace.txCurrFormula.Text = formulaText;
                 fReplace.txNewFormula.Text = formulaText.Replace(currentName, newName);
                 fReplace.ShowDialog();
@@ -6443,141 +6443,32 @@ UNKNOWN >>             cReportAspect w_aspect;
                 _rtn = formulaText.Replace(currentName, newName);
             }
             return _rtn;
-        };
+        }
 
-        self.editConnectionString = function() {
-            let stringConnection: string = m_report.getConnect().getStrConnect();
+        public editConnectionString() {
+            let stringConnection: string = this.report.getConnect().getStrConnect();
             if (cUtil.getInput(stringConnection, "You can modify the string connection of this report", "String connection")) {
-                m_report.getConnect().setStrConnect(stringConnection);
+                this.report.getConnect().setStrConnect(stringConnection);
             }
-        };
+        }
 
-        self.editDataSource = function() {
-            let dataSource: string = m_report.getConnect().getDataSource();
+        public editDataSource() {
+            let dataSource: string = this.report.getConnect().getDataSource();
             if (cUtil.getInput(dataSource, "You can modify the data source of this report", "Data Source")) {
-                m_report.getConnect().setDataSource(dataSource);
+                this.report.getConnect().setDataSource(dataSource);
             }
-        };
-        return self;
+        }
+
 
     }    }
-        return self;
+
 
 
 UNKNOWN >>     enum csAskEditResult {
         CSASKRSLTYES = 1,
         CSASKRSLTNO = 2,
         CSASKRSLTCANCEL = 3
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IcEditor {
-
-    close: () => bool;
-    getEditorTab: () => TabPage;
-    getVCopyKeys: (int) => String;
-    getVCopyKeysCount: () => int;
-    getPaint: () => cReportPaint;
-    setKeyboardMoveStep: (int) => void;
-    getBMoveNoMove: () => bool;
-    getBMoveVertical: () => bool;
-    getBMoveHorizontal: () => bool;
-    getPaperSize: () => csReportPaperType;
-    getOrientation: () => int;
-    getCopies: () => int;
-    setPaperSize: (csReportPaperType) => void;
-    setOrientation: (int) => void;
-    setCopies: (int) => void;
-    setCustomHeight: (int) => void;
-    setCustomWidth: (int) => void;
-    getCustomHeight: () => int;
-    getCustomWidth: () => int;
-    getFileName: () => String;
-    getShowingProperties: () => bool;
-    setShowingProperties: (bool) => void;
-    getFGroup: () => fGroup;
-    setFGroup: (fGroup) => void;
-    getReport: () => cReport;
-    getDataHasChanged: () => bool;
-    setDataHasChanged: (bool) => void;
-    search: () => void;
-    moveVertical: () => void;
-    moveHorizontal: () => void;
-    moveNoMove: () => void;
-    moveAll: () => void;
-    showGrid: (csETypeGrid) => void;
-    showConnectsAux: () => void;
-    keyUp: (object, KeyEventArgs) => void;
-    editSection: (String) => void;
-    setFocusCtrl: (String) => void;
-    getSectionOrSectionLineFromKey: (string) => object;
-    selectSection: (String) => void;
-    selectCtrl: (String) => void;
-    checkSyntax: (String) => bool;
-    showHelpChartField: (TextBox, int) => bool;
-    showHelpChartGroupField: () => bool;
-    showEditFormula: (String) => bool;
-    keyDown: (object, KeyEventArgs) => void;
-    setFontBold: () => void;
-    pSetFontBoldValue: () => void;
-    controlsAlign: (CSReportGlobals.csECtlAlignConst) => void;
-    textAlign: (CSReportGlobals.HorizontalAlignment) => void;
-    setParameters: () => void;
-    setSimpleConnection: () => void;
-    configConnection: (cReportConnect) => bool;
-    setAllConnectToMainConnect: () => void;
-    deleteObj: (bool) => void;
-    addDBField: () => void;
-    addLabel: () => void;
-    addLineLabel: () => void;
-    addImage: () => void;
-    addChart: () => void;
-    pAddLabelAux: (csRptEditCtrlType) => void;
-    CTRL_HEIGHT: number;
-    CTRL_WIDTH: number;
-    LINE_HEIGHT: number;
-    addGroup: () => void;
-    addSectionLine: () => void;
-    addSection: (csRptSectionType) => void;
-    bringToFront: () => void;
-    sendToBack: () => void;
-    preview: () => void;
-    printReport: () => void;
-    saveDocument: (bool) => bool;
-    newReport: (cReport) => void;
-    openDocument: () => bool;
-    openDocument: (String) => bool;
-    saveChanges: () => bool;
-    showHelpDbField: () => bool;
-    showHelpDbFieldForGroup: () => bool;
-    showGroupProperties: () => void;
-    moveGroup: () => void;
-    showSectionProperties: () => void;
-    showSecLnProperties: () => void;
-    showProperties: (string) => void;
-    showProperties: () => void;
-    showToolbox: () => void;
-    pAddColumnsToToolbox: (String, cColumnsInfo, fToolbox) => void;
-    copy: () => void;
-    paste: (bool) => void;
-    editText: () => void;
-    c_margen: number;
-    innerColor: number;
-    destroyPropertiesFormReference: () => void;
-    refreshReport: () => void;
-    refreshPostion: () => void;
-    refreshAll: () => void;
-    C_MIN_WIDTH: number;
-    C_MIN_HEIGHT: number;
-    showControls: () => void;
-    showControlsTree: () => void;
-    init: () => void;
-    editConnectionString: () => void;
-    editDataSource: () => void;
-  }
 }

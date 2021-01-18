@@ -1,7 +1,7 @@
-(function(globalObject) {
 
-    globalObject.CSIReportPrint = globalObject.CSIReportPrint || {};
 
+namespace CSIReportPrint
+{
 
 UNKNOWN >>     public interface cIReportPrint
     {

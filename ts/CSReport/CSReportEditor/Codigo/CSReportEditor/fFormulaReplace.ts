@@ -1,14 +1,14 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFFormulaReplace = function() {
+namespace CSReportEditor
+{
+    export class fFormulaReplace {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfFormulaReplace = {};
-        const fFormulaReplace = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
         //------------------------------------------------------------------------------------------------------------------
 
@@ -31,19 +31,10 @@ UNKNOWN >>             get
             }
         }
 
-        self.getOk = function() {
+        public getOk() {
             throw new NotImplementedException();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfFormulaReplace {
-
-    getOk: () => bool;
-  }
 }

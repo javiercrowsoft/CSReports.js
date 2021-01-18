@@ -1,169 +1,169 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportLaunchInfo = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportLaunchInfo = {};
+    export class cReportLaunchInfo {
 
-        const C_LAUNCHINFO: string = "RptLaunchInfo";
 
-        let m_file: string = "";
-        let m_dataSource: object = null;
-        let m_sqlstmt: string = "";
-        let m_strConnect: string = "";
-        let m_printer: cPrinter = null;
-        let m_showPrintersDialog: boolean = null;
-        let m_internalPreview: boolean = null;
-        let m_action: csRptLaunchAction = null;
-        let m_copies: number = 0;
-        let m_silent: boolean = null;
-        let m_fileFormat: csRptFileFormat = null;
-        let m_hWnd: number = 0;
+    {
 
-        let m_objPaint: CSIReportPrint.cIReportPrint = null;
+        private C_LAUNCHINFO: string = "RptLaunchInfo";
 
-        self.getHwnd = function() {
-            return m_hWnd;
-        };
+        private file: string = "";
+        private dataSource: object = null;
+        private sqlstmt: string = "";
+        private strConnect: string = "";
+        private printer: cPrinter = null;
+        private showPrintersDialog: boolean = null;
+        private internalPreview: boolean = null;
+        private action: csRptLaunchAction = null;
+        private copies: number = 0;
+        private silent: boolean = null;
+        private fileFormat: csRptFileFormat = null;
+        private hWnd: number = 0;
 
-        self.setHwnd = function(rhs) {
-            m_hWnd = rhs;
-        };
+        private objPaint: CSIReportPrint.cIReportPrint = null;
 
-        self.getFile = function() {
-            return m_file;
-        };
+        public getHwnd() {
+            return this.hWnd;
+        }
 
-        self.setFile = function(rhs) {
-            m_file = rhs;
-        };
+        public setHwnd(rhs: number) {
+            this.hWnd = rhs;
+        }
 
-        self.getDataSource = function() {
-            return m_dataSource;
-        };
+        public getFile() {
+            return this.file;
+        }
 
-        self.setDataSource = function(rhs) {
-            m_dataSource = rhs;
-        };
+        public setFile(rhs: string) {
+            this.file = rhs;
+        }
 
-        self.getSqlstmt = function() {
-            return m_sqlstmt;
-        };
+        public getDataSource() {
+            return this.dataSource;
+        }
 
-        self.setSqlstmt = function(rhs) {
-            m_sqlstmt = rhs;
-        };
+        public setDataSource(rhs: object) {
+            this.dataSource = rhs;
+        }
 
-        self.getStrConnect = function() {
-            return m_strConnect;
-        };
+        public getSqlstmt() {
+            return this.sqlstmt;
+        }
 
-        self.setStrConnect = function(rhs) {
-            m_strConnect = rhs;
-        };
+        public setSqlstmt(rhs: string) {
+            this.sqlstmt = rhs;
+        }
 
-        // System.Drawing.Printing.PrinterSettings
-        //
-        self.getPrinter = function() {
-            return m_printer;
-        };
+        public getStrConnect() {
+            return this.strConnect;
+        }
+
+        public setStrConnect(rhs: string) {
+            this.strConnect = rhs;
+        }
 
         // System.Drawing.Printing.PrinterSettings
         //
-        self.setPrinter = function(rhs) {
-            m_printer = rhs;
-        };
+        public getPrinter() {
+            return this.printer;
+        }
 
-        self.getFileFormat = function() {
-            return m_fileFormat;
-        };
+        // System.Drawing.Printing.PrinterSettings
+        //
+        public setPrinter(rhs: cPrinter) {
+            this.printer = rhs;
+        }
 
-        self.setFileFormat = function(rhs) {
-            m_fileFormat = rhs;
-        };
+        public getFileFormat() {
+            return this.fileFormat;
+        }
 
-        self.getObjPaint = function() {
-            return m_objPaint;
-        };
+        public setFileFormat(rhs: csRptFileFormat) {
+            this.fileFormat = rhs;
+        }
 
-        self.setObjPaint = function(rhs) {
-            m_objPaint = rhs;
-        };
+        public getObjPaint() {
+            return this.objPaint;
+        }
 
-        self.getAction = function() {
-            return m_action;
-        };
+        public setObjPaint(rhs: CSIReportPrint.cIReportPrint) {
+            this.objPaint = rhs;
+        }
 
-        self.setAction = function(rhs) {
-            m_action = rhs;
-        };
+        public getAction() {
+            return this.action;
+        }
 
-        self.getShowPrintersDialog = function() {
-            return m_showPrintersDialog;
-        };
+        public setAction(rhs: csRptLaunchAction) {
+            this.action = rhs;
+        }
 
-        self.setShowPrintersDialog = function(rhs) {
-            m_showPrintersDialog = rhs;
-        };
+        public getShowPrintersDialog() {
+            return this.showPrintersDialog;
+        }
 
-        self.getInternalPreview = function() {
-            return m_internalPreview;
-        };
+        public setShowPrintersDialog(rhs: boolean) {
+            this.showPrintersDialog = rhs;
+        }
 
-        self.setInternalPreview = function(rhs) {
-            m_internalPreview = rhs;
-        };
+        public getInternalPreview() {
+            return this.internalPreview;
+        }
 
-        self.getCopies = function() {
-            return m_copies;
-        };
+        public setInternalPreview(rhs: boolean) {
+            this.internalPreview = rhs;
+        }
 
-        self.setCopies = function(rhs) {
-            m_copies = rhs;
-        };
+        public getCopies() {
+            return this.copies;
+        }
 
-        self.getSilent = function() {
-            return m_silent;
-        };
+        public setCopies(rhs: number) {
+            this.copies = rhs;
+        }
 
-        self.setSilent = function(rhs) {
-            m_silent = rhs;
-        };
+        public getSilent() {
+            return this.silent;
+        }
 
-        self.initPrinter = function(printDialog, deviceName, driverName, port) {
-            m_printer = cPrintAPI.getcPrint(printDialog, deviceName, driverName, port);
-        };
+        public setSilent(rhs: boolean) {
+            this.silent = rhs;
+        }
 
-        self.setPaperBin = function(paperBin) {
-            if (m_printer === null) { return; }
+        public initPrinter(printDialog: PrintDialog, deviceName: string, driverName: string, port: string) {
+            this.printer = cPrintAPI.getcPrint(printDialog, deviceName, driverName, port);
+        }
+
+        public setPaperBin(paperBin: string) {
+            if (this.printer === null) { return; }
 
             if (paperBin.Length === 0) {
                 let idPaperBin: number = 0;
-                idPaperBin = cPrintAPI.printerPaperBinNameToId(m_printer.getDeviceName(),
-                                                                m_printer.getPort(), 
+                idPaperBin = cPrintAPI.printerPaperBinNameToId(this.printer.getDeviceName(),
+                                                                this.printer.getPort(), 
                                                                 paperBin);
-                m_printer.getPaperInfo().setPaperBin(idPaperBin);
+                this.printer.getPaperInfo().setPaperBin(idPaperBin);
             }
-        };
+        }
 
-        self.load = function(xDoc, nodeObj) {
-            m_strConnect = xDoc.getNodeProperty(nodeObj, "StrConnect").getValueString(eTypes.eText);
-            m_action = xDoc.getNodeProperty(nodeObj, "Action").getValueInt(eTypes.eInteger);
-            m_copies = xDoc.getNodeProperty(nodeObj, "Copies").getValueInt(eTypes.eInteger);
-            m_file = xDoc.getNodeProperty(nodeObj, "File").getValueString(eTypes.eText);
-            m_fileFormat = xDoc.getNodeProperty(nodeObj, "FileFormat").getValueInt(eTypes.eInteger);
-            m_internalPreview = xDoc.getNodeProperty(nodeObj, "InternalPreview").getValueBool(eTypes.eBoolean);
-            m_showPrintersDialog = xDoc.getNodeProperty(nodeObj, "ShowPrintersDialog").getValueBool(eTypes.eBoolean);
-            m_silent = xDoc.getNodeProperty(nodeObj, "Silent").getValueBool(eTypes.eBoolean);
-            m_sqlstmt = xDoc.getNodeProperty(nodeObj, "Sqlstmt").getValueString(eTypes.eText);
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
+            this.strConnect = xDoc.getNodeProperty(nodeObj, "StrConnect").getValueString(eTypes.eText);
+            this.action = xDoc.getNodeProperty(nodeObj, "Action").getValueInt(eTypes.eInteger);
+            this.copies = xDoc.getNodeProperty(nodeObj, "Copies").getValueInt(eTypes.eInteger);
+            this.file = xDoc.getNodeProperty(nodeObj, "File").getValueString(eTypes.eText);
+            this.fileFormat = xDoc.getNodeProperty(nodeObj, "FileFormat").getValueInt(eTypes.eInteger);
+            this.internalPreview = xDoc.getNodeProperty(nodeObj, "InternalPreview").getValueBool(eTypes.eBoolean);
+            this.showPrintersDialog = xDoc.getNodeProperty(nodeObj, "ShowPrintersDialog").getValueBool(eTypes.eBoolean);
+            this.silent = xDoc.getNodeProperty(nodeObj, "Silent").getValueBool(eTypes.eBoolean);
+            this.sqlstmt = xDoc.getNodeProperty(nodeObj, "Sqlstmt").getValueString(eTypes.eText);
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = new CSXml.cXmlProperty();
             let nodeObj: XmlNode = null;
 
@@ -177,87 +177,48 @@
             }
 
             xProperty.setName("Action");
-            xProperty.setValue(eTypes.eInteger, m_action);
+            xProperty.setValue(eTypes.eInteger, this.action);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Copies");
-            xProperty.setValue(eTypes.eInteger, m_copies);
+            xProperty.setValue(eTypes.eInteger, this.copies);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("File");
-            xProperty.setValue(eTypes.eText, m_file);
+            xProperty.setValue(eTypes.eText, this.file);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("FileFormat");
-            xProperty.setValue(eTypes.eInteger, m_fileFormat);
+            xProperty.setValue(eTypes.eInteger, this.fileFormat);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("InternalPreview");
-            self.<<<ERROR>>> {{undefined}} = function(, ) {
+            public <<<ERROR>>> {{undefined}}() {
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ShowPrintersDialog");
-            xProperty.setValue(eTypes.eBoolean, m_showPrintersDialog);
+            xProperty.setValue(eTypes.eBoolean, this.showPrintersDialog);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Silent");
-            xProperty.setValue(eTypes.eBoolean, m_silent);
+            xProperty.setValue(eTypes.eBoolean, this.silent);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Sqlstmt");
-            xProperty.setValue(eTypes.eText, m_sqlstmt);
+            xProperty.setValue(eTypes.eText, this.sqlstmt);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("StrConnect");
-            xProperty.setValue(eTypes.eText, m_strConnect);
+            xProperty.setValue(eTypes.eText, this.strConnect);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportLaunchInfo {
-
-    getHwnd: () => int;
-    setHwnd: (int) => void;
-    getFile: () => String;
-    setFile: (String) => void;
-    getDataSource: () => object;
-    setDataSource: (object) => void;
-    getSqlstmt: () => String;
-    setSqlstmt: (String) => void;
-    getStrConnect: () => String;
-    setStrConnect: (String) => void;
-    getPrinter: () => cPrinter;
-    setPrinter: (cPrinter) => void;
-    getFileFormat: () => csRptFileFormat;
-    setFileFormat: (csRptFileFormat) => void;
-    getObjPaint: () => CSIReportPrint.cIReportPrint;
-    setObjPaint: (CSIReportPrint.cIReportPrint) => void;
-    getAction: () => csRptLaunchAction;
-    setAction: (csRptLaunchAction) => void;
-    getShowPrintersDialog: () => bool;
-    setShowPrintersDialog: (bool) => void;
-    getInternalPreview: () => bool;
-    setInternalPreview: (bool) => void;
-    getCopies: () => int;
-    setCopies: (int) => void;
-    getSilent: () => bool;
-    setSilent: (bool) => void;
-    initPrinter: (PrintDialog, String, String, String) => void;
-    setPaperBin: (String) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-    <<<ERROR>>> {{undefined}}: (eTypes.eBoolean, m_internalPreview) => m_internalPreview);;
-  }
 }

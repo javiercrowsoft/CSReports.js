@@ -1,28 +1,19 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFConnectsAux = function() {
+namespace CSReportEditor
+{
+    export class fConnectsAux {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfConnectsAux = {};
-        const fConnectsAux = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-		self.addConnect = function(str, str2) {
+		public addConnect(str: string, str2: string) {
 			throw new NotImplementedException ();
-		};
-        return self;
+		}
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfConnectsAux {
-
-    addConnect: (string, string) => void;
-  }
 }

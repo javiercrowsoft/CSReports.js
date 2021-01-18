@@ -1,41 +1,41 @@
-(function(globalObject) {
-
-
-    globalObject.CSKernelFile = globalObject.CSKernelFile || {};
 
 
 
-    globalObject.CSKernelFile.createCFile = function() {
+namespace CSKernelFile
+{
 
-        // @ts-ignore
-        let self: CSKernelFile.IcFile = {};
-        const c_module: string = "cFile";
 
-        const c_sep_dir: string = @"\"; 		// Directory separator character;
-        const c_sep_diralt: string = @"/";	// Alternate directory separator character;
+    export class cFile {
 
-        let m_file: FileStream = null;
-        let m_br: BinaryReader = null;
-        let m_bw: BinaryWriter = null;
-        let m_tr: TextReader = null;
-        let m_function: string = "";
-        let m_module: string = "";
-        let m_open: boolean = false;
-        let m_curPath: string = "";
-        let m_name: string = "";
-        let m_path: string = "";
-        let m_commDialog: object = null;
-        let m_filter: string = "";
+
+    {
+        private c_module: string = "cFile";
+
+        private c_sep_dir: string = @"\"; 		// Directory separator character;
+        private c_sep_diralt: string = @"/";	// Alternate directory separator character;
+
+        private file: FileStream = null;
+        private br: BinaryReader = null;
+        private bw: BinaryWriter = null;
+        let this.tr: TextReader = null;
+        private function: string = "";
+        private module: string = "";
+        private open: boolean = false;
+        private curPath: string = "";
+        private name: string = "";
+        private path: string = "";
+        private commDialog: object = null;
+        private filter: string = "";
 
 UNKNOWN >>         public bool isEof
         {
 UNKNOWN >>             get
             {
-                if (!m_open) {
+                if (!this.open) {
                     return true;
                 }
                 else {
-                    if (m_file.Length === m_file.Position) {
+                    if (this.file.Length === this.file.Position) {
                         return true;
                     }
                     else {
@@ -44,56 +44,56 @@ UNKNOWN >>             get
                 }
             }
 
-        };
+        }
 
 UNKNOWN >>         public string filter
         {
-UNKNOWN >>             get { return m_filter; }
-UNKNOWN >>             set { m_filter = value; }
+UNKNOWN >>             get { return this.filter; }
+UNKNOWN >>             set { this.filter = value; }
         }
 
-        self.setFilter = function(value) {
-            m_filter = value;
-        };
+        public setFilter(value: string) {
+            this.filter = value;
+        }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.getPath = function() {
-            return m_path;
-        };
+        public getPath() {
+            return this.path;
+        }
 
 UNKNOWN >>         public string name
         {
-UNKNOWN >>             get { return m_name; }
+UNKNOWN >>             get { return this.name; }
         }
 
 UNKNOWN >>         public string path
         {
-UNKNOWN >>             get { return m_path; }
+UNKNOWN >>             get { return this.path; }
         }
 
 UNKNOWN >>         public string fullName
         {
-UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_name; }
+UNKNOWN >>             get { return this.path + Path.DirectorySeparatorChar + this.name; }
         }
 
-        self.init = function(function, module, commDialog) {
-            m_function = function;
-            m_module = module;
-            m_commDialog = commDialog;
-        };
+        public init(function: string, module: string, commDialog: object) {
+            this.function = function;
+            this.module = module;
+            this.commDialog = commDialog;
+        }
 
-        self.open = function(fullFileName, mode) {
+        public open(fullFileName: string, mode: eFileMode) {
             return open(fullFileName, mode, false, true, eFileAccess.eShared, false, false);
-        };
-        self.open = function(fullFileName, mode, ) {
+        }
+        public open(fullFileName: string, mode: eFileMode) {
                          bool createFile)
         {
             return open(fullFileName, mode, true, true, eFileAccess.eShared, false, false);
-        };
-        self.open = function(fullFileName, mode, ) {
+        }
+        public open(fullFileName: string, mode: eFileMode) {
                          bool createFile, bool silens, eFileAccess access,
                          bool withDialog, bool canOpenOther)
         {
@@ -109,10 +109,10 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                 exists = false;
             }
             if ( || withDialog) {
-                exists = fileExists(m_curPath + Path.DirectorySeparatorChar + getFileName(fullFileName));
+                exists = fileExists(this.curPath + Path.DirectorySeparatorChar + getFileName(fullFileName));
 
                 if (exists && !withDialog) {
-                    fullFileName = m_curPath + Path.DirectorySeparatorChar + getFileName(fullFileName);
+                    fullFileName = this.curPath + Path.DirectorySeparatorChar + getFileName(fullFileName);
                 }
                 else if (silens) {
                     return false;
@@ -141,19 +141,19 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.Append,
                                                         FileAccess.Write,
                                                         FileShare.ReadWrite);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.Append,
                                                         FileAccess.Write,
                                                         FileShare.Read);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.Append,
                                                         FileAccess.Write,
                                                         FileShare.None);
@@ -167,19 +167,19 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.ReadWrite);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.Read);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.None);
@@ -192,19 +192,19 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.ReadWrite);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.Read);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.None);
@@ -218,25 +218,25 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.ReadWrite);
-                                m_bw = UNKNOWN >>  can't find constructor for class BinaryWriter(m_file);
+                                this.bw = new BinaryWriter(this.file);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.Read);
-                                m_bw = UNKNOWN >>  can't find constructor for class BinaryWriter(m_file);
+                                this.bw = new BinaryWriter(this.file);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Write,
                                                         FileShare.None);
-                                m_bw = UNKNOWN >>  can't find constructor for class BinaryWriter(m_file);
+                                this.bw = new BinaryWriter(this.file);
                                 break;
                             default:
                                 return false;
@@ -246,25 +246,25 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                         switch (access)
                         {
                             case eFileAccess.eShared:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.ReadWrite);
-                                m_br = UNKNOWN >>  can't find constructor for class BinaryReader(m_file);
+                                this.br = new BinaryReader(this.file);
                                 break;
                             case eFileAccess.eLockWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.Read);
-                                m_br = UNKNOWN >>  can't find constructor for class BinaryReader(m_file);
+                                this.br = new BinaryReader(this.file);
                                 break;
                             case eFileAccess.eLockReadWrite:
-                                m_file = UNKNOWN >>  can't find constructor for class FileStream(fullFileName,
+                                this.file = new FileStream(fullFileName,
                                                         FileMode.OpenOrCreate,
                                                         FileAccess.Read,
                                                         FileShare.None);
-                                m_br = UNKNOWN >>  can't find constructor for class BinaryReader(m_file);
+                                this.br = new BinaryReader(this.file);
                                 break;
                             default:
                                 return false;
@@ -273,16 +273,16 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                     default:
                         return false;
                 }
-                m_open = true;
+                this.open = true;
                 return true;
             }
             catch (ex) {
                 cError.mngError(ex, "open", c_module, "");
                 return false;
             }
-        };
+        }
 
-        self.save = function(fullFileName, ) {
+        public save(fullFileName: string) {
                          bool exists,
                          bool readOnly,
                          string description)
@@ -316,105 +316,105 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                 }
             }
             return true;
-        };
+        }
 
-        self.write = function(text) {
-            if (!m_open) return false; {
+        public write(text: string) {
+            if (!this.open) return false; {
             try {
-                let tw: TextWriter = new StreamWriter(m_file);
+                let tw: TextWriter = new StreamWriter(this.file);
                 tw.WriteLine(text);
                 tw.Close();
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "write", c_module, "failed writing text to file: " + m_path + Path.DirectorySeparatorChar + m_name);
+                cError.mngError(ex, "write", c_module, "failed writing text to file: " + this.path + Path.DirectorySeparatorChar + this.name);
                 return false;
             }
-        };
+        }
 
-        self.read = function(text, eof) {
+        public read(text: string, eof: boolean) {
             text = "";
             eof = false;
-            if (!m_open) return false; {
+            if (!this.open) return false; {
             try {
 
-                if (m_tr === null) {
-                    m_tr = UNKNOWN >>  can't find constructor for class StreamReader(m_file);
+                if (this.tr === null) {
+                    this.tr = new StreamReader(this.file);
                 }
 
-                text = m_tr.ReadLine();
+                text = this.tr.ReadLine();
                 if (text === null) {
                     eof = true;
                     text = "";
-                    m_tr.Close();
-                    m_tr = null;
+                    this.tr.Close();
+                    this.tr = null;
                 }
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "read", c_module, "failed reading text from file: " + m_path + Path.DirectorySeparatorChar + m_name);
+                cError.mngError(ex, "read", c_module, "failed reading text from file: " + this.path + Path.DirectorySeparatorChar + this.name);
                 return false;
             }
-        };
+        }
 
-        self.binaryWrite = function(buffer) {
-            if (!m_open) return false; {
+        public binaryWrite(buffer: byte[]) {
+            if (!this.open) return false; {
             try {
-                m_bw.Write(buffer);
+                this.bw.Write(buffer);
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "binaryWrite", c_module, "failed writing in binary mode to file: " + m_path + Path.DirectorySeparatorChar + m_name);
+                cError.mngError(ex, "binaryWrite", c_module, "failed writing in binary mode to file: " + this.path + Path.DirectorySeparatorChar + this.name);
                 return false;
             }
-        };
+        }
 
-        self.binaryRead = function(buffer, eof) {
+        public binaryRead(buffer: byte[], eof: boolean) {
             buffer = null;
             eof = false;
-            if (!m_open) return false; {
+            if (!this.open) return false; {
             try {
                 if (isEof) {
                     eof = true;
                     buffer = null;
                 }
                 else {
-                    let bytesInFile: number = m_file.Length - m_file.Position;
+                    let bytesInFile: number = this.file.Length - this.file.Position;
                     if (bytesInFile < buffer.Length) {
-                        buffer = UNKNOWN >>  can't find constructor for class byte[bytesInFile];
+                        buffer = new byte[bytesInFile];
                     }
-                    buffer = m_br.ReadBytes(buffer.Length);
+                    buffer = this.br.ReadBytes(buffer.Length);
                 }
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "binaryRead", c_module, "failed reading in binary mode from file: " + m_path + Path.DirectorySeparatorChar + m_name);
+                cError.mngError(ex, "binaryRead", c_module, "failed reading in binary mode from file: " + this.path + Path.DirectorySeparatorChar + this.name);
                 return false;
             }
-        };
+        }
 
-        self.close = function() {
+        public close() {
             try {
-                if (m_file !== null) {
-                    m_file.Close();
-                    if (m_br !== null) {
-                        m_br.Close();
-                        m_br = null;
+                if (this.file !== null) {
+                    this.file.Close();
+                    if (this.br !== null) {
+                        this.br.Close();
+                        this.br = null;
                     }
-                    if (m_bw !== null) {
-                        m_bw.Close();
-                        m_bw = null;
+                    if (this.bw !== null) {
+                        this.bw.Close();
+                        this.bw = null;
                     }
-                    m_file = null;
+                    this.file = null;
                 }
-                m_open = false;
+                this.open = false;
             }
             catch (ex) {
-                cError.mngError(ex, "binaryRead", c_module, "failed reading in binary mode from file: " + m_path + Path.DirectorySeparatorChar + m_name);
+                cError.mngError(ex, "binaryRead", c_module, "failed reading in binary mode from file: " + this.path + Path.DirectorySeparatorChar + this.name);
             }
-        };
+        }
 
-        self.userSearchFile = function(fullFileName, ) {
+        public userSearchFile(fullFileName: string) {
                                    bool ifNotExistsIsOk,
                                    string description,
                                    bool saving,
@@ -469,15 +469,15 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
 
             } while (true);
 
-            m_curPath = getPath(userFile);
+            this.curPath = getPath(userFile);
             fullFileName = userFile;
-            m_name = getFileName(userFile);
-            m_path = getPath(userFile);
+            this.name = getFileName(userFile);
+            this.path = getPath(userFile);
 
             return true;
-        };
+        }
 
-        self.showOpenFileDlg = function(userFile, ) {
+        public showOpenFileDlg(userFile: string) {
                                     string filter,
                                     string fileToSearch,
                                     string curDir,
@@ -485,7 +485,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                                     bool saving)
         {
             userFile = "";
-            let fd: FileDialog = m_commDialog as FileDialog;
+            let fd: FileDialog = this.commDialog as FileDialog;
             if (curDir.Length > 0 && curDir !== " ") {
                 let di: DirectoryInfo = new DirectoryInfo(curDir);
                 if (di.Exists) {
@@ -498,15 +498,15 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
             else {
                 fd.FileName = "";
             }
-            if (m_filter.Length > 0) {
-                fd.Filter = m_filter;
+            if (this.filter.Length > 0) {
+                fd.Filter = this.filter;
             }
             else if (filter.Length > 0) {
                 fd.Filter = filter;
             }
             fd.Title = title;
             if (saving) {
-                let fs: SaveFileDialog = m_commDialog as SaveFileDialog;
+                let fs: SaveFileDialog = this.commDialog as SaveFileDialog;
                 if (fs.ShowDialog() === DialogResult.OK) {
                     userFile = fs.FileName;
                     return true;
@@ -516,7 +516,7 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                 }
             }
             else {
-                let fc: OpenFileDialog = m_commDialog as OpenFileDialog;
+                let fc: OpenFileDialog = this.commDialog as OpenFileDialog;
                 if (fc.ShowDialog() === DialogResult.OK) {
                     userFile = fc.FileName;
                     return true;
@@ -525,13 +525,13 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                     return false;
                 }
             }
-        };
+        }
 
-        self.getFileName = function(fullFileName) {
+        public getFileName(fullFileName: string) {
             return getFileWithoutExt(fullFileName) + "." + getFileExt(fullFileName);
-        };
+        }
 
-        self.getFileExt = function(fullFileName) {
+        public getFileExt(fullFileName: string) {
             let path: string = "";
             let fileName: string = "";
             let sepPos: number = 0;
@@ -558,9 +558,9 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                     return fileName.Substring(sepPos + 1);
                 }
             }
-        };
+        }
 
-        self.getFileWithoutExt = function(fullFileName) {
+        public getFileWithoutExt(fullFileName: string) {
             let path: string = "";
             let fileName: string = "";
             let sepPos: number = 0;
@@ -586,17 +586,17 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
             else {
                 return fileName.Substring(0, sepPos);
             }
-        };
+        }
 
-        self.getPath = function(fullFileName) {
+        public getPath(fullFileName: string) {
             let path: string = "";
             let fileName: string = "";
 
             getPathAndFileName(fullFileName, path, fileName);
             return path;
-        };
+        }
 
-        self.getPathAndFileName = function(fullFileName, ) {
+        public getPathAndFileName(fullFileName: string) {
                                               string path,
                                               string fileName)
         {
@@ -631,9 +631,9 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                     fileName = fullFileName.Substring(sepPos + 1);
                 }
             }
-        };
+        }
 
-        self.copyFile = function(fullFileNameSource, fullFileNameDestination) {
+        public copyFile(fullFileNameSource: string, fullFileNameDestination: string) {
             try {
                 File.Copy(fullFileNameSource, fullFileNameDestination);
                 return true;
@@ -642,9 +642,9 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                 cError.mngError(ex, "copyFile", c_module, "failed copying [" + fullFileNameSource + "] to [" + fullFileNameDestination + "]");
                 return false;
             }
-        };
+        }
 
-        const isSeparator = function(character) {
+        private isSeparator(character: string) {
             switch (character)
             {
                 case c_sep_dir:
@@ -654,9 +654,9 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
                 default:
                     return false;
             }
-        };
+        }
 
-        const fileExists = function(fullFileName) {
+        private fileExists(fullFileName: string) {
             try {
                 if (fullFileName === "\\ .") {
                     return false;
@@ -669,40 +669,11 @@ UNKNOWN >>             get { return m_path + Path.DirectorySeparatorChar + m_nam
             catch (ex) {
                 return false;
             }
-        };
+        }
 
-        const cFile = function() {
-        };
-        return self;
+        public constructor() {
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelFile {
-
-  export interface IcFile {
-
-    setFilter: (string) => void;
-    getName: () => string;
-    getPath: () => string;
-    init: (string, string, object) => void;
-    open: (string, eFileMode) => bool;
-    open: (string, eFileMode, ) => bool;
-    open: (string, eFileMode, ) => bool;
-    save: (string, ) => bool;
-    write: (string) => bool;
-    read: (string, bool) => bool;
-    binaryWrite: (byte[]) => bool;
-    binaryRead: (byte[], bool) => bool;
-    close: () => void;
-    userSearchFile: (string, ) => bool;
-    showOpenFileDlg: (string, ) => bool;
-    getFileName: (string) => string;
-    getFileExt: (string) => string;
-    getFileWithoutExt: (string) => string;
-    getPath: (string) => string;
-    getPathAndFileName: (string, ) => void;
-    copyFile: (string, string) => bool;
-  }
 }

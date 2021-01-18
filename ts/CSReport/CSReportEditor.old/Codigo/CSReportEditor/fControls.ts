@@ -1,38 +1,27 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFControls = function() {
+namespace CSReportEditor
+{
+    export class fControls {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfControls = {};
-        const fControls = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-		self.clear = function() {
+		public clear() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.addCtrls = function(m_report) {
+		public addCtrls(this.report: cReport) {
 			throw new NotImplementedException ();
-		};
+		}
 
-        self.getLoaded = function() {
+        public getLoaded() {
             throw new NotImplementedException();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfControls {
-
-    clear: () => void;
-    addCtrls: (cReport) => void;
-    getLoaded: () => bool;
-  }
 }

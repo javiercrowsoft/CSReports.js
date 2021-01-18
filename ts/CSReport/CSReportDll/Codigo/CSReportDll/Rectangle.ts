@@ -1,10 +1,10 @@
-(function(globalObject) {
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
+namespace CSReportDll
 {
     // TODO: remove this class
     class Rectangle

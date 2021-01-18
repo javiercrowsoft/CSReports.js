@@ -1,122 +1,102 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportPageInfo = function() {
+namespace CSReportDll
+{
+    export class cReportPageInfo {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportPageInfo = {};
 
-        const C_MODULE: string = "cReportPageInfo";
+    {
 
-        let m_aspect: cReportAspect = null;
-        let m_sectionLine: cReportSectionLine = null;
-        let m_name: string = "";
-        let m_tag: string = "";
-        let m_fieldType: number = 0;
+        private C_MODULE: string = "cReportPageInfo";
 
-        const cReportPageInfo = function() {
-            m_aspect = globalObject.CSReportDll.createCReportAspect();
-        };
+        private aspect: cReportAspect = null;
+        private sectionLine: cReportSectionLine = null;
+        private name: string = "";
+        private tag: string = "";
+        private fieldType: number = 0;
 
-        self.getName = function() {
-            return m_name;
-        };
+        public constructor() {
+            this.aspect = new cReportAspect();
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.getTag = function() {
-            return m_tag;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.setTag = function(rhs) {
-            m_tag = rhs;
-        };
+        public getTag() {
+            return this.tag;
+        }
 
-        self.getAspect = function() {
-            return m_aspect;
-        };
+        public setTag(rhs: string) {
+            this.tag = rhs;
+        }
 
-        self.setAspect = function(rhs) {
-            m_aspect = rhs;
-        };
+        public getAspect() {
+            return this.aspect;
+        }
 
-        self.getSectionLine = function() {
-            return m_sectionLine;
-        };
+        public setAspect(rhs: cReportAspect) {
+            this.aspect = rhs;
+        }
 
-        self.setSectionLine = function(rhs) {
-            m_sectionLine = rhs;
-        };
+        public getSectionLine() {
+            return this.sectionLine;
+        }
 
-        self.getFieldType = function() {
-            return m_fieldType;
-        };
+        public setSectionLine(rhs: cReportSectionLine) {
+            this.sectionLine = rhs;
+        }
 
-        self.setFieldType = function(rhs) {
-            m_fieldType = rhs;
-        };
+        public getFieldType() {
+            return this.fieldType;
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public setFieldType(rhs: number) {
+            this.fieldType = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             let nodeObjAspect: XmlNode = null;
-            m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
-            m_fieldType = xDoc.getNodeProperty(nodeObj, "FieldType").getValueInt(eTypes.eInteger);
+            this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
+            this.fieldType = xDoc.getNodeProperty(nodeObj, "FieldType").getValueInt(eTypes.eInteger);
 
             nodeObjAspect = nodeObj;
-            if (!m_aspect.load(xDoc, nodeObjAspect)) {
+            if (!this.aspect.load(xDoc, nodeObjAspect)) {
                 return false;
             }
             else  {
                 return true;
             }
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("PageInfo");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Name");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("FieldType");
-            xProperty.setValue(eTypes.eInteger, m_fieldType);
+            xProperty.setValue(eTypes.eInteger, this.fieldType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            return m_aspect.save(xDoc, nodeObj);
-        };
+            return this.aspect.save(xDoc, nodeObj);
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportPageInfo {
-
-    getName: () => String;
-    setName: (String) => void;
-    getTag: () => String;
-    setTag: (String) => void;
-    getAspect: () => cReportAspect;
-    setAspect: (cReportAspect) => void;
-    getSectionLine: () => cReportSectionLine;
-    setSectionLine: (cReportSectionLine) => void;
-    getFieldType: () => int;
-    setFieldType: (int) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

@@ -1,26 +1,26 @@
-(function(globalObject) {
 
-    globalObject.CSReportPaint = globalObject.CSReportPaint || {};
 
-    globalObject.CSReportPaint.createCGraphics = function() {
+namespace CSReportPaint
+{
+    export class cGraphics {
 
-        // @ts-ignore
-        let self: CSReportPaint.IcGraphics = {};
-        let mGraphics: Graphics = null;
+
+    {
+        private mGraphics: Graphics = null;
 UNKNOWN >>         public Graphics Graphics 
         { 
 UNKNOWN >>             get{ return this.mGraphics; } 
             let this.mGraphics: set{ = value; };
-        };
+        }
 
 
-        const cGraphics = function(graphics) {
+        public constructor(graphics: Graphics) {
             this.Graphics = graphics;
-        }; 
+        } 
 
 
 UNKNOWN >>         #region Fills a Rounded Rectangle with integers. 
-        self.FillRoundRectangle = function(brush, ) {
+        public FillRoundRectangle(brush: System.Drawing.Brush) {
           int x, int y,
           int width, int height, int radius) 
         { 
@@ -33,24 +33,24 @@ UNKNOWN >>         #region Fills a Rounded Rectangle with integers.
             this.FillRoundRectangle(brush, fx, fy, 
               fwidth, fheight, fradius); 
 
-        }; 
+        } 
 UNKNOWN >>         #endregion 
 
 
 UNKNOWN >>         #region Fills a Rounded Rectangle with continuous numbers.
-        self.FillRoundRectangle = function(brush, ) {
+        public FillRoundRectangle(brush: System.Drawing.Brush) {
           float x, float y,
           float width, float height, float radius)
         {
             let rectangle: RectangleF = new RectangleF(x, y, width, height);
             let path: GraphicsPath = this.GetRoundedRect(rectangle, radius);
             this.Graphics.FillPath(brush, path);
-        }; 
+        } 
 UNKNOWN >>         #endregion
 
 
 UNKNOWN >>         #region Draws a Rounded Rectangle border with integers. 
-        self.DrawRoundRectangle = function(pen, x, y, ) {
+        public DrawRoundRectangle(pen: System.Drawing.Pen, x: number, y: number) {
           int width, int height, int radius) 
         { 
             let fx: number = Convert.ToSingle(x);
@@ -59,24 +59,24 @@ UNKNOWN >>         #region Draws a Rounded Rectangle border with integers.
             let fheight: number = Convert.ToSingle(height);
             let fradius: number = Convert.ToSingle(radius);
             this.DrawRoundRectangle(pen, fx, fy, fwidth, fheight, fradius); 
-        };
+        }
 UNKNOWN >>         #endregion 
 
 
 UNKNOWN >>         #region Draws a Rounded Rectangle border with continuous numbers. 
-        self.DrawRoundRectangle = function(pen, ) {
+        public DrawRoundRectangle(pen: System.Drawing.Pen) {
           float x, float y,
           float width, float height, float radius) 
         { 
             let rectangle: RectangleF = new RectangleF(x, y, width, height);
             let path: GraphicsPath = this.GetRoundedRect(rectangle, radius);
             this.Graphics.DrawPath(pen, path); 
-        }; 
+        } 
 UNKNOWN >>         #endregion 
 
 
 UNKNOWN >>         #region Get the desired Rounded Rectangle path. 
-        const GetRoundedRect = function(baseRect, ) {
+        private GetRoundedRect(baseRect: RectangleF) {
            float radius) 
         {
             // if corner radius is less than or equal to zero, 
@@ -118,11 +118,11 @@ UNKNOWN >>         #region Get the desired Rounded Rectangle path.
 
             path.CloseFigure(); 
             return path; 
-        }; 
+        } 
 UNKNOWN >>         #endregion 
 
 UNKNOWN >>         #region Gets the desired Capsular path. 
-        const GetCapsule = function(baseRect) {
+        private GetCapsule(baseRect: RectangleF) {
 UNKNOWN >>             float diameter; 
 UNKNOWN >>             RectangleF arc; 
             let path: GraphicsPath = new System.Drawing.Drawing2D.GraphicsPath();
@@ -131,7 +131,7 @@ UNKNOWN >>             RectangleF arc;
                     // return horizontal capsule 
                     diameter = baseRect.Height;
                     let sizeF: SizeF = new SizeF(diameter, diameter);
-                    arc = UNKNOWN >>  can't find constructor for class RectangleF( baseRect.Location, sizeF );
+                    arc = new RectangleF( baseRect.Location, sizeF );
                     path.AddArc( arc, 90, 180); 
                     arc.X = baseRect.Right-diameter;
                     path.AddArc( arc, 270, 180); 
@@ -140,7 +140,7 @@ UNKNOWN >>             RectangleF arc;
                     // return vertical capsule 
                     diameter = baseRect.Width;
                     let sizeF: SizeF = new SizeF(diameter, diameter);
-                    arc = UNKNOWN >>  can't find constructor for class RectangleF( baseRect.Location, sizeF );
+                    arc = new RectangleF( baseRect.Location, sizeF );
                     path.AddArc( arc, 180, 180 ); 
                     arc.Y = baseRect.Bottom-diameter;
                     path.AddArc( arc, 0, 180 ); 
@@ -158,21 +158,9 @@ UNKNOWN >>             finally
                 path.CloseFigure(); 
             } 
             return path; 
-        }; 
+        } 
 UNKNOWN >>         #endregion
-        return self;
+
 
     }    }
-} (globalObject));
-
-
-namespace CSReportPaint {
-
-  export interface IcGraphics {
-
-    FillRoundRectangle: (System.Drawing.Brush, ) => void;
-    FillRoundRectangle: (System.Drawing.Brush, ) => void;
-    DrawRoundRectangle: (System.Drawing.Pen, int, int, ) => void;
-    DrawRoundRectangle: (System.Drawing.Pen, ) => void;
-  }
-}
+} 

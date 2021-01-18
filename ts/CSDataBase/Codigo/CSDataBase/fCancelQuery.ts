@@ -1,26 +1,26 @@
-(function(globalObject) {
 
-    globalObject.CSDataBase = globalObject.CSDataBase || {};
 
-    globalObject.CSDataBase.createFCancelQuery = function() {
+namespace CSDataBase
+{
+    export class fCancelQuery {
 
-        // @ts-ignore
-        let self: CSDataBase.IfCancelQuery = {};
-        let m_cancel: boolean = false;
-        let m_timer: Timer = null;
-        let m_minutes: number = 0;
-        let m_seconds: number = 0;
 
-        const fCancelQuery = function() {
+    {
+        private cancel: boolean = false;
+        private timer: Timer = null;
+        private minutes: number = 0;
+        private seconds: number = 0;
+
+        public constructor() {
             InitializeComponent();
 
             let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.Database.png"));
-            m_timer = UNKNOWN >>  can't find constructor for class Timer();
-            m_timer.Tick += UNKNOWN >>  can't find constructor for class EventHandler(timer_tick);
-            m_timer.Interval = 1000;
-            m_timer.Start();
-        };
+            picIcon.Image = new Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.Database.png"));
+            this.timer = new Timer();
+            this.timer.Tick += new EventHandler(timer_tick);
+            this.timer.Interval = 1000;
+            this.timer.Start();
+        }
 
 UNKNOWN >>         public string descript 
         {
@@ -32,34 +32,26 @@ UNKNOWN >>             set {
 UNKNOWN >>         public Boolean cancel 
         {
 UNKNOWN >>             get {
-                return m_cancel;
+                return this.cancel;
             }
         }
 
-        const cmdCancel_Click = function(sender, e) {
-            m_cancel = true;
+        private cmdCancel_Click(sender: object, e: EventArgs) {
+            this.cancel = true;
             Hide();
-        };
+        }
 
-        const timer_tick = function(sender, e) {
-            lbTime.Text = m_minutes.ToString("00") + ":" + m_seconds.ToString("00");
-            m_seconds++;
-            m_minutes = m_minutes + m_seconds / 60;
-            m_seconds = m_seconds % 60;
-        };
+        private timer_tick(sender: object, e: EventArgs) {
+            lbTime.Text = this.minutes.ToString("00") + ":" + this.seconds.ToString("00");
+            this.seconds++;
+            this.minutes = this.minutes + this.seconds / 60;
+            this.seconds = this.seconds % 60;
+        }
 
-        const fCancelQuery_Load = function(sender, e) {
+        private fCancelQuery_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSDataBase {
-
-  export interface IfCancelQuery {
-
-  }
 }

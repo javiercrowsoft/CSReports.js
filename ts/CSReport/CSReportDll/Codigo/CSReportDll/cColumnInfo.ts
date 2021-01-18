@@ -1,4 +1,4 @@
-(function(globalObject) {
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using CSKernelClient;
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
+namespace CSReportDll
 {
 
     public class cColumnInfo
@@ -14,103 +14,103 @@ using CSKernelClient;
 
         private const String C_MODULE = "cColumnInfo";
 
-        private String m_name = "";
-        private CSDataBase.csDataType m_columnType;
+        private String this.name = "";
+        private CSDataBase.csDataType this.columnType;
 
         // TODO: remove me
-        //private String m_value = "";
-        private int m_position = 0;
-        private String m_key = "";
+        //private String this.value = "";
+        private int this.position = 0;
+        private String this.key = "";
 
         public String getKey()
         {
-            return m_key;
+            return this.key;
         }
 
         public void setKey(String rhs)
         {
-            m_key = rhs;
+            this.key = rhs;
         }
 
         public String getName()
         {
-            return m_name;
+            return this.name;
         }
 
         public void setName(String rhs)
         {
-            m_name = rhs;
+            this.name = rhs;
         }
 
         public CSDataBase.csDataType getColumnType()
         {
-            return m_columnType;
+            return this.columnType;
         }
 
         public void setColumnType(CSDataBase.csDataType rhs)
         {
-            m_columnType = rhs;
+            this.columnType = rhs;
         }
 
         // TODO: remove me
         /*
         public String getValue()
         {
-            return m_value;
+            return this.value;
         }
 
         public void setValue(String rhs)
         {
-            m_value = rhs;
+            this.value = rhs;
         }
         */
-        self.getPosition = function() {
-            return m_position;
-
-
-        self.setPosition = function(rhs) {
-            m_position = rhs;
+        public getPosition() {
+            return this.position;
         }
 
-        self.load = function(xDoc, nodeObj) {
-            m_columnType = xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger);
+        public setPosition(rhs: number) {
+            this.position = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
+            this.columnType = xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger);
             // TODO: remove me
-            //m_value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
-            m_position = xDoc.getNodeProperty(nodeObj, "Position").getValueInt(eTypes.eInteger);
-            m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
-            m_key = xDoc.getNodeProperty(nodeObj, "Key").getValueString(eTypes.eText);
+            //this.value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
+            this.position = xDoc.getNodeProperty(nodeObj, "Position").getValueInt(eTypes.eInteger);
+            this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
+            this.key = xDoc.getNodeProperty(nodeObj, "Key").getValueString(eTypes.eText);
 
             return true;
         }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
-            xProperty.setName(m_key);
+            xProperty.setName(this.key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Key");
-            xProperty.setValue(eTypes.eText, m_key);
+            xProperty.setValue(eTypes.eText, this.key);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Name");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Position");
-            xProperty.setValue(eTypes.eInteger, m_position);
+            xProperty.setValue(eTypes.eInteger, this.position);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("TypeColumn");
-            xProperty.setValue(eTypes.eInteger, m_columnType);
+            xProperty.setValue(eTypes.eInteger, this.columnType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             // TODO: remove me
             /*
             xProperty.setName("Value");
-            xProperty.setValue(eTypes.eText, m_value);
+            xProperty.setValue(eTypes.eText, this.value);
             xDoc.addPropertyToNode(nodeObj, xProperty);
             */
             return true;

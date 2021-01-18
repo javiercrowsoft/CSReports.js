@@ -1,23 +1,23 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportVariables = function() {
+namespace CSReportDll
+{
+    export class cReportVariables {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportVariables = {};
+
+    {
 
         // Creates an empty collection.
-        const cReportVariables = function() {
-        };
+        public constructor() {
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cReportVariables = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -79,67 +79,67 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.Remove = function(key) {
+        public Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.Remove = function(index) {
+        public Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.Clear = function() {
+        public Clear() {
             this.BaseClear();
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.remove = function(key) {
+        public remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.remove = function(index) {
+        public remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.clear = function() {
+        public clear() {
             this.BaseClear();
-        };
+        }
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
                 return this.BaseGet(key);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
                 return this.BaseGet(index);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.add = function(c, key) {
+        public add(c: cReportVariable, key: string) {
             try {
 
                 if (c === null) {
-                    c = globalObject.CSReportDll.createCReportVariable();
+                    c = new cReportVariable();
                 }
 
                 if (key === "") {
@@ -157,31 +157,12 @@ UNKNOWN >>             get
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportVariables {
-
-    Add: (String, Object) => void;
-    Remove: (String) => void;
-    Remove: (int) => void;
-    Clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    clear: () => void;
-    count: () => int;
-    item: (String) => cReportVariable;
-    item: (int) => cReportVariable;
-    add: (cReportVariable, String) => cReportVariable;
-  }
 }

@@ -1,13 +1,13 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportScriptEngine = function() {
+namespace CSReportDll
+{
+    export class cReportScriptEngine {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportScriptEngine = {};
 
-        const getFunctionCall = function(code, formula) {
+    {
+
+        private getFunctionCall(code: string, formula: cReportFormula) {
             let n: number = code.IndexOf("(");
             let functionName: var = cUtil.subString(code, 8, n-8);
             let parameters: var = "";
@@ -19,9 +19,9 @@
                 parameters = parameters.Substring(0, parameters.Length - 1);
             }
             return functionName + "(" + parameters + ")";
-        };
+        }
 
-        const putCodeInClass = function(code, formula) {
+        private putCodeInClass(code: string, formula: cReportFormula) {
             if (cUtil.subString(code, 0, 8).ToLower() === "function") {
                 return "Public Class util\r\n"
                      + "Implements CSReportScript.cIReportScriptType\r\n"
@@ -70,13 +70,13 @@
             else {
                 // TODO: implement c# scripting
                 //
-                self.createUtil: = function() {
+                export class util: {
 
-                    // @ts-ignore
-                    let self: CSReportDll.Iutil: = {};
-        };
 
-        self.compileCode = function(code, formula) {
+            }            
+        }
+
+        public compileCode(code: string, formula: cReportFormula) {
             // Create a code provider
             // This class implements the 'CodeDomProvider' class as its base. All of the current .Net languages (at least Microsoft ones)
             // come with thier own implemtation, thus you can allow the user to use the language of thier choice (though i recommend that
@@ -85,10 +85,10 @@
 UNKNOWN >>             CodeDomProvider provider;
 
             if (cUtil.subString(code, 0, 8).ToLower() === "function") {
-                provider = UNKNOWN >>  can't find constructor for class Microsoft.VisualBasic.VBCodeProvider();
+                provider = new Microsoft.VisualBasic.VBCodeProvider();
             }
             else  {
-                provider = UNKNOWN >>  can't find constructor for class Microsoft.CSharp.CSharpCodeProvider();
+                provider = new Microsoft.CSharp.CSharpCodeProvider();
             }
 
             // Setup our options
@@ -121,14 +121,12 @@ UNKNOWN >>             CodeDomProvider provider;
 
             // Compile our code
 UNKNOWN >>             CompilerResults result;
-            self.create= = function() {
+            export class = {
 
-                // @ts-ignore
-                let self: CSReportDll.I= = {};
-            self.createProvider.CompileAssemblyFromSource(options, = function() {
 
-                // @ts-ignore
-                let self: CSReportDll.Iprovider.CompileAssemblyFromSource(options, = {};
+            export class provider.CompileAssemblyFromSource(options, {
+
+
 
             if (result.Errors.HasErrors) {
                 let errors: var = "";
@@ -137,10 +135,9 @@ UNKNOWN >>             CompilerResults result;
                     errors += result.Errors[0].ErrorText + "\r\n";
                 }
 
-                self.create"\r\n\r\nSource = function() {
+                export class "\r\n\r\nSource {
 
-                    // @ts-ignore
-                    let self: CSReportDll.I"\r\n\r\nSource = {};
+
 
                 return null;
             }
@@ -151,9 +148,9 @@ UNKNOWN >>             CompilerResults result;
             }
 
             return result.CompiledAssembly;
-        };
+        }
 
-        self.eval = function(script, globals) {
+        public eval(script: Assembly, globals: cReportCompilerGlobals) {
             // Now that we have a compiled script, lets run them
             for(var i_ = 0; i_ < script.GetExportedTypes().length; i_++) {
                 for(var j_ = 0; j_ < type.GetInterfaces().length; j_++) {
@@ -163,12 +160,12 @@ UNKNOWN >>             CompilerResults result;
                         // Get the constructor for the current type
                         // you can also specify what creation parameter types you want to pass to it,
                         // so you could possibly pass in data it might need, or a class that it can use to query the host application
-                        const constructor: ConstructorInfo = type.GetConstructor(System.Type.EmptyTypes);
+                        private constructor: ConstructorInfo = type.GetConstructor(System.Type.EmptyTypes);
                         if (constructor !== null && constructor.IsPublic) {
                             // lets be friendly and only do things legitimitely by only using valid constructors
 
                             // we specified that we wanted a constructor that doesn't take parameters, so don't pass parameters
-                            const scriptObject: cIReportScriptType = constructor.Invoke(null) as cIReportScriptType;
+                            private scriptObject: cIReportScriptType = constructor.Invoke(null) as cIReportScriptType;
                             if (scriptObject !== null) {
                                 //Lets run our script and display its results
                                 return scriptObject.RunScript(globals);
@@ -188,17 +185,8 @@ UNKNOWN >>             CompilerResults result;
                 }
             }
             return null;
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportDll {
-
-  export interface I"\r\n\r\nSource {
-
-    eval: (Assembly, cReportCompilerGlobals) => object;
-  }
 }

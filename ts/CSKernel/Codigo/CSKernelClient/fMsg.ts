@@ -1,18 +1,18 @@
-(function(globalObject) {
 
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
-    globalObject.CSKernelClient.createFMsg = function() {
+namespace CSKernelClient
+{
+    export class fMsg {
 
-        // @ts-ignore
-        let self: CSKernelClient.IfMsg = {};
-        const fMsg = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
-        self.setTitle = function(value) {
+        }
+        public setTitle(value: string) {
             this.Text = value;
-        };
-        self.setIcon = function(icon) {
+        }
+        public setIcon(icon: CSMSGICONS) {
             switch (icon) {
                 case CSMSGICONS.Error:
                     setErrorIcon();
@@ -24,28 +24,28 @@
                     setErrorInfo();
                     break;
             }
-        };
-        self.setMessage = function(value) {
+        }
+        public setMessage(value: string) {
             this.txMsg.Text = value;
-        };
-        self.setErrorIcon = function() {
+        }
+        public setErrorIcon() {
             let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.error.png"));
-        };
-        self.setErrorInfo = function() {
+            picIcon.Image = new Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.error.png"));
+        }
+        public setErrorInfo() {
             let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.information.png"));
-        };
-        self.setErrorWarning = function() {
+            picIcon.Image = new Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.information.png"));
+        }
+        public setErrorWarning() {
             let assembly: System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            picIcon.Image = UNKNOWN >>  can't find constructor for class Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.warning.png"));
-        };
+            picIcon.Image = new Bitmap(assembly.GetManifestResourceStream(assembly.GetName().Name + ".Resources.warning.png"));
+        }
 
-        const cmdOk_Click = function(sender, e) {
+        private cmdOk_Click(sender: object, e: EventArgs) {
             this.Close();
-        };
+        }
 
-        const fMsg_Load = function(sender, e) {
+        private fMsg_Load(sender: object, e: EventArgs) {
             txMsg.SelectionStart = 0;
             txMsg.SelectionLength = 0;
 
@@ -57,22 +57,8 @@
             }            
 
             cWindow.centerForm(this);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelClient {
-
-  export interface IfMsg {
-
-    setTitle: (String) => void;
-    setIcon: (CSMSGICONS) => void;
-    setMessage: (String) => void;
-    setErrorIcon: () => void;
-    setErrorInfo: () => void;
-    setErrorWarning: () => void;
-  }
 }

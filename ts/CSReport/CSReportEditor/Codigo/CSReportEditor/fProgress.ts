@@ -1,14 +1,14 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFProgress = function() {
+namespace CSReportEditor
+{
+    export class fProgress {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfProgress = {};
-        const fProgress = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
 UNKNOWN >>         public Label lbTask
         {
@@ -50,18 +50,10 @@ UNKNOWN >>             get
             }
         }
 
-        const fProgress_Load = function(sender, e) {
+        private fProgress_Load(sender: object, e: EventArgs) {
             cWindow.locateFormAtTop(this);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfProgress {
-
-  }
 }

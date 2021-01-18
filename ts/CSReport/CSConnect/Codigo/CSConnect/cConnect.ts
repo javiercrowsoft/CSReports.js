@@ -1,34 +1,34 @@
-(function(globalObject) {
 
-    globalObject.CSConnect = globalObject.CSConnect || {};
 
-    globalObject.CSConnect.createCConnect = function() {
+namespace CSConnect
+{
+    export class cConnect {
 
-        // @ts-ignore
-        let self: CSConnect.IcConnect = {};
-        let m_parameters: cParameters = new cParameters();
-        let m_columnsInfo: cColumnsInfo = new cColumnsInfo();
 
-        let m_strConnect: string = "";
-        let m_dataSource: string = "";
-        let m_dataSourceType: csDataSourceType = null;
+    {
+        private parameters: cParameters = new cParameters();
+        private columnsInfo: cColumnsInfo = new cColumnsInfo();
 
-		self.getParameters = function() {
-            return m_parameters;
-		};
+        private strConnect: string = "";
+        private dataSource: string = "";
+        private dataSourceType: csDataSourceType = null;
 
-        self.getColumnsInfo = function() {
-            return m_columnsInfo;
-        };
+		public getParameters() {
+            return this.parameters;
+		}
 
-        self.fillParameters = function(dataSource) {
+        public getColumnsInfo() {
+            return this.columnsInfo;
+        }
+
+        public fillParameters(dataSource: string) {
             let db: cDataBase = new cDataBase(csDatabaseEngine.SQL_SERVER);
-            if (db.initDb(m_strConnect)) {
+            if (db.initDb(this.strConnect)) {
                 let restrictions: string[] = new string[4];
                 restrictions[2] = dataSource;
                 let dt: DataTable = db.openSchema("ProcedureParameters", restrictions);
 
-                if (m_parameters === null) m_parameters = new cParameters(); {
+                if (this.parameters === null) this.parameters = new cParameters(); {
 
                 let parameters: cParameters = new cParameters();
 
@@ -36,8 +36,8 @@
                     if (row["parameter_mode"].ToString() !== "OUT")  {
                         let p: cParameter = null;
                         let found: boolean = false;
-                        for (var i = 0; i < m_parameters.count(); i++) {
-                            p = m_parameters.item(i);
+                        for (var i = 0; i < this.parameters.count(); i++) {
+                            p = this.parameters.item(i);
                             if (p.getName() === row["parameter_name"].ToString()) {
                                 found = true;
                                 break;
@@ -54,7 +54,7 @@
                 // openSchema can be sorted by any column (usually by name)
                 // we need this collection to be sorted by position
                 //
-                m_parameters = globalObject.CSConnect.createCParameters();
+                this.parameters = new cParameters();
 
                 for (var j = 1; j < parameters.count() + 1; j++) {
                     let p: cParameter = null;
@@ -70,7 +70,7 @@
                         throw new Exception("Parameter not found for position: " + j);
                     }
                     else {
-                        m_parameters.add(p, p.getKey());
+                        this.parameters.add(p, p.getKey());
                     }
                 }
 
@@ -78,36 +78,36 @@
             }
 
             return false;
-        };
+        }
 
-		self.getDataSourceColumnsInfo = function(str, csDataSourceType) {
+		public getDataSourceColumnsInfo(str: string, csDataSourceType: csDataSourceType) {
 UNKNOWN >>             string sqlstmt;
 
-            if(m_dataSourceType === csDataSourceType.CDDTPROCEDURE) {
-                if(! fillParameters(m_dataSource)) {
+            if(this.dataSourceType === csDataSourceType.CDDTPROCEDURE) {
+                if(! fillParameters(this.dataSource)) {
                     return false;
                 }
 
                 let f: fParameters = new fParameters();
-                f.setParameters(m_parameters);
+                f.setParameters(this.parameters);
                 f.ShowDialog();
                 if (f.getOk()) {
-                    sqlstmt = "[" + m_dataSource + "] " + f.getSqlParameters();
+                    sqlstmt = "[" + this.dataSource + "] " + f.getSqlParameters();
                 }
                 else {
                     return false;
                 }
             }
             else {
-                sqlstmt = "select * from [" + m_dataSource + "]";
+                sqlstmt = "select * from [" + this.dataSource + "]";
             }
 
             return fillColumns(sqlstmt);
-		};
+		}
 
-        const fillColumns = function(sqlstmt) {
+        private fillColumns(sqlstmt: string) {
             let db: var = new cDataBase(csDatabaseEngine.SQL_SERVER);
-            if (db.initDb(m_strConnect)) {
+            if (db.initDb(this.strConnect)) {
 UNKNOWN >>                 DbDataReader rs;
                 if (db.openRs(sqlstmt, rs, "fillColumns", "cConnect", "Update columns's definition", CSKernelClient.eErrorLevel.eErrorInformation)) {
                     for(var i = 0; i < rs.FieldCount; i++) {
@@ -115,7 +115,7 @@ UNKNOWN >>                 DbDataReader rs;
                         column.setName(rs.GetName(i));
                         column.setPosition(i);
                         column.setColumnType(System.Type.GetTypeCode((rs.GetFieldType(i))));
-                        m_columnsInfo.add(column, "");
+                        this.columnsInfo.add(column, "");
                     }
                 }
                 else {
@@ -123,50 +123,32 @@ UNKNOWN >>                 DbDataReader rs;
                 }
             }
             return true;
-        };
+        }
 
-		self.setStrConnect = function(strConnect) {
-			m_strConnect = strConnect;
-		};
+		public setStrConnect(strConnect: string) {
+			this.strConnect = strConnect;
+		}
 
-		self.setDataSource = function(dataSource) {
-			m_dataSource = dataSource;
-		};
+		public setDataSource(dataSource: string) {
+			this.dataSource = dataSource;
+		}
 
-		self.setDataSourceType = function(dataSourceType) {
-            m_dataSourceType = dataSourceType;
-		};
+		public setDataSourceType(dataSourceType: csDataSourceType) {
+            this.dataSourceType = dataSourceType;
+		}
 
-		self.showOpenConnection = function() {
+		public showOpenConnection() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.getDataSource = function() {
-            return m_dataSource;
-		};
+		public getDataSource() {
+            return this.dataSource;
+		}
 
-		self.getDataSourceType = function() {
-            return m_dataSourceType;
-		};
-        return self;
+		public getDataSourceType() {
+            return this.dataSourceType;
+		}
+
 
     }    }
-}(globalObject));
-
-
-namespace CSConnect {
-
-  export interface IcConnect {
-
-    getParameters: () => cParameters;
-    getColumnsInfo: () => cColumnsInfo;
-    fillParameters: (string) => bool;
-    getDataSourceColumnsInfo: (string, csDataSourceType) => bool;
-    setStrConnect: (string) => void;
-    setDataSource: (string) => void;
-    setDataSourceType: (csDataSourceType) => void;
-    showOpenConnection: () => bool;
-    getDataSource: () => string;
-    getDataSourceType: () => csDataSourceType;
-  }
 }

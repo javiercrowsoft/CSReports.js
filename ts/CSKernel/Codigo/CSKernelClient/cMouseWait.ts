@@ -1,35 +1,26 @@
-(function(globalObject) {
-
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
 
+namespace CSKernelClient
+{
 
-    globalObject.CSKernelClient.createCMouseWait = function() {
 
-        // @ts-ignore
-        let self: CSKernelClient.IcMouseWait = {};
-        let m_lastCursor: Cursor = null;
+    export class cMouseWait {
 
-        self.Dispose = function() {
-            if (m_lastCursor !== null) {
-                Cursor.Current = m_lastCursor;
+
+    {
+        private lastCursor: Cursor = null;
+
+        public Dispose() {
+            if (this.lastCursor !== null) {
+                Cursor.Current = this.lastCursor;
             }
-        };
+        }
 
-        const cMouseWait = function() {
-            m_lastCursor = Cursor.Current;
+        public constructor() {
+            this.lastCursor = Cursor.Current;
             Cursor.Current = Cursors.WaitCursor;
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelClient {
-
-  export interface IcMouseWait {
-
-    Dispose: () => void;
-  }
 }

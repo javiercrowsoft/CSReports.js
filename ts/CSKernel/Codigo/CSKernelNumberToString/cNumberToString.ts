@@ -1,15 +1,15 @@
-(function(globalObject) {
 
-    globalObject.CSKernelNumberToString = globalObject.CSKernelNumberToString || {};
 
-    globalObject.CSKernelNumberToString.createCNumberToString = function() {
+namespace CSKernelNumberToString
+{
+    export class cNumberToString {
 
-        // @ts-ignore
-        let self: CSKernelNumberToString.IcNumberToString = {};
 
-        const C_MODULE: string = "cNumberToString";
+    {
 
-        self.secondsToString = function(count) {
+        private C_MODULE: string = "cNumberToString";
+
+        public secondsToString(count: number) {
             let hours: number = 0;
             let minutes: number = 0;
             let second: number = 0;
@@ -21,9 +21,9 @@
             return hours.ToString("{0:00}")
                 + ":" + minutes.ToString("{0:00}")
                 + ":" + second.ToString("{0:00}");
-        };
+        }
 
-        self.spanishNumberToString = function(iNumber) {
+        public spanishNumberToString(iNumber: number) {
             let iMillion: number = 0;
             let iThousand: number = 0;
             let rtn: string = "";
@@ -51,9 +51,9 @@
             rtn = rtn + pSpanishGetDecimal(iNumber);
 
             return rtn.Substring(0, 1).ToUpper() + rtn.Substring(1).ToLower();
-        };
+        }
 
-        self.frenchNumberToString = function(iNumber) {
+        public frenchNumberToString(iNumber: number) {
             let iMillion: number = 0;
             let iThousand: number = 0;
             let rtn: string = "";
@@ -86,9 +86,9 @@
             rtn = rtn + pFrenchGetDecimal(iNumber);
 
             return rtn.Substring(0, 1).ToUpper() + rtn.Substring(2).ToLower();
-        };
+        }
 
-        self.englishNumberToString = function(iNumber) {
+        public englishNumberToString(iNumber: number) {
             let iMillion: number = 0;
             let iThousand: number = 0;
             let rtn: string = "";
@@ -111,12 +111,12 @@
             rtn = rtn + pEnglishGetDecimal(iNumber);
 
             return rtn.Substring(0, 1).ToUpper() + rtn.Substring(2).ToLower();
-        };
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////
         // Spanish
 
-        const pSpanishGetNumber = function(iNumber, bPutOne) {
+        private pSpanishGetNumber(iNumber: number, bPutOne: boolean) {
             let rtn: string = "";
             let iTens: number = 0;
             let iUnit: number = 0;
@@ -169,9 +169,9 @@
             }
 
             return rtn;
-        };
+        }
 
-        const pSpanishGetNameNumber = function(iNumber, bPutOne) {
+        private pSpanishGetNameNumber(iNumber: number, bPutOne: boolean) {
             switch (iNumber)
             {
                 case 1:
@@ -197,9 +197,9 @@
                 case 15: return "Quince";
                 default: return "";
             }
-        };
+        }
 
-        const pSpanishGetNameHundred = function(iNumber) {
+        private pSpanishGetNameHundred(iNumber: number) {
             let number: number = iNumber;
 
             if (number >= 900) return "Novecientos"; {
@@ -212,9 +212,9 @@
             else if (number >= 200) return "Doscientos"; {
             else if (number >= 100) return "Ciento"; {
             else return ""; {
-        };
+        }
 
-        const pSpanishGetNameTens = function(iNumber) {
+        private pSpanishGetNameTens(iNumber: number) {
             let number: number = iNumber;
 
             if (number >= 90) return "Noventa"; {
@@ -225,16 +225,16 @@
             else if (number >= 40) return "Cuarenta"; {
             else if (number >= 30) return "Treinta"; {
             else return ""; {
-        };
+        }
 
-        const pSpanishGetDecimal = function(iNumber) {
+        private pSpanishGetDecimal(iNumber: number) {
             return pGetDecimalAux(iNumber, "con");
-        };
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////
         // French
 
-        const pFrenchGetNumber = function(iNumber, bPutOne) {
+        private pFrenchGetNumber(iNumber: number, bPutOne: boolean) {
             let rtn: string = "";
             let iTens: number = 0;
             let iUnit: number = 0;
@@ -300,9 +300,9 @@
             }
 
             return rtn;
-        };
+        }
 
-        const pFrenchGetNameNumber = function(iNumber, bPutOne) {
+        private pFrenchGetNameNumber(iNumber: number, bPutOne: boolean) {
             switch (iNumber)
             {
                 case 1:
@@ -332,9 +332,9 @@
                 case 19: return "Dix " + pFrenchGetNameNumber(Math.Truncate(iNumber - 10), bPutOne);
                 default: return "";
             }
-        };
+        }
 
-        const pFrenchGetNameHundred = function(iNumber) {
+        private pFrenchGetNameHundred(iNumber: number) {
             let rtn: string = "";
             let number: number = iNumber;
 
@@ -356,9 +356,9 @@
             }
 
             return rtn;
-        };
+        }
 
-        const pFrenchGetNameTens = function(iNumber) {
+        private pFrenchGetNameTens(iNumber: number) {
             let number: number = iNumber;
 
             if (number >= 90) return "Quatre Vingt "; {
@@ -369,16 +369,16 @@
             else if (number >= 40) return "Quarante"; {
             else if (number >= 30) return "Treinte"; {
             else return ""; {
-        };
+        }
 
-        const pFrenchGetDecimal = function(iNumber) {
+        private pFrenchGetDecimal(iNumber: number) {
             return pGetDecimalAux(iNumber, "Avec");
-        };
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////
         // English
 
-        const pEnglishGetNumber = function(iNumber, bPutOne) {
+        private pEnglishGetNumber(iNumber: number, bPutOne: boolean) {
             let rtn: string = "";
             let iTens: number = 0;
             let iUnit: number = 0;
@@ -424,9 +424,9 @@
             }
 
             return rtn;
-        };
+        }
 
-        const pEnglishGetNameNumber = function(iNumber) {
+        private pEnglishGetNameNumber(iNumber: number) {
             switch (iNumber)
             {
                 case 1: return "One";
@@ -446,13 +446,13 @@
                 case 15: return "Fifteen";
                 default: return "";
             }
-        };
+        }
 
-        const pEnglishGetNameHundred = function(iNumber) {
+        private pEnglishGetNameHundred(iNumber: number) {
             return pEnglishGetNameNumber() + " Hundred";
-        };
+        }
 
-        const pEnglishGetNameTens = function(iNumber) {
+        private pEnglishGetNameTens(iNumber: number) {
             let number: number = iNumber;
 
             if (number >= 90) return "Ninety"; {
@@ -464,15 +464,15 @@
             else if (number >= 30) return "Thirty"; {
             else if (number >= 20) return "Twenty"; {
             else return ""; {
-        };
+        }
 
-        const pEnglishGetDecimal = function(iNumber) {
+        private pEnglishGetDecimal(iNumber: number) {
             return pGetDecimalAux(iNumber, "with");
-        };
+        }
 
         // generics
         //
-        const pGetDecimalAux = function(iNumber, word) {
+        private pGetDecimalAux(iNumber: number, word: string) {
             let iDecimal: number = 0;
 
             iNumber = Math.Round(iNumber, 2);
@@ -481,36 +481,24 @@
                 return " " + word + " " + iDecimal.ToString() + "/100";
             else {
                 return "";
-        };
+        }
 
-        const pGetUnit = function(iTens) {
+        private pGetUnit(iTens: number) {
             return iTens - (Math.Truncate(iTens / 10) * 10);
-        };
+        }
 
-        const pGetHundred = function(iHundred) {
+        private pGetHundred(iHundred: number) {
             return iHundred - (Math.Truncate(iHundred / 100) * 100);
-        };
+        }
 
-        const pGetValue = function(iNumber, iDividing) {
+        private pGetValue(iNumber: number, iDividing: number) {
             return Math.Truncate(Math.Truncate(iNumber) / iDividing);
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSKernelNumberToString {
-
-  export interface IcNumberToString {
-
-    secondsToString: (int) => String;
-    spanishNumberToString: (double) => String;
-    frenchNumberToString: (double) => String;
-    englishNumberToString: (double) => String;
-  }
 }

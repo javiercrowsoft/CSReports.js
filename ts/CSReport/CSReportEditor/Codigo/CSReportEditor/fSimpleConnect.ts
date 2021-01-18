@@ -1,50 +1,50 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFSimpleConnect = function() {
+namespace CSReportEditor
+{
+    export class fSimpleConnect {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfSimpleConnect = {};
-        let m_ok: boolean = false;
 
-        const fSimpleConnect = function() {
+    {
+        private ok: boolean = false;
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-		self.setServer = function(value) {
+		public setServer(value: string) {
             tx_server.Text = value;
-		};
+		}
 
-		self.setDataBase = function(value) {
+		public setDataBase(value: string) {
             tx_database.Text = value;
-		};
+		}
 
-		self.setUser = function(value) {
+		public setUser(value: string) {
             tx_user.Text = value;
-		};
+		}
 
-		self.setPassword = function(value) {
+		public setPassword(value: string) {
             tx_password.Text = value;
-		};
+		}
 
-		self.getUser = function() {
+		public getUser() {
             return tx_user.Text;
-		};
+		}
 
-		self.setConnectTypeToNT = function() {
+		public setConnectTypeToNT() {
             op_trustedConnection.Checked = true;
-		};
+		}
 
-		self.setConnectTypeToSQL = function() {
+		public setConnectTypeToSQL() {
             op_sqlConnection.Checked = true;
-		};
+		}
 
-		self.getOk = function() {
-            return m_ok;
-		};
+		public getOk() {
+            return this.ok;
+		}
 
-		self.getStrConnect = function() {
+		public getStrConnect() {
 UNKNOWN >>             string strConnect;
 			if(op_trustedConnection.Checked) {
                 strConnect = "Provider=SQLOLEDB.1;";
@@ -62,57 +62,40 @@ UNKNOWN >>             string strConnect;
                 strConnect += "Initial Catalog=" + tx_database.Text + ";";
             }
             return strConnect;
-		};
+		}
 
-        const cmd_apply_Click = function(sender, e) {
+        private cmd_apply_Click(sender: object, e: EventArgs) {
             if (op_sqlConnection.Checked && tx_user.Text === "") {
                 cWindow.msgWarning("You must indicate a user");
             }
             else {
-                m_ok = true;
+                this.ok = true;
                 this.Close();
             }
-        };
+        }
 
-        const cmd_cancel_Click = function(sender, e) {
-            m_ok = false;
+        private cmd_cancel_Click(sender: object, e: EventArgs) {
+            this.ok = false;
             this.Close();
-        };
+        }
 
-        const op_sqlConnection_CheckedChanged = function(sender, e) {
+        private op_sqlConnection_CheckedChanged(sender: object, e: EventArgs) {
             setEnabledUserAndPassword();
-        };
+        }
 
-        const op_trustedConnection_CheckedChanged = function(sender, e) {
+        private op_trustedConnection_CheckedChanged(sender: object, e: EventArgs) {
             setEnabledUserAndPassword();
-        };
+        }
 
-        const setEnabledUserAndPassword = function() {
+        private setEnabledUserAndPassword() {
             tx_user.Enabled = op_sqlConnection.Checked;
             tx_password.Enabled = op_sqlConnection.Checked;
-        };
+        }
 
-        const fSimpleConnect_Load = function(sender, e) {
+        private fSimpleConnect_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfSimpleConnect {
-
-    setServer: (string) => void;
-    setDataBase: (string) => void;
-    setUser: (string) => void;
-    setPassword: (string) => void;
-    getUser: () => string;
-    setConnectTypeToNT: () => void;
-    setConnectTypeToSQL: () => void;
-    getOk: () => bool;
-    getStrConnect: () => string;
-  }
 }

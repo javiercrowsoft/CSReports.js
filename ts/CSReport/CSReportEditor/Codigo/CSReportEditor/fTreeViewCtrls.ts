@@ -1,51 +1,51 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFTreeViewCtrls = function() {
+namespace CSReportEditor
+{
+    export class fTreeViewCtrls {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfTreeViewCtrls = {};
-        let m_editor: cEditor = null;
 
-        const C_IMG_FOLDER: number = 0;
-        const C_IMG_FORMULA: number = 3;
-        const C_IMG_CONTROL: number = 2;
-        const C_IMG_DATBASE_FIELD: number = 1;
+    {
+        private editor: cEditor = null;
 
-        let m_formulaName: string = "";
+        private C_IMG_FOLDER: number = 0;
+        private C_IMG_FORMULA: number = 3;
+        private C_IMG_CONTROL: number = 2;
+        private C_IMG_DATBASE_FIELD: number = 1;
 
-        const fTreeViewCtrls = function() {
+        private formulaName: string = "";
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.getFormulaName = function() {
-            return m_formulaName;
-        };
+        public getFormulaName() {
+            return this.formulaName;
+        }
 
-        self.clear = function() {
+        public clear() {
             tv_controls.Nodes.Clear();
-        };
+        }
 
-        self.addCtrls = function() {
-            let report: var = m_editor.getReport();
+        public addCtrls() {
+            let report: var = this.editor.getReport();
             cGlobals.addCtrls(report, tv_controls, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
             lbTitle.Text = "Report definition: " + report.getName();
-        };
+        }
 
-        self.setHandler = function(editor) {
-            m_editor = editor;
-        };
+        public setHandler(editor: cEditor) {
+            this.editor = editor;
+        }
 
-        const fTreeViewCtrls_Load = function(sender, e) {
+        private fTreeViewCtrls_Load(sender: object, e: EventArgs) {
             cWindow.locateFormAtLeft(this);
-        };
+        }
 
-        const tv_formulas_NodeMouseClick = function(sender, e) {
+        private tv_formulas_NodeMouseClick(sender: object, e: TreeNodeMouseClickEventArgs) {
             selectAndShowInfo(e.Node); 
-        };
+        }
 
-        const selectAndShowInfo = function(node) {
+        private selectAndShowInfo(node: TreeNode) {
             if (node !== null && node.Tag !== null) {
                 let info: var = node.Tag.ToString();
                 if (info.Length > 0) {
@@ -54,53 +54,53 @@
                         tx_descrip.Text = info.Substring(4);
                     }
                     else if (infoType === "S" || infoType === "L") {
-                        m_editor.selectSection(info.Substring(1));
+                        this.editor.selectSection(info.Substring(1));
                     }
                     else {
                         tx_descrip.Text = getObjectDescription(getControl(info));
-                        m_editor.selectCtrl(info);
+                        this.editor.selectCtrl(info);
                     }
                 }
             }        
-        };
+        }
 
-        const tv_formulas_NodeMouseDoubleClick = function(sender, e) {
+        private tv_formulas_NodeMouseDoubleClick(sender: object, e: TreeNodeMouseClickEventArgs) {
             if (e.Node.Tag !== null) {
                 let info: var = e.Node.Tag.ToString();
                 if (info.Length > 0) {
                     let infoType: var = info.Substring(0, 4);
                     if (infoType === "@FH=") {
-                        m_formulaName = "Hide";
+                        this.formulaName = "Hide";
                         let formula: string = info.Substring(4);
-                        if (m_editor.showEditFormula(formula)) {
+                        if (this.editor.showEditFormula(formula)) {
                             e.Node.Tag = "@FH=" + formula;
                         }
                     }
                     else if (infoType === "@FV=") {
-                        m_formulaName = "Value";
+                        this.formulaName = "Value";
                         let formula: string = info.Substring(4);
-                        if (m_editor.showEditFormula(formula)) {
+                        if (this.editor.showEditFormula(formula)) {
                             e.Node.Tag = "@FV=" + formula;
                         }
                     }
                 }
             }
-        };
+        }
 
-        const tv_controls_KeyUp = function(sender, e) {
+        private tv_controls_KeyUp(sender: object, e: KeyEventArgs) {
             selectAndShowInfo(tv_controls.SelectedNode);
-        };
+        }
 
         // Get property array
-        const getControl = function(key) {
-            return m_editor.getReport().getControls().item(key);
-        };
+        private getControl(key: string) {
+            return this.editor.getReport().getControls().item(key);
+        }
 
-        const getObjectDescription = function(anObject) {
+        private getObjectDescription(anObject: object) {
             return getObjectDescription(anObject, 0);
-        };
+        }
 
-        const getObjectDescription = function(anObject, n) {
+        private getObjectDescription(anObject: object, n: number) {
             let descrip: var = "";
             let tabs: var = new String('\t', n);
             let methods: var = getMethods(anObject);
@@ -117,9 +117,9 @@
             }
 
             return descrip;
-        };
+        }
 
-        const getValue = function(value, n) {
+        private getValue(value: object, n: number) {
             if (n > 10) return ""; {
 
             if (value === null) {
@@ -134,13 +134,13 @@
                     return "\r\n" + getObjectDescription(value, n + 1);
                 }
             }
-        };
+        }
 
-        const getMethods = function(obj) {
+        private getMethods(obj: object) {
             return obj.GetType().GetMethods();
-        };
+        }
 
-        const cmd_edit_Click = function(sender, e) {
+        private cmd_edit_Click(sender: object, e: EventArgs) {
             if (tv_controls.SelectedNode !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
                     let info: var = tv_controls.SelectedNode.Tag.ToString();
@@ -150,29 +150,17 @@
                             tx_descrip.Text = info.Substring(4);
                         }
                         else {
-                            m_editor.showProperties(info);
+                            this.editor.showProperties(info);
                         }
                     }
                 }
             }            
-        };
+        }
 
-        const cmd_close_Click = function(sender, e) {
+        private cmd_close_Click(sender: object, e: EventArgs) {
             this.Close();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfTreeViewCtrls {
-
-    getFormulaName: () => string;
-    clear: () => void;
-    addCtrls: () => void;
-    setHandler: (cEditor) => void;
-  }
 }

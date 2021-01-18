@@ -1,15 +1,15 @@
-(function(globalObject) {
-
-
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
 
 
-    globalObject.CSKernelClient.createCDateUtils = function() {
+namespace CSKernelClient
+{
 
-        // @ts-ignore
-        let self: CSKernelClient.IcDateUtils = {};
-        self.isDate = function(dateValue) {
+
+    export class cDateUtils {
+
+
+    {
+        public isDate(dateValue: object) {
             let t: Type = dateValue.GetType();
             if (typeof(DateTime) === t) {
                 return true;
@@ -28,17 +28,8 @@
                     return false;
                 }
             }
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelClient {
-
-  export interface IcDateUtils {
-
-    isDate: (object) => bool;
-  }
 }

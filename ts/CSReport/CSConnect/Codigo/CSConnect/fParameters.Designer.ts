@@ -1,25 +1,25 @@
-(function(globalObject) {
-    globalObject.CSConnect = globalObject.CSConnect || {};
 
-    globalObject.CSConnect.createFParameters = function() {
+﻿namespace CSConnect
+{
+    export class fParameters {
 
-        // @ts-ignore
-        let self: CSConnect.IfParameters = {};
+
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer = null;
+        private components: System.ComponentModel.IContainer = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self.Dispose = function(disposing) {
+        public Dispose(disposing: boolean) {
             if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
-        };
+        }
 
 UNKNOWN >>         #region Windows Form Designer generated code
 
@@ -27,15 +27,15 @@ UNKNOWN >>         #region Windows Form Designer generated code
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        const InitializeComponent = function() {
-            this.tableLayoutPanel1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Panel();
-            this.Label1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Label();
-            this.pictureBox1 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.PictureBox();
-            this.panel2 = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Panel();
-            this.cmd_cancel = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Button();
-            this.cmd_apply = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Button();
-            this.pnlParameters = UNKNOWN >>  can't find constructor for class System.Windows.Forms.Panel();
+        private InitializeComponent() {
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.Label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cmd_cancel = new System.Windows.Forms.Button();
+            this.cmd_apply = new System.Windows.Forms.Button();
+            this.pnlParameters = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ().BeginInit();
@@ -51,14 +51,14 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.pnlParameters, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 73F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(367, 456);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(367, 456);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // panel1
@@ -67,18 +67,18 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.panel1.Controls.Add(this.Label1);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(361, 67);
+            this.panel1.Size = new System.Drawing.Size(361, 67);
             this.panel1.TabIndex = 2;
             // 
             // Label1
             // 
             this.Label1.AutoSize = true;
-            this.Label1.Font = UNKNOWN >>  can't find constructor for class System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ());
-            this.Label1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(74, 19);
+            this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ());
+            this.Label1.Location = new System.Drawing.Point(74, 19);
             this.Label1.Name = "Label1";
-            this.Label1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(125, 26);
+            this.Label1.Size = new System.Drawing.Size(125, 26);
             this.Label1.TabIndex = 2;
             this.Label1.Text = "Parameters";
             // 
@@ -86,9 +86,9 @@ UNKNOWN >>         #region Windows Form Designer generated code
             // 
             this.pictureBox1.Image = global::CSConnect.Properties.Resources.config_page;
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(22, 19);
+            this.pictureBox1.Location = new System.Drawing.Point(22, 19);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(35, 31);
+            this.pictureBox1.Size = new System.Drawing.Size(35, 31);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -97,54 +97,54 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.panel2.Controls.Add(this.cmd_cancel);
             this.panel2.Controls.Add(this.cmd_apply);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(3, 410);
+            this.panel2.Location = new System.Drawing.Point(3, 410);
             this.panel2.Name = "panel2";
-            this.panel2.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(361, 43);
+            this.panel2.Size = new System.Drawing.Size(361, 43);
             this.panel2.TabIndex = 4;
             // 
             // cmd_cancel
             // 
             this.cmd_cancel.Anchor = (());
-            this.cmd_cancel.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(277, 11);
+            this.cmd_cancel.Location = new System.Drawing.Point(277, 11);
             this.cmd_cancel.Name = "cmd_cancel";
-            this.cmd_cancel.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(75, 23);
+            this.cmd_cancel.Size = new System.Drawing.Size(75, 23);
             this.cmd_cancel.TabIndex = 1;
             this.cmd_cancel.Text = "Cancel";
             this.cmd_cancel.UseVisualStyleBackColor = true;
-            this.cmd_cancel.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.cmd_cancel_Click);
+            this.cmd_cancel.Click += new System.EventHandler(this.cmd_cancel_Click);
             // 
             // cmd_apply
             // 
             this.cmd_apply.Anchor = (());
-            this.cmd_apply.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(196, 11);
+            this.cmd_apply.Location = new System.Drawing.Point(196, 11);
             this.cmd_apply.Name = "cmd_apply";
-            this.cmd_apply.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(75, 23);
+            this.cmd_apply.Size = new System.Drawing.Size(75, 23);
             this.cmd_apply.TabIndex = 0;
             this.cmd_apply.Text = "Apply";
             this.cmd_apply.UseVisualStyleBackColor = true;
-            this.cmd_apply.Click += UNKNOWN >>  can't find constructor for class System.EventHandler(this.cmd_apply_Click);
+            this.cmd_apply.Click += new System.EventHandler(this.cmd_apply_Click);
             // 
             // pnlParameters
             // 
             this.pnlParameters.AutoScroll = true;
             this.pnlParameters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlParameters.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(3, 76);
+            this.pnlParameters.Location = new System.Drawing.Point(3, 76);
             this.pnlParameters.Name = "pnlParameters";
-            this.pnlParameters.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(361, 328);
+            this.pnlParameters.Size = new System.Drawing.Size(361, 328);
             this.pnlParameters.TabIndex = 5;
             // 
             // fParameters
             // 
-            this.AutoScaleDimensions = UNKNOWN >>  can't find constructor for class System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = UNKNOWN >>  can't find constructor for class System.Drawing.Size(367, 456);
+            this.ClientSize = new System.Drawing.Size(367, 456);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "fParameters";
             this.Text = "fParameters";
-            this.Load += UNKNOWN >>  can't find constructor for class System.EventHandler(this.fParameters_Load);
+            this.Load += new System.EventHandler(this.fParameters_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -153,28 +153,19 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        };
+        }
 
 UNKNOWN >>         #endregion
 
-        let tableLayoutPanel1: System.Windows.Forms.TableLayoutPanel = null;
-        let panel1: System.Windows.Forms.Panel = null;
-        let Label1: System.Windows.Forms.Label = null;
-        let pictureBox1: System.Windows.Forms.PictureBox = null;
-        let panel2: System.Windows.Forms.Panel = null;
-        let cmd_cancel: System.Windows.Forms.Button = null;
-        let cmd_apply: System.Windows.Forms.Button = null;
-        let pnlParameters: System.Windows.Forms.Panel = null;
-        return self;
+        private tableLayoutPanel1: System.Windows.Forms.TableLayoutPanel = null;
+        private panel1: System.Windows.Forms.Panel = null;
+        private Label1: System.Windows.Forms.Label = null;
+        private pictureBox1: System.Windows.Forms.PictureBox = null;
+        private panel2: System.Windows.Forms.Panel = null;
+        private cmd_cancel: System.Windows.Forms.Button = null;
+        private cmd_apply: System.Windows.Forms.Button = null;
+        private pnlParameters: System.Windows.Forms.Panel = null;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSConnect {
-
-  export interface IfParameters {
-
-    Dispose: (bool) => void;
-  }
 }

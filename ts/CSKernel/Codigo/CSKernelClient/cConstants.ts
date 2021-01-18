@@ -1,21 +1,21 @@
-(function(globalObject) {
-
-
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
 
 
-    globalObject.CSKernelClient.createCConstants = function() {
+namespace CSKernelClient
+{
 
-        // @ts-ignore
-        let self: CSKernelClient.IcConstants = {};
-        return self;
+
+    export class cConstants {
+
+
+    {
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eTypesUNKNOWN >>     public enum eTypes
     {
@@ -31,13 +31,13 @@
         eLong = -500,
         eDate = -600,
         eDateOrNull = -700
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eFileModeUNKNOWN >>     public enum eFileMode
     {
@@ -46,13 +46,13 @@
         eAppend,
         eBinaryRead,
 UNKNOWN >>         eBinaryWrite
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eFileAccessUNKNOWN >>     public enum eFileAccess
     {
@@ -60,38 +60,38 @@ UNKNOWN >>         eBinaryWrite
         eLockRead,
         eLockWrite,
 UNKNOWN >>         eLockReadWrite
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eErrorTypeUNKNOWN >>     public enum eErrorType
     {
         eErrorAdo = 1,
         eErrorVba = 2
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eErrorLevelUNKNOWN >>     public enum eErrorLevel
     {
         eErrorWarning = 1,
         eErrorFatal = 2,
         eErrorInformation = 3
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eErroresUNKNOWN >>     public enum eErrores
     {
@@ -111,13 +111,13 @@ UNKNOWN >>         eLockReadWrite
         eErrorUsoSubRemoveEnUsuarioRol = vbObjectError + 13,
         eErrorABMLoadControlSubTypeNotDefined = vbObjectError + 14,
         eErrorInvalidPropertyValue = vbObjectError + 15
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum eFieldTypeUNKNOWN >>     public enum eFieldType
     {
@@ -125,31 +125,23 @@ UNKNOWN >>         eLockReadWrite
         eFieldNumeric = eTypes.eDouble,
         eFieldChar = eTypes.eText,
         eFieldDate = eTypes.eDate
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum CSMSGICONSUNKNOWN >>     public enum CSMSGICONS
     {
         Exclamation,
         Information,
 UNKNOWN >>         Error
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSKernelClient {
-
-  export interface IcConstants {
-
-  }
 }

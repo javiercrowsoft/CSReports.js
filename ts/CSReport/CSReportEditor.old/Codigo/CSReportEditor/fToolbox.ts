@@ -1,48 +1,35 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFToolbox = function() {
+namespace CSReportEditor
+{
+    export class fToolbox {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfToolbox = {};
-        const fToolbox = function() {
+
+    {
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.addLbFormula = function(controlName) {
+        public addLbFormula(controlName: string) {
             throw new NotImplementedException();
-        };
+        }
 
-        self.addFormula = function(name, controlName, formulaName) {
+        public addFormula(name: string, controlName: string, formulaName: string) {
             throw new NotImplementedException();
-        };
+        }
 
-        self.addField = function(name, fieldType, position) {
+        public addField(name: string, fieldType: number, position: number) {
             throw new NotImplementedException();
-        };
+        }
 
-        self.addLabels = function(name) {
+        public addLabels(name: string) {
             throw new NotImplementedException();
-        };
+        }
 
-        self.getLoaded = function() {
+        public getLoaded() {
             throw new NotImplementedException();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfToolbox {
-
-    addLbFormula: (string) => void;
-    addFormula: (string, string, string) => void;
-    addField: (string, int, int) => void;
-    addLabels: (string) => void;
-    getLoaded: () => bool;
-  }
 }

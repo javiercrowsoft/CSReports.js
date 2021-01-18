@@ -1,31 +1,31 @@
-(function(globalObject) {
-
-
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
 
 
-    globalObject.CSKernelClient.createCError = function() {
+namespace CSKernelClient
+{
 
-        // @ts-ignore
-        let self: CSKernelClient.IcError = {};
-        let String: static m_lastErrorDescription = "";
-        let String: static m_lastErrorInfoAdd = "";
-        let String: static m_lastErrorModule = "";
-        let String: static m_lastErrorNumber = "";
-        let String: static m_lastErrorLine = "";
-        let String: static m_lastErrorFunction = "";
-        let Boolean: static m_silent = false;
 
-        self.mngError = function(ex, ) {
+    export class cError {
+
+
+    {
+        private String: static this.lastErrorDescription = "";
+        private String: static this.lastErrorInfoAdd = "";
+        private String: static this.lastErrorModule = "";
+        private String: static this.lastErrorNumber = "";
+        private String: static this.lastErrorLine = "";
+        private String: static this.lastErrorFunction = "";
+        private Boolean: static this.silent = false;
+
+        public mngError(ex: Exception) {
                              string function,
                              string module,
                              string infoAdd)
         {
             mngError(ex, function, module, infoAdd, "", eErrorLevel.eErrorWarning, eErrorType.eErrorVba, null);
-        };
+        }
 
-        self.mngError = function(ex, ) {
+        public mngError(ex: Exception) {
                              string function,
                              string module,
                              string infoAdd,
@@ -39,53 +39,36 @@
             f.setErrorIcon();
             f.setDetails(ex.Message);
             f.ShowDialog();
-        };
+        }
 
-        self.getLastErrorDescription = function() {
-            return m_lastErrorDescription;
-        };
+        public getLastErrorDescription() {
+            return this.lastErrorDescription;
+        }
 
-        self.getLastErrorInfoAdd = function() {
-            return m_lastErrorInfoAdd;
-        };
+        public getLastErrorInfoAdd() {
+            return this.lastErrorInfoAdd;
+        }
 
-        self.getLastErrorModule = function() {
-            return m_lastErrorModule;
-        };
+        public getLastErrorModule() {
+            return this.lastErrorModule;
+        }
 
-        self.getLastErrorNumber = function() {
-            return m_lastErrorNumber;
-        };
+        public getLastErrorNumber() {
+            return this.lastErrorNumber;
+        }
 
-        self.getLastErrorLine = function() {
-            return m_lastErrorLine;
-        };
+        public getLastErrorLine() {
+            return this.lastErrorLine;
+        }
 
-        self.getLastErrorFunction = function() {
-            return m_lastErrorFunction;
-        };
+        public getLastErrorFunction() {
+            return this.lastErrorFunction;
+        }
 
-        self.setSilent = function(rhs) {
-            m_silent = rhs;
-        };
-        return self;
+        public setSilent(rhs: boolean) {
+            this.silent = rhs;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelClient {
-
-  export interface IcError {
-
-    mngError: (Exception, ) => void;
-    mngError: (Exception, ) => void;
-    getLastErrorDescription: () => String;
-    getLastErrorInfoAdd: () => String;
-    getLastErrorModule: () => String;
-    getLastErrorNumber: () => String;
-    getLastErrorLine: () => String;
-    getLastErrorFunction: () => String;
-    setSilent: (bool) => void;
-  }
 }

@@ -1,156 +1,132 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCReportFont = function() {
+namespace CSReportDll
+{
+    export class cReportFont {
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportFont = {};
 
-        let m_foreColor: number = csColors.C_COLOR_BLACK;
-        let m_size: number = 8;
-        let m_name: string = "Tahoma";
-        let m_underline: boolean = null;
-        let m_bold: boolean = null;
-        let m_italic: boolean = null;
-        let m_strike: boolean = null;
+    {
 
-        self.getForeColor = function() {
-            return m_foreColor;
-        };
+        private foreColor: number = csColors.C_COLOR_BLACK;
+        private size: number = 8;
+        private name: string = "Tahoma";
+        private underline: boolean = null;
+        private bold: boolean = null;
+        private italic: boolean = null;
+        private strike: boolean = null;
 
-        self.setForeColor = function(rhs) {
-            m_foreColor = rhs;
-        };
+        public getForeColor() {
+            return this.foreColor;
+        }
 
-        self.getSize = function() {
-            return m_size;
-        };
+        public setForeColor(rhs: number) {
+            this.foreColor = rhs;
+        }
 
-        self.setSize = function(rhs) {
-            m_size = rhs;
-        };
+        public getSize() {
+            return this.size;
+        }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public setSize(rhs: number) {
+            this.size = rhs;
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.getUnderline = function() {
-            return m_underline;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-		self.setUnderline = function(rhs) {
-            m_underline = rhs;
-        };
+        public getUnderline() {
+            return this.underline;
+        }
 
-        self.getBold = function() {
-            return m_bold;
-        };
+		public setUnderline(rhs: boolean) {
+            this.underline = rhs;
+        }
 
-        self.setBold = function(rhs) {
-            m_bold = rhs;
-        };
+        public getBold() {
+            return this.bold;
+        }
 
-        self.getItalic = function() {
-            return m_italic;
-        };
+        public setBold(rhs: boolean) {
+            this.bold = rhs;
+        }
 
-        self.setItalic = function(rhs) {
-            m_italic = rhs;
-        };
+        public getItalic() {
+            return this.italic;
+        }
 
-        self.getStrike = function() {
-            return m_strike;
-        };
+        public setItalic(rhs: boolean) {
+            this.italic = rhs;
+        }
 
-        self.setStrike = function(rhs) {
-            m_strike = rhs;
-        };
+        public getStrike() {
+            return this.strike;
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public setStrike(rhs: boolean) {
+            this.strike = rhs;
+        }
+
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Font");
-            m_bold = xDoc.getNodeProperty(nodeObj, "Bold").getValueBool(eTypes.eBoolean);
-            m_foreColor = xDoc.getNodeProperty(nodeObj, "ForeColor").getValueInt(eTypes.eLong);
-            m_italic = xDoc.getNodeProperty(nodeObj, "Italic").getValueBool(eTypes.eBoolean);
-            m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
-            m_size = xDoc.getNodeProperty(nodeObj, "Size").getValueInt(eTypes.eInteger);
-            m_underline = xDoc.getNodeProperty(nodeObj, "UnderLine").getValueBool(eTypes.eBoolean);
-            m_strike = xDoc.getNodeProperty(nodeObj, "Strike").getValueBool(eTypes.eBoolean);
+            this.bold = xDoc.getNodeProperty(nodeObj, "Bold").getValueBool(eTypes.eBoolean);
+            this.foreColor = xDoc.getNodeProperty(nodeObj, "ForeColor").getValueInt(eTypes.eLong);
+            this.italic = xDoc.getNodeProperty(nodeObj, "Italic").getValueBool(eTypes.eBoolean);
+            this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
+            this.size = xDoc.getNodeProperty(nodeObj, "Size").getValueInt(eTypes.eInteger);
+            this.underline = xDoc.getNodeProperty(nodeObj, "UnderLine").getValueBool(eTypes.eBoolean);
+            this.strike = xDoc.getNodeProperty(nodeObj, "Strike").getValueBool(eTypes.eBoolean);
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Font");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("ForeColor");
-            xProperty.setValue(eTypes.eLong, m_foreColor);
+            xProperty.setValue(eTypes.eLong, this.foreColor);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Bold");
-            xProperty.setValue(eTypes.eBoolean, m_bold);
+            xProperty.setValue(eTypes.eBoolean, this.bold);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Italic");
-            xProperty.setValue(eTypes.eBoolean, m_italic);
+            xProperty.setValue(eTypes.eBoolean, this.italic);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Name");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Size");
-            xProperty.setValue(eTypes.eInteger, m_size);
+            xProperty.setValue(eTypes.eInteger, this.size);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("UnderLine");
-            xProperty.setValue(eTypes.eBoolean, m_underline);
+            xProperty.setValue(eTypes.eBoolean, this.underline);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Strike");
-            xProperty.setValue(eTypes.eBoolean, m_strike);
+            xProperty.setValue(eTypes.eBoolean, this.strike);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             return true;
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportFont {
-
-    getForeColor: () => int;
-    setForeColor: (int) => void;
-    getSize: () => float;
-    setSize: (float) => void;
-    getName: () => String;
-    setName: (String) => void;
-    getUnderline: () => bool;
-    setUnderline: (bool) => void;
-    getBold: () => bool;
-    setBold: (bool) => void;
-    getItalic: () => bool;
-    setItalic: (bool) => void;
-    getStrike: () => bool;
-    setStrike: (bool) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

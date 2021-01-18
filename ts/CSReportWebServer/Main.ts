@@ -1,18 +1,18 @@
-(function(globalObject) {
 
-    globalObject.CSReportWebServer = globalObject.CSReportWebServer || {};
 
-    globalObject.CSReportWebServer.createMain = function() {
+namespace CSReportWebServer
+{
+    export class Main {
 
-        // @ts-ignore
-        let self: CSReportWebServer.IMain = {};
-        let ILog: static log = LogManager.GetLogger(typeof(Program));
-        let Options: static options = new Options();
-        let Properties.Settings: static settings = Properties.Settings.Default;
 
-        let SizeQueue: static m_messageQueue = new SizeQueue(2); // no more than one message for now;
+    {
+        private ILog: static log = LogManager.GetLogger(typeof(Program));
+        private Options: static options = new Options();
+        private Properties.Settings: static settings = Properties.Settings.Default;
 
-        self.Init = function(args, f) {
+        private SizeQueue: static this.messageQueue = new SizeQueue(2); // no more than one message for now;
+
+        public Init(args: string[], f: fMain) {
 
             // it is the first thing we need to do
             //
@@ -46,26 +46,26 @@
 
             log.Info("application stopped");
             return 0;
-        };
+        }
 
-        self.sendMessage = function(message) {
+        public sendMessage(message: JObject) {
             let envelope: JObject = new JObject();
             envelope["message"] = message;
 
-            m_messageQueue.Enqueue(envelope);
-        };
+            this.messageQueue.Enqueue(envelope);
+        }
 
         static int RunNativeMessagingHost(string[] args, fMain f)
         {
 
-            let host: Host = new Host(f, m_messageQueue);
+            let host: Host = new Host(f, this.messageQueue);
             let workerThread: Thread = new Thread(host.Run);
             workerThread.Start();
             return 0;
         }
 
         // defaul for options are created in sealed class Options
-        self.RegisterNativeMessagingHost = function(args) {
+        public RegisterNativeMessagingHost(args: string[]) {
             for(var i_ = 0; i_ < args.length; i_++) {
                 if (arg === "register") continue; {
                 else if (arg.StartsWith("--hive=")) options.hive = arg.Remove(0, "--hive=".Length); {
@@ -123,7 +123,7 @@ UNKNOWN >>                                 new JValue(string.Format("chrome-exte
             }
 
             return 0;
-        };
+        }
 
         static int InvalidCommand(string command)
         {
@@ -164,32 +164,23 @@ UNKNOWN >>                                 new JValue(string.Format("chrome-exte
             return 0;
         }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
-    sealed class Options    self.createOptions = function() {
 
-        // @ts-ignore
-        let self: CSReportWebServer.IOptions = {};
-        self.hive: string = "HKCU";
+
+    sealed class Options    export class Options {
+
+
+    {
+        public hive: string = "HKCU";
 UNKNOWN >>         public string manifest =
 UNKNOWN >>             Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\" +
             Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location) + ".manifest.json";
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportWebServer {
-
-  export interface IOptions {
-
-    hive: string;
-  }
 }

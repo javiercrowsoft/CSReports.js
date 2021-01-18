@@ -1,7 +1,7 @@
-(function(globalObject) {
 
-    globalObject.CSReportWebServer.NativeMessaging = globalObject.CSReportWebServer.NativeMessaging || {};
 
+namespace CSReportWebServer.NativeMessaging
+{
     /// <summary>
     /// Google Chrome Native Messaging Port.
     /// </summary>
@@ -12,27 +12,27 @@
     /// is up to you.
     /// </remarks>
     /// <seealso cref="Newtonsoft.Json"/>
-    globalObject.CSReportWebServer.NativeMessaging.createPort = function() {
+    export class Port {
 
-        // @ts-ignore
-        let self: CSReportWebServer.NativeMessaging.IPort = {};
+
+    {
         /// <summary>
         /// Native messaging input stream.
         /// </summary>
-        let istream: Stream = null;
+        private istream: Stream = null;
 
         /// <summary>
         /// Native messaging output stream.
         /// </summary>
-        let ostream: Stream = null;
+        private ostream: Stream = null;
 
         /// <summary>
         /// Creates a new native messaging port for stdandard input and output streams.
         /// </summary>
-        const Port = function() {
+        public constructor() {
             istream = Console.OpenStandardInput();
             ostream = Console.OpenStandardOutput();
-        };
+        }
 
         /// <summary>
         /// Creates a new native messaging port for given input and output streams.
@@ -41,12 +41,12 @@
         /// <param name="ostream">The output stream.</param>
         /// <exception cref="ArgumentNullException">The istream parameter is null.</exception>
         /// <exception cref="ArgumentNullException">The ostream parameter is null.</exception>
-        const Port = function(istream, ostream) {
+        public constructor(istream: Stream, ostream: Stream) {
             if (istream === null) throw new ArgumentNullException("istream"); {
             if (ostream === null) throw new ArgumentNullException("ostream"); {
             this.istream = istream;
             this.ostream = ostream;
-        };
+        }
 
         /// <summary>
         /// Begins a native message asynchronous read from the input stream.
@@ -57,9 +57,9 @@
         /// <exception cref="IOException">The input stream IO exception.</exception>
         /// <exception cref="ObjectDisposedException">The input stream was closed.</exception>
         /// <exception cref="NotSupportedException">The input stream does not support read operation.</exception>
-        self.BeginRead = function(callback, state) {
+        public BeginRead(callback: AsyncCallback, state: object) {
             let ar: AsyncResult = new AsyncResult(this, callback, state);
-            ar.lengthBuffer = UNKNOWN >>  can't find constructor for class byte[4];
+            ar.lengthBuffer = new byte[4];
             ar.lengthOffset = 0;
             istream.BeginRead(
                 ar.lengthBuffer,
@@ -68,7 +68,7 @@
 //                 delegate (IAsyncResult _ar) { (_ar.AsyncState).port.ReadLengthCallback(_ar.AsyncState, _ar); },
                 ar);
             return ar;
-        };
+        }
 
         /// <summary>
         /// Ends the asynchronous read of a native message length started by BeginRead method.
@@ -79,7 +79,7 @@
         /// </remarks>
         /// <param name="ar">The AsyncResult object that represents a native message asynchronous read.</param>
         /// <param name="lengthAsyncResult">The IAsyncResult object that represents an asynchronous read of native message length.</param>
-        const ReadLengthCallback = function(ar, lengthAsyncResult) {
+        private ReadLengthCallback(ar: AsyncResult, lengthAsyncResult: IAsyncResult) {
             try {
                 //Debug.Assert(lengthAsyncResult.IsCompleted === true);
                 ar.lengthIsCompleted = lengthAsyncResult.IsCompleted;
@@ -102,7 +102,7 @@
                 }
                 let messageLength: number = System.BitConverter.ToInt32(ar.lengthBuffer, 0);
                 if (messageLength <= 0) throw new ProtocolErrorException(string.Format("Read zero or negative input message length : {0}", messageLength)); {
-                ar.messageBuffer = UNKNOWN >>  can't find constructor for class byte[messageLength];
+                ar.messageBuffer = new byte[messageLength];
                 ar.messageOffset = 0;
                 istream.BeginRead(
                     ar.messageBuffer,
@@ -116,7 +116,7 @@
                 ar.wait.Set();
                 if (ar.callback !== null) ar.callback(ar); {
             }
-        };
+        }
 
         /// <summary>
         /// Ends the asynchronous read of a native message content started by ReadLengthCallback method.
@@ -127,7 +127,7 @@
         /// </remarks>
         /// <param name="ar">The AsyncResult object that represents a native message asynchronous read.</param>
         /// <param name="messageAsyncResult">The IAsyncResult object that represents an asynchronous read of a native message content.</param>
-        const ReadMessageCallback = function(ar, messageAsyncResult) {
+        private ReadMessageCallback(ar: AsyncResult, messageAsyncResult: IAsyncResult) {
             try {
                 //Debug.Assert(messageAsyncResult.IsCompleted === true);
                 ar.messageIsCompleted = messageAsyncResult.IsCompleted;
@@ -153,7 +153,7 @@
                 ar.wait.Set();
                 if (ar.callback !== null) ar.callback(ar); {
             }
-        };
+        }
 
         /// <summary>
         /// Ends the native message asynchronous read started by BeginRead method.
@@ -174,7 +174,7 @@
         /// <exception cref="ProtocolErrorException">Negative or zero length of a native message was read.</exception>
         /// <exception cref="ProtocolErrorException">The native message read is not of UTF-8 encoding.</exception>
         /// <exception cref="OutOfMemoryException">The allocation of a native message buffer has failed.</exception>
-        self.EndRead = function(asyncResult) {
+        public EndRead(asyncResult: IAsyncResult) {
             if (asyncResult === null) throw new ArgumentNullException("asyncResult"); {
             if (!typeof(AsyncResult).IsInstanceOfType(asyncResult)) throw new ArgumentException(string.Format("Argument 'asyncResult' must be instance of {0}", typeof(AsyncResult))); {
 
@@ -192,7 +192,7 @@ UNKNOWN >>             string message;
                 throw new ProtocolErrorException("Invalid input message encoding.", ex);
             }
             return message;
-        };
+        }
 
         /// <summary>
         /// Begins a native message asynchronous write to the output stream.
@@ -207,7 +207,7 @@ UNKNOWN >>             string message;
         /// <exception cref="NotSupportedException">The output stream does not support write operation.</exception>
         /// <exception cref="ProtocolErrorException">The native message that is to be written is not of UTF-8 encoding.</exception>
         /// <exception cref="OutOfMemoryException">The allocation of the native message buffer has failed.</exception>
-        self.BeginWrite = function(message, callback, state) {
+        public BeginWrite(message: string, callback: AsyncCallback, state: object) {
             if (message === null) throw new ArgumentNullException("message"); {
             let ar: AsyncResult = new AsyncResult(this, callback, state);
             try {
@@ -227,7 +227,7 @@ UNKNOWN >>             string message;
 //                 delegate (IAsyncResult _ar) { (_ar.AsyncState).port.WriteLengthCallback(_ar.AsyncState, _ar); },
                 ar);
             return ar;
-        };
+        }
 
         /// <summary>
         /// Ends the asynchronous write of a native message length started by BeginWrite method.
@@ -238,7 +238,7 @@ UNKNOWN >>             string message;
         /// </remarks>
         /// <param name="ar">The AsyncResult object that represents a native message asynchronous write.</param>
         /// <param name="messageAsyncResult">The IAsyncResult object that represents an asynchronous write of a native message length.</param>
-        const WriteLengthCallback = function(ar, lengthAsyncResult) {
+        private WriteLengthCallback(ar: AsyncResult, lengthAsyncResult: IAsyncResult) {
             try {
                 //Debug.Assert(lengthAsyncResult.IsCompleted === true);
                 ar.lengthIsCompleted = lengthAsyncResult.IsCompleted;
@@ -256,7 +256,7 @@ UNKNOWN >>             string message;
                 ar.wait.Set();
                 if (ar.callback !== null) ar.callback(ar); {
             }
-        };
+        }
 
         /// <summary>
         /// Ends the asynchronous write of a native message content started by WriteLengthCallback method.
@@ -267,7 +267,7 @@ UNKNOWN >>             string message;
         /// </remarks>
         /// <param name="ar">The AsyncResult object that represents a native message asynchronous read.</param>
         /// <param name="messageAsyncResult">The IAsyncResult object that represents an asynchronous read of a native message content.</param>
-        const WriteMessageCallback = function(ar, messageAsyncResult) {
+        private WriteMessageCallback(ar: AsyncResult, messageAsyncResult: IAsyncResult) {
             try {
                 //Debug.Assert(messageAsyncResult.IsCompleted === true);
                 ar.messageIsCompleted = messageAsyncResult.IsCompleted;
@@ -281,7 +281,7 @@ UNKNOWN >>             string message;
                 ar.wait.Set();
                 if (ar.callback !== null) ar.callback(ar); {
             }
-        };
+        }
 
         /// <summary>
         /// Ends the native message asynchronous write started by BeginWrite method.
@@ -296,14 +296,14 @@ UNKNOWN >>             string message;
         /// <exception cref="IOException">The output stream IO exception.</exception>
         /// <exception cref="ObjectDisposedException">The output stream was closed.</exception>
         /// <exception cref="NotSupportedException">The output stream does not support write operation.</exception>
-        self.EndWrite = function(asyncResult) {
+        public EndWrite(asyncResult: IAsyncResult) {
             if (asyncResult === null) throw new ArgumentNullException("asyncResult"); {
             if (!typeof(AsyncResult).IsInstanceOfType(asyncResult)) throw new ArgumentException(string.Format("Argument 'asyncResult' must be instance of {0}", typeof(AsyncResult))); {
             let ar: AsyncResult = asyncResult;
             ar.wait.WaitOne();
             if (ar.lengthException !== null) throw ar.lengthException; {
             if (ar.messageException !== null) throw ar.messageException; {
-        };
+        }
 
         /// <summary>
         /// Reads a native message from input stream synchronously.
@@ -320,9 +320,9 @@ UNKNOWN >>             string message;
         /// <exception cref="ProtocolErrorException">Negative or zero length of a native message was read.</exception>
         /// <exception cref="ProtocolErrorException">The native message read is not of UTF-8 encoding.</exception>
         /// <exception cref="OutOfMemoryException">The allocation of a native message buffer has failed.</exception>
-        self.Read = function() {
+        public Read() {
             return EndRead(BeginRead(null, null));
-        };
+        }
 
         /// <summary>
         /// Writes the native message to output stream synchronously.
@@ -337,24 +337,10 @@ UNKNOWN >>             string message;
         /// <exception cref="NotSupportedException">The output stream does not support write operation.</exception>
         /// <exception cref="ProtocolErrorException">The native message that is to be written is not of UTF-8 encoding.</exception>
         /// <exception cref="OutOfMemoryException">The allocation of the native message buffer has failed.</exception>
-        self.Write = function(message) {
+        public Write(message: string) {
             EndWrite(BeginWrite(message, null, null));
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportWebServer.NativeMessaging {
-
-  export interface IPort {
-
-    BeginRead: (AsyncCallback, object) => IAsyncResult;
-    EndRead: (IAsyncResult) => string;
-    BeginWrite: (string, AsyncCallback, object) => IAsyncResult;
-    EndWrite: (IAsyncResult) => void;
-    Read: () => string;
-    Write: (string) => void;
-  }
 }

@@ -1,25 +1,25 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportFormulaTypes = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportFormulaTypes = {};
+    export class cReportFormulaTypes {
+
+
+    {
 
         // Creates an empty collection.
-        const cReportFormulaTypes = function() {
+        public constructor() {
             initialize();
-        };
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cReportFormulaTypes = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var j_ = 0; j_ < d.length; j_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -81,69 +81,69 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.Remove = function(key) {
+        public Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.Remove = function(index) {
+        public Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.Clear = function() {
+        public Clear() {
             this.BaseClear();
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.remove = function(key) {
+        public remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.remove = function(index) {
+        public remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.clear = function() {
+        public clear() {
             this.BaseClear();
-        };
+        }
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
                 return this.BaseGet(key);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
                 return this.BaseGet(index);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.add = function(c, key) {
+        public add(c: cReportFormulaType, key: csRptFormulaType) {
             return add(c, key.ToString());
-        };
-        self.add = function(c, key) {
+        }
+        public add(c: cReportFormulaType, key: string) {
             try {
                 if (c === null) {
-                    c = globalObject.CSReportDll.createCReportFormulaType();
+                    c = new cReportFormulaType();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -161,20 +161,20 @@ UNKNOWN >>             get
             catch (ex) {
                 return null;
             }
-        };
+        }
 
-        const initialize = function() {
+        private initialize() {
 
-            self.C_LANGUAGE_DESCRIPT: string = "language: 1 Spanish, 2 English y 3 French";
-            self.C_CONTROL_NAME_DESCRIPT: string = "control_name: an string which identifies the control.";
-            self.C_COMPARE_DESCRIPT: string = "It returns a boolean after comparing a control's value with the second argument ";
-            self.C_VALUE_TO_COMPARE_DESCRIPT: string = "value: a number or a text to by compared with.";
+            public C_LANGUAGE_DESCRIPT: string = "language: 1 Spanish, 2 English y 3 French";
+            public C_CONTROL_NAME_DESCRIPT: string = "control_name: an string which identifies the control.";
+            public C_COMPARE_DESCRIPT: string = "It returns a boolean after comparing a control's value with the second argument ";
+            public C_VALUE_TO_COMPARE_DESCRIPT: string = "value: a number or a text to by compared with.";
 UNKNOWN >>             const string C_GROUP_FUNCTION_DESCRIPT = "It function calculates its value before processing the group."
                                                     + "\r\nWhen CSReport found this function it iterates through the "
                                                     + "main recordset to the last row in the group and calculates "
                                                     + "the $1  of the values in the column refered by the "
                                                     + "column_name parameter.";
-            self.C_COLUMN_NAME: string = "column_name: name of the column in the main recordset.\r\n";
+            public C_COLUMN_NAME: string = "column_name: name of the column in the main recordset.\r\n";
 UNKNOWN >>             const string C_GROUP_INDEX = "group_index: index of the group"
                                         + "\r\nWhen group_index is equal to -1 the index of the group section in which the control is contained will be used."
                                         + "\r\nWhen group_index is equal to 0 the $1 of the column of every row in the main recordset will be returned."
@@ -184,8 +184,8 @@ UNKNOWN >>             const string C_GROUP_FUNCTION_DESCRIPT2 = "It function ca
                                                     + "\r\nWhen CSReport found this function it iterates through the "
                                                     + "main recordset to the last row in the group and calculates "
                                                     + "the $1.";
-            self.C_COLUMN_NAME1: string = "column_name1: name of the column in the main recordset to summarize.\r\n";
-            self.C_COLUMN_NAME2: string = "column_name2: name of the column in the main recordset to compare with the total.\r\n";
+            public C_COLUMN_NAME1: string = "column_name1: name of the column in the main recordset to summarize.\r\n";
+            public C_COLUMN_NAME2: string = "column_name2: name of the column in the main recordset to compare with the total.\r\n";
 UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the group"
                                         + "\r\nWhen group_index is equal to -1 the index of the group section in which the control is contained will be used."
                                         + "\r\nWhen group_index is equal to 0 the $1 will be evaluated using every row in the main recordset."
@@ -281,7 +281,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi = add(null, csRptFormulaType.CSRPTF_IS_IN_RS);
             fi.setName("_isInRS");
             fi.setNameUser("It is contained in the main recordset");
-            self.returns: fi.setDecrip("It = null;a boolean value after searching a constant value in a column of the main recordset.\r\n\r\nSyntax: _isInRS(column_name,\"value\")\ncolumn_name: the name of a column in the main recordset\nvalue: an string to be searched (it must be surrounded by double quotes).");
+            public returns: fi.setDecrip("It = null;a boolean value after searching a constant value in a column of the main recordset.\r\n\r\nSyntax: _isInRS(column_name,\"value\")\ncolumn_name: the name of a column in the main recordset\nvalue: an string to be searched (it must be surrounded by double quotes).");
             fi.setId(csRptFormulaType.CSRPTF_IS_IN_RS);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_IN_RS);
 
@@ -532,40 +532,12 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
                             + "\r\n\r\nSyntax: _value(control_name)\r\n\r\n" + C_CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_VAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_VAL);
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportFormulaTypes {
-
-    Add: (String, Object) => void;
-    Remove: (String) => void;
-    Remove: (int) => void;
-    Clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    clear: () => void;
-    count: () => int;
-    item: (String) => cReportFormulaType;
-    item: (int) => cReportFormulaType;
-    add: (cReportFormulaType, csRptFormulaType) => cReportFormulaType;
-    add: (cReportFormulaType, String) => cReportFormulaType;
-    C_LANGUAGE_DESCRIPT: string;
-    C_CONTROL_NAME_DESCRIPT: string;
-    C_COMPARE_DESCRIPT: string;
-    C_VALUE_TO_COMPARE_DESCRIPT: string;
-    C_COLUMN_NAME: string;
-    C_COLUMN_NAME1: string;
-    C_COLUMN_NAME2: string;
-    returns: fi.setDecrip("It;
-  }
 }

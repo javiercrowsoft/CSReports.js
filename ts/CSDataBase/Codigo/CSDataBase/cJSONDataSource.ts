@@ -1,37 +1,27 @@
-(function(globalObject) {
 
-    globalObject.CSDataBase = globalObject.CSDataBase || {};
 
-    globalObject.CSDataBase.createCJSONDataSource = function() {
+namespace CSDataBase
+{
+    export class cJSONDataSource {
 
-        // @ts-ignore
-        let self: CSDataBase.IcJSONDataSource = {};
-        let m_name: string = null;
-        let m_data: JObject = null;
 
-        const cJSONDataSource = function(name, data) {
-            m_name = name;
-            m_data = data;
-        };
+    {
+        private name: string = null;
+        private data: JObject = null;
 
-        self.getName = function() {
-            return m_name;
-        };
+        public constructor(name: string, data: JObject) {
+            this.name = name;
+            this.data = data;
+        }
 
-        self.getData = function() {
-            return m_data;
-        };
-        return self;
+        public getName() {
+            return this.name;
+        }
+
+        public getData() {
+            return this.data;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSDataBase {
-
-  export interface IcJSONDataSource {
-
-    getName: () => string;
-    getData: () => JObject;
-  }
 }

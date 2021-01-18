@@ -1,16 +1,16 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFMain = function() {
+namespace CSReportEditor
+{
+    export class fMain {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfMain = {};
+
+    {
 UNKNOWN >>         static fMain instance;
 
-        const C_MODULE: string = "fMain";
+        private C_MODULE: string = "fMain";
 
-        const fMain = function() {
+        public constructor() {
             InitializeComponent();
 
             // it is the first thing we need to do
@@ -18,13 +18,13 @@ UNKNOWN >>         static fMain instance;
             CSKernelClient.cUtil.setSepDecimal();
 
             let editor: cEditor = new cEditor(this, pnEditor, pnRule, pnReport, tbpEditor);
-        };
+        }
 
-        self.getReportCopySource = function() {
+        public getReportCopySource() {
             return null;
-        };
+        }
 
-        const createEditor = function() {
+        private createEditor() {
             let tab: TabPage = new TabPage();
             let pnEditor: Panel = new Panel();
             let pnRule: PictureBox = new PictureBox();
@@ -38,26 +38,26 @@ UNKNOWN >>         static fMain instance;
             tab.Text = "New Report";
 
             return new cEditor(this, pnEditor, pnRule, pnReport, tab);
-        };
+        }
 
-        const mnuNewReport_Click = function(sender, e) {
+        private mnuNewReport_Click(sender: object, e: EventArgs) {
             createEditor();
-        };
+        }
 
-        const tsbNew_Click = function(sender, e) {
+        private tsbNew_Click(sender: object, e: EventArgs) {
             mnuNewReport_Click(sender, e);
-        };
+        }
 
-        self.setEditAlignTextState = function(status) {
+        public setEditAlignTextState(status: boolean) {
             let buttons: var = this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_ALIGN_CENTER].Enabled = status;
             buttons[cGlobals.c_BTN_ALIGN_LEFT].Enabled = status;
             buttons[cGlobals.c_BTN_ALIGN_RIGHT].Enabled = status;
             buttons[cGlobals.c_BTN_FONT_BOLD].Enabled = status;
-        };
+        }
 
-        self.setEditAlignCtlState = function(status) {
+        public setEditAlignCtlState(status: boolean) {
             let buttons: var = this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_CTL_ALIGN_BOTTOM].Enabled = status;
@@ -70,9 +70,9 @@ UNKNOWN >>         static fMain instance;
 
             buttons[cGlobals.c_BTN_CTL_HEIGHT].Enabled = status;
             buttons[cGlobals.c_BTN_CTL_WIDTH].Enabled = status;
-        };
+        }
 
-        self.setMenuAux = function(enabled) {
+        public setMenuAux(enabled: boolean) {
             this.mnuEditAddControl.Enabled = enabled;
             this.mnuEditAddHeader.Enabled = enabled;
             this.mnuEditAddLabel.Enabled = enabled;
@@ -105,9 +105,9 @@ UNKNOWN >>         static fMain instance;
             buttons[cGlobals.c_BTN_TOOL].Enabled = enabled;
             buttons[cGlobals.c_BTN_PREV].Enabled = enabled;
             buttons[cGlobals.c_BTN_SEARCH].Enabled = enabled;
-        };
+        }
 
-        self.addToRecentList = function(fileName) {
+        public addToRecentList(fileName: string) {
             let i: number = 0;
             let j: number = 0;
             let found: boolean = false;
@@ -133,9 +133,9 @@ UNKNOWN >>         static fMain instance;
             }
 
             menuItems[0].Text = fileName;
-        };
+        }
 
-        self.loadRecentList = function(recentList) {
+        public loadRecentList(recentList: List<String>) {
             let i: number = 0;
             let recent: string = "";
 
@@ -148,45 +148,45 @@ UNKNOWN >>         static fMain instance;
             if (this.mnuFileRecentList.DropDownItems.Count > 1) {
                 this.mnuFileRecentList.Visible = true;
             }
-        };
+        }
 
-        self.saveRecentList = function() {
+        public saveRecentList() {
             let i: number = 0;
 
             for (i = 0; i < this.mnuFileRecentList.DropDownItems.Count; i++) {
                 // TODO: implement
             }
-        };
+        }
 
-        self.setStatus = function(status) {
+        public setStatus(status: string) {
             // TODO: implement
-        };
+        }
 
-        self.setBarText = function(text) {
+        public setBarText(text: string) {
             // TODO: implement
-        };
+        }
 
-        self.setDisconnectedReport = function(isDisconnectedReport) {
+        public setDisconnectedReport(isDisconnectedReport: boolean) {
             // TODO: implement
-        };
+        }
 
-		self.setsbPnlCtrl = function(msg) {
+		public setsbPnlCtrl(msg: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-        self.setReportCopySource = function(cEditor) {
+        public setReportCopySource(cEditor: cEditor) {
             throw new NotImplementedException();
-        };
+        }
 
-        self.getPaperSize = function() {
+        public getPaperSize() {
             throw new NotImplementedException();
-        };
+        }
 
-        self.getOrientation = function() {
+        public getOrientation() {
             throw new NotImplementedException();
-        };
+        }
 
-        const mnuOpenReport_Click = function(sender, e) {
+        private mnuOpenReport_Click(sender: object, e: EventArgs) {
             try {
 
                 let editor: cEditor = createEditor();
@@ -201,7 +201,7 @@ UNKNOWN >>         static fMain instance;
             } catch (Exception ex) {
                 cError.mngError(ex, "mnuOpenReport_Click", C_MODULE, "");
             }
-        };
+        }
 
         //------------------------------------------------------------------------------------------------------------------
 
@@ -224,29 +224,7 @@ UNKNOWN >>             get
                 return saveFielDlg;
             }            
         }
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfMain {
-
-    getReportCopySource: () => cEditor;
-    setEditAlignTextState: (bool) => void;
-    setEditAlignCtlState: (bool) => void;
-    setMenuAux: (bool) => void;
-    addToRecentList: (String) => void;
-    loadRecentList: (List<String>) => void;
-    saveRecentList: () => void;
-    setStatus: (String) => void;
-    setBarText: (String) => void;
-    setDisconnectedReport: (bool) => void;
-    setsbPnlCtrl: (string) => void;
-    setReportCopySource: (cEditor) => void;
-    getPaperSize: () => CSReportGlobals.csReportPaperType;
-    getOrientation: () => int;
-  }
 }

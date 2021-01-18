@@ -1,31 +1,31 @@
-(function(globalObject) {
 
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
+namespace CSKernelClient
+{
     /// <summary>
     /// This class is an implementation of the 'IComparer' interface.
     /// </summary>
-    globalObject.CSKernelClient.createCListViewColumnSorter = function() {
+    export class cListViewColumnSorter {
 
-        // @ts-ignore
-        let self: CSKernelClient.IcListViewColumnSorter = {};
+
+    {
         /// <summary>
         /// Specifies the column to be sorted
         /// </summary>
-        let ColumnToSort: number = null;
+        private ColumnToSort: number = null;
         /// <summary>
         /// Specifies the order in which to sort (i.e. 'Ascending').
         /// </summary>
-        let OrderOfSort: SortOrder = null;
+        private OrderOfSort: SortOrder = null;
         /// <summary>
         /// Case insensitive comparer object
         /// </summary>
-        let ObjectCompare: CaseInsensitiveComparer = null;
+        private ObjectCompare: CaseInsensitiveComparer = null;
 
         /// <summary>
         /// Class constructor.  Initializes various elements
         /// </summary>
-        const cListViewColumnSorter = function() {
+        public constructor() {
             // Initialize the column to '0'
             ColumnToSort = 0;
 
@@ -33,8 +33,8 @@
             OrderOfSort = SortOrder.None;
 
             // Initialize the CaseInsensitiveComparer object
-            ObjectCompare = UNKNOWN >>  can't find constructor for class CaseInsensitiveComparer();
-        };
+            ObjectCompare = new CaseInsensitiveComparer();
+        }
 
         /// <summary>
         /// This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.
@@ -42,7 +42,7 @@
         /// <param name="x">First object to be compared</param>
         /// <param name="y">Second object to be compared</param>
         /// <returns>The result of the comparison. "0" if equal, negative if 'x' is less than 'y' and positive if 'x' is greater than 'y'</returns>
-        self.Compare = function(x, y) {
+        public Compare(x: object, y: object) {
 UNKNOWN >>             int compareResult;
 UNKNOWN >>             ListViewItem listviewX, listviewY;
 
@@ -66,7 +66,7 @@ UNKNOWN >>             ListViewItem listviewX, listviewY;
                 // Return '0' to indicate they are equal
                 return 0;
             }
-        };
+        }
 
         /// <summary>
         /// Gets or sets the number of the column to which to apply the sorting operation (Defaults to '0').
@@ -98,16 +98,7 @@ UNKNOWN >>             get
             }
         }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelClient {
-
-  export interface IcListViewColumnSorter {
-
-    Compare: (object, object) => int;
-  }
 }

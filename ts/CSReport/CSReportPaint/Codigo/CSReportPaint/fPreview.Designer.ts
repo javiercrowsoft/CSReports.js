@@ -1,25 +1,25 @@
-(function(globalObject) {
-    globalObject.CSReportPaint = globalObject.CSReportPaint || {};
 
-    globalObject.CSReportPaint.createFPreview = function() {
+﻿namespace CSReportPaint
+{
+    export class fPreview {
 
-        // @ts-ignore
-        let self: CSReportPaint.IfPreview = {};
+
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        let components: System.ComponentModel.IContainer = null;
+        private components: System.ComponentModel.IContainer = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        self.Dispose = function(disposing) {
+        public Dispose(disposing: boolean) {
             if (disposing && (components !== null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
-        };
+        }
 
 UNKNOWN >>         #region Windows Form Designer generated code
 
@@ -27,8 +27,8 @@ UNKNOWN >>         #region Windows Form Designer generated code
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        const InitializeComponent = function() {
-            this.rpwReport = UNKNOWN >>  can't find constructor for class CSReportPreview.cReportPreview();
+        private InitializeComponent() {
+            this.rpwReport = new CSReportPreview.cReportPreview();
             this.SuspendLayout();
             // 
             // rpwReport
@@ -36,38 +36,29 @@ UNKNOWN >>         #region Windows Form Designer generated code
             this.rpwReport.AutoSize = true;
             this.rpwReport.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.rpwReport.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rpwReport.Location = UNKNOWN >>  can't find constructor for class System.Drawing.Point(0, 0);
+            this.rpwReport.Location = new System.Drawing.Point(0, 0);
             this.rpwReport.Name = "rpwReport";
-            this.rpwReport.Size = UNKNOWN >>  can't find constructor for class System.Drawing.Size(532, 383);
+            this.rpwReport.Size = new System.Drawing.Size(532, 383);
             this.rpwReport.TabIndex = 0;
             // 
             // fPreview
             // 
-            this.AutoScaleDimensions = UNKNOWN >>  can't find constructor for class System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = UNKNOWN >>  can't find constructor for class System.Drawing.Size(532, 383);
+            this.ClientSize = new System.Drawing.Size(532, 383);
             this.Controls.Add(this.rpwReport);
             this.Name = "fPreview";
             this.Text = "fPreview";
-            this.Load += UNKNOWN >>  can't find constructor for class System.EventHandler(this.fPreview_Load);
+            this.Load += new System.EventHandler(this.fPreview_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        };
+        }
 
 UNKNOWN >>         #endregion
 
-        let rpwReport: CSReportPreview.cReportPreview = null;
-        return self;
+        private rpwReport: CSReportPreview.cReportPreview = null;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportPaint {
-
-  export interface IfPreview {
-
-    Dispose: (bool) => void;
-  }
 }

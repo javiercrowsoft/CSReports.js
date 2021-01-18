@@ -1,75 +1,75 @@
-(function(globalObject) {
 
-    globalObject.CSReportPaint = globalObject.CSReportPaint || {};
 
-    globalObject.CSReportPaint.createCGlobals = function() {
+namespace CSReportPaint
+{
+    export class cGlobals {
 
-        // @ts-ignore
-        let self: CSReportPaint.IcGlobals = {};
-        let int: static m_nextKey = 1000;
 
-        const C_MODULE: string = "cGlobals";
+    {
+        private int: static this.nextKey = 1000;
 
-        let Bitmap: static _flag = new Bitmap(1, 1);
-        let Graphics: static _g = Graphics.FromImage(_flag);
+        private C_MODULE: string = "cGlobals";
 
-        self.getNextKey = function() {
-            m_nextKey++;
-            return m_nextKey;
-        };
+        private Bitmap: static _flag = new Bitmap(1, 1);
+        private Graphics: static _g = Graphics.FromImage(_flag);
 
-        self.getKey = function(value) {
+        public getNextKey() {
+            this.nextKey++;
+            return this.nextKey;
+        }
+
+        public getKey(value: string) {
             if (value.Length > 0) {
                 if ("0123456789".Contains(value.Substring(0, 1))) {
                     value = "K" + value;
                 }
             }
             return value;
-        };
+        }
 
-        self.getBitmapSize = function(image, imgWidth, imgHeight, inTwips) {
+        public getBitmapSize(image: Image, imgWidth: number, imgHeight: number, inTwips: boolean) {
             imgWidth = image.Width;
             imgHeight = image.Height;
-        };
+        }
 
-        self.setRectangleWidth = function(width) {
+        public setRectangleWidth(width: Single) {
             if (width < 0) {
                 width = 0;
             return width;
-        };
+        }
 
-        self.setRectangleHeight = function(height) {
+        public setRectangleHeight(height: Single) {
             if (height < 0) {
                 height = 0;
             return height;
-        };
+        }
 
-        self.newRectangleF = function(left, top, right, bottom) {
+        public newRectangleF(left: Single, top: Single, right: Single, bottom: Single) {
             if (left < 0) left = 0; {
             if (top < 0) top = 0; {
             if (right < left) right = left; {
             if (bottom < top) bottom = top; {
 
             return new RectangleF(left, top, right-left, bottom-top);
-        };
+        }
 
-        self.newRectangle = function(left, top, right, bottom) {
+        public newRectangle(left: number, top: number, right: number, bottom: number) {
             if (left < 0) left = 0; {
             if (top < 0) top = 0; {
             if (right < left) right = left; {
             if (bottom < top) bottom = top; {
 
             return new Rectangle(left, top, right-left, bottom-top);
-        };
+        }
 
-        const getPixelsFromCmX = function(cm) {
+        private getPixelsFromCmX(cm: number) {
             return cm * _g.DpiX / 2.54f;
-        };
-        const getPixelsFromCmY = function(cm) {
+        }
+        private getPixelsFromCmY(cm: number) {
             return cm * _g.DpiY / 2.54f;
-        };
+        }
 
-        self.getRectFromPaperSize = function(info, paperSize, orientation) {
+        public getRectFromPaperSize(info: cReportPaperInfo, paperSize: csReportPaperType, orientation: number) {
             let rtn: RectangleF = new RectangleF();
 
             switch (paperSize)
@@ -114,24 +114,24 @@
             }
 
             return rtn;
-        };
+        }
 
         // fonts
 
-        self.redim = function(vFonts, size) {
-            vFonts = UNKNOWN >>  can't find constructor for class Font[size];
-        };
+        public redim(vFonts: Font[], size: number) {
+            vFonts = new Font[size];
+        }
 
-        self.redimPreserve = function(vFonts, size) {
+        public redimPreserve(vFonts: Font[], size: number) {
             if (size === 0) {
-                vFonts = UNKNOWN >>  can't find constructor for class Font[0];
+                vFonts = new Font[0];
             }
             else {
                 if (vFonts === null) {
-                    vFonts = UNKNOWN >>  can't find constructor for class Font[size];
+                    vFonts = new Font[size];
                 }
                 else if (vFonts.Length === 0) {
-                    vFonts = UNKNOWN >>  can't find constructor for class Font[size];
+                    vFonts = new Font[size];
                 }
                 else {
                     let newArray: Font[] = new Font[size];
@@ -139,21 +139,21 @@
                     vFonts = newArray;
                 }
             }
-        };
+        }
 
-        self.addFontIfRequired = function(font, m_fnt) {
-            for(var i = 0; i < m_fnt.Length; i++) {
-                if(font.getName() === m_fnt[i].Name 
-                    && font.getBold() === m_fnt[i].Bold 
-                    && font.getItalic() === m_fnt[i].Italic 
-                    && font.getUnderline() === m_fnt[i].Underline 
-                    && font.getSize() === m_fnt[i].Size 
-                    && font.getStrike() === m_fnt[i].Strikeout) {
+        public addFontIfRequired(font: cReportFont, this.fnt: Font[]) {
+            for(var i = 0; i < this.fnt.Length; i++) {
+                if(font.getName() === this.fnt[i].Name 
+                    && font.getBold() === this.fnt[i].Bold 
+                    && font.getItalic() === this.fnt[i].Italic 
+                    && font.getUnderline() === this.fnt[i].Underline 
+                    && font.getSize() === this.fnt[i].Size 
+                    && font.getStrike() === this.fnt[i].Strikeout) {
                     return i;
                 }
             }
 
-            redimPreserve(m_fnt, m_fnt.Length + 1);
+            redimPreserve(this.fnt, this.fnt.Length + 1);
 
             let fontStyle: FontStyle = FontStyle.Regular;
             if (font.getBold()) fontStyle = fontStyle | FontStyle.Bold; {
@@ -163,14 +163,14 @@
 
             let afont: Font = new Font(font.getName(), ((font.getSize() > 0) ? font.getSize() : 3), fontStyle);
 
-            m_fnt[m_fnt.Length - 1] = afont;
+            this.fnt[this.fnt.Length - 1] = afont;
 
-            return m_fnt.Length - 1;
-        };
-        return self;
+            return this.fnt.Length - 1;
+        }
+
 
     }    }
-        return self;
+
 
 
 UNKNOWN >>     public enum csETypeGrid {
@@ -179,13 +179,13 @@ UNKNOWN >>     public enum csETypeGrid {
         CSEGRIDLINES,
         CSEGRIDLINESVERTICAL,
 UNKNOWN >>         CSEGRIDLINESHORIZONTAL
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptPaintObjTypeUNKNOWN >>     public enum csRptPaintObjType
     {
@@ -193,13 +193,13 @@ UNKNOWN >>         CSEGRIDLINESHORIZONTAL
         CSRPTPAINTOBJLINE,
         CSRPTPAINTOBJCIRCLE,
 UNKNOWN >>         CSRPTPAINTOBJIMAGE
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csRptPaintRegionTypeUNKNOWN >>     public enum csRptPaintRegionType
     {
@@ -212,13 +212,13 @@ UNKNOWN >>         CSRPTPAINTOBJIMAGE
         CRPTPNTRGNTYPEDOWN,
         CRPTPNTRGNTYPELEFT,
 UNKNOWN >>         CRPTPNTRGNTYPERIGHT
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
+
+
 
     public enum csEMoveToUNKNOWN >>     public enum csEMoveTo
     {
@@ -226,45 +226,26 @@ UNKNOWN >>         CRPTPNTRGNTYPERIGHT
         C_NEXTPAGE = -1,
         C_PREVIOUSPAGE = -2,
         C_LASTPAGE = -3
-        return self;
+
 
     }    }
-        return self;
 
 
-        return self;
 
 
-        return self;
+
+
+
 
     public enum csPDFQualityUNKNOWN >>     public enum csPDFQuality
     {
         PDFQUALITYFULL = 1,
         PDFQUALITYSMALL = 2,
         PDFQUALITYMEDIUM = 3
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportPaint {
-
-  export interface IcGlobals {
-
-    getNextKey: () => int;
-    getKey: (String) => String;
-    getBitmapSize: (Image, int, int, bool) => void;
-    setRectangleWidth: (Single) => Single;
-    setRectangleHeight: (Single) => Single;
-    newRectangleF: (Single, Single, Single, Single) => RectangleF;
-    newRectangle: (int, int, int, int) => Rectangle;
-    getRectFromPaperSize: (cReportPaperInfo, csReportPaperType, int) => RectangleF;
-    redim: (Font[], int) => void;
-    redimPreserve: (Font[], int) => void;
-    addFontIfRequired: (cReportFont, Font[]) => int;
-  }
 }

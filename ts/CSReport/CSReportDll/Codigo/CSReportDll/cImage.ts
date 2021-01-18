@@ -1,11 +1,11 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
-    globalObject.CSReportDll.createCImage = function() {
+namespace CSReportDll
+{
+    export class cImage {
 
-        // @ts-ignore
-        let self: CSReportDll.IcImage = {};
+
+    {
         /*
 
          Private Type BITMAP '14 bytes
@@ -21,16 +21,16 @@
          */
 
 UNKNOWN >>         struct GDIBitmap {
-            self.bmType: number = null;
-            self.bmWidth: number = null;
-            self.bmHeight: number = null;
-            self.bmWidthBytes: number = null;
-            self.bmPlanes: number = null;
-            self.bmBitsPixel: number = null;
-            self.bmBits: number = null;
-        };
+            public bmType: number = null;
+            public bmWidth: number = null;
+            public bmHeight: number = null;
+            public bmWidthBytes: number = null;
+            public bmPlanes: number = null;
+            public bmBitsPixel: number = null;
+            public bmBits: number = null;
+        }
 
-        const getIntFromByteArray = function(bytes, index) {
+        private getIntFromByteArray(bytes: byte[], index: number) {
             let intInBytes: byte[] = new byte[4];
 
             Array.Copy(bytes, index, intInBytes, 0, 4);
@@ -48,9 +48,9 @@ UNKNOWN >>         struct GDIBitmap {
                 Array.Reverse(intInBytes);
             */
             return BitConverter.ToInt32(intInBytes, 0);
-        };
+        }
 
-        const getShortFromByteArray = function(bytes, index) {
+        private getShortFromByteArray(bytes: byte[], index: number) {
             let int16InBytes: byte[] = new byte[2];
 
             Array.Copy(bytes, index, int16InBytes, 0, 2);
@@ -68,20 +68,20 @@ UNKNOWN >>         struct GDIBitmap {
                 Array.Reverse(intInBytes);
             */
             return BitConverter.ToInt16(int16InBytes, 0);
-        };
+        }
 
-        self.deSerialiseBitmap = function(bytes) {
+        public deSerialiseBitmap(bytes: byte[]) {
             try {
 UNKNOWN >>                 Bitmap bmp;
                 {
-                    bmp = UNKNOWN >>  can't find constructor for class Bitmap(ms);
+                    bmp = new Bitmap(ms);
                 }
                 return bmp;
             }
             catch  (ex) {
                 return null;
             }
-        };
+        }
         /*
         internal static Image deSerialiseBitmap(byte[] bytes) 
         {
@@ -118,22 +118,5 @@ UNKNOWN >>                 Bitmap bmp;
             }
         }*/
 
-        self.serialiseBitmap = function(image, bytes) {
-}(globalObject));
-
-
-namespace CSReportDll {
-
-  export interface IcImage {
-
-    bmType;: number;
-    bmWidth;: number;
-    bmHeight;: number;
-    bmWidthBytes;: number;
-    bmPlanes;: number;
-    bmBitsPixel;: number;
-    bmBits;: number;
-    deSerialiseBitmap: (byte[]) => Image;
-    serialiseBitmap: (object, object) => void;
-  }
+        public serialiseBitmap(image: object, bytes: object) {
 }

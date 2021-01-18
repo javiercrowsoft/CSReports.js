@@ -1,155 +1,123 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFGroup = function() {
+namespace CSReportEditor
+{
+    export class fGroup {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfGroup = {};
-        let m_ok: boolean = false;
 
-        const fGroup = function() {
+    {
+        private ok: boolean = false;
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
-        self.getTxName = function() {
+        public getTxName() {
             return txName;
-        };
+        }
 
-        self.getTxDbField = function() {
+        public getTxDbField() {
             return txDbField;
-        };
+        }
 
-        self.getAsc = function() {
+        public getAsc() {
             return opAsc.Checked;
-        };
+        }
 
-        self.setAsc = function(value) {
+        public setAsc(value: boolean) {
             opAsc.Checked = value;
-        };
+        }
 
-        self.setDesc = function(value) {
+        public setDesc(value: boolean) {
             opDesc.Checked = value;
-        };
+        }
 
-        self.getPrintInNewPage = function() {
+        public getPrintInNewPage() {
             return chkPrintInNewPage.Checked;
-        };
+        }
 
-        self.setPrintInNewPage = function(value) {
+        public setPrintInNewPage(value: boolean) {
             chkPrintInNewPage.Checked = value;
-        };
+        }
 
-        self.getReprintGroup = function() {
+        public getReprintGroup() {
             return chkReprintGroup.Checked;
-        };
+        }
 
-        self.setReprintGroup = function(value) {
+        public setReprintGroup(value: boolean) {
             chkReprintGroup.Checked = value;
-        };
+        }
 
-        self.getGrandTotal = function() {
+        public getGrandTotal() {
             return chkGrandTotal.Checked;
-        };
+        }
 
-        self.setGrandTotal = function(value) {
+        public setGrandTotal(value: boolean) {
             chkGrandTotal.Checked = value;
-        };
+        }
 
-        self.getSortByDate = function() {
+        public getSortByDate() {
             return opDate.Checked;
-        };
+        }
 
-        self.setSortByDate = function(value) {
+        public setSortByDate(value: boolean) {
             opDate.Checked = value;
-        };
+        }
 
-        self.getSortByNumber = function() {
+        public getSortByNumber() {
             return opNumber.Checked;
-        };
+        }
 
-        self.setSortByNumber = function(value) {
+        public setSortByNumber(value: boolean) {
             opNumber.Checked = value;
-        };
+        }
 
-        self.getSortByText = function() {
+        public getSortByText() {
             return opText.Checked;
-        };
+        }
 
-        self.setSortByText = function(value) {
+        public setSortByText(value: boolean) {
             opText.Checked = value;
-        };
+        }
 
-        self.getOk = function() {
-            return m_ok;
-        };
+        public getOk() {
+            return this.ok;
+        }
 
-		self.getDbField = function() {
+		public getDbField() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.getFieldType = function() {
+		public getFieldType() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.getIndex = function() {
+		public getIndex() {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setDbField = function(sField) {
+		public setDbField(sField: string) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setFieldType = function(nFieldType) {
+		public setFieldType(nFieldType: number) {
 			throw new NotImplementedException ();
-		};
+		}
 
-		self.setIndex = function(nIndex) {
+		public setIndex(nIndex: number) {
 			throw new NotImplementedException ();
-		};
+		}
 
-        const cmdOk_Click = function(sender, e) {
-            m_ok = true;
+        private cmdOk_Click(sender: object, e: EventArgs) {
+            this.ok = true;
             this.Hide();
-        };
+        }
 
-        const cmdCancel_Click = function(sender, e) {
-            m_ok = false;
+        private cmdCancel_Click(sender: object, e: EventArgs) {
+            this.ok = false;
             this.Hide();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfGroup {
-
-    getTxName: () => cMaskEdit;
-    getTxDbField: () => cMaskEdit;
-    getAsc: () => bool;
-    setAsc: (bool) => void;
-    setDesc: (bool) => void;
-    getPrintInNewPage: () => bool;
-    setPrintInNewPage: (bool) => void;
-    getReprintGroup: () => bool;
-    setReprintGroup: (bool) => void;
-    getGrandTotal: () => bool;
-    setGrandTotal: (bool) => void;
-    getSortByDate: () => bool;
-    setSortByDate: (bool) => void;
-    getSortByNumber: () => bool;
-    setSortByNumber: (bool) => void;
-    getSortByText: () => bool;
-    setSortByText: (bool) => void;
-    getOk: () => bool;
-    getDbField: () => string;
-    getFieldType: () => int;
-    getIndex: () => int;
-    setDbField: (string) => void;
-    setFieldType: (int) => void;
-    setIndex: (int) => void;
-  }
 }

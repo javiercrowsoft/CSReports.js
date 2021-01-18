@@ -1,136 +1,136 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportGroup = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportGroup = {};
-        const C_HEADER: string = "H";
-        const C_FOOTER: string = "F";
+    export class cReportGroup {
 
-        let m_header: cReportSection = null;
-        let m_footer: cReportSection = null;
-        let m_index: number = 0;
 
-        let m_name: string = "";
+    {
+        private C_HEADER: string = "H";
+        private C_FOOTER: string = "F";
 
-        let m_oderType: csRptGrpOrderType = null;
-        let m_comparisonType: csRptGrpComparisonType = null;
+        private header: cReportSection = null;
+        private footer: cReportSection = null;
+        private index: number = 0;
+
+        private name: string = "";
+
+        private oderType: csRptGrpOrderType = null;
+        private comparisonType: csRptGrpComparisonType = null;
 
         // to print in a new page when the group change
         //
-        let m_printInNewPage: boolean = null;
+        private printInNewPage: boolean = null;
 
         // to reprint group headers in every new page
         //
-        let m_rePrintInNewPage: boolean = null;
-        let m_grandTotalGroup: boolean = null;
-        let m_fieldName: string = "";
-        let m_key: string = "";
+        private rePrintInNewPage: boolean = null;
+        private grandTotalGroup: boolean = null;
+        private fieldName: string = "";
+        private key: string = "";
 
-        self.getHeader = function() {
-            return m_header;
-        };
+        public getHeader() {
+            return this.header;
+        }
 
-        self.setHeader = function(rhs) {
-            m_header = rhs;
-        };
+        public setHeader(rhs: cReportSection) {
+            this.header = rhs;
+        }
 
-        self.getFooter = function() {
-            return m_footer;
-        };
+        public getFooter() {
+            return this.footer;
+        }
 
-        self.setFooter = function(rhs) {
-            m_footer = rhs;
-        };
+        public setFooter(rhs: cReportSection) {
+            this.footer = rhs;
+        }
 
-        self.getIndex = function() {
-            return m_index;
-        };
+        public getIndex() {
+            return this.index;
+        }
 
-        self.setIndex = function(rhs) {
-            m_index = rhs;
-        };
+        public setIndex(rhs: number) {
+            this.index = rhs;
+        }
 
-        self.getOderType = function() {
-            return m_oderType;
-        };
+        public getOderType() {
+            return this.oderType;
+        }
 
-        self.setOderType = function(rhs) {
-            m_oderType = rhs;
-        };
+        public setOderType(rhs: csRptGrpOrderType) {
+            this.oderType = rhs;
+        }
 
-        self.getComparisonType = function() {
-            return m_comparisonType;
-        };
+        public getComparisonType() {
+            return this.comparisonType;
+        }
 
-        self.setComparisonType = function(rhs) {
-            m_comparisonType = rhs;
-        };
+        public setComparisonType(rhs: csRptGrpComparisonType) {
+            this.comparisonType = rhs;
+        }
 
-        self.getPrintInNewPage = function() {
-            return m_printInNewPage;
-        };
+        public getPrintInNewPage() {
+            return this.printInNewPage;
+        }
 
-        self.setPrintInNewPage = function(rhs) {
-            m_printInNewPage = rhs;
-        };
+        public setPrintInNewPage(rhs: boolean) {
+            this.printInNewPage = rhs;
+        }
 
-        self.getRePrintInNewPage = function() {
-            return m_rePrintInNewPage;
-        };
+        public getRePrintInNewPage() {
+            return this.rePrintInNewPage;
+        }
 
-        self.setRePrintInNewPage = function(rhs) {
-            m_rePrintInNewPage = rhs;
-        };
+        public setRePrintInNewPage(rhs: boolean) {
+            this.rePrintInNewPage = rhs;
+        }
 
-        self.getGrandTotalGroup = function() {
-            return m_grandTotalGroup;
-        };
+        public getGrandTotalGroup() {
+            return this.grandTotalGroup;
+        }
 
-        self.setGrandTotalGroup = function(rhs) {
-            m_grandTotalGroup = rhs;
-        };
+        public setGrandTotalGroup(rhs: boolean) {
+            this.grandTotalGroup = rhs;
+        }
 
-        self.getFieldName = function() {
-            return m_fieldName;
-        };
+        public getFieldName() {
+            return this.fieldName;
+        }
 
-        self.setFieldName = function(rhs) {
-            m_fieldName = rhs;
-        };
+        public setFieldName(rhs: string) {
+            this.fieldName = rhs;
+        }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.getKey = function() {
-            return m_key;
-        };
+        public getKey() {
+            return this.key;
+        }
 
-        self.setKey = function(rhs) {
-            m_key = rhs;
-        };
+        public setKey(rhs: string) {
+            this.key = rhs;
+        }
 
-        self.load = function(xDoc, nodeObj) {
-            m_name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
+            this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
 
             // TODO: fix me - this is Spanish - English bug we should use Index
             //
-            m_index = xDoc.getNodeProperty(nodeObj, "Indice").getValueInt(eTypes.eInteger);
+            this.index = xDoc.getNodeProperty(nodeObj, "Indice").getValueInt(eTypes.eInteger);
 
-            m_comparisonType = xDoc.getNodeProperty(nodeObj, "ComparisonType").getValueInt(eTypes.eInteger);
-            m_fieldName = xDoc.getNodeProperty(nodeObj, "FieldName").getValueString(eTypes.eText);
-            m_oderType = xDoc.getNodeProperty(nodeObj, "OderType").getValueInt(eTypes.eInteger);
-            m_printInNewPage = xDoc.getNodeProperty(nodeObj, "PrintInNewPage").getValueBool(eTypes.eBoolean);
-            m_rePrintInNewPage = xDoc.getNodeProperty(nodeObj, "RePrintInNewPage").getValueBool(eTypes.eBoolean);
-            m_grandTotalGroup = xDoc.getNodeProperty(nodeObj, "GrandTotalGroup").getValueBool(eTypes.eBoolean);
+            this.comparisonType = xDoc.getNodeProperty(nodeObj, "ComparisonType").getValueInt(eTypes.eInteger);
+            this.fieldName = xDoc.getNodeProperty(nodeObj, "FieldName").getValueString(eTypes.eText);
+            this.oderType = xDoc.getNodeProperty(nodeObj, "OderType").getValueInt(eTypes.eInteger);
+            this.printInNewPage = xDoc.getNodeProperty(nodeObj, "PrintInNewPage").getValueBool(eTypes.eBoolean);
+            this.rePrintInNewPage = xDoc.getNodeProperty(nodeObj, "RePrintInNewPage").getValueBool(eTypes.eBoolean);
+            this.grandTotalGroup = xDoc.getNodeProperty(nodeObj, "GrandTotalGroup").getValueBool(eTypes.eBoolean);
 
             fixName();
 
@@ -139,137 +139,104 @@
             nodeObjAux = nodeObj;
             nodeObjAux = xDoc.getNodeFromNode(nodeObj, C_HEADER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
-            if (!m_header.load(xDoc, nodeObjAux))  {
+            if (!this.header.load(xDoc, nodeObjAux))  {
                 return false; 
             }
 
-            m_header.setName(m_name);
+            this.header.setName(this.name);
 
             nodeObjAux = nodeObj;
             nodeObjAux = xDoc.getNodeFromNode(nodeObj, C_FOOTER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
-            if (!m_footer.load(xDoc, nodeObjAux))  {
+            if (!this.footer.load(xDoc, nodeObjAux))  {
                 return false; 
             }
 
-            m_footer.setName(m_name);
+            this.footer.setName(this.name);
 
             return true;
-        };
+        }
 
-        self.fixName = function() {
-            if (m_name.Length === 0
-                ||cUtil.subString(m_name.ToLower(), 0, 5) === "group" 
-                || cUtil.subString(m_name.ToLower(), 0, 5) === "grupo" 
-                || cUtil.subString(m_name.ToLower(), 0, 3) === "gh_" 
-                || cUtil.subString(m_name.ToLower(), 0, 3) === "gf_" 
-                || cUtil.subString(m_name.ToLower(), 0, 2) === "g_" 
+        public fixName() {
+            if (this.name.Length === 0
+                ||cUtil.subString(this.name.ToLower(), 0, 5) === "group" 
+                || cUtil.subString(this.name.ToLower(), 0, 5) === "grupo" 
+                || cUtil.subString(this.name.ToLower(), 0, 3) === "gh_" 
+                || cUtil.subString(this.name.ToLower(), 0, 3) === "gf_" 
+                || cUtil.subString(this.name.ToLower(), 0, 2) === "g_" 
                 ) {
-                m_name = "G_" + m_index;
+                this.name = "G_" + this.index;
             }
 
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
-            xProperty.setName(m_name);
+            xProperty.setName(this.name);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Key");
-            xProperty.setValue(eTypes.eText, m_key);
+            xProperty.setValue(eTypes.eText, this.key);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Name");
-            xProperty.setValue(eTypes.eText, m_name);
+            xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             // TODO: fix me - this is Spanish - English bug we should use Index
             //
             xProperty.setName("Indice");
 
-            xProperty.setValue(eTypes.eInteger, m_index);
+            xProperty.setValue(eTypes.eInteger, this.index);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ComparisonType");
-            xProperty.setValue(eTypes.eInteger, m_comparisonType);
+            xProperty.setValue(eTypes.eInteger, this.comparisonType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("FieldName");
-            xProperty.setValue(eTypes.eText, m_fieldName);
+            xProperty.setValue(eTypes.eText, this.fieldName);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("OderType");
-            xProperty.setValue(eTypes.eInteger, m_oderType);
+            xProperty.setValue(eTypes.eInteger, this.oderType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("PrintInNewPage");
-            xProperty.setValue(eTypes.eBoolean, m_printInNewPage);
+            xProperty.setValue(eTypes.eBoolean, this.printInNewPage);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("RePrintInNewPage");
-            xProperty.setValue(eTypes.eBoolean, m_rePrintInNewPage);
+            xProperty.setValue(eTypes.eBoolean, this.rePrintInNewPage);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("GrandTotalGroup");
-            xProperty.setValue(eTypes.eBoolean, m_grandTotalGroup);
+            xProperty.setValue(eTypes.eBoolean, this.grandTotalGroup);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             let nodeObjAux: XmlNode = null;
             nodeObjAux = nodeObj;
             xProperty.setName(C_HEADER);
             nodeObjAux = xDoc.addNodeToNode(nodeObjAux, xProperty);
-            m_header.save(xDoc, nodeObjAux);
+            this.header.save(xDoc, nodeObjAux);
 
             nodeObjAux = nodeObj;
             xProperty.setName(C_FOOTER);
             nodeObjAux = xDoc.addNodeToNode(nodeObjAux, xProperty);
-            m_footer.save(xDoc, nodeObjAux);
+            this.footer.save(xDoc, nodeObjAux);
 
             return true;
 
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportGroup {
-
-    getHeader: () => cReportSection;
-    setHeader: (cReportSection) => void;
-    getFooter: () => cReportSection;
-    setFooter: (cReportSection) => void;
-    getIndex: () => int;
-    setIndex: (int) => void;
-    getOderType: () => csRptGrpOrderType;
-    setOderType: (csRptGrpOrderType) => void;
-    getComparisonType: () => csRptGrpComparisonType;
-    setComparisonType: (csRptGrpComparisonType) => void;
-    getPrintInNewPage: () => bool;
-    setPrintInNewPage: (bool) => void;
-    getRePrintInNewPage: () => bool;
-    setRePrintInNewPage: (bool) => void;
-    getGrandTotalGroup: () => bool;
-    setGrandTotalGroup: (bool) => void;
-    getFieldName: () => String;
-    setFieldName: (String) => void;
-    getName: () => String;
-    setName: (String) => void;
-    getKey: () => String;
-    setKey: (String) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    fixName: () => void;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

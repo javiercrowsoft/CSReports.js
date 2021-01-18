@@ -1,23 +1,23 @@
-(function(globalObject) {
 
-    globalObject.CSConnect = globalObject.CSConnect || {};
 
-    globalObject.CSConnect.createCColumnsInfo = function() {
+namespace CSConnect
+{
+    export class cColumnsInfo {
 
-        // @ts-ignore
-        let self: CSConnect.IcColumnsInfo = {};
+
+    {
 
         // Creates an empty collection.
-        const cColumnsInfo = function() {
-        };
+        public constructor() {
+        }
 
         // Adds elements from an IDictionary into the new collection.
-        const cColumnsInfo = function(d, bReadOnly) {
+        public constructor(d: IDictionary, bReadOnly: boolean) {
             for(var i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
-        };
+        }
 
         // Gets a key-and-value pair (DictionaryEntry) using an index.
         public DictionaryEntry this[int index]
@@ -79,45 +79,45 @@ UNKNOWN >>             get
         }
 
         // Adds an entry to the collection.
-        self.Add = function(key, value) {
+        public Add(key: string, value: object) {
             this.BaseAdd(key, value);
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.Remove = function(key) {
+        public Remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.Remove = function(index) {
+        public Remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.Clear = function() {
+        public Clear() {
             this.BaseClear();
-        };
+        }
 
         // Removes an entry with the specified key from the collection.
-        self.remove = function(key) {
+        public remove(key: string) {
             this.BaseRemove(key);
-        };
+        }
 
         // Removes an entry in the specified index from the collection.
-        self.remove = function(index) {
+        public remove(index: number) {
             this.BaseRemoveAt(index);
-        };
+        }
 
         // Clears all the elements in the collection.
-        self.clear = function() {
+        public clear() {
             this.BaseClear();
-        };
+        }
 
-        self.add = function(c, key) {
+        public add(c: cColumnInfo, key: string) {
             try {
 
                 if (c === null) {
-                    c = globalObject.CSConnect.createCColumnInfo();
+                    c = new cColumnInfo();
                 }
 
                 if (key === "") {
@@ -137,54 +137,54 @@ UNKNOWN >>             get
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.count = function() {
+        public count() {
             return this.Count;
-        };
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
                 return this.BaseGet(key);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
                 return this.BaseGet(index);
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        const createColumnsInfoEnumerator = function() {
+        export class ColumnsInfoEnumerator {
 
-            // @ts-ignore
-            let self: CSConnect.IColumnsInfoEnumerator = {};
-            self.columnsInfo: cColumnsInfo = null;
+
+        {
+            public columnsInfo: cColumnsInfo = null;
             let position: number = -1;
 
             //constructor
-            const ColumnsInfoEnumerator = function(list) {
+            public constructor(list: cColumnsInfo) {
                 columnsInfo = list;
             }
-            const getEnumerator = function() {
+            private getEnumerator() {
                 return this;
             }
 
 
             //IEnumerator
-            self.MoveNext = function() {
+            public MoveNext() {
                 position++;
                 return (position < columnsInfo.Count);
             }
 
             //IEnumerator
-            self.Reset = function() {
+            public Reset() {
 
             //IEnumerator
 UNKNOWN >>             public object Current
@@ -207,21 +207,10 @@ UNKNOWN >>                 get
         {
             return new ColumnsInfoEnumerator(this);
         }
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSConnect {
-
-  export interface IColumnsInfoEnumerator {
-
-    columnsInfo;: cColumnsInfo;
-    MoveNext: () => bool;
-    Reset: () => void;
-  }
 }

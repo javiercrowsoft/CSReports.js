@@ -1,53 +1,53 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportSectionLines = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportSectionLines = {};
+    export class cReportSectionLines {
+
+
+    {
 
         // it is a reference to the controls collection of cReport
         //
-        let m_copyColl: cReportControls2 = null;
-        let m_typeSection: csRptSectionType = null;
-        let m_coll: Hashtable = new Hashtable();
-        let m_keys: List = new List();
+        private copyColl: cReportControls2 = null;
+        private typeSection: csRptSectionType = null;
+        private coll: Hashtable = new Hashtable();
+        private keys: List = new List();
 
         // Creates an empty collection.
-        const cReportSectionLines = function() {
-        };
+        public constructor() {
+        }
 
-        self.getTypeSection = function() {
-            return m_typeSection;
-        };
+        public getTypeSection() {
+            return this.typeSection;
+        }
 
-        self.setTypeSection = function(rhs) {
-            m_typeSection = rhs;
-        };
+        public setTypeSection(rhs: csRptSectionType) {
+            this.typeSection = rhs;
+        }
 
-        self.setCopyColl = function(rhs) {
+        public setCopyColl(rhs: cReportControls2) {
             let sectionLn: cReportSectionLine = null;
-            m_copyColl = rhs;
+            this.copyColl = rhs;
 
             for(var _i = 0; _i < this.count(); _i++) {
                 sectionLn = item(_i);
                 sectionLn.setCopyColl(rhs);
             }
-        };
+        }
 
-        self.getCopyColl = function() {
-            return m_copyColl;
-        };
+        public getCopyColl() {
+            return this.copyColl;
+        }
 
-		self.add = function() {
+		public add() {
 			return add (null, "", -1);
-		};
-        self.add = function(c, key, index) {
+		}
+        public add(c: cReportSectionLine, key: string, index: number) {
             try {
                 if (c === null)  {
-                    c = globalObject.CSReportDll.createCReportSectionLine();
+                    c = new cReportSectionLine();
                 }
                 if (key === "") {
                     key = cReportGlobals.getNextKey().ToString();
@@ -59,16 +59,16 @@
                 key = cReportGlobals.getKey(key);
 
                 if ( && this.count() > 0) {
-                    m_keys.Insert(index, key);
+                    this.keys.Insert(index, key);
                 }
                 else {
-                    m_keys.Add(key);
+                    this.keys.Add(key);
                 }
 
-                m_coll.Add(key, c);
+                this.coll.Add(key, c);
 
-                c.setCopyColl(m_copyColl);
-                c.setTypeSection(m_typeSection);
+                c.setCopyColl(this.copyColl);
+                c.setTypeSection(this.typeSection);
 
                 pRefreshIndex();
                 c.setIndex(this.count()-1);
@@ -79,9 +79,9 @@
             catch (ex) {
                 return null;
             }
-        };
+        }
 
-        self.clear = function() {
+        public clear() {
             try {
                 let n: number = this.count();
                 for(var i = 0; i < n; i++) {
@@ -91,9 +91,9 @@
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.remove = function(key) {
+        public remove(key: string) {
             try {
                 let w_item: cReportSectionLine = item(key);
                 if (w_item !== null) {
@@ -102,17 +102,17 @@
                         w_item.getControls().setSectionLine(null);
                         w_item.getControls().setCopyColl(null);
                     }
-                    m_coll.Remove(key);
-                    m_keys.Remove(key);
+                    this.coll.Remove(key);
+                    this.keys.Remove(key);
                 }
 
                 return;
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.remove = function(index) {
+        public remove(index: number) {
             try {
                 let w_item: cReportSectionLine = item(index);
                 if (w_item !== null) {
@@ -121,68 +121,48 @@
                         w_item.getControls().setSectionLine(null);
                         w_item.getControls().setCopyColl(null);
                     }
-                    m_coll.Remove(m_keys[index]);
-                    m_keys.RemoveAt(index);
+                    this.coll.Remove(this.keys[index]);
+                    this.keys.RemoveAt(index);
                 }
 
                 return;
             }
             catch(ex) {
             }
-        };
+        }
 
-        self.count = function() {
-            return m_coll.Count;
-        };
+        public count() {
+            return this.coll.Count;
+        }
 
-        self.item = function(key) {
+        public item(key: string) {
             try {
-                return m_coll[key];
+                return this.coll[key];
             }
             catch (ex) {
                 return null;
             }
-        };
+        }
 
-        self.item = function(index) {
+        public item(index: number) {
             try {
-                return m_coll[m_keys[index]];
+                return this.coll[this.keys[index]];
             }
             catch(ex) {
                 return null;
             }
-        };
+        }
 
-        const pRefreshIndex = function() {
+        private pRefreshIndex() {
             for(var i = 0; i < this.count(); i++) {
                 item(i).setRealIndex(i);
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportSectionLines {
-
-    getTypeSection: () => csRptSectionType;
-    setTypeSection: (csRptSectionType) => void;
-    setCopyColl: (cReportControls2) => void;
-    getCopyColl: () => cReportControls2;
-    add: () => cReportSectionLine;
-    add: (cReportSectionLine, String, int) => cReportSectionLine;
-    clear: () => void;
-    remove: (String) => void;
-    remove: (int) => void;
-    count: () => int;
-    item: (String) => cReportSectionLine;
-    item: (int) => cReportSectionLine;
-  }
 }

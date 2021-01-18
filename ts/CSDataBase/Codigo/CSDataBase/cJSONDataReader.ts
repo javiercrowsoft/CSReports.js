@@ -1,25 +1,25 @@
-(function(globalObject) {
 
-    globalObject.CSDataBase = globalObject.CSDataBase || {};
 
-    globalObject.CSDataBase.createCJSONDataReader = function() {
+namespace CSDataBase
+{
+    export class cJSONDataReader {
 
-        // @ts-ignore
-        let self: CSDataBase.IcJSONDataReader = {};
-        let m_dataSource: cJSONDataSource = null;
-        let m_cols: JArray = null;
-        let m_rows: JArray = null;
 
-        let m_resultIndex: number = 0;
-        let m_rowIndex: number = -1;
-        let m_closed: boolean = false;
-        let m_start: DateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    {
+        private dataSource: cJSONDataSource = null;
+        private cols: JArray = null;
+        private rows: JArray = null;
 
-        const cJSONDataReader = function(dataSource) {
-            m_dataSource = dataSource;
-            m_cols = m_dataSource.getData()["columns"] as JArray;
-            m_rows = m_dataSource.getData()["rows"] as JArray;
-        };
+        private resultIndex: number = 0;
+        private rowIndex: number = -1;
+        private closed: boolean = false;
+        private start: DateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        public constructor(dataSource: cJSONDataSource) {
+            this.dataSource = dataSource;
+            this.cols = this.dataSource.getData()["columns"] as JArray;
+            this.rows = this.dataSource.getData()["rows"] as JArray;
+        }
 
         //
         // Summary:
@@ -73,7 +73,7 @@ UNKNOWN >>             get
         //
         // Returns:
         //     The depth of nesting for the current row.
-        self.int: override = null;Depth { get; };
+        public int: override = null;Depth { get; };
         //
         // Summary:
         //     Gets the number of columns in the current row.
@@ -89,7 +89,7 @@ UNKNOWN >>         public override int FieldCount
         {
 UNKNOWN >>             get
             {
-                return (m_dataSource.getData()["columns"] as JArray).Count;
+                return (this.dataSource.getData()["columns"] as JArray).Count;
             }
         }
         //
@@ -103,7 +103,7 @@ UNKNOWN >>             get
 UNKNOWN >>         public override bool HasRows {
 UNKNOWN >>             get
             {
-                return (m_dataSource.getData()["rows"] as JArray).Count > 0;
+                return (this.dataSource.getData()["rows"] as JArray).Count > 0;
             }
         }
         //
@@ -118,7 +118,7 @@ UNKNOWN >>         public override bool IsClosed
         {
 UNKNOWN >>             get
             {
-                return m_closed;
+                return this.closed;
             }
         }
         //
@@ -129,7 +129,7 @@ UNKNOWN >>             get
         // Returns:
         //     The number of rows changed, inserted, or deleted; 0 if no rows were affected
         //     or the statement failed; and -1 for SELECT statements.
-        self.int: override = null;RecordsAffected { get; };
+        public int: override = null;RecordsAffected { get; };
         //
         // Summary:
         //     Gets the number of fields in the System.Data.SqlClient.SqlDataReader that are
@@ -140,17 +140,17 @@ UNKNOWN >>             get
 UNKNOWN >>         public override int VisibleFieldCount {
 UNKNOWN >>             get
             {
-                return (m_dataSource.getData()["columns"] as JArray).Count;
+                return (this.dataSource.getData()["columns"] as JArray).Count;
             }
         }
 
         //
         // Summary:
         //     Closes the System.Data.SqlClient.SqlDataReader object.
-        self.Close = function() {
+        public Close() {
             // TODO: we should release resources here (unregister the datasource in cJSONServer)
-            m_closed = true;
-        };
+            this.closed = true;
+        }
         //
         // Summary:
         //     Gets the value of the specified column as a Boolean.
@@ -165,7 +165,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetBoolean = function(i) {
+        public GetBoolean(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a byte.
@@ -180,7 +180,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetByte = function(i) {
+        public GetByte(i: number) {
         //
         // Summary:
         //     Reads a stream of bytes from the specified column offset into the buffer an array
@@ -204,7 +204,7 @@ UNKNOWN >>             get
         //
         // Returns:
         //     The actual number of bytes read.
-        self.GetBytes = function(i, dataIndex, buffer, bufferIndex, length) {
+        public GetBytes(i: number, dataIndex: number, buffer: byte[], bufferIndex: number, length: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a single character.
@@ -219,7 +219,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetChar = function(i) {
+        public GetChar(i: number) {
         //
         // Summary:
         //     Reads a stream of characters from the specified column offset into the buffer
@@ -243,7 +243,7 @@ UNKNOWN >>             get
         //
         // Returns:
         //     The actual number of characters read.
-        self.GetChars = function(i, dataIndex, buffer, bufferIndex, length) {
+        public GetChars(i: number, dataIndex: number, buffer: char[], bufferIndex: number, length: number) {
         //
         // Summary:
         //     Gets a string representing the data type of the specified column.
@@ -254,7 +254,7 @@ UNKNOWN >>             get
         //
         // Returns:
         //     The string representing the data type of the specified column.
-        self.GetDataTypeName = function(i) {
+        public GetDataTypeName(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a System.DateTime object.
@@ -269,7 +269,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetDateTime = function(i) {
+        public GetDateTime(i: number) {
         //
         // Summary:
         //     Retrieves the value of the specified column as a System.DateTimeOffset object.
@@ -284,7 +284,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetDateTimeOffset = function(i) {
+        public GetDateTimeOffset(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a System.Decimal object.
@@ -299,7 +299,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetDecimal = function(i) {
+        public GetDecimal(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a double-precision floating point number.
@@ -314,14 +314,14 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetDouble = function(i) {
+        public GetDouble(i: number) {
         //
         // Summary:
         //     Returns an System.Collections.IEnumerator that iterates through the System.Data.SqlClient.SqlDataReader.
         //
         // Returns:
         //     An System.Collections.IEnumerator for the System.Data.SqlClient.SqlDataReader.
-        self.GetEnumerator = function() {
+        public GetEnumerator() {
         //
         // Summary:
         //     Gets the System.Type that is the data type of the object.
@@ -334,7 +334,7 @@ UNKNOWN >>             get
         //     The System.Type that is the data type of the object. If the type does not exist
         //     on the client, in the case of a User-Defined Type (UDT) returned from the database,
         //     GetFieldType returns null.
-        self.GetFieldType = function(i) {
+        public GetFieldType(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a single-precision floating point number.
@@ -349,7 +349,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetFloat = function(i) {
+        public GetFloat(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a globally unique identifier (GUID).
@@ -364,7 +364,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetGuid = function(i) {
+        public GetGuid(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a 16-bit signed integer.
@@ -379,7 +379,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetInt16 = function(i) {
+        public GetInt16(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a 32-bit signed integer.
@@ -394,7 +394,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetInt32 = function(i) {
+        public GetInt32(i: number) {
         //
         // Summary:
         //     Gets the value of the specified column as a 64-bit signed integer.
@@ -409,7 +409,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetInt64 = function(i) {
+        public GetInt64(i: number) {
         //
         // Summary:
         //     Gets the name of the specified column.
@@ -420,9 +420,9 @@ UNKNOWN >>             get
         //
         // Returns:
         //     The name of the specified column.
-        self.GetName = function(i) {
-            return m_cols[i]["name"].ToString();
-        };
+        public GetName(i: number) {
+            return this.cols[i]["name"].ToString();
+        }
         //
         // Summary:
         //     Gets the column ordinal, given the name of the column.
@@ -437,7 +437,7 @@ UNKNOWN >>             get
         // Exceptions:
         //   T:System.IndexOutOfRangeException:
         //     The name specified is not a valid column name.
-        self.GetOrdinal = function(name) {
+        public GetOrdinal(name: string) {
         //
         // Summary:
         //     Gets an Object that is a representation of the underlying provider-specific field
@@ -450,7 +450,7 @@ UNKNOWN >>             get
         // Returns:
         //     Gets an System.Object that is a representation of the underlying provider-specific
         //     field type.
-        self.GetProviderSpecificFieldType = function(i) {
+        public GetProviderSpecificFieldType(i: number) {
         //
         // Summary:
         //     Gets an Object that is a representation of the underlying provider specific value.
@@ -462,7 +462,7 @@ UNKNOWN >>             get
         // Returns:
         //     An System.Object that is a representation of the underlying provider specific
         //     value.
-        self.GetProviderSpecificValue = function(i) {
+        public GetProviderSpecificValue(i: number) {
         //
         // Summary:
         //     Gets an array of objects that are a representation of the underlying provider
@@ -475,7 +475,7 @@ UNKNOWN >>             get
         // Returns:
         //     The array of objects that are a representation of the underlying provider specific
         //     values.
-        self.GetProviderSpecificValues = function(values) {
+        public GetProviderSpecificValues(values: object[]) {
         //
         // Summary:
         //     Returns a System.Data.DataTable that describes the column metadata of the System.Data.SqlClient.SqlDataReader.
@@ -494,7 +494,7 @@ UNKNOWN >>             get
             dt.Columns.Add("ColumnType");
 
             var i = 0;
-            foreach (var col in m_cols)
+            foreach (var col in this.cols)
             {
                 var row = dt.NewRow();
                 row["ColumnName"] = col["name"].ToString();
@@ -506,7 +506,7 @@ UNKNOWN >>             get
             return dt;
         }*/
 
-        const getType = function(typeName, columnName) {
+        private getType(typeName: string, columnName: string) {
 UNKNOWN >>             Type type;
 
             switch (typeName.ToLower())
@@ -546,12 +546,12 @@ UNKNOWN >>             Type type;
                     type = typeof(byte[]);
                     break;
                 default:
-                    throw new ArgumentException("The data type for column " + columnName + " of data source " + m_dataSource.getName() + " is not supported");
+                    throw new ArgumentException("The data type for column " + columnName + " of data source " + this.dataSource.getName() + " is not supported");
             }
             return type;
-        };
+        }
 
-        self.GetSchemaTable = function() {
+        public GetSchemaTable() {
             let table: var = new DataTable("SchemaTable");
 
             table.Columns.Add("AllowDBNull", typeof(bool));
@@ -579,7 +579,7 @@ UNKNOWN >>             Type type;
             table.Columns.Add("ProviderType", typeof(Type));
 
             let i: var = 0;
-            for(var i_ = 0; i_ < m_cols.length; i_++) {
+            for(var i_ = 0; i_ < this.cols.length; i_++) {
                 let colName: var = col["name"].ToString();
 
                 let row: var = table.NewRow();
@@ -611,7 +611,7 @@ UNKNOWN >>             Type type;
             }
 
             return table;
-        };
+        }
         //
         // Summary:
         //     Gets the value of the specified column as a string.
@@ -626,14 +626,14 @@ UNKNOWN >>             Type type;
         // Exceptions:
         //   T:System.InvalidCastException:
         //     The specified cast is not valid.
-        self.GetString = function(i) {
+        public GetString(i: number) {
 
-        const isByteA = function(i) {
-            return m_cols[i]["columnType"].ToString() === "bytea";
-        };
-        const isTimestamptz = function(i) {
-            return m_cols[i]["columnType"].ToString() === "timestamptz";
-        };
+        private isByteA(i: number) {
+            return this.cols[i]["columnType"].ToString() === "bytea";
+        }
+        private isTimestamptz(i: number) {
+            return this.cols[i]["columnType"].ToString() === "timestamptz";
+        }
         //
         // Summary:
         //     Gets the value of the specified column in its native format.
@@ -644,21 +644,21 @@ UNKNOWN >>             Type type;
         //
         // Returns:
         //     This method returns System.DBNull for null database columns.
-        self.GetValue = function(i) {
-            let value: object = m_rows[m_rowIndex]["values"][i];
+        public GetValue(i: number) {
+            let value: object = this.rows[this.rowIndex]["values"][i];
             if (isByteA(i)) {
                 value = Convert.FromBase64String(value.ToString());
             }
             else if (isTimestamptz(i)) {
                 if (value.ToString().Trim().Length === 0) {
-                    value = m_start;
+                    value = this.start;
                 }
                 else {
-                    value = m_start.AddMilliseconds(Convert.ToInt64(value.ToString())).ToLocalTime();
+                    value = this.start.AddMilliseconds(Convert.ToInt64(value.ToString())).ToLocalTime();
                 }                
             }
             return value;
-        };
+        }
         //
         // Summary:
         //     Populates an array of objects with the column values of the current row.
@@ -669,7 +669,7 @@ UNKNOWN >>             Type type;
         //
         // Returns:
         //     The number of instances of System.Object in the array.
-        self.GetValues = function(values) {
+        public GetValues(values: object[]) {
             if (values === null) {
                 throw new ArgumentNullException(nameof(values));
             CheckRow();
@@ -678,7 +678,7 @@ UNKNOWN >>             Type type;
             for (var i = 0; i < count; i++) {
                 values[i] = GetValue(i);
             return count;
-        };
+        }
         //
         // Summary:
         //     Gets a value that indicates whether the column contains non-existent or missing
@@ -691,7 +691,7 @@ UNKNOWN >>             Type type;
         // Returns:
         //     true if the specified column value is equivalent to System.DBNull; otherwise
         //     false.
-        self.IsDBNull = function(i) {
+        public IsDBNull(i: number) {
         //
         // Summary:
         //     Advances the data reader to the next result, when reading the results of batch
@@ -699,70 +699,29 @@ UNKNOWN >>             Type type;
         //
         // Returns:
         //     true if there are more result sets; otherwise false.
-        self.NextResult = function() {
-            m_resultIndex += 1;
-            return m_resultIndex < 2;
-        };
+        public NextResult() {
+            this.resultIndex += 1;
+            return this.resultIndex < 2;
+        }
         //
         // Summary:
         //     Advances the System.Data.SqlClient.SqlDataReader to the next record.
         //
         // Returns:
         //     true if there are more rows; otherwise false.
-        self.Read = function() {
-            m_rowIndex += 1;
-            return m_rowIndex < m_rows.Count;
-        };
+        public Read() {
+            this.rowIndex += 1;
+            return this.rowIndex < this.rows.Count;
+        }
 
-        self.IsOnRow: boolean = null;=> -1 < m_rowIndex && m_rowIndex < m_rows.Count;
+        public IsOnRow: boolean = null;=> -1 < this.rowIndex && this.rowIndex < this.rows.Count;
 
         void CheckRow()
         {
             if (!IsOnRow) {
                 throw new InvalidOperationException("No row is available");
         }
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSDataBase {
-
-  export interface IcJSONDataReader {
-
-    int: override;
-    int: override;
-    Close: () => void;
-    GetBoolean: (int) => bool;
-    GetByte: (int) => byte;
-    GetBytes: (int, long, byte[], int, int) => long;
-    GetChar: (int) => char;
-    GetChars: (int, long, char[], int, int) => long;
-    GetDataTypeName: (int) => string;
-    GetDateTime: (int) => DateTime;
-    GetDateTimeOffset: (int) => DateTimeOffset;
-    GetDecimal: (int) => decimal;
-    GetDouble: (int) => double;
-    GetEnumerator: () => IEnumerator;
-    GetFieldType: (int) => Type;
-    GetFloat: (int) => float;
-    GetGuid: (int) => Guid;
-    GetInt16: (int) => short;
-    GetInt32: (int) => int;
-    GetInt64: (int) => long;
-    GetName: (int) => string;
-    GetOrdinal: (string) => int;
-    GetProviderSpecificFieldType: (int) => Type;
-    GetProviderSpecificValue: (int) => object;
-    GetProviderSpecificValues: (object[]) => int;
-    GetSchemaTable: () => DataTable;
-    GetString: (int) => string;
-    GetValue: (int) => object;
-    GetValues: (object[]) => int;
-    IsDBNull: (int) => bool;
-    NextResult: () => bool;
-    Read: () => bool;
-    IsOnRow: boolean;
-  }
 }

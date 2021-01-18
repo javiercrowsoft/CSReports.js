@@ -1,20 +1,20 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createFGroup = function() {
+namespace CSReportEditor
+{
+    export class fGroup {
 
-        // @ts-ignore
-        let self: CSReportEditor.IfGroup = {};
-        let m_editor: cEditor = null;
-        let m_ok: boolean = false;
-        let m_dbFieldChanged: boolean = false;
-        let m_index: number = 0;
-        let m_fieldType: number = 0;
 
-        const fGroup = function() {
+    {
+        private editor: cEditor = null;
+        private ok: boolean = false;
+        private dbFieldChanged: boolean = false;
+        private index: number = 0;
+        private fieldType: number = 0;
+
+        public constructor() {
             InitializeComponent();
-        };
+        }
 
 UNKNOWN >>         public TextBox txName
         {
@@ -104,144 +104,114 @@ UNKNOWN >>             get
             }
         }
 
-        self.getAsc = function() {
+        public getAsc() {
             return op_asc.Checked;
-        };
+        }
 
-        self.setAsc = function(value) {
+        public setAsc(value: boolean) {
             op_asc.Checked = value;
-        };
+        }
 
-        self.setDesc = function(value) {
+        public setDesc(value: boolean) {
             op_desc.Checked = value;
-        };
+        }
 
-        self.getPrintInNewPage = function() {
+        public getPrintInNewPage() {
             return chk_printInNewPage.Checked;
-        };
+        }
 
-        self.setPrintInNewPage = function(value) {
+        public setPrintInNewPage(value: boolean) {
             chk_printInNewPage.Checked = value;
-        };
+        }
 
-        self.getReprintGroup = function() {
+        public getReprintGroup() {
             return chk_reprintGroup.Checked;
-        };
+        }
 
-        self.setReprintGroup = function(value) {
+        public setReprintGroup(value: boolean) {
             chk_reprintGroup.Checked = value;
-        };
+        }
 
-        self.getGrandTotal = function() {
+        public getGrandTotal() {
             return chk_grandTotal.Checked;
-        };
+        }
 
-        self.setGrandTotal = function(value) {
+        public setGrandTotal(value: boolean) {
             chk_grandTotal.Checked = value;
-        };
+        }
 
-        self.getSortByDate = function() {
+        public getSortByDate() {
             return op_date.Checked;
-        };
+        }
 
-        self.setSortByDate = function(value) {
+        public setSortByDate(value: boolean) {
             op_date.Checked = value;
-        };
+        }
 
-        self.getSortByNumber = function() {
+        public getSortByNumber() {
             return op_number.Checked;
-        };
+        }
 
-        self.setSortByNumber = function(value) {
+        public setSortByNumber(value: boolean) {
             op_number.Checked = value;
-        };
+        }
 
-        self.getSortByText = function() {
+        public getSortByText() {
             return op_text.Checked;
-        };
+        }
 
-        self.setSortByText = function(value) {
+        public setSortByText(value: boolean) {
             op_text.Checked = value;
-        };
+        }
 
-        self.getOk = function() {
-            return m_ok;
-        };
+        public getOk() {
+            return this.ok;
+        }
 
-		self.getDbField = function() {
+		public getDbField() {
 			throw new NotImplementedException ();
-		};
+		}
 
-        self.getFieldType = function() {
-            return m_fieldType;
-        };
+        public getFieldType() {
+            return this.fieldType;
+        }
 
-        self.setFieldType = function(rhs) {
-            m_fieldType = rhs;
-        };
+        public setFieldType(rhs: number) {
+            this.fieldType = rhs;
+        }
 
-        self.getIndex = function() {
-            return m_index;
-        };
+        public getIndex() {
+            return this.index;
+        }
 
-        self.setIndex = function(rhs) {
-            m_index = rhs;
-        };
+        public setIndex(rhs: number) {
+            this.index = rhs;
+        }
 
-        const cmdOk_Click = function(sender, e) {
-            m_ok = true;
+        private cmdOk_Click(sender: object, e: EventArgs) {
+            this.ok = true;
             this.Hide();
-        };
+        }
 
-        const cmdCancel_Click = function(sender, e) {
-            m_ok = false;
+        private cmdCancel_Click(sender: object, e: EventArgs) {
+            this.ok = false;
             this.Hide();
-        };
+        }
 
-        self.setHandler = function(editor) {
-            m_editor = editor;
-        };
+        public setHandler(editor: cEditor) {
+            this.editor = editor;
+        }
 
-        const cmd_dbField_Click = function(sender, e) {
-            if (m_editor.showHelpDbFieldForGroup()) {
-                m_dbFieldChanged = true;
+        private cmd_dbField_Click(sender: object, e: EventArgs) {
+            if (this.editor.showHelpDbFieldForGroup()) {
+                this.dbFieldChanged = true;
             }
-        };
+        }
 
-        const fGroup_Load = function(sender, e) {
+        private fGroup_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface IfGroup {
-
-    getAsc: () => bool;
-    setAsc: (bool) => void;
-    setDesc: (bool) => void;
-    getPrintInNewPage: () => bool;
-    setPrintInNewPage: (bool) => void;
-    getReprintGroup: () => bool;
-    setReprintGroup: (bool) => void;
-    getGrandTotal: () => bool;
-    setGrandTotal: (bool) => void;
-    getSortByDate: () => bool;
-    setSortByDate: (bool) => void;
-    getSortByNumber: () => bool;
-    setSortByNumber: (bool) => void;
-    getSortByText: () => bool;
-    setSortByText: (bool) => void;
-    getOk: () => bool;
-    getDbField: () => string;
-    getFieldType: () => int;
-    setFieldType: (int) => void;
-    getIndex: () => int;
-    setIndex: (int) => void;
-    setHandler: (cEditor) => void;
-  }
 }

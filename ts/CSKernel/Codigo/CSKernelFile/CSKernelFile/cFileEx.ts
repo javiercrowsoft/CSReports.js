@@ -1,36 +1,36 @@
-(function(globalObject) {
 
-    globalObject.CSKernelFile = globalObject.CSKernelFile || {};
 
-    globalObject.CSKernelFile.createCFileEx = function() {
+namespace CSKernelFile
+{
+    export class cFileEx {
 
-        // @ts-ignore
-        let self: CSKernelFile.IcFileEx = {};
 
-        const C_MODULE: string = "cFileEx";
+    {
 
-        self.fileGetName = function(fullPath) {
+        private C_MODULE: string = "cFileEx";
+
+        public fileGetName(fullPath: string) {
             return getFileNameWithoutExt(fullPath);
-        };
+        }
 
-        self.fileExists = function(file) {
+        public fileExists(file: string) {
             return File.Exists(file);
-        };
+        }
 
-        self.getWindowsDir = function() {
+        public getWindowsDir() {
             return System.Environment.SystemDirectory;
-        };
+        }
 
-        self.fileGetPath = function(fullPath) {
+        public fileGetPath(fullPath: string) {
             let path: string = "";
             let fileName: string = "";
 
             separatePathAndFileName(fullPath, path, fileName);
 
             return path;
-        };
+        }
 
-        self.fileGetFileExt = function(fullPath) {
+        public fileGetFileExt(fullPath: string) {
             let path: string = "";
             let fileName: string = "";
             let pos: number = 0;
@@ -63,13 +63,13 @@
                     //
                     return fileName.Substring(pos + 1);
             }
-        };
+        }
 
-        self.fileGetPathAndFileName = function(fullPath, path, fileName) {
+        public fileGetPathAndFileName(fullPath: string, path: string, fileName: string) {
             separatePathAndFileName(fullPath, path, fileName);
-        };
+        }
 
-        self.fileCopyFile = function(source, destination) {
+        public fileCopyFile(source: string, destination: string) {
             try {
                 File.Copy(source, destination);
                 return true;
@@ -78,9 +78,9 @@
                 cError.mngError(ex, "fileCopyFile", C_MODULE, "source: " + source + "\ndestination:" + destination);
                 return false;
             }
-        };
+        }
 
-        self.fileDelete = function(file) {
+        public fileDelete(file: string) {
             try {
                 if (fileExists(file)) {
                     File.SetAttributes(file, FileAttributes.Normal);
@@ -92,9 +92,9 @@
                 cError.mngError(ex, "fileDelete", C_MODULE, "file: " + file);
                 return false;
             }
-        };
+        }
 
-        self.getFileNameWithoutExt = function(fullPath) {
+        public getFileNameWithoutExt(fullPath: string) {
             let path: string = "";
             let fileName: string = "";
             let pos: number = 0;
@@ -122,9 +122,9 @@
                 default:
                     return fileName.Substring(0, pos - 1);
             }
-        };
+        }
 
-        self.separatePathAndFileName = function(fullPath, path, fileName) {
+        public separatePathAndFileName(fullPath: string, path: string, fileName: string) {
             let pos: number = 0;
             let sep: string = "";
 
@@ -158,9 +158,9 @@
                 path = fullPath.Substring(0, pos - 1);
                 fileName = fullPath.Substring(pos + 1);
             }
-        };
+        }
 
-        const isSeparator = function(character) {
+        private isSeparator(character: string) {
             if (character === "\\") {
                 return true;
             }
@@ -170,27 +170,9 @@
             else {
                 return false;
             }
-        };
+        }
 
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelFile {
-
-  export interface IcFileEx {
-
-    fileGetName: (String) => String;
-    fileExists: (String) => bool;
-    getWindowsDir: () => String;
-    fileGetPath: (String) => String;
-    fileGetFileExt: (String) => String;
-    fileGetPathAndFileName: (String, String, String) => void;
-    fileCopyFile: (String, String) => bool;
-    fileDelete: (String) => bool;
-    getFileNameWithoutExt: (String) => String;
-    separatePathAndFileName: (String, String, String) => void;
-  }
 }

@@ -1,45 +1,35 @@
-(function(globalObject) {
 
-    globalObject.CSReportEditor = globalObject.CSReportEditor || {};
 
-    globalObject.CSReportEditor.createReportEditorException = function() {
+namespace CSReportEditor
+{
+    export class ReportEditorException {
 
-        // @ts-ignore
-        let self: CSReportEditor.IReportEditorException = {};
-        self.errorCode: csRptEditorErrors = null;{ get; set; };
-        self.createClassName = function() {
 
-            // @ts-ignore
-            let self: CSReportEditor.IclassName = {};
+    {
+        public errorCode: csRptEditorErrors = null;{ get; set; };
+        export class className {
 
-        const ReportEditorException = function() {
 
-        const ReportEditorException = function(code, module, message) {
+
+        public constructor() {
+
+        public constructor(code: csRptEditorErrors, module: string, message: string) {
             : base(message)
         {
             errorCode = code;
-            self.createModule; = function() {
+            export class module; {
 
-                // @ts-ignore
-                let self: CSReportEditor.Imodule; = {};
+
+        }
 
         // A constructor is needed for serialization when an
         // exception propagates from a remoting server to the client. 
-        const ReportEditorException = function(info, context) {
+        public constructor(info: SerializationInfo, context: StreamingContext) {
 
-        self.ToString = function() {
+        public ToString() {
             return base.ToString() + "\n\nCode:" + errorCode.ToString();
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportEditor {
-
-  export interface Imodule; {
-
-    ToString: () => string;
-  }
 }

@@ -1,48 +1,48 @@
-(function(globalObject) {
 
-    globalObject.CSReportWebServer = globalObject.CSReportWebServer || {};
 
-    globalObject.CSReportWebServer.createFMain = function() {
+namespace CSReportWebServer
+{
+    export class fMain {
 
-        // @ts-ignore
-        let self: CSReportWebServer.IfMain = {};
-        let m_args: string[] = null;
 
-        let m_reports: Dictionary = new Dictionary();
+    {
+        private args: string[] = null;
 
-		let ILog: static m_log = LogManager.GetLogger(typeof(fMain));
+        private reports: Dictionary = new Dictionary();
 
-        const fMain = function(args) {
+		private ILog: static this.log = LogManager.GetLogger(typeof(fMain));
+
+        public constructor(args: string[]) {
             InitializeComponent();
-            m_args = args;
-        };
+            this.args = args;
+        }
 
-        const cmdRegister_Click = function(sender, e) {
+        private cmdRegister_Click(sender: object, e: EventArgs) {
             Main.RegisterNativeMessagingHost(new string[] { "register" });
-        };
+        }
 
 //         delegate void LogCallback(string message);
 
-        const safeLog = function(message) {
+        private safeLog(message: string) {
             let i: var = lvLog.Items.Add(DateTime.Now.ToString("h:mm:ss tt"));
             i.SubItems.Add(message);
-        };
+        }
 
-        self.log = function(message) {
+        public log(message: string) {
             let d: LogCallback = new LogCallback(safeLog);
             this.Invoke(d, new object[] { message });
-        };
+        }
 
 //         delegate void CloseCallback();
 
-        self.close = function() {
+        public close() {
             let d: CloseCallback = new CloseCallback(this.Close);
             this.Invoke(d);
-        };
+        }
 
 //         delegate void ReportActionCallback(JObject request);
 
-        const safePreview = function(request) {
+        private safePreview(request: JObject) {
             let fileName: var = request["message"]["data"]["file"];
             let reportType: var = request["message"]["data"]["type"].ToString();
             let url: var = request["message"]["data"]["url"].ToString();
@@ -56,15 +56,15 @@
             if (report.openDocument(pathAndFile)) {
                 report.preview();
             }
-            if (m_reports.ContainsKey(report.reportId)) {
-                m_reports[report.reportId] = report;
+            if (this.reports.ContainsKey(report.reportId)) {
+                this.reports[report.reportId] = report;
             }
             else {
-                m_reports.Add(report.reportId, report);
+                this.reports.Add(report.reportId, report);
             }
-        };
+        }
 
-        const safePrint = function(request) {
+        private safePrint(request: JObject) {
             let fileName: var = request["message"]["data"]["file"];
             let reportType: var = request["message"]["data"]["type"].ToString();
             let url: var = request["message"]["data"]["url"].ToString();
@@ -76,64 +76,51 @@
             if (report.openDocument(pathAndFile)) {
                 report.printReport();
             }
-        };
+        }
 
-        const safeMoveToPage = function(request) {
+        private safeMoveToPage(request: JObject) {
             let data: var = request["message"]["data"];
             let reportId: var = data["reportId"].ToString();
 			let page: var =  int.Parse(data["report_page"].ToString());
-			m_log.Info("Getting page " + page);
+			this.log.Info("Getting page " + page);
 
-            let report: var = m_reports[reportId];
+            let report: var = this.reports[reportId];
             report.moveToPage(page);
-        };
+        }
 
-        self.preview = function(request) {
+        public preview(request: JObject) {
             let d: ReportActionCallback = new ReportActionCallback(safePreview);
             this.Invoke(d, new object[] { request });
-        };
+        }
 
-        self.printReport = function(request) {
+        public printReport(request: JObject) {
             let d: ReportActionCallback = new ReportActionCallback(safePrint);
             this.Invoke(d, new object[] { request });
-        };
+        }
 
-        self.moveToPage = function(request) {
+        public moveToPage(request: JObject) {
             let d: ReportActionCallback = new ReportActionCallback(safeMoveToPage);
             this.Invoke(d, new object[] { request });
-        };
+        }
 
-        const fMain_Load = function(sender, e) {
-            Main.Init(m_args, this);
+        private fMain_Load(sender: object, e: EventArgs) {
+            Main.Init(this.args, this);
 			this.Height = 120;
-        };
+        }
 
-        const DownloadString = function(address) {
+        private DownloadString(address: string) {
 UNKNOWN >>             string text;
             {
                 text = client.DownloadString(address);
             }
             return text;
-        };
+        }
 
-        const getReportFromWebServer = function(url, fileName) {
+        private getReportFromWebServer(url: string, fileName: string) {
             let xml: var = DownloadString(url);
             File.WriteAllText(fileName, xml);
-        };
-        return self;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSReportWebServer {
-
-  export interface IfMain {
-
-    log: (string) => void;
-    close: () => void;
-    preview: (JObject) => void;
-    printReport: (JObject) => void;
-    moveToPage: (JObject) => void;
-  }
 }

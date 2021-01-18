@@ -1,18 +1,18 @@
-(function(globalObject) {
 
-    globalObject.CSKernelClient = globalObject.CSKernelClient || {};
 
-    globalObject.CSKernelClient.createCUtil = function() {
+namespace CSKernelClient
+{
+    export class cUtil {
 
-        // @ts-ignore
-        let self: CSKernelClient.IcUtil = {};
-        const C_MODULE: string = "cUtil";
 
-        let String: static m_sepDecimal = "";
+    {
+        private C_MODULE: string = "cUtil";
 
-		let int: static _dpi = -1;
+        private String: static this.sepDecimal = "";
 
-        self.getToken = function(token, source) {
+		private int: static _dpi = -1;
+
+        public getToken(token: string, source: string) {
               let i: number = 0;
               let s: string = "";
 UNKNOWN >>               string c;
@@ -34,35 +34,35 @@ UNKNOWN >>               int l;
               }
 
               return s;
-        };
+        }
 
-        self.tp = function(twips) {
-            self.nTwipsPerInch: number = 1440;
+        public tp(twips: number) {
+            public nTwipsPerInch: number = 1440;
             let dpi: number = getDPI();
             return Convert.ToInt32((twips / (float)nTwipsPerInch) * dpi);
-        };
+        }
 
-        self.pt = function(pixels) {
-            self.nTwipsPerInch: number = 1440;
+        public pt(pixels: number) {
+            public nTwipsPerInch: number = 1440;
             let dpi: number = getDPI();
             return Convert.ToInt32((pixels / (float)dpi) * nTwipsPerInch);
-        };
+        }
 
-        self.mt = function(millimeters) {
-            self.nTwipsPerInch: number = 1440;
+        public mt(millimeters: number) {
+            public nTwipsPerInch: number = 1440;
             return Convert.ToInt32(mi(millimeters) * nTwipsPerInch);
-        };
+        }
 
-        self.mp = function(millimeters) {
+        public mp(millimeters: number) {
             let dpi: number = getDPI();
             return Convert.ToInt32(mi(millimeters) * dpi);
-        };
+        }
 
-        self.mi = function(millimeters) {
+        public mi(millimeters: number) {
             return (millimeters * .03937);
-        };
+        }
 
-        const getDPI = function() {
+        private getDPI() {
 			if (_dpi < 0) {
 				let currentDPI: number = 0;
 				{
@@ -73,72 +73,72 @@ UNKNOWN >>               int l;
 				_dpi = currentDPI;
 			}
 			return _dpi;
-        };
+        }
 
-        self.setEmailServer = function(rhs) {
+        public setEmailServer(rhs: string) {
             cGlobals.gEmailServer = rhs;
-        };
-        self.setEmailAddress = function(rhs) {
+        }
+        public setEmailAddress(rhs: string) {
             cGlobals.gEmailAddress = rhs;
-        };
-        self.setEmailPort = function(rhs) {
+        }
+        public setEmailPort(rhs: number) {
             cGlobals.gEmailPort = rhs;
-        };
-        self.setEmailUser = function(rhs) {
+        }
+        public setEmailUser(rhs: string) {
             cGlobals.gEmailUser = rhs;
-        };
-        self.setEmailPwd = function(rhs) {
+        }
+        public setEmailPwd(rhs: string) {
             cGlobals.gEmailPwd = rhs;
-        };
+        }
 
-        self.setEmailErrDescrip = function(rhs) {
+        public setEmailErrDescrip(rhs: string) {
             cGlobals.gEmailErrDescrip = rhs;
-        };
+        }
 
-        self.getEmailServer = function() {
+        public getEmailServer() {
             return cGlobals.gEmailServer;
-        };
-        self.getEmailAddress = function() {
+        }
+        public getEmailAddress() {
             return cGlobals.gEmailAddress;
-        };
-        self.getEmailPort = function() {
+        }
+        public getEmailPort() {
             return cGlobals.gEmailPort;
-        };
-        self.getEmailUser = function() {
+        }
+        public getEmailUser() {
             return cGlobals.gEmailUser;
-        };
-        self.getEmailPwd = function() {
+        }
+        public getEmailPwd() {
             return cGlobals.gEmailPwd;
-        };
+        }
 
-        self.getErrorDB = function() {
+        public getErrorDB() {
             return cGlobals.gErrorDB;
-        };
-        self.setErrorDB = function(rhs) {
+        }
+        public setErrorDB(rhs: string) {
             cGlobals.gErrorDB = rhs;
-        };
+        }
 
-        self.arrayToString = function(v) {
+        public arrayToString(v: number[]) {
             let i: number = 0;
             let s: string = "";
             for (i = 0; i < v.Length; i++) {
                 s = s + v[i].ToString() + ",";
             }
             return removeLastColon(s);
-        };
+        }
 
-        self.arrayToString = function(v) {
+        public arrayToString(v: string[]) {
             let i: number = 0;
             let s: string = "";
             for (i = 0; i < v.Length; i++) {
                 s = s + v[i] + ",";
             }
             return removeLastColon(s);
-        };
+        }
 
-        self.existsFile = function(pathYName) {
+        public existsFile(pathYName: string) {
             return File.Exists(pathYName);
-        };
+        }
 
         /* TODO: remove me
         public static String getGetToken(String token, String source)
@@ -180,19 +180,19 @@ UNKNOWN >>               int l;
         }
         */
 
-        self.setSepDecimal = function() {
+        public setSepDecimal() {
 UNKNOWN >>             float n;
             float.TryParse("1.000", n);
             if (n === 1) {
-                m_sepDecimal = ".";
+                this.sepDecimal = ".";
             }
             else {
                 float.TryParse("1,000", n);
                 if (n === 1) {
-                    m_sepDecimal = ",";
+                    this.sepDecimal = ",";
                 }
             }
-            if (m_sepDecimal === "")  {
+            if (this.sepDecimal === "")  {
                 throw new KernelException(
                     C_MODULE,
                     "The decimal symbol could not be determined." 
@@ -201,60 +201,60 @@ UNKNOWN >>             float n;
                     + "in the Currency tab for field 'decimal symbol' and "
                     + "'Digit grouping symbol'. ");
             }
-        };
+        }
 
-        self.getSepDecimal = function() {
-            return m_sepDecimal;
-        };
+        public getSepDecimal() {
+            return this.sepDecimal;
+        }
 
-        self.getValidPath = function(path) {
+        public getValidPath(path: string) {
             if (path.Substring(path.Length - 1) !== Path.DirectorySeparatorChar.ToString()) { path = path + Path.DirectorySeparatorChar; }
             return path;
-        };
+        }
 
         //--------------------------------------------------------------------------------------------------------------------
-        self.listAdd = function(list, value) {
+        public listAdd(list: ComboBox, value: string) {
             listAdd_(list, value);
-        };
-        self.listAdd = function(list, value, id) {
+        }
+        public listAdd(list: ComboBox, value: string, id: number) {
             listAdd_(list, value, id);
-        };
-        self.listID = function(list) {
+        }
+        public listID(list: ComboBox) {
             return listID_(list);
-        };
-        self.listItemData = function(list, index) {
+        }
+        public listItemData(list: ComboBox, index: number) {
             return listItemData_(list, index);
-        };
-        self.listSetListIndex = function(list, idx) {
+        }
+        public listSetListIndex(list: ComboBox, idx: number) {
             listSetListIndex_(list, idx);
-        };
-        self.listSetListIndexForId = function(list, id) {
+        }
+        public listSetListIndexForId(list: ComboBox, id: number) {
             listSetListIndexForId_(list, id);
-        };
-        self.listSetListIndexForText = function(list, text) {
+        }
+        public listSetListIndexForText(list: ComboBox, text: string) {
             listSetListIndexForText_(list, text);
-        };
-        self.listChangeTextForSelected = function(list, value) {
+        }
+        public listChangeTextForSelected(list: ComboBox, value: string) {
             listChangeTextForSelected_(list, value);
-        };
-        self.listChangeText = function(list, idx, value) {
+        }
+        public listChangeText(list: ComboBox, idx: number, value: string) {
             listChangeText_(list, idx, value);
-        };
-        self.listGetIndexFromItemData = function(list, valueItemData) {
+        }
+        public listGetIndexFromItemData(list: ComboBox, valueItemData: number) {
             return listGetIndexFromItemData_(list, valueItemData);
-        };
+        }
 
-        const listAdd_ = function(list, value) {
+        private listAdd_(list: ComboBox, value: string) {
             list.Items.Add(value);
-        };
-        const listAdd_ = function(list, value, id) {
+        }
+        private listAdd_(list: ComboBox, value: string, id: number) {
             list.Items.Add(new ListValueWithId(value, id));
-        };
-        const listID_ = function(list) {
+        }
+        private listID_(list: ComboBox) {
             if (list.SelectedIndex === -1) { return 0; }
             return (list.SelectedItem).Id;
-        };
-        const listItemData_ = function(list, index) {
+        }
+        private listItemData_(list: ComboBox, index: number) {
             let _rtn: number = 0;
 
             if (index < list.Items.Count) {
@@ -266,12 +266,12 @@ UNKNOWN >>             float n;
                 }
             }
             return _rtn;
-        };
-        const listSetListIndex_ = function(list, idx) {
+        }
+        private listSetListIndex_(list: ComboBox, idx: number) {
             if (list.Items.Count < 1) { return; }
             if (list.Items.Count > idx) { list.SelectedIndex = idx; }
-        };
-        const listSetListIndexForId_ = function(list, id) {
+        }
+        private listSetListIndexForId_(list: ComboBox, id: number) {
             let i: number = 0;
             for (i = 0; i < list.Items.Count; i++) {
                 if ((list.Items[i]).Id === id) {
@@ -279,8 +279,8 @@ UNKNOWN >>             float n;
                     break;
                 }
             }
-        };
-        const listSetListIndexForText_ = function(list, text) {
+        }
+        private listSetListIndexForText_(list: ComboBox, text: string) {
             let i: number = 0;
             for (i = 0; i < list.Items.Count; i++) {
                 if (list.Items[i].ToString() === text) {
@@ -288,11 +288,11 @@ UNKNOWN >>             float n;
                     break;
                 }
             }
-        };
-        const listChangeTextForSelected_ = function(list, value) {
+        }
+        private listChangeTextForSelected_(list: ComboBox, value: string) {
             listChangeText_(list, list.SelectedIndex, value);
-        };
-        const listChangeText_ = function(list, idx, value) {
+        }
+        private listChangeText_(list: ComboBox, idx: number, value: string) {
             if (idx < list.Items.Count && idx > -1) {
                 let item: object = list.Items[idx];
                 if (item is ListValueWithId) {
@@ -302,8 +302,8 @@ UNKNOWN >>             float n;
                     list.Items[idx] = value;
                 }
             }
-        };
-        const listGetIndexFromItemData_ = function(list, valueItemData) {
+        }
+        private listGetIndexFromItemData_(list: ComboBox, valueItemData: number) {
             for(var i = 0; i < list.Items.Count; i++) {
 
                 if (list.Items[i] is ListValueWithId && (list.Items[i]).Id === valueItemData) {
@@ -312,7 +312,7 @@ UNKNOWN >>             float n;
             }
 
             return -1;
-        };
+        }
 
         /* 
         //--------------------------------------------------------------------------------------------------------------------
@@ -330,7 +330,7 @@ UNKNOWN >>             float n;
         */
 
         //--------------------------------------------------------------------------------------------------------------------
-        self.setInfoString = function(source, key, value) {
+        public setInfoString(source: string, key: string, value: string) {
             key = "#" + key;
 
             let i: number = source.ToLower().IndexOf(key.ToLower(), 0);
@@ -347,7 +347,7 @@ UNKNOWN >>             float n;
                 return source + key + "=" + value + ";";
             }
             else             {
-                self.c_errorstr: string = "cUtil.getInfoString: source invalid, the character {0} is not present.";
+                public c_errorstr: string = "cUtil.getInfoString: source invalid, the character {0} is not present.";
 
                 let j: number = source.ToLower().IndexOf(";".ToLower(), i);
                 if (j === -1)  {
@@ -361,9 +361,9 @@ UNKNOWN >>             float n;
                 k = k + i;
                 return source.Substring(0, k) + value + source.Substring(j);
             }
-        };
+        }
 
-        self.getInfoString = function(source, key, defaultValue) {
+        public getInfoString(source: string, key: string, defaultValue: string) {
 
             if (String.IsNullOrEmpty(source)) {
                 return defaultValue;
@@ -385,7 +385,7 @@ UNKNOWN >>             float n;
               return defaultValue;
             } 
             else  {
-              self.c_errorstr: string = "cUtil.getInfoString: source invalid, the character {0} is not present.";
+              public c_errorstr: string = "cUtil.getInfoString: source invalid, the character {0} is not present.";
 
               let j: number = source.ToLower().IndexOf(";".ToLower(), i);
               if (j === -1)  {
@@ -399,10 +399,10 @@ UNKNOWN >>             float n;
               k = k + i;
               return source.Substring(k + 1, j - k - 1);
             }
-        };
+        }
 
         //--------------------------------------------------------------------------------------------------------------------
-        self.getInput = function(value, descrip, title) {
+        public getInput(value: string, descrip: string, title: string) {
             let f: fInput = new fInput();
             f.setTitle(title);
             f.setDescrip(descrip);
@@ -415,13 +415,13 @@ UNKNOWN >>             float n;
             else  {
                 return false;
             }
-        };
+        }
         /*
         public bool getInputEx(String value, String descrip) { // TODO: Use of ByRef founded Public Function GetInputEx(ByRef Value As String, Optional ByVal Descrip As String) As Boolean
             return mUtil.getInputEx_(value, descrip);
         }
          */ 
-        self.removeLastColon = function(list) {
+        public removeLastColon(list: string) {
             list = list.Trim();
             if (list.Substring(list.Length - 1) === ",") {
                 return list.Substring(0, list.Length - 1);
@@ -429,19 +429,19 @@ UNKNOWN >>             float n;
             else {
                 return list;
             }
-        };
+        }
         /*
         public void sleep(int dwMilliseconds) {
             SubSleep(dwMilliseconds);
         }
         */
-        self.setFocusControl = function(ctl) {
+        public setFocusControl(ctl: Control) {
             ctl.Select();
-        };
+        }
 
-        self.getComputerName = function() {
+        public getComputerName() {
             return System.Environment.MachineName;
-        };
+        }
 
         /*
         public void showHelp(int hwnd, String helpFileFullName, String helpFile, int contextId) {
@@ -457,16 +457,16 @@ UNKNOWN >>             float n;
             mUtil.sendEmailToCrowSoft_(subject, body);
         }
         */
-        self.divideByZero = function(x1, x2) {
+        public divideByZero(x1: number, x2: number) {
             if (x2 !== 0) {
                 return x1 / x2;
             }
             else {
                 return 0;
             }
-        };
+        }
 
-        self.subString = function(text, start, length) {
+        public subString(text: string, start: number, length: number) {
             if (String.IsNullOrEmpty(text)) {
                 return "";
             }
@@ -476,13 +476,13 @@ UNKNOWN >>             float n;
                 }
                 return text.Substring(start, length);
             }
-        };
+        }
 
-        self.valAsInt = function(value) {
+        public valAsInt(value: object) {
             return Convert.ToInt32(val(value));
-        };
+        }
 
-        self.val = function(value) {
+        public val(value: object) {
             if (value === null) {
                 return 0;
             }
@@ -521,7 +521,7 @@ UNKNOWN >>             float n;
                         return 0;
                 }
             }
-        };
+        }
 
         /* probably we will need it in the future
          * 
@@ -552,27 +552,26 @@ UNKNOWN >>             float n;
             return false;
         }
          * */
-        return self;
+
 
     }    }
-        return self;
 
 
-    self.createListValueWithId = function() {
 
-        // @ts-ignore
-        let self: CSKernelClient.IListValueWithId = {};
-        let value: string = null;
-        let id: number = null;
+    export class ListValueWithId {
 
-        const ListValueWithId = function(value, id) {
+
+        private value: string = null;
+        private id: number = null;
+
+        public constructor(value: string, id: number) {
             this.value = value;
             this.id = id;
-        };
+        }
 
-        self.ToString = function() {
+        public ToString() {
             return value;
-        };
+        }
 
 UNKNOWN >>         public int Id 
         {
@@ -589,16 +588,7 @@ UNKNOWN >>             set
                 Text = value;
             }
         }
-        return self;
+
 
     }    }
-}(globalObject));
-
-
-namespace CSKernelClient {
-
-  export interface IListValueWithId {
-
-    ToString: () => string;
-  }
 }

@@ -1,431 +1,377 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportAspect = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportAspect = {};
+    export class cReportAspect {
 
-        let m_left: number = 0;
-        let m_top: number = 0;
-        let m_height: number = 0;
-        let m_width: number = 0;
-        let m_backColor: number = csColors.C_COLOR_WHITE;
-        let m_borderWidth: number = 0;
-        let m_borderType: csReportBorderType = null;
-        let m_borderColor: number = csColors.C_COLOR_BLACK;
-        let m_borderColor3d: number = 0;
-        let m_borderColor3dShadow: number = 0;
-        let m_selectColor: number = 0;
-        let m_font: cReportFont = new cReportFont();
-        let m_canGrow: boolean = null;
-        let m_nZOrder: number = 0;
-        let m_align: HorizontalAlignment = HorizontalAlignment.Left;
-        let m_transparent: boolean = null;
-        let m_format: string = "";
-        let m_symbol: string = "";
-        let m_isAccounting: boolean = null;
-        let m_wordWrap: boolean = null;
-        let m_borderRounded: boolean = null;
-        let m_offset: number = 0;
 
-        self.setOffset = function(rhs) {
-            m_offset = rhs;
-        };
+    {
 
-        self.getOffset = function() {
-            return m_offset;
-        };
+        private left: number = 0;
+        private top: number = 0;
+        private height: number = 0;
+        private width: number = 0;
+        private backColor: number = csColors.C_COLOR_WHITE;
+        private borderWidth: number = 0;
+        private borderType: csReportBorderType = null;
+        private borderColor: number = csColors.C_COLOR_BLACK;
+        private borderColor3d: number = 0;
+        private borderColor3dShadow: number = 0;
+        private selectColor: number = 0;
+        private font: cReportFont = new cReportFont();
+        private canGrow: boolean = null;
+        private nZOrder: number = 0;
+        private align: HorizontalAlignment = HorizontalAlignment.Left;
+        private transparent: boolean = null;
+        private format: string = "";
+        private symbol: string = "";
+        private isAccounting: boolean = null;
+        private wordWrap: boolean = null;
+        private borderRounded: boolean = null;
+        private offset: number = 0;
 
-        self.getLeft = function() {
-            return m_left;
-        };
+        public setOffset(rhs: number) {
+            this.offset = rhs;
+        }
 
-        self.setLeft = function(rhs) {
-            m_left = rhs;
-        };
+        public getOffset() {
+            return this.offset;
+        }
 
-        self.getTop = function() {
-            return m_top;
-        };
+        public getLeft() {
+            return this.left;
+        }
 
-        self.setTop = function(rhs) {
-            m_top = rhs;
-        };
+        public setLeft(rhs: number) {
+            this.left = rhs;
+        }
 
-        self.getWidth = function() {
-            return m_width;
-        };
+        public getTop() {
+            return this.top;
+        }
 
-        self.setWidth = function(rhs) {
-            m_width = rhs;
-        };
+        public setTop(rhs: number) {
+            this.top = rhs;
+        }
 
-        self.getHeight = function() {
-            return m_height;
-        };
+        public getWidth() {
+            return this.width;
+        }
 
-        self.setHeight = function(rhs) {
+        public setWidth(rhs: number) {
+            this.width = rhs;
+        }
+
+        public getHeight() {
+            return this.height;
+        }
+
+        public setHeight(rhs: number) {
             if (rhs < 1) { rhs = 1; }
-            m_height = rhs;
-        };
+            this.height = rhs;
+        }
 
-        self.getBackColor = function() {
-            return m_backColor;
-        };
+        public getBackColor() {
+            return this.backColor;
+        }
 
-        self.setBackColor = function(rhs) {
-            m_backColor = rhs;
-        };
+        public setBackColor(rhs: number) {
+            this.backColor = rhs;
+        }
 
-        self.getBorderWidth = function() {
-            return m_borderWidth;
-        };
+        public getBorderWidth() {
+            return this.borderWidth;
+        }
 
-        self.setBorderWidth = function(rhs) {
-            m_borderWidth = rhs;
-        };
+        public setBorderWidth(rhs: number) {
+            this.borderWidth = rhs;
+        }
 
-        self.getBorderType = function() {
-            return m_borderType;
-        };
+        public getBorderType() {
+            return this.borderType;
+        }
 
-        self.setBorderType = function(rhs) {
-            m_borderType = rhs;
-        };
+        public setBorderType(rhs: csReportBorderType) {
+            this.borderType = rhs;
+        }
 
-        self.getBorderColor = function() {
-            return m_borderColor;
-        };
+        public getBorderColor() {
+            return this.borderColor;
+        }
 
-        self.setBorderColor = function(rhs) {
-            m_borderColor = rhs;
-        };
+        public setBorderColor(rhs: number) {
+            this.borderColor = rhs;
+        }
 
-        self.getBorderColor3d = function() {
-            return m_borderColor3d;
-        };
+        public getBorderColor3d() {
+            return this.borderColor3d;
+        }
 
-        self.setBorderColor3d = function(rhs) {
-            m_borderColor3d = rhs;
-        };
+        public setBorderColor3d(rhs: number) {
+            this.borderColor3d = rhs;
+        }
 
-        self.getBorderColor3dShadow = function() {
-            return m_borderColor3dShadow;
-        };
+        public getBorderColor3dShadow() {
+            return this.borderColor3dShadow;
+        }
 
-        self.setBorderColor3dShadow = function(rhs) {
-            m_borderColor3dShadow = rhs;
-        };
+        public setBorderColor3dShadow(rhs: number) {
+            this.borderColor3dShadow = rhs;
+        }
 
-        self.getSelectColor = function() {
-            return m_selectColor;
-        };
+        public getSelectColor() {
+            return this.selectColor;
+        }
 
-        self.setSelectColor = function(rhs) {
-            m_selectColor = rhs;
-        };
+        public setSelectColor(rhs: number) {
+            this.selectColor = rhs;
+        }
 
-        self.getFont = function() {
-            return m_font;
-        };
+        public getFont() {
+            return this.font;
+        }
 
-        self.setFont = function(rhs) {
-            m_font = rhs;
-        };
+        public setFont(rhs: cReportFont) {
+            this.font = rhs;
+        }
 
-        self.getCanGrow = function() {
-            return m_canGrow;
-        };
+        public getCanGrow() {
+            return this.canGrow;
+        }
 
-        self.setCanGrow = function(rhs) {
-            m_canGrow = rhs;
-        };
+        public setCanGrow(rhs: boolean) {
+            this.canGrow = rhs;
+        }
 
-        self.getNZOrder = function() {
-            return m_nZOrder;
-        };
+        public getNZOrder() {
+            return this.nZOrder;
+        }
 
-        self.setNZOrder = function(rhs) {
-            m_nZOrder = rhs;
-        };
+        public setNZOrder(rhs: number) {
+            this.nZOrder = rhs;
+        }
 
-        self.getAlign = function() {
-            return m_align;
-        };
+        public getAlign() {
+            return this.align;
+        }
 
-        self.setAlign = function(rhs) {
-            m_align = rhs;
-        };
+        public setAlign(rhs: HorizontalAlignment) {
+            this.align = rhs;
+        }
 
-        self.getTransparent = function() {
-            return m_transparent;
-        };
+        public getTransparent() {
+            return this.transparent;
+        }
 
-        self.setTransparent = function(rhs) {
-            m_transparent = rhs;
-        };
+        public setTransparent(rhs: boolean) {
+            this.transparent = rhs;
+        }
 
-        self.getFormat = function() {
-            return m_format;
-        };
+        public getFormat() {
+            return this.format;
+        }
 
-        self.setFormat = function(rhs) {
-            m_format = rhs;
-        };
+        public setFormat(rhs: string) {
+            this.format = rhs;
+        }
 
-        self.getSymbol = function() {
-            return m_symbol;
-        };
+        public getSymbol() {
+            return this.symbol;
+        }
 
-        self.setSymbol = function(rhs) {
-            m_symbol = rhs;
-        };
+        public setSymbol(rhs: string) {
+            this.symbol = rhs;
+        }
 
-        self.getIsAccounting = function() {
-            return m_isAccounting;
-        };
+        public getIsAccounting() {
+            return this.isAccounting;
+        }
 
-        self.setIsAccounting = function(rhs) {
-            m_isAccounting = rhs;
-        };
+        public setIsAccounting(rhs: boolean) {
+            this.isAccounting = rhs;
+        }
 
-        self.getWordWrap = function() {
-            return m_wordWrap;
-        };
+        public getWordWrap() {
+            return this.wordWrap;
+        }
 
-        self.setWordWrap = function(rhs) {
-            m_wordWrap = rhs;
-        };
+        public setWordWrap(rhs: boolean) {
+            this.wordWrap = rhs;
+        }
 
-        self.getBorderRounded = function() {
-            return m_borderRounded;
-        };
+        public getBorderRounded() {
+            return this.borderRounded;
+        }
 
-        self.setBorderRounded = function(rhs) {
-            m_borderRounded = rhs;
-        };
+        public setBorderRounded(rhs: boolean) {
+            this.borderRounded = rhs;
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Aspect");
 
             // we don't care if some property is missing
 
-            try { m_align = xDoc.getNodeProperty(nodeObj, "Align").getValueInt(eTypes.eInteger); }
+            try { this.align = xDoc.getNodeProperty(nodeObj, "Align").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
-            try { m_backColor = xDoc.getNodeProperty(nodeObj, "BackColor").getValueInt(eTypes.eLong); }
+            try { this.backColor = xDoc.getNodeProperty(nodeObj, "BackColor").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_borderColor = xDoc.getNodeProperty(nodeObj, "BorderColor").getValueInt(eTypes.eLong); }
+            try { this.borderColor = xDoc.getNodeProperty(nodeObj, "BorderColor").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_borderColor3d = xDoc.getNodeProperty(nodeObj, "BorderColor3D").getValueInt(eTypes.eLong); }
+            try { this.borderColor3d = xDoc.getNodeProperty(nodeObj, "BorderColor3D").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_borderColor3dShadow = xDoc.getNodeProperty(nodeObj, "BorderColor3DShadow").getValueInt(eTypes.eLong); }
+            try { this.borderColor3dShadow = xDoc.getNodeProperty(nodeObj, "BorderColor3DShadow").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_borderType = xDoc.getNodeProperty(nodeObj, "BorderType").getValueInt(eTypes.eInteger); }
+            try { this.borderType = xDoc.getNodeProperty(nodeObj, "BorderType").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
-            try { m_borderWidth = xDoc.getNodeProperty(nodeObj, "BorderWidth").getValueInt(eTypes.eLong); }
+            try { this.borderWidth = xDoc.getNodeProperty(nodeObj, "BorderWidth").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_height = xDoc.getNodeProperty(nodeObj, "Height").getValueInt(eTypes.eLong); }
+            try { this.height = xDoc.getNodeProperty(nodeObj, "Height").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_canGrow = xDoc.getNodeProperty(nodeObj, "CanGrow").getValueBool(eTypes.eBoolean); }
+            try { this.canGrow = xDoc.getNodeProperty(nodeObj, "CanGrow").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
-            try { m_left = xDoc.getNodeProperty(nodeObj, "Left").getValueInt(eTypes.eLong); }
+            try { this.left = xDoc.getNodeProperty(nodeObj, "Left").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_nZOrder = xDoc.getNodeProperty(nodeObj, "nZOrder").getValueInt(eTypes.eInteger); }
+            try { this.nZOrder = xDoc.getNodeProperty(nodeObj, "nZOrder").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
-            try { m_selectColor = xDoc.getNodeProperty(nodeObj, "SelectColor").getValueInt(eTypes.eLong); }
+            try { this.selectColor = xDoc.getNodeProperty(nodeObj, "SelectColor").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_top = xDoc.getNodeProperty(nodeObj, "Top").getValueInt(eTypes.eLong); }
+            try { this.top = xDoc.getNodeProperty(nodeObj, "Top").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_width = xDoc.getNodeProperty(nodeObj, "Width").getValueInt(eTypes.eLong); }
+            try { this.width = xDoc.getNodeProperty(nodeObj, "Width").getValueInt(eTypes.eLong); }
             catch  (ex) { }
-            try { m_transparent = xDoc.getNodeProperty(nodeObj, "Transparent").getValueBool(eTypes.eBoolean); }
+            try { this.transparent = xDoc.getNodeProperty(nodeObj, "Transparent").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
-            try { m_format = xDoc.getNodeProperty(nodeObj, "Format").getValueString(eTypes.eText); }
+            try { this.format = xDoc.getNodeProperty(nodeObj, "Format").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { m_symbol = xDoc.getNodeProperty(nodeObj, "Symbol").getValueString(eTypes.eText); }
+            try { this.symbol = xDoc.getNodeProperty(nodeObj, "Symbol").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { m_isAccounting = xDoc.getNodeProperty(nodeObj, "IsAccounting").getValueBool(eTypes.eBoolean); }
+            try { this.isAccounting = xDoc.getNodeProperty(nodeObj, "IsAccounting").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
-            try { m_wordWrap = xDoc.getNodeProperty(nodeObj, "WordWrap").getValueBool(eTypes.eBoolean); }
+            try { this.wordWrap = xDoc.getNodeProperty(nodeObj, "WordWrap").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
-            try { m_borderRounded = xDoc.getNodeProperty(nodeObj, "BorderRounded").getValueBool(eTypes.eBoolean); }
+            try { this.borderRounded = xDoc.getNodeProperty(nodeObj, "BorderRounded").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
 
             twipsToPixels();
 
-            return m_font.load(xDoc, nodeObj);
-        };
+            return this.font.load(xDoc, nodeObj);
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             pixelsToTwips();
 
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName("Aspect");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Align");
-            xProperty.setValue(eTypes.eInteger, m_align);
+            xProperty.setValue(eTypes.eInteger, this.align);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BackColor");
-            xProperty.setValue(eTypes.eLong, m_backColor);
+            xProperty.setValue(eTypes.eLong, this.backColor);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderColor");
-            xProperty.setValue(eTypes.eLong, m_borderColor);
+            xProperty.setValue(eTypes.eLong, this.borderColor);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderColor3D");
-            xProperty.setValue(eTypes.eLong, m_borderColor3d);
+            xProperty.setValue(eTypes.eLong, this.borderColor3d);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderColor3DShadow");
-            xProperty.setValue(eTypes.eLong, m_borderColor3dShadow);
+            xProperty.setValue(eTypes.eLong, this.borderColor3dShadow);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderType");
-            xProperty.setValue(eTypes.eInteger, m_borderType);
+            xProperty.setValue(eTypes.eInteger, this.borderType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderWidth");
-            xProperty.setValue(eTypes.eLong, m_borderWidth);
+            xProperty.setValue(eTypes.eLong, this.borderWidth);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("CanGrow");
-            xProperty.setValue(eTypes.eBoolean, m_canGrow);
+            xProperty.setValue(eTypes.eBoolean, this.canGrow);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Height");
-            xProperty.setValue(eTypes.eLong, m_height);
+            xProperty.setValue(eTypes.eLong, this.height);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Format");
-            xProperty.setValue(eTypes.eText, m_format);
+            xProperty.setValue(eTypes.eText, this.format);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Left");
-            xProperty.setValue(eTypes.eLong, m_left);
+            xProperty.setValue(eTypes.eLong, this.left);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("nZOrder");
-            xProperty.setValue(eTypes.eInteger, m_nZOrder);
+            xProperty.setValue(eTypes.eInteger, this.nZOrder);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("SelectColor");
-            xProperty.setValue(eTypes.eLong, m_selectColor);
+            xProperty.setValue(eTypes.eLong, this.selectColor);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Top");
-            xProperty.setValue(eTypes.eLong, m_top);
+            xProperty.setValue(eTypes.eLong, this.top);
 
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Width");
-            xProperty.setValue(eTypes.eLong, m_width);
+            xProperty.setValue(eTypes.eLong, this.width);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Transparent");
-            xProperty.setValue(eTypes.eBoolean, m_transparent);
+            xProperty.setValue(eTypes.eBoolean, this.transparent);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Symbol");
-            xProperty.setValue(eTypes.eText, m_symbol);
+            xProperty.setValue(eTypes.eText, this.symbol);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("IsAccounting");
-            xProperty.setValue(eTypes.eBoolean, m_isAccounting);
+            xProperty.setValue(eTypes.eBoolean, this.isAccounting);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("WordWrap");
-            xProperty.setValue(eTypes.eBoolean, m_wordWrap);
+            xProperty.setValue(eTypes.eBoolean, this.wordWrap);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderRounded");
-            xProperty.setValue(eTypes.eBoolean, m_borderRounded);
+            xProperty.setValue(eTypes.eBoolean, this.borderRounded);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             twipsToPixels();
 
-            return m_font.save(xDoc, nodeObj);
-        };
+            return this.font.save(xDoc, nodeObj);
+        }
 
-        const twipsToPixels = function() {
-            m_height = cUtil.tp(Convert.ToInt32(m_height));
-            m_left = cUtil.tp(Convert.ToInt32(m_left));
-            m_top = cUtil.tp(Convert.ToInt32(m_top));
-            m_width = cUtil.tp(Convert.ToInt32(m_width));
-        };
+        private twipsToPixels() {
+            this.height = cUtil.tp(Convert.ToInt32(this.height));
+            this.left = cUtil.tp(Convert.ToInt32(this.left));
+            this.top = cUtil.tp(Convert.ToInt32(this.top));
+            this.width = cUtil.tp(Convert.ToInt32(this.width));
+        }
 
-        const pixelsToTwips = function() {
-            m_height = cUtil.pt(Convert.ToInt32(m_height));
-            m_left = cUtil.pt(Convert.ToInt32(m_left));
-            m_top = cUtil.pt(Convert.ToInt32(m_top));
-            m_width = cUtil.pt(Convert.ToInt32(m_width));
-        };
-        return self;
+        private pixelsToTwips() {
+            this.height = cUtil.pt(Convert.ToInt32(this.height));
+            this.left = cUtil.pt(Convert.ToInt32(this.left));
+            this.top = cUtil.pt(Convert.ToInt32(this.top));
+            this.width = cUtil.pt(Convert.ToInt32(this.width));
+        }
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportAspect {
-
-    setOffset: (float) => void;
-    getOffset: () => float;
-    getLeft: () => float;
-    setLeft: (float) => void;
-    getTop: () => float;
-    setTop: (float) => void;
-    getWidth: () => float;
-    setWidth: (float) => void;
-    getHeight: () => float;
-    setHeight: (float) => void;
-    getBackColor: () => int;
-    setBackColor: (int) => void;
-    getBorderWidth: () => float;
-    setBorderWidth: (float) => void;
-    getBorderType: () => csReportBorderType;
-    setBorderType: (csReportBorderType) => void;
-    getBorderColor: () => int;
-    setBorderColor: (int) => void;
-    getBorderColor3d: () => int;
-    setBorderColor3d: (int) => void;
-    getBorderColor3dShadow: () => int;
-    setBorderColor3dShadow: (int) => void;
-    getSelectColor: () => int;
-    setSelectColor: (int) => void;
-    getFont: () => cReportFont;
-    setFont: (cReportFont) => void;
-    getCanGrow: () => bool;
-    setCanGrow: (bool) => void;
-    getNZOrder: () => int;
-    setNZOrder: (int) => void;
-    getAlign: () => HorizontalAlignment;
-    setAlign: (HorizontalAlignment) => void;
-    getTransparent: () => bool;
-    setTransparent: (bool) => void;
-    getFormat: () => String;
-    setFormat: (String) => void;
-    getSymbol: () => String;
-    setSymbol: (String) => void;
-    getIsAccounting: () => bool;
-    setIsAccounting: (bool) => void;
-    getWordWrap: () => bool;
-    setWordWrap: (bool) => void;
-    getBorderRounded: () => bool;
-    setBorderRounded: (bool) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-  }
 }

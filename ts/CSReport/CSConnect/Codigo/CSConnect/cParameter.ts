@@ -1,121 +1,95 @@
-(function(globalObject) {
 
-    globalObject.CSConnect = globalObject.CSConnect || {};
 
-    globalObject.CSConnect.createCParameter = function() {
+namespace CSConnect
+{
+    export class cParameter {
 
-        // @ts-ignore
-        let self: CSConnect.IcParameter = {};
-        const C_MODULE: string = "cParameter";
 
-        let m_name: string = "";
-        let m_columnType: CSDataBase.csDataType = null;
-        let m_value: string = "";
-        let m_position: number = 0;
-        let m_key: string = "";
-        let m_hasDefault: boolean = null;
-        let m_default: string = "";
-        let m_isNullable: boolean = true;
-        let m_maxLength: number = 0;
+    {
+        private C_MODULE: string = "cParameter";
 
-        self.getKey = function() {
-            return m_key;
-        };
+        private name: string = "";
+        private columnType: CSDataBase.csDataType = null;
+        private value: string = "";
+        private position: number = 0;
+        private key: string = "";
+        private hasDefault: boolean = null;
+        private default: string = "";
+        private isNullable: boolean = true;
+        private maxLength: number = 0;
 
-        self.setKey = function(rhs) {
-            m_key = rhs;
-        };
+        public getKey() {
+            return this.key;
+        }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public setKey(rhs: string) {
+            this.key = rhs;
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.getColumnType = function() {
-            return m_columnType;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.setColumnType = function(rhs) {
-            m_columnType = rhs;
-        };
+        public getColumnType() {
+            return this.columnType;
+        }
 
-        self.getValue = function() {
-            return m_value;
-        };
+        public setColumnType(rhs: CSDataBase.csDataType) {
+            this.columnType = rhs;
+        }
 
-        self.setValue = function(rhs) {
-            m_value = rhs;
-        };
+        public getValue() {
+            return this.value;
+        }
 
-        self.getPosition = function() {
-            return m_position;
-        };
+        public setValue(rhs: string) {
+            this.value = rhs;
+        }
 
-        self.setPosition = function(rhs) {
-            m_position = rhs;
-        };
+        public getPosition() {
+            return this.position;
+        }
 
-        self.getHasDefault = function() {
-            return m_hasDefault;
-        };
+        public setPosition(rhs: number) {
+            this.position = rhs;
+        }
 
-        self.setHasDefault = function(rhs) {
-            m_hasDefault = rhs;
-        };
+        public getHasDefault() {
+            return this.hasDefault;
+        }
 
-        self.getDefaultValue = function() {
-            return m_default;
-        };
+        public setHasDefault(rhs: boolean) {
+            this.hasDefault = rhs;
+        }
 
-        self.setDefaultValue = function(rhs) {
-            m_default = rhs;
-        };
+        public getDefaultValue() {
+            return this.default;
+        }
 
-        self.getIsNullable = function() {
-            return m_isNullable;
-        };
+        public setDefaultValue(rhs: string) {
+            this.default = rhs;
+        }
 
-        self.setIsNullable = function(rhs) {
-            m_isNullable = rhs;
-        };
+        public getIsNullable() {
+            return this.isNullable;
+        }
 
-        self.getMaxLength = function() {
-            return m_maxLength;
-        };
+        public setIsNullable(rhs: boolean) {
+            this.isNullable = rhs;
+        }
 
-        self.setMaxLength = function(rhs) {
-            m_maxLength = rhs;
-        };
-        return self;
+        public getMaxLength() {
+            return this.maxLength;
+        }
+
+        public setMaxLength(rhs: number) {
+            this.maxLength = rhs;
+        }
+
 
     }    }
-}(globalObject));
-
-
-namespace CSConnect {
-
-  export interface IcParameter {
-
-    getKey: () => String;
-    setKey: (String) => void;
-    getName: () => String;
-    setName: (String) => void;
-    getColumnType: () => CSDataBase.csDataType;
-    setColumnType: (CSDataBase.csDataType) => void;
-    getValue: () => String;
-    setValue: (String) => void;
-    getPosition: () => int;
-    setPosition: (int) => void;
-    getHasDefault: () => bool;
-    setHasDefault: (bool) => void;
-    getDefaultValue: () => String;
-    setDefaultValue: (String) => void;
-    getIsNullable: () => bool;
-    setIsNullable: (bool) => void;
-    getMaxLength: () => int;
-    setMaxLength: (int) => void;
-  }
 }

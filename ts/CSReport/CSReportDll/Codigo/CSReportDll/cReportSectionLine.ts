@@ -1,23 +1,23 @@
-(function(globalObject) {
-
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
 
-    globalObject.CSReportDll.createCReportSectionLine = function() {
+namespace CSReportDll
+{
 
-        // @ts-ignore
-        let self: CSReportDll.IcReportSectionLine = {};
+    export class cReportSectionLine {
 
-        const C_NODERPTCONTROLS: string = "RptControls";
 
-        let m_controls: cReportControls = new cReportControls();
-        let m_aspect: cReportAspect = new cReportAspect();
-        let m_index: number = 0;
-        let m_realIndex: number = 0;
-        let m_key: string = "";
-        let m_keyPaint: string = "";
-        let m_formulaHide: cReportFormula = new cReportFormula();
-        let m_hasFormulaHide: boolean = null;
+    {
+
+        private C_NODERPTCONTROLS: string = "RptControls";
+
+        private controls: cReportControls = new cReportControls();
+        private aspect: cReportAspect = new cReportAspect();
+        private index: number = 0;
+        private realIndex: number = 0;
+        private key: string = "";
+        private keyPaint: string = "";
+        private formulaHide: cReportFormula = new cReportFormula();
+        private hasFormulaHide: boolean = null;
 
         // it is the name of the control which have the id of the line
         // it is used by cReportLinkServer
@@ -27,115 +27,115 @@
         // control contains the id of the record expressed in the line selected
         // by the user.
         //
-        let m_idField: string = "";
+        private idField: string = "";
 
         // for debugging
         //
-        let m_sectionName: string = "";
+        private sectionName: string = "";
 
-        const cReportSectionLine = function() {
-            m_controls.setSectionLine(this);
-            m_formulaHide.setName("H");
-        };
+        public constructor() {
+            this.controls.setSectionLine(this);
+            this.formulaHide.setName("H");
+        }
 
-        self.getKeyPaint = function() {
-            return m_keyPaint;
-        };
+        public getKeyPaint() {
+            return this.keyPaint;
+        }
 
-        self.setKeyPaint = function(rhs) {
-            m_keyPaint = rhs;
-        };
+        public setKeyPaint(rhs: string) {
+            this.keyPaint = rhs;
+        }
 
-        self.getControls = function() {
-            return m_controls;
-        };
+        public getControls() {
+            return this.controls;
+        }
 
-        self.setControls = function(rhs) {
-            m_controls = rhs;
-        };
+        public setControls(rhs: cReportControls) {
+            this.controls = rhs;
+        }
 
-        self.getIdField = function() {
-            return m_idField;
-        };
+        public getIdField() {
+            return this.idField;
+        }
 
-        self.setIdField = function(rhs) {
-            m_idField = rhs;
-        };
+        public setIdField(rhs: string) {
+            this.idField = rhs;
+        }
 
-        self.getKey = function() {
-            return m_key;
-        };
+        public getKey() {
+            return this.key;
+        }
 
-        self.setKey = function(rhs) {
-            m_key = rhs;
-        };
+        public setKey(rhs: string) {
+            this.key = rhs;
+        }
 
-        self.getAspect = function() {
-            return m_aspect;
-        };
+        public getAspect() {
+            return this.aspect;
+        }
 
-        self.setAspect = function(rhs) {
-            m_aspect = rhs;
-        };
+        public setAspect(rhs: cReportAspect) {
+            this.aspect = rhs;
+        }
 
-        self.getName = function() {
-            return "SL: " + m_index.ToString();
-        };
+        public getName() {
+            return "SL: " + this.index.ToString();
+        }
 
-        self.setName = function(name) {
+        public setName(name: string) {
             // shouldn't be called :P
-        };
+        }
 
-        self.getIndex = function() {
-            return m_index;
-        };
+        public getIndex() {
+            return this.index;
+        }
 
-        self.setIndex = function(rhs) {
-            m_index = rhs;
-        };
+        public setIndex(rhs: number) {
+            this.index = rhs;
+        }
 
-        self.getRealIndex = function() {
-            return m_realIndex;
-        };
+        public getRealIndex() {
+            return this.realIndex;
+        }
 
-        self.setRealIndex = function(rhs) {
-            m_realIndex = rhs;
-        };
+        public setRealIndex(rhs: number) {
+            this.realIndex = rhs;
+        }
 
-        self.getHasFormulaHide = function() {
-            return m_hasFormulaHide;
-        };
+        public getHasFormulaHide() {
+            return this.hasFormulaHide;
+        }
 
-        self.setHasFormulaHide = function(rhs) {
-            m_hasFormulaHide = rhs;
-        };
+        public setHasFormulaHide(rhs: boolean) {
+            this.hasFormulaHide = rhs;
+        }
 
-        self.getFormulaHide = function() {
-            return m_formulaHide;
-        };
+        public getFormulaHide() {
+            return this.formulaHide;
+        }
 
-        self.getTypeSection = function() {
-            return m_controls.getTypeSection();
-        };
+        public getTypeSection() {
+            return this.controls.getTypeSection();
+        }
 
-        self.setTypeSection = function(rhs) {
-            m_controls.setTypeSection(rhs);
-        };
+        public setTypeSection(rhs: csRptSectionType) {
+            this.controls.setTypeSection(rhs);
+        }
 
-        self.getSectionName = function() {
-            return m_sectionName;
-        };
+        public getSectionName() {
+            return this.sectionName;
+        }
 
-        self.setSectionName = function(rhs) {
-            m_sectionName = rhs;
-        };
+        public setSectionName(rhs: string) {
+            this.sectionName = rhs;
+        }
 
-        self.setCopyColl = function(rhs) {
-            if (m_controls !== null) {
-                m_controls.setCopyColl(rhs);
-        };
+        public setCopyColl(rhs: cReportControls2) {
+            if (this.controls !== null) {
+                this.controls.setCopyColl(rhs);
+        }
 
-        self.load = function(xDoc, nodeObj) {
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             let nodeObjCtrls: XmlNode = null;
             let nodeObjCtrl: XmlNode = null;
             let nodeObjAspect: XmlNode = null;
@@ -144,18 +144,18 @@
 
             // TODO: fix me - this is Spanish - English bug we should use Index
             //
-            m_index = xDoc.getNodeProperty(nodeObj, "Indice").getValueInt(eTypes.eInteger);
-            m_idField = xDoc.getNodeProperty(nodeObj, "IdField").getValueString(eTypes.eText);
-            m_hasFormulaHide = xDoc.getNodeProperty(nodeObj, "HasFormulaHide").getValueBool(eTypes.eBoolean);
+            this.index = xDoc.getNodeProperty(nodeObj, "Indice").getValueInt(eTypes.eInteger);
+            this.idField = xDoc.getNodeProperty(nodeObj, "IdField").getValueString(eTypes.eText);
+            this.hasFormulaHide = xDoc.getNodeProperty(nodeObj, "HasFormulaHide").getValueBool(eTypes.eBoolean);
 
             nodeObjAspect = nodeObj;
 
             let nodeObjAux: XmlNode = nodeObj;
-            if (!m_formulaHide.load(xDoc, nodeObjAux))  {
+            if (!this.formulaHide.load(xDoc, nodeObjAux))  {
                 return false; 
             }
 
-            if (!m_aspect.load(xDoc, nodeObjAspect))  {
+            if (!this.aspect.load(xDoc, nodeObjAspect))  {
                 return false; 
             }
 
@@ -166,7 +166,7 @@
 
                 while (nodeObjCtrl !== null) {
                     let key: string = xDoc.getNodeProperty(nodeObjCtrl, "Key").getValueString(eTypes.eText);
-                    ctrl = m_controls.add(null, key);
+                    ctrl = this.controls.add(null, key);
                     if (!ctrl.load(xDoc, nodeObjCtrl))  {
                         return false; 
                     }
@@ -175,39 +175,39 @@
             }
 
             return true;
-        };
+        }
 
-        self.save = function(xDoc, nodeFather) {
+        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
 
-            xProperty = UNKNOWN >>  can't find constructor for class CSXml.cXmlProperty();
+            xProperty = new CSXml.cXmlProperty();
 
-            xProperty.setName(m_key);
+            xProperty.setName(this.key);
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Key");
-            xProperty.setValue(eTypes.eText, m_key);
+            xProperty.setValue(eTypes.eText, this.key);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             // TODO: fix me - this is Spanish - English bug we should use Index
             //
             xProperty.setName("Indice");
-            xProperty.setValue(eTypes.eInteger, m_index);
+            xProperty.setValue(eTypes.eInteger, this.index);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("IdField");
-            xProperty.setValue(eTypes.eText, m_idField);
+            xProperty.setValue(eTypes.eText, this.idField);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("HasFormulaHide");
-            xProperty.setValue(eTypes.eBoolean, m_hasFormulaHide);
+            xProperty.setValue(eTypes.eBoolean, this.hasFormulaHide);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if (!m_aspect.save(xDoc, nodeObj))  {
+            if (!this.aspect.save(xDoc, nodeObj))  {
                 return false; 
             }
-            if (!m_formulaHide.save(xDoc, nodeObj))  {
+            if (!this.formulaHide.save(xDoc, nodeObj))  {
                 return false; 
             }
 
@@ -215,18 +215,18 @@
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let ctrl: cReportControl = null;
-            for(var _i = 0; _i < m_controls.count(); _i++) {
-                ctrl = m_controls.item(_i);
+            for(var _i = 0; _i < this.controls.count(); _i++) {
+                ctrl = this.controls.item(_i);
                 ctrl.save(xDoc, nodeObj);
             }
 
             return true;
-        };
+        }
 
         // Implement IDisposable.
         // Do not make this method virtual.
         // A derived class should not be able to override this method.
-        self.Dispose = function() {
+        public Dispose() {
             Dispose(true);
             // This object will be cleaned up by the Dispose method.
             // Therefore, you should call GC.SupressFinalize to
@@ -234,10 +234,10 @@
             // and prevent finalization code for this object
             // from executing a second time.
             GC.SuppressFinalize(this);
-        };
+        }
 
         // Track whether Dispose has been called.
-        let disposed: boolean = false;
+        private disposed: boolean = false;
 
         // Dispose(bool disposing) executes in two distinct scenarios.
         // If disposing equals true, the method has been called directly
@@ -246,7 +246,7 @@
         // If disposing equals false, the method has been called by the
         // runtime from inside the finalizer and you should not reference
         // other objects. Only unmanaged resources can be disposed.
-        self.Dispose = function(disposing) {
+        public Dispose(disposing: boolean) {
             // Check to see if Dispose has already been called.
             if (!this.disposed) {
                 // If disposing equals true, dispose all managed
@@ -260,7 +260,7 @@
                 disposed = true;
 
             }
-        };
+        }
 
         // Use C# destructor syntax for finalization code.
         // This destructor will run only if the Dispose method
@@ -275,61 +275,25 @@
             Dispose(false);
         }
 
-        const releaseReferences = function() {
+        private releaseReferences() {
             setCopyColl(null);
 
-            if (m_controls !== null) {
-                if (m_controls.getCopyColl() !== null) {
-                    m_controls.getCopyColl().clear();
-                    m_controls.setCopyColl(null);
+            if (this.controls !== null) {
+                if (this.controls.getCopyColl() !== null) {
+                    this.controls.getCopyColl().clear();
+                    this.controls.setCopyColl(null);
                 }
-                m_controls.clear();
-                m_controls = null;
+                this.controls.clear();
+                this.controls = null;
             }
 
-            m_aspect = null;
-            m_formulaHide = null;
-        };
-        return self;
+            this.aspect = null;
+            this.formulaHide = null;
+        }
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSReportDll {
-
-  export interface IcReportSectionLine {
-
-    getKeyPaint: () => String;
-    setKeyPaint: (String) => void;
-    getControls: () => cReportControls;
-    setControls: (cReportControls) => void;
-    getIdField: () => String;
-    setIdField: (String) => void;
-    getKey: () => String;
-    setKey: (String) => void;
-    getAspect: () => cReportAspect;
-    setAspect: (cReportAspect) => void;
-    getName: () => string;
-    setName: (string) => void;
-    getIndex: () => int;
-    setIndex: (int) => void;
-    getRealIndex: () => int;
-    setRealIndex: (int) => void;
-    getHasFormulaHide: () => bool;
-    setHasFormulaHide: (bool) => void;
-    getFormulaHide: () => cReportFormula;
-    getTypeSection: () => csRptSectionType;
-    setTypeSection: (csRptSectionType) => void;
-    getSectionName: () => String;
-    setSectionName: (String) => void;
-    setCopyColl: (cReportControls2) => void;
-    load: (CSXml.cXml, XmlNode) => bool;
-    save: (CSXml.cXml, XmlNode) => bool;
-    Dispose: () => void;
-    Dispose: (bool) => void;
-  }
 }

@@ -1,7 +1,7 @@
-(function(globalObject) {
 
-    globalObject.CSReportDll = globalObject.CSReportDll || {};
 
+namespace CSReportDll
+{
 UNKNOWN >>     public interface cIReportSection
     {
         cReportFormula getFormulaHide();

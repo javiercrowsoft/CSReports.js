@@ -1,85 +1,69 @@
-(function(globalObject) {
-
-    globalObject.CSConnect = globalObject.CSConnect || {};
 
 
-    globalObject.CSConnect.createCColumnInfo = function() {
+namespace CSConnect
+{
 
-        // @ts-ignore
-        let self: CSConnect.IcColumnInfo = {};
+    export class cColumnInfo {
 
-        const C_MODULE: string = "cColumnInfo";
 
-        let m_name: string = "";
-        let m_columnType: CSDataBase.csDataType = null;
+    {
+
+        private C_MODULE: string = "cColumnInfo";
+
+        private name: string = "";
+        private columnType: CSDataBase.csDataType = null;
 
         // TODO: remove me
-        // private String m_value = "";
-        let m_position: number = 0;
-        let m_key: string = "";
+        // private String this.value = "";
+        private position: number = 0;
+        private key: string = "";
 
-        self.getKey = function() {
-            return m_key;
-        };
+        public getKey() {
+            return this.key;
+        }
 
-        self.setKey = function(rhs) {
-            m_key = rhs;
-        };
+        public setKey(rhs: string) {
+            this.key = rhs;
+        }
 
-        self.getName = function() {
-            return m_name;
-        };
+        public getName() {
+            return this.name;
+        }
 
-        self.setName = function(rhs) {
-            m_name = rhs;
-        };
+        public setName(rhs: string) {
+            this.name = rhs;
+        }
 
-        self.getColumnType = function() {
-            return m_columnType;
-        };
+        public getColumnType() {
+            return this.columnType;
+        }
 
-        self.setColumnType = function(rhs) {
-            m_columnType = rhs;
-        };
+        public setColumnType(rhs: CSDataBase.csDataType) {
+            this.columnType = rhs;
+        }
         // TODO: remove me
         /*
         public String getValue()
         {
-            return m_value;
+            return this.value;
         }
 
         public void setValue(String rhs)
         {
-            m_value = rhs;
+            this.value = rhs;
         }
         */
-        self.getPosition = function() {
-            return m_position;
-        };
+        public getPosition() {
+            return this.position;
+        }
 
-        self.setPosition = function(rhs) {
-            m_position = rhs;
-        };
-        return self;
+        public setPosition(rhs: number) {
+            this.position = rhs;
+        }
+
 
     }    }
-        return self;
 
 
-}(globalObject));
 
-
-namespace CSConnect {
-
-  export interface IcColumnInfo {
-
-    getKey: () => String;
-    setKey: (String) => void;
-    getName: () => String;
-    setName: (String) => void;
-    getColumnType: () => CSDataBase.csDataType;
-    setColumnType: (CSDataBase.csDataType) => void;
-    getPosition: () => int;
-    setPosition: (int) => void;
-  }
 }
