@@ -1,18 +1,14 @@
-
-
 namespace CSChartServer
 {
     export class cWebChart {
 
-
-    {
         private items: cWebChartItems = null;
 
         public getItems() {
             return this.items;
         }
 
-        public newChartType(this.chartType: csRptChartType, this.chartTitle: string) {
+        public newChartType(chartType: csRptChartType, chartTitle: string) {
             throw new NotImplementedException();
         }
 
@@ -20,15 +16,15 @@ namespace CSChartServer
             throw new NotImplementedException();
         }
 
-        public setGridLines(this.chartLineStyle: csRptChartLineStyle) {
+        public setGridLines(chartLineStyle: csRptChartLineStyle) {
             throw new NotImplementedException();
         }
 
-        public setOutlineBars(this.chartBarOutline: boolean) {
+        public setOutlineBars(chartBarOutline: boolean) {
             throw new NotImplementedException();
         }
 
-        public setShowValues(this.chartShowValues: boolean) {
+        public setShowValues(chartShowValues: boolean) {
             throw new NotImplementedException();
         }
 
@@ -36,11 +32,11 @@ namespace CSChartServer
             throw new NotImplementedException();
         }
 
-        public setThickness(this.pieThickness: csRptChartPieThickness) {
+        public setThickness(pieThickness: csRptChartPieThickness) {
             throw new NotImplementedException();
         }
 
-        public setDiameter(this.pieDiameter: csRptChartPieDiameter) {
+        public setDiameter(pieDiameter: csRptChartPieDiameter) {
             throw new NotImplementedException();
         }
 
@@ -48,7 +44,7 @@ namespace CSChartServer
             throw new NotImplementedException();
         }
 
-        public setColorAlternate(globalCSReportDllcsColors: csColors) {
+        public setColorAlternate(color: csColors) {
             throw new NotImplementedException();
         }
 
@@ -64,7 +60,7 @@ namespace CSChartServer
             throw new NotImplementedException();
         }
 
-        public setCopyRight(this.copyright: string) {
+        public setCopyRight(copyright: string) {
             throw new NotImplementedException();
         }
 
@@ -76,10 +72,8 @@ namespace CSChartServer
             throw new NotImplementedException();
         }
 
-        public setFormat(this.imageFormat: csRptChartFormat) {
+        public setFormat(imageFormat: csRptChartFormat) {
             throw new NotImplementedException();
         }
-
-
-    }    }
+    }
 }
