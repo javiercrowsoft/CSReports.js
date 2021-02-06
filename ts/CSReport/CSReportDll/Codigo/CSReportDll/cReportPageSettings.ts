@@ -132,7 +132,7 @@ UNKNOWN >>             get
                     c = new cReportPageInfo();
                 }
                 if (key === "") {
-                    key = cReportGlobals.getNextKey().ToString();
+                    key = cReportGlobals.getNextKey().toString();
                 }
 
                 key = cReportGlobals.getKey(key);

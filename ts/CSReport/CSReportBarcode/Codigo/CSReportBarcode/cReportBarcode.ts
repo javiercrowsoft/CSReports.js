@@ -99,7 +99,7 @@ UNKNOWN >>                 currentValue *= weightValue;
 
             if (returnType === 0) return printableString + c128CheckDigit + char.ConvertFromUtf32(206); {
             if (returnType === 1) return dataToEncode + checkDigitValue; {
-            /* returnType === 2*/ return checkDigitValue.ToString();
+            /* returnType === 2*/ return checkDigitValue.toString();
         }
 
         public String code128b(String dataToEncode)

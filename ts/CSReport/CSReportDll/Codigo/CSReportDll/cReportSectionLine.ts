@@ -79,7 +79,7 @@ namespace CSReportDll
         }
 
         public getName() {
-            return "SL: " + this.index.ToString();
+            return "SL: " + this.index.toString();
         }
 
         public setName(name: string) {

@@ -272,7 +272,7 @@ namespace CSReportDll
 
                     /* TODO: remove me
                     code = code.Replace(C_KEYFUNCINT + cReportGlobals.format(i + 1, "000"), 
-                                            getNumericVal(vResult[i].ToString()));
+                                            getNumericVal(vResult[i].toString()));
                      * */
 
                     let parameter: var = "p__" + i + "__";
@@ -312,11 +312,11 @@ namespace CSReportDll
                 }
                 else {
                     let columnIndex: number = int.Parse(fint.getParameters().item(cReportGlobals.C_KEYINDEXCOL2).getValue());
-                    value = cUtil.val(this.report.getValueFromRs(columnIndex).ToString());
+                    value = cUtil.val(this.report.getValueFromRs(columnIndex).toString());
                 }
 
                 let variable: cReportVariable = fint.getVariables().item(C_GROUPPERCENTT);
-                total = cUtil.val(variable.getValue().ToString());
+                total = cUtil.val(variable.getValue().toString());
                 value = cUtil.divideByZero(value, total);
                 variable.setValue(value);
 
@@ -353,7 +353,7 @@ namespace CSReportDll
                     pEvalSyntax("", codeC, false, formula);
                 }
                 else {
-                    if (cUtil.subString(codeC.Trim(), 0, 8).ToLower() === "function") {
+                    if (cUtil.subString(codeC.Trim(), 0, 8).toLowerCase() === "function") {
                         pEvalSyntax("", codeC, false, formula);
                     }
                 }
@@ -386,7 +386,7 @@ namespace CSReportDll
 
             for(var _i = 0; _i < this.formulaTypes.count(); _i++) {
                 f = this.formulaTypes.item(_i);
-                if (word.ToLower() === f.getName().ToLower()) {
+                if (word.toLowerCase() === f.getName().toLowerCase()) {
                     return true;
                 }
             }
@@ -654,7 +654,7 @@ namespace CSReportDll
                                     // no se llevara a cabo, y no perdere el valor
                                     // del parametro
                                     s = C_TEMPFUNCTIONB + vParams[i] + C_TEMPFUNCTIONE;
-                                    vParams[i] = pExecScriptCode(s, formula).ToString();
+                                    vParams[i] = pExecScriptCode(s, formula).toString();
                                 }
                             }
                             code = vParams[i] + "|";
@@ -763,7 +763,7 @@ namespace CSReportDll
                     C_MODULE,
                     cReportError.errGetDescript(
                                     csRptErrors.CSRPTERRMISSINGPARAM,
-                                    paramIndex.ToString(),
+                                    paramIndex.toString(),
                                     funName));
             }
             else {
@@ -792,10 +792,10 @@ namespace CSReportDll
             // 
             tc = this.formula.getTextC();
             q = name.Length;
-            r = tc.ToLower().IndexOf(name.ToLower(), 0);
-            q = tc.ToLower().IndexOf(")".ToLower(), r) + 1;
+            r = tc.toLowerCase().IndexOf(name.toLowerCase(), 0);
+            q = tc.toLowerCase().IndexOf(")".toLowerCase(), r) + 1;
 
-            this.formula.setTextC((tc.Substring(0, r)).ToString()
+            this.formula.setTextC((tc.Substring(0, r)).toString()
                                 + C_KEYFUNCINT
                                 + cReportGlobals.format(this.formula.getFormulasInt().count(), "000")
                                 + tc.Substring(q));
@@ -1047,7 +1047,7 @@ namespace CSReportDll
 
             for(var _i = 0; _i < this.report.getConnect().getParameters().count(); _i++) {
                 param = this.report.getConnect().getParameters().item(_i);
-                if (param.getName().ToLower() === paramName.ToLower()) {
+                if (param.getName().toLowerCase() === paramName.toLowerCase()) {
                     break;
                 }
             }
@@ -1239,7 +1239,7 @@ namespace CSReportDll
                 ctrlValue = pGetControl(collCtrlsToReplace[i]);
                 if (ctrlValue !== null) {
                     text = text.Replace(C_MACRO_CTRL + collCtrlsToReplace[i] + C_MACRO_CTRL,
-                                        this.report.getValue(ctrlValue.getName(), false).ToString());
+                                        this.report.getValue(ctrlValue.getName(), false).toString());
                 }
             }
             return text;
@@ -1348,7 +1348,7 @@ namespace CSReportDll
         }
 
         private pGetNumber(number: object) {
-            let strNumber: string = number.ToString();
+            let strNumber: string = number.toString();
             let rtn: number = 0;
             let sepDecimal: string = "";
 
@@ -1442,7 +1442,7 @@ namespace CSReportDll
             // the SumTime if for dates
             //
             pSumTimes(item.getValue(),
-                        DateTime.Parse(this.report.getValue(fint.getParameters().item(0).getValue(), true).ToString()));
+                        DateTime.Parse(this.report.getValue(fint.getParameters().item(0).getValue(), true).toString()));
         }
 
         private evalMax(fint: cReportFormulaInt) {
@@ -1458,8 +1458,8 @@ namespace CSReportDll
             value = this.report.getValue(fint.getParameters().item(0).getValue());
 
             if (value.GetType() === typeof(String)) {
-                if (String.Compare(item.getValue().ToString(), 
-                                    value.ToString(), 
+                if (String.Compare(item.getValue().toString(), 
+                                    value.toString(), 
                                     StringComparison.CurrentCulture) < 0) {
                     item.setValue(value);
                 }
@@ -1484,8 +1484,8 @@ namespace CSReportDll
             value = this.report.getValue(fint.getParameters().item(0).getValue());
 
             if (value.GetType() === typeof(String)) {
-                if (String.Compare(item.getValue().ToString(),
-                                    value.ToString(),
+                if (String.Compare(item.getValue().toString(),
+                                    value.toString(),
                                     StringComparison.CurrentCulture) > 0) {
                     item.setValue(value);
                 }
@@ -1549,7 +1549,7 @@ namespace CSReportDll
             let strValue: string = "";
             let strConstValue: string = "";
 
-            strValue = this.report.getValue(fint.getParameters().item(0).getValue(), true).ToString();
+            strValue = this.report.getValue(fint.getParameters().item(0).getValue(), true).toString();
             strConstValue = fint.getParameters().item(1).getValue();
 
             item.setValue(strValue === strConstValue);
@@ -1584,11 +1584,11 @@ namespace CSReportDll
             private constValue: object = fint.getParameters().item(1).getValue();
 
             if (value.GetType() === typeof(String)) {
-                let strValue: string = value.ToString();
-                private strConstValue: string = constValue.ToString();
+                let strValue: string = value.toString();
+                private strConstValue: string = constValue.toString();
 
-                if (String.Compare(strValue.ToString(),
-                                    strConstValue.ToString(),
+                if (String.Compare(strValue.toString(),
+                                    strConstValue.toString(),
                                     StringComparison.CurrentCulture) > 0) {
                     item.setValue(true);
                 }
@@ -1618,11 +1618,11 @@ namespace CSReportDll
             private constValue: object = fint.getParameters().item(1).getValue();
 
             if (value.GetType() === typeof(String)) {
-                let strValue: string = value.ToString();
-                private strConstValue: string = constValue.ToString();
+                let strValue: string = value.toString();
+                private strConstValue: string = constValue.toString();
 
-                if (String.Compare(strValue.ToString(),
-                                    strConstValue.ToString(),
+                if (String.Compare(strValue.toString(),
+                                    strConstValue.toString(),
                                     StringComparison.CurrentCulture) < 0) {
                     item.setValue(true);
                 }
@@ -1880,7 +1880,7 @@ namespace CSReportDll
                         C_MODULE,
                         cReportError.errGetDescript(
                                         csRptErrors.CSRPTERRMISSINGPARAM,
-                                        i.ToString(),
+                                        i.toString(),
                                         name));
                 }
 
@@ -1891,10 +1891,10 @@ namespace CSReportDll
         private pGetIdFunction(name: string) {
             let f: cReportFormulaType = null;
 
-            name = name.ToLower();
+            name = name.toLowerCase();
             for(var _i = 0; _i < this.formulaTypes.count(); _i++) {
                 f = this.formulaTypes.item(_i);
-                if (name === f.getName().ToLower()) {
+                if (name === f.getName().toLowerCase()) {
                     return f.getId();
                 }
             }
@@ -2048,7 +2048,7 @@ namespace CSReportDll
         {
             if (this.bCompile)
             {
-                return pAddFormulaInt(functionName, parameters).ToString();
+                return pAddFormulaInt(functionName, parameters).toString();
             }
             else
             {
@@ -2060,7 +2060,7 @@ namespace CSReportDll
                 object value = pResultFunctionInt(fint);
                 if (value !== null)
                 {
-                    return getNumericVal(value.ToString());
+                    return getNumericVal(value.toString());
                 }
                 else
                 {

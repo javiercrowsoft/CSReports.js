@@ -41,11 +41,11 @@ namespace CSReportPreview
         }
 
         public setCurrPage(page: number) {
-            tsbPage.Text = .ToString();
+            tsbPage.Text = .toString();
         }
 
         public setPages(pages: number) {
-            tsbPages.Text = pages.ToString();
+            tsbPages.Text = pages.toString();
         }
 
         private tsbFirstPage_Click(sender: object, e: EventArgs) {

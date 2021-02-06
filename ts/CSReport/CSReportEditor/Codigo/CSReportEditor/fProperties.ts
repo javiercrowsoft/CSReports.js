@@ -1702,7 +1702,7 @@ UNKNOWN >>             get
             // See if user pressed ok.
             if (result === DialogResult.OK) {
                 // Set form background to the selected color.
-                txColor.Text = colorDialog.Color.ToArgb().ToString();
+                txColor.Text = colorDialog.Color.ToArgb().toString();
                 shColor.BackColor = colorDialog.Color;
             }
         }
@@ -1733,8 +1733,8 @@ UNKNOWN >>             get
                 chkFontItalic.Checked = font.Italic;
                 chkFontUnderline.Checked = font.Underline;
                 chkFontStrike.Checked = font.Strikeout;
-                txFontSize.Text = font.Size.ToString();
-                txForeColor.Text = fontDialog.Color.ToArgb().ToString();
+                txFontSize.Text = font.Size.toString();
+                txForeColor.Text = fontDialog.Color.ToArgb().toString();
                 shForeColor.BackColor = fontDialog.Color;
             }            
         }

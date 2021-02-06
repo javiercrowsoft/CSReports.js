@@ -1,19 +1,10 @@
+namespace CSDataBase {
 
-
-namespace CSDataBase
-{
-    //
-    // TODO: has a function to translate from Ado.net to csAdoDataType which is the value
-    //       we use to save in csr files
-    //
-    //       use the table here http://www.frentonline.com/Knowledgebase/MSSQLServer/Datatype/tabid/362/Default.aspx
-    //
+    import Exception = CSOAPI.Exception;
 
     export class cDatabaseGlobals {
 
-
-    {
-        public bool: static Silent = false;
+        public silent: boolean = false;
 
         public isNumberField(fieldType: number) {
             switch (fieldType) 
@@ -73,6 +64,7 @@ namespace CSDataBase
                     cWindow.msgWarning("The data type [" + dataType + "] is not matched in CSDatabase.cDatabaseGlobals.getDataTypeFromString");
                     return csDataType.CSTDVARCHAR;
             }
+
             throw new Exception("The data type [" + dataType + "] is not matched in CSDatabase.cDatabaseGlobals.getDataTypeFromString");
         }
 
@@ -144,7 +136,7 @@ namespace CSDataBase
                     break;
             }
 
-            throw new Exception("This datatype is not supported [" + adoDBType.ToString() + "]");
+            throw new Exception("This datatype is not supported [" + adoDBType.toString() + "]");
         }
 
         public getAdoTypeFromDataType(dataType: csDataType) {
@@ -181,19 +173,11 @@ namespace CSDataBase
                     return csAdoDataType.adTinyInt;
             }
 
-            throw new Exception("This datatype is not supported [" + dataType.ToString() + "]");
+            throw new Exception("This datatype is not supported [" + dataType.toString() + "]");
         }
+    }
 
-
-
-    }    }
-
-
-
-
-
-    public enum csDataTypeUNKNOWN >>     public enum csDataType
-    {
+    export enum csDataType {
         CSTDCHAR = System.TypeCode.Char,
         CSTDVARCHAR = System.TypeCode.String,
         CSTDLONGVARCHAR = System.TypeCode.String,
@@ -217,29 +201,18 @@ namespace CSDataBase
         CSTDBOOLEAN = System.TypeCode.Boolean,
         CSTDBINARY = System.TypeCode.Object,
         CSTDLONGVARBINARY = System.TypeCode.Object
+    }
 
-
-    }    }
-
-
-
-
-
-    public enum csCommandTypeUNKNOWN >>     public enum csCommandType
-    {
+    export enum csCommandType {
         CSCMDFILE = 256,
         CSCMDSP = 4,
         CSCMDTABLE = 2,
         CSCMDTABLEDIRECT = 512,
         CSCMDTEXT = 1,
         CSCMDUNKNOWN = -1
+    }
 
-
-    }    }
-
-
-
-UNKNOWN >>     public enum csAdoDataType {
+    export enum csAdoDataType {
         adBigInt = 20,
         adBinary = 128,
         adBoolean = 11,
@@ -280,10 +253,5 @@ UNKNOWN >>     public enum csAdoDataType {
         adVarNumeric = 139,
         adVarWChar = 202,
         adWChar = 130
-
-
-    }    }
-
-
-
+    }
 }

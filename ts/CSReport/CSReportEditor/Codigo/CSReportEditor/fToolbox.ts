@@ -44,8 +44,8 @@ namespace CSReportEditor
         public addField(name: string, fieldType: number, fieldIndex: number) {
             let item: var = lv_controls.Items.Add(name, C_CTRL_IMAGE);
             let info: var = "";
-            info = cUtil.setInfoString(info, C_FIELD_INDEX, fieldType.ToString());
-            info = cUtil.setInfoString(info, C_FIELD_TYPE, fieldIndex.ToString());
+            info = cUtil.setInfoString(info, C_FIELD_INDEX, fieldType.toString());
+            info = cUtil.setInfoString(info, C_FIELD_TYPE, fieldIndex.toString());
             item.Tag = info;
         }
 

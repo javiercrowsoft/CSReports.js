@@ -1,15 +1,11 @@
-
-
 namespace CSDataBase
 {
     export class cJSONDataSource {
 
+        private readonly name: string = null;
+        private readonly data: object = null;
 
-    {
-        private name: string = null;
-        private data: JObject = null;
-
-        public constructor(name: string, data: JObject) {
+        public constructor(name: string, data: object) {
             this.name = name;
             this.data = data;
         }
@@ -21,7 +17,5 @@ namespace CSDataBase
         public getData() {
             return this.data;
         }
-
-
-    }    }
+    }
 }

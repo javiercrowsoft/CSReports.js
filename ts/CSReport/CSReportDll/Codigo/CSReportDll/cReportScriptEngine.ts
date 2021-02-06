@@ -22,7 +22,7 @@ namespace CSReportDll
         }
 
         private putCodeInClass(code: string, formula: cReportFormula) {
-            if (cUtil.subString(code, 0, 8).ToLower() === "function") {
+            if (cUtil.subString(code, 0, 8).toLowerCase() === "function") {
                 return "Public Class util\r\n"
                      + "Implements CSReportScript.cIReportScriptType\r\n"
                      + code + "\r\n"
@@ -32,8 +32,8 @@ namespace CSReportDll
                      // TODO: remove debug info
                      /*
                      + "  System.Console.WriteLine(\"" + formula.getName() + "\")\r\n"
-                     + "  Dim var__\r\nFor Each var__ In globals\r\n System.Console.WriteLine(var__.ToString() + \" : \" + globals.getVar(var__).getValue().ToString())\r\nNext\r\n"
-                     + "  System.Console.WriteLine(value__.ToString())\r\n"
+                     + "  Dim var__\r\nFor Each var__ In globals\r\n System.Console.WriteLine(var__.toString() + \" : \" + globals.getVar(var__).getValue().toString())\r\nNext\r\n"
+                     + "  System.Console.WriteLine(value__.toString())\r\n"
                      + "  System.Console.WriteLine(\"---------------\")\r\n"
                       */ 
                      // end debug info
@@ -84,7 +84,7 @@ namespace CSReportDll
 
 UNKNOWN >>             CodeDomProvider provider;
 
-            if (cUtil.subString(code, 0, 8).ToLower() === "function") {
+            if (cUtil.subString(code, 0, 8).toLowerCase() === "function") {
                 provider = new Microsoft.VisualBasic.VBCodeProvider();
             }
             else  {

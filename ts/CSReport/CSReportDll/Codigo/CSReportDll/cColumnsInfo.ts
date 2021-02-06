@@ -121,7 +121,7 @@ UNKNOWN >>             get
                 }
 
                 if (key === "") {
-                    key = cReportGlobals.getKey(cReportGlobals.getNextKey().ToString());
+                    key = cReportGlobals.getKey(cReportGlobals.getNextKey().toString());
                 }
                 else {
                     cReportGlobals.refreshNextKey(key);

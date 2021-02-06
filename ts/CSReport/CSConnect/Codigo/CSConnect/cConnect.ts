@@ -33,21 +33,21 @@ namespace CSConnect
                 let parameters: cParameters = new cParameters();
 
                 for(var i_ = 0; i_ < dt.Rows.length; i_++) {
-                    if (row["parameter_mode"].ToString() !== "OUT")  {
+                    if (row["parameter_mode"].toString() !== "OUT")  {
                         let p: cParameter = null;
                         let found: boolean = false;
-                        for (var i = 0; i < this.parameters.count(); i++) {
+                        for (let i = 0; i < this.parameters.count(); i++) {
                             p = this.parameters.item(i);
-                            if (p.getName() === row["parameter_name"].ToString()) {
+                            if (p.getName() === row["parameter_name"].toString()) {
                                 found = true;
                                 break;
                             }
                         }
                         if (!found) p = null; {
                         p = parameters.add(p, "");
-                        p.setName(row["parameter_name"].ToString());
+                        p.setName(row["parameter_name"].toString());
                         p.setPosition(row["ordinal_position"]);
-                        p.setColumnType(cDatabaseGlobals.getDataTypeFromString(row["data_type"].ToString()));
+                        p.setColumnType(cDatabaseGlobals.getDataTypeFromString(row["data_type"].toString()));
                     }
                 }
                 //
@@ -56,10 +56,10 @@ namespace CSConnect
                 //
                 this.parameters = new cParameters();
 
-                for (var j = 1; j < parameters.count() + 1; j++) {
+                for (let j = 1; j < parameters.count() + 1; j++) {
                     let p: cParameter = null;
                     let found: boolean = false;
-                    for (var i = 0; i < parameters.count(); i++) {
+                    for (let i = 0; i < parameters.count(); i++) {
                         p = parameters.item(i);
                         if (p.getPosition() === j) {
                             found = true;

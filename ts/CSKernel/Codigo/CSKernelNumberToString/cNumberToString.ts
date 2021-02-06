@@ -1,11 +1,6 @@
+namespace CSKernelNumberToString {
 
-
-namespace CSKernelNumberToString
-{
     export class cNumberToString {
-
-
-    {
 
         private C_MODULE: string = "cNumberToString";
 
@@ -15,42 +10,46 @@ namespace CSKernelNumberToString
             let second: number = 0;
 
             hours = count / 3600;
-            minutes =  / 60;
-            second =  % 60;
+            minutes = (count % 3600) / 60;
+            second = (count % 3600) % 60;
 
-            return hours.ToString("{0:00}")
-                + ":" + minutes.ToString("{0:00}")
-                + ":" + second.ToString("{0:00}");
+            return this.pad(hours,"00",2)
+                + ":" + this.pad(minutes,"00",2)
+                + ":" + this.pad(second,"00",2);
         }
 
-        public spanishNumberToString(iNumber: number) {
+        private pad(value, pad, size) {
+            return pad + value.toString().slice(-size);
+        }
+
+        public spanishNumberToString(num: number) {
             let iMillion: number = 0;
             let iThousand: number = 0;
             let rtn: string = "";
 
-            iNumber = Math.Round(iNumber, 2);
+            num = Math.round((num + Number.EPSILON) *100)/100;
 
-            if (iNumber >= 1000000) {
-                iMillion = pGetValue(iNumber, 1000000);
-                if (iNumber >= 2000000) {
-                    rtn = pSpanishGetNumber(iMillion, true) + " Millones ";
+            if (num >= 1000000) {
+                iMillion = this.getValue(num, 1000000);
+                if (num >= 2000000) {
+                    rtn = this.spanishGetNumber(iMillion, true) + " Millones ";
                 }
                 else {
-                    rtn = pSpanishGetNumber(iMillion, true) + " Millon ";
+                    rtn = this.spanishGetNumber(iMillion, true) + " Millon ";
                 }
-                iNumber = iNumber - (iMillion * 1000000);
+                num = num - (iMillion * 1000000);
             }
 
-            if (iNumber >= 1000) {
-                iThousand = pGetValue(iNumber, 1000);
-                rtn = rtn + pSpanishGetNumber(iThousand, true) + " Mil ";
-                iNumber = iNumber - (iThousand * 1000);
+            if (num >= 1000) {
+                iThousand = this.getValue(num, 1000);
+                rtn = rtn + this.spanishGetNumber(iThousand, true) + " Mil ";
+                num = num - (iThousand * 1000);
             }
 
-            rtn = rtn + pSpanishGetNumber(Math.Truncate(iNumber), false);
-            rtn = rtn + pSpanishGetDecimal(iNumber);
+            rtn = rtn + this.spanishGetNumber(Math.trunc(num), false);
+            rtn = rtn + this.spanishGetDecimal(num);
 
-            return rtn.Substring(0, 1).ToUpper() + rtn.Substring(1).ToLower();
+            return rtn.substring(0, 1).toUpperCase() + rtn.substring(1).toLowerCase();
         }
 
         public frenchNumberToString(iNumber: number) {
@@ -85,7 +84,7 @@ namespace CSKernelNumberToString
             rtn = rtn + pFrenchGetNumber(Math.Truncate(iNumber), false);
             rtn = rtn + pFrenchGetDecimal(iNumber);
 
-            return rtn.Substring(0, 1).ToUpper() + rtn.Substring(2).ToLower();
+            return rtn.Substring(0, 1).ToUpper() + rtn.Substring(2).toLowerCase();
         }
 
         public englishNumberToString(iNumber: number) {
@@ -110,13 +109,13 @@ namespace CSKernelNumberToString
             rtn = rtn + pEnglishGetNumber(Math.Truncate(iNumber), false);
             rtn = rtn + pEnglishGetDecimal(iNumber);
 
-            return rtn.Substring(0, 1).ToUpper() + rtn.Substring(2).ToLower();
+            return rtn.Substring(0, 1).ToUpper() + rtn.Substring(2).toLowerCase();
         }
 
         /////////////////////////////////////////////////////////////////////////////////////
         // Spanish
 
-        private pSpanishGetNumber(iNumber: number, bPutOne: boolean) {
+        private spanishGetNumber(iNumber: number, bPutOne: boolean) {
             let rtn: string = "";
             let iTens: number = 0;
             let iUnit: number = 0;
@@ -129,7 +128,7 @@ namespace CSKernelNumberToString
             else {
                 if (iNumber > 100) {
                     iNumAux = iNumber;
-                    rtn = pSpanishGetNameHundred(iNumAux) + " ";
+                    rtn = spanishGetNameHundred(iNumAux) + " ";
                     iTens = pGetHundred(iNumAux);
                     bPutOne = false;
                 }
@@ -141,11 +140,11 @@ namespace CSKernelNumberToString
             if (iTens !== 0) {
                 if (iTens >= 1 && iTens <= 15) {
                     bPutOneAux = bPutOne;
-                    rtn = rtn + pSpanishGetNameNumber(iTens, bPutOneAux);
+                    rtn = rtn + spanishGetNameNumber(iTens, bPutOneAux);
                 }
                 else {
                     if (iTens >= 16 && iTens <= 19) {
-                        rtn = rtn + "Dieci" + pSpanishGetNameNumber(Math.Truncate(iTens - 10), bPutOne);
+                        rtn = rtn + "Dieci" + spanishGetNameNumber(Math.Truncate(iTens - 10), bPutOne);
                     }
                     else {
                         if (iTens === 20) {
@@ -153,14 +152,14 @@ namespace CSKernelNumberToString
                         }
                         else {
                             if (iTens >= 21 && iTens <= 29) {
-                                rtn = rtn + "Venti" + pSpanishGetNameNumber(Math.Truncate(iTens - 20), bPutOne);
+                                rtn = rtn + "Venti" + spanishGetNameNumber(Math.Truncate(iTens - 20), bPutOne);
                             }
                             else {
                                 if (iTens >= 30) {
-                                    rtn = rtn + pSpanishGetNameTens(iTens);
+                                    rtn = rtn + spanishGetNameTens(iTens);
                                     iUnit = pGetUnit(iTens);
                                     rtn = rtn + (iUnit === 0 ? "" : " y ");
-                                    rtn = rtn + pSpanishGetNameNumber(iUnit, bPutOne);
+                                    rtn = rtn + spanishGetNameNumber(iUnit, bPutOne);
                                 }
                             }
                         }
@@ -171,7 +170,7 @@ namespace CSKernelNumberToString
             return rtn;
         }
 
-        private pSpanishGetNameNumber(iNumber: number, bPutOne: boolean) {
+        private spanishGetNameNumber(iNumber: number, bPutOne: boolean) {
             switch (iNumber)
             {
                 case 1:
@@ -199,7 +198,7 @@ namespace CSKernelNumberToString
             }
         }
 
-        private pSpanishGetNameHundred(iNumber: number) {
+        private spanishGetNameHundred(iNumber: number) {
             let number: number = iNumber;
 
             if (number >= 900) return "Novecientos"; {
@@ -214,7 +213,7 @@ namespace CSKernelNumberToString
             else return ""; {
         }
 
-        private pSpanishGetNameTens(iNumber: number) {
+        private spanishGetNameTens(iNumber: number) {
             let number: number = iNumber;
 
             if (number >= 90) return "Noventa"; {
@@ -227,7 +226,7 @@ namespace CSKernelNumberToString
             else return ""; {
         }
 
-        private pSpanishGetDecimal(iNumber: number) {
+        private spanishGetDecimal(iNumber: number) {
             return pGetDecimalAux(iNumber, "con");
         }
 
@@ -478,7 +477,7 @@ namespace CSKernelNumberToString
             iNumber = Math.Round(iNumber, 2);
             iDecimal = Math.Round((iNumber - Math.Truncate(iNumber)) * 100, 2);
             if (iDecimal !== 0) {
-                return " " + word + " " + iDecimal.ToString() + "/100";
+                return " " + word + " " + iDecimal.toString() + "/100";
             else {
                 return "";
         }
@@ -491,7 +490,7 @@ namespace CSKernelNumberToString
             return iHundred - (Math.Truncate(iHundred / 100) * 100);
         }
 
-        private pGetValue(iNumber: number, iDividing: number) {
+        private getValue(iNumber: number, iDividing: number) {
             return Math.Truncate(Math.Truncate(iNumber) / iDividing);
         }
 

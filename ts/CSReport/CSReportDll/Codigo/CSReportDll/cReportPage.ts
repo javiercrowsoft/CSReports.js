@@ -219,7 +219,7 @@ namespace CSReportDll
                 }
 
                 if (addLine) {
-                    xProperty.setName(C_NODERPTHEADERLINE + nHeader.ToString());
+                    xProperty.setName(C_NODERPTHEADERLINE + nHeader.toString());
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
                 }

@@ -1,11 +1,9 @@
+namespace CSChartServer {
 
+    import NotImplementedException = CSOAPI.NotImplementedException;
 
-namespace CSChartServer
-{
     export class cWebChartItem {
 
-
-    {
         public setPrimaryValue(p: number) {
             throw new NotImplementedException();
         }
@@ -18,11 +16,7 @@ namespace CSChartServer
             throw new NotImplementedException();
         }
 
-        public setAlternateValue(p: number) {
-            throw new NotImplementedException();
-        }
-
-        public setAlternateValue(p: number) {
+        public setAlternateValue(p: number|number) {
             throw new NotImplementedException();
         }
 
@@ -33,7 +27,5 @@ namespace CSChartServer
         public setExplode(p: boolean) {
             throw new NotImplementedException();
         }
-
-
-    }    }
+    }
 }

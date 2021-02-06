@@ -138,9 +138,9 @@ namespace CSReportWebServer
 
         private void executeMessage(JObject request)
         {
-            var action = request["message"]["action"].ToString();
+            var action = request["message"]["action"].toString();
 
-            var id = request["id"].ToString();
+            var id = request["id"].toString();
 
             if (action.StartsWith("__PARTIAL_MESSAGE__"))
             {
@@ -156,10 +156,10 @@ namespace CSReportWebServer
             {
                 if (this.partialMessages.ContainsKey(id))
                 {
-                    request["message"]["data"] = JObject.Parse(.ToString());
+                    request["message"]["data"] = JObject.Parse(.toString());
                 }
                 else {
-                    request["message"]["data"] = JObject.Parse(request["message"]["data"].ToString());
+                    request["message"]["data"] = JObject.Parse(request["message"]["data"].toString());
                 }
                 switch (action)
                 {

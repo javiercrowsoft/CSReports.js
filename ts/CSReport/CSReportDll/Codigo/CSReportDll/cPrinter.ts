@@ -92,7 +92,7 @@ namespace CSReportDll {
                     paperBin)) {
                 this.paperInfo.setPaperSize(paperSize);
                 this.paperInfo.setOrientation(orientation);
-                this.paperInfo.setPagesToPrint(fromPage.ToString() + "-" + toPage.ToString());
+                this.paperInfo.setPagesToPrint(fromPage.toString() + "-" + toPage.toString());
                 this.paperInfo.setPaperBin(paperBin);
 
                 return true;

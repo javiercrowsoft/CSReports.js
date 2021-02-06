@@ -47,7 +47,7 @@ namespace CSReportEditor
 
         private selectAndShowInfo(node: TreeNode) {
             if (node !== null && node.Tag !== null) {
-                let info: var = node.Tag.ToString();
+                let info: var = node.Tag.toString();
                 if (info.Length > 0) {
                     let infoType: var = info.Substring(0, 1);
                     if (infoType === "@") {
@@ -66,7 +66,7 @@ namespace CSReportEditor
 
         private tv_formulas_NodeMouseDoubleClick(sender: object, e: TreeNodeMouseClickEventArgs) {
             if (e.Node.Tag !== null) {
-                let info: var = e.Node.Tag.ToString();
+                let info: var = e.Node.Tag.toString();
                 if (info.Length > 0) {
                     let infoType: var = info.Substring(0, 4);
                     if (infoType === "@FH=") {
@@ -128,7 +128,7 @@ namespace CSReportEditor
             else {
                 let t: var = value.GetType();
                 if (t.IsPrimitive || t === typeof(Decimal) || t === typeof(String)) {
-                    return value.ToString();
+                    return value.toString();
                 }
                 else {
                     return "\r\n" + getObjectDescription(value, n + 1);
@@ -143,7 +143,7 @@ namespace CSReportEditor
         private cmd_edit_Click(sender: object, e: EventArgs) {
             if (tv_controls.SelectedNode !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
-                    let info: var = tv_controls.SelectedNode.Tag.ToString();
+                    let info: var = tv_controls.SelectedNode.Tag.toString();
                     if (info.Length > 0) {
                         let infoType: var = info.Substring(0, 1);
                         if (infoType === "@") {

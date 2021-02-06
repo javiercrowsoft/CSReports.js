@@ -123,7 +123,7 @@ UNKNOWN >>             get
                     c = new cReportGroup();
                 }
                 if (key === "")  {
-                    key = cReportGlobals.getNextKey().ToString();
+                    key = cReportGlobals.getNextKey().toString();
                 } 
                 else  {
                     cReportGlobals.refreshNextKey(key);
@@ -138,7 +138,7 @@ UNKNOWN >>             get
                 c.setHeader(this.groupsHeaders.add(null, "", -1));
                 c.setFooter(this.groupsFooters.add(null, "", 0));
 
-                pSetName(c, "G_" + c.getIndex().ToString());
+                pSetName(c, "G_" + c.getIndex().toString());
                 pSetName(c.getHeader(), c.getName());
                 pSetName(c.getFooter(), c.getName());
 
@@ -158,7 +158,7 @@ UNKNOWN >>             get
                     c = new cReportGroup();
                 }
                 if (key === "")  {
-                    key = cReportGlobals.getNextKey().ToString();
+                    key = cReportGlobals.getNextKey().toString();
                 } 
                 else  {
                     cReportGlobals.refreshNextKey(key);
@@ -173,7 +173,7 @@ UNKNOWN >>             get
                 this.groupsHeaders.add(c.getHeader(), "", -1);
                 this.groupsFooters.add(c.getFooter(), "", 0);
 
-                pSetName(c, "G_" + c.getIndex().ToString());
+                pSetName(c, "G_" + c.getIndex().toString());
                 pSetName(c.getHeader(), c.getName());
                 pSetName(c.getFooter(), c.getName());
 
@@ -194,7 +194,7 @@ UNKNOWN >>             get
             c.setName(pSetName(c.getName(), name));
         }
         private pSetName(section: string, name: string) {
-            let sectionName: string = section.ToLower();
+            let sectionName: string = section.toLowerCase();
             if (sectionName.Length === 0
                 || cUtil.subString(sectionName, 0, 5) === "group"
                 || cUtil.subString(sectionName, 0, 5) === "grupo"

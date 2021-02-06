@@ -68,7 +68,7 @@ UNKNOWN >>             set { this.name = value; }
             switch (type)
             {
                 case eTypes.eBoolean:
-                    switch (this.value.ToLower())
+                    switch (this.value.toLowerCase())
                     {
                         case "true":
                         case "verdadero":
@@ -115,10 +115,10 @@ UNKNOWN >>             set { this.name = value; }
                 this.value = value ? "-1" : "0";
             }
             else if (type === eTypes.eInteger) {
-                this.value = Convert.ToInt64(value).ToString();
+                this.value = Convert.ToInt64(value).toString();
             }
             else {
-                this.value = value.ToString();
+                this.value = value.toString();
             }
         }
 
@@ -128,7 +128,7 @@ UNKNOWN >>             set { this.name = value; }
                 this.value = value ? "-1" : "0";
             }
             else {
-                this.value = value.ToString();
+                this.value = value.toString();
             }
         }
 

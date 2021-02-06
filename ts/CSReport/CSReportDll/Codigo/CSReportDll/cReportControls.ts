@@ -155,7 +155,7 @@ UNKNOWN >>             get
                     c = new cReportControl();
                 }
                 if (key === "") {
-                    key = cReportGlobals.getNextKey().ToString();
+                    key = cReportGlobals.getNextKey().toString();
                 }
                 else {
                     cReportGlobals.refreshNextKey(key);

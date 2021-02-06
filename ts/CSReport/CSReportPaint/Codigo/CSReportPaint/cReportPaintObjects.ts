@@ -126,7 +126,7 @@ UNKNOWN >>             get
                     c = new cReportPaintObject();
                 }
                 if (key === "") {
-                    key = cGlobals.getNextKey().ToString();
+                    key = cGlobals.getNextKey().toString();
                 }
 
                 key = cGlobals.getKey(key);

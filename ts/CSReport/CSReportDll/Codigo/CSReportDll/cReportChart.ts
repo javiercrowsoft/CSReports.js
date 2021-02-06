@@ -507,7 +507,7 @@ namespace CSReportDll
 
                                 if (!bFound) {
                                     v[i].value = value;
-                                    v[i].label = cReportGlobals.valVariant(rows[j][labelIndex]).ToString();
+                                    v[i].label = cReportGlobals.valVariant(rows[j][labelIndex]).toString();
                                     v[i].idx = j;
                                 }
                             }

@@ -41,8 +41,8 @@ namespace CSReportEditor
             {
                 var item = lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
                 item.ImageIndex = 0;
-                string info = cUtil.setInfoString("", C_INDEX, column.getPosition().ToString());
-                info = cUtil.setInfoString(info, C_FIELDTYPE, column.getColumnType().ToString());
+                string info = cUtil.setInfoString("", C_INDEX, column.getPosition().toString());
+                info = cUtil.setInfoString(info, C_FIELDTYPE, column.getColumnType().toString());
                 item.Tag = info;
             }
              */ 
@@ -80,7 +80,7 @@ namespace CSReportEditor
             if (lv_columns.SelectedItems.Count > 0) {
                 let item: ListViewItem = lv_columns.SelectedItems[0];
                 this.field = item.Text;
-                let info: var = item.Tag.ToString();
+                let info: var = item.Tag.toString();
                 this.fieldType = cUtil.valAsInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
                 this.fieldIndex = cUtil.valAsInt(cUtil.getInfoString(info, C_INDEX, "-1"));
             }

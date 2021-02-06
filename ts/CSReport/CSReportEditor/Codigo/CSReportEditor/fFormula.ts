@@ -44,10 +44,10 @@ namespace CSReportEditor
             item.SelectedImageIndex = item.ImageIndex;
 
             let info: string = "";
-            info = cUtil.setInfoString(info, C_FUNID, formulaType.ToString());
+            info = cUtil.setInfoString(info, C_FUNID, formulaType.toString());
             info = cUtil.setInfoString(info, C_FUNDESCRIP, descrip);
             info = cUtil.setInfoString(info, C_FUNNAME, name);
-            info = cUtil.setInfoString(info, C_HELPCONTEXTID, helpContextId.ToString());
+            info = cUtil.setInfoString(info, C_HELPCONTEXTID, helpContextId.toString());
 
             item.Tag = info;
 		}

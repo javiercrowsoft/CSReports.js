@@ -1,44 +1,18 @@
+namespace CSKernelClient {
 
-
-
-namespace CSKernelClient
-{
-
+    import Exception = CSOAPI.Exception;
 
     export class cError {
 
+        private lastErrorDescription = "";
+        private lastErrorInfoAdd = "";
+        private silent = false;
 
-    {
-        private String: static this.lastErrorDescription = "";
-        private String: static this.lastErrorInfoAdd = "";
-        private String: static this.lastErrorModule = "";
-        private String: static this.lastErrorNumber = "";
-        private String: static this.lastErrorLine = "";
-        private String: static this.lastErrorFunction = "";
-        private Boolean: static this.silent = false;
-
-        public mngError(ex: Exception) {
-                             string function,
-                             string module,
-                             string infoAdd)
-        {
-            mngError(ex, function, module, infoAdd, "", eErrorLevel.eErrorWarning, eErrorType.eErrorVba, null);
-        }
-
-        public mngError(ex: Exception) {
-                             string function,
-                             string module,
-                             string infoAdd,
-                             string title,
-                             eErrorLevel level,
-                             eErrorType varType,
-                             object connection)
-        {
-            // TODO: implement function
+        public mngError(ex: Exception, infoAdd: string = "") {
             let f: fErrors = new fErrors();
             f.setErrorIcon();
-            f.setDetails(ex.Message);
-            f.ShowDialog();
+            f.setDetails(ex.getMessage());
+            f.showDialog();
         }
 
         public getLastErrorDescription() {
@@ -49,26 +23,8 @@ namespace CSKernelClient
             return this.lastErrorInfoAdd;
         }
 
-        public getLastErrorModule() {
-            return this.lastErrorModule;
-        }
-
-        public getLastErrorNumber() {
-            return this.lastErrorNumber;
-        }
-
-        public getLastErrorLine() {
-            return this.lastErrorLine;
-        }
-
-        public getLastErrorFunction() {
-            return this.lastErrorFunction;
-        }
-
         public setSilent(rhs: boolean) {
             this.silent = rhs;
         }
-
-
-    }    }
+    }
 }

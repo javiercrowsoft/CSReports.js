@@ -27,7 +27,7 @@ namespace CSReportDll
 
         public override string ToString()
         {
-            return base.ToString() + "\n\nCode:" + errorCode.ToString();
+            return base.toString() + "\n\nCode:" + errorCode.toString();
         }
     }
 }

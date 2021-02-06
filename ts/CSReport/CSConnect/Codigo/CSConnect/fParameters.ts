@@ -47,7 +47,7 @@ namespace CSConnect
                 this.parameters.item(i).setValue(input.Text);
 
                 let value: var = "";
-                switch(input.Tag.ToString())
+                switch(input.Tag.toString())
                 {
                     case "T":
                         value = cDataBase.sqlString(input.Text);

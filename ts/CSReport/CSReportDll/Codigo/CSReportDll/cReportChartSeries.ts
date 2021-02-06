@@ -160,7 +160,7 @@ UNKNOWN >>             get
         }
 
         private getDummyKey() {
-            return "dummy_key_" + this.Count.ToString();
+            return "dummy_key_" + this.Count.toString();
         }
 
 

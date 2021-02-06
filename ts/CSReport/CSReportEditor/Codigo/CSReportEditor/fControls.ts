@@ -70,7 +70,7 @@ namespace CSReportEditor
 
         private selectControl() {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.toString();
                 this.editor.selectCtrl(info);
             }
         }
@@ -81,7 +81,7 @@ namespace CSReportEditor
 
         private cmd_edit_Click(sender: object, e: EventArgs) {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.toString();
                 this.editor.showProperties(info);
             }
         }

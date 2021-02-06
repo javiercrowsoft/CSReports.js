@@ -472,7 +472,7 @@ namespace CSReportPaint
                     copies = printer.getCopies();
                 }
                 else {
-                    printer.getPaperInfo().setPagesToPrint("1-" + this.report.getPages().count().ToString());
+                    printer.getPaperInfo().setPagesToPrint("1-" + this.report.getPages().count().toString());
                 }
 
                 for (q = 0; q < copies; q++) {

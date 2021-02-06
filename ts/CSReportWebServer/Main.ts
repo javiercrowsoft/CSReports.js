@@ -97,7 +97,7 @@ UNKNOWN >>             string keyName;
 UNKNOWN >>                                 new JValue(string.Format("chrome-extension://{0}/", settings.ExtensionId))
                                 )
                             )
-                    ).ToString()
+                    ).toString()
                     );
                 manifest.Close();
                 Console.WriteLine("Manifest created successfully");

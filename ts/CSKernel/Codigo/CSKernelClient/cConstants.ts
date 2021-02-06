@@ -1,24 +1,6 @@
+namespace CSKernelClient {
 
-
-
-namespace CSKernelClient
-{
-
-
-    export class cConstants {
-
-
-    {
-
-
-    }    }
-
-
-
-
-
-    public enum eTypesUNKNOWN >>     public enum eTypes
-    {
+    export enum eTypes {
         eInteger = 2,
         eDouble = 5,
         eCurrency = 6,
@@ -31,117 +13,44 @@ namespace CSKernelClient
         eLong = -500,
         eDate = -600,
         eDateOrNull = -700
+    }
 
-
-    }    }
-
-
-
-
-
-    public enum eFileModeUNKNOWN >>     public enum eFileMode
-    {
+    export enum eFileMode {
         eRead = 1,
         eWrite,
         eAppend,
         eBinaryRead,
-UNKNOWN >>         eBinaryWrite
+        eBinaryWrite
+    }
 
-
-    }    }
-
-
-
-
-
-    public enum eFileAccessUNKNOWN >>     public enum eFileAccess
-    {
+    export enum eFileAccess {
         eShared = 1,
         eLockRead,
         eLockWrite,
-UNKNOWN >>         eLockReadWrite
+        eLockReadWrite
+    }
 
-
-    }    }
-
-
-
-
-
-    public enum eErrorTypeUNKNOWN >>     public enum eErrorType
-    {
+    export enum eErrorType {
         eErrorAdo = 1,
         eErrorVba = 2
+    }
 
-
-    }    }
-
-
-
-
-
-    public enum eErrorLevelUNKNOWN >>     public enum eErrorLevel
-    {
+    export enum eErrorLevel {
         eErrorWarning = 1,
         eErrorFatal = 2,
         eErrorInformation = 3
+    }
 
-
-    }    }
-
-
-
-
-
-    public enum eErroresUNKNOWN >>     public enum eErrores
-    {
-        vbObjectError = 0,
-        eErrorUserInvalido = vbObjectError + 1,
-        eErrorSepDecimal = vbObjectError + 2,
-        eErrorSepDecimalConfig = vbObjectError + 3,
-        eErrorFieldnTypeInvalido = vbObjectError + 4,
-        eErrorVal = vbObjectError + 5,
-        eErrorSetInfoString = vbObjectError + 6,
-        eErrorABMLoadControl = vbObjectError + 7,
-        eErrorUsoPropIdEnPermission = vbObjectError + 8,
-        eErrorUsoSubClearEnPermissions = vbObjectError + 9,
-        eErrorUsoSubRemoveEnPermissions = vbObjectError + 10,
-        eErrorUsoPropIdEnRol = vbObjectError + 11,
-        eErrorUsoSubClearEnUsuarioRol = vbObjectError + 12,
-        eErrorUsoSubRemoveEnUsuarioRol = vbObjectError + 13,
-        eErrorABMLoadControlSubTypeNotDefined = vbObjectError + 14,
-        eErrorInvalidPropertyValue = vbObjectError + 15
-
-
-    }    }
-
-
-
-
-
-    public enum eFieldTypeUNKNOWN >>     public enum eFieldType
-    {
+    export enum eFieldType {
         eFieldBoolean = eTypes.eBoolean,
         eFieldNumeric = eTypes.eDouble,
         eFieldChar = eTypes.eText,
         eFieldDate = eTypes.eDate
+    }
 
-
-    }    }
-
-
-
-
-
-    public enum CSMSGICONSUNKNOWN >>     public enum CSMSGICONS
-    {
+    export enum CSMSGICONS {
         Exclamation,
         Information,
-UNKNOWN >>         Error
-
-
-    }    }
-
-
-
+        Error
+    }
 }

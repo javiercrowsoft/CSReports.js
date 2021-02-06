@@ -120,7 +120,7 @@ UNKNOWN >>             get
                 }
 
                 if (key === "") {
-                    key = cReportGlobals.getKey(cReportGlobals.getNextKey().ToString());
+                    key = cReportGlobals.getKey(cReportGlobals.getNextKey().toString());
                 }
                 else {
                     cReportGlobals.refreshNextKey(key);
@@ -151,13 +151,13 @@ UNKNOWN >>             get
         }
 
         public getByPosition(position: number) {
-            for (var i = 0; i < count(); i++) {
+            for (let i = 0; i < count(); i++) {
                 let p: cParameter = item(i);
                 if (p.getPosition() === position)  {
                     return p;
                 }
             }
-            throw new Exception("This parameters collection doesn't contain a parameter with a position = " + position.ToString());
+            throw new Exception("This parameters collection doesn't contain a parameter with a position = " + position.toString());
         }
 
         public item(index: number) {

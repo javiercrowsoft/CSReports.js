@@ -10,7 +10,7 @@ namespace CSReportEditor
 
 	    private NOERROR: number = 0;
 
-		public CSNOFECHA: DateTime = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+		public CSNOFECHA: Date = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
 
 	    public C_HEIGHT_BAR_SECTION: number = 120;
 	    public C_HEIGHT_NEW_SECTION: number = 350;
@@ -34,7 +34,7 @@ namespace CSReportEditor
 		public int: static gBackColor = 0;
 	    public int: static gLeftBarColor = 0;
 	    public bool: static = null;gHideLeftBar;
-	    public String: static gWorkFolder = "";
+	    public gWorkFolder = "";
 	    public bool: static = null;gbFirstOpen;
 
         private fMain: static = null;fmain;

@@ -173,7 +173,7 @@ namespace CSReportDll
 
         private getPaperSizeFromSizeName(sizeName: string) {
 UNKNOWN >>             int size;
-            switch (sizeName.ToLower()) { 
+            switch (sizeName.toLowerCase()) {
                 case "a4":
                     size = csReportPaperType.CSRPTPAPERTYPEA4;
                     break;

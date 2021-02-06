@@ -44,8 +44,8 @@ namespace CSReportWebServer
 
         private safePreview(request: JObject) {
             let fileName: var = request["message"]["data"]["file"];
-            let reportType: var = request["message"]["data"]["type"].ToString();
-            let url: var = request["message"]["data"]["url"].ToString();
+            let reportType: var = request["message"]["data"]["type"].toString();
+            let url: var = request["message"]["data"]["url"].toString();
             let pathAndFile: var = Path.GetTempPath() + fileName;
 
             getReportFromWebServer(url + reportType + "/" + fileName, pathAndFile);
@@ -66,8 +66,8 @@ namespace CSReportWebServer
 
         private safePrint(request: JObject) {
             let fileName: var = request["message"]["data"]["file"];
-            let reportType: var = request["message"]["data"]["type"].ToString();
-            let url: var = request["message"]["data"]["url"].ToString();
+            let reportType: var = request["message"]["data"]["type"].toString();
+            let url: var = request["message"]["data"]["url"].toString();
             let pathAndFile: var = Path.GetTempPath() + fileName;
             getReportFromWebServer(url + reportType + "/" + fileName, pathAndFile);
 
@@ -80,8 +80,8 @@ namespace CSReportWebServer
 
         private safeMoveToPage(request: JObject) {
             let data: var = request["message"]["data"];
-            let reportId: var = data["reportId"].ToString();
-			let page: var =  int.Parse(data["report_page"].ToString());
+            let reportId: var = data["reportId"].toString();
+			let page: var =  int.Parse(data["report_page"].toString());
 			this.log.Info("Getting page " + page);
 
             let report: var = this.reports[reportId];

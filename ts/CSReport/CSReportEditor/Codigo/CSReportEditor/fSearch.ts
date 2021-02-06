@@ -48,30 +48,30 @@ UNKNOWN >>             cReportSectionLine secLn;
 UNKNOWN >>             cReportControl ctrl;
 UNKNOWN >>             string toSearch;
 
-            toSearch = tx_toSearch.Text.ToLower();
+            toSearch = tx_toSearch.Text.toLowerCase();
 
             for(var i = 0; i < sections.count(); i++) {
                 sec = sections.item(i);
-                if (sec.getName().ToLower().IndexOf(toSearch) > -1) {
+                if (sec.getName().toLowerCase().IndexOf(toSearch) > -1) {
                     pAddToSearchResult(sec.getName(), objType, objType, "S" + sec.getKey());
                 }
-                if (sec.getFormulaHide().getText().ToLower().IndexOf(toSearch) > -1) {
+                if (sec.getFormulaHide().getText().toLowerCase().IndexOf(toSearch) > -1) {
                     pAddToSearchResult(sec.getName(), objType, csObjType.iTypeFormulaH, "S" + sec.getKey(), sec.getFormulaHide().getText());
                 }
                 for(var j = 0; j < sec.getSectionLines().count(); j++) {
                     secLn = sec.getSectionLines().item(j);
-                    if (secLn.getFormulaHide().getText().ToLower().IndexOf(toSearch) > -1) {
-                        pAddToSearchResult(sec.getName() + " - Line " + secLn.getIndex().ToString(),
+                    if (secLn.getFormulaHide().getText().toLowerCase().IndexOf(toSearch) > -1) {
+                        pAddToSearchResult(sec.getName() + " - Line " + secLn.getIndex().toString(),
                             csObjType.iTypeSecLn, csObjType.iTypeFormulaH, "S" + sec.getKey(), secLn.getFormulaHide().getText());
                     }
                     for(var t = 0; t < secLn.getControls().count(); t++) {
                         ctrl = secLn.getControls().item(t);
-                        if (ctrl.getName().ToLower().IndexOf(toSearch) > -1) {
+                        if (ctrl.getName().toLowerCase().IndexOf(toSearch) > -1) {
                             pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeCtrl, ctrl.getKey());
                         }
                         if (ctrl.getControlType() === csRptControlType.CSRPTCTFIELD
                             || ctrl.getControlType() === csRptControlType.CSRPTCTDBIMAGE) {
-                            if (ctrl.getField().getName().ToLower().IndexOf(toSearch) > -1) {
+                            if (ctrl.getField().getName().toLowerCase().IndexOf(toSearch) > -1) {
                                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeDbField, ctrl.getKey(), ctrl.getField().getName());
                             }
                         }
@@ -80,10 +80,10 @@ UNKNOWN >>             string toSearch;
                                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeText, ctrl.getKey(), ctrl.getLabel().getText());
                             }
                         }
-                        if (ctrl.getFormulaValue().getText().ToLower().IndexOf(toSearch) > -1) {
+                        if (ctrl.getFormulaValue().getText().toLowerCase().IndexOf(toSearch) > -1) {
                             pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeFormulaV, ctrl.getKey(), ctrl.getFormulaValue().getText());
                         }
-                        if (ctrl.getFormulaHide().getText().ToLower().IndexOf(toSearch) > -1) {
+                        if (ctrl.getFormulaHide().getText().toLowerCase().IndexOf(toSearch) > -1) {
                             pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeFormulaH, ctrl.getKey(), ctrl.getFormulaHide().getText());
                         }
                     }
@@ -112,7 +112,7 @@ UNKNOWN >>             string toSearch;
 
         private cmd_edit_Click(sender: object, e: EventArgs) {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.toString();
                 this.editor.showProperties(info);
             }
         }
@@ -127,7 +127,7 @@ UNKNOWN >>             string toSearch;
 
         private selectControl() {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.toString();
                 this.editor.selectCtrl(info);
             }
         }

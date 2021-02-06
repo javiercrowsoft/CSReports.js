@@ -1,28 +1,15 @@
-
-
-
-namespace CSKernelClient
-{
-
+namespace CSKernelClient {
 
     export class cDateUtils {
 
-
-    {
-        public isDate(dateValue: object) {
-            let t: Type = dateValue.GetType();
-            if (typeof(DateTime) === t) {
+        public isDate(value: any) {
+            if (this.isValidDate(value)) {
                 return true;
             }
             else {
-                if (typeof(string) === t) {
-                    try {
-                        DateTime.Parse(dateValue);
-                        return true;
-                    }
-                    catch (ex) {
-                        return false;
-                    }
+                let t: string = typeof value;
+                if (t === "string") {
+                    return this.isValidDate(Date.parse(value));
                 }
                 else {
                     return false;
@@ -30,6 +17,8 @@ namespace CSKernelClient
             }
         }
 
-
-    }    }
+        private isValidDate(date: any): boolean {
+            return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
+        }
+    }
 }

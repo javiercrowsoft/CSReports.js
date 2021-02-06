@@ -71,7 +71,7 @@ namespace CSReportDll
             let nodeObj: XmlNode = null;
             xProperty = new CSXml.cXmlProperty();
 
-            xProperty.setName("Serie_" + index.ToString());
+            xProperty.setName("Serie_" + index.toString());
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("ValueFieldName");

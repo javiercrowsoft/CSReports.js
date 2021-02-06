@@ -1875,9 +1875,9 @@ UNKNOWN >>             int i;
                 msg = "Ctl:[" + ctrlName
                     + "]Tipo:[" + strCtlType
                     + "]F.Hide:[" + cUtil.subString(formulaHide, 1, 100)
-                    + "]Activa[" + ( hasFormulaHide).ToString()
+                    + "]Activa[" + ( hasFormulaHide).toString()
                     + "]F.Value:[" + cUtil.subString(formulaValue, 1, 100)
-                    + "]Activa[" + ( hasFormulaValue).ToString()
+                    + "]Activa[" + ( hasFormulaValue).toString()
                     + "]Field:[" + fieldName + "]";
             }
             this.fmain.setsbPnlCtrl(msg);
@@ -2933,7 +2933,7 @@ UNKNOWN >>             int i;
                 paintSection(secL.getAspect(),
                                 secL.getKey(),
                                 sec.getTypeSection(),
-                                C_SECTIONLINE + (sec.getSectionLines().count() - 2).ToString(),
+                                C_SECTIONLINE + (sec.getSectionLines().count() - 2).toString(),
                                 true));
 
             // section line
@@ -2943,7 +2943,7 @@ UNKNOWN >>             int i;
 
             // section
             po = this.paint.getPaintSections().item(sec.getKeyPaint());
-            po.setTextLine(C_SECTIONLINE + (sec.getSectionLines().count() - 1).ToString());
+            po.setTextLine(C_SECTIONLINE + (sec.getSectionLines().count() - 1).toString());
 
             moveSection(this.paint.getPaintSections().item(this.keyFocus), 0, y, minBottom, maxBottom, sec, false);
 
@@ -2970,7 +2970,7 @@ UNKNOWN >>             int i;
                 case csRptSectionType.HEADER:
                     let w_headers: cReportSections = this.report.getHeaders();
                     rptSection = w_headers.add();
-                    rptSection.setName("H_" + rptSection.getIndex().ToString());
+                    rptSection.setName("H_" + rptSection.getIndex().toString());
                     aspect = w_headers.item(w_headers.count() - 2).getAspect();
                     rptSection.getAspect().setWidth(aspect.getWidth());
                     rptSection.getAspect().setHeight(0);
@@ -2999,7 +2999,7 @@ UNKNOWN >>             int i;
 
                     let w_groupsHeaders: cIReportGroupSections = this.report.getGroupsHeaders();
                     rptSection = w_groupsHeaders.item(w_groupsHeaders.count() - 1);
-                    rptSection.setName("G_" + rptSection.getIndex().ToString());
+                    rptSection.setName("G_" + rptSection.getIndex().toString());
 
                     // the first group is next to the last header
                     //
@@ -3035,7 +3035,7 @@ UNKNOWN >>             int i;
 
                     let w_groupsFooters: cIReportGroupSections = this.report.getGroupsFooters();
                     rptSection = w_groupsFooters.item(0);
-                    rptSection.setName("G_" + rptSection.getIndex().ToString());
+                    rptSection.setName("G_" + rptSection.getIndex().toString());
 
                     // all group footers are added to the top so at the
                     // beginning they are next to the detail section
@@ -3071,7 +3071,7 @@ UNKNOWN >>             int i;
                     // all footers are added to the beginning of the collection
                     //
                     rptSection = w_footers.add(null, "" , 0);
-                    rptSection.setName("F_" + rptSection.getIndex().ToString());
+                    rptSection.setName("F_" + rptSection.getIndex().toString());
 
                     aspect = w_footers.item(1).getAspect();
                     rptSection.getAspect().setWidth(aspect.getWidth());
@@ -3537,7 +3537,7 @@ UNKNOWN >>             finally {
             if (secLn === null) { return; }
             if (!isSecLn) { return; }
 
-            pShowSecProperties(secLn, sec.getName() + " - line " + secLn.getIndex().ToString());
+            pShowSecProperties(secLn, sec.getName() + " - line " + secLn.getIndex().toString());
 
             refreshAll();
         }
@@ -3816,7 +3816,7 @@ UNKNOWN >>             bool isGroup;
                     cUtil.listSetListIndexForId(this.fProperties.cbChartThickness, (int)rptCtrl.getChart().getThickness());
                     cUtil.listSetListIndexForId(this.fProperties.cbLinesType, (int)rptCtrl.getChart().getGridLines());
 
-                    this.fProperties.txChartTop.Text = rptCtrl.getChart().getTop().ToString();
+                    this.fProperties.txChartTop.Text = rptCtrl.getChart().getTop().toString();
                     this.fProperties.txDbFieldGroupValue.Text = rptCtrl.getChart().getGroupFieldName();
                     this.fProperties.setChartGroupIndex(rptCtrl.getChart().getGroupFieldIndex());
                     this.fProperties.txChartGroupValue.Text = rptCtrl.getChart().getGroupValue();
@@ -3865,13 +3865,13 @@ UNKNOWN >>             bool isGroup;
                 this.fProperties.chkFormulaHide.Checked = rptCtrl.getHasFormulaHide();
                 this.fProperties.chkFormulaValue.Checked = rptCtrl.getHasFormulaValue();
 
-                this.fProperties.txExportColIdx.Text = rptCtrl.getExportColIdx().ToString();
+                this.fProperties.txExportColIdx.Text = rptCtrl.getExportColIdx().toString();
                 this.fProperties.chkIsFreeCtrl.Checked = rptCtrl.getIsFreeCtrl();
 
                 this.fProperties.txTag.Text = rptCtrl.getTag();
                 this.fProperties.setFormulaHide(rptCtrl.getFormulaHide().getText());
                 this.fProperties.setFormulaValue(rptCtrl.getFormulaValue().getText());
-                this.fProperties.txIdxGroup.Text = rptCtrl.getFormulaValue().getIdxGroup().ToString();
+                this.fProperties.txIdxGroup.Text = rptCtrl.getFormulaValue().getIdxGroup().toString();
                 this.fProperties.opBeforePrint.Checked = rptCtrl.getFormulaValue().getWhenEval() === csRptWhenEval.CSRPTEVALPRE;
                 this.fProperties.opAfterPrint.Checked = rptCtrl.getFormulaValue().getWhenEval() === csRptWhenEval.CSRPTEVALPOST;
 
@@ -3884,30 +3884,30 @@ UNKNOWN >>             bool isGroup;
 
                 cUtil.listSetListIndexForId(this.fProperties.cbAlign, (int)w_aspect.getAlign());
 
-                this.fProperties.txBorderColor.Text = w_aspect.getBorderColor().ToString();
-                this.fProperties.txBorder3D.Text = w_aspect.getBorderColor3d().ToString();
-                this.fProperties.txBorderShadow.Text = w_aspect.getBorderColor3dShadow().ToString();
+                this.fProperties.txBorderColor.Text = w_aspect.getBorderColor().toString();
+                this.fProperties.txBorder3D.Text = w_aspect.getBorderColor3d().toString();
+                this.fProperties.txBorderShadow.Text = w_aspect.getBorderColor3dShadow().toString();
                 this.fProperties.chkBorderRounded.Checked = w_aspect.getBorderRounded();
-                this.fProperties.txBorderWidth.Text = w_aspect.getBorderWidth().ToString();
+                this.fProperties.txBorderWidth.Text = w_aspect.getBorderWidth().toString();
 
                 cUtil.listSetListIndexForId(this.fProperties.cbBorderType, (int)w_aspect.getBorderType());
 
                 w_font = w_aspect.getFont();
                 this.fProperties.txFont.Text = w_font.getName();
-                this.fProperties.txForeColor.Text = w_font.getForeColor().ToString();
+                this.fProperties.txForeColor.Text = w_font.getForeColor().toString();
                 this.fProperties.shForeColor.BackColor = cColor.colorFromRGB(w_font.getForeColor());
-                this.fProperties.txFontSize.Text = w_font.getSize().ToString();
+                this.fProperties.txFontSize.Text = w_font.getSize().toString();
                 this.fProperties.chkFontBold.Checked = w_font.getBold();
                 this.fProperties.chkFontItalic.Checked = w_font.getItalic();
                 this.fProperties.chkFontUnderline.Checked = w_font.getUnderline();
                 this.fProperties.chkFontStrike.Checked = w_font.getStrike();
 
                 w_aspect = paintObject.getAspect();
-                this.fProperties.txLeft.Text = w_aspect.getLeft().ToString();
-                this.fProperties.txTop.Text = w_aspect.getTop().ToString();
-                this.fProperties.txWidth.Text = w_aspect.getWidth().ToString();
-                this.fProperties.txHeight.Text = w_aspect.getHeight().ToString();
-                this.fProperties.txBackColor.Text = w_aspect.getBackColor().ToString();
+                this.fProperties.txLeft.Text = w_aspect.getLeft().toString();
+                this.fProperties.txTop.Text = w_aspect.getTop().toString();
+                this.fProperties.txWidth.Text = w_aspect.getWidth().toString();
+                this.fProperties.txHeight.Text = w_aspect.getHeight().toString();
+                this.fProperties.txBackColor.Text = w_aspect.getBackColor().toString();
                 this.fProperties.shBackColor.BackColor = cColor.colorFromRGB(w_aspect.getBackColor());
                 this.fProperties.chkTransparent.Checked = w_aspect.getTransparent();
 
@@ -5051,7 +5051,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                             secLine.getAspect(),
                             secLine.getKey(),
                             sec.getTypeSection(),
-                            C_SECTIONLINE + i.ToString(),
+                            C_SECTIONLINE + i.toString(),
                             true));
 
                     // we set the height of every section line
@@ -5066,7 +5066,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
                 // textLine to show the name of the last line
                 //
                let po: cReportPaintObject = this.paint.getPaintSections().item(sec.getKeyPaint());
-                po.setTextLine(C_SECTIONLINE + (sec.getSectionLines().count() - 1).ToString());
+                po.setTextLine(C_SECTIONLINE + (sec.getSectionLines().count() - 1).toString());
             }
 
             // we set the height of the last section line
@@ -5225,11 +5225,11 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
 
             if (this.fProgress === null) { return; }
 
-            if (page > 0) { this.fProgress.lbCurrPage.Text = page.ToString(); }
+            if (page > 0) { this.fProgress.lbCurrPage.Text = page.toString(); }
             if (task !== "") { this.fProgress.lbTask.Text = task; }
-            if (currRecord > 0) { this.fProgress.lbCurrRecord.Text = currRecord.ToString(); }
+            if (currRecord > 0) { this.fProgress.lbCurrRecord.Text = currRecord.toString(); }
             if (recordCount > 0 && cUtil.val(this.fProgress.lbRecordCount.Text) !== recordCount) {
-                this.fProgress.lbRecordCount.Text = recordCount.ToString();
+                this.fProgress.lbRecordCount.Text = recordCount.toString();
             }
 
             let percent: number = 0;

@@ -1,5 +1,7 @@
-namespace CSChartServer
-{
+namespace CSChartServer {
+
+    import NotImplementedException = CSOAPI.NotImplementedException;
+
     export class cWebChart {
 
         private items: cWebChartItems = null;

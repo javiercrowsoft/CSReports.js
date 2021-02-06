@@ -34,9 +34,9 @@ UNKNOWN >>             get
         public init(request: JObject, printDialog: PrintDialog) {
 			this.log.Info("in Report.init 01");
 
-            this.webReportId = request["message"]["webReportId"].ToString();
-            this.reportId = Guid.NewGuid().ToString();
-            this.database = Guid.NewGuid().ToString();
+            this.webReportId = request["message"]["webReportId"].toString();
+            this.reportId = Guid.NewGuid().toString();
+            this.database = Guid.NewGuid().toString();
             this.report = new cReport();
 
 			this.log.Info("in Report.init 02");
@@ -102,7 +102,7 @@ UNKNOWN >> 			int pageIndex;
 			let message: JObject = JObject.Parse(;
 				"{ messageType: 'REPORT_PREVIEW_DONE', reportId: '" + this.reportId 
 				+ "', webReportId: '" + this.webReportId 
-				+ "', totalPages: " + this.report.getPages().count().ToString() 
+				+ "', totalPages: " + this.report.getPages().count().toString()
 				+ " }");
             message["page"] = getPage(1, pageIndex);
 			message["pageIndex"] = pageIndex;
@@ -131,7 +131,7 @@ UNKNOWN >> 			int pageIndex;
         private registerDataSource(request: JObject) {
             let dataSources: var = request["message"]["data"]["data"];
             for(var i_ = 0; i_ < dataSources.length; i_++) {
-                let ds: cJSONDataSource = new cJSONDataSource(dataSource["name"].ToString(), dataSource["data"] as JObject);
+                let ds: cJSONDataSource = new cJSONDataSource(dataSource["name"].toString(), dataSource["data"] as JObject);
                 cJSONServer.registerDataSource(ds, this.database + "." + ds.getName());
             }
         }
@@ -167,17 +167,17 @@ UNKNOWN >> 			int pageIndex;
                 }
             }
 
-			this.log.Info("page: " + page.ToString() + " - " + recordCount.ToString());
+			this.log.Info("page: " + page.toString() + " - " + recordCount.toString());
 
 			/*
             if (this.fProgress === null) { return; }
 
-            if (page > 0) { this.fProgress.lbCurrPage.Text = page.ToString(); }
+            if (page > 0) { this.fProgress.lbCurrPage.Text = page.toString(); }
             if (task !== "") { this.fProgress.lbTask.Text = task; }
-            if (currRecord > 0) { this.fProgress.lbCurrRecord.Text = currRecord.ToString(); }
+            if (currRecord > 0) { this.fProgress.lbCurrRecord.Text = currRecord.toString(); }
             if (recordCount > 0 && cUtil.val(this.fProgress.lbRecordCount.Text) !== recordCount)
             {
-                this.fProgress.lbRecordCount.Text = recordCount.ToString();
+                this.fProgress.lbRecordCount.Text = recordCount.toString();
             }
 
             double percent = 0;

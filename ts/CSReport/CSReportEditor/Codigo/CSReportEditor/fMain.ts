@@ -534,7 +534,7 @@ UNKNOWN >>             get
             else {
                 let t: var = value.GetType();
                 if (t.IsPrimitive || t === typeof(Decimal) || t === typeof(String)) {
-                    return value.ToString();
+                    return value.toString();
                 }
                 else {
                     setObjectDescription(value, n + 1);
@@ -591,7 +591,7 @@ UNKNOWN >>             get
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (lv_controls.SelectedItems.Count > 0 && editor !== null) {
-                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.toString();
                 editor.selectCtrl(info);
             }
         }
@@ -604,7 +604,7 @@ UNKNOWN >>             get
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (node !== null && node.Tag !== null && editor !== null) {
-                let info: var = node.Tag.ToString();
+                let info: var = node.Tag.toString();
                 if (info.Length > 0) {
                     let infoType: var = info.Substring(0, 1);
                     if ("@SL".IndexOf(infoType) === -1) {
@@ -626,7 +626,7 @@ UNKNOWN >>             get
 
             if (tv_controls.SelectedNode !== null && editor !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
-                    let info: var = tv_controls.SelectedNode.Tag.ToString();
+                    let info: var = tv_controls.SelectedNode.Tag.toString();
                     if (info.Length > 0) {
                         let infoType: var = info.Substring(0, 1);
                         if ("@".IndexOf(infoType) === -1) {
@@ -655,7 +655,7 @@ UNKNOWN >>             get
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (lv_controls.SelectedItems.Count > 0 && editor !== null) {
-                let info: var = lv_controls.SelectedItems[0].Tag.ToString();
+                let info: var = lv_controls.SelectedItems[0].Tag.toString();
                 editor.showProperties(info);
             }
         }

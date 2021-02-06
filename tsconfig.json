@@ -1,6 +1,7 @@
 {
   "include": ["ts/**/*"],
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "lib": "es2015"
   }
 }

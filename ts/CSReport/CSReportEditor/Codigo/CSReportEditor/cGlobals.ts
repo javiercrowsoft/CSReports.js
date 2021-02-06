@@ -432,8 +432,8 @@ UNKNOWN >>             cReportControl ctrl;
             for(var i_ = 0; i_ < columns.length; i_++) {
                 let item: var = lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
                 item.ImageIndex = 0;
-                let info: string = cUtil.setInfoString("", C_INDEX, column.getPosition().ToString());
-                info = cUtil.setInfoString(info, C_FIELDTYPE, column.getColumnType().ToString());
+                let info: string = cUtil.setInfoString("", C_INDEX, column.getPosition().toString());
+                info = cUtil.setInfoString(info, C_FIELDTYPE, column.getColumnType().toString());
                 item.Tag = info;
             }
         }

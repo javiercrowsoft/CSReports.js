@@ -86,8 +86,8 @@ namespace CSReportEditor
             cUtil.listAdd(cb_paperSize, "A3", (int)csReportPaperType.CSRPTPAPERTYPEA3);
             cUtil.listAdd(cb_paperSize, "User", (int)csReportPaperType.CSRPTPAPERUSER);
             cUtil.listSetListIndexForId(cb_paperSize, (int)this.paperSize);
-            tx_height.Text = this.customHeight.ToString();
-            tx_width.Text = this.customWidth.ToString();
+            tx_height.Text = this.customHeight.toString();
+            tx_width.Text = this.customWidth.toString();
             if (this.orientation === csRptPageOrientation.LANDSCAPE) {
                 op_landscape.Checked = true;
             }

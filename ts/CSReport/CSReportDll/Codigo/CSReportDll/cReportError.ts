@@ -8,9 +8,9 @@ namespace CSReportDll
     {
         private C_MODULE: string = "cReportError";
 
-        public String: static gDebugControl = "";
+        public gDebugControl = "";
         public int: static gDebugSectionLine = 0;
-        public String: static gDebugSection = "";
+        public gDebugSection = "";
 
         public errGetDescript(rptErrCode: csRptErrors, x: string[]) {
             let s: string = "";
@@ -70,7 +70,7 @@ namespace CSReportDll
             let i: number = 0;
 
             for (i = 0; i < x.Length; i++) {
-                s = s.Replace("$" + .ToString(), x[i]);
+                s = s.Replace("$" + .toString(), x[i]);
             }
 
             s = s + "\n\nSection  : " + gDebugSection

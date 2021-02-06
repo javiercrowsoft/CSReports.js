@@ -53,8 +53,8 @@ namespace CSReportGlobals
                 return CSDataBase.cConstants.C_NO_DATE;
             }
             else {
-UNKNOWN >>                 DateTime date;
-                if (DateTime.TryParse(value.ToString(), date)) {
+UNKNOWN >>                 Date date;
+                if (DateTime.TryParse(value.toString(), date)) {
                     return date;
                 }
                 else {
@@ -65,7 +65,7 @@ UNKNOWN >>                 DateTime date;
         }
 
         public isDate(date: string) {
-UNKNOWN >>             DateTime dummyDate;
+UNKNOWN >>             Date dummyDate;
             return DateTime.TryParse(date, dummyDate);
         }
 
@@ -115,7 +115,7 @@ UNKNOWN >>             DateTime dummyDate;
                     isDate = true;
                 }
                 if (strFormat === "") {
-                    return expression.ToString();
+                    return expression.toString();
                 }
                 else {
                     if (isDate) {

@@ -138,7 +138,7 @@ UNKNOWN >>             get
         }
 
         public add(c: cReportFormulaType, key: csRptFormulaType) {
-            return add(c, key.ToString());
+            return add(c, key.toString());
         }
         public add(c: cReportFormulaType, key: string) {
             try {
@@ -146,7 +146,7 @@ UNKNOWN >>             get
                     c = new cReportFormulaType();
                 }
                 if (key === "") {
-                    key = cReportGlobals.getNextKey().ToString();
+                    key = cReportGlobals.getNextKey().toString();
                 }
                 else {
                     cReportGlobals.refreshNextKey(key);
