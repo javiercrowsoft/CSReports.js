@@ -100,7 +100,7 @@ namespace CSReportPreview
         }
 
 
-    }    }
+    } 
 
 
 
@@ -118,7 +118,7 @@ namespace CSReportPreview
         public page: number = null;{ get { return this.page; } };
 
 
-    }    }
+    } 
 
 
 

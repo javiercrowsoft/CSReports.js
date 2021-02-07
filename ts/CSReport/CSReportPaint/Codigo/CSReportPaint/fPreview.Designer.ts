@@ -60,5 +60,5 @@ UNKNOWN >>         #endregion
         private rpwReport: CSReportPreview.cReportPreview = null;
 
 
-    }    }
+    } 
 }

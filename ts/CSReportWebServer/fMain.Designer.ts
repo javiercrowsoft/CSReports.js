@@ -193,6 +193,6 @@ UNKNOWN >>         #endregion
         private printDlg: System.Windows.Forms.PrintDialog = null;
 
 
-    }    }
+    } 
 }
 

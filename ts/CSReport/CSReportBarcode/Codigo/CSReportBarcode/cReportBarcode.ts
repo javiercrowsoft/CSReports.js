@@ -18,7 +18,7 @@ namespace CSReportBarcode
 UNKNOWN >>             int currentCharNum;
             let c128CheckDigit: string = "";
             let charData: char[] = dataToEncode.ToCharArray();
-            let stringLength: number = dataToEncode.Length;
+            let stringLength: number = dataToEncode.length;
 
             for(var i = 0; i < stringLength; i++) {
 
@@ -52,7 +52,7 @@ UNKNOWN >>                 currentValue *= i;
 UNKNOWN >>         public String code128c(String dataToEncode, int returnType = 0) {
 UNKNOWN >>             int currentValue;
             let c128CheckDigit: string = "";
-            let stringLength: number = dataToEncode.Length; ;
+            let stringLength: number = dataToEncode.length; ;
             let onlyCorrectData: string = "";
 
             // additional logic needed in case ReturnType is not entered
@@ -61,24 +61,24 @@ UNKNOWN >>             int currentValue;
 
             for(var i = 0; i < stringLength; i++) {
 
-                if (isNumeric(dataToEncode.Substring(i, 1))) onlyCorrectData = onlyCorrectData + dataToEncode.Substring(i, 1); {
+                if (isNumeric(dataToEncode.substring(i, 1))) onlyCorrectData = onlyCorrectData + dataToEncode.substring(i, 1); {
 
             }
 
             dataToEncode = onlyCorrectData;
 
-            if (dataToEncode.Length % 2 === 1) dataToEncode = "0" + dataToEncode; {
+            if (dataToEncode.length % 2 === 1) dataToEncode = "0" + dataToEncode; {
 
             let printableString: string = char.ConvertFromUtf32(205);
 
             let weightedTotal: number = 105;
             let weightValue: number = 1;
 
-            stringLength = dataToEncode.Length;
+            stringLength = dataToEncode.length;
 
             for(var i = 1; i < stringLength; i += 2) {
 
-                currentValue = int.Parse(dataToEncode.Substring(i, 2));
+                currentValue = Utils.parseInt(dataToEncode.substring(i, 2));
 
                 if (currentValue < 95 && currentValue > 0) printableString += char.ConvertFromUtf32(currentValue + 32); {
                 if (currentValue > 94) printableString += char.ConvertFromUtf32(currentValue + 100); {
@@ -112,7 +112,7 @@ UNKNOWN >>                 currentValue *= weightValue;
             int weightedTotal = 104;
             String printableString = char.ConvertFromUtf32(204);
             char[] charData = dataToEncode.ToCharArray();
-            int stringLength = dataToEncode.Length;
+            int stringLength = dataToEncode.length;
 
             for (int i = 0; i < stringLength; i++)
             {

@@ -24,14 +24,14 @@ namespace CSReportWebServer
             log.Info("application started");
             log.DebugFormat("command line : \"{0}\"", string.Join("\", \"", args));
 
-            if (args.Length >= 2) {
+            if (args.length >= 2) {
                 log.Info("new version");
                 log.DebugFormat("command line 0 : \"{0}\"", args[0]);
                 log.DebugFormat("command line 0 : \"{0}\"", args[1]);
             }
 
             // started with no arguments?
-            if (args.Length === 0) Usage(); {
+            if (args.length === 0) Usage(); {
 
             // started by chrome?
             else if (args[0].StartsWith("chrome-extension://")) {
@@ -39,10 +39,10 @@ namespace CSReportWebServer
                 RunNativeMessagingHost(args, f);
             }
             // register command?
-            else if (args[args.Length - 1] === "register") RegisterNativeMessagingHost(args); {
+            else if (args[args.length - 1] === "register") RegisterNativeMessagingHost(args); {
 
             // invalid command line
-            else InvalidCommand(args[args.Length - 1]); {
+            else InvalidCommand(args[args.length - 1]); {
 
             log.Info("application stopped");
             return 0;
@@ -68,8 +68,8 @@ namespace CSReportWebServer
         public RegisterNativeMessagingHost(args: string[]) {
             for(var i_ = 0; i_ < args.length; i_++) {
                 if (arg === "register") continue; {
-                else if (arg.StartsWith("--hive=")) options.hive = arg.Remove(0, "--hive=".Length); {
-                else if (arg.StartsWith("--manifest=")) options.manifest = arg.Remove(0, "--manifest=".Length); {
+                else if (arg.StartsWith("--hive=")) options.hive = arg.Remove(0, "--hive=".length); {
+                else if (arg.StartsWith("--manifest=")) options.manifest = arg.Remove(0, "--manifest=".length); {
                 else return InvalidOption(arg); {
             }
 
@@ -166,7 +166,7 @@ UNKNOWN >>                                 new JValue(string.Format("chrome-exte
 
 
 
-    }    }
+    } 
 
 
 
@@ -182,5 +182,5 @@ UNKNOWN >>             Path.GetDirectoryName(System.Reflection.Assembly.GetEntry
             Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location) + ".manifest.json";
 
 
-    }    }
+    } 
 }

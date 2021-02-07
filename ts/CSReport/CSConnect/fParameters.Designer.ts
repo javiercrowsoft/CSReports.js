@@ -167,5 +167,5 @@ UNKNOWN >>         #endregion
         private pnlParameters: System.Windows.Forms.Panel = null;
 
 
-    }    }
+    }
 }

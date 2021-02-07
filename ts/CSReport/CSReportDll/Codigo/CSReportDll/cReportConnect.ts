@@ -145,8 +145,8 @@ namespace CSReportDll
                 }
             }
 
-            if (s.Length > 0 &&  s.Substring(s.Length - 1) === ",") {
-                s = s.Substring(0, s.Length - 1);
+            if (s.length > 0 &&  s.substring(s.length - 1) === ",") {
+                s = s.substring(0, s.length - 1);
             }
 
             return s;
@@ -249,17 +249,17 @@ namespace CSReportDll
             let i: number = 0;
             let p: number = 0;
 
-            if (x.Substring(x.Length - 1) !== "=") {
+            if (x.substring(x.length - 1) !== "=") {
                 x = x + "=";
             }
             i = strConnect.IndexOf(x, 0);
             if (i > 0) {
                 p = strConnect.IndexOf(";", i);
                 if (p === 0) {
-                    p = strConnect.Length + 1;
+                    p = strConnect.length + 1;
                 }
-                i = i + x.Length;
-                return strConnect.Substring(i, p - i);
+                i = i + x.length;
+                return strConnect.substring(i, p - i);
             }
             else {
                 return "";
@@ -268,7 +268,7 @@ namespace CSReportDll
 
 
 
-    }    }
+    }
 
 
 

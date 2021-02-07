@@ -72,8 +72,8 @@ namespace CSReportEditor
 
         private cmd_apply_Click(sender: object, e: EventArgs) {
             this.ok = true;
-            this.customHeight = cUtil.val(tx_height.Text);
-            this.customWidth = cUtil.val(tx_width.Text);
+            this.customHeight = Utils.val(tx_height.Text);
+            this.customWidth = Utils.val(tx_width.Text);
             this.paperSize = cUtil.listID(cb_paperSize);
             this.orientation = op_landscape.Checked ? (int)csRptPageOrientation.LANDSCAPE : (int)csRptPageOrientation.PORTRAIT;
             this.Hide();
@@ -104,5 +104,5 @@ namespace CSReportEditor
         }
 
 
-    }    }
+    }
 }

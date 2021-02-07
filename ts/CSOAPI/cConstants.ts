@@ -12,7 +12,7 @@ namespace CSOAPI
 
 
 
-    }    }
+    }
 
 
 
@@ -26,5 +26,5 @@ namespace CSOAPI
         eVSUnknown = 99
 
 
-    }    }
+    }
 }

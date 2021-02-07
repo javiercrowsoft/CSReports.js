@@ -123,13 +123,13 @@ UNKNOWN >>             get
                     c = new cReportGroup();
                 }
                 if (key === "")  {
-                    key = cReportGlobals.getNextKey().toString();
+                    key = ReportGlobals.getNextKey().toString();
                 } 
                 else  {
-                    cReportGlobals.refreshNextKey(key);
+                    ReportGlobals.refreshNextKey(key);
                 }
 
-                key = cReportGlobals.getKey(key);
+                key = ReportGlobals.getKey(key);
                 Add(key, c);
 
                 c.setKey(key);
@@ -158,13 +158,13 @@ UNKNOWN >>             get
                     c = new cReportGroup();
                 }
                 if (key === "")  {
-                    key = cReportGlobals.getNextKey().toString();
+                    key = ReportGlobals.getNextKey().toString();
                 } 
                 else  {
-                    cReportGlobals.refreshNextKey(key);
+                    ReportGlobals.refreshNextKey(key);
                 }
 
-                key = cReportGlobals.getKey(key);
+                key = ReportGlobals.getKey(key);
                 Add(key, c);
 
                 c.setKey(key);
@@ -195,12 +195,12 @@ UNKNOWN >>             get
         }
         private pSetName(section: string, name: string) {
             let sectionName: string = section.toLowerCase();
-            if (sectionName.Length === 0
-                || cUtil.subString(sectionName, 0, 5) === "group"
-                || cUtil.subString(sectionName, 0, 5) === "grupo"
-                || cUtil.subString(sectionName, 0, 3) === "gh_"
-                || cUtil.subString(sectionName, 0, 3) === "gf_"
-                || cUtil.subString(sectionName, 0, 2) === "g_"
+            if (sectionName.length === 0
+                || cUtil.substring(sectionName, 0, 5) === "group"
+                || cUtil.substring(sectionName, 0, 5) === "grupo"
+                || cUtil.substring(sectionName, 0, 3) === "gh_"
+                || cUtil.substring(sectionName, 0, 3) === "gf_"
+                || cUtil.substring(sectionName, 0, 2) === "g_"
                 ) {
                 return name;
             }
@@ -292,7 +292,7 @@ UNKNOWN >>             get
 
 
 
-    }    }
+    } 
 
 
 

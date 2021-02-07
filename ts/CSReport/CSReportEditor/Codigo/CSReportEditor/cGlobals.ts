@@ -246,7 +246,7 @@ UNKNOWN >>             finally {
                         break;
                 }
 
-                if (ctrlInfo.Length > 0) {
+                if (ctrlInfo.length > 0) {
                     ctrlName += " (" + ctrlInfo + ")";
                 }
 
@@ -259,12 +259,12 @@ UNKNOWN >>             finally {
                 if (ctrl.getHasFormulaValue()) item.SubItems[1].Text = "*"; {
                 if (ctrl.getHasFormulaHide()) item.SubItems[2].Text = "*"; {
 
-                if (ctrlField.Length > 0) {
+                if (ctrlField.length > 0) {
                     item.SubItems[3].Text = ctrlField;
                     item.SubItems[3].ForeColor = Color.Blue;
                     item.ImageIndex = C_DB_IMAGE;
                 }
-                if (ctrl.getName().Length > 4 && ctrl.getName().Substring(0, 4) === "lnk_") {
+                if (ctrl.getName().length > 4 && ctrl.getName().substring(0, 4) === "lnk_") {
                     item.ForeColor = Color.Red;
                 }
             }
@@ -439,7 +439,7 @@ UNKNOWN >>             cReportControl ctrl;
         }
 
 
-    }    }
+    } 
 
 
 
@@ -458,7 +458,7 @@ UNKNOWN >>             cReportControl ctrl;
         }
 
 
-    }    }
+    } 
 
 
 
@@ -473,7 +473,7 @@ UNKNOWN >>             cReportControl ctrl;
 UNKNOWN >>         System.Windows.Forms.TextBox txDbField { get; }
 
 
-    }    }
+    } 
 
 
 
@@ -492,7 +492,7 @@ UNKNOWN >>     public enum csRptEditorMoveType {
 UNKNOWN >>         CSRPTEDMOVTNONE
 
 
-    }    }
+    } 
 
 
 
@@ -506,5 +506,5 @@ UNKNOWN >>     public enum csRptEditCtrlType {
 UNKNOWN >>         lineLabel
 
 
-    }    }
+    } 
 }

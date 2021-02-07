@@ -228,7 +228,7 @@ namespace CSReportEditor
         }
 
 
-    }    }
+    } 
 
 
 

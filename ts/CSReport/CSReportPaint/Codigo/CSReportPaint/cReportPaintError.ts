@@ -19,7 +19,7 @@ namespace CSReportPaint
         }
 
 
-    }    }
+    } 
 
 
 
@@ -32,5 +32,5 @@ namespace CSReportPaint
 UNKNOWN >>         CSRPT_PAINT_ERR_PRINTING
 
 
-    }    }
+    } 
 }

@@ -1,11 +1,7 @@
+namespace CSConnect {
 
-
-namespace CSConnect
-{
     export class cConnect {
 
-
-    {
         private parameters: cParameters = new cParameters();
         private columnsInfo: cColumnsInfo = new cColumnsInfo();
 
@@ -81,7 +77,7 @@ namespace CSConnect
         }
 
 		public getDataSourceColumnsInfo(str: string, csDataSourceType: csDataSourceType) {
-UNKNOWN >>             string sqlstmt;
+            let sqlstmt: string;
 
             if(this.dataSourceType === csDataSourceType.CDDTPROCEDURE) {
                 if(! fillParameters(this.dataSource)) {

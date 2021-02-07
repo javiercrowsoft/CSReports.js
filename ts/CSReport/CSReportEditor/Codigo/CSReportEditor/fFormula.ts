@@ -115,7 +115,7 @@ namespace CSReportEditor
                 name += "()";
             }
             let i: number = tx_formula.SelectionStart;
-            tx_formula.Text = tx_formula.Text.Substring(0, i) + name + tx_formula.Text.Substring(i);
+            tx_formula.Text = tx_formula.Text.substring(0, i) + name + tx_formula.Text.substring(i);
         }
 
         private cmd_apply_Click(sender: object, e: EventArgs) {
@@ -142,7 +142,7 @@ namespace CSReportEditor
         }
 
 
-    }    }
+    } 
 }
 
 /**

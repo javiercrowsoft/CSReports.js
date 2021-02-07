@@ -158,12 +158,12 @@ namespace CSReportDll
         }
 
         public fixName() {
-            if (this.name.Length === 0
-                ||cUtil.subString(this.name.toLowerCase(), 0, 5) === "group"
-                || cUtil.subString(this.name.toLowerCase(), 0, 5) === "grupo"
-                || cUtil.subString(this.name.toLowerCase(), 0, 3) === "gh_"
-                || cUtil.subString(this.name.toLowerCase(), 0, 3) === "gf_"
-                || cUtil.subString(this.name.toLowerCase(), 0, 2) === "g_"
+            if (this.name.length === 0
+                ||cUtil.substring(this.name.toLowerCase(), 0, 5) === "group"
+                || cUtil.substring(this.name.toLowerCase(), 0, 5) === "grupo"
+                || cUtil.substring(this.name.toLowerCase(), 0, 3) === "gh_"
+                || cUtil.substring(this.name.toLowerCase(), 0, 3) === "gf_"
+                || cUtil.substring(this.name.toLowerCase(), 0, 2) === "g_"
                 ) {
                 this.name = "G_" + this.index;
             }
@@ -235,7 +235,7 @@ namespace CSReportDll
 
 
 
-    }    }
+    } 
 
 
 

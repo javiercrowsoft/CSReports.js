@@ -287,5 +287,5 @@ UNKNOWN >>         #endregion
         private op_trustedConnection: System.Windows.Forms.RadioButton = null;
 
 
-    }    }
+    } 
 }

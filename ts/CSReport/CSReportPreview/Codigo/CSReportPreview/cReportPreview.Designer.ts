@@ -237,5 +237,5 @@ UNKNOWN >>         #endregion
         private tableLayoutPanel1: System.Windows.Forms.TableLayoutPanel = null;
 
 
-    }    }
+    } 
 }

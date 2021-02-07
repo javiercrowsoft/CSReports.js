@@ -44,9 +44,9 @@ namespace CSReportDll
             let vBytes: byte[] = null;
             vBytes = xDoc.getBinaryNodeProperty(nodeObj, "Data").getBinaryValue();
             //
-            // an empty image is serialized as AA== which is vBytes === [0] ( yes the number zero ) and vBytes.Length === 1
+            // an empty image is serialized as AA== which is vBytes === [0] ( yes the number zero ) and vBytes.length === 1
             //
-            if (vBytes.Length > 1) {
+            if (vBytes.length > 1) {
                 this.image = cImage.deSerialiseBitmap(vBytes);
             }
             G.redim(vBytes, 0);
@@ -80,7 +80,7 @@ namespace CSReportDll
 
 
 
-    }    }
+    } 
 
 
 

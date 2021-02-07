@@ -19,8 +19,8 @@ namespace CSReportPaint
         }
 
         public getKey(value: string) {
-            if (value.Length > 0) {
-                if ("0123456789".Contains(value.Substring(0, 1))) {
+            if (value.length > 0) {
+                if ("0123456789".contains(value.substring(0, 1))) {
                     value = "K" + value;
                 }
             }
@@ -130,19 +130,19 @@ namespace CSReportPaint
                 if (vFonts === null) {
                     vFonts = new Font[size];
                 }
-                else if (vFonts.Length === 0) {
+                else if (vFonts.length === 0) {
                     vFonts = new Font[size];
                 }
                 else {
                     let newArray: Font[] = new Font[size];
-                    Array.Copy(vFonts, newArray, vFonts.Length);
+                    Array.Copy(vFonts, newArray, vFonts.length);
                     vFonts = newArray;
                 }
             }
         }
 
         public addFontIfRequired(font: cReportFont, this.fnt: Font[]) {
-            for(var i = 0; i < this.fnt.Length; i++) {
+            for(var i = 0; i < this.fnt.length; i++) {
                 if(font.getName() === this.fnt[i].Name 
                     && font.getBold() === this.fnt[i].Bold 
                     && font.getItalic() === this.fnt[i].Italic 
@@ -153,7 +153,7 @@ namespace CSReportPaint
                 }
             }
 
-            redimPreserve(this.fnt, this.fnt.Length + 1);
+            redimPreserve(this.fnt, this.fnt.length + 1);
 
             let fontStyle: FontStyle = FontStyle.Regular;
             if (font.getBold()) fontStyle = fontStyle | FontStyle.Bold; {
@@ -163,13 +163,13 @@ namespace CSReportPaint
 
             let afont: Font = new Font(font.getName(), ((font.getSize() > 0) ? font.getSize() : 3), fontStyle);
 
-            this.fnt[this.fnt.Length - 1] = afont;
+            this.fnt[this.fnt.length - 1] = afont;
 
-            return this.fnt.Length - 1;
+            return this.fnt.length - 1;
         }
 
 
-    }    }
+    } 
 
 
 
@@ -181,7 +181,7 @@ UNKNOWN >>     public enum csETypeGrid {
 UNKNOWN >>         CSEGRIDLINESHORIZONTAL
 
 
-    }    }
+    } 
 
 
 
@@ -195,7 +195,7 @@ UNKNOWN >>         CSEGRIDLINESHORIZONTAL
 UNKNOWN >>         CSRPTPAINTOBJIMAGE
 
 
-    }    }
+    } 
 
 
 
@@ -214,7 +214,7 @@ UNKNOWN >>         CSRPTPAINTOBJIMAGE
 UNKNOWN >>         CRPTPNTRGNTYPERIGHT
 
 
-    }    }
+    } 
 
 
 
@@ -228,7 +228,7 @@ UNKNOWN >>         CRPTPNTRGNTYPERIGHT
         C_LASTPAGE = -3
 
 
-    }    }
+    } 
 
 
 
@@ -244,7 +244,7 @@ UNKNOWN >>         CRPTPNTRGNTYPERIGHT
         PDFQUALITYMEDIUM = 3
 
 
-    }    }
+    } 
 
 
 

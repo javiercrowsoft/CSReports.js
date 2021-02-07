@@ -749,7 +749,7 @@ namespace CSReportDll {
 
             // we need to move the additional recordset too
             //
-            for(var indexRows = 0; indexRows < this.collRows.Length; indexRows++) {
+            for(var indexRows = 0; indexRows < this.collRows.length; indexRows++) {
                 let indexRow: number = this.vRowsIndexAux[indexRows] + 1;
                 if (this.collRows[indexRows] !== null) {
                     if (indexRow < this.collRows[indexRows].Rows.Count) {
@@ -1007,7 +1007,7 @@ namespace CSReportDll {
                             // print it and the next footers will be printed in sucesive
                             // calls to getLine() -> pGetLineWork() -> pGetLineWorkAuxReportEnd()
                             //
-                            this.vGroups[this.vGroups.Length - 1].footerMustBeClosed = true;
+                            this.vGroups[this.vGroups.length - 1].footerMustBeClosed = true;
                         }
                     }
                 }
@@ -1091,19 +1091,19 @@ namespace CSReportDll {
                     switch (this.vGroups[i].comparisonType)
                     {
                         case csRptGrpComparisonType.CSRPTGRPTEXT:
-                            let text: string = cReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
+                            let text: string = ReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
                             if (this.vGroups[i].value.toString() !== text) {
                                 return true;
                             }
                             break;
                         case csRptGrpComparisonType.CSRPTGRPNUMBER:
-                            let number: number = cUtil.val(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                            let number: number = Utils.val(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                             if (this.vGroups[i].value !== number) {
                                 return true;
                             }
                             break;
                         case csRptGrpComparisonType.CSRPTGRPDATE:
-                            let date: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                            let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                             if (this.vGroups[i].value !== date) {
                                 return true;
                             }
@@ -1128,8 +1128,8 @@ namespace CSReportDll {
                     q = q + 1;
                     let row1: number = this.vRowsIndex[j];
                     let row2: number = this.vRowsIndex[j - 1];
-                    let date1: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row1][orderBy]));
-                    let date2: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row2][orderBy]));
+                    let date1: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row1][orderBy]));
+                    let date2: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row2][orderBy]));
                     if (date1 < date2) {
                         if (!OnProgress("", 0, q, t)) {
                             return false;
@@ -1162,8 +1162,8 @@ namespace CSReportDll {
                     q = q + 1;
                     let row1: number = this.vRowsIndex[j];
                     let row2: number = this.vRowsIndex[j - 1];
-                    let date1: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row1][orderBy]));
-                    let date2: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row2][orderBy]));
+                    let date1: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row1][orderBy]));
+                    let date2: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row2][orderBy]));
                     if (date1 > date2) {
                         if (!OnProgress("", 0, q, t))  {
                             return false; 
@@ -1278,7 +1278,7 @@ namespace CSReportDll {
                 switch (this.vGroups[i].comparisonType)
                 {
                     case csRptGrpComparisonType.CSRPTGRPTEXT:
-                        let text: string = cReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
+                        let text: string = ReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
                         if (this.vGroups[i].value === null) {
                             changeGroup(i, text);
                         }
@@ -1288,7 +1288,7 @@ namespace CSReportDll {
                         break;
 
                     case csRptGrpComparisonType.CSRPTGRPNUMBER:
-                        let number: number = cUtil.val(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                        let number: number = Utils.val(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                         if (this.vGroups[i].value === null) {
                             changeGroup(i, number);
                         }
@@ -1298,7 +1298,7 @@ namespace CSReportDll {
                         break;
 
                     case csRptGrpComparisonType.CSRPTGRPDATE:
-                        let date: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                        let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                         if (this.vGroups[i].value === null) {
                             changeGroup(i, date);
                         }
@@ -1322,13 +1322,13 @@ namespace CSReportDll {
             switch (this.vGroups[i].comparisonType)
             {
                 case csRptGrpComparisonType.CSRPTGRPTEXT:
-                    this.vGroups[i].value = cReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
+                    this.vGroups[i].value = ReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
                     break;
                 case csRptGrpComparisonType.CSRPTGRPNUMBER:
-                    this.vGroups[i].value = cUtil.val(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                    this.vGroups[i].value = Utils.val(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                     break;
                 case csRptGrpComparisonType.CSRPTGRPDATE:
-                    this.vGroups[i].value = cReportGlobals.dateValue(cReportGlobals.valVariant(this.rows.Rows[row][col]));
+                    this.vGroups[i].value = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                     break;
             }
         }
@@ -1495,7 +1495,7 @@ namespace CSReportDll {
             let indexField: number = 0;
 
             if (sec.getHasFormulaHide()) {
-                isVisible = cUtil.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                isVisible = Utils.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
             }
             else {
                 isVisible = true;
@@ -1510,7 +1510,7 @@ namespace CSReportDll {
 
                     if (secLn.getHasFormulaHide()) {
                         this.compiler.evalFunction(secLn.getFormulaHide());
-                        isVisible = cUtil.val(this.compiler.resultFunction(secLn.getFormulaHide())) !== 0;
+                        isVisible = Utils.val(this.compiler.resultFunction(secLn.getFormulaHide())) !== 0;
                     }
                     else {
                         isVisible = true;
@@ -1520,7 +1520,7 @@ namespace CSReportDll {
                         // for every control in the section line
                         //
                         let collByLeft: number[] = secLn.getControls().getCollByLeft();
-                        for (indexCtrl = 0; indexCtrl < collByLeft.Length; indexCtrl++) {
+                        for (indexCtrl = 0; indexCtrl < collByLeft.length; indexCtrl++) {
                             ctrl = secLn.getControls().item(collByLeft[indexCtrl]);
 
                             // add a new field to the collection
@@ -1530,7 +1530,7 @@ namespace CSReportDll {
 
                             if (ctrl.getHasFormulaValue()) {
                                 field.setValue(
-                                    cReportGlobals.format(
+                                    ReportGlobals.format(
                                         this.compiler.resultFunction(ctrl.getFormulaValue()),
                                         ctrl.getLabel().getAspect().getFormat()));
                             }
@@ -1555,20 +1555,20 @@ namespace CSReportDll {
                                             //
                                             let value: object = this.collRows[indexRows].Rows[indexRow][indexField];
                                             field.setValue(
-                                                cReportGlobals.format(
-                                                    cReportGlobals.valVariant(value),
+                                                ReportGlobals.format(
+                                                    ReportGlobals.valVariant(value),
                                                     ctrl.getLabel().getAspect().getFormat()));
                                         }
                                         break;
 
                                     case csRptControlType.CSRPTCTLABEL:
                                         w_label = ctrl.getLabel();
-                                        field.setValue(cReportGlobals.format(w_label.getText(), w_label.getAspect().getFormat()));
+                                        field.setValue(ReportGlobals.format(w_label.getText(), w_label.getAspect().getFormat()));
                                         break;
 
                                     case csRptControlType.CSRPTCTIMAGE:
                                         w_label = ctrl.getLabel();
-                                        field.setValue(cReportGlobals.format(w_label.getText(), w_label.getAspect().getFormat()));
+                                        field.setValue(ReportGlobals.format(w_label.getText(), w_label.getAspect().getFormat()));
                                         field.setImage(ctrl.getImage().getImage());
                                         break;
 
@@ -1587,7 +1587,7 @@ namespace CSReportDll {
                             }
 
                             if (ctrl.getHasFormulaHide()) {
-                                field.setVisible(cUtil.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
+                                field.setVisible(Utils.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
                             }
                             else {
                                 field.setVisible(true);
@@ -2181,7 +2181,7 @@ namespace CSReportDll {
 
             for(var _i = 0; _i < this.controls.count(); _i++) {
                 ctrl = this.controls.item(_i);
-                if (ctrl.getName().ToUpper() === controlName.ToUpper()) {
+                if (ctrl.getName().toUpperCase() === controlName.toUpperCase()) {
                     found = true;
                     break;
                 }
@@ -2232,14 +2232,14 @@ namespace CSReportDll {
                         //
                         let value: object = this.collRows[indexRows].Rows[indexRow][indexField];
                         if (ctrl.getLabel().getAspect().getFormat() !== "" && notFormat === false) {
-                            return cReportGlobals.format(
-                                        cReportGlobals.valVariant(value),
+                            return ReportGlobals.format(
+                                        ReportGlobals.valVariant(value),
                                         ctrl.getLabel().getAspect().getFormat());
 
                             // this is the same
                         }
                         else {
-                            return cReportGlobals.valVariant(value);
+                            return ReportGlobals.valVariant(value);
                         }
                     }
                     else {
@@ -2252,7 +2252,7 @@ namespace CSReportDll {
                         if (ctrl.getFormulaValue().getHaveToEval()) {
                             let value: object = this.compiler.resultFunction(ctrl.getFormulaValue());
                             if (ctrl.getLabel().getAspect().getFormat() !== "" && notFormat === false) {
-                                return cReportGlobals.format(value, ctrl.getLabel().getAspect().getFormat());
+                                return ReportGlobals.format(value, ctrl.getLabel().getAspect().getFormat());
                             }
                             else {
                                 return value;
@@ -2261,7 +2261,7 @@ namespace CSReportDll {
                         else {
                             let value: object = ctrl.getFormulaValue().getLastResult();
                             if (ctrl.getLabel().getAspect().getFormat() !== "" && notFormat === false) {
-                                return cReportGlobals.format(value, ctrl.getLabel().getAspect().getFormat());
+                                return ReportGlobals.format(value, ctrl.getLabel().getAspect().getFormat());
                             }
                             else {
                                 return value;
@@ -2343,11 +2343,11 @@ namespace CSReportDll {
             for(var _i = 0; _i < recordsets.Count; _i++) {
                 let varRs: object[] = recordsets[_i];
                 let rsDataSource: string = varRs[1];
-                if (rsDataSource.ToUpper() === dataSource.ToUpper() || dataSource === "") {
+                if (rsDataSource.toUpperCase() === dataSource.toUpperCase() || dataSource === "") {
                     let rs: DataTable = varRs[0];
 
                     for (j = 0; j < rs.Columns.Count; j++) {
-                        if (compareColumnName(rs.Columns[j].ColumnName.ToUpper(), cReportGlobals.getRealName(fieldName).ToUpper())) {
+                        if (compareColumnName(rs.Columns[j].ColumnName.toUpperCase(), ReportGlobals.getRealName(fieldName).toUpperCase())) {
                             // TODO: we need to check what is the value of rs.Columns[j].DataType
                             //       when the column contains a binary field (tipicaly used for images)
                             //
@@ -2387,7 +2387,7 @@ namespace CSReportDll {
             }
             else {
                 n = n - 1;
-                return name.Substring(1, n);
+                return name.substring(1, n);
             }
         }
 
@@ -2548,13 +2548,13 @@ namespace CSReportDll {
 
             if (indexGroup === -1) {
                 for (iRow = 0; iRow < this.recordCount; iRow++) {
-                    rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                    rtn = rtn + ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                 }
             }
             else {
                 if (this.vGroups[indexGroup].grandTotalGroup) {
                     for (iRow = 0; iRow < this.recordCount; iRow++) {
-                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                        rtn = rtn + ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                     }
                 }
                 else {
@@ -2569,7 +2569,7 @@ namespace CSReportDll {
                                     }
                                     else  {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let text: string = cReportGlobals.valVariant(value);
+                                        let text: string = ReportGlobals.valVariant(value);
                                         if (this.vGroups[i].value !== text.toLowerCase()) {
                                             return rtn;
                                         }
@@ -2577,7 +2577,7 @@ namespace CSReportDll {
 
                                     if (i === indexGroup) {
                                         let value: object = this.rows.Rows[colIndex][this.vRowsIndex[iRow]];
-                                        rtn = rtn + cReportGlobals.valVariant(value);
+                                        rtn = rtn + ReportGlobals.valVariant(value);
                                     }
                                     break;
 
@@ -2588,7 +2588,7 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let number: number = cUtil.val(cReportGlobals.valVariant(value));
+                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
@@ -2596,7 +2596,7 @@ namespace CSReportDll {
 
                                     if (i === indexGroup) {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][colIndex];
-                                        rtn = rtn + cReportGlobals.valVariant(value);
+                                        rtn = rtn + ReportGlobals.valVariant(value);
                                     }
                                     break;
 
@@ -2607,7 +2607,7 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let date: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
+                                        let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
@@ -2615,7 +2615,7 @@ namespace CSReportDll {
 
                                     if (i === indexGroup) {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][colIndex];
-                                        rtn = rtn + cReportGlobals.valVariant(value);
+                                        rtn = rtn + ReportGlobals.valVariant(value);
                                     }
                                     break;
                             }
@@ -2631,11 +2631,11 @@ namespace CSReportDll {
             let rtn: number = 0;
             let i: number = 0;
 
-            rtn = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+            rtn = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
 
             if (indexGroup === -1) {
                 for (iRow = 0; iRow < this.recordCount; iRow++) {
-                    let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                    let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                     if (rtn < value) {
                         rtn = value;
                     }
@@ -2644,7 +2644,7 @@ namespace CSReportDll {
             else {
                 if (this.vGroups[indexGroup].grandTotalGroup) {
                     for (iRow = 0; iRow < this.recordCount; iRow++) {
-                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                        let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                         if (rtn < value) {
                             rtn = value;
                         }
@@ -2662,13 +2662,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let text: string = cReportGlobals.valVariant(value);
+                                        let text: string = ReportGlobals.valVariant(value);
                                         if (this.vGroups[i].value !== text.toLowerCase()) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn < value) {
                                             rtn = value;
                                         }
@@ -2682,13 +2682,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let number: number = cUtil.val(cReportGlobals.valVariant(value));
+                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn < value) {
                                             rtn = value;
                                         }
@@ -2702,13 +2702,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let date: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
+                                        let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn < value) {
                                             rtn = value;
                                         }
@@ -2727,11 +2727,11 @@ namespace CSReportDll {
             let rtn: number = 0;
             let i: number = 0;
 
-            rtn = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+            rtn = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
 
             if (indexGroup === -1) {
                 for (iRow = 0; iRow < this.recordCount; iRow++) {
-                    let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                    let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                     if (rtn > value) {
                         rtn = value;
                     }
@@ -2740,7 +2740,7 @@ namespace CSReportDll {
             else {
                 if (this.vGroups[indexGroup].grandTotalGroup) {
                     for (iRow = 0; iRow < this.recordCount; iRow++) {
-                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                        let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                         if (rtn > value) {
                             rtn = value;
                         }
@@ -2758,13 +2758,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let text: string = cReportGlobals.valVariant(value);
+                                        let text: string = ReportGlobals.valVariant(value);
                                         if (this.vGroups[i].value !== text.toLowerCase()) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn > value) {
                                             rtn = value;
                                         }
@@ -2778,13 +2778,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let number: number = cUtil.val(cReportGlobals.valVariant(value));
+                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn > value) {
                                             rtn = value;
                                         }
@@ -2798,13 +2798,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let date: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
+                                        let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        let value: number = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        let value: number = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         if (rtn > value) {
                                             rtn = value;
                                         }
@@ -2826,7 +2826,7 @@ namespace CSReportDll {
 
             if (indexGroup === -1) {
                 for (iRow = 0; iRow < this.recordCount; iRow++) {
-                    rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                    rtn = rtn + ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                     count = count + 1;
                 }
             }
@@ -2834,7 +2834,7 @@ namespace CSReportDll {
                 if (this.vGroups[indexGroup].grandTotalGroup) {
 
                     for (iRow = 0; iRow < this.recordCount; iRow++) {
-                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                        rtn = rtn + ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                         count = count + 1;
                     }
 
@@ -2851,13 +2851,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let text: string = cReportGlobals.valVariant(value);
+                                        let text: string = ReportGlobals.valVariant(value);
                                         if (this.vGroups[i].value !== text.toLowerCase()) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        rtn = rtn + ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         count = count + 1;
                                     }
                                     break;
@@ -2869,13 +2869,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let number: number = cUtil.val(cReportGlobals.valVariant(value));
+                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        rtn = rtn + ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         count = count + 1;
                                     }
                                     break;
@@ -2887,13 +2887,13 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let date: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
+                                        let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
                                     }
                                     if (i === indexGroup) {
-                                        rtn = rtn + cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
+                                        rtn = rtn + ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[iRow]][colIndex]);
                                         count = count + 1;
                                     }
                                     break;
@@ -2938,7 +2938,7 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let text: string = cReportGlobals.valVariant(value);
+                                        let text: string = ReportGlobals.valVariant(value);
                                         if (this.vGroups[i].value !== text.toLowerCase()) {
                                             return rtn;
                                         }
@@ -2955,7 +2955,7 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let number: number = cUtil.val(cReportGlobals.valVariant(value));
+                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== number) {
                                             return rtn;
                                         }
@@ -2972,7 +2972,7 @@ namespace CSReportDll {
                                     }
                                     else {
                                         let value: object = this.rows.Rows[this.vRowsIndex[iRow]][this.vGroups[i].indexField];
-                                        let date: Date = cReportGlobals.dateValue(cReportGlobals.valVariant(value));
+                                        let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(value));
                                         if (this.vGroups[i].value !== date) {
                                             return rtn;
                                         }
@@ -2992,11 +2992,11 @@ namespace CSReportDll {
         private addGroup(i: number, j: number, value: object) {
             // set the upper bound of the last group
             //
-            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.Length - 1].last = j - 1;
+            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.length - 1].last = j - 1;
             // add a new group
             //
-            redimPreserve(this.vGroups[i + 1].groups, this.vGroups[i + 1].groups.Length + 1);
-            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.Length - 1].first = j;
+            redimPreserve(this.vGroups[i + 1].groups, this.vGroups[i + 1].groups.length + 1);
+            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.length - 1].first = j;
             this.vGroups[i + 1].value = value;       
         }
 
@@ -3032,12 +3032,12 @@ namespace CSReportDll {
                 this.vGroups[i].value = null;
                 found = false;
                 fieldName = this.groups.item(i).getFieldName();
-                dataSource = pGetDataSource(fieldName).ToUpper();
-                fieldName = cReportGlobals.getRealName(fieldName).ToUpper();
+                dataSource = pGetDataSource(fieldName).toUpperCase();
+                fieldName = ReportGlobals.getRealName(fieldName).toUpperCase();
 
                 // the column must be in the main recordset
                 //
-                if (mainDataSource.ToUpper() !== dataSource && dataSource !== "") {
+                if (mainDataSource.toUpperCase() !== dataSource && dataSource !== "") {
                     let w_item: cReportGroup = this.groups.item(i);
                     throw new ReportException(csRptErrors.GROUP_NOT_FOUND_IN_MAIN_RS,
                                                 C_MODULE,
@@ -3051,7 +3051,7 @@ namespace CSReportDll {
 
                 if (!this.vGroups[i].grandTotalGroup) {
                     for (j = 0; j < rs.Columns.Count; j++) {
-                        if (compareColumnName(rs.Columns[j].ColumnName.ToUpper(), fieldName)) {
+                        if (compareColumnName(rs.Columns[j].ColumnName.toUpperCase(), fieldName)) {
                             found = true;
                             break;
                         }
@@ -3082,7 +3082,7 @@ namespace CSReportDll {
 
             this.vGroups[0].groups = new T_Group[1];
             this.vGroups[0].groups[0] = new T_Group();
-            recordCount = this.vRowsIndex.Length;
+            recordCount = this.vRowsIndex.length;
             this.vGroups[0].groups[0].first = 0;
             this.vGroups[0].groups[0].last = recordCount-1;
             recordCount = this.groupCount * recordCount;
@@ -3090,7 +3090,7 @@ namespace CSReportDll {
             // we need to sort the data
             //
             for (i = 0; i < this.groupCount; i++) {
-                for (j = 0; j < this.vGroups[i].groups.Length; j++) {
+                for (j = 0; j < this.vGroups[i].groups.length; j++) {
                     if (!this.vGroups[i].grandTotalGroup) {
                         if (this.vGroups[i].oderType === csRptGrpOrderType.CSRPTGRPASC) {
                             switch (this.vGroups[i].comparisonType)
@@ -3154,7 +3154,7 @@ namespace CSReportDll {
                 // after sorting we need to prepare the next group
                 //
                 if (i < this.groupCount - 1) {
-                    for (k = 0; k < this.vGroups[i].groups.Length; k++) {
+                    for (k = 0; k < this.vGroups[i].groups.length; k++) {
                         // if it is a total group the next group
                         // is from the first to the last row in 
                         // the main recordset
@@ -3164,13 +3164,13 @@ namespace CSReportDll {
                         //
                         if (this.vGroups[i].grandTotalGroup) {
                             let t: number = i + 1;
-                            let r: number = this.vGroups[t].groups.Length - 1;
+                            let r: number = this.vGroups[t].groups.length - 1;
                             this.vGroups[t].groups[r].last = -1;
 
                             // add a group item
                             //
                             redimPreserve(this.vGroups[t].groups, r + 2);
-                            r = this.vGroups[t].groups.Length - 1;
+                            r = this.vGroups[t].groups.length - 1;
 
                             // set the values of the new group item
                             //
@@ -3185,7 +3185,7 @@ namespace CSReportDll {
                                     return false;
                                 }
 
-                                let value: object = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][this.vGroups[i].indexField]);
+                                let value: object = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][this.vGroups[i].indexField]);
                                 if (this.vGroups[i + 1].value === null) {
                                     addGroup(i, j, value);
                                 }
@@ -3203,8 +3203,8 @@ namespace CSReportDll {
 
                                         case csRptGrpComparisonType.CSRPTGRPNUMBER:
 
-                                            let number1: number = cUtil.val(this.vGroups[i + 1].value);
-                                            let number2: number = cUtil.val(value);
+                                            let number1: number = Utils.val(this.vGroups[i + 1].value);
+                                            let number2: number = Utils.val(value);
                                             if (number1 !== number2) {
                                                 addGroup(i, j, value);
                                             }
@@ -3221,7 +3221,7 @@ namespace CSReportDll {
                                     }
                                 }
                             }
-                            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.Length - 1].last = j - 1;
+                            this.vGroups[i + 1].groups[this.vGroups[i + 1].groups.length - 1].last = j - 1;
                             this.vGroups[i + 1].value = null;
                         }
                     }
@@ -3249,8 +3249,8 @@ namespace CSReportDll {
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let value1: number = cUtil.val(this.rows.Rows[this.vRowsIndex[j]][orderBy]);
-                    let value2: number = cUtil.val(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]);
+                    let value1: number = Utils.val(this.rows.Rows[this.vRowsIndex[j]][orderBy]);
+                    let value2: number = Utils.val(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (value1 < value2) {
                         if (!OnProgress("", 0, q, t))  {
                             return false; 
@@ -3281,8 +3281,8 @@ namespace CSReportDll {
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let number1: number = cUtil.val(this.rows.Rows[this.vRowsIndex[j]][orderBy]);
-                    let number2: number = cUtil.val(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]);
+                    let number1: number = Utils.val(this.rows.Rows[this.vRowsIndex[j]][orderBy]);
+                    let number2: number = Utils.val(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (number1 > number2) {
                         if (!OnProgress("", 0, q, t)) {
                             return false;
@@ -3313,8 +3313,8 @@ namespace CSReportDll {
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let text1: string = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][orderBy]).toString();
-                    let text2: string = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]).toString();
+                    let text1: string = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][orderBy]).toString();
+                    let text2: string = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]).toString();
                     if (String.Compare(text1.toLowerCase(),
                                         text2.toLowerCase(),
                                         StringComparison.CurrentCulture) < 0) {
@@ -3347,8 +3347,8 @@ namespace CSReportDll {
                 bChanged = false;
                 for (j = last; j >= i; j--) {
                     q = q + 1;
-                    let text1: string = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][orderBy]).toString();
-                    let text2: string = cReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]).toString();
+                    let text1: string = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j]][orderBy]).toString();
+                    let text2: string = ReportGlobals.valVariant(this.rows.Rows[this.vRowsIndex[j - 1]][orderBy]).toString();
                     if (String.Compare(text1.toLowerCase(),
                                         text2.toLowerCase(),
                                         StringComparison.CurrentCulture) > 0) {
@@ -3382,7 +3382,7 @@ namespace CSReportDll {
             let recordCount: number = 0;
 
             if (this.rows !== null) {
-                recordCount = this.vRowsIndex.Length;
+                recordCount = this.vRowsIndex.length;
             }
 
             // if the row to be evaluated is valid
@@ -3699,30 +3699,30 @@ namespace CSReportDll {
                     else {
                         indexGroup = cUtil.valAsInt(fint.getParameters().item(1).getValue());
                     }
-                    if (fint.getParameters().item(cReportGlobals.C_KEYINDEXGROUP) === null) {
-                        fint.getParameters().add2("", cReportGlobals.C_KEYINDEXGROUP);
+                    if (fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP) === null) {
+                        fint.getParameters().add2("", ReportGlobals.C_KEYINDEXGROUP);
                     }
                     if (indexGroup === -1) {
                         if (sec.getTypeSection() === csRptSectionType.GROUP_HEADER
                             || sec.getTypeSection() === csRptSectionType.GROUP_FOOTER) {
                             // index of the group
                             //
-                            fint.getParameters().item(cReportGlobals.C_KEYINDEXGROUP).setValue(sec.getIndex().toString());
+                            fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).setValue(sec.getIndex().toString());
                             formula.setIdxGroup(sec.getIndex());
                         }
                         else if (sec.getTypeSection() === csRptSectionType.MAIN_DETAIL) {
                             // index of the most internal group
                             //
-                            fint.getParameters().item(cReportGlobals.C_KEYINDEXGROUP).setValue(this.groups.count().toString());
+                            fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).setValue(this.groups.count().toString());
                             formula.setIdxGroup(this.groups.count()-1);
                         }
                         else {
-                            fint.getParameters().item(cReportGlobals.C_KEYINDEXGROUP).setValue("0");
+                            fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).setValue("0");
                             formula.setIdxGroup(0);
                         }
                     }
                     else {
-                        fint.getParameters().item(cReportGlobals.C_KEYINDEXGROUP).setValue(indexGroup.toString());
+                        fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).setValue(indexGroup.toString());
                         formula.setIdxGroup(indexGroup);
                     }
                 }
@@ -3801,7 +3801,7 @@ namespace CSReportDll {
             for(var _i = 0; _i < this.headers.count(); _i++) {
                 sec = this.headers.item(_i);
                 if (sec.getHasFormulaHide()) {
-                    isVisible = cUtil.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                    isVisible = Utils.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
                 }
                 else {
                     isVisible = true;
@@ -3837,7 +3837,7 @@ namespace CSReportDll {
             let recordCount: number = 0;
 
             if (this.rows !== null) {
-                recordCount = this.vRowsIndex.Length;
+                recordCount = this.vRowsIndex.length;
             }
 
             // this indexes means
@@ -3855,7 +3855,7 @@ namespace CSReportDll {
                 this.lineIndex = this.lineIndex + 1;
 
                 if (sec.getHasFormulaHide()) {
-                    isVisible = cUtil.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                    isVisible = Utils.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
                 }
                 else {
                     isVisible = true;
@@ -3864,7 +3864,7 @@ namespace CSReportDll {
                     for(var _j = 0; _j < sec.getSectionLines().count(); _j++) {
                         secline = sec.getSectionLines().item(_j);
                         if (secline.getHasFormulaHide()) {
-                            isVisible = cUtil.val(this.compiler.resultFunction(secline.getFormulaHide())) !== 0;
+                            isVisible = Utils.val(this.compiler.resultFunction(secline.getFormulaHide())) !== 0;
                         }
                         else {
                             isVisible = true;
@@ -3872,7 +3872,7 @@ namespace CSReportDll {
                         if (isVisible) {
                             // For Each Ctrl In Secline.Controls
                             //
-                            for (indexCtrl = 0; indexCtrl < secline.getControls().getCollByLeft().Length; indexCtrl++) {
+                            for (indexCtrl = 0; indexCtrl < secline.getControls().getCollByLeft().length; indexCtrl++) {
                                 ctrl = secline.getControls().item(secline.getControls().getCollByLeft()[indexCtrl]);
 
                                 if (where === C_HEADERS) {
@@ -3886,7 +3886,7 @@ namespace CSReportDll {
 
                                 if (ctrl.getHasFormulaValue()) {
                                     field.setValue(
-                                        cReportGlobals.format(
+                                        ReportGlobals.format(
                                             this.compiler.resultFunction(ctrl.getFormulaValue()), 
                                             ctrl.getLabel().getAspect().getFormat()));
                                 }
@@ -3910,22 +3910,22 @@ namespace CSReportDll {
                                                 //
                                                 let value: object = this.collRows[indexRows].Rows[indexRow][indexField];
                                                 field.setValue(
-                                                    cReportGlobals.format(
-                                                        cReportGlobals.valVariant(value),
+                                                    ReportGlobals.format(
+                                                        ReportGlobals.valVariant(value),
                                                         ctrl.getLabel().getAspect().getFormat()));
                                             }
                                             break;
 
                                         case csRptControlType.CSRPTCTLABEL:
                                             field.setValue(
-                                                cReportGlobals.format(
+                                                ReportGlobals.format(
                                                     ctrl.getLabel().getText(), 
                                                     ctrl.getLabel().getAspect().getFormat()));
                                             break;
 
                                         case csRptControlType.CSRPTCTIMAGE:
                                             field.setValue(
-                                                cReportGlobals.format(
+                                                ReportGlobals.format(
                                                     ctrl.getLabel().getText(), 
                                                     ctrl.getLabel().getAspect().getFormat()));
                                             field.setImage(ctrl.getImage().getImage());
@@ -3953,7 +3953,7 @@ namespace CSReportDll {
 
                                 if (ctrl.getHasFormulaHide()) {
                                     field.setVisible(
-                                        cUtil.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
+                                        Utils.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
                                 }
                                 else {
                                     field.setVisible(true);
@@ -4077,12 +4077,12 @@ namespace CSReportDll {
         private pGetDataAux(recordsets: List<object[]>) {
             for(var _i = 0; _i < this.connectsAux.count(); _i++) {
                 let connect: cReportConnect = this.connectsAux.item(_i);
-                G.redimPreserve(this.collRows, this.collRows.Length + 1);
-                if (!pGetData(this.collRows[this.collRows.Length - 1], connect, false, recordsets)) {
+                G.redimPreserve(this.collRows, this.collRows.length + 1);
+                if (!pGetData(this.collRows[this.collRows.length - 1], connect, false, recordsets)) {
                     return false;
                 }
             }
-            this.vRowsIndexAux = new int[this.collRows.Length];
+            this.vRowsIndexAux = new int[this.collRows.length];
             return true;
         }
 
@@ -4198,9 +4198,9 @@ namespace CSReportDll {
                 else {
                     if (createIndexVector) {
                         this.vRowsIndex = new int[vRows.Rows.Count];
-                        this.lastRowIndex = this.vRowsIndex.Length - 1;
+                        this.lastRowIndex = this.vRowsIndex.length - 1;
                         let k: number = 0;
-                        for (k = 0; k < this.vRowsIndex.Length; k++) {
+                        for (k = 0; k < this.vRowsIndex.length; k++) {
                             this.vRowsIndex[k] = k;
                         }
                     }
@@ -4229,7 +4229,7 @@ namespace CSReportDll {
                     // we add an empty element to this.collRows to avoid
                     // index of bounds exception
                     //
-                    G.redimPreserve(this.collRows, this.collRows.Length + 1);
+                    G.redimPreserve(this.collRows, this.collRows.length + 1);
                 }
 
                 cn.closeDb();
@@ -4242,7 +4242,7 @@ namespace CSReportDll {
                 }
             }
             if (this.rows !== null) {
-                this.recordCount = this.vRowsIndex.Length;
+                this.recordCount = this.vRowsIndex.length;
             }
             else {
                 this.recordCount = 0;
@@ -4560,7 +4560,7 @@ namespace CSReportDll {
         private String getToken(String source, String token)
         {
             token = token.Trim();
-            if (token.Substring(token.Length - 1) !== "=") 
+            if (token.substring(token.length - 1) !== "=")
             { 
                 token = token + "="; 
             }
@@ -4573,11 +4573,11 @@ namespace CSReportDll {
             p = source.IndexOf(";", p2);
             if (p < 0) 
             { 
-                p = source.Length + 1; 
+                p = source.length + 1;
             }
-            p2 = p2 + token.Length - 1;
+            p2 = p2 + token.length - 1;
             p = p - p2;
-            return source.Substring(p2, p);
+            return source.substring(p2, p);
         }*/
 
         private pSortControlsByLeft() {
@@ -4744,11 +4744,11 @@ namespace CSReportDll {
 
                     if (pIsGroupFormula(fint.getFormulaType())) {
                         colName = fint.getParameters().item(0).getValue();
-                        pSetColIndexInGroupFormulaAux(rs, fint, colName, cReportGlobals.C_KEYINDEXCOL);
+                        pSetColIndexInGroupFormulaAux(rs, fint, colName, ReportGlobals.C_KEYINDEXCOL);
 
                         if (fint.getFormulaType() === csRptFormulaType.CSRPTF_GROUP_PERCENT) {
                             colName = fint.getParameters().item(1).getValue();
-                            pSetColIndexInGroupFormulaAux(rs, fint, colName, cReportGlobals.C_KEYINDEXCOL2);
+                            pSetColIndexInGroupFormulaAux(rs, fint, colName, ReportGlobals.C_KEYINDEXCOL2);
                         }
                     }
                 }
@@ -4779,13 +4779,13 @@ namespace CSReportDll {
                 if (groups === null) {
                     groups = new T_Group[size];
                 }
-                else if (groups.Length === 0) {
+                else if (groups.length === 0) {
                     groups = new T_Group[size];
                 }
                 else {
                     let newArray: T_Group[] = new T_Group[size];
-                    Array.Copy(groups, newArray, groups.Length);
-                    for (let t = groups.Length; t < newArray.Length; t++) {
+                    Array.Copy(groups, newArray, groups.length);
+                    for (let t = groups.length; t < newArray.length; t++) {
                         newArray[t] = new T_Group();
                     }
                     groups = newArray;
@@ -4863,5 +4863,5 @@ namespace CSReportDll {
 
 
 
-    }    }
+    }
 }

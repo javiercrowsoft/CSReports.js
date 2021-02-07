@@ -145,7 +145,7 @@ namespace CSReportPaint
         }
         */
         public getPaintObject(sKey: string) {
-            if (cUtil.subString(sKey, 0, C_KEY_PAINT_OBJ.Length) === C_KEY_PAINT_OBJ) {
+            if (cUtil.substring(sKey, 0, C_KEY_PAINT_OBJ.length) === C_KEY_PAINT_OBJ) {
                 return this.paintObjects.item(sKey);
             }
             else {
@@ -194,7 +194,7 @@ namespace CSReportPaint
         }
 
         public paintObjIsSection(sKey: string) {
-            return sKey.Substring(0, C_KEY_PAINT_SEC.Length) === C_KEY_PAINT_SEC;
+            return sKey.substring(0, C_KEY_PAINT_SEC.length) === C_KEY_PAINT_SEC;
         }
 
 		public pointIsInObject(x: number, y: number, sKey: string) {
@@ -553,7 +553,7 @@ namespace CSReportPaint
 
             let paintObjs: cReportPaintObjects = null;
 
-            if (sKey.Substring(0, 1) === C_KEY_PAINT_SEC) {
+            if (sKey.substring(0, 1) === C_KEY_PAINT_SEC) {
                 paintObjs = this.paintSections;
             }
             else {
@@ -789,7 +789,7 @@ UNKNOWN >>                                 - offSetPointSep
         }
 
 		public moveObjToXY(sKey: string, x: number, y: number, graph: Graphics) {
-            if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, 1) === C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
                 move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
@@ -827,7 +827,7 @@ UNKNOWN >>                                 - offSetPointSep
         }
 
 		public moveVertical(sKey: string, y: number, graph: Graphics) {
-            if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, 1) === C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
                 move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
@@ -838,7 +838,7 @@ UNKNOWN >>                                 - offSetPointSep
         }
 
 		public moveHorizontal(sKey: string, x: number, graph: Graphics) {
-            if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, 1) === C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
                 move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
@@ -1016,8 +1016,8 @@ UNKNOWN >>                                 - offSetPointSep
             if (clearSelected) { G.redim(this.vSelectedKeys, 0); }
 
             if (!pAllreadySelected(sKey)) {
-                G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.Length + 1);
-                let -1]: this.vSelectedKeys[this.vSelectedKeys.Length = sKey;
+                G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.length + 1);
+                let -1]: this.vSelectedKeys[this.vSelectedKeys.length = sKey;
             }
 
             this.keyFocus = sKey;
@@ -1027,19 +1027,19 @@ UNKNOWN >>                                 - offSetPointSep
         public removeFromSelected(sKey: string, graph: Graphics) {
             let i: number = 0;
 
-            for (i = 0; i < this.vSelectedKeys.Length; i++) {
+            for (i = 0; i < this.vSelectedKeys.length; i++) {
                 if (this.vSelectedKeys[i] === sKey) {
                     break;
                 }
             }
 
-            if (i >= this.vSelectedKeys.Length) { return; }
+            if (i >= this.vSelectedKeys.length) { return; }
 
-            for (i = i + 1; i < this.vSelectedKeys.Length; i++) {
+            for (i = i + 1; i < this.vSelectedKeys.length; i++) {
                 this.vSelectedKeys[i - 1] = this.vSelectedKeys[i];
             }
-            if (this.vSelectedKeys.Length > 0) {
-                G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.Length - 1);
+            if (this.vSelectedKeys.length > 0) {
+                G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.length - 1);
             }
             else {
                 G.redim(this.vSelectedKeys, 0);
@@ -1055,7 +1055,7 @@ UNKNOWN >>                                 - offSetPointSep
                 return true;
             }
 
-            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+            for(var i = 0; i < this.vSelectedKeys.length; i++) {
                 if (this.vSelectedKeys[i] === sKey) {
                     return true;
                 }
@@ -1070,7 +1070,7 @@ UNKNOWN >>                                 - offSetPointSep
 
             this.keyFocus = sKey;
 
-            if (this.keyFocus.Substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (this.keyFocus.substring(0, 1) === C_KEY_PAINT_OBJ) {
                 paintObjAsp = this.paintObjects.item(this.keyFocus);
                 color = 0x80C0FF;
                 bCircle = false;
@@ -1118,7 +1118,7 @@ UNKNOWN >>                                 - offSetPointSep
 
             let paintObjAsp: cReportAspect = null;
 
-            if (sKey.Substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, 1) === C_KEY_PAINT_OBJ) {
                 paintObjAsp = this.paintObjects.item(sKey).getAspect();
             }
             else {
@@ -1778,7 +1778,7 @@ UNKNOWN >>             Pen pen;
 
             int i = 0;
 
-            for (i = 1; i <= this.vSelectedKeys.Length; i++)
+            for (i = 1; i <= this.vSelectedKeys.length; i++)
             {
                 setFocusAux(this.vSelectedKeys[i], graph);
             }
@@ -1792,7 +1792,7 @@ UNKNOWN >>             Pen pen;
             else {
 
             }
-            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+            for(var i = 0; i < this.vSelectedKeys.length; i++) {
                 setFocusAux(this.vSelectedKeys[i], graph);
             }
 
@@ -1807,7 +1807,7 @@ UNKNOWN >>             Pen pen;
             this.beginMoveDone = true;
 
             let graphic: Graphics = Graphics.FromImage(this.bitmap);
-            for(var i = 0; i < this.vSelectedKeys.Length; i++) {
+            for(var i = 0; i < this.vSelectedKeys.length; i++) {
                 setFocusAux(this.vSelectedKeys[i], graphic);
             }
             graphic.Dispose();
@@ -2049,7 +2049,7 @@ UNKNOWN >>             Pen pen;
 
 
 
-    }    }
+    } 
 
 
 

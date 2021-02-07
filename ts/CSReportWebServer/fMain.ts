@@ -24,7 +24,7 @@ namespace CSReportWebServer
 //         delegate void LogCallback(string message);
 
         private safeLog(message: string) {
-            let i: var = lvLog.Items.Add(DateTime.Now.ToString("h:mm:ss tt"));
+            let i: var = lvLog.Items.Add(DateTime.Now.toString("h:mm:ss tt"));
             i.SubItems.Add(message);
         }
 
@@ -81,7 +81,7 @@ namespace CSReportWebServer
         private safeMoveToPage(request: JObject) {
             let data: var = request["message"]["data"];
             let reportId: var = data["reportId"].toString();
-			let page: var =  int.Parse(data["report_page"].toString());
+			let page: var =  Utils.parseInt(data["report_page"].toString());
 			this.log.Info("Getting page " + page);
 
             let report: var = this.reports[reportId];
@@ -122,5 +122,5 @@ UNKNOWN >>             string text;
         }
 
 
-    }    }
+    } 
 }

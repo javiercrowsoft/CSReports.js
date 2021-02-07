@@ -27,8 +27,8 @@ UNKNOWN >>             set
                     let t: Type = value.GetType();
                     if (t.IsArray) {
                         let valueArray: byte[] = value;
-                        let newArray: byte[] = new byte[valueArray.Length];
-                        Array.Copy(valueArray, newArray, valueArray.Length);
+                        let newArray: byte[] = new byte[valueArray.length];
+                        Array.Copy(valueArray, newArray, valueArray.length);
                         this.binaryValue = newArray;
                     }
                     else {
@@ -148,7 +148,7 @@ UNKNOWN >>             set { this.parent = value; }
 
 
 
-    }    }
+    } 
 
 
 

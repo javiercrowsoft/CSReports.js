@@ -1923,5 +1923,5 @@ UNKNOWN >>         #endregion
         private cmd_font: System.Windows.Forms.Button = null;
 
 
-    }    }
+    } 
 }

@@ -17,7 +17,7 @@ namespace CSReportEditor
         }
 
 
-    }    }
+    } 
 
 
 
@@ -28,5 +28,5 @@ namespace CSReportEditor
         CSRPT_EDITOR_SECTION_TYPE_INVALID = 2001
 
 
-    }    }
+    } 
 }

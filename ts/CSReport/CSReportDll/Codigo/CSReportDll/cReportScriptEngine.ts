@@ -9,20 +9,20 @@ namespace CSReportDll
 
         private getFunctionCall(code: string, formula: cReportFormula) {
             let n: number = code.IndexOf("(");
-            let functionName: var = cUtil.subString(code, 8, n-8);
+            let functionName: var = cUtil.substring(code, 8, n-8);
             let parameters: var = "";
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 let fint: var = formula.getFormulasInt().item(_i);
                 parameters += "globals.getVar(\"p__" + _i + "__\").getValue(),";
             }
-            if (parameters.Length > 0) {
-                parameters = parameters.Substring(0, parameters.Length - 1);
+            if (parameters.length > 0) {
+                parameters = parameters.substring(0, parameters.length - 1);
             }
             return functionName + "(" + parameters + ")";
         }
 
         private putCodeInClass(code: string, formula: cReportFormula) {
-            if (cUtil.subString(code, 0, 8).toLowerCase() === "function") {
+            if (cUtil.substring(code, 0, 8).toLowerCase() === "function") {
                 return "Public Class util\r\n"
                      + "Implements CSReportScript.cIReportScriptType\r\n"
                      + code + "\r\n"
@@ -51,7 +51,7 @@ namespace CSReportDll
                      + "  Now = Microsoft.VisualBasic.Now\r\n"
                      + "End Function\r\n"
                      + "Function UCase(text)\r\n"
-                     + "  UCase = text.ToUpper()\r\n"
+                     + "  UCase = text.toUpperCase()\r\n"
                      + "End Function\r\n"
                      + "Function Mid(text, start, len) As String\r\n"
                      + "  Mid = Microsoft.VisualBasic.Strings.Mid(text, start, len)\r\n"
@@ -84,7 +84,7 @@ namespace CSReportDll
 
 UNKNOWN >>             CodeDomProvider provider;
 
-            if (cUtil.subString(code, 0, 8).toLowerCase() === "function") {
+            if (cUtil.substring(code, 0, 8).toLowerCase() === "function") {
                 provider = new Microsoft.VisualBasic.VBCodeProvider();
             }
             else  {
@@ -188,5 +188,5 @@ UNKNOWN >>             CompilerResults result;
         }
 
 
-    }    }
+    } 
 }

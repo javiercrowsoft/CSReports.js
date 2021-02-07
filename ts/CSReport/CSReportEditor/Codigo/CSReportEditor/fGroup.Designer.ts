@@ -358,5 +358,5 @@ UNKNOWN >>         #endregion
         private cmd_dbField: System.Windows.Forms.Button = null;
 
 
-    }    }
+    } 
 }

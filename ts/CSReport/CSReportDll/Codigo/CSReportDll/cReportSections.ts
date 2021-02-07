@@ -60,13 +60,13 @@ namespace CSReportDll
                     c = new cReportSection();
                 }
                 if (key === "") {
-                    key = cReportGlobals.getNextKey().toString();
+                    key = ReportGlobals.getNextKey().toString();
                 }
                 else {
-                    cReportGlobals.refreshNextKey(key);
+                    ReportGlobals.refreshNextKey(key);
                 }
 
-                key = cReportGlobals.getKey(key);
+                key = ReportGlobals.getKey(key);
 
                 if ( && this.count() > 0) {
                     this.keys.Insert(index, key);
@@ -117,7 +117,7 @@ namespace CSReportDll
 
                 for(var i = 0; i < this.count(); i++) {
                     this.coll[this.keys[i]].setIndex(i);
-                    this.coll[this.keys[i]].setName(this.coll[this.keys[i]].getName().Substring(0, 2).Replace("_", "") 
+                    this.coll[this.keys[i]].setName(this.coll[this.keys[i]].getName().substring(0, 2).Replace("_", "")
                                                 + "_" + i.toString());
                 }
                 pRefreshIndex();
@@ -136,7 +136,7 @@ namespace CSReportDll
                 for(var i = 0; i < this.count(); i++) {
                     let sec: cReportSection = this.coll[this.keys[i]];
                     sec.setIndex(i);
-                    sec.setName(sec.getName().Substring(0, 2).Replace("_", "")
+                    sec.setName(sec.getName().substring(0, 2).Replace("_", "")
                                 + "_" + i.toString());
                 }
                 pRefreshIndex();
@@ -181,7 +181,7 @@ namespace CSReportDll
 
 
 
-    }    }
+    }
 
 
 

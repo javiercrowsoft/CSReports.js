@@ -166,13 +166,13 @@ UNKNOWN >>             int i;
 
             // first we search the element using key
             //
-            for (i = 0; i < this.zorder.Length; i++) {
+            for (i = 0; i < this.zorder.length; i++) {
                 if (this.zorder[i] === key) {
                     break;
                 }
             }
 
-            if (i >= this.zorder.Length-1 && top)  {
+            if (i >= this.zorder.length-1 && top)  {
                 return; 
             }
             if (i === 0 && !top)  {
@@ -180,12 +180,12 @@ UNKNOWN >>             int i;
             }
 
             if (top) {
-                for (; i < this.zorder.Length - 1; i++) {
+                for (; i < this.zorder.length - 1; i++) {
                     this.zorder[i] = this.zorder[i + 1];
                     item(this.zorder[i]).getAspect().setNZOrder(i);
                 }
-                this.zorder[this.zorder.Length-1] = key;
-                item(key).getAspect().setNZOrder(this.zorder.Length-1);
+                this.zorder[this.zorder.length-1] = key;
+                item(key).getAspect().setNZOrder(this.zorder.length-1);
             }
             else {
                 for (; i > 0; i--) {
@@ -198,7 +198,7 @@ UNKNOWN >>             int i;
         }
 
         public getZOrderForKey(key: string) {
-            for(var i = 0; i < this.zorder.Length; i++) {
+            for(var i = 0; i < this.zorder.length; i++) {
                 if (this.zorder[i] === key) {
                     return i;
                 }
@@ -234,12 +234,12 @@ UNKNOWN >>             int i;
         }
 
         private removeZOrder(sKey: string) {
-            for(var i = 0; i < this.zorder.Length; i++) {
+            for(var i = 0; i < this.zorder.length; i++) {
                 if (this.zorder[i] === sKey) {
-                    for(var j = i; j < this.zorder.Length - 1; j++) {
+                    for(var j = i; j < this.zorder.length - 1; j++) {
                         this.zorder[j] = this.zorder[j + 1];
                     }
-                    G.redimPreserve(this.zorder, this.zorder.Length - 1);
+                    G.redimPreserve(this.zorder, this.zorder.length - 1);
                     return;
                 }
             }
@@ -247,7 +247,7 @@ UNKNOWN >>             int i;
 
 
 
-    }    }
+    }
 
 
 

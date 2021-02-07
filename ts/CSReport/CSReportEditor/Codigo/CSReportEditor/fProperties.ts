@@ -1717,7 +1717,7 @@ UNKNOWN >>             get
             if (chkFontUnderline.Checked) fontStyle = fontStyle | FontStyle.Underline; {
             if (chkFontStrike.Checked) fontStyle = fontStyle | FontStyle.Strikeout; {
 
-            let fontSize: number = cUtil.val(txFontSize.Text);
+            let fontSize: number = Utils.val(txFontSize.Text);
             let font: Font = new Font(txFont.Text, ((fontSize > 0f) ? fontSize : 3f), fontStyle);
 
             fontDialog.Font = font;
@@ -1947,5 +1947,5 @@ UNKNOWN >>             get
         }
 
 
-    }    }
+    } 
 }

@@ -487,9 +487,9 @@ UNKNOWN >>             get
         }
 
         private getControlOrSection(editor: cEditor, key: string) {
-            if (key.Length > 1) {
-                if (key.Substring(0, 1) === "S") {
-                    return editor.getSectionOrSectionLineFromKey(key.Substring(1));
+            if (key.length > 1) {
+                if (key.substring(0, 1) === "S") {
+                    return editor.getSectionOrSectionLineFromKey(key.substring(1));
                 }
                 else  {
                     return editor.getReport().getControls().item(key);
@@ -511,13 +511,13 @@ UNKNOWN >>             get
             let methods: var = getMethods(anObject);
             for(var i_ = 0; i_ < methods.length; i_++) {
                 if (m.IsPublic
-                    && m.Name.Length > 3
-                    && m.Name.Substring(0, 3) === "get"
-                    && m.Name.Substring(0, 4) !== "get_"
-                    && m.GetParameters().Length === 0
+                    && m.Name.length > 3
+                    && m.Name.substring(0, 3) === "get"
+                    && m.Name.substring(0, 4) !== "get_"
+                    && m.GetParameters().length === 0
                     && m.Name !== "getSectionLine"
                     ) {
-                    let item: var = lv_properties.Items.Add(tabs + m.Name.Substring(3));
+                    let item: var = lv_properties.Items.Add(tabs + m.Name.substring(3));
                     item.ImageIndex = C_IMG_CONTROL;
                     item.SubItems.Add(getValue(m.Invoke(anObject, null), n));
                     if (item.SubItems[1].Text === "...") item.ImageIndex = C_IMG_FOLDER; {
@@ -605,13 +605,13 @@ UNKNOWN >>             get
 
             if (node !== null && node.Tag !== null && editor !== null) {
                 let info: var = node.Tag.toString();
-                if (info.Length > 0) {
-                    let infoType: var = info.Substring(0, 1);
+                if (info.length > 0) {
+                    let infoType: var = info.substring(0, 1);
                     if ("@SL".IndexOf(infoType) === -1) {
                         editor.selectCtrl(info);
                     }
                     else if (infoType === "S" || infoType === "L") {
-                        editor.selectSection(info.Substring(1));
+                        editor.selectSection(info.substring(1));
                     }
                 }
             }
@@ -627,8 +627,8 @@ UNKNOWN >>             get
             if (tv_controls.SelectedNode !== null && editor !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
                     let info: var = tv_controls.SelectedNode.Tag.toString();
-                    if (info.Length > 0) {
-                        let infoType: var = info.Substring(0, 1);
+                    if (info.length > 0) {
+                        let infoType: var = info.substring(0, 1);
                         if ("@".IndexOf(infoType) === -1) {
                             editor.showProperties(info);
                         }
@@ -680,7 +680,7 @@ UNKNOWN >>             get
             for(var i = 0; i < tabReports.TabCount; ++i) {
                 let rect: var = tabReports.GetTabRect(i);
                 let xRect: var = new System.Drawing.Rectangle(rect.Left + rect.Width - 18, rect.Top, 18, rect.Height);
-                if (xRect.Contains(e.Location)) {
+                if (xRect.contains(e.Location)) {
                     let editor: cEditor = tabReports.TabPages[i].Tag;
                     if (editor.close()) {
                         tabReports.TabPages.RemoveAt(i);
@@ -1080,5 +1080,5 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
         }
 
 
-    }    }
+    }
 }

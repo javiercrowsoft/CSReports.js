@@ -132,10 +132,10 @@ UNKNOWN >>             get
                     c = new cReportPageInfo();
                 }
                 if (key === "") {
-                    key = cReportGlobals.getNextKey().toString();
+                    key = ReportGlobals.getNextKey().toString();
                 }
 
-                key = cReportGlobals.getKey(key);
+                key = ReportGlobals.getKey(key);
                 Add(key, c);
                 c.setSectionLine(sectionLine);
                 return c;
@@ -169,7 +169,7 @@ UNKNOWN >>             get
 
 
 
-    }    }
+    } 
 
 
 

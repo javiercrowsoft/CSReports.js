@@ -64,7 +64,7 @@ namespace CSReportWebServer.NativeMessaging
             istream.BeginRead(
                 ar.lengthBuffer,
                 ar.lengthOffset,
-                ar.lengthBuffer.Length - ar.lengthOffset,
+                ar.lengthBuffer.length - ar.lengthOffset,
 //                 delegate (IAsyncResult _ar) { (_ar.AsyncState).port.ReadLengthCallback(_ar.AsyncState, _ar); },
                 ar);
             return ar;
@@ -85,17 +85,17 @@ namespace CSReportWebServer.NativeMessaging
                 ar.lengthIsCompleted = lengthAsyncResult.IsCompleted;
                 ar.lengthCompletedSynchronously = lengthAsyncResult.CompletedSynchronously;
                 let bytesRead: number = istream.EndRead(lengthAsyncResult);
-                Debug.Assert( && (bytesRead <= ar.lengthBuffer.Length));
+                Debug.Assert( && (bytesRead <= ar.lengthBuffer.length));
                 if (bytesRead === 0) {
                     if (ar.lengthOffset === 0) throw new EndOfInputStreamException("End of input stream."); {
                     else throw new ProtocolErrorException("Unexpected end of input stream."); {
                 }
-                if (bytesRead < ar.lengthBuffer.Length) {
+                if (bytesRead < ar.lengthBuffer.length) {
                     ar.lengthOffset += bytesRead;
                     istream.BeginRead(
                         ar.lengthBuffer,
                         ar.lengthOffset,
-                        ar.lengthBuffer.Length - ar.lengthOffset,
+                        ar.lengthBuffer.length - ar.lengthOffset,
 //                         delegate (IAsyncResult _ar) { (_ar.AsyncState).port.ReadLengthCallback(_ar.AsyncState, _ar); },
                         ar);
                     return;
@@ -107,7 +107,7 @@ namespace CSReportWebServer.NativeMessaging
                 istream.BeginRead(
                     ar.messageBuffer,
                     ar.messageOffset,
-                    ar.messageBuffer.Length - ar.messageOffset,
+                    ar.messageBuffer.length - ar.messageOffset,
 //                     delegate (IAsyncResult _ar) { (_ar.AsyncState).port.ReadMessageCallback(_ar.AsyncState, _ar); },
                     ar);
             }
@@ -133,14 +133,14 @@ namespace CSReportWebServer.NativeMessaging
                 ar.messageIsCompleted = messageAsyncResult.IsCompleted;
                 ar.messageCompletedSynchronously = messageAsyncResult.CompletedSynchronously;
                 let bytesRead: number = istream.EndRead(messageAsyncResult);
-                Debug.Assert( && (bytesRead <= ar.messageBuffer.Length));
+                Debug.Assert( && (bytesRead <= ar.messageBuffer.length));
                 if (bytesRead === 0) throw new ProtocolErrorException("Unexpected end of input stream."); {
-                if (bytesRead < ar.messageBuffer.Length) {
+                if (bytesRead < ar.messageBuffer.length) {
                     ar.messageOffset += bytesRead;
                     istream.BeginRead(
                         ar.messageBuffer,
                         ar.messageOffset,
-                        ar.messageBuffer.Length - ar.messageOffset,
+                        ar.messageBuffer.length - ar.messageOffset,
 //                         delegate (IAsyncResult _ar) { (_ar.AsyncState).port.ReadMessageCallback(_ar.AsyncState, _ar); },
                         ar);
                     return;
@@ -217,13 +217,13 @@ UNKNOWN >>             string message;
             catch (ex) {
                 throw new ProtocolErrorException("Invalid output message encoding.", ex);
             }
-            ar.lengthBuffer = System.BitConverter.GetBytes(ar.messageBuffer.Length);
+            ar.lengthBuffer = System.BitConverter.GetBytes(ar.messageBuffer.length);
             ar.lengthOffset = 0;
-            Debug.Assert(ar.lengthBuffer.Length === 4);
+            Debug.Assert(ar.lengthBuffer.length === 4);
             ostream.BeginWrite(
                 ar.lengthBuffer,
                 ar.lengthOffset,
-                ar.lengthBuffer.Length - ar.lengthOffset,
+                ar.lengthBuffer.length - ar.lengthOffset,
 //                 delegate (IAsyncResult _ar) { (_ar.AsyncState).port.WriteLengthCallback(_ar.AsyncState, _ar); },
                 ar);
             return ar;
@@ -247,7 +247,7 @@ UNKNOWN >>             string message;
                 ostream.BeginWrite(
                     ar.messageBuffer,
                     ar.messageOffset,
-                    ar.messageBuffer.Length - ar.messageOffset,
+                    ar.messageBuffer.length - ar.messageOffset,
 //                     delegate (IAsyncResult _ar) { (_ar.AsyncState).port.WriteMessageCallback(_ar.AsyncState, _ar); },
                 ar);
             }
@@ -342,5 +342,5 @@ UNKNOWN >>             string message;
         }
 
 
-    }    }
+    } 
 }

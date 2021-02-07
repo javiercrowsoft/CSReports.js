@@ -26,7 +26,7 @@ namespace CSXml
 
         public getPath() {
             let _rtn: string = "";
-            if (this.path.Substring(this.path.Length - 1) === Path.DirectorySeparatorChar.toString()) {
+            if (this.path.substring(this.path.length - 1) === Path.DirectorySeparatorChar.toString()) {
                 _rtn = this.path;
             }
             else {
@@ -337,5 +337,5 @@ namespace CSXml
         }
 
 
-    }    }
+    }
 }

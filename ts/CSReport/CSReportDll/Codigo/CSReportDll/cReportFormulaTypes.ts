@@ -146,13 +146,13 @@ UNKNOWN >>             get
                     c = new cReportFormulaType();
                 }
                 if (key === "") {
-                    key = cReportGlobals.getNextKey().toString();
+                    key = ReportGlobals.getNextKey().toString();
                 }
                 else {
-                    cReportGlobals.refreshNextKey(key);
+                    ReportGlobals.refreshNextKey(key);
                 }
 
-                key = cReportGlobals.getKey(key);
+                key = ReportGlobals.getKey(key);
 
                 Add(key, c);
 
@@ -536,7 +536,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
 
 
 
-    }    }
+    } 
 
 
 

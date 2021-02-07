@@ -50,13 +50,13 @@ namespace CSReportDll
                     c = new cReportSectionLine();
                 }
                 if (key === "") {
-                    key = cReportGlobals.getNextKey().toString();
+                    key = ReportGlobals.getNextKey().toString();
                 }
                 else {
-                    cReportGlobals.refreshNextKey(key);
+                    ReportGlobals.refreshNextKey(key);
                 }
 
-                key = cReportGlobals.getKey(key);
+                key = ReportGlobals.getKey(key);
 
                 if ( && this.count() > 0) {
                     this.keys.Insert(index, key);
@@ -161,7 +161,7 @@ namespace CSReportDll
 
 
 
-    }    }
+    } 
 
 
 

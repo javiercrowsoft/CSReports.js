@@ -175,7 +175,7 @@ UNKNOWN >> 			int pageIndex;
             if (page > 0) { this.fProgress.lbCurrPage.Text = page.toString(); }
             if (task !== "") { this.fProgress.lbTask.Text = task; }
             if (currRecord > 0) { this.fProgress.lbCurrRecord.Text = currRecord.toString(); }
-            if (recordCount > 0 && cUtil.val(this.fProgress.lbRecordCount.Text) !== recordCount)
+            if (recordCount > 0 && Utils.val(this.fProgress.lbRecordCount.Text) !== recordCount)
             {
                 this.fProgress.lbRecordCount.Text = recordCount.toString();
             }
@@ -255,5 +255,5 @@ UNKNOWN >>             finally
         }
 
 
-    }    }
+    } 
 }

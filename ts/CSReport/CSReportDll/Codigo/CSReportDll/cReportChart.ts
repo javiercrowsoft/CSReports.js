@@ -331,10 +331,10 @@ namespace CSReportDll
             pFill(chart, rows, strFormat);
 
             chart.setColorPrimary(this.series.item(0).getColor());
-            chart.setLabelPrimary(cReportGlobals.getRealName(this.series.item(0).getValueFieldName()));
+            chart.setLabelPrimary(ReportGlobals.getRealName(this.series.item(0).getValueFieldName()));
             if (this.series.count() > 1) {
                 chart.setColorAlternate(this.series.item(1).getColor());
-                chart.setLabelAlternate(cReportGlobals.getRealName(this.series.item(1).getValueFieldName()));
+                chart.setLabelAlternate(ReportGlobals.getRealName(this.series.item(1).getValueFieldName()));
             }
             chart.setGridLines(this.chartLineStyle);
             chart.setOutlineBars(this.chartBarOutline);
@@ -399,7 +399,7 @@ namespace CSReportDll
             //
             pDestroyImage();
 
-            if (fileName.Length > 0) {
+            if (fileName.length > 0) {
                 let image: Image = Image.FromFile(fileName);
             }
         }
@@ -425,14 +425,14 @@ namespace CSReportDll
             if (this.groupFieldIndex >= 0) {
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                 for (j = 0; j < rows.Count; j++) {
-                    if (cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
+                    if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                         newTop++;
                     }
                 }
 
                 if (newTop > 0) { newTop--; }
 
-                if (v.Length > newTop) {
+                if (v.length > newTop) {
                     pRedimPreserve(v, newTop);
                 }
             }
@@ -443,9 +443,9 @@ namespace CSReportDll
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                     for (j = 0; j < rows.Count; j++) {
 
-                        if (cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
-                            v[0].value = cReportGlobals.valVariant(rows[j][valueIndex]);
-                            v[0].label = cReportGlobals.valVariant(rows[j][labelIndex]);
+                        if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
+                            v[0].value = ReportGlobals.valVariant(rows[j][valueIndex]);
+                            v[0].label = ReportGlobals.valVariant(rows[j][labelIndex]);
                             v[0].idx = j;
                             break;
                         }
@@ -453,46 +453,46 @@ namespace CSReportDll
 
                 }
                 else {
-                    v[0].value = cReportGlobals.valVariant(rows[0][valueIndex]);
-                    v[0].label = cReportGlobals.valVariant(rows[0][labelIndex]);
+                    v[0].value = ReportGlobals.valVariant(rows[0][valueIndex]);
+                    v[0].label = ReportGlobals.valVariant(rows[0][labelIndex]);
                     v[0].idx = 0;
                 }
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                 for (j = 0; j < rows.Count; j++) {
 
                     if (this.groupFieldIndex >= 0) {
-                        bCompare = cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
+                        bCompare = ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
                     }
                     else {
                         bCompare = true;
                     }
 
                     if (bCompare) {
-                        value = cUtil.val(cReportGlobals.valVariant(rows[j][valueIndex]));
+                        value = Utils.val(ReportGlobals.valVariant(rows[j][valueIndex]));
 
                         if (value > v[0].value) {
                             v[0].value = value;
-                            v[0].label = cReportGlobals.valVariant(rows[j][labelIndex]);
+                            v[0].label = ReportGlobals.valVariant(rows[j][labelIndex]);
                             v[0].idx = j;
                         }
                     }
                 }
 
-                for (i = 0; i < v.Length; i++) {
+                for (i = 0; i < v.length; i++) {
 
                     v[i].idx = -1;
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                     for (j = 0; j < rows.Count; j++) {
 
                         if (this.groupFieldIndex >= 0) {
-                            bCompare = cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
+                            bCompare = ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
                         }
                         else {
                             bCompare = true;
                         }
 
                         if (bCompare) {
-                            value = cUtil.val(cReportGlobals.valVariant(rows[j][valueIndex]));
+                            value = Utils.val(ReportGlobals.valVariant(rows[j][valueIndex]));
 
                             if (
                                 && value <= v[i - 1].value && j !== v[i - 1].idx) {
@@ -507,7 +507,7 @@ namespace CSReportDll
 
                                 if (!bFound) {
                                     v[i].value = value;
-                                    v[i].label = cReportGlobals.valVariant(rows[j][labelIndex]).toString();
+                                    v[i].label = ReportGlobals.valVariant(rows[j][labelIndex]).toString();
                                     v[i].idx = j;
                                 }
                             }
@@ -521,7 +521,7 @@ namespace CSReportDll
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                 for (j = 0; j < rows.Count; j++) {
                     if (this.groupFieldIndex >= 0) {
-                        if (cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
+                        if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                             if (pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
                         }
                     }
@@ -532,22 +532,22 @@ namespace CSReportDll
 
                 if (bOthers) {
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                    if (rows.Count > v.Length) {
+                    if (rows.Count > v.length) {
                         let n: number = 0;
                         let k: number = 0;
                         let bHaveToRedim: boolean = false;
                         bHaveToRedim = true;
-                        n = v.Length + 1;
+                        n = v.length + 1;
                         // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                         for (j = 0; j < rows.Count; j++) {
                             if (this.groupFieldIndex >= 0) {
-                                if (cReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
+                                if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                                     if (k >= n) {
                                         if (bHaveToRedim) {
                                             pRedimPreserve(v, n);
                                             bHaveToRedim = false;
                                         }
-                                        pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.Length, j, true);
+                                        pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.length, j, true);
                                     }
                                     else {
                                         k = k + 1;
@@ -559,7 +559,7 @@ namespace CSReportDll
                                     pRedimPreserve(v, n);
                                     bHaveToRedim = false;
                                 }
-                                pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.Length, j, true);
+                                pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.length, j, true);
                             }
                         }
                     }
@@ -576,15 +576,15 @@ namespace CSReportDll
             j: number
             bAdd: boolean) {
             if (bAdd) {
-                v[i].value = v[i].value + cReportGlobals.valVariant(rows[j][valueIndex]);
+                v[i].value = v[i].value + ReportGlobals.valVariant(rows[j][valueIndex]);
             }
             else {
-                v[i].value = cReportGlobals.valVariant(rows[j][valueIndex]);
+                v[i].value = ReportGlobals.valVariant(rows[j][valueIndex]);
             }
-            v[i].label = cReportGlobals.valVariant(rows[j][labelIndex]);
+            v[i].label = ReportGlobals.valVariant(rows[j][labelIndex]);
             v[i].idx = j;
             i = i + 1;
-            return i > v.Length;
+            return i > v.length;
         }
 
         private pFill(chart: cWebChart, rows: DataRowCollection, strFormat: string) {
@@ -621,21 +621,21 @@ namespace CSReportDll
                                 serie.getLabelIndex(), 
                                 this.chartType === csRptChartType.PIE);
 
-                for (i = 0; i < values.Length; i++) {
+                for (i = 0; i < values.length; i++) {
 
                     if (values[i].idx !== -1) {
                         if (idxSerie === 1) {
                             let w_add: cWebChartItem = chart.getItems().add(null);
                             w_add.setPrimaryValue(values[i].value);
-                            w_add.setPrimaryLabel(cReportGlobals.format(values[i].label, strFormat));
-                            w_add.setPieLabel(cReportGlobals.format(values[i].label, strFormat));
+                            w_add.setPrimaryLabel(ReportGlobals.format(values[i].label, strFormat));
+                            w_add.setPieLabel(ReportGlobals.format(values[i].label, strFormat));
                             w_add.setAlternateValue(0);
                         } 
                         else if (idxSerie === 2) {
                             let w_item: cWebChartItem = chart.getItems().item(i);
                             w_item.setAlternateValue(values[i].value);
-                            w_item.setPieLabel(cReportGlobals.format(values[i].label, strFormat));
-                            w_item.setAltLabel(cReportGlobals.format(values[i].label, strFormat));
+                            w_item.setPieLabel(ReportGlobals.format(values[i].label, strFormat));
+                            w_item.setAltLabel(ReportGlobals.format(values[i].label, strFormat));
                         }
                     }
                 }
@@ -662,12 +662,12 @@ namespace CSReportDll
                 if (vSeries === null) {
                     vSeries = new t_SerieValue[size];
                 }
-                else if (vSeries.Length === 0) {
+                else if (vSeries.length === 0) {
                     vSeries = new t_SerieValue[size];
                 }
                 else {
                     let newArray: t_SerieValue[] = new t_SerieValue[size];
-                    Array.Copy(vSeries, newArray, vSeries.Length);
+                    Array.Copy(vSeries, newArray, vSeries.length);
                     vSeries = newArray;
                 }
             }
@@ -693,5 +693,5 @@ namespace CSReportDll
 
 
 
-    }    }
+    } 
 }

@@ -155,13 +155,13 @@ UNKNOWN >>             get
                     c = new cReportControl();
                 }
                 if (key === "") {
-                    key = cReportGlobals.getNextKey().toString();
+                    key = ReportGlobals.getNextKey().toString();
                 }
                 else {
-                    cReportGlobals.refreshNextKey(key);
+                    ReportGlobals.refreshNextKey(key);
                 }
 
-                key = cReportGlobals.getKey(key);
+                key = ReportGlobals.getKey(key);
                 Add(key, c);
 
                 c.setKey(key);
@@ -245,7 +245,7 @@ UNKNOWN >>             get
 
             G.redim(this.collByLeft, this.Count);
 
-            for (i = 0; i < this.collByLeft.Length; i++) {
+            for (i = 0; i < this.collByLeft.length; i++) {
                 this.collByLeft[i] = i;
             }
 
@@ -325,7 +325,7 @@ UNKNOWN >>             cReportControl ctrl;
 
 
 
-    }    }
+    } 
 
 
 

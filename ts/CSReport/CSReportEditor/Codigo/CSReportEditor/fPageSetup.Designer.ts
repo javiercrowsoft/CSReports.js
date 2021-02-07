@@ -287,5 +287,5 @@ UNKNOWN >>         #endregion
         private tx_height: System.Windows.Forms.TextBox = null;
 
 
-    }    }
+    } 
 }

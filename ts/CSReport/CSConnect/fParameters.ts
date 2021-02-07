@@ -62,8 +62,8 @@ namespace CSConnect
                 parameters += value + ",";
             }
 
-            if (parameters.Substring(parameters.Length - 1, 1) === ",") {
-                parameters = parameters.Substring(0, parameters.Length - 1);
+            if (parameters.substring(parameters.length - 1, 1) === ",") {
+                parameters = parameters.substring(0, parameters.length - 1);
             }
 
             return parameters;
@@ -126,5 +126,5 @@ namespace CSConnect
 
 
 
-    }    }
+    } 
 }

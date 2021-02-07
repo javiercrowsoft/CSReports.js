@@ -48,13 +48,13 @@ namespace CSReportEditor
         private selectAndShowInfo(node: TreeNode) {
             if (node !== null && node.Tag !== null) {
                 let info: var = node.Tag.toString();
-                if (info.Length > 0) {
-                    let infoType: var = info.Substring(0, 1);
+                if (info.length > 0) {
+                    let infoType: var = info.substring(0, 1);
                     if (infoType === "@") {
-                        tx_descrip.Text = info.Substring(4);
+                        tx_descrip.Text = info.substring(4);
                     }
                     else if (infoType === "S" || infoType === "L") {
-                        this.editor.selectSection(info.Substring(1));
+                        this.editor.selectSection(info.substring(1));
                     }
                     else {
                         tx_descrip.Text = getObjectDescription(getControl(info));
@@ -67,18 +67,18 @@ namespace CSReportEditor
         private tv_formulas_NodeMouseDoubleClick(sender: object, e: TreeNodeMouseClickEventArgs) {
             if (e.Node.Tag !== null) {
                 let info: var = e.Node.Tag.toString();
-                if (info.Length > 0) {
-                    let infoType: var = info.Substring(0, 4);
+                if (info.length > 0) {
+                    let infoType: var = info.substring(0, 4);
                     if (infoType === "@FH=") {
                         this.formulaName = "Hide";
-                        let formula: string = info.Substring(4);
+                        let formula: string = info.substring(4);
                         if (this.editor.showEditFormula(formula)) {
                             e.Node.Tag = "@FH=" + formula;
                         }
                     }
                     else if (infoType === "@FV=") {
                         this.formulaName = "Value";
-                        let formula: string = info.Substring(4);
+                        let formula: string = info.substring(4);
                         if (this.editor.showEditFormula(formula)) {
                             e.Node.Tag = "@FV=" + formula;
                         }
@@ -106,13 +106,13 @@ namespace CSReportEditor
             let methods: var = getMethods(anObject);
             for(var i_ = 0; i_ < methods.length; i_++) {
                 if (m.IsPublic 
-                    && m.Name.Length > 3
-                    && m.Name.Substring(0,3) === "get"
-                    && m.Name.Substring(0, 4) !== "get_"
-                    && m.GetParameters().Length === 0
+                    && m.Name.length > 3
+                    && m.Name.substring(0,3) === "get"
+                    && m.Name.substring(0, 4) !== "get_"
+                    && m.GetParameters().length === 0
                     && m.Name !== "getSectionLine"
                     ) {
-                    descrip += tabs + m.Name.Substring(3) + ": " + getValue(m.Invoke(anObject, null), n) + "\r\n";
+                    descrip += tabs + m.Name.substring(3) + ": " + getValue(m.Invoke(anObject, null), n) + "\r\n";
                 }
             }
 
@@ -144,10 +144,10 @@ namespace CSReportEditor
             if (tv_controls.SelectedNode !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
                     let info: var = tv_controls.SelectedNode.Tag.toString();
-                    if (info.Length > 0) {
-                        let infoType: var = info.Substring(0, 1);
+                    if (info.length > 0) {
+                        let infoType: var = info.substring(0, 1);
                         if (infoType === "@") {
-                            tx_descrip.Text = info.Substring(4);
+                            tx_descrip.Text = info.substring(4);
                         }
                         else {
                             this.editor.showProperties(info);
@@ -162,5 +162,5 @@ namespace CSReportEditor
         }
 
 
-    }    }
+    } 
 }

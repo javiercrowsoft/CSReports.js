@@ -127,7 +127,7 @@ UNKNOWN >>             get
                     Add(getDummyKey(), c);
                 }
                 else {
-                    Add(cReportGlobals.getKey(key), c);
+                    Add(ReportGlobals.getKey(key), c);
                 }
 
                 return c;
@@ -165,5 +165,5 @@ UNKNOWN >>             get
 
 
 
-    }    }
+    } 
 }

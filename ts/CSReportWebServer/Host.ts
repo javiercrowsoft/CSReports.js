@@ -73,7 +73,7 @@ namespace CSReportWebServer
                     //
                     reply["extension"] = C_EXTENSION_NAME;
 
-                    message = reply.ToString(Formatting.None);
+                    message = reply.toString(Formatting.None);
 
                     // log
                     //
@@ -107,7 +107,7 @@ namespace CSReportWebServer
                     //
                     jMessage["extension"] = C_EXTENSION_NAME;
 
-                    string message = jMessage.ToString(Formatting.None);
+                    string message = jMessage.toString(Formatting.None);
 
                     // log
                     //
@@ -194,7 +194,7 @@ namespace CSReportWebServer
         }
 
 
-    }    }
+    } 
 
 
 
@@ -230,6 +230,6 @@ namespace CSReportWebServer
         }
 
 
-    }    }
+    } 
 }
 

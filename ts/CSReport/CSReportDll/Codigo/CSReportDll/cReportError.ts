@@ -69,7 +69,7 @@ namespace CSReportDll
 
             let i: number = 0;
 
-            for (i = 0; i < x.Length; i++) {
+            for (i = 0; i < x.length; i++) {
                 s = s.Replace("$" + .toString(), x[i]);
             }
 
@@ -82,5 +82,5 @@ namespace CSReportDll
 
 
 
-    }    }
+    } 
 }

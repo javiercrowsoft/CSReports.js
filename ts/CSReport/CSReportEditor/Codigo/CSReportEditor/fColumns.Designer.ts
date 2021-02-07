@@ -149,5 +149,5 @@ UNKNOWN >>         #endregion
         private columnHeader1: System.Windows.Forms.ColumnHeader = null;
 
 
-    }    }
+    } 
 }

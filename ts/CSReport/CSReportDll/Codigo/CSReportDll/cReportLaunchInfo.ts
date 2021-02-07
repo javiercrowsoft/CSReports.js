@@ -140,7 +140,7 @@ namespace CSReportDll
         public setPaperBin(paperBin: string) {
             if (this.printer === null) { return; }
 
-            if (paperBin.Length === 0) {
+            if (paperBin.length === 0) {
                 let idPaperBin: number = 0;
                 idPaperBin = cPrintAPI.printerPaperBinNameToId(this.printer.getDeviceName(),
                                                                 this.printer.getPort(), 
@@ -217,7 +217,7 @@ namespace CSReportDll
 
 
 
-    }    }
+    } 
 
 
 

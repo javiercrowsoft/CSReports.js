@@ -198,5 +198,5 @@ UNKNOWN >>         #endregion
         private tx_newFormula: System.Windows.Forms.TextBox = null;
 
 
-    }    }
+    } 
 }

@@ -1611,6 +1611,6 @@ UNKNOWN >>         #endregion
         private tsbCtrlSameTop: System.Windows.Forms.ToolStripButton = null;
 
 
-    }    }
+    }
 }
 

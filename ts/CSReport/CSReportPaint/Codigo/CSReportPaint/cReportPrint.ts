@@ -706,7 +706,7 @@ UNKNOWN >>             finally
         }
 
         private pHaveToPrintThisPage(page: number, v: number[]) {
-            for(var n = 0; n < v.Length; n++) {
+            for(var n = 0; n < v.length; n++) {
                 if (page === v[n]) {
                     return true;
                 }
@@ -726,31 +726,31 @@ UNKNOWN >>             finally
 
             G.redim(n, 0);
 
-            for(var i = 0; i < v.Length; i++) {
+            for(var i = 0; i < v.length; i++) {
                 let k: number = v[i].IndexOf("-", 1);
                 if (k > 0) {
                     v2 = v[i].Split('-');
                     addInterval = false;
-                    for (t = 0; t < v2.Length; t++) {
-                        if (G.isNumeric(v2[t])) {
+                    for (t = 0; t < v2.length; t++) {
+                        if (Utils.isNumber(v2[t])) {
                             if (addInterval) {
-                                for (r = n[n.Length - 1] + 1; r <= int.Parse(v2[t]) - 1; r++) {
-                                    G.redimPreserve(n, n.Length + 1);
-                                    n[n.Length - 1] = r;
+                                for (r = n[n.length - 1] + 1; r <= Utils.parseInt(v2[t]) - 1; r++) {
+                                    G.redimPreserve(n, n.length + 1);
+                                    n[n.length - 1] = r;
                                 }
                             }
                             else {
                                 addInterval = true;
                             }
-                            G.redimPreserve(n, n.Length + 1);
-                            n[n.Length - 1] = int.Parse(v2[t]);
+                            G.redimPreserve(n, n.length + 1);
+                            n[n.length - 1] = Utils.parseInt(v2[t]);
                         }
                     }
                 }
                 else {
-                    if (G.isNumeric(v[i])) {
-                        G.redimPreserve(n, n.Length + 1);
-                        n[n.Length - 1] = int.Parse(v[i]);
+                    if (Utils.isNumber(v[i])) {
+                        G.redimPreserve(n, n.length + 1);
+                        n[n.length - 1] = Utils.parseInt(v[i]);
                     }
                 }
             }
@@ -1046,7 +1046,7 @@ UNKNOWN >>             csRptEndPageResult rsltEndPage;
                         //
                         indexSection = field.getInfo().getSectionLine().getIndex();
 
-                        if (indexSection > offsetTop.Length -1) {
+                        if (indexSection > offsetTop.length -1) {
                             G.redimPreserve(offsetTop, indexSection + 1);
                         }
 
@@ -1679,5 +1679,5 @@ UNKNOWN >>             RectangleF tR;
 
 
 
-    }    }
+    } 
 }

@@ -230,5 +230,5 @@ UNKNOWN >>         #endregion
         private groupBox3: System.Windows.Forms.GroupBox = null;
 
 
-    }    }
+    }
 }

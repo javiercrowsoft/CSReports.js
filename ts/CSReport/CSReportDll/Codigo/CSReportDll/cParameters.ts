@@ -120,11 +120,11 @@ UNKNOWN >>             get
                 }
 
                 if (key === "") {
-                    key = cReportGlobals.getKey(cReportGlobals.getNextKey().toString());
+                    key = ReportGlobals.getKey(ReportGlobals.getNextKey().toString());
                 }
                 else {
-                    cReportGlobals.refreshNextKey(key);
-                    key = cReportGlobals.getKey(key);
+                    ReportGlobals.refreshNextKey(key);
+                    key = ReportGlobals.getKey(key);
                 }
 
                 c.setPosition(this.Count);
@@ -161,7 +161,7 @@ UNKNOWN >>             get
 
 
 
-    }    }
+    } 
 
 
 
