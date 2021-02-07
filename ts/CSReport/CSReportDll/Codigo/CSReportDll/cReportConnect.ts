@@ -111,7 +111,7 @@ namespace CSReportDll
                             case  csDataType.CSTDLONGVARCHAR:
                             case  csDataType.CSTDCHAR:
                          */
-                        s +=  cDataBase.sqlString(param.getValue()) + ",";
+                        s +=  Database.sqlString(param.getValue()) + ",";
                         break;
                     case csDataType.CSTDTINYINT:
                     case csDataType.CSTDUNSIGNEDTINYINT:
@@ -126,7 +126,7 @@ namespace CSReportDll
                     */
                     case csDataType.CSTDBOOLEAN:
                     case csDataType.CSTDBIGINT:
-                        s +=  cDataBase.sqlNumber(param.getValue()) + ",";
+                        s +=  Database.sqlNumber(param.getValue()) + ",";
                         break;
                     case csDataType.CSTDDBTIMESTAMP:
                         /*
@@ -134,7 +134,7 @@ namespace CSReportDll
                         case  csDataType.CSTDDBDATE:
                         case  csDataType.CSTDDATE:
                         */
-                        s +=  cDataBase.sqlDate(param.getValue()) + ",";
+                        s +=  Database.sqlDate(param.getValue()) + ",";
                         break;
                     default:
                         cWindow.msgWarning("This data type is not codified "

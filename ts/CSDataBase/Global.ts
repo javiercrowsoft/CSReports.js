@@ -2,7 +2,7 @@ namespace CSDataBase {
 
     import Exception = CSOAPI.Exception;
 
-    export class cDatabaseGlobals {
+    export class DatabaseGlobals {
 
         public silent: boolean = false;
 
@@ -61,11 +61,11 @@ namespace CSDataBase {
 
                 // TODO: remove me
                 default:
-                    cWindow.msgWarning("The data type [" + dataType + "] is not matched in CSDatabase.cDatabaseGlobals.getDataTypeFromString");
+                    cWindow.msgWarning("The data type [" + dataType + "] is not matched in CSDatabase.DatabaseGlobals.getDataTypeFromString");
                     return csDataType.CSTDVARCHAR;
             }
 
-            throw new Exception("The data type [" + dataType + "] is not matched in CSDatabase.cDatabaseGlobals.getDataTypeFromString");
+            throw new Exception("The data type [" + dataType + "] is not matched in CSDatabase.DatabaseGlobals.getDataTypeFromString");
         }
 
         public getDataTypeFromAdo(adoDBType: number) {

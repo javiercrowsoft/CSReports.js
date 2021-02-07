@@ -1,6 +1,6 @@
 namespace CSDataBase
 {
-    export class cJSONDataSource {
+    export class JSONDataSource {
 
         private readonly name: string = null;
         private readonly data: object = null;

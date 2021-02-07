@@ -43,7 +43,7 @@ namespace CSConnect {
                         p = parameters.add(p, "");
                         p.setName(row["parameter_name"].toString());
                         p.setPosition(row["ordinal_position"]);
-                        p.setColumnType(cDatabaseGlobals.getDataTypeFromString(row["data_type"].toString()));
+                        p.setColumnType(DatabaseGlobals.getDataTypeFromString(row["data_type"].toString()));
                     }
                 }
                 //

@@ -92,7 +92,7 @@ namespace CSReportDll
         }
 
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
-            this.columnType = cDatabaseGlobals.getDataTypeFromAdo(xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger));
+            this.columnType = DatabaseGlobals.getDataTypeFromAdo(xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger));
             this.value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
             this.position = xDoc.getNodeProperty(nodeObj, "Position").getValueInt(eTypes.eInteger);
             this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
@@ -126,7 +126,7 @@ namespace CSReportDll
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("TypeColumn");
-            xProperty.setValue(eTypes.eInteger, cDatabaseGlobals.getAdoTypeFromDataType(this.columnType));
+            xProperty.setValue(eTypes.eInteger, DatabaseGlobals.getAdoTypeFromDataType(this.columnType));
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Value");

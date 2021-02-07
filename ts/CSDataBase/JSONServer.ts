@@ -1,10 +1,10 @@
 namespace CSDataBase {
 
-    export class cJSONServer {
+    export class JSONServer {
 
-        private dataSources: cJSONDataSources = new cJSONDataSources();
+        private dataSources: JSONDataSources = new JSONDataSources();
 
-        public registerDataSource(dataSource: cJSONDataSource, name: string) {
+        public registerDataSource(dataSource: JSONDataSource, name: string) {
             this.dataSources.add(dataSource, name.toLowerCase());
         }
 
@@ -13,7 +13,7 @@ namespace CSDataBase {
         }
     }
 
-    export class cJSONServerConnection {
+    export class JSONServerConnection {
 
         private readonly connectionString: string;
 

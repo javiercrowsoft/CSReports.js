@@ -4103,7 +4103,7 @@ namespace CSReportDll {
             recordsets: List<object[]>) {
             let strConnect: string = "";
             let saveInReport: boolean = false;
-            let cn: CSDataBase.cDataBase = null;
+            let cn: CSDataBase.DataBase = null;
             let varRs: object[] = null;
             let rsAux: DataTable = null;
             let dr: DbDataReader = null;
@@ -4492,7 +4492,7 @@ namespace CSReportDll {
             return !cancel;
         }
 
-        private resumeDBAccessMissing(connectString: string, saveInReport: boolean, cn: CSDataBase.cDataBase) {
+        private resumeDBAccessMissing(connectString: string, saveInReport: boolean, cn: CSDataBase.DataBase) {
             try {
                 // if the database is not access we do nothing
                 //

@@ -1,11 +1,11 @@
 namespace CSDataBase {
 
-    export class cDataBase {
+    export class Database {
 
         private c_module: string = "cDataBase";
     }
 
-    export class csDataBaseEngineStringConnections {
+    export class csDatabaseEngineStringConnections {
 
         public CSREPORT_WEB: string = "CSREPORT_WEB";
     }

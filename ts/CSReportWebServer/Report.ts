@@ -131,8 +131,8 @@ UNKNOWN >> 			int pageIndex;
         private registerDataSource(request: JObject) {
             let dataSources: var = request["message"]["data"]["data"];
             for(var i_ = 0; i_ < dataSources.length; i_++) {
-                let ds: cJSONDataSource = new cJSONDataSource(dataSource["name"].toString(), dataSource["data"] as JObject);
-                cJSONServer.registerDataSource(ds, this.database + "." + ds.getName());
+                let ds: JSONDataSource = new JSONDataSource(dataSource["name"].toString(), dataSource["data"] as JObject);
+                JSONServer.registerDataSource(ds, this.database + "." + ds.getName());
             }
         }
 

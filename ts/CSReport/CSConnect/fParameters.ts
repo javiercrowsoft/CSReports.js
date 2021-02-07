@@ -50,13 +50,13 @@ namespace CSConnect
                 switch(input.Tag.toString())
                 {
                     case "T":
-                        value = cDataBase.sqlString(input.Text);
+                        value = Database.sqlString(input.Text);
                         break;
                     case "N":
-                        value = cDataBase.sqlNumber(input.Text);
+                        value = Database.sqlNumber(input.Text);
                         break;
                     case "F":
-                        value = cDataBase.sqlDate(input.Text);
+                        value = Database.sqlDate(input.Text);
                         break;
                 }                
                 parameters += value + ",";

@@ -48,7 +48,7 @@ namespace CSReportGlobals{
 
         public dateValue(value: any) {
             if (value === null) {
-                return CSDataBase.cConstants.C_NO_DATE;
+                return CSDataBase.Constants.C_NO_DATE;
             }
             else {
                 let utcDate = Date.parse(value.toString())
@@ -56,7 +56,7 @@ namespace CSReportGlobals{
                     return new Date(utcDate);
                 }
                 else {
-                    return CSDataBase.cConstants.C_NO_DATE;
+                    return CSDataBase.Constants.C_NO_DATE;
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace CSReportGlobals{
                 let isDate: boolean = false;
 
                 if (expression instanceof Date) {
-                    if (expression === CSDataBase.cConstants.C_NO_DATE) {
+                    if (expression === CSDataBase.Constants.C_NO_DATE) {
                         return "";
                     }
                     isDate = true;

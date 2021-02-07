@@ -2,6 +2,6 @@ namespace CSDataBase {
 
     import Map = CSOAPI.Map;
 
-    export class cJSONDataSources extends Map<cJSONDataSource> { }
+    export class JSONDataSources extends Map<JSONDataSource> { }
 
 }

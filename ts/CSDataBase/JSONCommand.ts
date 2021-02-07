@@ -2,20 +2,20 @@ namespace CSDataBase {
 
     import ArgumentException = CSOAPI.ArgumentException;
 
-    export class cJSONCommand {
+    export class JSONCommand {
 
         private readonly cmdText: string = "";
-        private connection: cJSONServerConnection = null;
+        private connection: JSONServerConnection = null;
 
-        public constructor(cmdText: string = "", connection: cJSONServerConnection = null) {
+        public constructor(cmdText: string = "", connection: JSONServerConnection = null) {
             this.cmdText = cmdText;
             this.connection = connection;
         }
 
         public executeReader(behavior: CommandBehavior) {
             let cmdName: string = this.getCommandName();
-            let data: cJSONDataSource = cJSONServer.getDataSource(this.connection.ConnectionString + "." + cmdName);
-            return new cJSONDataReader(data);
+            let data: JSONDataSource = JSONServer.getDataSource(this.connection.ConnectionString + "." + cmdName);
+            return new JSONDataReader(data);
         }
 
         public executeDbDataReader(behavior: CommandBehavior) {

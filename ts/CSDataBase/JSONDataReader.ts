@@ -4,9 +4,9 @@ namespace CSDataBase
     import ArgumentNullException = CSOAPI.ArgumentNullException;
     import InvalidOperationException = CSOAPI.InvalidOperationException;
 
-    export class cJSONDataReader {
+    export class JSONDataReader {
 
-        private dataSource: cJSONDataSource = null;
+        private dataSource: JSONDataSource = null;
         private cols = [];
         private readonly rows = [];
 
@@ -15,7 +15,7 @@ namespace CSDataBase
         private closed: boolean = false;
         private start: Date = new Date(1970, 1, 1, 0, 0, 0);
 
-        public constructor(dataSource: cJSONDataSource) {
+        public constructor(dataSource: JSONDataSource) {
             this.dataSource = dataSource;
             this.cols = this.dataSource.getData()["columns"];
             this.rows = this.dataSource.getData()["rows"];
@@ -34,7 +34,7 @@ namespace CSDataBase
         }
 
         public close() {
-            // TODO: we should release resources here (unregister the datasource in cJSONServer)
+            // TODO: we should release resources here (unregister the datasource in JSONServer)
             this.closed = true;
         }
 

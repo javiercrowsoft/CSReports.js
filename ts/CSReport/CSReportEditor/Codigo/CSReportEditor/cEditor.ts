@@ -2691,7 +2691,7 @@ UNKNOWN >>             int i;
                     field.setName(this.fieldName);
                     field.setFieldType(this.fieldType);
 
-                    if (cDatabaseGlobals.isNumberField(this.fieldType)) {
+                    if (DatabaseGlobals.isNumberField(this.fieldType)) {
                         aspect = ctrl.getLabel().getAspect();
                         aspect.setAlign(CSReportGlobals.HorizontalAlignment.Right);
                         aspect.setFormat("#0.00;-#0.00");
@@ -4171,7 +4171,7 @@ UNKNOWN >>             finally {
 
             for(var _i = 0; _i < this.report.getControls().count(); _i++) {
                 let ctrl: cReportControl = this.report.getControls().item(_i);
-                if (cDatabaseGlobals.isNumberField(ctrl.getField().getFieldType())) {
+                if (DatabaseGlobals.isNumberField(ctrl.getField().getFieldType())) {
                     f.addLbFormula(ctrl.getField().getName());
 
                     // TODO: refactor this to a better way to suggest the
