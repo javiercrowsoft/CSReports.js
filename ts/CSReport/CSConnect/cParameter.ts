@@ -1,15 +1,9 @@
+namespace CSConnect {
 
-
-namespace CSConnect
-{
     export class cParameter {
 
-
-    {
-        private C_MODULE: string = "cParameter";
-
         private name: string = "";
-        private columnType: CSDataBase.csDataType = null;
+        private columnType: CSDatabase.csDataType = null;
         private value: string = "";
         private position: number = 0;
         private key: string = "";
@@ -38,7 +32,7 @@ namespace CSConnect
             return this.columnType;
         }
 
-        public setColumnType(rhs: CSDataBase.csDataType) {
+        public setColumnType(rhs: CSDatabase.csDataType) {
             this.columnType = rhs;
         }
 
@@ -89,7 +83,5 @@ namespace CSConnect
         public setMaxLength(rhs: number) {
             this.maxLength = rhs;
         }
-
-
-    } 
+    }
 }

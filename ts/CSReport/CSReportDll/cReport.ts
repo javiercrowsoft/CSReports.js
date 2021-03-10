@@ -214,7 +214,7 @@ namespace CSReportDll {
 
         private isForWeb: boolean = null;
 
-        private databaseEngine: csDatabaseEngine = csDatabaseEngine.SQL_SERVER;
+        private databaseEngine: CSDatabaseEngine = CSDatabaseEngine.SQL_SERVER;
 
         private exportEmailAddress: string = "";
 
@@ -275,7 +275,7 @@ namespace CSReportDll {
             this.isForWeb = rhs;
         }
 
-        public setDatabaseEngine(databaseEngine: csDatabaseEngine) {
+        public setDatabaseEngine(databaseEngine: CSDatabaseEngine) {
             this.databaseEngine = databaseEngine;
         }
 
@@ -4103,7 +4103,7 @@ namespace CSReportDll {
             recordsets: List<object[]>) {
             let strConnect: string = "";
             let saveInReport: boolean = false;
-            let cn: CSDataBase.DataBase = null;
+            let cn: CSDatabase.DataBase = null;
             let varRs: object[] = null;
             let rsAux: DataTable = null;
             let dr: DbDataReader = null;
@@ -4492,7 +4492,7 @@ namespace CSReportDll {
             return !cancel;
         }
 
-        private resumeDBAccessMissing(connectString: string, saveInReport: boolean, cn: CSDataBase.DataBase) {
+        private resumeDBAccessMissing(connectString: string, saveInReport: boolean, cn: CSDatabase.DataBase) {
             try {
                 // if the database is not access we do nothing
                 //

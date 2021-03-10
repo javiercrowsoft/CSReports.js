@@ -1,4 +1,4 @@
-namespace CSDataBase {
+namespace CSDatabase {
 
     export class Constants {
 

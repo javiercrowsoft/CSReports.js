@@ -1,4 +1,4 @@
-namespace CSDataBase {
+namespace CSDatabase {
 
     import Map = CSOAPI.Map;
 

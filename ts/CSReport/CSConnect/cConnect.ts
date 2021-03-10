@@ -1,5 +1,10 @@
 namespace CSConnect {
 
+    import NotImplementedException = CSOAPI.NotImplementedException;
+    import Database = CSDatabase.Database;
+    import CSDatabaseEngine = CSDatabase.CSDatabaseEngine;
+    import csDataSourceType = CSReportGlobals.csDataSourceType;
+
     export class cConnect {
 
         private parameters: cParameters = new cParameters();
@@ -18,13 +23,13 @@ namespace CSConnect {
         }
 
         public fillParameters(dataSource: string) {
-            let db: cDataBase = new cDataBase(csDatabaseEngine.SQL_SERVER);
+            let db: Database = new Database(CSDatabaseEngine.SQL_SERVER);
             if (db.initDb(this.strConnect)) {
                 let restrictions: string[] = new string[4];
                 restrictions[2] = dataSource;
                 let dt: DataTable = db.openSchema("ProcedureParameters", restrictions);
 
-                if (this.parameters === null) this.parameters = new cParameters(); {
+                if (this.parameters === null) this.parameters = new cParameters();
 
                 let parameters: cParameters = new cParameters();
 
@@ -39,7 +44,7 @@ namespace CSConnect {
                                 break;
                             }
                         }
-                        if (!found) p = null; {
+                        if (!found) p = null;
                         p = parameters.add(p, "");
                         p.setName(row["parameter_name"].toString());
                         p.setPosition(row["ordinal_position"]);
@@ -86,7 +91,7 @@ namespace CSConnect {
 
                 let f: fParameters = new fParameters();
                 f.setParameters(this.parameters);
-                f.ShowDialog();
+                f.showDialog();
                 if (f.getOk()) {
                     sqlstmt = "[" + this.dataSource + "] " + f.getSqlParameters();
                 }
@@ -102,9 +107,8 @@ namespace CSConnect {
 		}
 
         private fillColumns(sqlstmt: string) {
-            let db: var = new cDataBase(csDatabaseEngine.SQL_SERVER);
+            let db = new Database(CSDatabaseEngine.SQL_SERVER);
             if (db.initDb(this.strConnect)) {
-UNKNOWN >>                 DbDataReader rs;
                 if (db.openRs(sqlstmt, rs, "fillColumns", "cConnect", "Update columns's definition", CSKernelClient.eErrorLevel.eErrorInformation)) {
                     for(var i = 0; i < rs.FieldCount; i++) {
                         let column: var = new cColumnInfo();
@@ -134,7 +138,7 @@ UNKNOWN >>                 DbDataReader rs;
 		}
 
 		public showOpenConnection() {
-			throw new NotImplementedException ();
+			throw new NotImplementedException();
 		}
 
 		public getDataSource() {
@@ -144,7 +148,5 @@ UNKNOWN >>                 DbDataReader rs;
 		public getDataSourceType() {
             return this.dataSourceType;
 		}
-
-
-    }    }
+    }
 }

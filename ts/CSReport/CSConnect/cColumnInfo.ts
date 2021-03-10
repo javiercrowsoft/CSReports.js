@@ -3,7 +3,7 @@ namespace CSConnect {
     export class cColumnInfo {
 
         private name: string = "";
-        private columnType: CSDataBase.csDataType = null;
+        private columnType: CSDatabase.csDataType = null;
 
         private position: number = 0;
         private key: string = "";
@@ -28,7 +28,7 @@ namespace CSConnect {
             return this.columnType;
         }
 
-        public setColumnType(rhs: CSDataBase.csDataType) {
+        public setColumnType(rhs: CSDatabase.csDataType) {
             this.columnType = rhs;
         }
 

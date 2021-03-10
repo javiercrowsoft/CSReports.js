@@ -2,7 +2,7 @@ namespace CSOAPI {
 
     import KeyAlreadyExistsInCollection = CSOAPI.KeyAlreadyExistsInCollection;
 
-    export class Map<V> {
+    export class Map<T> {
 
         private keys: string[] = [];
         private values: T[] = [];

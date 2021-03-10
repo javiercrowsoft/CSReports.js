@@ -1,4 +1,4 @@
-namespace CSDataBase
+namespace CSDatabase
 {
     import ArgumentException = CSOAPI.ArgumentException;
     import ArgumentNullException = CSOAPI.ArgumentNullException;

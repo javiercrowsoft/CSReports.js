@@ -1,81 +1,50 @@
+namespace CSReportDll {
 
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using CSKernelClient;
+    import csDataType = CSDatabase.csDataType;
+    import eTypes = CSKernelClient.eTypes;
 
-namespace CSReportDll
-{
+    export class cColumnInfo {
 
-    public class cColumnInfo
-    {
+        private name = "";
+        private columnType: csDataType;
 
-        private const String C_MODULE = "cColumnInfo";
+        private position = 0;
+        private key = "";
 
-        private String this.name = "";
-        private CSDataBase.csDataType this.columnType;
-
-        // TODO: remove me
-        //private String this.value = "";
-        private int this.position = 0;
-        private String this.key = "";
-
-        public String getKey()
-        {
+        public getKey() {
             return this.key;
         }
 
-        public void setKey(String rhs)
-        {
-            this.key = rhs;
+        public setKey(key: string) {
+            this.key = key;
         }
 
-        public String getName()
-        {
+        public getName() {
             return this.name;
         }
 
-        public void setName(String rhs)
-        {
-            this.name = rhs;
+        public setName(name: string) {
+            this.name = name;
         }
 
-        public CSDataBase.csDataType getColumnType()
-        {
+        public getColumnType() {
             return this.columnType;
         }
 
-        public void setColumnType(CSDataBase.csDataType rhs)
-        {
-            this.columnType = rhs;
+        public setColumnType(type: csDataType) {
+            this.columnType = type;
         }
 
-        // TODO: remove me
-        /*
-        public String getValue()
-        {
-            return this.value;
-        }
-
-        public void setValue(String rhs)
-        {
-            this.value = rhs;
-        }
-        */
         public getPosition() {
             return this.position;
         }
 
-        public setPosition(rhs: number) {
-            this.position = rhs;
+        public setPosition(position: number) {
+            this.position = position;
         }
 
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             this.columnType = xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger);
-            // TODO: remove me
-            //this.value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
             this.position = xDoc.getNodeProperty(nodeObj, "Position").getValueInt(eTypes.eInteger);
             this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
             this.key = xDoc.getNodeProperty(nodeObj, "Key").getValueString(eTypes.eText);

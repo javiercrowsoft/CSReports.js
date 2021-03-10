@@ -1,4 +1,4 @@
-namespace CSReportGlobals{
+namespace CSReportGlobals {
 
     import Utils = CSOAPI.Utils;
 
@@ -48,7 +48,7 @@ namespace CSReportGlobals{
 
         public dateValue(value: any) {
             if (value === null) {
-                return CSDataBase.Constants.C_NO_DATE;
+                return CSDatabase.Constants.C_NO_DATE;
             }
             else {
                 let utcDate = Date.parse(value.toString())
@@ -56,7 +56,7 @@ namespace CSReportGlobals{
                     return new Date(utcDate);
                 }
                 else {
-                    return CSDataBase.Constants.C_NO_DATE;
+                    return CSDatabase.Constants.C_NO_DATE;
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace CSReportGlobals{
                 let isDate: boolean = false;
 
                 if (expression instanceof Date) {
-                    if (expression === CSDataBase.Constants.C_NO_DATE) {
+                    if (expression === CSDatabase.Constants.C_NO_DATE) {
                         return "";
                     }
                     isDate = true;

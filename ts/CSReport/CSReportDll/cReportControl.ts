@@ -195,7 +195,7 @@ namespace CSReportDll
 
                 // TODO: remove me after all reports were migrated
                 //
-                if (this.label.getAspect().getFormat() === "" && this.field.getFieldType() === CSDataBase.csAdoDataType.adDBTimeStamp) {
+                if (this.label.getAspect().getFormat() === "" && this.field.getFieldType() === CSDatabase.csAdoDataType.adDBTimeStamp) {
                     this.label.getAspect().setFormat("dd/MM/yyyy");
                 }
 

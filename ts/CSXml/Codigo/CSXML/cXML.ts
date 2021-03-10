@@ -1,14 +1,6 @@
-
-
-namespace CSXml
-{
+namespace CSXml {
 
     export class cXml {
-
-
-    {
-
-        private C_MODULE: string = "cXml";
 
         private name: string = "";
         private path: string = "";
@@ -330,12 +322,5 @@ namespace CSXml
                 return false;
             }
         }
-
-        public Dispose() {
-            this.domDoc = null;
-            this.commDialog = null;
-        }
-
-
     }
 }

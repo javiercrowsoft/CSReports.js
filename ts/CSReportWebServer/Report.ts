@@ -41,7 +41,7 @@ UNKNOWN >>             get
 
 			this.log.Info("in Report.init 02");
 
-            this.report.setDatabaseEngine(csDatabaseEngine.CSREPORT_WEB);
+            this.report.setDatabaseEngine(CSDatabaseEngine.CSREPORT_WEB);
 
             this.report.Progress += reportProgress;
             this.report.ReportDone += reportDone;
