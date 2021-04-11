@@ -1,47 +1,32 @@
+namespace CSXml {
 
-
-namespace CSXml
-{
-
+    import eTypes = CSKernelClient.eTypes;
 
     export class cXmlProperty {
-
-
-    {
-        private c_module: string = "cXmlProperty";
 
         private name: string = "";
         private value: string = "";
         private parent: string = "";
         private binaryValue: object = null;
 
-UNKNOWN >>         public object binaryValue
-        {
-UNKNOWN >>             get { return this.binaryValue; }
-UNKNOWN >>             set
-            {
-                if (value === null) {
-                    this.binaryValue = null;
-                }
-                else {
-                    let t: Type = value.GetType();
-                    if (t.IsArray) {
-                        let valueArray: byte[] = value;
-                        let newArray: byte[] = new byte[valueArray.length];
-                        Array.Copy(valueArray, newArray, valueArray.length);
-                        this.binaryValue = newArray;
-                    }
-                    else {
-                        this.binaryValue = null;
-                    }
-                }
-            }
+        public getBinaryValue() {
+            return this.binaryValue;
         }
 
-UNKNOWN >>         public string name
-        {
-UNKNOWN >>             get { return this.name; }
-UNKNOWN >>             set { this.name = value; }
+        public setBinaryValue(value) {
+            if (value === null) {
+                this.binaryValue = null;
+            }
+            else {
+                if (Array.isArray(value)) {
+                    let valueArray: Uint8Array[] = value;
+                    let newArray = [...valueArray];
+                    this.binaryValue = newArray;
+                }
+                else {
+                    this.binaryValue = null;
+                }
+            }
         }
 
         public getName() {
@@ -53,15 +38,15 @@ UNKNOWN >>             set { this.name = value; }
         }
 
         public getValueInt(type: eTypes) {
-            return Convert.ToInt32(getValue(type));
+            return Convert.ToInt32(this.getValue(type));
         }
 
         public getValueString(type: eTypes) {
-            return getValue(type);
+            return this.getValue(type);
         }
 
         public getValueBool(type: eTypes) {
-            return (getValue(type) !== 0);
+            return (this.getValue(type) !== 0);
         }
 
         public getValue(type: eTypes) {
@@ -94,8 +79,7 @@ UNKNOWN >>             set { this.name = value; }
                 case eTypes.eId:
                 case eTypes.eSingle:
                 case eTypes.eCurrency:
-                    double dummy; {
-                    if (double.TryParse(this.value, dummy)) {
+                    if (! Number.isNaN(this.value) && Number.isSafeInteger(this.value)) {
                         return this.value;
                     }
                     else {
@@ -122,7 +106,7 @@ UNKNOWN >>             set { this.name = value; }
             }
         }
 
-        public setValue(value: object) {
+        public setValue2(value: object) {
             let t: Type = value.GetType();
             if (typeof(bool) === t) {
                 this.value = value ? "-1" : "0";
@@ -132,24 +116,12 @@ UNKNOWN >>             set { this.name = value; }
             }
         }
 
-        public getBinaryValue() {
-            return this.binaryValue; 
+        public getParent() {
+            return this.parent;
         }
 
-        public setBinaryValue(value: byte[]) {
-            binaryValue = value;
+        public setParent(parent) {
+            this.parent = parent;
         }
-
-UNKNOWN >>         public string parent
-        {
-UNKNOWN >>             get { return this.parent; }
-UNKNOWN >>             set { this.parent = value; }
-        }
-
-
-
-    } 
-
-
-
+    }
 }

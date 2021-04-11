@@ -16,8 +16,8 @@ namespace CSReportDll
 
         private name: string = "";
 
-        private oderType: csRptGrpOrderType = null;
-        private comparisonType: csRptGrpComparisonType = null;
+        private oderType: RptGrpOrderType = null;
+        private comparisonType: RptGrpComparisonType = null;
 
         // to print in a new page when the group change
         //
@@ -58,7 +58,7 @@ namespace CSReportDll
             return this.oderType;
         }
 
-        public setOderType(rhs: csRptGrpOrderType) {
+        public setOderType(rhs: RptGrpOrderType) {
             this.oderType = rhs;
         }
 
@@ -66,7 +66,7 @@ namespace CSReportDll
             return this.comparisonType;
         }
 
-        public setComparisonType(rhs: csRptGrpComparisonType) {
+        public setComparisonType(rhs: RptGrpComparisonType) {
             this.comparisonType = rhs;
         }
 

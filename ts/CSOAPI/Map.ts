@@ -29,6 +29,10 @@ namespace CSOAPI {
 
         // add if key not present
         public add(value: T, key: string): T {
+            return this.baseAdd(value, key);
+        }
+
+        public baseAdd(value: T, key: string): T {
             if(this.keys.indexOf(key) > -1) {
                 throw new KeyAlreadyExistsInCollection("The key " + key + " is already present in this Map.");
             }
@@ -50,11 +54,15 @@ namespace CSOAPI {
             return value;
         }
 
-        public remove(indexOrKey: string|number): void {
+        public baseRemove(indexOrKey: string|number): void {
             if(typeof indexOrKey === "string")
                 this.removeByKey(indexOrKey);
             else
                 this.removeByIndex(indexOrKey);
+        }
+
+        public remove(indexOrKey: string|number): void {
+            this.baseRemove(indexOrKey);
         }
 
         private removeByKey(key: string): void {

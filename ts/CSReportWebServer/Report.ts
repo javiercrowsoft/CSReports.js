@@ -41,7 +41,7 @@ UNKNOWN >>             get
 
 			this.log.Info("in Report.init 02");
 
-            this.report.setDatabaseEngine(CSDatabaseEngine.CSREPORT_WEB);
+            this.report.setDatabaseEngine(DatabaseEngine.CSREPORT_WEB);
 
             this.report.Progress += reportProgress;
             this.report.ReportDone += reportDone;
@@ -129,8 +129,8 @@ UNKNOWN >> 			int pageIndex;
         }
 
         private registerDataSource(request: JObject) {
-            let dataSources: var = request["message"]["data"]["data"];
-            for(var i_ = 0; i_ < dataSources.length; i_++) {
+            let dataSources = request["message"]["data"]["data"];
+            for(let i_ = 0; i_ < dataSources.length; i_++) {
                 let ds: JSONDataSource = new JSONDataSource(dataSource["name"].toString(), dataSource["data"] as JObject);
                 JSONServer.registerDataSource(ds, this.database + "." + ds.getName());
             }
@@ -202,7 +202,7 @@ UNKNOWN >> 			int pageIndex;
 
 				this.log.Info("in Report.launchReport 03");
 
-                let li: var = this.report.getLaunchInfo();
+                let li = this.report.getLaunchInfo();
 
 				this.log.Info("in Report.launchReport 04");
 

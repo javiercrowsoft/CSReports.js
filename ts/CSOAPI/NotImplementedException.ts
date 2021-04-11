@@ -1,6 +1,4 @@
 namespace CSOAPI {
 
-    export class NotImplementedException {
-
-    }
+    export class NotImplementedException { }
 }

@@ -1,12 +1,11 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
+    import Map = CSOAPI.Map;
+    import cReportCompilerGlobals = CSReportScript.cReportCompilerGlobals;
+    import csRptErrors = CSReportGlobals.csRptErrors;
+    import cError = CSKernelClient.cError;
 
     export class cReportCompiler {
-
-
-    {
 
         // all the functions (c# code or internal functions) use colons as
         // a separator for parameters. The Spanish and other configurations 
@@ -74,7 +73,7 @@ namespace CSReportDll
 
         private objGlobals: cReportCompilerGlobals = new cReportCompilerGlobals();
 
-        private collTextReplace: Dictionary = new Dictionary();
+        private collTextReplace = new Map<string>();
         private ctrlName: string = "";
 
         private bCompile: boolean = null;
@@ -94,7 +93,7 @@ namespace CSReportDll
 
         public initGlobalObject() {
             this.objGlobals.clear();
-            this.collTextReplace.Clear();
+            this.collTextReplace.clear();
         }
 
         // it compiles the code of every formula
@@ -191,31 +190,30 @@ namespace CSReportDll
                 {
                     case csRptFormulaType.CSRPTF_GROUP_TOTAL:
                         evalGroupTotal(fint);
-
                         break;
+
                     case csRptFormulaType.CSRPTF_GROUP_MAX:
                         evalGroupMax(fint);
-
                         break;
+
                     case csRptFormulaType.CSRPTF_GROUP_MIN:
                         evalGroupMin(fint);
-
                         break;
+
                     case csRptFormulaType.CSRPTF_GROUP_AVERAGE:
                         evalGroupAverage(fint);
-
                         break;
+
                     case csRptFormulaType.CSRPTF_GROUP_PERCENT:
                         evalGroupPercent(fint);
-
                         break;
+
                     case csRptFormulaType.CSRPTF_GROUP_COUNT:
                         evalGroupCount(fint);
-
                         break;
+
                     case csRptFormulaType.CSRPTF_GROUP_LINE_NUMBER:
                         evalGroupLineNumber(fint);
-
                         break;
                 }
             }
@@ -240,8 +238,8 @@ namespace CSReportDll
             // we check if the code has scripting or is only 
             // calls to internal functions
             //
-            code = formula.getTextC().Replace(C_KEYFUNCINT, "");
-            code = code.Replace(" ", "");
+            code = formula.getTextC().replace(C_KEYFUNCINT, "");
+            code = code.replace(" ", "");
 
             // if after removing calls to internal functions and spaces
             // there is only a number we don't have scripting
@@ -260,9 +258,9 @@ namespace CSReportDll
             }
             else {
                 code = formula.getTextC();
-                let parameters: var = "";
+                let parameters = "";
 
-                for(var i = 0; i < vResult.length; i++) {
+                for(let i = 0; i < vResult.length; i++) {
                     // if one argument is null it means we don't have a row for this formula
                     // so we don't need to compile the code
                     //
@@ -271,15 +269,15 @@ namespace CSReportDll
                     }
 
                     /* TODO: remove me
-                    code = code.Replace(C_KEYFUNCINT + ReportGlobals.format(i + 1, "000"),
+                    code = code.replace(C_KEYFUNCINT + ReportGlobals.format(i + 1, "000"),
                                             getNumericVal(vResult[i].toString()));
                      * */
 
-                    let parameter: var = "p__" + i + "__";
+                    let parameter = "p__" + i + "__";
                     parameters += parameter + ",";
-                    code = code.Replace(C_KEYFUNCINT + ReportGlobals.format(i + 1, "000"), parameter);
+                    code = code.replace(this.C_KEYFUNCINT + ReportGlobals.format(i + 1, "000"), parameter);
 
-                    let paramValue: var = this.objGlobals.getVar(parameter);
+                    let paramValue = this.objGlobals.getVar(parameter);
                     if (paramValue === null) {
                         paramValue = this.objGlobals.addVar(parameter);
                     }
@@ -353,7 +351,7 @@ namespace CSReportDll
                     pEvalSyntax("", codeC, false, formula);
                 }
                 else {
-                    if (cUtil.substring(codeC.Trim(), 0, 8).toLowerCase() === "function") {
+                    if (cUtil.substring(codeC.trim(), 0, 8).toLowerCase() === "function") {
                         pEvalSyntax("", codeC, false, formula);
                     }
                 }
@@ -374,11 +372,11 @@ namespace CSReportDll
         }
 
         private pColonToPipe(code: string) {
-            return code.Replace(",", "|");
+            return code.replace(",", "|");
         }
 
         private pPipeToColon(code: string) {
-            return code.Replace("|", ",");
+            return code.replace("|", ",");
         }
 
         private pIsFunction(word: string) {
@@ -634,11 +632,11 @@ namespace CSReportDll
                 let vParams: string[] = null;
                 let parameters: string = "";
 
-                parameters = code.Trim();
+                parameters = code.trim();
                 if (parameters.length > 2) {
                     parameters = parameters.substring(2, parameters.length - 2);
-                    parameters = parameters.Trim();
-                    vParams = parameters.Split('|');
+                    parameters = parameters.trim();
+                    vParams = parameters.split('|');
                 }
 
                 try {
@@ -677,12 +675,12 @@ namespace CSReportDll
         private pIsTime(code: string) {
             let vTime: string[] = null;
 
-            code = code.Trim();
+            code = code.trim();
             if (code.IndexOf(":", 0) === 0)  {
                 return false; 
             }
 
-            vTime = code.Split(':');
+            vTime = code.split(':');
             if (vTime.length !== 1)  {
                 return false; 
             }
@@ -756,7 +754,7 @@ namespace CSReportDll
             let param: string = "";
             let vParam: string[] = null;
 
-            vParam = parameters.Split('|');
+            vParam = parameters.split('|');
 
             if (paramIndex > vParam.length + 1) {
                 throw new ReportArgumentMissingException(
@@ -770,7 +768,7 @@ namespace CSReportDll
                 param = vParam[paramIndex];
             }
 
-            return param.Replace(")", "").Trim();
+            return param.replace(")", "").trim();
         }
 
         private pCheckInternalFunction(functionName: string, code: string) {
@@ -783,7 +781,7 @@ namespace CSReportDll
             let tc: string = "";
 
             name = functionName;
-            parameters = code.Trim();
+            parameters = code.trim();
             if (parameters.length > 2) {
                 parameters = parameters.substring(1, parameters.length - 2);
             }
@@ -987,10 +985,10 @@ namespace CSReportDll
             }
             else {
                 if (pIsControl(param)) {
-                    return "\"" + this.report.getValueString(param).Replace("\"", "\"\"") + "\"";
+                    return "\"" + this.report.getValueString(param).replace("\"", "\"\"") + "\"";
                 }
                 else {
-                    return "\"" + param.Replace("\"", "\"\"") + "\"";
+                    return "\"" + param.replace("\"", "\"\"") + "\"";
                 }
             }
         }
@@ -1238,7 +1236,7 @@ namespace CSReportDll
             for (i = 0; i < collCtrlsToReplace.Count; i++) {
                 ctrlValue = pGetControl(collCtrlsToReplace[i]);
                 if (ctrlValue !== null) {
-                    text = text.Replace(C_MACRO_CTRL + collCtrlsToReplace[i] + C_MACRO_CTRL,
+                    text = text.replace(C_MACRO_CTRL + collCtrlsToReplace[i] + C_MACRO_CTRL,
                                         this.report.getValue(ctrlValue.getName(), false).toString());
                 }
             }
@@ -1355,7 +1353,7 @@ namespace CSReportDll
             if (Utils.isNumber(strNumber)) {
                 sepDecimal = cUtil.getSepDecimal();
                 if (sepDecimal !== ".") {
-                    strNumber = strNumber.Replace(".", sepDecimal);
+                    strNumber = strNumber.replace(".", sepDecimal);
                 }
                 rtn = Utils.val(strNumber);
 
@@ -1581,11 +1579,11 @@ namespace CSReportDll
             // the IsGreaterThan function is for numbers
             //
             let value: object = this.report.getValue(fint.getParameters().item(0).getValue(), true);
-            private constValue: object = fint.getParameters().item(1).getValue();
+            let constValue: object = fint.getParameters().item(1).getValue();
 
             if (value.GetType() === typeof(String)) {
                 let strValue: string = value.toString();
-                private strConstValue: string = constValue.toString();
+                let strConstValue: string = constValue.toString();
 
                 if (String.Compare(strValue.toString(),
                                     strConstValue.toString(),
@@ -1615,11 +1613,11 @@ namespace CSReportDll
             // the IsLessThan function is for numbers
             //
             let value: object = this.report.getValue(fint.getParameters().item(0).getValue(), true);
-            private constValue: object = fint.getParameters().item(1).getValue();
+            let constValue: object = fint.getParameters().item(1).getValue();
 
             if (value.GetType() === typeof(String)) {
                 let strValue: string = value.toString();
-                private strConstValue: string = constValue.toString();
+                let strConstValue: string = constValue.toString();
 
                 if (String.Compare(strValue.toString(),
                                     strConstValue.toString(),
@@ -1858,11 +1856,11 @@ namespace CSReportDll
 
             let item: cReportVariable = fint.getVariables().item(C_GET_BARCODE);
 
-            let barcodeGen: var = new CSReportBarcode.cReportBarcode();
-            let value: var = fint.getParameters().item(0).getValue();
-            let barcode: var = barcodeGen.encodeTo128(value);
+            let barcodeGen = new CSReportBarcode.cReportBarcode();
+            let value = fint.getParameters().item(0).getValue();
+            let barcode = barcodeGen.encodeTo128(value);
 
-            if (barcode.contains("Ã‚")) barcode = barcodeGen.code128a(value); {
+            if (barcode.contains("Ã‚")) barcode = barcodeGen.code128a(value);
 
             item.setValue(barcode);
         }
@@ -1870,14 +1868,13 @@ namespace CSReportDll
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         //
         private pCheckParameters(cantParams: number, parameters: string, name: string) {
-            for(var i = 0; i < cantParams; i++) {
+            for(let i = 0; i < cantParams; i++) {
                 // It must receive the control name
                 //
                 let param: string = pGetParameter(parameters, i, name);
 
                 if (param.length === 0) {
                     throw new ReportArgumentMissingException(
-                        C_MODULE,
                         cReportError.errGetDescript(
                                         csRptErrors.CSRPTERRMISSINGPARAM,
                                         i.toString(),
@@ -1907,7 +1904,7 @@ namespace CSReportDll
 
         private removeReturns(code: string) {
             let c: string = "";
-            for(var i = 0; i < code.length; i++) {
+            for(let i = 0; i < code.length; i++) {
                 c = code.substring(i, 1);
                 if (c !== " " && c !== "\r" && c !== "\n") {
                     code = code.substring(i);
@@ -1996,7 +1993,7 @@ namespace CSReportDll
             do {
                 word += c;
                 nStart += 1;
-                if (pIsSeparator(c)) break; {
+                if (pIsSeparator(c)) break;
                 c = cUtil.substring(code, nStart, 1);
             } while (!pIsSeparator(c) && nStart < nLenCode);
 
@@ -2037,72 +2034,55 @@ namespace CSReportDll
                     nInner = nInner - 1;
                 }
             }
-            else if (c === "(")
-            {
+            else if (c === "(") {
                 nInner = nInner + 1;
             }
             return _rtn;
         }
 
-        private String pExecFunction(String functionName, String parameters)
-        {
-            if (this.bCompile)
-            {
+        private pExecFunction(functionName: string, parameters: string): string {
+            if (this.bCompile) {
                 return pAddFormulaInt(functionName, parameters).toString();
             }
-            else
-            {
+            else {
                 cReportFormulaInt fint = null;
                 this.idxFormula = this.idxFormula + 1;
                 fint = this.formula.getFormulasInt().item(this.idxFormula);
                 pSetParams(fint, parameters);
                 pEvalFunctionInt(fint);
                 object value = pResultFunctionInt(fint);
-                if (value !== null)
-                {
+                if (value !== null) {
                     return getNumericVal(value.toString());
                 }
-                else
-                {
+                else {
                     return "";
                 }
             }
         }
 
-        private void pSetParams(cReportFormulaInt fint, String parameters)
-        {
-            String[] vParams = null;
-            int i = 0;
+        private pSetParams(fint: cReportFormulaInt, parameters: string) {
+            let vParams: string[] = null;
+            let i = 0;
 
-            parameters = parameters.Trim();
-            if (parameters.length > 2)
-            {
+            parameters = parameters.trim();
+            if (parameters.length > 2) {
                 parameters = parameters.substring(1, parameters.length - 2);
-                parameters = parameters.Trim();
-                vParams = parameters.Split('|');
+                parameters = parameters.trim();
+                vParams = parameters.split('|');
 
-                for (i = 0; i < vParams.length; i++)
-                {
-                    fint.getParameters().item(i).setValue(vParams[i].Trim());
+                for (i = 0; i < vParams.length; i++) {
+                    fint.getParameters().item(i).setValue(vParams[i].trim());
                 }
             }
         }
 
-        private String getNumericVal(String value)
-        {
-            int decimalDigit = 0;
-            decimalDigit = value.IndexOf(",", 0);
-            if (decimalDigit > 0)
-            {
-                value = value.Replace(",", ".");
+        private getNumericVal(value: string): string {
+            let decimalDigit: number = 0;
+            decimalDigit = value.indexOf(",", 0);
+            if (decimalDigit > 0) {
+                value = value.replace(",", ".");
             }
             return value;
         }
-
-
-
-    } 
-
-
-
+    }
 }

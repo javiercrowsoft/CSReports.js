@@ -100,7 +100,7 @@ namespace CSReportDll
         public clear() {
             try {
                 let n: number = this.count();
-                for(var i = 0; i < n; i++) {
+                for(let i = 0; i < n; i++) {
                     remove(0);
                 }
                 return;
@@ -115,9 +115,9 @@ namespace CSReportDll
                 this.coll.Remove(key);
                 this.keys.Remove(key);
 
-                for(var i = 0; i < this.count(); i++) {
+                for(let i = 0; i < this.count(); i++) {
                     this.coll[this.keys[i]].setIndex(i);
-                    this.coll[this.keys[i]].setName(this.coll[this.keys[i]].getName().substring(0, 2).Replace("_", "")
+                    this.coll[this.keys[i]].setName(this.coll[this.keys[i]].getName().substring(0, 2).replace("_", "")
                                                 + "_" + i.toString());
                 }
                 pRefreshIndex();
@@ -133,10 +133,10 @@ namespace CSReportDll
                 this.coll.Remove(this.keys[index]);
                 this.keys.RemoveAt(index);
 
-                for(var i = 0; i < this.count(); i++) {
+                for(let i = 0; i < this.count(); i++) {
                     let sec: cReportSection = this.coll[this.keys[i]];
                     sec.setIndex(i);
-                    sec.setName(sec.getName().substring(0, 2).Replace("_", "")
+                    sec.setName(sec.getName().substring(0, 2).replace("_", "")
                                 + "_" + i.toString());
                 }
                 pRefreshIndex();
@@ -174,7 +174,7 @@ namespace CSReportDll
         }
 
         private pRefreshIndex() {
-            for(var i = 0; i < this.count(); i++) {
+            for(let i = 0; i < this.count(); i++) {
                 item(i).setRealIndex(i);
             }
         }

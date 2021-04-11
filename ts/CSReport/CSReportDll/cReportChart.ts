@@ -1,12 +1,6 @@
-
-
-namespace CSReportDll
-{
+namespace CSReportDll {
 
     export class cReportChart {
-
-
-    {
 
         private C_MODULE: string = "cReportChart";
 
@@ -27,30 +21,6 @@ namespace CSReportDll
         private groupFieldIndex: number = 0;
         private sort: boolean = null;
         private image: Image = null;
-
-        public getLastErrorDescription() {
-            return cError.getLastErrorDescription();
-        }
-
-        public getLastErrorInfoAdd() {
-            return cError.getLastErrorInfoAdd();
-        }
-
-        public getLastErrorModule() {
-            return cError.getLastErrorModule();
-        }
-
-        public getLastErrorNumber() {
-            return cError.getLastErrorNumber();
-        }
-
-        public getLastErrorLine() {
-            return cError.getLastErrorLine();
-        }
-
-        public getLastErrorFunction() {
-            return cError.getLastErrorFunction();
-        }
 
         public getSeries() {
             return this.series;

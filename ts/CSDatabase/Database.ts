@@ -5,12 +5,12 @@ namespace CSDatabase {
         private c_module: string = "cDataBase";
     }
 
-    export class CSDatabaseEngineStringConnections {
+    export class DatabaseEngineStringConnections {
 
         public CSREPORT_WEB: string = "CSREPORT_WEB";
     }
 
-    export enum CSDatabaseEngine
+    export enum DatabaseEngine
     { 
         SQL_SERVER = 1,
         POSTGRESQL = 2,

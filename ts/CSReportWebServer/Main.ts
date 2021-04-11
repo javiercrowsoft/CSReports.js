@@ -66,7 +66,7 @@ namespace CSReportWebServer
 
         // defaul for options are created in sealed class Options
         public RegisterNativeMessagingHost(args: string[]) {
-            for(var i_ = 0; i_ < args.length; i_++) {
+            for(let i_ = 0; i_ < args.length; i_++) {
                 if (arg === "register") continue; {
                 else if (arg.StartsWith("--hive=")) options.hive = arg.Remove(0, "--hive=".length); {
                 else if (arg.StartsWith("--manifest=")) options.manifest = arg.Remove(0, "--manifest=".length); {
@@ -112,7 +112,7 @@ UNKNOWN >>                                 new JValue(string.Format("chrome-exte
             try {
                 Console.WriteLine("Registering this host:");
                 Console.WriteLine("[{0}]", keyName);
-                Console.WriteLine("@=\"{0}\"", options.manifest.Replace("\\", "\\\\"));
+                Console.WriteLine("@=\"{0}\"", options.manifest.replace("\\", "\\\\"));
                 Microsoft.Win32.Registry.SetValue(keyName, null, options.manifest);
                 Console.WriteLine("Host registered successfully");
                 Console.WriteLine();

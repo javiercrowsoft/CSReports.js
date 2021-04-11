@@ -89,12 +89,12 @@ namespace CSReportEditor
         public constructor() {
             InitializeComponent();
 
-            cb_align.Items.Clear();
+            cb_align.Items.clear();
             cUtil.listAdd(cb_align, "Left", (int)CSReportGlobals.HorizontalAlignment.Left);
             cUtil.listAdd(cb_align, "Right", (int)CSReportGlobals.HorizontalAlignment.Right);
             cUtil.listAdd(cb_align, "Center", (int)CSReportGlobals.HorizontalAlignment.Center);
 
-            cb_borderType.Items.Clear();
+            cb_borderType.Items.clear();
             cUtil.listAdd(cb_borderType, "Flat", (int)csReportBorderType.CSRPTBSFIXED);
             cUtil.listAdd(cb_borderType, "3D", (int)csReportBorderType.CSRPTBS3D);
             cUtil.listAdd(cb_borderType, "(Ninguno)", (int)csReportBorderType.CSRPTBSNONE);

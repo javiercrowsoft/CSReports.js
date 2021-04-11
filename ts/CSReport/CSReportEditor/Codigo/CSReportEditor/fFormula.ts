@@ -33,13 +33,13 @@ namespace CSReportEditor
 
 		public createTree() {
             tv_formulas.Nodes.Add(C_KEY_SYSFUNCTIONS, "Internal functions", C_FOLDER_INDEX);
-            let item: var = tv_formulas.Nodes.Add(C_KEY_SYSVARS, "Internal variables", C_FOLDER_INDEX);
+            let item = tv_formulas.Nodes.Add(C_KEY_SYSVARS, "Internal variables", C_FOLDER_INDEX);
             item.Nodes.Add(C_KEY_SYSDBFIELDS, "Database fields");
             item.Nodes.Add(C_KEY_SYSLABELS, "Labels");
 		}
 
 		public addFormula(formulaType: csRptFormulaType, name: string, nameUser: string, descrip: string, helpContextId: number) {
-            let item: var = tv_formulas.Nodes[C_KEY_SYSFUNCTIONS].Nodes.Add(nameUser);
+            let item = tv_formulas.Nodes[C_KEY_SYSFUNCTIONS].Nodes.Add(nameUser);
             item.ImageIndex = C_FORMULA_INDEX;
             item.SelectedImageIndex = item.ImageIndex;
 
@@ -78,8 +78,8 @@ namespace CSReportEditor
 		}
 
         private addAux(name: string, descrip: string, key: string, image: number) {
-            let father: var = tv_formulas.Nodes[C_KEY_SYSVARS].Nodes[key];
-            let item: var = father.Nodes.Add(name);
+            let father = tv_formulas.Nodes[C_KEY_SYSVARS].Nodes[key];
+            let item = father.Nodes.Add(name);
             item.ImageIndex = image;
             item.SelectedImageIndex = item.ImageIndex;
 
@@ -87,7 +87,7 @@ namespace CSReportEditor
                 item.Text = descrip + " ( "+ name + " )";
             }
 
-            let info: var = "";
+            let info = "";
             info = cUtil.setInfoString(info, C_FUNDESCRIP, descrip);
             info = cUtil.setInfoString(info, C_FUNNAME, name);
             info = cUtil.setInfoString(info, C_ISDBFIELDORLABEL, "1");
@@ -100,7 +100,7 @@ namespace CSReportEditor
         }
 
         private tv_formulas_NodeMouseClick(sender: object, e: TreeNodeMouseClickEventArgs) {
-            let info: var = e.Node.Tag as string;
+            let info = e.Node.Tag as string;
             tx_descrip.Text = cUtil.getInfoString(info, C_FUNDESCRIP, "");
         }
 
@@ -109,8 +109,8 @@ namespace CSReportEditor
         }
 
         private tv_formulas_NodeMouseDoubleClick(sender: object, e: TreeNodeMouseClickEventArgs) {
-            let info: var = e.Node.Tag as string;
-            let name: var = cUtil.getInfoString(info, C_FUNNAME, "");
+            let info = e.Node.Tag as string;
+            let name = cUtil.getInfoString(info, C_FUNNAME, "");
             if (! isDbOrLabel(info)) {
                 name += "()";
             }
@@ -136,7 +136,7 @@ namespace CSReportEditor
 
         private tv_formulas_KeyUp(sender: object, e: KeyEventArgs) {
             if (tv_formulas.SelectedNode !== null) {
-                let info: var = tv_formulas.SelectedNode.Tag as string;
+                let info = tv_formulas.SelectedNode.Tag as string;
                 tx_descrip.Text = cUtil.getInfoString(info, C_FUNDESCRIP, "");
             }
         }

@@ -9,10 +9,10 @@ namespace CSReportDll
 
         private getFunctionCall(code: string, formula: cReportFormula) {
             let n: number = code.IndexOf("(");
-            let functionName: var = cUtil.substring(code, 8, n-8);
-            let parameters: var = "";
+            let functionName = cUtil.substring(code, 8, n-8);
+            let parameters = "";
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
-                let fint: var = formula.getFormulasInt().item(_i);
+                let fint = formula.getFormulasInt().item(_i);
                 parameters += "globals.getVar(\"p__" + _i + "__\").getValue(),";
             }
             if (parameters.length > 0) {
@@ -105,9 +105,9 @@ UNKNOWN >>             CodeDomProvider provider;
             // project to store the interfaces that both this class and the other uses. Just remember, this will expose ALL public classes to
             // the "script"
 
-            let assemblies: var = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
+            let assemblies = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
 
-            for(var i_ = 0; i_ < assemblies.length; i_++) {
+            for(let i_ = 0; i_ < assemblies.length; i_++) {
                 if (assemblyName.Name === "CSReportScript") {
                     for(var j_ = 0; j_ < AppDomain.CurrentDomain.GetAssemblies().length; j_++) {
                         if (assembly.GetName().Name === assemblyName.Name) {
@@ -129,9 +129,9 @@ UNKNOWN >>             CompilerResults result;
 
 
             if (result.Errors.HasErrors) {
-                let errors: var = "";
+                let errors = "";
 
-                for(var i = 0; i < result.Errors.Count; i++) {
+                for(let i = 0; i < result.Errors.Count; i++) {
                     errors += result.Errors[0].ErrorText + "\r\n";
                 }
 
@@ -152,7 +152,7 @@ UNKNOWN >>             CompilerResults result;
 
         public eval(script: Assembly, globals: cReportCompilerGlobals) {
             // Now that we have a compiled script, lets run them
-            for(var i_ = 0; i_ < script.GetExportedTypes().length; i_++) {
+            for(let i_ = 0; i_ < script.GetExportedTypes().length; i_++) {
                 for(var j_ = 0; j_ < type.GetInterfaces().length; j_++) {
                     if (iface === typeof(cIReportScriptType)) {
                         // yay, we found a script interface, lets create it and run it!

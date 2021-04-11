@@ -1,12 +1,10 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
+    import csColors = CSReportGlobals.csColors;
+    import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
+    import csReportBorderType = CSReportGlobals.csReportBorderType;
 
     export class cReportAspect {
-
-
-    {
 
         private left: number = 0;
         private top: number = 0;
@@ -254,13 +252,13 @@ namespace CSReportDll
             try { this.borderRounded = xDoc.getNodeProperty(nodeObj, "BorderRounded").getValueBool(eTypes.eBoolean); }
             catch  (ex) { }
 
-            twipsToPixels();
+            this.twipsToPixels();
 
             return this.font.load(xDoc, nodeObj);
         }
 
         public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
-            pixelsToTwips();
+            this.pixelsToTwips();
 
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
@@ -368,10 +366,5 @@ namespace CSReportDll
             this.top = cUtil.pt(Convert.ToInt32(this.top));
             this.width = cUtil.pt(Convert.ToInt32(this.width));
         }
-
-
-    } 
-
-
-
+    }
 }

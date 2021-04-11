@@ -1,17 +1,10 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
-UNKNOWN >>     public interface cIReportSection
-    {
-        cReportFormula getFormulaHide();
-
-        bool getHasFormulaHide();
-
-        string getName();
-
-        void setName(string name);
-
-        void setHasFormulaHide(bool value);
+    export interface cIReportSection  {
+        getFormulaHide(): cReportFormula;
+        getHasFormulaHide(): boolean;
+        getName(): string;
+        setName(name: string);
+        setHasFormulaHide(value: boolean);
     }
 }

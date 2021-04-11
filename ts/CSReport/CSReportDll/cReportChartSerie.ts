@@ -1,11 +1,9 @@
+namespace CSReportDll {
 
+    import csColors = CSReportGlobals.csColors;
+    import eTypes = CSKernelClient.eTypes;
 
-namespace CSReportDll
-{
     export class cReportChartSerie {
-
-
-    {
 
         private C_MODULE: string = "cReportChartSerie";
 
@@ -88,11 +86,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
-    } 
-
-
-
+    }
 }

@@ -2,7 +2,7 @@ namespace CSConnect {
 
     import NotImplementedException = CSOAPI.NotImplementedException;
     import Database = CSDatabase.Database;
-    import CSDatabaseEngine = CSDatabase.CSDatabaseEngine;
+    import DatabaseEngine = CSDatabase.DatabaseEngine;
     import csDataSourceType = CSReportGlobals.csDataSourceType;
 
     export class cConnect {
@@ -23,7 +23,7 @@ namespace CSConnect {
         }
 
         public fillParameters(dataSource: string) {
-            let db: Database = new Database(CSDatabaseEngine.SQL_SERVER);
+            let db: Database = new Database(DatabaseEngine.SQL_SERVER);
             if (db.initDb(this.strConnect)) {
                 let restrictions: string[] = new string[4];
                 restrictions[2] = dataSource;
@@ -33,7 +33,7 @@ namespace CSConnect {
 
                 let parameters: cParameters = new cParameters();
 
-                for(var i_ = 0; i_ < dt.Rows.length; i_++) {
+                for(let i_ = 0; i_ < dt.Rows.length; i_++) {
                     if (row["parameter_mode"].toString() !== "OUT")  {
                         let p: cParameter = null;
                         let found: boolean = false;
@@ -107,11 +107,11 @@ namespace CSConnect {
 		}
 
         private fillColumns(sqlstmt: string) {
-            let db = new Database(CSDatabaseEngine.SQL_SERVER);
+            let db = new Database(DatabaseEngine.SQL_SERVER);
             if (db.initDb(this.strConnect)) {
                 if (db.openRs(sqlstmt, rs, "fillColumns", "cConnect", "Update columns's definition", CSKernelClient.eErrorLevel.eErrorInformation)) {
-                    for(var i = 0; i < rs.FieldCount; i++) {
-                        let column: var = new cColumnInfo();
+                    for(let i = 0; i < rs.FieldCount; i++) {
+                        let column = new cColumnInfo();
                         column.setName(rs.GetName(i));
                         column.setPosition(i);
                         column.setColumnType(System.Type.GetTypeCode((rs.GetFieldType(i))));

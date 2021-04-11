@@ -282,7 +282,7 @@ namespace CSXml {
             }
 
             // TODO: remove after testing
-            //txt = txt.Replace("\n", "\\n");
+            //txt = txt.replace("\n", "\\n");
             o.setValue(eTypes.eVariant, txt);
             return o;
         }

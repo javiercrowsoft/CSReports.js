@@ -1,15 +1,11 @@
+namespace CSReportDll {
 
+    import csRptErrors = CSReportGlobals.csRptErrors;
 
-namespace CSReportDll
-{
     export class cReportError {
 
-
-    {
-        private C_MODULE: string = "cReportError";
-
         public gDebugControl = "";
-        public int: static gDebugSectionLine = 0;
+        public static gDebugSectionLine = 0;
         public gDebugSection = "";
 
         public errGetDescript(rptErrCode: csRptErrors, x: string[]) {
@@ -17,9 +13,7 @@ namespace CSReportDll
             switch (rptErrCode)
             {
                 case csRptErrors.LAUNCH_INFO_UNDEFINED:
-                    export class "The {
-
-
+                    s = "The cReport launch method must be called with an instance of oLaunchInfo class or the cReport init method must be called before calling launch.";
                     break;
 
                 case csRptErrors.SINTAX_ERROR_MISSING_BRAKETS:
@@ -67,20 +61,15 @@ namespace CSReportDll
                     break;
             }
 
-            let i: number = 0;
-
-            for (i = 0; i < x.length; i++) {
-                s = s.Replace("$" + .toString(), x[i]);
+            for (let i = 0; i < x.length; i++) {
+                s = s.replace("$" + i.toString(), x[i]);
             }
 
-            s = s + "\n\nSection  : " + gDebugSection
-                    + "\nSec. Line: " + gDebugSectionLine 
-                    + "\nControl  : " + gDebugControl + "\n";
+            s = s + "\n\nSection  : " + this.gDebugSection
+                    + "\nSec. Line: " + cReportError.gDebugSectionLine
+                    + "\nControl  : " + this.gDebugControl + "\n";
 
             return s;
         }
-
-
-
-    } 
+    }
 }

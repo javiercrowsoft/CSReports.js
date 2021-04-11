@@ -1,5 +1,9 @@
 namespace CSReportDll {
 
+    import RptGrpComparisonType = CSReportGlobals.RptGrpComparisonType;
+    import RptGrpOrderType = CSReportGlobals.RptGrpOrderType;
+    import DatabaseEngine = CSDatabase.DatabaseEngine;
+
 //     public delegate void ReportDoneHandler(object sender, EventArgs e);
 //     public delegate void ProgressHandler(object sender, ProgressEventArgs e);
 //     public delegate void FindAccessFileHandler(object sender, FindAccessFileEventArgs e);
@@ -15,8 +19,8 @@ namespace CSReportDll {
         public changed: boolean = null;
         public reprintHeader: boolean = null;
         public footerMustBeClosed: boolean = null;
-        public comparisonType: csRptGrpComparisonType = null;
-        public oderType: csRptGrpOrderType = null;
+        public comparisonType: RptGrpComparisonType = null;
+        public oderType: RptGrpOrderType = null;
         public grandTotalGroup: boolean = null;
         public groups: T_Group[] = null;
         public lastHPreRowEvalued: number = null;
@@ -182,19 +186,19 @@ namespace CSReportDll {
 
         // to print groups in a new page when a group changes
         //
-        private idxGroupToPrintNP: number = NO_GROUP_INDEX;
+        private idxGroupToPrintNP: number = this.NO_GROUP_INDEX;
 
         // index of the current group header
         //
-        private idxGroupHeader: number = NO_GROUP_INDEX;
+        private idxGroupHeader: number = this.NO_GROUP_INDEX;
 
         // index of the current group footer
         //
-        private idxGroupFooter: number = NO_GROUP_INDEX;
+        private idxGroupFooter: number = this.NO_GROUP_INDEX;
 
         private bPrintFooter: boolean = null;
         private bLastFootersWasPrinted: boolean = null;
-        private groupIndexChange: number = NO_GROUP_INDEX;
+        private groupIndexChange: number = this.NO_GROUP_INDEX;
 
         private bEvalPreGroups: boolean = null;
         private bCloseFooter: boolean = null;
@@ -214,7 +218,7 @@ namespace CSReportDll {
 
         private isForWeb: boolean = null;
 
-        private databaseEngine: CSDatabaseEngine = CSDatabaseEngine.SQL_SERVER;
+        private databaseEngine: DatabaseEngine = DatabaseEngine.SQL_SERVER;
 
         private exportEmailAddress: string = "";
 
@@ -224,8 +228,8 @@ namespace CSReportDll {
                 this.details = new cReportSections();
                 this.footers = new cReportSections();
                 this.groups = new cReportGroups();
-                this.groupsHeaders = getGroups().getGroupsHeaders();
-                this.groupsFooters = getGroups().getGroupsFooters();
+                this.groupsHeaders = this.getGroups().getGroupsHeaders();
+                this.groupsFooters = this.getGroups().getGroupsFooters();
                 this.paperInfo = new cReportPaperInfo();
                 this.controls = new cReportControls2();
                 this.formulas = new cReportFormulas();
@@ -275,7 +279,7 @@ namespace CSReportDll {
             this.isForWeb = rhs;
         }
 
-        public setDatabaseEngine(databaseEngine: CSDatabaseEngine) {
+        public setDatabaseEngine(databaseEngine: DatabaseEngine) {
             this.databaseEngine = databaseEngine;
         }
 
@@ -519,7 +523,7 @@ namespace CSReportDll {
                 return;
             }
 
-            for(var i = 0; i < this.groupCount; i++) {
+            for(let i = 0; i < this.groupCount; i++) {
                 if (this.groups.item(i).getRePrintInNewPage()) {
                     this.vGroups[i].reprintHeader = true;
                 }
@@ -527,7 +531,7 @@ namespace CSReportDll {
         }
 
         private pExistsGroupHeadersToReprint() {
-            for(var i = 0; i < this.groupCount; i++) {
+            for(let i = 0; i < this.groupCount; i++) {
                 if (this.vGroups[i].reprintHeader) {
                     this.idxGroupHeader = i + 1;
                     this.bOpenHeader = true;
@@ -542,7 +546,7 @@ namespace CSReportDll {
         }
 
         private pCheckExistsGroupHToReprint() {
-            for(var i = 0; i < this.groupCount; i++) {
+            for(let i = 0; i < this.groupCount; i++) {
                 if (this.vGroups[i].reprintHeader) {
                     return;
                 }
@@ -749,7 +753,7 @@ namespace CSReportDll {
 
             // we need to move the additional recordset too
             //
-            for(var indexRows = 0; indexRows < this.collRows.length; indexRows++) {
+            for(let indexRows = 0; indexRows < this.collRows.length; indexRows++) {
                 let indexRow: number = this.vRowsIndexAux[indexRows] + 1;
                 if (this.collRows[indexRows] !== null) {
                     if (indexRow < this.collRows[indexRows].Rows.Count) {
@@ -761,7 +765,7 @@ namespace CSReportDll {
 
         private pExistsGroupToReprintInNP() {
             this.bExistsGrpToRePrintInNP = false;
-            for(var i = 0; i < this.groupCount; i++) {
+            for(let i = 0; i < this.groupCount; i++) {
                 if (this.groups.item(i).getRePrintInNewPage()) {
                     this.bExistsGrpToRePrintInNP = true;
                     return;
@@ -770,7 +774,7 @@ namespace CSReportDll {
         }
 
         private pNotPendingFooters() {
-            for(var i = 0; i < this.groupCount; i++) {
+            for(let i = 0; i < this.groupCount; i++) {
                 if (this.vGroups[i].footerMustBeClosed) {
                     return false;
                 }
@@ -1045,7 +1049,7 @@ namespace CSReportDll {
         }
 
         private pEvalFooterToClose2() {
-            for(var i = this.groupCount-1; i > -1; i--) {
+            for(let i = this.groupCount-1; i > -1; i--) {
                 if (this.vGroups[i].footerMustBeClosed) {
                     return true;
                 }
@@ -1054,7 +1058,7 @@ namespace CSReportDll {
         }
 
         private pEvalFooterToClose() {
-            for(var i = this.groupCount-1; i > -1; i--) {
+            for(let i = this.groupCount-1; i > -1; i--) {
                 if (this.vGroups[i].footerMustBeClosed) {
                     this.idxGroupFooter = i + 1;
 
@@ -1077,7 +1081,7 @@ namespace CSReportDll {
         private pGetLineAuxPrintHeader() {
             // we need to evaluate groups
             //
-            for(var i = 0; i < this.groupCount; i++) {
+            for(let i = 0; i < this.groupCount; i++) {
 
                 if (!this.vGroups[i].grandTotalGroup) {
 
@@ -1090,19 +1094,19 @@ namespace CSReportDll {
 
                     switch (this.vGroups[i].comparisonType)
                     {
-                        case csRptGrpComparisonType.CSRPTGRPTEXT:
+                        case RptGrpComparisonType.CSRPTGRPTEXT:
                             let text: string = ReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
                             if (this.vGroups[i].value.toString() !== text) {
                                 return true;
                             }
                             break;
-                        case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                        case RptGrpComparisonType.CSRPTGRPNUMBER:
                             let number: number = Utils.val(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                             if (this.vGroups[i].value !== number) {
                                 return true;
                             }
                             break;
-                        case csRptGrpComparisonType.CSRPTGRPDATE:
+                        case RptGrpComparisonType.CSRPTGRPDATE:
                             let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                             if (this.vGroups[i].value !== date) {
                                 return true;
@@ -1185,7 +1189,7 @@ namespace CSReportDll {
         private pGetLineAuxDoGroups(bGetNewPage: boolean) {
             // we continue evaluating groups
             //
-            for(var i = 0; i < this.groupCount; i++) {
+            for(let i = 0; i < this.groupCount; i++) {
 
                 // if the group has changed
                 //
@@ -1277,7 +1281,7 @@ namespace CSReportDll {
                 let row: number = this.vRowsIndex[this.iRow2];
                 switch (this.vGroups[i].comparisonType)
                 {
-                    case csRptGrpComparisonType.CSRPTGRPTEXT:
+                    case RptGrpComparisonType.CSRPTGRPTEXT:
                         let text: string = ReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
                         if (this.vGroups[i].value === null) {
                             changeGroup(i, text);
@@ -1287,7 +1291,7 @@ namespace CSReportDll {
                         }
                         break;
 
-                    case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                    case RptGrpComparisonType.CSRPTGRPNUMBER:
                         let number: number = Utils.val(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                         if (this.vGroups[i].value === null) {
                             changeGroup(i, number);
@@ -1297,7 +1301,7 @@ namespace CSReportDll {
                         }
                         break;
 
-                    case csRptGrpComparisonType.CSRPTGRPDATE:
+                    case RptGrpComparisonType.CSRPTGRPDATE:
                         let date: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                         if (this.vGroups[i].value === null) {
                             changeGroup(i, date);
@@ -1321,13 +1325,13 @@ namespace CSReportDll {
             let row: number = this.vRowsIndex[this.iRow2];
             switch (this.vGroups[i].comparisonType)
             {
-                case csRptGrpComparisonType.CSRPTGRPTEXT:
+                case RptGrpComparisonType.CSRPTGRPTEXT:
                     this.vGroups[i].value = ReportGlobals.valVariant(this.rows.Rows[row][col]).toString().toLowerCase();
                     break;
-                case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                case RptGrpComparisonType.CSRPTGRPNUMBER:
                     this.vGroups[i].value = Utils.val(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                     break;
-                case csRptGrpComparisonType.CSRPTGRPDATE:
+                case RptGrpComparisonType.CSRPTGRPDATE:
                     this.vGroups[i].value = ReportGlobals.dateValue(ReportGlobals.valVariant(this.rows.Rows[row][col]));
                     break;
             }
@@ -2154,7 +2158,7 @@ namespace CSReportDll {
         }
 
         public getValueString(controlName: string) {
-            let value: var = getValue(controlName, false);
+            let value = getValue(controlName, false);
             if (value === null) {
                 return "";
             }
@@ -2325,7 +2329,7 @@ namespace CSReportDll {
                 return true;
             }
             else {
-                return columnName === fieldName.Replace(" ", "_").Replace(".","");
+                return columnName === fieldName.replace(" ", "_").replace(".","");
             }
         }
 
@@ -2398,7 +2402,7 @@ namespace CSReportDll {
 
         private pDestroyImages() {
             if (this.images !== null) {
-                for(var i_ = 0; i_ < this.images.length; i_++) {
+                for(let i_ = 0; i_ < this.images.length; i_++) {
                     item.Value.Dispose();
                 }
                 this.images = null;
@@ -2455,7 +2459,7 @@ namespace CSReportDll {
 
                 if (fileInTMP !== "") {
                     try {
-                        let tmpImage: var = Image.FromFile(fileInTMP);
+                        let tmpImage = Image.FromFile(fileInTMP);
                         image = new Bitmap(tmpImage);
                         tmpImage.Dispose();
                         this.images.Add(key, image);
@@ -2562,7 +2566,7 @@ namespace CSReportDll {
                         for (i = 0; i < indexGroup; i++) {
                             switch (this.vGroups[i].comparisonType)
                             {
-                                case csRptGrpComparisonType.CSRPTGRPTEXT:
+                                case RptGrpComparisonType.CSRPTGRPTEXT:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2581,7 +2585,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                                case RptGrpComparisonType.CSRPTGRPNUMBER:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2600,7 +2604,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPDATE:
+                                case RptGrpComparisonType.CSRPTGRPDATE:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2655,7 +2659,7 @@ namespace CSReportDll {
                         for (i = 0; i < indexGroup; i++) {
                             switch (this.vGroups[i].comparisonType)
                             {
-                                case csRptGrpComparisonType.CSRPTGRPTEXT:
+                                case RptGrpComparisonType.CSRPTGRPTEXT:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2675,7 +2679,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                                case RptGrpComparisonType.CSRPTGRPNUMBER:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2695,7 +2699,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPDATE:
+                                case RptGrpComparisonType.CSRPTGRPDATE:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2751,7 +2755,7 @@ namespace CSReportDll {
                         for (i = 0; i < indexGroup; i++) {
                             switch (this.vGroups[i].comparisonType)
                             {
-                                case csRptGrpComparisonType.CSRPTGRPTEXT:
+                                case RptGrpComparisonType.CSRPTGRPTEXT:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2771,7 +2775,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                                case RptGrpComparisonType.CSRPTGRPNUMBER:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2791,7 +2795,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPDATE:
+                                case RptGrpComparisonType.CSRPTGRPDATE:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2844,7 +2848,7 @@ namespace CSReportDll {
                         for (i = 0; i < indexGroup; i++) {
                             switch (this.vGroups[i].comparisonType)
                             {
-                                case csRptGrpComparisonType.CSRPTGRPTEXT:
+                                case RptGrpComparisonType.CSRPTGRPTEXT:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2862,7 +2866,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                                case RptGrpComparisonType.CSRPTGRPNUMBER:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2880,7 +2884,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPDATE:
+                                case RptGrpComparisonType.CSRPTGRPDATE:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2931,7 +2935,7 @@ namespace CSReportDll {
                         for (i = 0; i < indexGroup; i++) {
                             switch (this.vGroups[i].comparisonType)
                             {
-                                case csRptGrpComparisonType.CSRPTGRPTEXT:
+                                case RptGrpComparisonType.CSRPTGRPTEXT:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2948,7 +2952,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                                case RptGrpComparisonType.CSRPTGRPNUMBER:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -2965,7 +2969,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPDATE:
+                                case RptGrpComparisonType.CSRPTGRPDATE:
 
                                     if (this.vGroups[i].value === null) {
                                         return rtn;
@@ -3092,10 +3096,10 @@ namespace CSReportDll {
             for (i = 0; i < this.groupCount; i++) {
                 for (j = 0; j < this.vGroups[i].groups.length; j++) {
                     if (!this.vGroups[i].grandTotalGroup) {
-                        if (this.vGroups[i].oderType === csRptGrpOrderType.CSRPTGRPASC) {
+                        if (this.vGroups[i].oderType === RptGrpOrderType.CSRPTGRPASC) {
                             switch (this.vGroups[i].comparisonType)
                             {
-                                case csRptGrpComparisonType.CSRPTGRPTEXT:
+                                case RptGrpComparisonType.CSRPTGRPTEXT:
                                     if (!orderTextAsc(this.vGroups[i].groups[j].first,
                                                         this.vGroups[i].groups[j].last,
                                                         this.vGroups[i].indexField)) {
@@ -3103,7 +3107,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                                case RptGrpComparisonType.CSRPTGRPNUMBER:
                                     if (!orderNumberAsc(this.vGroups[i].groups[j].first,
                                                         this.vGroups[i].groups[j].last,
                                                         this.vGroups[i].indexField)) {
@@ -3111,7 +3115,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPDATE:
+                                case RptGrpComparisonType.CSRPTGRPDATE:
                                     if (!orderDateAsc(this.vGroups[i].groups[j].first,
                                                         this.vGroups[i].groups[j].last,
                                                         this.vGroups[i].indexField)) {
@@ -3123,7 +3127,7 @@ namespace CSReportDll {
                         else {
                             switch (this.vGroups[i].comparisonType)
                             {
-                                case csRptGrpComparisonType.CSRPTGRPTEXT:
+                                case RptGrpComparisonType.CSRPTGRPTEXT:
                                     if (!orderTextDesc(this.vGroups[i].groups[j].first,
                                                         this.vGroups[i].groups[j].last,
                                                         this.vGroups[i].indexField)) {
@@ -3131,7 +3135,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                                case RptGrpComparisonType.CSRPTGRPNUMBER:
                                     if (!orderNumberDesc(this.vGroups[i].groups[j].first,
                                                             this.vGroups[i].groups[j].last,
                                                             this.vGroups[i].indexField)) {
@@ -3139,7 +3143,7 @@ namespace CSReportDll {
                                     }
                                     break;
 
-                                case csRptGrpComparisonType.CSRPTGRPDATE:
+                                case RptGrpComparisonType.CSRPTGRPDATE:
                                     if (!orderDateDesc(this.vGroups[i].groups[j].first,
                                                         this.vGroups[i].groups[j].last,
                                                         this.vGroups[i].indexField)) {
@@ -3192,7 +3196,7 @@ namespace CSReportDll {
                                 else {
                                     switch (this.vGroups[i].comparisonType)
                                     {
-                                        case csRptGrpComparisonType.CSRPTGRPTEXT:
+                                        case RptGrpComparisonType.CSRPTGRPTEXT:
 
                                             let text1: string = this.vGroups[i + 1].value.toString();
                                             let text2: string = value.toString();
@@ -3201,7 +3205,7 @@ namespace CSReportDll {
                                             }
                                             break;
 
-                                        case csRptGrpComparisonType.CSRPTGRPNUMBER:
+                                        case RptGrpComparisonType.CSRPTGRPNUMBER:
 
                                             let number1: number = Utils.val(this.vGroups[i + 1].value);
                                             let number2: number = Utils.val(value);
@@ -3210,7 +3214,7 @@ namespace CSReportDll {
                                             }
                                             break;
 
-                                        case csRptGrpComparisonType.CSRPTGRPDATE:
+                                        case RptGrpComparisonType.CSRPTGRPDATE:
 
                                             let date1: Date = this.vGroups[i + 1].value;
                                             let date2: Date = value;
@@ -4110,7 +4114,7 @@ namespace CSReportDll {
 
             // if we get an string connection
             //
-            if (this.launchInfo.getStrConnect().Trim() !== "") {
+            if (this.launchInfo.getStrConnect().trim() !== "") {
                 strConnect = this.launchInfo.getStrConnect();
             }
             // if this.launchInfo.getStrConnect() is empty we will use
@@ -4121,7 +4125,7 @@ namespace CSReportDll {
                 saveInReport = true;
             }
             if (!getReportDisconnected()) {
-                if (strConnect.Trim() === "") {
+                if (strConnect.trim() === "") {
                     cWindow.msgWarning("The connection settings were not defined."
                                         + "Both the LaunchInfo and the Connect object have their "
                                         + "strConnect property empty. Whitout this connection string "
@@ -4156,7 +4160,7 @@ namespace CSReportDll {
 
                 // if it was a select
                 //
-                if (this.launchInfo.getSqlstmt().Trim() !== "") {
+                if (this.launchInfo.getSqlstmt().trim() !== "") {
                     sqlstmt = this.launchInfo.getSqlstmt();
                 }
                 else {
@@ -4559,7 +4563,7 @@ namespace CSReportDll {
         /* TODO: remove me
         private String getToken(String source, String token)
         {
-            token = token.Trim();
+            token = token.trim();
             if (token.substring(token.length - 1) !== "=")
             { 
                 token = token + "="; 
@@ -4760,7 +4764,7 @@ namespace CSReportDll {
             fint: cReportFormulaInt
             colName: string
             keyParam: string) {
-            for(var i = 0; i < rs.Columns.Count; i++) {
+            for(let i = 0; i < rs.Columns.Count; i++) {
                 if (colName.toLowerCase() === rs.Columns[i].ColumnName.toLowerCase()) {
                     if (fint.getParameters().item(keyParam) === null) {
                         fint.getParameters().add2("", keyParam);
@@ -4841,10 +4845,10 @@ namespace CSReportDll {
         //
         public debugGroupKeys() {
             let keys: string[] = new String[this.groups.count() * 2];
-            let groupCount: var = this.groups.count();
-            for(var i = 0; i < groupCount; i++) {
-                let h: var = this.groups.getGroupsHeaders().item(i);
-                let f: var = this.groups.getGroupsFooters().item(i);
+            let groupCount = this.groups.count();
+            for(let i = 0; i < groupCount; i++) {
+                let h = this.groups.getGroupsHeaders().item(i);
+                let f = this.groups.getGroupsFooters().item(i);
                 keys[i] = "H: " + h.getKey() + " " + h.getKeyPaint() + " " + h.getName() + " " + h.getIndex() + " " + h.getRealIndex() ;
                 keys[groupCount+i] = "F: " + f.getKey() + " " + h.getKeyPaint() + " " + f.getName() + " " + f.getIndex() + " " + f.getRealIndex();
             }
@@ -4853,8 +4857,8 @@ namespace CSReportDll {
 
         public debugGroupPanitKeys() {
             let keys: string[] = new String[this.groups.count() * 2];
-            let groupCount: var = this.groups.count();
-            for(var i = 0; i < groupCount; i++) {
+            let groupCount = this.groups.count();
+            for(let i = 0; i < groupCount; i++) {
                 keys[i] = "H: " + this.groups.getGroupsHeaders().item(i).getKeyPaint();
                 keys[groupCount + i] = "F: " + this.groups.getGroupsFooters().item(i).getKeyPaint();
             }

@@ -84,7 +84,7 @@ namespace CSReportDll
         public clear() {
             try {
                 let n: number = this.count();
-                for(var i = 0; i < n; i++) {
+                for(let i = 0; i < n; i++) {
                     remove(0);
                 }
                 return;
@@ -154,7 +154,7 @@ namespace CSReportDll
         }
 
         private pRefreshIndex() {
-            for(var i = 0; i < this.count(); i++) {
+            for(let i = 0; i < this.count(); i++) {
                 item(i).setRealIndex(i);
             }
         }

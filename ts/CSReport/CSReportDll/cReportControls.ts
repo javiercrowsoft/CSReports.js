@@ -13,7 +13,7 @@ namespace CSReportDll
 
         // Adds elements from an IDictionary into the new collection.
         public constructor(d: IDictionary, bReadOnly: boolean) {
-            for(var i_ = 0; i_ < d.length; i_++) {
+            for(let i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
@@ -182,7 +182,7 @@ UNKNOWN >>             get
         public clear() {
             try {
                 let n: number = this.count();
-                for(var i = 0; i < n; i++) {
+                for(let i = 0; i < n; i++) {
                     remove(0);
                 }
             }

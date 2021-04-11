@@ -31,7 +31,7 @@ namespace CSReportEditor
         }
 
         public clearColumns() {
-            lv_columns.Items.Clear();
+            lv_columns.Items.clear();
         }
 
         public fillColumns(dataSource: string, columns: cColumnsInfo, add: boolean) {
@@ -50,7 +50,7 @@ namespace CSReportEditor
 
         public setField(field: string) {
             this.field = field;
-            for(var i_ = 0; i_ < lv_columns.Items.length; i_++) {
+            for(let i_ = 0; i_ < lv_columns.Items.length; i_++) {
                 if (item.Text === field)  {
                     item.Selected = true;
                     item.Focused = true;
@@ -80,7 +80,7 @@ namespace CSReportEditor
             if (lv_columns.SelectedItems.Count > 0) {
                 let item: ListViewItem = lv_columns.SelectedItems[0];
                 this.field = item.Text;
-                let info: var = item.Tag.toString();
+                let info = item.Tag.toString();
                 this.fieldType = cUtil.valAsInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
                 this.fieldIndex = cUtil.valAsInt(cUtil.getInfoString(info, C_INDEX, "-1"));
             }

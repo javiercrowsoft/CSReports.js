@@ -24,9 +24,9 @@ namespace CSReportEditor
         }
 
         public clear() {
-            lv_controls.Items.Clear();
-            lv_labels.Items.Clear();
-            lv_formulas.Items.Clear();
+            lv_controls.Items.clear();
+            lv_labels.Items.clear();
+            lv_formulas.Items.clear();
         }
 
         public addLbFormula(controlName: string) {
@@ -34,16 +34,16 @@ namespace CSReportEditor
         }
 
         public addFormula(name: string, controlName: string, formulaName: string) {
-            let item: var = lv_formulas.Items.Add(name, C_FORMULA_IMAGE);
-            let info: var = "";
+            let item = lv_formulas.Items.Add(name, C_FORMULA_IMAGE);
+            let info = "";
             info = cUtil.setInfoString(info, C_CONTROL_NAME, controlName);
             info = cUtil.setInfoString(info, C_FORMULA_NAME, formulaName);
             item.Tag = info;
         }
 
         public addField(name: string, fieldType: number, fieldIndex: number) {
-            let item: var = lv_controls.Items.Add(name, C_CTRL_IMAGE);
-            let info: var = "";
+            let item = lv_controls.Items.Add(name, C_CTRL_IMAGE);
+            let info = "";
             info = cUtil.setInfoString(info, C_FIELD_INDEX, fieldType.toString());
             info = cUtil.setInfoString(info, C_FIELD_TYPE, fieldIndex.toString());
             item.Tag = info;

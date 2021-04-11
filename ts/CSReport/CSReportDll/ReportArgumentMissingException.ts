@@ -1,21 +1,7 @@
+namespace CSReportDll {
 
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using CSReportGlobals;
+    import Exception = CSOAPI.Exception;
 
-namespace CSReportDll
-{
-    class ReportArgumentMissingException : ReportException
-    {
+    export class ReportArgumentMissingException extends Exception { }
 
-        public ReportArgumentMissingException(String className, String message) 
-            : base(csRptErrors.CSRPTERRMISSINGPARAM, className, message) { }
-
-        // A constructor is needed for serialization when an
-        // exception propagates from a remoting server to the client. 
-        protected ReportArgumentMissingException(SerializationInfo info, StreamingContext context) { }
-    }
 }

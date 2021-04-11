@@ -89,7 +89,7 @@ namespace CSReportEditor
         }
 
         public setEditAlignTextState(status: boolean) {
-            let buttons: var = this.tbMain.Items;
+            let buttons = this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_ALIGN_CENTER].Enabled = status;
             buttons[cGlobals.c_BTN_ALIGN_LEFT].Enabled = status;
@@ -98,7 +98,7 @@ namespace CSReportEditor
         }
 
         public setEditAlignCtlState(status: boolean) {
-            let buttons: var = this.tbMain.Items;
+            let buttons = this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_CTL_ALIGN_BOTTOM].Enabled = status;
             buttons[cGlobals.c_BTN_CTL_ALIGN_TOP].Enabled = status;
@@ -137,7 +137,7 @@ namespace CSReportEditor
             this.mnuViewControls.Enabled = enabled;
             this.mnuViewTreeViewCtrls.Enabled = enabled;
 
-            let buttons: var = this.tbMain.Items;
+            let buttons = this.tbMain.Items;
             tsbPrint.Enabled = enabled;
             tsbProperties.Enabled = enabled;
             tsbDatabase.Enabled = enabled;
@@ -151,7 +151,7 @@ namespace CSReportEditor
             let i: number = 0;
             let j: number = 0;
             let found: boolean = false;
-            let menuItems: var = this.mnuFileRecentList.DropDownItems;
+            let menuItems = this.mnuFileRecentList.DropDownItems;
 
             for (i = 0; i < menuItems.Count; i++) {
                 if (fileName === menuItems[i].Text) {
@@ -162,7 +162,7 @@ namespace CSReportEditor
             }
 
             if (menuItems.Count < cGlobals.C_TOTINRECENTLIST && !found) {
-                let menu: var = this.mnuFileRecentList.DropDownItems.Add("");
+                let menu = this.mnuFileRecentList.DropDownItems.Add("");
                 menu.Visible = true;
                 menu.Click += mnuRecentClick;
             }
@@ -179,14 +179,14 @@ namespace CSReportEditor
         }
 
         private getMRUFileName() {
-            let path: var = System.Environment.SpecialFolder.LocalApplicationData;
+            let path = System.Environment.SpecialFolder.LocalApplicationData;
             return Environment.GetFolderPath(path) + Path.DirectorySeparatorChar + MRU_FILE;
         }
 
         private loadRecentListFromUserSettings() {
-            let fileName: var = getMRUFileName();
+            let fileName = getMRUFileName();
             if (File.Exists(fileName)) {
-                let lines: var = File.ReadAllLines(fileName);
+                let lines = File.ReadAllLines(fileName);
                 loadRecentList(lines.ToList());
             }
         }
@@ -197,7 +197,7 @@ namespace CSReportEditor
 
             for (i = 0; i < Math.Min(cGlobals.C_TOTINRECENTLIST, recentList.Count); i++) {
                 recent = recentList[i];
-                let menu: var = this.mnuFileRecentList.DropDownItems.Add(recent);
+                let menu = this.mnuFileRecentList.DropDownItems.Add(recent);
                 menu.Visible = true;
                 menu.Click += mnuRecentClick;
             }
@@ -224,7 +224,7 @@ namespace CSReportEditor
                 mruList += mnuFileRecentList.DropDownItems[i].Text + Environment.NewLine;
             }
 
-            let fileName: var = getMRUFileName();
+            let fileName = getMRUFileName();
             File.WriteAllText(fileName, mruList);
         }
 
@@ -463,7 +463,7 @@ UNKNOWN >>             get
         }
 
         public showControls(editor: cEditor) {
-            lv_controls.Items.Clear();
+            lv_controls.Items.clear();
 
             if (editor !== null) {
                 cGlobals.addCtrls(editor.getReport(), lv_controls, C_CTRL_IMAGE, C_DB_IMAGE);
@@ -472,7 +472,7 @@ UNKNOWN >>             get
 
         public showControlsTree(editor: cEditor) {
             this.wasDoubleClick = false;
-            tv_controls.Nodes.Clear();
+            tv_controls.Nodes.clear();
 
             if (editor !== null) {
                 cGlobals.addCtrls(editor.getReport(), tv_controls, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
@@ -480,7 +480,7 @@ UNKNOWN >>             get
         }
 
         public showProperties(editor: cEditor, key: string) {
-            lv_properties.Items.Clear();
+            lv_properties.Items.clear();
             if (editor !== null) {
                 setObjectDescription(getControlOrSection(editor, key));
             }
@@ -507,9 +507,9 @@ UNKNOWN >>             get
         private setObjectDescription(anObject: object, n: number) {
             if (anObject === null) return; {
 
-            let tabs: var = new String(' ', n*2);
-            let methods: var = getMethods(anObject);
-            for(var i_ = 0; i_ < methods.length; i_++) {
+            let tabs = new String(' ', n*2);
+            let methods = getMethods(anObject);
+            for(let i_ = 0; i_ < methods.length; i_++) {
                 if (m.IsPublic
                     && m.Name.length > 3
                     && m.Name.substring(0, 3) === "get"
@@ -517,7 +517,7 @@ UNKNOWN >>             get
                     && m.GetParameters().length === 0
                     && m.Name !== "getSectionLine"
                     ) {
-                    let item: var = lv_properties.Items.Add(tabs + m.Name.substring(3));
+                    let item = lv_properties.Items.Add(tabs + m.Name.substring(3));
                     item.ImageIndex = C_IMG_CONTROL;
                     item.SubItems.Add(getValue(m.Invoke(anObject, null), n));
                     if (item.SubItems[1].Text === "...") item.ImageIndex = C_IMG_FOLDER; {
@@ -532,7 +532,7 @@ UNKNOWN >>             get
                 return "NULL";
             }
             else {
-                let t: var = value.GetType();
+                let t = value.GetType();
                 if (t.IsPrimitive || t === typeof(Decimal) || t === typeof(String)) {
                     return value.toString();
                 }
@@ -548,10 +548,10 @@ UNKNOWN >>             get
         }
 
         public showFields(editor: cEditor) {
-            lv_fields.Items.Clear();
+            lv_fields.Items.clear();
 
             if (editor !== null) {
-                let connect: var = editor.getReport().getConnect();
+                let connect = editor.getReport().getConnect();
                 cGlobals.fillColumns(
                     connect.getDataSource(),
                     connect.getColumns(), lv_fields, C_INDEX, C_FIELDTYPE, false);
@@ -591,7 +591,7 @@ UNKNOWN >>             get
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (lv_controls.SelectedItems.Count > 0 && editor !== null) {
-                let info: var = lv_controls.SelectedItems[0].Tag.toString();
+                let info = lv_controls.SelectedItems[0].Tag.toString();
                 editor.selectCtrl(info);
             }
         }
@@ -604,9 +604,9 @@ UNKNOWN >>             get
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (node !== null && node.Tag !== null && editor !== null) {
-                let info: var = node.Tag.toString();
+                let info = node.Tag.toString();
                 if (info.length > 0) {
-                    let infoType: var = info.substring(0, 1);
+                    let infoType = info.substring(0, 1);
                     if ("@SL".IndexOf(infoType) === -1) {
                         editor.selectCtrl(info);
                     }
@@ -626,9 +626,9 @@ UNKNOWN >>             get
 
             if (tv_controls.SelectedNode !== null && editor !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
-                    let info: var = tv_controls.SelectedNode.Tag.toString();
+                    let info = tv_controls.SelectedNode.Tag.toString();
                     if (info.length > 0) {
-                        let infoType: var = info.substring(0, 1);
+                        let infoType = info.substring(0, 1);
                         if ("@".IndexOf(infoType) === -1) {
                             editor.showProperties(info);
                         }
@@ -655,7 +655,7 @@ UNKNOWN >>             get
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (lv_controls.SelectedItems.Count > 0 && editor !== null) {
-                let info: var = lv_controls.SelectedItems[0].Tag.toString();
+                let info = lv_controls.SelectedItems[0].Tag.toString();
                 editor.showProperties(info);
             }
         }
@@ -677,9 +677,9 @@ UNKNOWN >>             get
 
 
         private tabReports_MouseClick(sender: object, e: MouseEventArgs) {
-            for(var i = 0; i < tabReports.TabCount; ++i) {
-                let rect: var = tabReports.GetTabRect(i);
-                let xRect: var = new System.Drawing.Rectangle(rect.Left + rect.Width - 18, rect.Top, 18, rect.Height);
+            for(let i = 0; i < tabReports.TabCount; ++i) {
+                let rect = tabReports.GetTabRect(i);
+                let xRect = new System.Drawing.Rectangle(rect.Left + rect.Width - 18, rect.Top, 18, rect.Height);
                 if (xRect.contains(e.Location)) {
                     let editor: cEditor = tabReports.TabPages[i].Tag;
                     if (editor.close()) {

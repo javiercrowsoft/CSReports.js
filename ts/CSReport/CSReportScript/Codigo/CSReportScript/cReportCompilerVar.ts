@@ -1,11 +1,6 @@
+namespace CSReportScript {
 
-
-namespace CSReportScript
-{
     export class cReportCompilerVar {
-
-
-    {
 
         private value: object = null;
 
@@ -16,11 +11,5 @@ namespace CSReportScript
         public setValue(rhs: object) {
             this.value = rhs;
         }
-
-
-
-    } 
-
-
-
+    }
 }

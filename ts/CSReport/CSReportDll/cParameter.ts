@@ -1,13 +1,8 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
+    import csDataType = CSDatabase.csDataType;
 
     export class cParameter {
-
-
-    {
-        private C_MODULE: string = "cParameter";
 
         private name: string = "";
         private columnType: csDataType = null;
@@ -151,11 +146,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
-    } 
-
-
-
+    }
 }

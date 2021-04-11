@@ -540,13 +540,13 @@ namespace CSReportEditor
         }
 
         private getSectionOrSectionLineFromKey(key: string, sections: cIReportGroupSections) {
-            for(var i = 0; i < sections.count(); i++) {
-                let sec: var = sections.item(i);
+            for(let i = 0; i < sections.count(); i++) {
+                let sec = sections.item(i);
                 if (sec.getKey() === key) {
                     return sec;
                 }
                 else {
-                    let secLn: var = sec.getSectionLines().item(key);
+                    let secLn = sec.getSectionLines().item(key);
                     if (secLn !== null) {
                         return secLn;
                     }
@@ -1292,7 +1292,7 @@ UNKNOWN >>             finally
             let bBold: number = -2;
             let bBoldValue: boolean = false;
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 let font: cReportFont = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect().getFont();
 
                 if (bBold === -2) {
@@ -1314,7 +1314,7 @@ UNKNOWN >>             finally
             let paintObject: cReportPaintObject = null;
             let rptCtrl: cReportControl = null;
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
                 paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
                 rptCtrl = this.report.getControls().item(paintObject.getTag());
@@ -1330,7 +1330,7 @@ UNKNOWN >>             finally
         public pSetFontBoldValue() {
             let bBold: number = -2;
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 let font: cReportFont = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect().getFont();
 
                 if (bBold === -2) {
@@ -1393,7 +1393,7 @@ UNKNOWN >>             cReportAspect aspect;
                             break;
                     }
 
-                    for(var i = 0; i < this.vSelectedKeys.length; i++) {
+                    for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
                         aspect = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect();
                         top = aspect.getTop();
@@ -1418,7 +1418,7 @@ UNKNOWN >>             cReportAspect aspect;
                     break;
             }
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
                 paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
                 rptCtrl = this.report.getControls().item(paintObject.getTag());
@@ -1459,7 +1459,7 @@ UNKNOWN >>             cReportAspect aspect;
             let paintObject: cReportPaintObject = null;
             let rptCtrl: cReportControl = null;
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
                 paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
                 rptCtrl = this.report.getControls().item(paintObject.getTag());
@@ -1476,7 +1476,7 @@ UNKNOWN >>             cReportAspect aspect;
         private pSetEditAlignValue() {
             let align: number = -1;
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 let aspect: CSReportDll.cReportAspect = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect();
 
                 if (align === -1) {
@@ -1499,7 +1499,7 @@ UNKNOWN >>             cReportAspect aspect;
 
             if (ctrlKey) {
 
-                for(var i = 0; i < this.vSelectedKeys.length; i++) {
+                for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
                     if (this.vSelectedKeys[i] === sKey) {
                         pRemoveFromSelected(sKey);
@@ -1521,7 +1521,7 @@ UNKNOWN >>             cReportAspect aspect;
                 return true;
             }
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 if (this.vSelectedKeys[i] === sKey) {
                     return true;
                 }
@@ -1557,7 +1557,7 @@ UNKNOWN >>             int i;
 
             if (!ctrlKey && button !== MouseButtons.Right) {
                 this.paint.pointIsInObject(x, y, sKey);
-                for(var i = 0; i < this.vSelectedKeys.length; i++) {
+                for(let i = 0; i < this.vSelectedKeys.length; i++) {
                     if (this.vSelectedKeys[i] === sKey) {
                         return false;
                     }
@@ -1947,7 +1947,7 @@ UNKNOWN >>             int i;
         private picRule_Paint(sender: object, e: PaintEventArgs) {
             if (this.paint !== null) {
                 let ps: cReportPaintObjects = this.paint.getPaintSections();
-                for(var i = 0; i < ps.count(); i++) {
+                for(let i = 0; i < ps.count(); i++) {
                     this.paint.drawRule(ps.getNextKeyForZOrder(i), e.Graphics);
                 }
             }
@@ -2111,7 +2111,7 @@ UNKNOWN >>             int i;
 
                     for(var _i = 0; _i < secLn.getControls().count(); _i++) {
                         ctrl = secLn.getControls().item(_i);
-                        for(var i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                        for(let i = 0; i < this.paint.getPaintObjects().count(); i++) {
                             paintObj = this.paint.getPaintObjects().item(i);
                             if (paintObj.getTag() === ctrl.getKey()) {
                                 this.paint.getPaintObjects().remove(paintObj.getKey());
@@ -2135,7 +2135,7 @@ UNKNOWN >>             int i;
                         secLn = sec.getSectionLines().item(_i);
                         for(var _j = 0; _j < secLn.getControls().count(); _j++) {
                             ctrl = secLn.getControls().item(_j);
-                            for(var i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                            for(let i = 0; i < this.paint.getPaintObjects().count(); i++) {
                                 paintObj = this.paint.getPaintObjects().item(i);
                                 if (paintObj.getTag() === ctrl.getKey()) {
                                     this.paint.getPaintObjects().remove(paintObj.getKey());
@@ -2168,7 +2168,7 @@ UNKNOWN >>             int i;
                             secLn = secG.getSectionLines().item(_i);
                             for(var _j = 0; _j < secLn.getControls().count(); _j++) {
                                 ctrl = secLn.getControls().item(_j);
-                                for(var i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                                for(let i = 0; i < this.paint.getPaintObjects().count(); i++) {
                                     paintObj = this.paint.getPaintObjects().item(i);
                                     if (paintObj.getTag() === ctrl.getKey()) {
                                         this.paint.getPaintObjects().remove(paintObj.getKey());
@@ -2178,7 +2178,7 @@ UNKNOWN >>             int i;
                             }
                         }
 
-                        for(var i = 0; i < this.paint.getPaintSections().count(); i++) {
+                        for(let i = 0; i < this.paint.getPaintSections().count(); i++) {
                             paintObj = this.paint.getPaintSections().item(i);
                             if (paintObj.getTag() === secG.getKey()) {
                                 this.paint.getPaintSections().remove(paintObj.getKey());
@@ -2230,7 +2230,7 @@ UNKNOWN >>             int i;
 
                 if (!cWindow.ask("Confirm you want to delete the control? ", MessageBoxDefaultButton.Button2)) { return; }
 
-                for(var i = 0; i < this.vSelectedKeys.length; i++) {
+                for(let i = 0; i < this.vSelectedKeys.length; i++) {
                     paintObj = this.paint.getPaintObjects().item(this.vSelectedKeys[i]);
                     ctrl = this.report.getControls().item(paintObj.getTag());
 
@@ -2255,9 +2255,9 @@ UNKNOWN >>             int i;
         }
 
         private updateSectionNameInPaintObjects(sections: cIReportGroupSections) {
-            for(var i =0; i < sections.count(); i++) {
-                let sec: var = sections.item(i);
-                let paintObj: var = this.paint.getPaintSections().item(sec.getKeyPaint());
+            for(let i =0; i < sections.count(); i++) {
+                let sec = sections.item(i);
+                let paintObj = this.paint.getPaintSections().item(sec.getKeyPaint());
                 if (paintObj !== null) {
                     paintObj.setText(sec.getName());
                 }
@@ -2407,7 +2407,7 @@ UNKNOWN >>             int i;
                 movedCtrl = this.report.getControls().item(keyCtrl);
                 firstCtrlLeft = movedCtrl.getLabel().getAspect().getLeft();
 
-                for(var i = this.vCopyKeys.length-1; i > -1; i--) {
+                for(let i = this.vCopyKeys.length-1; i > -1; i--) {
 
                     keyPaint = this.vCopyKeys[i];
                     keyCtrl = this.paint.getPaintObjects().item(keyPaint).getTag();
@@ -2455,7 +2455,7 @@ UNKNOWN >>             int i;
                 movedCtrl = editor.getReport().getControls().item(keyCtrl);
                 firstCtrlLeft = movedCtrl.getLabel().getAspect().getLeft();
 
-                for(var i = editor.getVCopyKeysCount()-1; i > -1; i--) {
+                for(let i = editor.getVCopyKeysCount()-1; i > -1; i--) {
 
                     keyPaint = editor.getVCopyKeys(i);
                     keyCtrl = editor.getPaint().getPaintObjects().item(keyPaint).getTag();
@@ -3414,7 +3414,7 @@ UNKNOWN >>             csAskEditResult rslt;
                     this.fGroup.txName.Text = group.getName();
                     this.fGroup.txDbField.Text = group.getFieldName();
 
-                    if (group.getOderType() === csRptGrpOrderType.CSRPTGRPASC) {
+                    if (group.getOderType() === RptGrpOrderType.CSRPTGRPASC) {
                       this.fGroup.opAsc.Checked = true;
                     }
                     else {
@@ -3426,15 +3426,15 @@ UNKNOWN >>             csAskEditResult rslt;
                     this.fGroup.chkGrandTotal.Checked = group.getGrandTotalGroup();
 
                     switch (group.getComparisonType()) {
-                      case  csRptGrpComparisonType.CSRPTGRPDATE:
+                      case  RptGrpComparisonType.CSRPTGRPDATE:
                         this.fGroup.opDate.Checked = true;
                         break;
 
-                      case  csRptGrpComparisonType.CSRPTGRPNUMBER:
+                      case  RptGrpComparisonType.CSRPTGRPNUMBER:
                         this.fGroup.opNumber.Checked = true;
                         break;
 
-                      case  csRptGrpComparisonType.CSRPTGRPTEXT:
+                      case  RptGrpComparisonType.CSRPTGRPTEXT:
                         this.fGroup.opText.Checked = true;
                         break;
                     }
@@ -3454,20 +3454,20 @@ UNKNOWN >>             csAskEditResult rslt;
                     group.setFieldName(this.fGroup.txDbField.Text);
 
                     group.setIndex(this.report.getGroups().Count);
-                    group.setOderType(this.fGroup.opAsc.Checked ? csRptGrpOrderType.CSRPTGRPASC : csRptGrpOrderType.CSRPTGRPDESC);
+                    group.setOderType(this.fGroup.opAsc.Checked ? RptGrpOrderType.CSRPTGRPASC : RptGrpOrderType.CSRPTGRPDESC);
 
                     group.setPrintInNewPage(this.fGroup.chkPrintInNewPage.Checked);
                     group.setRePrintInNewPage(this.fGroup.chkReprintGroup.Checked);
                     group.setGrandTotalGroup(this.fGroup.chkGrandTotal.Checked);
 
                     if (this.fGroup.opDate.Checked) {
-                        group.setComparisonType(csRptGrpComparisonType.CSRPTGRPDATE);
+                        group.setComparisonType(RptGrpComparisonType.CSRPTGRPDATE);
                     }
                     else if (this.fGroup.opNumber.Checked) {
-                        group.setComparisonType(csRptGrpComparisonType.CSRPTGRPNUMBER);
+                        group.setComparisonType(RptGrpComparisonType.CSRPTGRPNUMBER);
                     }
                     else if (this.fGroup.opText.Checked) {
-                        group.setComparisonType(csRptGrpComparisonType.CSRPTGRPTEXT);
+                        group.setComparisonType(RptGrpComparisonType.CSRPTGRPTEXT);
                     }
 
                     if (isNew) {
@@ -3919,7 +3919,7 @@ UNKNOWN >>             bool isGroup;
 
                 if (!this.fProperties.getOk()) { return; }
 
-                for(var i = 0; i < this.vSelectedKeys.length; i++) {
+                for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
                     paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
                     rptCtrl = this.report.getControls().item(paintObject.getTag());
@@ -4206,7 +4206,7 @@ UNKNOWN >>             finally {
 
                 G.redim(this.vCopyKeys, this.vSelectedKeys.length);
 
-                for(var i = 0; i < this.vSelectedKeys.length; i++) {
+                for(let i = 0; i < this.vSelectedKeys.length; i++) {
                     this.vCopyKeys[i] = this.vSelectedKeys[i];
                 }
 
@@ -4772,7 +4772,7 @@ UNKNOWN >>             cReportPaintObject paintSec;
                 || secToMove.getTypeSection() === csRptSectionType.MAIN_FOOTER
                 || bChangeTop) {
 
-                for(var i = this.report.getFooters().count()-1; i > -1; i--) {
+                for(let i = this.report.getFooters().count()-1; i > -1; i--) {
                     sec = this.report.getFooters().item(i);
 
                     if (bChangeTop) {
@@ -4856,7 +4856,7 @@ UNKNOWN >>             cReportAspect w_aspect;
 
             // Update section line
             //
-            for(var i = 0; i < sec.getSectionLines().count() - 1; i++) {
+            for(let i = 0; i < sec.getSectionLines().count() - 1; i++) {
                 w_aspect = sec.getSectionLines().item(i).getAspect();
                 heightLines = heightLines + w_aspect.getHeight();
             }
@@ -5044,7 +5044,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
 
             if (sec.getSectionLines().count() > 1) {
 
-                for(var i = 0; i < sec.getSectionLines().count() - 1; i++) {
+                for(let i = 0; i < sec.getSectionLines().count() - 1; i++) {
                     let secLine: cReportSectionLine = sec.getSectionLines().item(i);
                     secLine.setKeyPaint(
                         paintSection(
@@ -5235,7 +5235,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
             let percent: number = 0;
             if (recordCount > 0 && currRecord > 0) {
                 percent = Convert.ToDouble(currRecord) / recordCount;
-                let value: var = Convert.ToInt32(percent * 100);
+                let value = Convert.ToInt32(percent * 100);
                 if (value > 100) value = 100; {
                 this.fProgress.prgBar.Value = value;
             }
@@ -5658,7 +5658,7 @@ UNKNOWN >>                     - cGlobals.C_HEIGHT_BAR_SECTION;
 
             pMoveControlAfterResize(w_getPaintObject.getAspect(), true);
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
                 if (this.keySizing !== this.vSelectedKeys[i]) {
 
@@ -6097,7 +6097,7 @@ UNKNOWN >>             float dummy;
         }
 
         private pGetMinBottomWithSecLn(secLns: cReportSectionLines, minBottom: number) {
-            for(var i = 0; i < secLns.count() - 1; i++) {
+            for(let i = 0; i < secLns.count() - 1; i++) {
                 minBottom = minBottom + secLns.item(i).getAspect().getHeight();
             }
 
@@ -6173,7 +6173,7 @@ UNKNOWN >>                            cReportPaintObject po;
         // and add the control which was clicked to the selected collection
         //
         private pSetSelectForRightBttn() {
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 if (this.vSelectedKeys[i] === this.keyObj) { return false; }
             }
 
@@ -6209,7 +6209,7 @@ UNKNOWN >>                            cReportPaintObject po;
             }
 
             let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
-            let height: var = CSReportPaint.cGlobals.getRectFromPaperSize(this.report.getPaperInfo(),;
+            let height = CSReportPaint.cGlobals.getRectFromPaperSize(this.report.getPaperInfo(),;
                                                     w_paperInfo.getPaperSize(),
                                                     w_paperInfo.getOrientation()).Height;
             top = height;
@@ -6240,7 +6240,7 @@ UNKNOWN >>                            cReportPaintObject po;
 
 UNKNOWN >>             cReportAspect w_aspect;
 
-            for(var i = 0; i < sec.getSectionLines().count() - 1; i++) {
+            for(let i = 0; i < sec.getSectionLines().count() - 1; i++) {
                 secLn = sec.getSectionLines().item(i);
                 w_aspect = secLn.getAspect();
                 w_aspect.setTop(topLn);
@@ -6398,7 +6398,7 @@ UNKNOWN >>             cReportAspect w_aspect;
         private pUpdateFormulas(currentName: string, newName: string) {
             let rptCtrl: cReportControl = null;
 
-            for(var i = 0; i < this.report.getControls().count(); i++) {
+            for(let i = 0; i < this.report.getControls().count(); i++) {
 
                 rptCtrl = this.report.getControls().item(i);
 
@@ -6424,11 +6424,11 @@ UNKNOWN >>             cReportAspect w_aspect;
             // if it isn't an internal function we give the user
             // a chance to cancel the changes
             //
-            if (cUtil.substring(formulaText, 0, 1).Trim() !== "_") {
+            if (cUtil.substring(formulaText, 0, 1).trim() !== "_") {
                 let fReplace: fFormulaReplace = null;
                 fReplace = new fFormulaReplace();
                 fReplace.txCurrFormula.Text = formulaText;
-                fReplace.txNewFormula.Text = formulaText.Replace(currentName, newName);
+                fReplace.txNewFormula.Text = formulaText.replace(currentName, newName);
                 fReplace.ShowDialog();
                 if (fReplace.getOk()) {
                     _rtn = fReplace.txNewFormula.Text;
@@ -6440,7 +6440,7 @@ UNKNOWN >>             cReportAspect w_aspect;
             }
             else {
 
-                _rtn = formulaText.Replace(currentName, newName);
+                _rtn = formulaText.replace(currentName, newName);
             }
             return _rtn;
         }

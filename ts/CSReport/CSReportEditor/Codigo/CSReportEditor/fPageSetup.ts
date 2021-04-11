@@ -98,7 +98,7 @@ namespace CSReportEditor
         }
 
         private cb_paperSize_SelectedIndexChanged(sender: object, e: EventArgs) {
-            let enabled: var = cUtil.listID(cb_paperSize) === csReportPaperType.CSRPTPAPERUSER;
+            let enabled = cUtil.listID(cb_paperSize) === csReportPaperType.CSRPTPAPERUSER;
             tx_height.Enabled = enabled;
             tx_width.Enabled = enabled;
         }

@@ -25,11 +25,11 @@ UNKNOWN >>         private enum csObjType {
         }
 
         public clear() {
-            lv_controls.Items.Clear();
+            lv_controls.Items.clear();
         }
 
         private cmd_search_Click(sender: object, e: EventArgs) {
-            if (tx_toSearch.Text.Trim() === "") {
+            if (tx_toSearch.Text.trim() === "") {
                 cWindow.msgInfo("You must input some text to search");
             }
             else  {
@@ -50,7 +50,7 @@ UNKNOWN >>             string toSearch;
 
             toSearch = tx_toSearch.Text.toLowerCase();
 
-            for(var i = 0; i < sections.count(); i++) {
+            for(let i = 0; i < sections.count(); i++) {
                 sec = sections.item(i);
                 if (sec.getName().toLowerCase().IndexOf(toSearch) > -1) {
                     pAddToSearchResult(sec.getName(), objType, objType, "S" + sec.getKey());
@@ -96,7 +96,7 @@ UNKNOWN >>             string toSearch;
         }
 
         private pAddToSearchResult(name: string, objType: csObjType, objType2: csObjType, key: string, where: string) {
-            let item: var = lv_controls.Items.Add(name);
+            let item = lv_controls.Items.Add(name);
             item.ImageIndex = objType === objType2 ? (int)objType : (int)objType2;
             item.SubItems.Add(where);
             item.Tag = key;
@@ -112,7 +112,7 @@ UNKNOWN >>             string toSearch;
 
         private cmd_edit_Click(sender: object, e: EventArgs) {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var = lv_controls.SelectedItems[0].Tag.toString();
+                let info = lv_controls.SelectedItems[0].Tag.toString();
                 this.editor.showProperties(info);
             }
         }
@@ -127,7 +127,7 @@ UNKNOWN >>             string toSearch;
 
         private selectControl() {
             if (lv_controls.SelectedItems.Count > 0) {
-                let info: var = lv_controls.SelectedItems[0].Tag.toString();
+                let info = lv_controls.SelectedItems[0].Tag.toString();
                 this.editor.selectCtrl(info);
             }
         }

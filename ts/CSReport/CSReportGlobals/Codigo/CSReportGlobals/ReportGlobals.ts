@@ -10,12 +10,12 @@ namespace CSReportGlobals {
 
         private static nextKey = 1000;
 
-        public getNextKey() {
+        public static getNextKey() {
             ReportGlobals.nextKey++;
             return ReportGlobals.nextKey;
         }
 
-        public refreshNextKey(key: string) {
+        public static refreshNextKey(key: string) {
             let keyNumber: number = 0;
             if (Utils.isNumber(key)) {
                 keyNumber = Utils.parseInt(key);
@@ -33,7 +33,7 @@ namespace CSReportGlobals {
             }
         }
 
-        public getKey(value: string) {
+        public static getKey(value: string) {
             if (value.length > 0) {
                 if ("0123456789".contains(value.substring(0, 1))) {
                     value = "K" + value;
@@ -172,13 +172,13 @@ namespace CSReportGlobals {
         CSRPTPAPERUSER = 99
     }
 
-    export enum csRptGrpOrderType
+    export enum RptGrpOrderType
     {
         CSRPTGRPASC = 1,
         CSRPTGRPDESC = 2
     }
 
-    export enum csRptGrpComparisonType
+    export enum RptGrpComparisonType
     {
         CSRPTGRPTEXT = 1,
         CSRPTGRPNUMBER = 2,

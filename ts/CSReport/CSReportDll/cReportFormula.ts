@@ -1,12 +1,9 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
+    import csRptWhenEval = CSReportGlobals.csRptWhenEval;
+    import eTypes = CSKernelClient.eTypes;
 
     export class cReportFormula {
-
-
-    {
 
         private name: string = "";
         private text: string = "";
@@ -20,7 +17,7 @@ namespace CSReportDll
         // n is the index of the function in this.FormulasInt
         // when we run the script every occurrence of $$$n is replaced for
         // the value of their corresponding function
-        // finaly if the text contains an script we evalute this with the
+        // finally if the text contains an script we evalute this with the
         // ScriptControl
         // 
         // compiled text of the function
@@ -187,11 +184,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
-    } 
-
-
-
+    }
 }

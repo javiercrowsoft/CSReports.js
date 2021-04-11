@@ -1,4 +1,8 @@
 namespace CSReportDll {
+
+    import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
+    import csReportPaperType = CSReportGlobals.csReportPaperType;
+
     export class cPrinter {
 
         private C_MODULE: string = "cPrinter";
@@ -124,7 +128,7 @@ namespace CSReportDll {
 
         public starDoc(printDoc: PrintDocument, title: string, paperSize: csReportPaperType, orientation: number) {
             printDoc.DefaultPageSettings.Landscape = (orientation === csRptPageOrientation.LANDSCAPE);
-            printDoc.DefaultPageSettings.PaperSize = getPaperSize(paperSize);
+            printDoc.DefaultPageSettings.PaperSize = this.getPaperSize(paperSize);
 
             return true;
         }

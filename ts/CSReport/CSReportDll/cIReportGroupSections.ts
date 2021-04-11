@@ -1,15 +1,12 @@
+namespace CSReportDll {
 
+    import csRptSectionType = CSReportGlobals.csRptSectionType;
 
-namespace CSReportDll
-{
-UNKNOWN >>     public interface cIReportGroupSections
-    {
+    export interface cIReportGroupSections {
 
-        void setTypeSection(csRptSectionType rhs);
-        int count();
-        cReportSection item(String key);
-        cReportSection item(int index);
-
+        setTypeSection(rhs: csRptSectionType);
+        count(): number;
+        item(key: string|number): cReportSection;
     }
 
 }

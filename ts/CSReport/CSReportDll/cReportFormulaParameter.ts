@@ -1,12 +1,6 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cReportFormulaParameter {
-
-
-    {
-        private C_MODULE: string = "cReportFormulaParameter";
 
         private value: string = "";
 
@@ -17,11 +11,5 @@ namespace CSReportDll
         public setValue(rhs: string) {
             this.value = rhs;
         }
-
-
-
-    } 
-
-
-
+    }
 }

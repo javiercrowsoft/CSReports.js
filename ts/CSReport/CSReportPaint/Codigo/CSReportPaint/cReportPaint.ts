@@ -154,7 +154,7 @@ namespace CSReportPaint
         }
 
         public getPaintObjectForTag(tag: string) {
-            for(var i = 0; i < this.paintObjects.count(); i++) {
+            for(let i = 0; i < this.paintObjects.count(); i++) {
                 let paintObj: cReportPaintObject = this.paintObjects.item(i);
                 if (paintObj.getTag() === tag) {
                     return paintObj;
@@ -164,7 +164,7 @@ namespace CSReportPaint
         }
 
         public getPaintSectionForTag(tag: string) {
-            for(var i = 0; i < this.paintSections.count(); i++) {
+            for(let i = 0; i < this.paintSections.count(); i++) {
                 let paintObj: cReportPaintObject = this.paintSections.item(i);
                 if (paintObj.getTag() === tag) {
                     return paintObj;
@@ -228,7 +228,7 @@ namespace CSReportPaint
             y: number
             sKey: string
             regionType: csRptPaintRegionType) {
-            for(var i = paintObjs.count()-1; i > -1; i--) {
+            for(let i = paintObjs.count()-1; i > -1; i--) {
                 if (pointIsInThisObjectAux(paintObjs.getNextPaintObjForZOrder(i), x, y, sKey, regionType)) {
                     return true;
                 }
@@ -1055,7 +1055,7 @@ UNKNOWN >>                                 - offSetPointSep
                 return true;
             }
 
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 if (this.vSelectedKeys[i] === sKey) {
                     return true;
                 }
@@ -1236,11 +1236,11 @@ UNKNOWN >>                                 - offSetPointSep
                 brush.Dispose();            
             }
 
-            for(var i = 0; i < getPaintObjects().count(); i++) {
+            for(let i = 0; i < getPaintObjects().count(); i++) {
                 drawObject(getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
             }
 
-            for(var i = 0; i < getPaintSections().count(); i++) {
+            for(let i = 0; i < getPaintSections().count(); i++) {
                 drawSection(getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
             }
 
@@ -1792,7 +1792,7 @@ UNKNOWN >>             Pen pen;
             else {
 
             }
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 setFocusAux(this.vSelectedKeys[i], graph);
             }
 
@@ -1807,7 +1807,7 @@ UNKNOWN >>             Pen pen;
             this.beginMoveDone = true;
 
             let graphic: Graphics = Graphics.FromImage(this.bitmap);
-            for(var i = 0; i < this.vSelectedKeys.length; i++) {
+            for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 setFocusAux(this.vSelectedKeys[i], graphic);
             }
             graphic.Dispose();

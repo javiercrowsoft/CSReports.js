@@ -271,7 +271,7 @@ namespace CSReportPaint
                 }
             }
             for(var _i = 0; _i < this.paint.getPaintObjects().count(); _i++) {
-                let paintObj: var = this.paint.getPaintObjects().item(_i);
+                let paintObj = this.paint.getPaintObjects().item(_i);
                 if (fields.item(paintObj.getIndexField() - offset) === fld) {
                     if (isInThisLine(ctrlName, indexField, fld)) {
                         return paintObj;
@@ -630,7 +630,7 @@ UNKNOWN >>             finally
                 this.oldScaleFont = this.scaleFont;
                 this.oldZoom = this.paint.getZoom();
 
-                let graph: var = e.Graphics;
+                let graph = e.Graphics;
                 dpiX = graph.DpiX;
                 dpiY = graph.DpiY;
 
@@ -662,7 +662,7 @@ UNKNOWN >>             finally
             while (this.pageToPrint < this.report.getPages().count()) {
                 if (pHaveToPrintThisPage(this.pageToPrint+1, this.pagesToPrint)) {
                     printPage(this.pageToPrint+1, true);
-                    let graph: var = e.Graphics;
+                    let graph = e.Graphics;
 
                     if (!drawPage(graph, true)) {
                         throw new ReportPaintException(csRptPaintErrors.CSRPT_PAINT_ERR_PRINTING,
@@ -722,14 +722,14 @@ UNKNOWN >>             finally
             let r: number = 0;
             let addInterval: boolean = false;
 
-            v = pagesToPrint.Split(',');
+            v = pagesToPrint.split(',');
 
             G.redim(n, 0);
 
-            for(var i = 0; i < v.length; i++) {
+            for(let i = 0; i < v.length; i++) {
                 let k: number = v[i].IndexOf("-", 1);
                 if (k > 0) {
-                    v2 = v[i].Split('-');
+                    v2 = v[i].split('-');
                     addInterval = false;
                     for (t = 0; t < v2.length; t++) {
                         if (Utils.isNumber(v2[t])) {
@@ -1220,7 +1220,7 @@ UNKNOWN >>             RectangleF tR;
 
             if (!this.bModal) {
                 if (!this.bHidePreviewWindow) {
-                    let obj: var = this.rpwPrint.getParent();
+                    let obj = this.rpwPrint.getParent();
                     if (obj.GetType() === typeof(Form))  {
                         let f: Form = obj as Form;
                         f.Show();
@@ -1667,8 +1667,8 @@ UNKNOWN >>             RectangleF tR;
                 drawPage(bmpGraphics, false);
                 let memoryStream: MemoryStream = new MemoryStream();
                 this.paint.getBitmap().Save(memoryStream, ImageFormat.Png);
-                let pngData: var = memoryStream.ToArray();
-                let image: var = Convert.ToBase64String(pngData);
+                let pngData = memoryStream.ToArray();
+                let image = Convert.ToBase64String(pngData);
                 return "data:image/png;base64," + image;
             }
             else {

@@ -24,11 +24,11 @@ namespace CSReportEditor
         }
 
         public clear() {
-            tv_controls.Nodes.Clear();
+            tv_controls.Nodes.clear();
         }
 
         public addCtrls() {
-            let report: var = this.editor.getReport();
+            let report = this.editor.getReport();
             cGlobals.addCtrls(report, tv_controls, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
             lbTitle.Text = "Report definition: " + report.getName();
         }
@@ -47,9 +47,9 @@ namespace CSReportEditor
 
         private selectAndShowInfo(node: TreeNode) {
             if (node !== null && node.Tag !== null) {
-                let info: var = node.Tag.toString();
+                let info = node.Tag.toString();
                 if (info.length > 0) {
-                    let infoType: var = info.substring(0, 1);
+                    let infoType = info.substring(0, 1);
                     if (infoType === "@") {
                         tx_descrip.Text = info.substring(4);
                     }
@@ -66,9 +66,9 @@ namespace CSReportEditor
 
         private tv_formulas_NodeMouseDoubleClick(sender: object, e: TreeNodeMouseClickEventArgs) {
             if (e.Node.Tag !== null) {
-                let info: var = e.Node.Tag.toString();
+                let info = e.Node.Tag.toString();
                 if (info.length > 0) {
-                    let infoType: var = info.substring(0, 4);
+                    let infoType = info.substring(0, 4);
                     if (infoType === "@FH=") {
                         this.formulaName = "Hide";
                         let formula: string = info.substring(4);
@@ -101,10 +101,10 @@ namespace CSReportEditor
         }
 
         private getObjectDescription(anObject: object, n: number) {
-            let descrip: var = "";
-            let tabs: var = new String('\t', n);
-            let methods: var = getMethods(anObject);
-            for(var i_ = 0; i_ < methods.length; i_++) {
+            let descrip = "";
+            let tabs = new String('\t', n);
+            let methods = getMethods(anObject);
+            for(let i_ = 0; i_ < methods.length; i_++) {
                 if (m.IsPublic 
                     && m.Name.length > 3
                     && m.Name.substring(0,3) === "get"
@@ -126,7 +126,7 @@ namespace CSReportEditor
                 return "NULL";
             }
             else {
-                let t: var = value.GetType();
+                let t = value.GetType();
                 if (t.IsPrimitive || t === typeof(Decimal) || t === typeof(String)) {
                     return value.toString();
                 }
@@ -143,9 +143,9 @@ namespace CSReportEditor
         private cmd_edit_Click(sender: object, e: EventArgs) {
             if (tv_controls.SelectedNode !== null) {
                 if (tv_controls.SelectedNode.Tag !== null) {
-                    let info: var = tv_controls.SelectedNode.Tag.toString();
+                    let info = tv_controls.SelectedNode.Tag.toString();
                     if (info.length > 0) {
-                        let infoType: var = info.substring(0, 1);
+                        let infoType = info.substring(0, 1);
                         if (infoType === "@") {
                             tx_descrip.Text = info.substring(4);
                         }

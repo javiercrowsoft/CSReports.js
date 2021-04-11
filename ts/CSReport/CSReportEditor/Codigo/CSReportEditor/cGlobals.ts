@@ -126,7 +126,7 @@ UNKNOWN >>             finally {
             rptConnect.getColumns().clear();
             rptConnect.getParameters().clear();
 
-            for(var i = 0; i < connect.getColumnsInfo().count(); i++) {
+            for(let i = 0; i < connect.getColumnsInfo().count(); i++) {
                 let colInfo: CSConnect.cColumnInfo = connect.getColumnsInfo().item(i);
                 let rptColInfo: CSReportDll.cColumnInfo = new CSReportDll.cColumnInfo();
 
@@ -136,7 +136,7 @@ UNKNOWN >>             finally {
                 rptConnect.getColumns().add(rptColInfo, "");
             }
 
-            for(var i = 0; i < connect.getParameters().count(); i++) {
+            for(let i = 0; i < connect.getParameters().count(); i++) {
                 let parameter: CSConnect.cParameter = connect.getParameters().item(i);
                 let rptParameter: CSReportDll.cParameter = new CSReportDll.cParameter();
 
@@ -222,13 +222,13 @@ UNKNOWN >>             finally {
         }
 
         public addCtrls(report: cReport, lv_controls: ListView, C_CTRL_IMAGE: number, C_DB_IMAGE: number) {
-            lv_controls.Items.Clear();
+            lv_controls.Items.clear();
 
-            for(var i = 0; i < report.getControls().count(); i++) {
-                let ctrl: var = report.getControls().item(i);
-                let ctrlName: var = ctrl.getName();
-                let ctrlInfo: var = "";
-                let ctrlField: var = "";
+            for(let i = 0; i < report.getControls().count(); i++) {
+                let ctrl = report.getControls().item(i);
+                let ctrlName = ctrl.getName();
+                let ctrlInfo = "";
+                let ctrlField = "";
 
                 switch (ctrl.getControlType())
                 {
@@ -250,7 +250,7 @@ UNKNOWN >>             finally {
                     ctrlName += " (" + ctrlInfo + ")";
                 }
 
-                let item: var = lv_controls.Items.Add(ctrlName, C_CTRL_IMAGE);
+                let item = lv_controls.Items.Add(ctrlName, C_CTRL_IMAGE);
                 item.Tag = ctrl.getKey();
                 item.SubItems.Add("");
                 item.SubItems.Add("");
@@ -274,7 +274,7 @@ UNKNOWN >>             finally {
             report: cReport, tv_controls: TreeView
             C_IMG_FOLDER: number, C_IMG_FORMULA: number
             C_IMG_CONTROL: number, C_IMG_DATBASE_FIELD: number) {
-            tv_controls.Nodes.Clear();
+            tv_controls.Nodes.clear();
 
 UNKNOWN >>             TreeNode nodeGroup;
             let nodeRoot: TreeNode = tv_controls.Nodes.Add(report.getName());
@@ -317,7 +317,7 @@ UNKNOWN >>             cReportSection sec;
 UNKNOWN >>             cReportSectionLine secLn;
 UNKNOWN >>             cReportControl ctrl;
 
-            for(var i = 0; i < sections.count(); i++) {
+            for(let i = 0; i < sections.count(); i++) {
                 sec = sections.item(i);
                 nodeSec = father.Nodes.Add(sec.getName());
                 nodeSec.Tag = "S" + sec.getKey();
@@ -427,10 +427,10 @@ UNKNOWN >>             cReportControl ctrl;
         public fillColumns(
             dataSource: string, columns: CSReportDll.cColumnsInfo, lv_columns: ListView
             C_INDEX: string, C_FIELDTYPE: string, add: boolean) {
-            if (!add) lv_columns.Items.Clear(); {
+            if (!add) lv_columns.Items.clear(); {
 
-            for(var i_ = 0; i_ < columns.length; i_++) {
-                let item: var = lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
+            for(let i_ = 0; i_ < columns.length; i_++) {
+                let item = lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
                 item.ImageIndex = 0;
                 let info: string = cUtil.setInfoString("", C_INDEX, column.getPosition().toString());
                 info = cUtil.setInfoString(info, C_FIELDTYPE, column.getColumnType().toString());

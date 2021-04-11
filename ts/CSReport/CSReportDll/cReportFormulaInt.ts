@@ -1,11 +1,8 @@
+namespace CSReportDll {
 
+    import csRptFormulaType = CSReportGlobals.csRptFormulaType;
 
-namespace CSReportDll
-{
     export class cReportFormulaInt {
-
-
-    {
 
         private C_MODULE: string = "cReportFormulaInt";
 
@@ -28,11 +25,5 @@ namespace CSReportDll
         public setFormulaType(rhs: csRptFormulaType) {
             this.formulaType = rhs;
         }
-
-
-
-    } 
-
-
-
+    }
 }

@@ -14,7 +14,7 @@ namespace CSReportPaint
 
         // Adds elements from an IDictionary into the new collection.
         public constructor(d: IDictionary, bReadOnly: boolean) {
-            for(var i_ = 0; i_ < d.length; i_++) {
+            for(let i_ = 0; i_ < d.length; i_++) {
                 this.BaseAdd(de.Key, de.Value);
             }
             this.IsReadOnly = bReadOnly;
@@ -198,7 +198,7 @@ UNKNOWN >>             int i;
         }
 
         public getZOrderForKey(key: string) {
-            for(var i = 0; i < this.zorder.length; i++) {
+            for(let i = 0; i < this.zorder.length; i++) {
                 if (this.zorder[i] === key) {
                     return i;
                 }
@@ -234,7 +234,7 @@ UNKNOWN >>             int i;
         }
 
         private removeZOrder(sKey: string) {
-            for(var i = 0; i < this.zorder.length; i++) {
+            for(let i = 0; i < this.zorder.length; i++) {
                 if (this.zorder[i] === sKey) {
                     for(var j = i; j < this.zorder.length - 1; j++) {
                         this.zorder[j] = this.zorder[j + 1];

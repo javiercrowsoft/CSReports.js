@@ -142,7 +142,7 @@ namespace CSReportPaint
         }
 
         public addFontIfRequired(font: cReportFont, this.fnt: Font[]) {
-            for(var i = 0; i < this.fnt.length; i++) {
+            for(let i = 0; i < this.fnt.length; i++) {
                 if(font.getName() === this.fnt[i].Name 
                     && font.getBold() === this.fnt[i].Bold 
                     && font.getItalic() === this.fnt[i].Italic 
