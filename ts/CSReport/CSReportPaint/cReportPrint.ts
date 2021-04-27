@@ -724,7 +724,7 @@ UNKNOWN >>             finally
 
             v = pagesToPrint.split(',');
 
-            G.redim(n, 0);
+            n = [];
 
             for(let i = 0; i < v.length; i++) {
                 let k: number = v[i].IndexOf("-", 1);
@@ -1639,8 +1639,8 @@ UNKNOWN >>             RectangleF tR;
             {
                 DeleteObject(this.hFnt[iFnt]);
             }
-            G.redim(this.fnt, 0);
-            G.redim(this.hFnt, 0);
+            this.fnt = [];
+            this.hFnt = [];
              */
         }
 

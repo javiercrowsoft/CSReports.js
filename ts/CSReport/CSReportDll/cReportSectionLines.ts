@@ -1,23 +1,16 @@
+namespace CSReportDll {
 
+    import Map = CSOAPI.Map;
+    import csRptSectionType = CSReportGlobals.csRptSectionType;
+    import ReportGlobals = CSReportGlobals.ReportGlobals;
 
-namespace CSReportDll
-{
-
-    export class cReportSectionLines {
-
-
-    {
+    export class cReportSectionLines extends Map<cReportSectionLine> {
 
         // it is a reference to the controls collection of cReport
         //
         private copyColl: cReportControls2 = null;
         private typeSection: csRptSectionType = null;
-        private coll: Hashtable = new Hashtable();
-        private keys: List = new List();
-
-        // Creates an empty collection.
-        public constructor() {
-        }
+        private _keys = [];
 
         public getTypeSection() {
             return this.typeSection;
@@ -31,8 +24,8 @@ namespace CSReportDll
             let sectionLn: cReportSectionLine = null;
             this.copyColl = rhs;
 
-            for(var _i = 0; _i < this.count(); _i++) {
-                sectionLn = item(_i);
+            for(let _i = 0; _i < this.count(); _i++) {
+                sectionLn = this.item(_i);
                 sectionLn.setCopyColl(rhs);
             }
         }
@@ -41,15 +34,12 @@ namespace CSReportDll
             return this.copyColl;
         }
 
-		public add() {
-			return add (null, "", -1);
-		}
-        public add(c: cReportSectionLine, key: string, index: number) {
+		public add(c: cReportSectionLine = null, key: string = "", index: number = -1) {
             try {
-                if (c === null)  {
+                if (c === null || c === undefined)  {
                     c = new cReportSectionLine();
                 }
-                if (key === "") {
+                if (key === "" || key === undefined) {
                     key = ReportGlobals.getNextKey().toString();
                 }
                 else {
@@ -58,19 +48,19 @@ namespace CSReportDll
 
                 key = ReportGlobals.getKey(key);
 
-                if ( && this.count() > 0) {
-                    this.keys.Insert(index, key);
+                if (index != -1 && this.count() > 0) {
+                    this._keys.splice(index, 0, key);
                 }
                 else {
-                    this.keys.Add(key);
+                    this._keys.push(key);
                 }
 
-                this.coll.Add(key, c);
+                this.baseAdd(c, key);
 
                 c.setCopyColl(this.copyColl);
                 c.setTypeSection(this.typeSection);
 
-                pRefreshIndex();
+                this.refreshIndex();
                 c.setIndex(this.count()-1);
                 c.setKey(key);
 
@@ -85,7 +75,7 @@ namespace CSReportDll
             try {
                 let n: number = this.count();
                 for(let i = 0; i < n; i++) {
-                    remove(0);
+                    this.remove(0);
                 }
                 return;
             }
@@ -93,76 +83,66 @@ namespace CSReportDll
             }
         }
 
-        public remove(key: string) {
+        public remove(indexOrKey: string | number) {
             try {
-                let w_item: cReportSectionLine = item(key);
+                let w_item: cReportSectionLine = this.item(indexOrKey);
                 if (w_item !== null) {
                     if (w_item.getControls() !== null) {
                         w_item.getControls().clear();
                         w_item.getControls().setSectionLine(null);
                         w_item.getControls().setCopyColl(null);
                     }
-                    this.coll.Remove(key);
-                    this.keys.Remove(key);
-                }
-
-                return;
-            }
-            catch(ex) {
-            }
-        }
-
-        public remove(index: number) {
-            try {
-                let w_item: cReportSectionLine = item(index);
-                if (w_item !== null) {
-                    if (w_item.getControls() !== null) {
-                        w_item.getControls().clear();
-                        w_item.getControls().setSectionLine(null);
-                        w_item.getControls().setCopyColl(null);
+                    if(typeof indexOrKey !== "string") {
+                        this.baseRemove(this._keys[indexOrKey]);
+                    } else {
+                        this.baseRemove(indexOrKey);
                     }
-                    this.coll.Remove(this.keys[index]);
-                    this.keys.RemoveAt(index);
+                    this.keyRemove(indexOrKey);
                 }
-
-                return;
             }
             catch(ex) {
             }
         }
 
-        public count() {
-            return this.coll.Count;
+        private keyRemove(indexOrKey: string|number): void {
+            if(typeof indexOrKey === "string")
+                this.keyRemoveByKey(indexOrKey);
+            else
+                this.keyRemoveByIndex(indexOrKey);
         }
 
-        public item(key: string) {
-            try {
-                return this.coll[key];
-            }
-            catch (ex) {
-                return null;
-            }
+        private keyRemoveByKey(key: string): void {
+            this.keyRemoveByIndex(this._keys.indexOf(key));
         }
 
-        public item(index: number) {
-            try {
-                return this.coll[this.keys[index]];
-            }
-            catch(ex) {
-                return null;
+        private keyRemoveByIndex(index: number): void {
+            if (index > -1) {
+                this._keys.splice(index,1);
             }
         }
 
-        private pRefreshIndex() {
+        private refreshIndex() {
             for(let i = 0; i < this.count(); i++) {
-                item(i).setRealIndex(i);
+                this.item(i).setRealIndex(i);
             }
         }
 
-
-
-    } 
-
-
-
+        public item(indexOrKey: string|number) {
+            try {
+                if(typeof indexOrKey !== "string") {
+                    // it is an index so we need to search for the
+                    // key associated with that position
+                    //
+                    return this.baseItem(this._keys[indexOrKey]);
+                }
+                else {
+                    // it was a key
+                    return this.baseItem(indexOrKey);
+                }
+            }
+            catch {
+                return null;
+            }
+        }
+    }
 }

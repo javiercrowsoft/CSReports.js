@@ -2,7 +2,7 @@ namespace CSKernelClient {
 
     export class cDateUtils {
 
-        public isDate(value: any) {
+        public static isDate(value: any) {
             if (this.isValidDate(value)) {
                 return true;
             }
@@ -17,7 +17,7 @@ namespace CSKernelClient {
             }
         }
 
-        private isValidDate(date: any): boolean {
+        private static isValidDate(date: any): boolean {
             return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
         }
     }

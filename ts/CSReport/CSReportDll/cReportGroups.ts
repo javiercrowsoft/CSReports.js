@@ -102,11 +102,11 @@ namespace CSReportDll {
         private setName2(section: string, name: string) {
             let sectionName: string = section.toLowerCase();
             if (sectionName.length === 0
-                || cUtil.substring(sectionName, 0, 5) === "group"
-                || cUtil.substring(sectionName, 0, 5) === "grupo"
-                || cUtil.substring(sectionName, 0, 3) === "gh_"
-                || cUtil.substring(sectionName, 0, 3) === "gf_"
-                || cUtil.substring(sectionName, 0, 2) === "g_"
+                || sectionName.substring(0, 5) === "group"
+                || sectionName.substring(0, 5) === "grupo"
+                || sectionName.substring(0, 3) === "gh_"
+                || sectionName.substring(0, 3) === "gf_"
+                || sectionName.substring(0, 2) === "g_"
                 ) {
                 return name;
             }

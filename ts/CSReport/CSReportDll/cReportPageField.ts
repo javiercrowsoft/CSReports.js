@@ -1,13 +1,6 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cReportPageField {
-
-
-    {
-
-        private C_MODULE: string = "cReportPageField";
 
         private value: string = "";
         private info: cReportPageInfo = null;
@@ -169,11 +162,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
     }
-
-
-
 }

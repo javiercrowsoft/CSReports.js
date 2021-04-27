@@ -1,31 +1,25 @@
+namespace CSReportDll {
 
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+    export class ProgressEventArgs {
 
-namespace CSReportDll
-{
+        private task = "";
+        private page = 0;
+        private currRecord = 0;
+        private recordCount = 0;
+        private cancel: boolean = false;
 
-    public class ProgressEventArgs : EventArgs
-    {
-        private readonly String this.task = "";
-        private readonly int this.page = 0;
-        private readonly int this.currRecord = 0;
-        private readonly int this.recordCount = 0;
-
-        public ProgressEventArgs(String task, int page, int currRecord, int recordCount)
-        {
+        public ProgressEventArgs(task: string, page: number, currRecord: number, recordCount: number) {
             this.task = task;
             this.page = page;
             this.currRecord = currRecord;
             this.recordCount = recordCount;
         }
-        public String task { get { return this.task; } }
-        public int page { get { return this.page; } }
-        public int currRecord { get { return this.currRecord; } }
-        public int recordCount { get { return this.recordCount; } }
-        public bool cancel { get; set; }
-    }
 
+        public getTask() { return this.task; }
+        public getPage() { return this.page; }
+        public getCurrRecord() { return this.currRecord; }
+        public getRecordCount() { return this.recordCount; }
+        public isCancel() { return this.cancel; }
+        public setCancel(cancel: boolean) { this.cancel = cancel; }
+    }
 }

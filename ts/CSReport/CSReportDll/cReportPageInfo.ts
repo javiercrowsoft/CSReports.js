@@ -1,13 +1,6 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cReportPageInfo {
-
-
-    {
-
-        private C_MODULE: string = "cReportPageInfo";
 
         private aspect: cReportAspect = null;
         private sectionLine: cReportSectionLine = null;
@@ -92,11 +85,5 @@ namespace CSReportDll
 
             return this.aspect.save(xDoc, nodeObj);
         }
-
-
-
-    } 
-
-
-
+    }
 }

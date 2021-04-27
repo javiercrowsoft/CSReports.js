@@ -1,11 +1,7 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cReportFormulaType {
 
-
-    {
         private name: string = "";
         private nameUser: string = "";
         private id: csRptFormulaType = 0;
@@ -55,11 +51,5 @@ namespace CSReportDll
         public setHelpContextId(rhs: number) {
             this.helpContextId = rhs;
         }
-
-
-
-    } 
-
-
-
+    }
 }

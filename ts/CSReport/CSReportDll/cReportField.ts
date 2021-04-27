@@ -1,11 +1,8 @@
+namespace CSReportDll {
 
+    import eTypes = CSKernelClient.eTypes;
 
-namespace CSReportDll
-{
     export class cReportField {
-
-
-    {
 
         private name: string = "";
         private index: number = 0;
@@ -66,11 +63,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
     }
-
-
-
 }

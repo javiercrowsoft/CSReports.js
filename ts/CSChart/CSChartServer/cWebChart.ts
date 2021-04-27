@@ -1,6 +1,12 @@
 namespace CSChartServer {
 
     import NotImplementedException = CSOAPI.NotImplementedException;
+    import csRptChartType = CSReportGlobals.csRptChartType;
+    import csColors = CSReportGlobals.csColors;
+    import csRptChartLineStyle = CSReportGlobals.csRptChartLineStyle;
+    import csRptChartPieThickness = CSReportGlobals.csRptChartPieThickness;
+    import csRptChartPieDiameter = CSReportGlobals.csRptChartPieDiameter;
+    import csRptChartFormat = CSReportGlobals.csRptChartFormat;
 
     export class cWebChart {
 

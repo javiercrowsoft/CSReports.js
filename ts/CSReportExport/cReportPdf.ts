@@ -1,11 +1,7 @@
+namespace CSReportExport {
 
-
-namespace CSReportExport
-{
     export class cReportPdf {
 
-
-    {
         public setExportEmailAddress(emailAddress: string) {
         }
 
@@ -19,7 +15,5 @@ namespace CSReportExport
         public exportEx(report: CSReportDll.cReport, caller: object, outputFile: string, showPDFWindow: boolean) {
             return false;
         }
-
-
-    } 
+    }
 }

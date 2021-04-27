@@ -1,14 +1,8 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
+    import eTypes = CSKernelClient.eTypes;
 
     export class cReportPage {
-
-
-    {
-
-        private C_MODULE: string = "cReportPage";
 
         private C_NODERPTHEADER: string = "Header";
         private C_NODERPTHEADERLINE: string = "HeaderLine";
@@ -84,7 +78,7 @@ namespace CSReportDll
             this.detail.clear();
             this.footer.clear();
 
-            nodeObj = xDoc.getNodeFromNode(nodeObj, C_NODERPTHEADER);
+            nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTHEADER);
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
@@ -95,7 +89,7 @@ namespace CSReportDll
                 }
             }
 
-            nodeObj = xDoc.getNodeFromNode(nodeObj, C_NODERPTDETAIL);
+            nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTDETAIL);
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
@@ -106,7 +100,7 @@ namespace CSReportDll
                 }
             }
 
-            nodeObj = xDoc.getNodeFromNode(nodeObj, C_NODERPTFOOTER);
+            nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTFOOTER);
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
@@ -147,7 +141,7 @@ namespace CSReportDll
             let pageFld: cReportPageField = null;
             let nodeAux: XmlNode = null;
 
-            xProperty.setName(C_NODERPTHEADER);
+            xProperty.setName(this.C_NODERPTHEADER);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -156,7 +150,7 @@ namespace CSReportDll
                 pageFld.save(xDoc, nodeAux);
             }
 
-            xProperty.setName(C_NODERPTDETAIL);
+            xProperty.setName(this.C_NODERPTDETAIL);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -165,7 +159,7 @@ namespace CSReportDll
                 pageFld.save(xDoc, nodeAux);
             }
 
-            xProperty.setName(C_NODERPTFOOTER);
+            xProperty.setName(this.C_NODERPTFOOTER);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -195,7 +189,7 @@ namespace CSReportDll
 
             let nHeader: number = 0;
 
-            xProperty.setName(C_NODERPTHEADER);
+            xProperty.setName(this.C_NODERPTHEADER);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -219,7 +213,7 @@ namespace CSReportDll
                 }
 
                 if (addLine) {
-                    xProperty.setName(C_NODERPTHEADERLINE + nHeader.toString());
+                    xProperty.setName(this.C_NODERPTHEADERLINE + nHeader.toString());
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
                 }
@@ -227,7 +221,7 @@ namespace CSReportDll
                 pageFld.saveForWeb(xDoc, nodeAux);
             }
 
-            xProperty.setName(C_NODERPTDETAIL);
+            xProperty.setName(this.C_NODERPTDETAIL);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -250,7 +244,7 @@ namespace CSReportDll
                 }
 
                 if (addLine) {
-                    xProperty.setName(C_NODERPTDETAILLINE);
+                    xProperty.setName(this.C_NODERPTDETAILLINE);
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
                 }
@@ -258,7 +252,7 @@ namespace CSReportDll
                 pageFld.saveForWeb(xDoc, nodeAux);
             }
 
-            xProperty.setName(C_NODERPTFOOTER);
+            xProperty.setName(this.C_NODERPTFOOTER);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -280,7 +274,7 @@ namespace CSReportDll
                 }
 
                 if (addLine) {
-                    xProperty.setName(C_NODERPTFOOTERLINE);
+                    xProperty.setName(this.C_NODERPTFOOTERLINE);
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
                 }
@@ -290,11 +284,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
-    } 
-
-
-
+    }
 }

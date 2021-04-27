@@ -1,14 +1,6 @@
-
-
-namespace CSReportDll
-{
+namespace CSReportDll {
 
     export class cReportSectionLine {
-
-
-    {
-
-        private C_NODERPTCONTROLS: string = "RptControls";
 
         private controls: cReportControls = new cReportControls();
         private aspect: cReportAspect = new cReportAspect();
@@ -133,6 +125,7 @@ namespace CSReportDll
         public setCopyColl(rhs: cReportControls2) {
             if (this.controls !== null) {
                 this.controls.setCopyColl(rhs);
+            }
         }
 
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
@@ -222,78 +215,5 @@ namespace CSReportDll
 
             return true;
         }
-
-        // Implement IDisposable.
-        // Do not make this method virtual.
-        // A derived class should not be able to override this method.
-        public Dispose() {
-            Dispose(true);
-            // This object will be cleaned up by the Dispose method.
-            // Therefore, you should call GC.SupressFinalize to
-            // take this object off the finalization queue
-            // and prevent finalization code for this object
-            // from executing a second time.
-            GC.SuppressFinalize(this);
-        }
-
-        // Track whether Dispose has been called.
-        private disposed: boolean = false;
-
-        // Dispose(bool disposing) executes in two distinct scenarios.
-        // If disposing equals true, the method has been called directly
-        // or indirectly by a user's code. Managed and unmanaged resources
-        // can be disposed.
-        // If disposing equals false, the method has been called by the
-        // runtime from inside the finalizer and you should not reference
-        // other objects. Only unmanaged resources can be disposed.
-        public Dispose(disposing: boolean) {
-            // Check to see if Dispose has already been called.
-            if (!this.disposed) {
-                // If disposing equals true, dispose all managed
-                // and unmanaged resources.
-                if (disposing) {
-                    // Dispose managed resources.
-                    releaseReferences();
-                }
-
-                // Note disposing has been done.
-                disposed = true;
-
-            }
-        }
-
-        // Use C# destructor syntax for finalization code.
-        // This destructor will run only if the Dispose method
-        // does not get called.
-        // It gives your base class the opportunity to finalize.
-        // Do not provide destructors in types derived from this class.
-        ~cReportSectionLine()
-        {
-            // Do not re-create Dispose clean-up code here.
-            // Calling Dispose(false) is optimal in terms of
-            // readability and maintainability.
-            Dispose(false);
-        }
-
-        private releaseReferences() {
-            setCopyColl(null);
-
-            if (this.controls !== null) {
-                if (this.controls.getCopyColl() !== null) {
-                    this.controls.getCopyColl().clear();
-                    this.controls.setCopyColl(null);
-                }
-                this.controls.clear();
-                this.controls = null;
-            }
-
-            this.aspect = null;
-            this.formulaHide = null;
-        }
-
-
     }
-
-
-
 }

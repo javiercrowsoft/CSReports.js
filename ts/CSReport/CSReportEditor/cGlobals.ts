@@ -1,13 +1,9 @@
+namespace CSReportEditor {
 
+    import cError = CSKernelClient.cError;
+    import cConnect = CSConnect.cConnect;
 
-namespace CSReportEditor
-{
     export class cGlobals {
-
-
-    {
-
-        public C_MODULE: string = "CSReportEditor.cGlobals";
 
         public C_KEY_HEADER: string = "RH";
         public C_KEY_FOOTER: string = "RF";
@@ -29,7 +25,7 @@ namespace CSReportEditor
         public c_BTN_ALIGN_RIGHT: string  = "ALIGN_RIGHT";
 
         public c_BTN_FONT_BOLD: string = "FONT_BOLD";
-        public c_BTN_SEARCH: string = "SEARCH";
+        public c_BTN_SEARCH: string    = "SEARCH";
 
         public c_BTN_CTL_ALIGN_TOP: string        = "CTL_ALIGN_TOP";
         public c_BTN_CTL_ALIGN_BOTTOM: string     = "CTL_ALIGN_BOTTOM";
@@ -56,7 +52,6 @@ namespace CSReportEditor
 
         public C_GROUP_LABEL: string = "Group";
 
-		// TODO: refactor
 		public ShiftMask: number = 1;
 
         public setStatus() {
@@ -65,6 +60,12 @@ namespace CSReportEditor
 
 		public showDbFields(field: string, fieldType: number, index: number, editor: cEditor) {
             let fc: fColumns = null;
+
+            const close = () => {
+                if (fc !== null) {
+                    fc.Close();
+                }
+            }
 
             try {
                 fc = new fColumns();
@@ -82,44 +83,41 @@ namespace CSReportEditor
                 }
 
                 fc.setField(field);
-                fc.ShowDialog();
+                fc.showDialog();
 
                 if (fc.getOk()) {
                     field = fc.getField();
                     fieldType = fc.getFieldType();
                     index = fc.getIndex();
-
+                    close();
                     return true;
                 }
                 else {
+                    close();
                     return false;
                 }
 
-            } catch (Exception ex) {
-                cError.mngError(ex, "showDbFields", C_MODULE, "");
+            } catch (ex: object) {
+                close();
+                cError.mngError(ex, "showDbFields");
                 return false;
             }
-UNKNOWN >>             finally {
-                if (fc !== null) {
-                    fc.Close();
-                }
-            }      
 		}
 
 		public setEditAlignTextState(length: object) {
-            implementThisMessage("setEditAlignTextState", "(CSReportEditor cGlobals)");
+            this.implementThisMessage("setEditAlignTextState", "(CSReportEditor cGlobals)");
 		}
 
 		public setEditAlignCtlState(b: boolean) {
-            implementThisMessage("setEditAlignCtlState", "(CSReportEditor cGlobals)");
+            this.implementThisMessage("setEditAlignCtlState", "(CSReportEditor cGlobals)");
 		}
 
 		public setEditFontBoldValue(bBold: number) {
-            implementThisMessage("setEditFontBoldValue", "(CSReportEditor cGlobals)");
+            this.implementThisMessage("setEditFontBoldValue", "(CSReportEditor cGlobals)");
 		}
 
 		public setEditAlignValue(align: number) {
-            implementThisMessage("setEditAlignValue", "(CSReportEditor cGlobals)");
+            this.implementThisMessage("setEditAlignValue", "(CSReportEditor cGlobals)");
 		}
 
 		public setParametersAux(connect: cConnect, rptConnect: cReportConnect) {
@@ -496,7 +494,7 @@ UNKNOWN >>         CSRPTEDMOVTNONE
 
 
 
-UNKNOWN >>     public enum csRptEditCtrlType {
+export enum csRptEditCtrlType {
         none,
         label,
         field,

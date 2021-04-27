@@ -298,7 +298,7 @@ namespace CSXml {
                 vBuffer = System.Convert.FromBase64String(attr.Value);
             }
             else {
-                G.redim(vBuffer, 0);
+                vBuffer = [];
             }
 
             o.setBinaryValue(vBuffer);

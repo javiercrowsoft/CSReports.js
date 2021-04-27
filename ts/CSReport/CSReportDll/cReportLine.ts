@@ -1,11 +1,6 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cReportLine {
-
-
-    {
 
         private aspect: cReportAspect = new cReportAspect();
 
@@ -33,11 +28,5 @@ namespace CSReportDll
 
             return this.aspect.save(xDoc, nodeObj);
         }
-
-
-
-    } 
-
-
-
+    }
 }

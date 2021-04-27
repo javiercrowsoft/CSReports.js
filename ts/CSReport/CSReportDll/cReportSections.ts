@@ -1,26 +1,17 @@
+namespace CSReportDll {
 
+    import Map = CSOAPI.Map;
+    import csRptSectionType = CSReportGlobals.csRptSectionType;
+    import ReportGlobals = CSReportGlobals.ReportGlobals;
 
-namespace CSReportDll
-{
-    export class cReportSections {
-
-
-    {
-
-        private C_MODULE: string = "cReportSections";
-
-        private coll: Dictionary = new Dictionary();
-        private keys: List = new List();
+    export class cReportSections extends Map<cReportSection> {
 
         // it is a reference to the controls collection of cReport
         //
         private copyColl: cReportControls2 = null;
         private typeSection: csRptSectionType = null;
         private mainTypeSection: csRptSectionType = null;
-
-        // Creates an empty collection.
-        public constructor() {
-        }
+        private _keys = [];
 
         public getTypeSection() {
             return this.typeSection;
@@ -37,29 +28,19 @@ namespace CSReportDll
         public setCopyColl(rhs: cReportControls2) {
             this.copyColl = rhs;
 
-            if (this.coll !== null)  {
-                let section: cReportSection = null;
-
-                for(var _i = 0; _i < this.count(); _i++) {
-                    section = item(_i);
-                    section.setCopyColl(rhs);
+            if (this.count() > 0)  {
+                for(let _i = 0; _i < this.count(); _i++) {
+                    this.item(_i).setCopyColl(rhs);
                 }
             }
         }
 
-		public add() {
-			return add(null, "");
-		}
-        public add(c: cReportSection, key: string) {
-            return add(c, key, -1);
-        }
-
-        public add(c: cReportSection, key: string, index: number) {
+        public add(c: cReportSection = null, key: string = "", index: number = -1) {
             try {
-                if (c === null) {
+                if (c === null || undefined) {
                     c = new cReportSection();
                 }
-                if (key === "") {
+                if (key === "" || key === null || key === undefined) {
                     key = ReportGlobals.getNextKey().toString();
                 }
                 else {
@@ -68,14 +49,14 @@ namespace CSReportDll
 
                 key = ReportGlobals.getKey(key);
 
-                if ( && this.count() > 0) {
-                    this.keys.Insert(index, key);
+                if (index !== -1 && this.count() > 0) {
+                    this._keys.splice(index, 0, key);
                 }
                 else {
-                    this.keys.Add(key);
+                    this._keys.push(key);
                 }
 
-                this.coll.Add(key, c);
+                this.baseAdd(c, key);
                 c.setCopyColl(this.copyColl);
 
                 if (this.count() === 1) {
@@ -85,7 +66,7 @@ namespace CSReportDll
                     c.setTypeSection(this.typeSection);
                 }
 
-                pRefreshIndex();
+                this.refreshIndex();
 
                 c.setIndex(this.count()-1);
                 c.setKey(key);
@@ -101,7 +82,7 @@ namespace CSReportDll
             try {
                 let n: number = this.count();
                 for(let i = 0; i < n; i++) {
-                    remove(0);
+                    this.remove(0);
                 }
                 return;
             }
@@ -109,80 +90,68 @@ namespace CSReportDll
             }
         }
 
-        public remove(key: string) {
+        public remove(indexOrKey: string|number) {
             try {
-                item(key).getSectionLines().clear();
-                this.coll.Remove(key);
-                this.keys.Remove(key);
-
-                for(let i = 0; i < this.count(); i++) {
-                    this.coll[this.keys[i]].setIndex(i);
-                    this.coll[this.keys[i]].setName(this.coll[this.keys[i]].getName().substring(0, 2).replace("_", "")
-                                                + "_" + i.toString());
+                this.item(indexOrKey).getSectionLines().clear();
+                if(typeof indexOrKey !== "string") {
+                    this.baseRemove(this._keys[indexOrKey]);
+                } else {
+                    this.baseRemove(indexOrKey);
                 }
-                pRefreshIndex();
-                return;
-            }
-            catch(ex) {
-            }
-        }
 
-        public remove(index: number) {
-            try {
-                item(index).getSectionLines().clear();
-                this.coll.Remove(this.keys[index]);
-                this.keys.RemoveAt(index);
+                this.keyRemove(indexOrKey);
 
                 for(let i = 0; i < this.count(); i++) {
-                    let sec: cReportSection = this.coll[this.keys[i]];
+                    let sec: cReportSection = this.item[this._keys[i]];
                     sec.setIndex(i);
                     sec.setName(sec.getName().substring(0, 2).replace("_", "")
                                 + "_" + i.toString());
                 }
-                pRefreshIndex();
-                return;
+                this.refreshIndex();
             }
             catch(ex) {
             }
         }
 
-        public count() {
-            return this.coll.Count;
+        private keyRemove(indexOrKey: string|number): void {
+            if(typeof indexOrKey === "string")
+                this.keyRemoveByKey(indexOrKey);
+            else
+                this.keyRemoveByIndex(indexOrKey);
         }
 
-        public item(key: string) {
+        private keyRemoveByKey(key: string): void {
+            this.keyRemoveByIndex(this._keys.indexOf(key));
+        }
+
+        private keyRemoveByIndex(index: number): void {
+            if (index > -1) {
+                this._keys.splice(index,1);
+            }
+        }
+
+        private refreshIndex() {
+            for(let i = 0; i < this.count(); i++) {
+                this.item(i).setRealIndex(i);
+            }
+        }
+
+        public item(indexOrKey: string|number) {
             try {
-                if (this.coll.ContainsKey(key)) {
-                    return this.coll[key];
+                if(typeof indexOrKey !== "string") {
+                    // it is an index so we need to search for the
+                    // key associated with that position
+                    //
+                    return this.baseItem(this._keys[indexOrKey]);
                 }
                 else {
-                    return null;
-                }                
+                    // it was a key
+                    return this.baseItem(indexOrKey);
+                }
             }
-            catch(ex) {
+            catch {
                 return null;
             }
         }
-
-        public item(index: number) {
-            try {
-                return this.coll[this.keys[index]];
-            }
-            catch(ex) {
-                return null;
-            }
-        }
-
-        private pRefreshIndex() {
-            for(let i = 0; i < this.count(); i++) {
-                item(i).setRealIndex(i);
-            }
-        }
-
-
-
     }
-
-
-
 }

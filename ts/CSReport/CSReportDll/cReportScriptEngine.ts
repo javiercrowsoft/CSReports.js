@@ -1,14 +1,9 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cReportScriptEngine {
 
-
-    {
-
         private getFunctionCall(code: string, formula: cReportFormula) {
-            let n: number = code.IndexOf("(");
+            let n: number = code.indexOf("(");
             let functionName = cUtil.substring(code, 8, n-8);
             let parameters = "";
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
@@ -22,12 +17,12 @@ namespace CSReportDll
         }
 
         private putCodeInClass(code: string, formula: cReportFormula) {
-            if (cUtil.substring(code, 0, 8).toLowerCase() === "function") {
+            if (code.substring(0, 8).toLowerCase() === "function") {
                 return "Public Class util\r\n"
                      + "Implements CSReportScript.cIReportScriptType\r\n"
                      + code + "\r\n"
                      + "Public Function RunScript(globals As CSReportScript.cReportCompilerGlobals) As String Implements CSReportScript.cIReportScriptType.RunScript\r\n"
-                     + "  dim value__ = " + getFunctionCall(code, formula) + "\r\n"
+                     + "  dim value__ = " + this.getFunctionCall(code, formula) + "\r\n"
 
                      // TODO: remove debug info
                      /*
@@ -70,10 +65,7 @@ namespace CSReportDll
             else {
                 // TODO: implement c# scripting
                 //
-                export class util: {
-
-
-            }            
+            }
         }
 
         public compileCode(code: string, formula: cReportFormula) {

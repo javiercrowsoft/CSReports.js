@@ -1,24 +1,18 @@
+namespace CSReportPaint {
 
-
-namespace CSReportPaint
-{
     export class cGlobals {
 
+        private static nextKey = 1000;
 
-    {
-        private int: static this.nextKey = 1000;
+        private _flag = new Bitmap(1, 1);
+        private _g = Graphics.FromImage(_flag);
 
-        private C_MODULE: string = "cGlobals";
-
-        private Bitmap: static _flag = new Bitmap(1, 1);
-        private Graphics: static _g = Graphics.FromImage(_flag);
-
-        public getNextKey() {
+        public static getNextKey() {
             this.nextKey++;
             return this.nextKey;
         }
 
-        public getKey(value: string) {
+        public static getKey(value: string) {
             if (value.length > 0) {
                 if ("0123456789".contains(value.substring(0, 1))) {
                     value = "K" + value;
@@ -27,24 +21,24 @@ namespace CSReportPaint
             return value;
         }
 
-        public getBitmapSize(image: Image, imgWidth: number, imgHeight: number, inTwips: boolean) {
+        public static getBitmapSize(image: Image, imgWidth: number, imgHeight: number, inTwips: boolean) {
             imgWidth = image.Width;
             imgHeight = image.Height;
         }
 
-        public setRectangleWidth(width: Single) {
+        public static setRectangleWidth(width: Single) {
             if (width < 0) {
                 width = 0;
             return width;
         }
 
-        public setRectangleHeight(height: Single) {
+        public static setRectangleHeight(height: Single) {
             if (height < 0) {
                 height = 0;
             return height;
         }
 
-        public newRectangleF(left: Single, top: Single, right: Single, bottom: Single) {
+        public static newRectangleF(left: Single, top: Single, right: Single, bottom: Single) {
             if (left < 0) left = 0; {
             if (top < 0) top = 0; {
             if (right < left) right = left; {
@@ -53,7 +47,7 @@ namespace CSReportPaint
             return new RectangleF(left, top, right-left, bottom-top);
         }
 
-        public newRectangle(left: number, top: number, right: number, bottom: number) {
+        public static newRectangle(left: number, top: number, right: number, bottom: number) {
             if (left < 0) left = 0; {
             if (top < 0) top = 0; {
             if (right < left) right = left; {
@@ -62,14 +56,14 @@ namespace CSReportPaint
             return new Rectangle(left, top, right-left, bottom-top);
         }
 
-        private getPixelsFromCmX(cm: number) {
+        private static getPixelsFromCmX(cm: number) {
             return cm * _g.DpiX / 2.54f;
         }
-        private getPixelsFromCmY(cm: number) {
+        private static getPixelsFromCmY(cm: number) {
             return cm * _g.DpiY / 2.54f;
         }
 
-        public getRectFromPaperSize(info: cReportPaperInfo, paperSize: csReportPaperType, orientation: number) {
+        public static getRectFromPaperSize(info: cReportPaperInfo, paperSize: csReportPaperType, orientation: number) {
             let rtn: RectangleF = new RectangleF();
 
             switch (paperSize)
@@ -117,30 +111,6 @@ namespace CSReportPaint
         }
 
         // fonts
-
-        public redim(vFonts: Font[], size: number) {
-            vFonts = new Font[size];
-        }
-
-        public redimPreserve(vFonts: Font[], size: number) {
-            if (size === 0) {
-                vFonts = new Font[0];
-            }
-            else {
-                if (vFonts === null) {
-                    vFonts = new Font[size];
-                }
-                else if (vFonts.length === 0) {
-                    vFonts = new Font[size];
-                }
-                else {
-                    let newArray: Font[] = new Font[size];
-                    Array.Copy(vFonts, newArray, vFonts.length);
-                    vFonts = newArray;
-                }
-            }
-        }
-
         public addFontIfRequired(font: cReportFont, this.fnt: Font[]) {
             for(let i = 0; i < this.fnt.length; i++) {
                 if(font.getName() === this.fnt[i].Name 
@@ -167,42 +137,24 @@ namespace CSReportPaint
 
             return this.fnt.length - 1;
         }
+    }
 
-
-    } 
-
-
-
-UNKNOWN >>     public enum csETypeGrid {
+    export enum csETypeGrid {
         CSEGRIDNONE,
         CSEGRIDPOINTS,
         CSEGRIDLINES,
         CSEGRIDLINESVERTICAL,
-UNKNOWN >>         CSEGRIDLINESHORIZONTAL
+        CSEGRIDLINESHORIZONTAL
+    }
 
-
-    } 
-
-
-
-
-
-    public enum csRptPaintObjTypeUNKNOWN >>     public enum csRptPaintObjType
-    {
+    export enum csRptPaintObjType {
         CSRPTPAINTOBJBOX,
         CSRPTPAINTOBJLINE,
         CSRPTPAINTOBJCIRCLE,
-UNKNOWN >>         CSRPTPAINTOBJIMAGE
+        CSRPTPAINTOBJIMAGE
+    }
 
-
-    } 
-
-
-
-
-
-    public enum csRptPaintRegionTypeUNKNOWN >>     public enum csRptPaintRegionType
-    {
+    public enum csRptPaintRegionType {
         CRPTPNTRGNTYPEBODY,
         CRPTPNTRGNTYPELEFTUP,
         CRPTPNTRGNTYPELEFTDOWN,
@@ -211,23 +163,14 @@ UNKNOWN >>         CSRPTPAINTOBJIMAGE
         CRPTPNTRGNTYPEUP,
         CRPTPNTRGNTYPEDOWN,
         CRPTPNTRGNTYPELEFT,
-UNKNOWN >>         CRPTPNTRGNTYPERIGHT
+        CRPTPNTRGNTYPERIGHT
+    }
 
-
-    } 
-
-
-
-
-
-    public enum csEMoveToUNKNOWN >>     public enum csEMoveTo
-    {
+    export enum csEMoveTo {
         C_FIRSTPAGE = 1,
         C_NEXTPAGE = -1,
         C_PREVIOUSPAGE = -2,
         C_LASTPAGE = -3
-
-
     } 
 
 

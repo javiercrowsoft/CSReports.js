@@ -1,0 +1,5 @@
+namespace CSReportScript {
+
+     interface cIReportScriptType { }
+
+}

@@ -1,6 +1,7 @@
 namespace CSXml {
 
     import eTypes = CSKernelClient.eTypes;
+    import cDateUtils = CSKernelClient.cDateUtils;
 
     export class cXmlProperty {
 
@@ -49,7 +50,7 @@ namespace CSXml {
             return (this.getValue(type) !== 0);
         }
 
-        public getValue(type: eTypes) {
+        public getValue(type: eTypes): any {
             switch (type)
             {
                 case eTypes.eBoolean:
@@ -94,7 +95,7 @@ namespace CSXml {
             }
         }
 
-        public setValue(type: eTypes, value: object) {
+        public setValue(type: eTypes, value: any) {
             if (type === eTypes.eBoolean) {
                 this.value = value ? "-1" : "0";
             }
@@ -107,8 +108,7 @@ namespace CSXml {
         }
 
         public setValue2(value: object) {
-            let t: Type = value.GetType();
-            if (typeof(bool) === t) {
+            if (typeof value === "boolean") {
                 this.value = value ? "-1" : "0";
             }
             else {

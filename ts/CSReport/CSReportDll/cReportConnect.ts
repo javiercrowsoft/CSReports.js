@@ -1,12 +1,6 @@
-
-
-namespace CSReportDll
-{
+namespace CSReportDll {
 
     export class cReportConnect {
-
-
-    {
 
         private C_MODULE: string = "cReportConnect";
 
@@ -265,11 +259,5 @@ namespace CSReportDll
                 return "";
             }
         }
-
-
-
     }
-
-
-
 }

@@ -1,11 +1,6 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cStructTime {
-
-
-    {
 
         private hour: number = 0;
         private minute: number = 0;
@@ -34,11 +29,5 @@ namespace CSReportDll
         public setSecond(rhs: number) {
             this.second = rhs;
         }
-
-
-
-    } 
-
-
-
+    }
 }

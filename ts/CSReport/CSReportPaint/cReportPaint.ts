@@ -57,9 +57,9 @@ namespace CSReportPaint
                 this.scaleX = 1;
                 this.scaleY = 1;
 
-                G.redim(this.vGridObjs, 0, 0);
+                this.vGridObjs, 0 = [];
                 cGlobals.redim(this.fnt, 0);
-                G.redim(this.vSelectedKeys, 0);
+                this.vSelectedKeys = [];
 
                 this.zoom = 100;
             } 
@@ -1013,7 +1013,7 @@ UNKNOWN >>                                 - offSetPointSep
         }
 
         public setFocus(sKey: string, graph: Graphics, clearSelected: boolean) {
-            if (clearSelected) { G.redim(this.vSelectedKeys, 0); }
+            if (clearSelected) { this.vSelectedKeys = []; }
 
             if (!pAllreadySelected(sKey)) {
                 G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.length + 1);
@@ -1042,7 +1042,7 @@ UNKNOWN >>                                 - offSetPointSep
                 G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.length - 1);
             }
             else {
-                G.redim(this.vSelectedKeys, 0);
+                this.vSelectedKeys = [];
             }
 
             if (this.keyFocus === sKey) { this.keyFocus = ""; }

@@ -87,6 +87,10 @@ namespace CSOAPI {
             return this.length;
         }
 
+        public baseItem(indexOrKey: string|number) {
+            return this.item(indexOrKey);
+        }
+
         public item(indexOrKey: string|number) {
             try {
                 if(typeof indexOrKey === "string")

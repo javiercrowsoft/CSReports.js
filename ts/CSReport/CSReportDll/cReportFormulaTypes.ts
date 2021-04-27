@@ -1,192 +1,39 @@
+namespace CSReportDll {
 
+    import Map = CSOAPI.Map;
+    import csRptFormulaType = CSReportGlobals.csRptFormulaType;
 
-namespace CSReportDll
-{
+    export class cReportFormulaTypes extends Map<cReportFormulaType> {
 
-    export class cReportFormulaTypes {
-
-
-    {
-
-        // Creates an empty collection.
         public constructor() {
-            initialize();
-        }
-
-        // Adds elements from an IDictionary into the new collection.
-        public constructor(d: IDictionary, bReadOnly: boolean) {
-            for(var j_ = 0; j_ < d.length; j_++) {
-                this.BaseAdd(de.Key, de.Value);
-            }
-            this.IsReadOnly = bReadOnly;
-        }
-
-        // Gets a key-and-value pair (DictionaryEntry) using an index.
-        public DictionaryEntry this[int index]
-        {
-UNKNOWN >>             get
-            {
-                return (new DictionaryEntry(
-                    this.BaseGetKey(index), this.BaseGet(index)));
-            }
-        }
-
-        // Gets or sets the value associated with the specified key.
-        public Object this[String key]
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseGet(key));
-            }
-UNKNOWN >>             set
-            {
-                this.BaseSet(key, value);
-            }
-        }
-
-        // Gets a String array that contains all the keys in the collection.
-        public String[] AllKeys
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseGetAllKeys());
-            }
-        }
-
-        // Gets an Object array that contains all the values in the collection.
-UNKNOWN >>         public Array AllValues
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseGetAllValues());
-            }
-        }
-
-        // Gets a String array that contains all the values in the collection.
-        public String[] AllStringValues
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseGetAllValues(typeof(String)));
-            }
-        }
-
-        // Gets a value indicating if the collection contains keys that are not null.
-UNKNOWN >>         public Boolean HasKeys
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseHasKeys());
-            }
-        }
-
-        // Adds an entry to the collection.
-        public Add(key: string, value: object) {
-            this.BaseAdd(key, value);
-        }
-
-        // Removes an entry with the specified key from the collection.
-        public Remove(key: string) {
-            this.BaseRemove(key);
-        }
-
-        // Removes an entry in the specified index from the collection.
-        public Remove(index: number) {
-            this.BaseRemoveAt(index);
-        }
-
-        // Clears all the elements in the collection.
-        public Clear() {
-            this.BaseClear();
-        }
-
-        // Removes an entry with the specified key from the collection.
-        public remove(key: string) {
-            this.BaseRemove(key);
-        }
-
-        // Removes an entry in the specified index from the collection.
-        public remove(index: number) {
-            this.BaseRemoveAt(index);
-        }
-
-        // Clears all the elements in the collection.
-        public clear() {
-            this.BaseClear();
-        }
-
-        public count() {
-            return this.Count;
-        }
-
-        public item(key: string) {
-            try {
-                return this.BaseGet(key);
-            }
-            catch(ex) {
-                return null;
-            }
-        }
-
-        public item(index: number) {
-            try {
-                return this.BaseGet(index);
-            }
-            catch(ex) {
-                return null;
-            }
-        }
-
-        public add(c: cReportFormulaType, key: csRptFormulaType) {
-            return add(c, key.toString());
-        }
-        public add(c: cReportFormulaType, key: string) {
-            try {
-                if (c === null) {
-                    c = new cReportFormulaType();
-                }
-                if (key === "") {
-                    key = ReportGlobals.getNextKey().toString();
-                }
-                else {
-                    ReportGlobals.refreshNextKey(key);
-                }
-
-                key = ReportGlobals.getKey(key);
-
-                Add(key, c);
-
-                return c;
-            }
-            catch (ex) {
-                return null;
-            }
+            super();
+            this.initialize();
         }
 
         private initialize() {
 
-            public C_LANGUAGE_DESCRIPT: string = "language: 1 Spanish, 2 English y 3 French";
-            public C_CONTROL_NAME_DESCRIPT: string = "control_name: an string which identifies the control.";
-            public C_COMPARE_DESCRIPT: string = "It returns a boolean after comparing a control's value with the second argument ";
-            public C_VALUE_TO_COMPARE_DESCRIPT: string = "value: a number or a text to by compared with.";
-UNKNOWN >>             const string C_GROUP_FUNCTION_DESCRIPT = "It function calculates its value before processing the group."
+            const C_LANGUAGE_DESCRIPT: string = "language: 1 Spanish, 2 English y 3 French";
+            const C_CONTROL_NAME_DESCRIPT: string = "control_name: an string which identifies the control.";
+            const C_COMPARE_DESCRIPT: string = "It returns a boolean after comparing a control's value with the second argument ";
+            const C_VALUE_TO_COMPARE_DESCRIPT: string = "value: a number or a text to by compared with.";
+            const C_GROUP_FUNCTION_DESCRIPT: string = "It function calculates its value before processing the group."
                                                     + "\r\nWhen CSReport found this function it iterates through the "
                                                     + "main recordset to the last row in the group and calculates "
                                                     + "the $1  of the values in the column refered by the "
                                                     + "column_name parameter.";
-            public C_COLUMN_NAME: string = "column_name: name of the column in the main recordset.\r\n";
-UNKNOWN >>             const string C_GROUP_INDEX = "group_index: index of the group"
+            const C_COLUMN_NAME: string = "column_name: name of the column in the main recordset.\r\n";
+            const C_GROUP_INDEX: string = "group_index: index of the group"
                                         + "\r\nWhen group_index is equal to -1 the index of the group section in which the control is contained will be used."
                                         + "\r\nWhen group_index is equal to 0 the $1 of the column of every row in the main recordset will be returned."
                                         + "\r\nWhen group_index is greater than zero the $1 of the column of every row in the main recordset contained in the group which index is equal to index_group will be returned.";
 
-UNKNOWN >>             const string C_GROUP_FUNCTION_DESCRIPT2 = "It function calculates its value before processing the group."
+            const C_GROUP_FUNCTION_DESCRIPT2: string = "It function calculates its value before processing the group."
                                                     + "\r\nWhen CSReport found this function it iterates through the "
                                                     + "main recordset to the last row in the group and calculates "
                                                     + "the $1.";
-            public C_COLUMN_NAME1: string = "column_name1: name of the column in the main recordset to summarize.\r\n";
-            public C_COLUMN_NAME2: string = "column_name2: name of the column in the main recordset to compare with the total.\r\n";
-UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the group"
+            const C_COLUMN_NAME1: string = "column_name1: name of the column in the main recordset to summarize.\r\n";
+            const C_COLUMN_NAME2: string = "column_name2: name of the column in the main recordset to compare with the total.\r\n";
+            const C_GROUP_INDEX2: string = "group_index: index of the group"
                                         + "\r\nWhen group_index is equal to -1 the index of the group section in which the control is contained will be used."
                                         + "\r\nWhen group_index is equal to 0 the $1 will be evaluated using every row in the main recordset."
                                         + "\r\nWhen group_index is greater than zero the $1 will be evaluated using every row contained in the group which index is equal to index_group.\r\n";
@@ -196,7 +43,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // A
 
-            let fi: cReportFormulaType = add(null, csRptFormulaType.CSRPTF_SET_VAR);
+            let fi: cReportFormulaType = this.add2(null, csRptFormulaType.CSRPTF_SET_VAR);
             fi.setName("_setvar");
             fi.setNameUser("Set a variable");
             fi.setDecrip("It sets the value of a variable.\r\n\r\nSyntax: _setVar(variable_name, value)");
@@ -206,7 +53,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // B
 
-            fi = add(null, csRptFormulaType.CSRPTF_GET_BARCODE);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GET_BARCODE);
             fi.setName("_getbarcode");
             fi.setNameUser("Takes an string and returns a barcode");
             fi.setDecrip("It returns a barcode.\r\n\r\nSyntax: _getBarcode(value)");
@@ -216,21 +63,21 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // C
 
-            fi = add(null, csRptFormulaType.CSRPTF_CALCULO);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_CALCULO);
             fi.setName("_calculo");
             fi.setNameUser("Calculo");
             fi.setDecrip("It returns a double after applying an aritmetical operation to ther first two arguments.\r\n\r\nSyntax: _calc(control_1, control_2, value, operator)\n1 addition, 2 substraction, 3 multiplication, 4 division, 5 power");
             fi.setId(csRptFormulaType.CSRPTF_CALCULO);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_CALCULO);
 
-            fi = add(null, csRptFormulaType.CSRPTF_TOTAL_PAGES);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_TOTAL_PAGES);
             fi.setName("_totalPages");
             fi.setNameUser("Page count");
             fi.setDecrip("It returns an int with the amount of pages in the report.\r\n\r\nSyntax: _totalPages()");
             fi.setId(csRptFormulaType.CSRPTF_TOTAL_PAGES);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_TOTAL_PAGES);
 
-            fi = add(null, csRptFormulaType.CSRPTF_COUNT);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_COUNT);
             fi.setName("_count");
             fi.setNameUser("Record count");
             fi.setDecrip("It returns an int with the amount of rows in the main recordset of the report.\r\n\r\nSyntax: _count()");
@@ -240,7 +87,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // D
 
-            fi = add(null, csRptFormulaType.CSRPTF_DECLARE_VAR);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_DECLARE_VAR);
             fi.setName("_declareVar");
             fi.setNameUser("Declare a variable");
             fi.setDecrip("It declars a variable.\r\n\r\nSyntax: _declareVar(variable_name)");
@@ -250,45 +97,45 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // E
 
-            fi = add(null, csRptFormulaType.CSRPTF_IS_EQUAL);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_IS_EQUAL);
             fi.setName("_isEqual");
             fi.setNameUser("Equal to");
             fi.setDecrip(C_COMPARE_DESCRIPT + "\r\n\r\nSyntax: _isEqual(control_name, value)\r\n" + C_CONTROL_NAME_DESCRIPT + "\r\n" + C_VALUE_TO_COMPARE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_IS_EQUAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_EQUAL);
 
-            fi = add(null, csRptFormulaType.CSRPTF_IS_NOT_EQUAL);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_IS_NOT_EQUAL);
             fi.setName("_isNotEqual");
             fi.setNameUser("It is not equal to");
             fi.setDecrip(C_COMPARE_DESCRIPT + "\r\n\r\nSyntax: _isNotEqual(control_name, value)\r\n" + C_CONTROL_NAME_DESCRIPT + "\r\n" + C_VALUE_TO_COMPARE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_IS_NOT_EQUAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_NOT_EQUAL);
 
-            fi = add(null, csRptFormulaType.CSRPTF_IS_GREATER_THAN);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_IS_GREATER_THAN);
             fi.setName("_isGreaterThan");
             fi.setNameUser("It is greater than");
             fi.setDecrip(C_COMPARE_DESCRIPT + "\r\n\r\nSyntax: _isGreaterThan(control_name, value)\r\n" + C_CONTROL_NAME_DESCRIPT + "\r\n" + C_VALUE_TO_COMPARE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_IS_GREATER_THAN);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_GREATER_THAN);
 
-            fi = add(null, csRptFormulaType.CSRPTF_IS_LESS_THAN);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_IS_LESS_THAN);
             fi.setName("_iseLowerthan");
             fi.setNameUser("It is lower than");
             fi.setDecrip(C_COMPARE_DESCRIPT + "\r\n\r\nSyntax: _isLowerThan(control_name, value)\r\n" + C_CONTROL_NAME_DESCRIPT + "\r\n" + C_VALUE_TO_COMPARE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_IS_LESS_THAN);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_LESS_THAN);
 
-            fi = add(null, csRptFormulaType.CSRPTF_IS_IN_RS);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_IS_IN_RS);
             fi.setName("_isInRS");
             fi.setNameUser("It is contained in the main recordset");
-            public returns: fi.setDecrip("It = null;a boolean value after searching a constant value in a column of the main recordset.\r\n\r\nSyntax: _isInRS(column_name,\"value\")\ncolumn_name: the name of a column in the main recordset\nvalue: an string to be searched (it must be surrounded by double quotes).");
+            fi.setDecrip("It = null;a boolean value after searching a constant value in a column of the main recordset.\r\n\r\nSyntax: _isInRS(column_name,\"value\")\ncolumn_name: the name of a column in the main recordset\nvalue: an string to be searched (it must be surrounded by double quotes).");
             fi.setId(csRptFormulaType.CSRPTF_IS_IN_RS);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_IN_RS);
 
             //----------------
             // G
 
-            fi = add(null, csRptFormulaType.CSRPTF_GROUP_TOTAL);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_TOTAL);
             fi.setName("_groupTotal");
             fi.setNameUser("Group) Group total");
             fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replace("$1", "summatory")
@@ -298,7 +145,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GROUP_TOTAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_TOTAL);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GROUP_MAX);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_MAX);
             fi.setName("_groupMax");
             fi.setNameUser("Group) Group maximum");
             fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replace("$1", "maximum value")
@@ -308,7 +155,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GROUP_MAX);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_MAX);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GROUP_MIN);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_MIN);
             fi.setName("_groupMin");
             fi.setNameUser("Group) Group minimum");
             fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replace("$1", "minimum value")
@@ -318,7 +165,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GROUP_MIN);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_MIN);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GROUP_AVERAGE);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_AVERAGE);
             fi.setName("_groupAverage");
             fi.setNameUser("Group) Group average");
             fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replace("$1", "average value")
@@ -328,7 +175,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GROUP_AVERAGE);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_AVERAGE);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GROUP_PERCENT);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_PERCENT);
             fi.setName("_groupPercent");
             fi.setNameUser("Group) Group percent");
             fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replace("$1", "percent value column_name2 represents in the summatory of column_name1")
@@ -340,7 +187,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GROUP_PERCENT);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_PERCENT);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GROUP_COUNT);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_COUNT);
             fi.setName("_groupCount");
             fi.setNameUser("Group) Amount of lines in a group");
             fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replace("$1", "amunt of lines in the group")
@@ -350,7 +197,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GROUP_COUNT);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_COUNT);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GROUP_LINE_NUMBER);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_LINE_NUMBER);
             fi.setName("_groupLineNumber");
             fi.setNameUser("Group) Line number in a group");
             fi.setDecrip("It returns the line number in a Group, if when Group is zero it returns the line number in the report."
@@ -370,14 +217,14 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // M
 
-            fi = add(null, csRptFormulaType.CSRPTF_MAX);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_MAX);
             fi.setName("_max");
             fi.setNameUser("Maximum value in a column");
             fi.setDecrip("It returns a double with the maximun value in a column.\r\n\r\nSyntax: _max(control_name)\r\n" + C_CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_MAX);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_MAX);
 
-            fi = add(null, csRptFormulaType.CSRPTF_MIN);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_MIN);
             fi.setName("_min");
             fi.setNameUser("Minimum value in a column");
             fi.setDecrip("It returns a double with the minimu valie in a column.\r\n\r\nSyntax: _min(control_name)\r\n" + C_CONTROL_NAME_DESCRIPT);
@@ -387,14 +234,14 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // N
 
-            fi = add(null, csRptFormulaType.CSRPTF_NUMBER_TO_STRING);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_NUMBER_TO_STRING);
             fi.setName("_numberToString");
             fi.setNameUser("Number to String");
             fi.setDecrip("It returns the number expressed in words.\r\n\r\nSyntax: _numberToString(control_name,nLanguage)\r\n" + C_CONTROL_NAME_DESCRIPT + "\n" + C_LANGUAGE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_NUMBER_TO_STRING);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_NUMBER_TO_STRING);
 
-            fi = add(null, csRptFormulaType.CSRPTF_PAGE_NUMBER);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_PAGE_NUMBER);
             fi.setName("_currentPage");
             fi.setNameUser("Page number");
             fi.setDecrip("It returns an int with the number of the current page.\r\n\r\nSyntax: _currentPage()");
@@ -404,14 +251,14 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // O
 
-            fi = add(null, csRptFormulaType.CSRPTF_GET_PARAM);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GET_PARAM);
             fi.setName("_getParam");
             fi.setNameUser("Get a parameter value");
             fi.setDecrip("It returns a the value of a parameter from the main connection\r\n\r\nSyntax: _getParam(parameter_name)");
             fi.setId(csRptFormulaType.CSRPTF_GET_PARAM);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GET_PARAM);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GET_DATA_FROM_RS_AD);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GET_DATA_FROM_RS_AD);
             fi.setName("_getDataFromRSAd");
             fi.setNameUser("Get a value form a column of a row in an additional recordset");
             fi.setDecrip("It returns a value from a column of a row in an additional recordset. "
@@ -433,7 +280,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GET_DATA_FROM_RS_AD);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GET_DATA_FROM_RS_AD);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GET_DATA_FROM_RS);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GET_DATA_FROM_RS);
             fi.setName("_getDataFromRS");
             fi.setNameUser("Get a value from a column of a row in the main recordset");
             fi.setDecrip("It returns a value from a column of a row in the main recordset. "
@@ -448,7 +295,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GET_DATA_FROM_RS);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GET_DATA_FROM_RS);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GET_STRING);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GET_STRING);
             fi.setName("_getString");
             fi.setNameUser("Get an string");
             fi.setDecrip("It returns the value of the control refered by the control_name parameter surrounded by double quotes"
@@ -456,7 +303,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_GET_STRING);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GET_STRING);
 
-            fi = add(null, csRptFormulaType.CSRPTF_GET_VAR);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_GET_VAR);
             fi.setName("_getVar");
             fi.setNameUser("Get the value of a user variable");
             fi.setDecrip("It returns the value of the variable refered by the variable_name parameter"
@@ -467,7 +314,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // P
 
-            fi = add(null, csRptFormulaType.CSRPTF_AVERAGE);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_AVERAGE);
             fi.setName("_average");
             fi.setNameUser("Average of a Column");
             fi.setDecrip("It returns a double with the average value of a column"
@@ -478,7 +325,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // S
 
-            fi = add(null, csRptFormulaType.CSRPTF_ADD_TO_VAR);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_ADD_TO_VAR);
             fi.setName("_addToVar");
             fi.setNameUser("Add a value to a user variable");
             fi.setDecrip("It adds the value of the parameter value to a user variable refered by the parameter variable_name"
@@ -486,14 +333,14 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setId(csRptFormulaType.CSRPTF_ADD_TO_VAR);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_ADD_TO_VAR);
 
-            fi = add(null, csRptFormulaType.CSRPTF_SUM);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_SUM);
             fi.setName("_sum");
             fi.setNameUser("Totals of a column");
             fi.setDecrip("It returns the total of a column\r\n\r\nSyntax: _sum(control_name)\r\n" + C_CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_SUM);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_SUM);
 
-            fi = add(null, csRptFormulaType.CSRPTF_SUM_TIME);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_SUM_TIME);
             fi.setName("_sumTime");
             fi.setNameUser("Totals in time units of a column");
             fi.setDecrip("It returns the amount of hours, minutes and seconds from a column which contains hours and minutes in the format hh:nn"
@@ -504,14 +351,14 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // T
 
-            fi = add(null, csRptFormulaType.CSRPTF_LENGTH);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_LENGTH);
             fi.setName("_length");
             fi.setNameUser("Length of a control's value");
             fi.setDecrip("It returns an int with the length of a control's value\r\n\r\nSyntax: _length(control_name)\r\n\r\n" + C_CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_LENGTH);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_LENGTH);
 
-            fi = add(null, csRptFormulaType.CSRPTF_TEXT_REPLACE);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_TEXT_REPLACE);
             fi.setName("_textReplace");
             fi.setNameUser("Replace a control name by its value in a string");
             fi.setDecrip("It replace every occurrence of a control name in the text property of another control. "
@@ -525,7 +372,7 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             //----------------
             // V
 
-            fi = add(null, csRptFormulaType.CSRPTF_VAL);
+            fi = this.add2(null, csRptFormulaType.CSRPTF_VAL);
             fi.setName("_value");
             fi.setNameUser("Value of a control");
             fi.setDecrip("It returns an string with the value of the control refered by the control_name parameter"
@@ -534,10 +381,8 @@ UNKNOWN >>             const string C_GROUP_INDEX2 = "group_index: index of the 
             fi.setHelpContextId(csRptFormulaType.CSRPTF_VAL);
         }
 
-
-
-    } 
-
-
-
+        private add2(o, key) {
+            return this.add(o, key.toString())
+        }
+    }
 }

@@ -1,11 +1,6 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cReportLabel {
-
-
-    {
 
         private aspect: cReportAspect = null;
         private text: string = "";
@@ -63,11 +58,5 @@ namespace CSReportDll
 
             return this.aspect.save(xDoc, nodeObj);
         }
-
-
-
-    } 
-
-
-
+    }
 }

@@ -1,14 +1,6 @@
-
-
-namespace CSReportDll
-{
+namespace CSReportDll {
 
     export class cReportLaunchInfo {
-
-
-    {
-
-        private C_LAUNCHINFO: string = "RptLaunchInfo";
 
         private file: string = "";
         private dataSource: object = null;
@@ -214,11 +206,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
-    } 
-
-
-
+    }
 }

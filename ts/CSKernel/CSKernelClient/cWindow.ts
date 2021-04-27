@@ -2,13 +2,13 @@ namespace CSKernelClient {
 
     import Exception = CSOAPI.Exception;
 
-    export class cError {
+    export class cWindow {
 
         private lastErrorDescription = "";
         private lastErrorInfoAdd = "";
         private silent = false;
 
-        public static mngError(ex: object, infoAdd: string = "") {
+        public mngError(ex: Exception, infoAdd: string = "") {
             let f: fErrors = new fErrors();
             f.setErrorIcon();
             f.setDetails(ex.getMessage());

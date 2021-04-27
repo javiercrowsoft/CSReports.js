@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class cEditor {
 
-
-    {
         private fmain: fMain = null;
         private editor: Panel = null;
         private picRule: PictureBox = null;
@@ -47,20 +43,10 @@ namespace CSReportEditor
             this.editorTab.Tag = this;
         }
 
-        public constructor() {
-
         public close() {
-            if (!saveChanges()) {
-                return false;
-            }
-            else {
-
-                // TODO: dispose all objects
-                return true;
-            }
+            return this.saveChanges();
         }
 
-        private C_MODULE: string = "cEditor";
         private C_TOPBODY: number = 10;
         private C_LEFTBODY: number = 0;
         private C_MIN_HEIGHT_SECTION: number = 3;
@@ -569,7 +555,7 @@ namespace CSReportEditor
             let bWasRemoved: boolean = false;
             let sKey: string = "";
 
-            G.redim(this.vSelectedKeys, 0);
+            this.vSelectedKeys = [];
             sKey = getReport().getControls().item(ctrlKey).getKeyPaint();
             pAddToSelected(sKey, false, bWasRemoved);
 
@@ -592,7 +578,7 @@ namespace CSReportEditor
 
             bIsSecLn = false;
 
-            G.redim(this.vSelectedKeys, 0);
+            this.vSelectedKeys = [];
 
             if (this.report.getHeaders().item(secKey) !== null) {
                 sKey = this.report.getHeaders().item(secKey).getKeyPaint();
@@ -1546,7 +1532,7 @@ UNKNOWN >>             int i;
                 G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.length - 1);
             }
             else {
-                G.redim(this.vSelectedKeys, 0);
+                this.vSelectedKeys = [];
             }
 
             this.paint.removeFromSelected(sKey, this.picReport.CreateGraphics());
@@ -1562,7 +1548,7 @@ UNKNOWN >>             int i;
                         return false;
                     }
                 }
-                G.redim(this.vSelectedKeys, 0);
+                this.vSelectedKeys = [];
                 return true;
             }
             return false;
@@ -2219,7 +2205,7 @@ UNKNOWN >>             int i;
                 }
 
                 pResetKeysFocus();
-                G.redim(this.vSelectedKeys, 0);
+                this.vSelectedKeys = [];
 
                 pValidateSectionAspect();
                 updateSectionNameInPaintObjects();
@@ -2240,7 +2226,7 @@ UNKNOWN >>             int i;
                 }
 
                 pResetKeysFocus();
-                G.redim(this.vSelectedKeys, 0);
+                this.vSelectedKeys = [];
             }
 
             refreshAll();
@@ -3509,7 +3495,7 @@ UNKNOWN >>             finally {
 
             cGlobals.moveGroup(group, this);
 
-            G.redim(this.vSelectedKeys, 0);
+            this.vSelectedKeys = [];
             refreshReport();
         }
 
@@ -6338,8 +6324,8 @@ UNKNOWN >>             cReportAspect w_aspect;
             this.fProgress.Hide();
             this.fProgress = null;
             cGlobals.setDocInacActive(this);
-            G.redim(this.vSelectedKeys, 0);
-            G.redim(this.vCopyKeys, 0);
+            this.vSelectedKeys = [];
+            this.vCopyKeys = [];
         }
          */
 

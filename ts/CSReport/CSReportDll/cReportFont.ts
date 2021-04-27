@@ -1,11 +1,8 @@
+namespace CSReportDll {
 
+    import csColors = CSReportGlobals.csColors;
 
-namespace CSReportDll
-{
     export class cReportFont {
-
-
-    {
 
         private foreColor: number = csColors.C_COLOR_BLACK;
         private size: number = 8;
@@ -122,11 +119,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
     }
-
-
-
 }

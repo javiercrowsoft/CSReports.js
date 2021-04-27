@@ -1,27 +1,13 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
     export class cReportImage {
 
-
-    {
         private aspect: cReportAspect = null;
         private image: Image = null;
 
         public constructor() {
             this.aspect = new cReportAspect();
         }
-
-        // TODO: check if we need to free image resources
-        /*
-        private void class_Terminate()
-        {
-            this.aspect = null;
-            if (this.hImage !== 0) { DeleteObject(this.hImage); }
-        }
-         * 
-         */
 
         public getAspect() {
             return this.aspect;
@@ -49,7 +35,7 @@ namespace CSReportDll
             if (vBytes.length > 1) {
                 this.image = cImage.deSerialiseBitmap(vBytes);
             }
-            G.redim(vBytes, 0);
+            vBytes = [];
             return this.aspect.load(xDoc, nodeObj);
         }
 
@@ -67,21 +53,15 @@ namespace CSReportDll
                 cImage.serialiseBitmap(getImage(), vBytes);
             }
             else {
-                G.redim(vBytes, 0);
+                vBytes = [];
             }
             xProperty.setName("Data");
             xProperty.setBinaryValue(vBytes);
 
             xDoc.addBinaryPropertyToNode(nodeObj, xProperty);
-            G.redim(vBytes, 0);
+            vBytes = [];
 
             return this.aspect.save(xDoc, nodeObj);
         }
-
-
-
-    } 
-
-
-
+    }
 }

@@ -1,12 +1,6 @@
-
-
-namespace CSReportDll
-{
+namespace CSReportDll {
 
     export class cReportControl {
-
-
-    {
 
         private label: cReportLabel = new cReportLabel();
         private image: cReportImage = new cReportImage();
@@ -259,11 +253,5 @@ namespace CSReportDll
             if (!this.chart.save(xDoc, nodeObj)) { return false; }
             return true;
         }
-
-
-
-    } 
-
-
-
+    }
 }

@@ -1,12 +1,11 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
+    import RptGrpOrderType = CSReportGlobals.RptGrpOrderType;
+    import RptGrpComparisonType = CSReportGlobals.RptGrpComparisonType;
+    import eTypes = CSKernelClient.eTypes;
 
     export class cReportGroup {
 
-
-    {
         private C_HEADER: string = "H";
         private C_FOOTER: string = "F";
 
@@ -132,7 +131,7 @@ namespace CSReportDll
             this.rePrintInNewPage = xDoc.getNodeProperty(nodeObj, "RePrintInNewPage").getValueBool(eTypes.eBoolean);
             this.grandTotalGroup = xDoc.getNodeProperty(nodeObj, "GrandTotalGroup").getValueBool(eTypes.eBoolean);
 
-            fixName();
+            this.fixName();
 
             let nodeObjAux: XmlNode = null;
 
@@ -146,7 +145,7 @@ namespace CSReportDll
             this.header.setName(this.name);
 
             nodeObjAux = nodeObj;
-            nodeObjAux = xDoc.getNodeFromNode(nodeObj, C_FOOTER);
+            nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.C_FOOTER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
             if (!this.footer.load(xDoc, nodeObjAux))  {
                 return false; 
@@ -159,11 +158,11 @@ namespace CSReportDll
 
         public fixName() {
             if (this.name.length === 0
-                ||cUtil.substring(this.name.toLowerCase(), 0, 5) === "group"
-                || cUtil.substring(this.name.toLowerCase(), 0, 5) === "grupo"
-                || cUtil.substring(this.name.toLowerCase(), 0, 3) === "gh_"
-                || cUtil.substring(this.name.toLowerCase(), 0, 3) === "gf_"
-                || cUtil.substring(this.name.toLowerCase(), 0, 2) === "g_"
+                || this.name.toLowerCase().substring(0, 5) === "group"
+                || this.name.toLowerCase().substring(0, 5) === "grupo"
+                || this.name.toLowerCase().substring(0, 3) === "gh_"
+                || this.name.toLowerCase().substring(0, 3) === "gf_"
+                || this.name.toLowerCase().substring(0, 2) === "g_"
                 ) {
                 this.name = "G_" + this.index;
             }
@@ -220,23 +219,17 @@ namespace CSReportDll
 
             let nodeObjAux: XmlNode = null;
             nodeObjAux = nodeObj;
-            xProperty.setName(C_HEADER);
+            xProperty.setName(this.C_HEADER);
             nodeObjAux = xDoc.addNodeToNode(nodeObjAux, xProperty);
             this.header.save(xDoc, nodeObjAux);
 
             nodeObjAux = nodeObj;
-            xProperty.setName(C_FOOTER);
+            xProperty.setName(this.C_FOOTER);
             nodeObjAux = xDoc.addNodeToNode(nodeObjAux, xProperty);
             this.footer.save(xDoc, nodeObjAux);
 
             return true;
 
         }
-
-
-
-    } 
-
-
-
+    }
 }

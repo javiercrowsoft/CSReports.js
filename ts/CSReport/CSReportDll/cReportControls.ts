@@ -1,104 +1,10 @@
+namespace CSReportDll {
 
+    import Map = CSOAPI.Map;
+    import csRptSectionType = CSReportGlobals.csRptSectionType;
+    import ReportGlobals = CSReportGlobals.ReportGlobals;
 
-namespace CSReportDll
-{
-    export class cReportControls {
-
-
-    {
-
-        // Creates an empty collection.
-        public constructor() {
-        }
-
-        // Adds elements from an IDictionary into the new collection.
-        public constructor(d: IDictionary, bReadOnly: boolean) {
-            for(let i_ = 0; i_ < d.length; i_++) {
-                this.BaseAdd(de.Key, de.Value);
-            }
-            this.IsReadOnly = bReadOnly;
-        }
-
-        // Gets a key-and-value pair (DictionaryEntry) using an index.
-        public DictionaryEntry this[int index]
-        {
-UNKNOWN >>             get
-            {
-                return (new DictionaryEntry(
-                    this.BaseGetKey(index), this.BaseGet(index)));
-            }
-        }
-
-        // Gets or sets the value associated with the specified key.
-        public Object this[String key]
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseGet(key));
-            }
-UNKNOWN >>             set
-            {
-                this.BaseSet(key, value);
-            }
-        }
-
-        // Gets a String array that contains all the keys in the collection.
-        public String[] AllKeys
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseGetAllKeys());
-            }
-        }
-
-        // Gets an Object array that contains all the values in the collection.
-UNKNOWN >>         public Array AllValues
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseGetAllValues());
-            }
-        }
-
-        // Gets a String array that contains all the values in the collection.
-        public String[] AllStringValues
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseGetAllValues(typeof(String)));
-            }
-        }
-
-        // Gets a value indicating if the collection contains keys that are not null.
-UNKNOWN >>         public Boolean HasKeys
-        {
-UNKNOWN >>             get
-            {
-                return (this.BaseHasKeys());
-            }
-        }
-
-        // Adds an entry to the collection.
-        public Add(key: string, value: object) {
-            this.BaseAdd(key, value);
-        }
-
-        // Removes an entry with the specified key from the collection.
-        private Remove(key: string) {
-            this.BaseRemove(key);
-        }
-
-        // Removes an entry in the specified index from the collection.
-        private Remove(index: number) {
-            this.BaseRemoveAt(index);
-        }
-
-        // Clears all the elements in the collection.
-        private Clear() {
-            this.BaseClear();
-        }
-
-        private C_MODULE: string = "cReportControls";
+    export class cReportControls extends Map<cReportControl> {
 
         // it is a reference to the controls collection of cReport
         //
@@ -135,7 +41,7 @@ UNKNOWN >>             get
 
             let ctrl: cReportControl = null;
             for(var _i = 0; _i < this.Count; _i++) {
-                ctrl = item(_i);
+                ctrl = this.item(_i);
                 ctrl.setSectionLine(rhs);
             }
         }
@@ -144,17 +50,13 @@ UNKNOWN >>             get
             return this.collByLeft;
         }
 
-		public add() {
-			return add(null, "");
-		}
-
-        public add(c: cReportControl, key: string) {
+        public add(c?: cReportControl, key?: string) {
             try {
 
-                if (c === null)  {
+                if (c === null || c === undefined)  {
                     c = new cReportControl();
                 }
-                if (key === "") {
+                if (key === "" || key === null || key === undefined) {
                     key = ReportGlobals.getNextKey().toString();
                 }
                 else {
@@ -162,7 +64,7 @@ UNKNOWN >>             get
                 }
 
                 key = ReportGlobals.getKey(key);
-                Add(key, c);
+                this.baseAdd(c, key);
 
                 c.setKey(key);
                 c.setTypeSection(this.typeSection);
@@ -171,7 +73,6 @@ UNKNOWN >>             get
                 if (this.copyColl !== null)  {
                     this.copyColl.add2(c, key); 
                 }
-
                 return c;
             }
             catch(ex) {
@@ -183,56 +84,22 @@ UNKNOWN >>             get
             try {
                 let n: number = this.count();
                 for(let i = 0; i < n; i++) {
-                    remove(0);
+                    this.remove(0);
                 }
             }
             catch(ex) {
             }
         }
 
-        public remove(key: string) {
+        public remove(index: number|string) {
             try {
-                item(key).setSectionLine(null);
+                this.item(index).setSectionLine(null);
                 if (this.copyColl !== null) {
-                    this.copyColl.remove(item(key).getKey());
+                    this.copyColl.remove(this.item(index).getKey());
                 }
-                Remove(key);
+                this.baseRemove(index);
             }
             catch(ex) {
-            }
-        }
-
-        public remove(index: number) {
-            try {
-                item(index).setSectionLine(null);
-                if (this.copyColl !== null) {
-                    this.copyColl.remove(item(index).getKey());
-                }
-                Remove(index);
-            }
-            catch(ex) {
-            }
-        }
-
-        public count() {
-            return this.Count;
-        }
-
-        public item(key: string) {
-            try {
-                return this.BaseGet(key);
-            }
-            catch(ex) {
-                return null;
-            }
-        }
-
-        public item(index: number) {
-            try {
-                return this.BaseGet(index);
-            }
-            catch(ex) {
-                return null;
             }
         }
 
@@ -243,16 +110,16 @@ UNKNOWN >>             get
             let ctl1: cReportControl = null;
             let ctl2: cReportControl = null;
 
-            G.redim(this.collByLeft, this.Count);
+            this.collByLeft = [];
 
             for (i = 0; i < this.collByLeft.length; i++) {
                 this.collByLeft[i] = i;
             }
 
-            for (i = 0; i < this.Count-1; i++) {
-                for (j = i; j < this.Count-1; j++) {
-                    ctl1 = item(this.collByLeft[j]);
-                    ctl2 = item(this.collByLeft[j + 1]);
+            for (i = 0; i < this.count()-1; i++) {
+                for (j = i; j < this.count()-1; j++) {
+                    ctl1 = this.item(this.collByLeft[j]);
+                    ctl2 = this.item(this.collByLeft[j + 1]);
 
                     if (ctl2.getLabel().getAspect().getLeft() < ctl1.getLabel().getAspect().getLeft()) {
                         tmp = this.collByLeft[j];
@@ -262,71 +129,5 @@ UNKNOWN >>             get
                 }
             }
         }
-
-        // Implement IDisposable.
-        // Do not make this method virtual.
-        // A derived class should not be able to override this method.
-        public Dispose() {
-            Dispose(true);
-            // This object will be cleaned up by the Dispose method.
-            // Therefore, you should call GC.SupressFinalize to
-            // take this object off the finalization queue
-            // and prevent finalization code for this object
-            // from executing a second time.
-            GC.SuppressFinalize(this);
-        }
-
-        // Track whether Dispose has been called.
-        private disposed: boolean = false;
-
-        // Dispose(bool disposing) executes in two distinct scenarios.
-        // If disposing equals true, the method has been called directly
-        // or indirectly by a user's code. Managed and unmanaged resources
-        // can be disposed.
-        // If disposing equals false, the method has been called by the
-        // runtime from inside the finalizer and you should not reference
-        // other objects. Only unmanaged resources can be disposed.
-        public Dispose(disposing: boolean) {
-            // Check to see if Dispose has already been called.
-            if (!this.disposed) {
-                // If disposing equals true, dispose all managed
-                // and unmanaged resources.
-                if (disposing) {
-                    // Dispose managed resources.
-                    releaseReferences();
-                }
-
-                // Note disposing has been done.
-                disposed = true;
-
-            }
-        }
-
-        // Use C# destructor syntax for finalization code.
-        // This destructor will run only if the Dispose method
-        // does not get called.
-        // It gives your base class the opportunity to finalize.
-        // Do not provide destructors in types derived from this class.
-        ~cReportControls()
-        {
-            // Do not re-create Dispose clean-up code here.
-            // Calling Dispose(false) is optimal in terms of
-            // readability and maintainability.
-            Dispose(false);
-        }
-
-        private releaseReferences() {
-UNKNOWN >>             cReportControl ctrl;
-            for(var _i = 0; _i < this.Count; _i++) {
-                ctrl = item(_i);
-                ctrl.setSectionLine(null);
-            }
-        }
-
-
-
-    } 
-
-
-
+    }
 }

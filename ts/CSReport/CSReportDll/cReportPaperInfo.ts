@@ -1,14 +1,8 @@
+namespace CSReportDll {
 
-
-namespace CSReportDll
-{
+    import csReportPaperType = CSReportGlobals.csReportPaperType;
 
     export class cReportPaperInfo {
-
-
-    {
-
-        private C_MODULE: string = "cReportPaperInfo";
 
         private width: number = 0;
         private height: number = 0;
@@ -130,11 +124,5 @@ namespace CSReportDll
 
             return true;
         }
-
-
-
-    } 
-
-
-
+    }
 }

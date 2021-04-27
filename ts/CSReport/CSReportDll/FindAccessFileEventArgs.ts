@@ -1,22 +1,18 @@
+namespace CSReportDll {
 
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+    export class FindAccessFileEventArgs {
 
-namespace CSReportDll
-{
+        private file: string;
+        private cancel: boolean;
 
-    public class FindAccessFileEventArgs : EventArgs
-    {
-        public FindAccessFileEventArgs(String file)
-        {
+        public FindAccessFileEventArgs(file: string) {
             this.file = file;
         }
-        public String file { get; set; }
-        public CommonDialog commonDialog { get; set; }
-        public bool cancel { get; set; }
+        public getFile() {
+            return this.file;
+        }
+        public isCancel() {
+            return this.cancel;
+        }
     }
-
 }
