@@ -48,8 +48,8 @@ namespace CSReportEditor
 
             let printer: cPrinter = cPrintAPI.getcPrinterFromDefaultPrinter(this.printDlg);
             this.paperSize = printer.getPaperInfo().getPaperSize();
-            this.paperSizeHeight = Convert.ToInt32(printer.getPaperInfo().getHeight());
-            this.paperSizeWidth = Convert.ToInt32(printer.getPaperInfo().getHeight());
+            this.paperSizeHeight = Math.trunc(printer.getPaperInfo().getHeight());
+            this.paperSizeWidth = Math.trunc(printer.getPaperInfo().getHeight());
         }
 
         public init() {

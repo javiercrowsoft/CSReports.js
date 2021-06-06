@@ -1,20 +1,19 @@
+namespace CSReportPaint {
 
-
-namespace CSReportPaint
-{
+    import cError = CSKernelClient.cError;
+    import cReportAspect = CSReportDll.cReportAspect;
+    import csColors = CSReportGlobals.csColors;
+    import cColor = CSKernelClient.cColor;
+    import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
+    import csReportBorderType = CSReportGlobals.csReportBorderType;
 
     export class cReportPaint {
 
+        private static C_GRID_AREA_WIDTH: number = 200;
+        private static C_GRID_AREA_HEIGHT: number = 67;
 
-    {
-
-        private C_MODULE: string = "cReportPaint";
-
-        private C_GRID_AREA_WIDTH: number = 200;
-        private C_GRID_AREA_HEIGHT: number = 67;
-
-        private C_KEY_PAINT_OBJ: string = "P";
-        private C_KEY_PAINT_SEC: string = "S";
+        private static C_KEY_PAINT_OBJ: string = "P";
+        private static C_KEY_PAINT_SEC: string = "S";
 
         private paintObjects: cReportPaintObjects = new cReportPaintObjects();
         private paintSections: cReportPaintObjects = new cReportPaintObjects();
@@ -36,7 +35,7 @@ namespace CSReportPaint
         private beginMoveDone: boolean = null;
 
         private keyFocus: string = "";
-        private vGridObjs: String[,] = null;
+        private vGridObjs: [string[]] = null;
         private notBorder: boolean = null;
 
         private fnt: Font[] = null;
@@ -57,14 +56,14 @@ namespace CSReportPaint
                 this.scaleX = 1;
                 this.scaleY = 1;
 
-                this.vGridObjs, 0 = [];
-                cGlobals.redim(this.fnt, 0);
+                this.vGridObjs = [[]];
+                this.fnt = [];
                 this.vSelectedKeys = [];
 
                 this.zoom = 100;
             } 
             catch (ex) {
-                public "constructor",: cError.mngError(ex, = null;C_MODULE, "");
+                cError.mngError(ex);
             }
         }
 
@@ -113,39 +112,8 @@ namespace CSReportPaint
             return this.scaleX;
         }
 
-        /*
-         * TODO: delete
-         * 
-        public int copyBitmap(int hDCSource, int width, int height, int hCurrentBmp) {
-            int hDCDest = 0;
-            int hBmpOld = 0;
-            int hBmp = 0;
-
-            width = width / Screen.TwipsPerPixelX;
-            height = height / Screen.TwipsPerPixelY;
-
-            hDCDest = CreateCompatibleDC(hDCSource);
-            hBmp = CreateCompatibleBitmap(hDCSource, width, height);
-            hBmpOld = SelectObject(hDCDest, hBmp);
-
-            BitBlt(hDCDest, 0, 0, width, height, hDCSource, 0, 0, vbSrcCopy);
-
-            SelectObject(hDCDest, hBmpOld);
-            DeleteObject(hDCDest);
-
-            if (VBA.ex.LastDllError !== 0) {
-                VBA.ex.Raise(vbObjectError, C_MODULE, "Error al copiar el bitmap. Numero: "+ VBA.ex.LastDllError);
-            }
-
-            if (hCurrentBmp !== 0) {
-                DeleteObject(hCurrentBmp);
-            }
-
-            return hBmp;
-        }
-        */
         public getPaintObject(sKey: string) {
-            if (cUtil.substring(sKey, 0, C_KEY_PAINT_OBJ.length) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, cReportPaint.C_KEY_PAINT_OBJ.length) === cReportPaint.C_KEY_PAINT_OBJ) {
                 return this.paintObjects.item(sKey);
             }
             else {
@@ -175,7 +143,7 @@ namespace CSReportPaint
 
         public getNewObject(paintTypeObject: csRptPaintObjType) {
             let key: string = "";
-            key = getKeyPaintObj();
+            key = this.getKeyPaintObj();
             let paintObj: cReportPaintObject = null;
             paintObj = this.paintObjects.add(paintObj, key);
             paintObj.setKey(key);
@@ -185,7 +153,7 @@ namespace CSReportPaint
 
         public getNewSection(paintTypeObject: csRptPaintObjType) {
             let key: string = "";
-            key = getKeyPaintSec();
+            key = this.getKeyPaintSec();
             let paintObj: cReportPaintObject = null;
             paintObj = this.paintSections.add(paintObj, key);
             paintObj.setKey(key);
@@ -194,42 +162,37 @@ namespace CSReportPaint
         }
 
         public paintObjIsSection(sKey: string) {
-            return sKey.substring(0, C_KEY_PAINT_SEC.length) === C_KEY_PAINT_SEC;
+            return sKey.substring(0, cReportPaint.C_KEY_PAINT_SEC.length) === cReportPaint.C_KEY_PAINT_SEC;
         }
 
-		public pointIsInObject(x: number, y: number, sKey: string) {
-			let regionType: csRptPaintRegionType = csRptPaintRegionType.CRPTPNTRGNTYPEBODY;
-			return pointIsInObject(x, y, sKey, regionType);
-		}
-
-		public pointIsInObject(x: number, y: number, sKey: string, regionType: csRptPaintRegionType) {
-            if (pointIsInObjectAux(this.paintSections, x, y, sKey, regionType)) {
+		public pointIsInObject(x: number, y: number, sKey: string, regionType: csRptPaintRegionType = csRptPaintRegionType.CRPTPNTRGNTYPEBODY) {
+            if (this.pointIsInObjectAux(this.paintSections, x, y, sKey, regionType)) {
                 return true;
             }
-            if (pointIsInObjectAux(this.paintObjects, x, y, sKey, regionType)) {
+            if (this.pointIsInObjectAux(this.paintObjects, x, y, sKey, regionType)) {
                 return true;
             }
             return false;
         }
 
         public pointIsInThisObject(x: number, y: number, sKey: string, regionType: csRptPaintRegionType) {
-            if (pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
+            if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
                 return true;
             }
-            if (pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
+            if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
                 return true;
             }
             return false;
         }
 
         private pointIsInObjectAux(
-            paintObjs: cReportPaintObjects
-            x: number
-            y: number
-            sKey: string
+            paintObjs: cReportPaintObjects,
+            x: number,
+            y: number,
+            sKey: string,
             regionType: csRptPaintRegionType) {
             for(let i = paintObjs.count()-1; i > -1; i--) {
-                if (pointIsInThisObjectAux(paintObjs.getNextPaintObjForZOrder(i), x, y, sKey, regionType)) {
+                if (this.pointIsInThisObjectAux(paintObjs.getNextPaintObjForZOrder(i), x, y, sKey, regionType)) {
                     return true;
                 }
             }
@@ -237,18 +200,13 @@ namespace CSReportPaint
         }
 
         private pointIsInThisObjectAux(
-            paintObj: cReportPaintObject
-            x: number
-            y: number
-            sKey: string
+            paintObj: cReportPaintObject,
+            x: number,
+            y: number,
+            sKey: string,
             regionType: csRptPaintRegionType) {
-        { /* ByRef PaintObj As cReportPaintObject, 
-           * ByVal x As Single, 
-           * ByVal y As Single, 
-           * ByRef sKey As String, 
-           * Optional ByRef RegionType As csRptPaintRegionType */
 
-            public C_WIDTH_REGION: number = 3;
+            const C_WIDTH_REGION: number = 3;
 
             let yY: number = 0;
             let xX: number = 0;
@@ -268,7 +226,7 @@ namespace CSReportPaint
                 top = w_aspect.getTop() - w_aspect.getOffset();
                 height = w_aspect.getHeight();
 
-                if (pointIsInRegion(left - C_WIDTH_REGION,
+                if (this.pointIsInRegion(left - C_WIDTH_REGION,
                                     top - C_WIDTH_REGION,
                                     left + width + C_WIDTH_REGION,
                                     top + height + C_WIDTH_REGION,
@@ -286,7 +244,7 @@ namespace CSReportPaint
 
                     // body
                     //
-                    if (pointIsInRegion(left + C_WIDTH_REGION,
+                    if (this.pointIsInRegion(left + C_WIDTH_REGION,
                                         top + C_WIDTH_REGION,
                                         left + width - C_WIDTH_REGION,
                                         top + height - C_WIDTH_REGION,
@@ -294,7 +252,7 @@ namespace CSReportPaint
                         regionType = csRptPaintRegionType.CRPTPNTRGNTYPEBODY;
                     }
                     // Left
-                    else if (pointIsInRegion(left - C_WIDTH_REGION * 2,
+                    else if (this.pointIsInRegion(left - C_WIDTH_REGION * 2,
                                                 yY,
                                                 left + C_WIDTH_REGION * 2,
                                                 yY + C_WIDTH_REGION * 2,
@@ -302,7 +260,7 @@ namespace CSReportPaint
                         regionType = csRptPaintRegionType.CRPTPNTRGNTYPELEFT;
                     }
                     // Rigth
-                    else if (pointIsInRegion(left + width - C_WIDTH_REGION * 2,
+                    else if (this.pointIsInRegion(left + width - C_WIDTH_REGION * 2,
                                                 yY,
                                                 left + width + C_WIDTH_REGION * 2,
                                                 yY + C_WIDTH_REGION * 2,
@@ -310,7 +268,7 @@ namespace CSReportPaint
                         regionType = csRptPaintRegionType.CRPTPNTRGNTYPERIGHT;
                     }
                     // Up
-                    else if (pointIsInRegion(xX,
+                    else if (this.pointIsInRegion(xX,
                                                 top - C_WIDTH_REGION * 2,
                                                 xX + C_WIDTH_REGION * 2,
                                                 top + C_WIDTH_REGION * 2,
@@ -318,7 +276,7 @@ namespace CSReportPaint
                         regionType = csRptPaintRegionType.CRPTPNTRGNTYPEUP;
                     }
                     // Down
-                    else if (pointIsInRegion(xX,
+                    else if (this.pointIsInRegion(xX,
                                                 top + height - C_WIDTH_REGION * 2,
                                                 xX + C_WIDTH_REGION * 2,
                                                 top + height + C_WIDTH_REGION * 2,
@@ -326,7 +284,7 @@ namespace CSReportPaint
                         regionType = csRptPaintRegionType.CRPTPNTRGNTYPEDOWN;
                     }
                     // LeftUp
-                    else if (pointIsInRegion(left - C_WIDTH_REGION,
+                    else if (this.pointIsInRegion(left - C_WIDTH_REGION,
                                                 top - C_WIDTH_REGION,
                                                 left + C_WIDTH_REGION,
                                                 top + C_WIDTH_REGION,
@@ -334,7 +292,7 @@ namespace CSReportPaint
                         regionType = csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP;
                     }
                     // LeftDown
-                    else if (pointIsInRegion(left - C_WIDTH_REGION,
+                    else if (this.pointIsInRegion(left - C_WIDTH_REGION,
                                                 top + height - C_WIDTH_REGION,
                                                 left + C_WIDTH_REGION,
                                                 top + height + C_WIDTH_REGION,
@@ -342,7 +300,7 @@ namespace CSReportPaint
                         regionType = csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN;
                     }
                     // RigthUp
-                    else if (pointIsInRegion(left + width - C_WIDTH_REGION,
+                    else if (this.pointIsInRegion(left + width - C_WIDTH_REGION,
                                                 top - C_WIDTH_REGION,
                                                 left + width + C_WIDTH_REGION,
                                                 top + C_WIDTH_REGION,
@@ -350,7 +308,7 @@ namespace CSReportPaint
                         regionType = csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP;
                     }
                     // RitgthDown
-                    else if (pointIsInRegion(left + width - C_WIDTH_REGION,
+                    else if (this.pointIsInRegion(left + width - C_WIDTH_REGION,
                                                 top + height - C_WIDTH_REGION,
                                                 left + width + C_WIDTH_REGION,
                                                 top + height + C_WIDTH_REGION,
@@ -368,12 +326,12 @@ namespace CSReportPaint
 
         private getKeyPaintObj() {
             this.nextKey = this.nextKey + 1;
-            return C_KEY_PAINT_OBJ + this.nextKey;
+            return cReportPaint.C_KEY_PAINT_OBJ + this.nextKey;
         }
 
         private getKeyPaintSec() {
             this.nextKey = this.nextKey + 1;
-            return C_KEY_PAINT_SEC + this.nextKey;
+            return cReportPaint.C_KEY_PAINT_SEC + this.nextKey;
         }
 
         private getKey() {
@@ -389,13 +347,13 @@ namespace CSReportPaint
         // of region A is in region B or viceversa
         //
         private regionIsInRegion(
-            x1: number
-            y1: number
-            x2: number
-            y2: number
-            z1: number
-            w1: number
-            z2: number
+            x1: number,
+            y1: number,
+            x2: number,
+            y2: number,
+            z1: number,
+            w1: number,
+            z2: number,
             w2: number) {
             // first B in A
             //
@@ -439,31 +397,31 @@ namespace CSReportPaint
             let left: number = 0;
             let i: number = 0;
 
-            pCreateBrushGrid(picGrid, typeGrid);
+            this.pCreateBrushGrid(picGrid, typeGrid);
 
-            y = (picGrid.VisibleClipBounds.Height / C_GRID_AREA_HEIGHT);
-            x = (picGrid.VisibleClipBounds.Width / C_GRID_AREA_WIDTH);
+            y = (picGrid.VisibleClipBounds.Height / cReportPaint.C_GRID_AREA_HEIGHT);
+            x = (picGrid.VisibleClipBounds.Width / cReportPaint.C_GRID_AREA_WIDTH);
 
             x = x + 1;
             y = y + 1;
 
-            G.redim(this.vGridObjs, x, y);
+            this.vGridObjs = [[]];
 
             let l: number = 0;
             let t: number = 0;
 
             for (i = 0; i < y * x; i++) {
-                c = this.paintGridAreas.add(c, getKey());
+                c = this.paintGridAreas.add(c, this.getKey());
 
-                left = C_GRID_AREA_WIDTH * l;
-                top = C_GRID_AREA_HEIGHT * t;
+                left = cReportPaint.C_GRID_AREA_WIDTH * l;
+                top = cReportPaint.C_GRID_AREA_HEIGHT * t;
                 let w_aspect: cReportAspect = c.getAspect();
                 w_aspect.setLeft(left);
                 w_aspect.setTop(top);
-                w_aspect.setWidth(C_GRID_AREA_WIDTH);
-                w_aspect.setHeight(C_GRID_AREA_HEIGHT);
+                w_aspect.setWidth(cReportPaint.C_GRID_AREA_WIDTH);
+                w_aspect.setHeight(cReportPaint.C_GRID_AREA_HEIGHT);
 
-                let t]: this.vGridObjs[l, = c.getKey();
+                this.vGridObjs[l][t] = c.getKey();
 
                 c = null;
 
@@ -474,7 +432,7 @@ namespace CSReportPaint
                 }
             }
 
-            refreshBackgroundPicture(picGrid, (int)csColors.C_COLOR_WHITE);
+            this.refreshBackgroundPicture(picGrid, csColors.C_COLOR_WHITE);
         }
 
         //----------------------------------------------------------------------------------
@@ -492,47 +450,47 @@ namespace CSReportPaint
         // b define widht
         // c define heigth
         public alingObjTopToGrid(sKey: string) {
-            alingObjToGrid(sKey, false, true, false, false, true);
+            this.alingObjToGrid(sKey, false, true, false, false, true);
         }
 
         public alingObjLeftToGrid(sKey: string) {
-            alingObjToGrid(sKey, true, false, false, false, true);
+            this.alingObjToGrid(sKey, true, false, false, false, true);
         }
 
         public alingObjBottomToGrid(sKey: string) {
-            alingObjToGrid(sKey, false, false, true, false, true);
+            this.alingObjToGrid(sKey, false, false, true, false, true);
         }
 
         public alingObjRightToGrid(sKey: string) {
-            alingObjToGrid(sKey, false, false, false, true, true);
+            this.alingObjToGrid(sKey, false, false, false, true, true);
         }
 
         public alingObjLeftTopToGrid(sKey: string) {
-            alingObjToGrid(sKey, true, true, false, false, true);
+            this.alingObjToGrid(sKey, true, true, false, false, true);
         }
 
         public alingObjLeftBottomToGrid(sKey: string) {
-            alingObjToGrid(sKey, true, false, true, false, true);
+            this.alingObjToGrid(sKey, true, false, true, false, true);
         }
 
         public alingObjRightTopToGrid(sKey: string) {
-            alingObjToGrid(sKey, false, true, false, true, true);
+            this.alingObjToGrid(sKey, false, true, false, true, true);
         }
 
         public alingObjRightBottomToGrid(sKey: string) {
-            alingObjToGrid(sKey, false, false, true, true, true);
+            this.alingObjToGrid(sKey, false, false, true, true, true);
         }
 
         public alingToGrid(sKey: string) {
-            alingObjToGrid(sKey, true, true, false, false, false);
+            this.alingObjToGrid(sKey, true, true, false, false, false);
         }
 
         private alingObjToGrid(
-            sKey: string
-            toLeft: boolean
-            toTop: boolean
-            toBottom: boolean
-            toRight: boolean
+            sKey: string,
+            toLeft: boolean,
+            toTop: boolean,
+            toBottom: boolean,
+            toRight: boolean,
             resizing: boolean) {
             let z1: number = 0;
             let q1: number = 0;
@@ -540,20 +498,20 @@ namespace CSReportPaint
             let maxX: number = 0;
             let gridObjAspect: cReportAspect = null;
 
-            maxX = this.vGridObjs.GetLength(0)-1;
-            maxY = this.vGridObjs.GetLength(1)-1;
+            maxX = this.vGridObjs.length -1;
+            maxY = this.vGridObjs[0].length -1;
 
             let top: number = 0;
             let left: number = 0;
             let width: number = 0;
             let height: number = 0;
             let offset: number = 0;
-            public pointSeparation: number = 0.6f;
-            public offSetPointSep: number = 0.3f;
+            const pointSeparation: number = 0.6;
+            const offSetPointSep: number = 0.3;
 
             let paintObjs: cReportPaintObjects = null;
 
-            if (sKey.substring(0, 1) === C_KEY_PAINT_SEC) {
+            if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_SEC) {
                 paintObjs = this.paintSections;
             }
             else {
@@ -574,11 +532,11 @@ namespace CSReportPaint
             if (toTop || toLeft) {
                 // we get the grid where the point A is located
                 //
-                z1 = Convert.ToInt32(nLeft / C_GRID_AREA_WIDTH);
-                q1 = Convert.ToInt32(nTop / C_GRID_AREA_HEIGHT);
+                z1 = Math.trunc(nLeft / cReportPaint.C_GRID_AREA_WIDTH);
+                q1 = Math.trunc(nTop / cReportPaint.C_GRID_AREA_HEIGHT);
 
-                if (nLeft > z1 * C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
-                if (nTop > q1 * C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
+                if (nLeft > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
+                if (nTop > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
 
                 if (z1 < 0) { z1 = 0; }
                 if (q1 < 0) { q1 = 0; }
@@ -586,16 +544,16 @@ namespace CSReportPaint
                 if (z1 > maxX) { z1 = maxX; }
                 if (q1 > maxY) { q1 = maxY; }
 
-                gridObjAspect = this.paintGridAreas.item(this.vGridObjs[z1, q1]).getAspect();
+                gridObjAspect = this.paintGridAreas.item(this.vGridObjs[z1][q1]).getAspect();
 
                 if (toTop) {
                     // now we need to get which is the nearest point
                     //
                     top = (w_aspect.getTop() - w_aspect.getOffset()) - gridObjAspect.getTop();
-                    top = Convert.ToInt32(top / pointSeparation) * pointSeparation;
+                    top = Math.trunc(top / pointSeparation) * pointSeparation;
                     offset = gridObjAspect.getTop()
                                 + top 
-UNKNOWN >>                                 - offSetPointSep 
+                                - offSetPointSep
                                 - (w_aspect.getTop() - w_aspect.getOffset());
                     w_aspect.setTop((gridObjAspect.getTop() + top - offSetPointSep) + w_aspect.getOffset());
 
@@ -606,7 +564,7 @@ UNKNOWN >>                                 - offSetPointSep
 
                 if (toLeft) {
                     left = w_aspect.getLeft() - gridObjAspect.getLeft();
-                    left = Convert.ToInt32(left / pointSeparation) * pointSeparation;
+                    left = Math.trunc(left / pointSeparation) * pointSeparation;
                     offset = gridObjAspect.getLeft() + left - offSetPointSep - w_aspect.getLeft();
                     w_aspect.setLeft(gridObjAspect.getLeft() + left - offSetPointSep);
 
@@ -619,11 +577,11 @@ UNKNOWN >>                                 - offSetPointSep
             if (toRight) {
                 // we get the grid where the point B is located
                 //
-                z1 = Convert.ToInt32((nLeft + w_aspect.getWidth()) / C_GRID_AREA_WIDTH);
-                if (nLeft + w_aspect.getWidth() > z1 * C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
+                z1 = Math.trunc((nLeft + w_aspect.getWidth()) / cReportPaint.C_GRID_AREA_WIDTH);
+                if (nLeft + w_aspect.getWidth() > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
 
-                q1 = Convert.ToInt32(nTop / C_GRID_AREA_HEIGHT);
-                if (nTop > q1 * C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
+                q1 = Math.trunc(nTop / cReportPaint.C_GRID_AREA_HEIGHT);
+                if (nTop > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
 
                 if (z1 < 1) { z1 = 0; }
                 if (q1 < 1) { q1 = 0; }
@@ -631,12 +589,12 @@ UNKNOWN >>                                 - offSetPointSep
                 if (z1 > maxX) { z1 = maxX; }
                 if (q1 > maxY) { q1 = maxY; }
 
-                gridObjAspect = this.paintGridAreas.item(this.vGridObjs[z1, q1]).getAspect();
+                gridObjAspect = this.paintGridAreas.item(this.vGridObjs[z1][q1]).getAspect();
 
                 // now we need to get which is the nearest point
                 //
                 width = w_aspect.getLeft() + w_aspect.getWidth() - gridObjAspect.getLeft();
-                width = Convert.ToInt32(width / pointSeparation) * pointSeparation - offSetPointSep;
+                width = Math.trunc(width / pointSeparation) * pointSeparation - offSetPointSep;
                 w_aspect.setWidth(gridObjAspect.getLeft() + width - w_aspect.getLeft());
 
             }
@@ -644,11 +602,11 @@ UNKNOWN >>                                 - offSetPointSep
             if (toBottom) {
                 // we get the grid where the point C is located
                 //
-                z1 = Convert.ToInt32(nLeft / C_GRID_AREA_WIDTH);
-                q1 = Convert.ToInt32((nTop + w_aspect.getHeight()) / C_GRID_AREA_HEIGHT);
+                z1 = Math.trunc(nLeft / cReportPaint.C_GRID_AREA_WIDTH);
+                q1 = Math.trunc((nTop + w_aspect.getHeight()) / cReportPaint.C_GRID_AREA_HEIGHT);
 
-                if (nLeft > z1 * C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
-                if (nTop + w_aspect.getHeight() > q1 * C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
+                if (nLeft > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
+                if (nTop + w_aspect.getHeight() > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
 
                 if (z1 < 1) { z1 = 0; }
                 if (q1 < 1) { q1 = 0; }
@@ -656,12 +614,12 @@ UNKNOWN >>                                 - offSetPointSep
                 if (z1 > maxX) { z1 = maxX; }
                 if (q1 > maxY) { q1 = maxY; }
 
-                gridObjAspect = this.paintGridAreas.item(this.vGridObjs[z1, q1]).getAspect();
+                gridObjAspect = this.paintGridAreas.item(this.vGridObjs[z1][q1]).getAspect();
 
                 // now we need to get which is the nearest point
                 //
                 height = (w_aspect.getTop() - w_aspect.getOffset()) + w_aspect.getHeight() - gridObjAspect.getTop();
-                height = Convert.ToInt32(height / pointSeparation) * pointSeparation - offSetPointSep;
+                height = Math.trunc(height / pointSeparation) * pointSeparation - offSetPointSep;
                 w_aspect.setHeight(gridObjAspect.getTop() + height - (w_aspect.getTop() - w_aspect.getOffset()));
             }
         }
@@ -671,16 +629,16 @@ UNKNOWN >>                                 - offSetPointSep
 
         // Drawing
         public clearPage(graph: object) {
-            refreshBackgroundPicture(graph as Graphics, Color.White.ToArgb());
+            this.refreshBackgroundPicture(graph as Graphics, Color.White.ToArgb());
         }
 
         public refreshObject(key: string, graph: Graphics) {
-            pClearObject(key, graph);
-            return drawObject(key, graph);
+            this.pClearObject(key, graph);
+            return this.drawObject(key, graph);
         }
 
         public drawObject(key: string, graph: Graphics) {
-            return draw(this.paintObjects, key, graph);
+            return this.draw(this.paintObjects, key, graph);
         }
 
         public drawSection(key: string, graph: Graphics) {
@@ -688,14 +646,14 @@ UNKNOWN >>                                 - offSetPointSep
             // is into the bounds of the page
             //
             let aspect: cReportAspect = this.paintSections.item(key).getAspect();
-            if (aspect.getWidth() > this.bitmap.Size.Width-2) {
-                aspect.setWidth(this.bitmap.Size.Width-2);
+            if (aspect.getWidth() > this.bitmap.size.Width-2) {
+                aspect.setWidth(this.bitmap.size.Width-2);
             }
-            return draw(this.paintSections, key, graph);
+            return this.draw(this.paintSections, key, graph);
         }
 
         public drawRule(key: string, graph: Graphics) {
-            public LINE_COLOR: number = 0xcc6600;
+            const LINE_COLOR: number = 0xcc6600;
             let top: number = 0;
             let heightSec: number = 0;
             let aspect: cReportAspect = null;
@@ -703,7 +661,7 @@ UNKNOWN >>                                 - offSetPointSep
             aspect = new cReportAspect();
 
             let w_item: cReportPaintObject = this.paintSections.item(key);
-            heightSec = w_item.getHeightSecLine() * 0.5f;
+            heightSec = w_item.getHeightSecLine() * 0.5;
             let w_aspect: cReportAspect = w_item.getAspect();
             aspect.setTop(w_aspect.getTop() + 3 - heightSec);
             aspect.setOffset(w_aspect.getOffset());
@@ -714,11 +672,11 @@ UNKNOWN >>                                 - offSetPointSep
             aspect.setWidth(graph.ClipBounds.Width - 1);
 
             if (w_item.getTextLine() !== "") {
-                top = - Convert.ToInt32(w_item.getHeightSec());
+                top = - Math.trunc(w_item.getHeightSec());
                 w_aspect = w_item.getAspect();
-                top += Convert.ToInt32(w_aspect.getTop() - w_aspect.getOffset() - 6 + w_aspect.getHeight() * 2);
+                top += Math.trunc(w_aspect.getTop() - w_aspect.getOffset() - 6 + w_aspect.getHeight() * 2);
 
-                printLine(graph, 
+                this.this.printLine(graph,
                             true, 
                             0, 
                             top, 
@@ -732,7 +690,7 @@ UNKNOWN >>                                 - offSetPointSep
 
                 // last section line
                 //
-                printText(graph, w_item.getTextLine(), aspect, w_item.getImage());
+                this.printText(graph, w_item.getTextLine(), aspect, w_item.getImage());
 
                 heightSec = w_item.getHeightSec() * 0.5f;
 
@@ -742,14 +700,14 @@ UNKNOWN >>                                 - offSetPointSep
                 aspect.setTop(w_aspect.getTop() - heightSec);
                 aspect.setAlign(HorizontalAlignment.Left);
 
-                printText(graph, w_item.getText(), aspect, w_item.getImage());
+                this.printText(graph, w_item.getText(), aspect, w_item.getImage());
 
             }
             else {
-                top = Convert.ToInt32(aspect.getTop() - aspect.getOffset() - heightSec + w_item.getAspect().getHeight());
+                top = Math.trunc(aspect.getTop() - aspect.getOffset() - heightSec + w_item.getAspect().getHeight());
 
                 if (w_item.getIsSection()) {
-                    printLine(graph, 
+                    this.this.printLine(graph,
                                 true,
                                 0, 
                                 top, 
@@ -764,14 +722,14 @@ UNKNOWN >>                                 - offSetPointSep
 
                 // every section line except the last one
                 //
-                printText(graph, w_item.getText(), aspect, w_item.getImage());
+                this.printText(graph, w_item.getText(), aspect, w_item.getImage());
             }
 
             if (w_item === this.paintSections.item(this.paintSections.count() - 1))  {
-                top = Convert.ToInt32(aspect.getTop() + w_item.getHeightSecLine() - heightSec - aspect.getOffset() + 6);
+                top = Math.trunc(aspect.getTop() + w_item.getHeightSecLine() - heightSec - aspect.getOffset() + 6);
 
                 if (w_item.getIsSection()) {
-                    printLine(graph,
+                    this.this.printLine(graph,
                                 true,
                                 0,
                                 top,
@@ -789,13 +747,13 @@ UNKNOWN >>                                 - offSetPointSep
         }
 
 		public moveObjToXY(sKey: string, x: number, y: number, graph: Graphics) {
-            if (sKey.substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
-                move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
+                this.move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
                 let w_aspect: cReportAspect = this.paintSections.item(sKey).getAspect();
-                move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
+                this.move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         }
 
@@ -813,7 +771,7 @@ UNKNOWN >>                                 - offSetPointSep
                 this.y2 = 0;
             }
 
-            moveObjToXY(sKey, x, y, graph);
+            this.moveObjToXY(sKey, x, y, graph);
 
             if (this.x1Ex === 0) { this.x1Ex = this.x1; }
             if (this.y1Ex === 0) { this.y1Ex = this.y1; }
@@ -827,24 +785,24 @@ UNKNOWN >>                                 - offSetPointSep
         }
 
 		public moveVertical(sKey: string, y: number, graph: Graphics) {
-            if (sKey.substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
-                move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
+                this.move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
                 let w_aspect: cReportAspect = this.paintSections.item(sKey).getAspect();
-                move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
+                this.move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         }
 
 		public moveHorizontal(sKey: string, x: number, graph: Graphics) {
-            if (sKey.substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
-                move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
+                this.move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
             else {
                 let w_aspect: cReportAspect = this.paintSections.item(sKey).getAspect();
-                move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
+                this.move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
             }
         }
 
@@ -859,7 +817,7 @@ UNKNOWN >>                                 - offSetPointSep
             this.y1Ex = 0;
             this.y2Ex = 0;
 
-            refreshBackgroundPicture(graph, (int)csColors.C_COLOR_WHITE);
+            this.refreshBackgroundPicture(graph, csColors.C_COLOR_WHITE);
             this.beginMoveDone = false;
         }
 
@@ -868,8 +826,6 @@ UNKNOWN >>                                 - offSetPointSep
             try {
                 if (graph === null) {
                     throw new ReportPaintException(
-                        csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT,
-                        C_MODULE,
                         cReportPaintError.errGetDescript(
                                         csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT));
                 }
@@ -905,7 +861,7 @@ UNKNOWN >>                                 - offSetPointSep
                 {
                     case csRptPaintObjType.CSRPTPAINTOBJBOX:
 
-                        pDrawObjBox(graph,
+                        this.pDrawObjBox(graph,
                                     oPaintObj.getAspect(),
                                     x1, y1, x2, y2,
                                     filled,
@@ -915,7 +871,7 @@ UNKNOWN >>                                 - offSetPointSep
 
                     case csRptPaintObjType.CSRPTPAINTOBJLINE:
 
-                        printLine(graph, filled, x1, y1, x2, y2, colorIn, 1, false, colorOut, false);
+                        this.this.printLine(graph, filled, x1, y1, x2, y2, colorIn, 1, false, colorOut, false);
                         break;
 
                     case csRptPaintObjType.CSRPTPAINTOBJCIRCLE:
@@ -923,7 +879,7 @@ UNKNOWN >>                                 - offSetPointSep
 
                     case csRptPaintObjType.CSRPTPAINTOBJIMAGE:
 
-                        pDrawObjBox(graph,
+                        this.pDrawObjBox(graph,
                                     oPaintObj.getAspect(),
                                     x1 - 1, y1 - 1, x2 + 1, y2 + 1,
                                     filled,
@@ -943,7 +899,7 @@ UNKNOWN >>                                 - offSetPointSep
                                 bmpHeight = w_aspect.getHeight();
                             }
 
-                            drawBMP(graph,
+                            this.drawBMP(graph,
                                     oPaintObj.getImage(),
                                     x1 * this.scaleX,
                                     y1 * this.scaleY,
@@ -957,7 +913,7 @@ UNKNOWN >>                                 - offSetPointSep
 
                 if (oPaintObj.getText() !== "") {
                     if (collObjs === this.paintObjects) {
-                        printText(graph,
+                        this.printText(graph,
                                     oPaintObj.getText(),
                                     oPaintObj.getAspect(),
                                     oPaintObj.getImage());
@@ -968,46 +924,14 @@ UNKNOWN >>                                 - offSetPointSep
 
             }
             catch (ex) {
-                cError.mngError(ex, "Draw", C_MODULE, "Error al dibujar un objeto");
+                cError.mngError(ex, "Error al dibujar un objeto");
                 return false;
             }
         }
 
         private drawBMP(graph: Graphics, image: Image, x: number, y: number, bmpWidth: number, bmpHeight: number, destWidth: number, destHeight: number) {
-            //throw new NotImplementedException();
-            /*
-              Dim hDC      As Long
-              Dim hOldBmp  As Long
-
-              hDC = CreateCompatibleDC(0&)
-              hOldBmp = SelectObject(hDC, hBmp)
-
-              x = x / Screen.TwipsPerPixelX
-              y = y / Screen.TwipsPerPixelY
-              Width = Width / Screen.TwipsPerPixelX
-              Height = Height / Screen.TwipsPerPixelY
-              DestWidth = DestWidth / Screen.TwipsPerPixelX
-              DestHeight = DestHeight / Screen.TwipsPerPixelY
-
-              If DestWidth <> Width Then
-                Dim OldStrMode As Long
-
-                OldStrMode = SetStretchBltMode(hDCDest, HALFTONE)
-
-                StretchBlt hDCDest, x, y, DestWidth, DestHeight, hDC, 0, 0, Width, Height, vbSrcCopy
-
-                SetStretchBltMode hDCDest, OldStrMode
-
-              Else
-                BitBlt hDCDest, x, y, Width, Height, hDC, 0, 0, vbSrcCopy
-              End If
-
-              SelectObject hDC, hOldBmp
-              DeleteObject hDC
-             */
-
             let sourceRect: Rectangle = new Rectangle(0, 0, bmpWidth, bmpHeight);
-            let destRect: Rectangle = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), bmpWidth, bmpHeight);
+            let destRect: Rectangle = new Rectangle(Math.trunc(x), Math.trunc(y), bmpWidth, bmpHeight);
 
             graph.DrawImage(image, destRect, sourceRect, GraphicsUnit.Pixel);
         }
@@ -1015,13 +939,12 @@ UNKNOWN >>                                 - offSetPointSep
         public setFocus(sKey: string, graph: Graphics, clearSelected: boolean) {
             if (clearSelected) { this.vSelectedKeys = []; }
 
-            if (!pAllreadySelected(sKey)) {
-                G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.length + 1);
-                let -1]: this.vSelectedKeys[this.vSelectedKeys.length = sKey;
+            if (!this.pAllreadySelected(sKey)) {
+                this.vSelectedKeys.push(sKey);
             }
 
             this.keyFocus = sKey;
-            paintPicture(graph, true);
+            this.paintPicture(graph, true);
         }
 
         public removeFromSelected(sKey: string, graph: Graphics) {
@@ -1039,7 +962,7 @@ UNKNOWN >>                                 - offSetPointSep
                 this.vSelectedKeys[i - 1] = this.vSelectedKeys[i];
             }
             if (this.vSelectedKeys.length > 0) {
-                G.redimPreserve(this.vSelectedKeys, this.vSelectedKeys.length - 1);
+                this.vSelectedKeys.pop();
             }
             else {
                 this.vSelectedKeys = [];
@@ -1047,7 +970,7 @@ UNKNOWN >>                                 - offSetPointSep
 
             if (this.keyFocus === sKey) { this.keyFocus = ""; }
 
-            paintPicture(graph, true);
+            this.paintPicture(graph, true);
         }
 
         private pAllreadySelected(sKey: string) {
@@ -1070,7 +993,7 @@ UNKNOWN >>                                 - offSetPointSep
 
             this.keyFocus = sKey;
 
-            if (this.keyFocus.substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (this.keyFocus.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 paintObjAsp = this.paintObjects.item(this.keyFocus);
                 color = 0x80C0FF;
                 bCircle = false;
@@ -1084,18 +1007,18 @@ UNKNOWN >>                                 - offSetPointSep
             if (paintObjAsp === null) { return; }
 
             let w_aspect: cReportAspect = paintObjAsp.getAspect();
-            showHandles(graph, 
-                        Convert.ToInt32(w_aspect.getLeft()), 
-                        Convert.ToInt32(w_aspect.getTop() - w_aspect.getOffset()), 
-                        Convert.ToInt32(w_aspect.getLeft() + w_aspect.getWidth()), 
-                        Convert.ToInt32(w_aspect.getTop() - w_aspect.getOffset() + w_aspect.getHeight()), 
+            this.showHandles(graph, 
+                        Math.trunc(w_aspect.getLeft()), 
+                        Math.trunc(w_aspect.getTop() - w_aspect.getOffset()), 
+                        Math.trunc(w_aspect.getLeft() + w_aspect.getWidth()), 
+                        Math.trunc(w_aspect.getTop() - w_aspect.getOffset() + w_aspect.getHeight()), 
                         color, 
                         bCircle);
         }
 
         private move(left: number, top: number, width: number, height: number, graph: Graphics) {
             if (this.x1 > 0 || this.x2 > 0 || this.y1 > 0 || this.y2 > 0) {
-                paintPictureMove(graph, cGlobals.newRectangleF(this.x1, this.y1, this.x2, this.y2));
+                this.paintPictureMove(graph, cGlobals.newRectangleF(this.x1, this.y1, this.x2, this.y2));
             }
 
             this.x1 = left;
@@ -1103,7 +1026,7 @@ UNKNOWN >>                                 - offSetPointSep
             this.x2 = left + width;
             this.y2 = top + height;
 
-            printLine(graph, false, this.x1, this.y1, this.x2, this.y2, 0, 1, true, (int)csColors.C_COLOR_BLACK, false);
+            this.printLine(graph, false, this.x1, this.y1, this.x2, this.y2, 0, 1, true, (int)csColors.C_COLOR_BLACK, false);
 
             if (this.x1 > 1) { this.x1 = this.x1 - 2; }
             if (this.y1 > 1) { this.y1 = this.y1 - 2; }
@@ -1113,12 +1036,12 @@ UNKNOWN >>                                 - offSetPointSep
         }
 
         public resize(graph: Graphics, sKey: string, left: number, top: number, x2: number, y2: number) {
-            public C_MIN_WIDTH: number = 1;
-            public C_MIN_HEIGHT: number = 1;
+            const C_MIN_WIDTH: number = 1;
+            const C_MIN_HEIGHT: number = 1;
 
             let paintObjAsp: cReportAspect = null;
 
-            if (sKey.substring(0, 1) === C_KEY_PAINT_OBJ) {
+            if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 paintObjAsp = this.paintObjects.item(sKey).getAspect();
             }
             else {
@@ -1163,15 +1086,15 @@ UNKNOWN >>                                 - offSetPointSep
             // y2 can't be lower than Top
             if (this.y2 < paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT) { this.y2 = paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT; }
 
-            paintPicture(graph, false);
+            this.paintPicture(graph, false);
 
-            printLine(graph, false, this.x1, this.y1, this.x2, this.y2, (int)csColors.C_COLOR_WHITE, 1, true, (int)csColors.C_COLOR_BLACK, false);
+            this.printLine(graph, false, this.x1, this.y1, this.x2, this.y2, (int)csColors.C_COLOR_WHITE, 1, true, (int)csColors.C_COLOR_BLACK, false);
 
             graph.Dispose();
         }
 
         public createPicture(graph: Graphics) {
-            refreshBackgroundPicture(graph, 0);
+            this.refreshBackgroundPicture(graph, 0);
         }
 
         public createBackgroundBitmap(graph: Graphics) {
@@ -1179,49 +1102,11 @@ UNKNOWN >>                                 - offSetPointSep
         }
 
         private refreshBackgroundPicture(graph: Graphics, color: number) {
-            /*
-            int i = 0;
-            RECT tR = null;
-            RECT tR2 = null;
-
-            if (this.hBmpCopy !== 0) { DeleteObject(this.hBmpCopy); }
-            if (this.hMemDC !== 0) { DeleteObject(this.hMemDC); }
-
-            GetClientRect(graph.hwnd, tR);
-
-            LSet(tR2 === tR);
-
-            this.hMemDC = CreateCompatibleDC(0);
-            this.hBmpCopy = CreateCompatibleBitmap(graph.hDC, tR.right, tR.bottom + 56);
-
-            DeleteObject(SelectObject(this.hMemDC, this.hBmpCopy));
-
-            int hBr = 0;
-            hBr = CreateSolidBrush(mAux.translateColor(color));
-            tR2.bottom = tR2.bottom + 56;
-            FillRect(this.hMemDC, tR2, hBr);
-            DeleteObject(hBr);
-
-            tR.bottom = this.gridHeight / Screen.TwipsPerPixelY;
-            FillRect(this.hMemDC, tR, this.hBrushGrid);
-
-            for (i = 1; i <= getPaintObjects().count(); i++)
-            {
-                drawObject(getPaintObjects().getNextKeyForZOrder(i), this.hMemDC, graph);
-            }
-
-            for (i = 1; i <= getPaintSections().count(); i++)
-            {
-                drawSection(getPaintSections().getNextKeyForZOrder(i), this.hMemDC, graph);
-            }
-
-            paintPicture(graph);
-            */
             if (this.bitmap !== null) {
                 this.bitmap.Dispose();
             }
 
-            createBackgroundBitmap(graph);
+            this.createBackgroundBitmap(graph);
 
             let bitmapGraphic: Graphics = Graphics.FromImage(this.bitmap);
 
@@ -1237,88 +1122,32 @@ UNKNOWN >>                                 - offSetPointSep
             }
 
             for(let i = 0; i < getPaintObjects().count(); i++) {
-                drawObject(getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
+                this.drawObject(getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
             }
 
             for(let i = 0; i < getPaintSections().count(); i++) {
-                drawSection(getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
+                this.drawSection(getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
             }
 
-            paintPicture(graph, true);
+            this.paintPicture(graph, true);
         }
 
         //--------------------------------------------------------------------------------------------------
         // Draw - Low Level
         private printLine(
-            graph: Graphics
-            filled: boolean
-            x1: number
-            y1: number
-            x2: number
-            y2: number
-            colorInside: number
-            width: number
-            dash: boolean
-            colorOut: number
+            graph: Graphics,
+            filled: boolean,
+            x1: number,
+            y1: number,
+            x2: number,
+            y2: number,
+            colorInside: number,
+            width: number,
+            dash: boolean,
+            colorOut: number,
             rounded: boolean) {
-            /*
-            RECT tR = null;
-            int lResult = 0;
-            int hRPen = 0;
 
-            if (dash) {
-                hRPen = CreatePen(PS_DOT, width, mAux.translateColor(colorOut));
-            } 
-            else {
-                hRPen = CreatePen(PS_SOLID, width, mAux.translateColor(colorOut));
-            }
-            DeleteObject(SelectObject(hDC, hRPen));
-
-            if (rounded) {
-
-                x1 = x1 / Screen.TwipsPerPixelX;
-                x2 = x2 / Screen.TwipsPerPixelX;
-
-                y1 = y1 / Screen.TwipsPerPixelY;
-                y2 = y2 / Screen.TwipsPerPixelY;
-
-
-                y1 = y1 * this.scaleY;
-                y2 = y2 * this.scaleY;
-                x1 = x1 * this.scaleX;
-                x2 = x2 * this.scaleX;
-
-                RoundRect(hDC, x1, y1, x2, y2, 20 * this.scaleX, 20 * this.scaleY);
-            } 
-            else {
-
-                tR = cGlobals.newRectangle(x1, y1, x2, y2);
-                mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-
-                if (y2 !== y1 && x1 !== x2) {
-
-                    Rectangle(hDC, tR.left, tR.top, tR.right, tR.bottom);
-
-                    if (filled) {
-                        int hBrush2 = 0;
-                        InflateRect(tR, -1, -1);
-                        hBrush2 = CreateSolidBrush(mAux.translateColor(colorInside));
-                        lResult = FillRect(hDC, tR, hBrush2);
-                        DeleteObject(hBrush2);
-                    }
-
-                } 
-                else {
-                    if (tR.bottom === 0 || tR.bottom === tR.top) { tR.bottom = tR.top + 1; }
-                    if (tR.right === 0 || tR.left === tR.right) { tR.right = tR.left + 1; }
-                    Rectangle(hDC, tR.left, tR.top, tR.right, tR.bottom);
-                }
-            }
-
-            DeleteObject(hRPen);
-             */
-
-UNKNOWN >>             Pen pen;
+            let pen: Pen;
 
             pen = new Pen(cColor.colorFromRGB(colorOut), width);
 
@@ -1336,7 +1165,7 @@ UNKNOWN >>             Pen pen;
                 extGraph.DrawRoundRectangle(pen, x1, y1, x2-x1, y2-y1, 8f);
             }
             else {
-                let rect: Rectangle = cGlobals.newRectangle(Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(x2), Convert.ToInt32(y2));
+                let rect: Rectangle = cGlobals.newRectangle(Math.trunc(x1), Math.trunc(y1), Math.trunc(x2), Math.trunc(y2));
 
                 if (y2 !== y1 && x1 !== x2) {
                     if (filled) {
@@ -1371,124 +1200,10 @@ UNKNOWN >>             Pen pen;
         }
 
         private printText(graph: Graphics, sText: string, aspect: cReportAspect, image: Image) {
-            /*
-            // Para separarlo del borde
-            Const(c_Margen_Y As Integer === 20);
-            Const(c_Margen_X As Integer === 80);
-            Const(c_Margen_Bottom As Integer === 80);
-
-            StdFont oFont = null;
-            oFont = new StdFont();
-            RECT tR = null;
-
-            int oldBkColor = 0;
-            int oldBkMode = 0;
-            int oldFontColor = 0;
-            int flags = 0;
-
-            cReportFont w_font = aspect.getFont();
-                oFont.Name = w_font.getName();
-                oFont.Bold = w_font.getBold();
-                oFont.Italic = w_font.getItalic();
-                oFont.UnderLine = w_font.getUnderLine();
-                oFont.Size = (w_font.getSize() > 0) ? w_font.getSize() : 3);
-            // {end with: w_font}
-
-            int stringWidth = 0;
-            int stringHeight = 0;
-            int nWidth = 0;
-
-            int hFntOld = 0;
-
-            hFntOld = SelectObject(hDC, this.hFnt[mAux.addFontIfRequired(oFont, hDC, this.fontCount, this.fnt, this.hFnt)]);
-
-            // With aspect;
-                oldFontColor = SetTextColor(hDC, mAux.translateColor(aspect.getFont().getForeColor()));
-                oldBkColor = SetBkColor(hDC, mAux.translateColor(aspect.getBackColor()));
-                oldBkMode = SetBkMode(hDC, aspect.getTransparent() ? C_TRANSPARENT : C_OPAQUE));
-
-                if (aspect.getWordWrap()) {
-                    flags = ECGTextAlignFlags.DT_WORDBREAK || ECGTextAlignFlags.DT_WORD_ELLIPSIS || ECGTextAlignFlags.DT_LEFT || ECGTextAlignFlags.DT_NOPREFIX || ECGTextAlignFlags.DT_EDITCONTROL;
-                } 
-                else {
-                    flags = ECGTextAlignFlags.DT_SINGLELINE || ECGTextAlignFlags.DT_WORD_ELLIPSIS || ECGTextAlignFlags.DT_LEFT || ECGTextAlignFlags.DT_NOPREFIX;
-                }
-            // {end with: aspect}
-
-            stringWidth = getPlEvaluateTextWidth(sText, hDC, this.scaleX);
-            stringHeight = getPlEvaluateTextHeight(sText, hDC, aspect.getWidth(), flags, this.scaleY, this.scaleX);
-
-            // Esto es por seguridad, ya que
-            // cuando imprimo en la impresora (en pantalla esto no pasa)
-            // por pequeñas diferencias en la
-            // proceso de escalar hasta la resolucion
-            // de la impresora en algunos casos
-            // pierdo parte del texto si el
-            // rectangulo que pido es demasiado pequeño
-            //
-            stringHeight = stringHeight + 400;
-
-            int margenX = 0;
-            int margenY = 0;
-            int width = 0;
-            int height = 0;
-
-            margenX = c_Margen_X;
-            margenY = c_Margen_Y;
-
-            if (hImage !== 0) {
-                mAux.getBitmapSize(hImage, width, height);
-                margenX = margenX + width;
-                margenY = height - stringHeight - c_Margen_Bottom;
-                // With aspect;
-                    if (margenY + stringHeight > aspect.getHeight()) { margenY = aspect.getHeight() - stringHeight - c_Margen_Bottom; }
-                // {end with: aspect}
-                if (margenY < c_Margen_Y) { margenY = c_Margen_Y; }
-            }
-
-            nWidth = aspect.getWidth() - margenX * 2;
-            if (stringWidth > nWidth) { stringWidth = nWidth; }
-
-            int x = 0;
-            int y = 0;
-
-            switch (aspect.setAlign()) {
-                case  AlignmentConstants.vbRightJustify:
-                    x = aspect.getLeft() + aspect.getWidth() - stringWidth - margenX;
-                    break;
-                case  AlignmentConstants.vbCenter:
-                    x = aspect.getLeft() + (aspect.getWidth() - stringWidth) * 0.5;
-                    break;
-                case  AlignmentConstants.vbLeftJustify:
-                    x = aspect.getLeft() + margenX;
-                    break;
-            }
-
-            y = aspect.getTop() - aspect.setOffset() + margenY;
-
-            // With aspect;
-                //'.Height)
-                tR = cGlobals.newRectangle(x, y, x + aspect.getWidth() - margenX, y + stringHeight);
-                mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-                //    If .WordWrap Then
-                //      Flags = DT_WORDBREAK Or DT_WORD_ELLIPSIS Or DT_LEFT Or DT_NOPREFIX Or DT_EDITCONTROL
-                //    Else
-                //      Flags = DT_SINGLELINE Or DT_WORD_ELLIPSIS Or DT_LEFT Or DT_NOPREFIX
-                //    End If
-                DrawText(hDC, sText+ vbNullChar, -1, tR, flags);
-            // {end with: aspect}
-
-            SetBkColor(hDC, oldBkColor);
-            SetTextColor(hDC, oldFontColor);
-            SetBkMode(hDC, oldBkMode);
-
-            SelectObject(hDC, hFntOld);
-             */
-
             // padding
-            public c_Margen_Y: number = 1; // 20 twips;
-            public c_Margen_X: number = 4; // 80 twips;
-            public c_Margen_Bottom: number = 4; // 80 twips;
+            const c_Margen_Y: number = 1; // 20 twips;
+            const c_Margen_X: number = 4; // 80 twips;
+            const c_Margen_Bottom: number = 4; // 80 twips;
 
             let idx: number = cGlobals.addFontIfRequired(aspect.getFont(), this.fnt);
 
@@ -1503,8 +1218,8 @@ UNKNOWN >>             Pen pen;
                 format.FormatFlags = StringFormatFlags.NoWrap;
             }
 
-            let stringWidth: number = getPlEvaluateTextWidth(sText, font, this.scaleX);
-            let stringHeight: number = getPlEvaluateTextHeight(sText, font, aspect.getWidth(), format, this.scaleY, this.scaleX);
+            let stringWidth: number = this.getPlEvaluateTextWidth(sText, font, this.scaleX);
+            let stringHeight: number = this.getPlEvaluateTextHeight(sText, font, aspect.getWidth(), format, this.scaleY, this.scaleX);
 
             // TODO: translate this to English if it is really needed
             //
@@ -1526,14 +1241,14 @@ UNKNOWN >>             Pen pen;
                 margenY = image.Size.Height - stringHeight - c_Margen_Bottom;
 
                 if (margenY + stringHeight > aspect.getHeight())  {
-                    margenY = Convert.ToInt32(aspect.getHeight() - stringHeight - c_Margen_Bottom);
+                    margenY = Math.trunc(aspect.getHeight() - stringHeight - c_Margen_Bottom);
                 }                
                 if (margenY < c_Margen_Y)  {
                     margenY = c_Margen_Y;
                 }
             }
 
-            let nWidth: number = Convert.ToInt32(aspect.getWidth() - margenX * 2);
+            let nWidth: number = Math.trunc(aspect.getWidth() - margenX * 2);
 
             if (stringWidth > nWidth)  {
                 stringWidth = nWidth;
@@ -1545,19 +1260,19 @@ UNKNOWN >>             Pen pen;
             switch (aspect.getAlign())
             {
                 case HorizontalAlignment.Right:
-                    x = Convert.ToInt32(aspect.getLeft() + aspect.getWidth() - stringWidth - margenX);
+                    x = Math.trunc(aspect.getLeft() + aspect.getWidth() - stringWidth - margenX);
                     break;
                 case HorizontalAlignment.Center:
-                    x = Convert.ToInt32(aspect.getLeft() + (aspect.getWidth() - stringWidth) * 0.5);
+                    x = Math.trunc(aspect.getLeft() + (aspect.getWidth() - stringWidth) * 0.5);
                     break;
                 case HorizontalAlignment.Left:
-                    x = Convert.ToInt32(aspect.getLeft() + margenX);
+                    x = Math.trunc(aspect.getLeft() + margenX);
                     break;
             }
 
-            y = Convert.ToInt32(aspect.getTop() - aspect.getOffset() + margenY);
+            y = Math.trunc(aspect.getTop() - aspect.getOffset() + margenY);
 
-            let rect: RectangleF = cGlobals.newRectangleF(x, y, Convert.ToInt32(x + aspect.getWidth() - margenX), y + stringHeight);
+            let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - margenX), y + stringHeight);
 
             let brush: SolidBrush = new SolidBrush(cColor.colorFromRGB(aspect.getFont().getForeColor()));
 
@@ -1567,143 +1282,15 @@ UNKNOWN >>             Pen pen;
         }
 
         private showHandles(
-            graph: Graphics
-            x1: number
-            y1: number
-            x2: number
-            y2: number
-            color: number
+            graph: Graphics,
+            x1: number,
+            y1: number,
+            x2: number,
+            y2: number,
+            color: number,
             bCircle: boolean) {
-            /*
-            const int iSize = 100;
-            int hBrush = 0;
-            RECT tR = null;
-            int x = 0;
-            int y = 0;
 
-            int hOldBrush = 0;
-            int hOldPen = 0;
-            int hPen = 0;
-
-            hBrush = CreateSolidBrush(mAux.translateColor(color));
-
-            if (bCircle)
-            {
-                hPen = CreatePen(PS_SOLID, 1, mAux.translateColor(color));
-                hOldPen = SelectObject(hDC, hPen);
-                hOldBrush = SelectObject(hDC, hBrush);
-            }
-
-            if (x1 - iSize < 0) { x1 = iSize; }
-            if (y1 - iSize < 0) { y1 = iSize; }
-
-            if (x1 - iSize < 0) { x1 = iSize; }
-            if (y1 - iSize < 0) { y1 = iSize; }
-
-            tR = cGlobals.newRectangle(x1 - iSize, y1 - iSize - 10, x1, y1);
-            mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-            if (bCircle)
-            {
-                Ellipse(hDC, tR.left, tR.top, tR.right, tR.bottom);
-            }
-            else
-            {
-                FillRect(hDC, tR, hBrush);
-            }
-
-            tR = cGlobals.newRectangle(x1 - iSize, y2, x1, y2 + iSize);
-            mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-            if (bCircle)
-            {
-                Ellipse(hDC, tR.left, tR.top, tR.right, tR.bottom);
-            }
-            else
-            {
-                FillRect(hDC, tR, hBrush);
-            }
-
-            tR = cGlobals.newRectangle(x2, y1 - iSize - 10, x2 + iSize, y1);
-            mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-            if (bCircle)
-            {
-                Ellipse(hDC, tR.left, tR.top, tR.right, tR.bottom);
-            }
-            else
-            {
-                FillRect(hDC, tR, hBrush);
-            }
-
-            tR = cGlobals.newRectangle(x2, y2, x2 + iSize, y2 + iSize);
-            mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-            if (bCircle)
-            {
-                Ellipse(hDC, tR.left, tR.top, tR.right, tR.bottom);
-            }
-            else
-            {
-                FillRect(hDC, tR, hBrush);
-            }
-
-            x = x1 +  / 2;
-            x = x - iSize / 2;
-            tR = cGlobals.newRectangle(x, y2, x + iSize, y2 + iSize);
-            mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-            if (bCircle)
-            {
-                Ellipse(hDC, tR.left, tR.top, tR.right, tR.bottom);
-            }
-            else
-            {
-                FillRect(hDC, tR, hBrush);
-            }
-
-            tR = cGlobals.newRectangle(x, y1 - iSize - 10, x + iSize, y1);
-            mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-            if (bCircle)
-            {
-                Ellipse(hDC, tR.left, tR.top, tR.right, tR.bottom);
-            }
-            else
-            {
-                FillRect(hDC, tR, hBrush);
-            }
-
-            y = y1 +  / 2;
-            y = y - iSize / 2;
-            tR = cGlobals.newRectangle(x1 - iSize, y, x1, y + iSize);
-            mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-            if (bCircle)
-            {
-                Ellipse(hDC, tR.left, tR.top, tR.right, tR.bottom);
-            }
-            else
-            {
-                FillRect(hDC, tR, hBrush);
-            }
-
-            tR = cGlobals.newRectangle(x2, y, x2 + iSize, y + iSize);
-            mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-            if (bCircle)
-            {
-                Ellipse(hDC, tR.left, tR.top, tR.right, tR.bottom);
-            }
-            else
-            {
-                FillRect(hDC, tR, hBrush);
-            }
-
-            if (bCircle)
-            {
-                DeleteObject(SelectObject(hDC, hOldPen));
-                DeleteObject(SelectObject(hDC, hOldBrush));
-            }
-
-            else
-            {
-                DeleteObject(hBrush);
-            }
-            */
-            public iSize: number = 7;
+            const iSize: number = 7;
 
             if (x1 - iSize < 0) { x1 = iSize; }
             if (y1 - iSize < 0) { y1 = iSize; }
@@ -1714,30 +1301,30 @@ UNKNOWN >>             Pen pen;
             let brush: Brush = new SolidBrush(cColor.colorFromRGB(color));
 
             let rect: Rectangle = cGlobals.newRectangle(x1 - iSize, y1 - iSize - 1, x1, y1);
-            showHandle(graph, brush, rect, bCircle);
+            this.showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x1 - iSize, y2, x1, y2 + iSize);
-            showHandle(graph, brush, rect, bCircle);
+            this.showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x2, y1 - iSize - 1, x2 + iSize, y1);
-            showHandle(graph, brush, rect, bCircle);
+            this.showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x2, y2, x2 + iSize, y2 + iSize);
-            showHandle(graph, brush, rect, bCircle);
+            this.showHandle(graph, brush, rect, bCircle);
 
-            let x: number = Convert.ToInt32((x1 +  / 2f) - iSize / 2f);
+            let x: number = Math.trunc((x1 +  / 2) - iSize / 2);
             rect = cGlobals.newRectangle(x, y2, x + iSize, y2 + iSize);
-            showHandle(graph, brush, rect, bCircle);
+            this.showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x, y1 - iSize - 1, x + iSize, y1);
-            showHandle(graph, brush, rect, bCircle);
+            this.showHandle(graph, brush, rect, bCircle);
 
-            let y: number = Convert.ToInt32((y1 +  / 2f) - iSize / 2f);
+            let y: number = Math.trunc((y1 +  / 2) - iSize / 2);
             rect = cGlobals.newRectangle(x1 - iSize, y, x1, y + iSize);
-            showHandle(graph, brush, rect, bCircle);
+            this.showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x2, y, x2 + iSize, y + iSize);
-            showHandle(graph, brush, rect, bCircle);
+            this.showHandle(graph, brush, rect, bCircle);
 
             brush.Dispose();
         }
@@ -1752,38 +1339,6 @@ UNKNOWN >>             Pen pen;
         }
 
         public paintPicture(graph: Graphics, disposeGraphicObject: boolean) {
-            /*
-            RECT tR = null;
-
-            GetClientRect(graph.hwnd, tR);
-
-            if (this.zoom === 100)
-            {
-                BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, this.hMemDC, 0, 0, vbSrcCopy);
-            }
-            else
-            {
-                int width = 0;
-                int height = 0;
-                int oldStrMode = 0;
-                POINTAPI lrPoint = null;
-
-                mAux.getBitmapSize(this.hBmpCopy, width, height, false);
-
-                oldStrMode = SetStretchBltMode(graph.hDC, STRETCH_HALFTONE);
-
-                StretchBlt(graph.hDC, 0, 0, tR.right, tR.bottom, this.hMemDC, 0, 0, width, height, vbSrcCopy);
-                SetStretchBltMode(graph.hDC, oldStrMode);
-            }
-
-            int i = 0;
-
-            for (i = 1; i <= this.vSelectedKeys.length; i++)
-            {
-                setFocusAux(this.vSelectedKeys[i], graph);
-            }
-            */
-
             let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.Size.Width, this.bitmap.Size.Height);
             if (this.zoom === 100) {
                 //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, this.hMemDC, 0, 0, vbSrcCopy);
@@ -1793,7 +1348,7 @@ UNKNOWN >>             Pen pen;
 
             }
             for(let i = 0; i < this.vSelectedKeys.length; i++) {
-                setFocusAux(this.vSelectedKeys[i], graph);
+                this.setFocusAux(this.vSelectedKeys[i], graph);
             }
 
             if (disposeGraphicObject) {
@@ -1808,32 +1363,12 @@ UNKNOWN >>             Pen pen;
 
             let graphic: Graphics = Graphics.FromImage(this.bitmap);
             for(let i = 0; i < this.vSelectedKeys.length; i++) {
-                setFocusAux(this.vSelectedKeys[i], graphic);
+                this.setFocusAux(this.vSelectedKeys[i], graphic);
             }
             graphic.Dispose();
         }
 
         private paintPictureMove(graph: Graphics, tR: RectangleF) {
-            /*
-                      InflateRect(tR, 3, 3);
-
-                      if (tR.left < 0) { tR.left = 0; }
-                      if (tR.top < 0) { tR.top = 0; }
-
-                      if (tR.right > graph.Width) {
-                          tR.right = graph.Width;
-                      }
-
-                      if (tR.bottom > graph.Height) {
-                          tR.bottom = graph.Height - tR.top;
-                      }
-
-                      InflateRect(tR, 3, 3);
-
-                      mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-
-                      BitBlt(graph.hDC, tR.left, tR.top, tR.right - tR.left, tR.bottom - tR.top, this.hMemDC, tR.left, tR.top, vbSrcCopy);
-             * */
             let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.Size.Width, this.bitmap.Size.Height);
             if (this.zoom === 100) {
                 //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, this.hMemDC, 0, 0, vbSrcCopy);
@@ -1844,52 +1379,6 @@ UNKNOWN >>             Pen pen;
         // grid
         //
         private pCreateBrushGrid(graph: Graphics, typeGrid: csETypeGrid) {
-            /*
-            int i = 0;
-            int hBmp = 0;
-            int hMemDC = 0;
-            int hBrush = 0;
-
-            hMemDC = CreateCompatibleDC(0);
-            hBmp = CreateCompatibleBitmap(graph.hDC, 10, 10);
-            SelectObject(hMemDC, hBmp);
-
-            hBrush = CreateSolidBrush(mAux.translateColor(vbWhite));
-            FillRect(hMemDC, cGlobals.newRectangle(0, 0, 10, 10), hBrush);
-
-            switch (typeGrid)
-            {
-                case csEGridLines:
-                    for (i = 1; i <= 10; i++)
-                    {
-                        SetPixel(hMemDC, 0, i, mAux.translateColor(&HC0C0C0));
-                        SetPixel(hMemDC, i, 0, mAux.translateColor(&HC0C0C0));
-                    }
-                    break;
-                case csEGridPoints:
-                    SetPixel(hMemDC, 1, 1, mAux.translateColor(vbBlack));
-                    break;
-                case csEGridLinesHorizontal:
-                    for (i = 0; i <= 10; i++)
-                    {
-                        SetPixel(hMemDC, i, 0, mAux.translateColor(&HC0C0C0));
-                    }
-                    break;
-                case csEGridLinesVertical:
-                    for (i = 0; i <= 10; i++)
-                    {
-                        SetPixel(hMemDC, 0, i, mAux.translateColor(&HC0C0C0));
-                    }
-                    break;
-            }
-
-
-            this.hBrushGrid = CreatePatternBrush(hBmp);
-            DeleteObject(hMemDC);
-            DeleteObject(hBmp);
-            DeleteObject(hBrush);
-             */
-
             switch (typeGrid)
             {
                 case csETypeGrid.CSEGRIDLINES:
@@ -1931,14 +1420,14 @@ UNKNOWN >>             Pen pen;
             let graph: Graphics = Graphics.FromImage(this.bitmap);
             let stringSize: SizeF = graph.MeasureString(text, font);
             graph.Dispose();
-            return Convert.ToInt32(stringSize.Width / scaleX); // TODO: check if it is / or *
+            return Math.trunc(stringSize.Width / scaleX); // TODO: check if it is / or *
         }
 
         private getPlEvaluateTextHeight(text: string, font: Font, width: number, format: StringFormat, scaleY: number, scaleX: number) {
             let graph: Graphics = Graphics.FromImage(this.bitmap);
-            let stringSize: SizeF = graph.MeasureString(text, font, Convert.ToInt32(width * scaleX), format);
+            let stringSize: SizeF = graph.MeasureString(text, font, Math.trunc(width * scaleX), format);
             graph.Dispose();
-            return Convert.ToInt32(stringSize.Height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
+            return Math.trunc(stringSize.Height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
         }
 
         private pClearObject(key: string, graph: Graphics) {
@@ -1953,53 +1442,42 @@ UNKNOWN >>             Pen pen;
 
             if (tR.Right > graph.ClipBounds.Width) { tR.Width = cGlobals.setRectangleWidth(graph.ClipBounds.Width - tR.Left); }
             if (tR.Bottom > graph.ClipBounds.Height) { tR.Height = cGlobals.setRectangleHeight(graph.ClipBounds.Height - tR.Top); }
-
-            //TODO: check
-            //mAux.rectTwipsToPixel(tR, this.scaleX, this.scaleY);
-
-            // TODO: replace api call
-            /*
-            int hBr = 0;
-            hBr = CreateSolidBrush(mAux.translateColor(vbWhite));
-            FillRect(hDC, tR, hBr);
-            DeleteObject(hBr);
-             */ 
         }
 
         private pDrawObjBox(
-            graph: Graphics
-            aspect: cReportAspect
-            x1: number
-            y1: number
-            x2: number
-            y2: number
-            filled: boolean
-            colorIn: number
+            graph: Graphics,
+            aspect: cReportAspect,
+            x1: number,
+            y1: number,
+            x2: number,
+            y2: number,
+            filled: boolean,
+            colorIn: number,
             colorOut: number) {
 
             // this.notBorder is used by preview and printing to indicate the controls must be print a border only
             // when BorderType !== NONE
             // 
-            if ( || (aspect.getBorderType() !== csReportBorderType.CSRPTBSNONE)) {
+            if (this.notBorder == false || filled || aspect.getBorderType() !== csReportBorderType.CSRPTBSNONE) {
                 if (aspect.getBorderType() === csReportBorderType.CSRPTBS3D) {
 
-                    printLine(graph, filled, x1, y1, x2, y2, colorIn, 0, false, (int)csColors.C_COLOR_WHITE, false);
+                    this.printLine(graph, filled, x1, y1, x2, y2, colorIn, 0, false, csColors.C_COLOR_WHITE, false);
 
                     // top
                     //
-                    printLine(graph, false, x1, y1, x2, y1, (int)csColors.C_COLOR_WHITE, 1, false, aspect.getBorderColor3d(), false);
+                    this.printLine(graph, false, x1, y1, x2, y1, csColors.C_COLOR_WHITE, 1, false, aspect.getBorderColor3d(), false);
                     // down
                     //
-                    printLine(graph, false, x1, y2 - 1, x2, y2 - 1, (int)csColors.C_COLOR_WHITE, 1, false, aspect.getBorderColor3dShadow(), false);
+                    this.printLine(graph, false, x1, y2 - 1, x2, y2 - 1, csColors.C_COLOR_WHITE, 1, false, aspect.getBorderColor3dShadow(), false);
                     // left
                     //
-                    printLine(graph, false, x1 + 1, y1, x1 + 1, y2, (int)csColors.C_COLOR_WHITE, 1, false, aspect.getBorderColor3d(), false);
+                    this.printLine(graph, false, x1 + 1, y1, x1 + 1, y2, csColors.C_COLOR_WHITE, 1, false, aspect.getBorderColor3d(), false);
                     // right
                     //
-                    printLine(graph, false, x2 - 1, y1, x2 - 1, y2, (int)csColors.C_COLOR_WHITE, 1, false, aspect.getBorderColor3dShadow(), false);
+                    this.printLine(graph, false, x2 - 1, y1, x2 - 1, y2, csColors.C_COLOR_WHITE, 1, false, aspect.getBorderColor3dShadow(), false);
                 }
                 else if (aspect.getBorderRounded()) {
-                    printLine(graph, filled, x1, y1, x2, y2, colorIn, (int)aspect.getBorderWidth(), false, colorOut, true);
+                    this.printLine(graph, filled, x1, y1, x2, y2, colorIn, aspect.getBorderWidth(), false, colorOut, true);
                 }
                 else {
                     //
@@ -2014,7 +1492,7 @@ UNKNOWN >>             Pen pen;
                     //       those reports to set the BorderType to CSRPTBSNONE
                     //
                     let dash: boolean = false;
-                    public borderWidth: number = 1;
+                    let borderWidth: number = 1;
 
                     if (this.notBorder === false 
                             && (
@@ -2037,7 +1515,7 @@ UNKNOWN >>             Pen pen;
                     if (!this.notBorder 
                         || (filled && colorIn !== 16777215) // this is the value of white controls in cairo reports.
                         || (aspect.getBorderType() === csReportBorderType.CSRPTBSFIXED && aspect.getBorderWidth() > 0)) {
-                        printLine(graph, filled, x1, y1, x2, y2, colorIn, borderWidth, dash, colorOut, false);
+                        this.printLine(graph, filled, x1, y1, x2, y2, colorIn, borderWidth, dash, colorOut, false);
                     }
                 }
             }
@@ -2046,49 +1524,5 @@ UNKNOWN >>             Pen pen;
         public getBitmap() {
             return this.bitmap;
         }
-
-
-
-    } 
-
-
-
-}
-
-
-/*
-
-http://stackoverflow.com/questions/7507602/best-practice-for-onpaint-invalidate-clipping-and-regions
-
-Since a lot of people are viewing this question I will go ahead and answer it to the best of my current knowledge.
-
-The Graphics class supplied with PaintEventArgs is always hard-clipped by the invalidation request. This is usually done by the operating system, but it can be done by your code.
-
-You can't reset this clip or escape from these clip bounds, but you shouldn't need to. When painting, you generally shouldn't care about how it's being clipped unless you desperately need to maximize performance.
-
-The graphics class uses a stack of containers to apply clipping and transformations. You can extend this stack yourself by using Graphics.BeginContainer and Graphics.EndContainer. Each time you begin a container, any changes you make to the Transform or the Clip are temporary and they are applied after any previous Transform or Clip which was configured before the BeginContainer. So essentially, when you get an OnPaint event it has already been clipped and you are in a new container so you can't see the clip (your Clip region or ClipRect will show as being infinite) and you can't break of those clip bounds.
-
-When the state of your visual objects change (for example, on mouse or keyboard events or reacting to data changes), it's normally fine to simply call Invalidate() which will repaint the entire control. Windows will call OnPaint during moments of low CPU usage. Each call to Invalidate() usually will not always correspond to an OnPaint event. Invalidate could be called multiple times before the next paint. So if 10 properties in your data model change all at once, you can safely call Invalidate 10 times on each property change and you'll likely only trigger a single OnPaint event.
-
-I've noticed you should be careful with using Update() and Refresh(). These force a synchronous OnPaint immediately. They're useful for drawing during a single threaded operation (updating a progress bar perhaps), but using them at the wrong times could lead to excessive and unnecessary painting.
-
-If you want to use clip rectangles to improve performance while repainting a scene, you need not keep track of an aggregated clip area yourself. Windows will do this for you. Just invalidate a rectangle or a region that requires invalidation and paint as normal. For example, if an object that you are painting is moved, each time you want to invalidate it's old bounds and it's new bounds, so that you repaint the background where it originally was in addition to painting it in its new location. You must also take into account pen stroke sizes, etc.
-
-And as Hans Passant mentioned, always use 32bppPArgb as the bitmap format for high resolution images. Here's a code snippet on how to load an image as "high performance":
-
-public static Bitmap GetHighPerformanceBitmap(Image original)
-{
-    Bitmap bitmap;
-
-    bitmap = new Bitmap(original.Width, original.Height, PixelFormat.Format32bppPArgb);
-    bitmap.SetResolution(original.HorizontalResolution, original.VerticalResolution);
-
-    using (Graphics g = Graphics.FromImage(bitmap))
-    {
-        g.DrawImage(original, new Rectangle(new Point(0, 0), bitmap.Size), new Rectangle(new Point(0, 0), bitmap.Size), GraphicsUnit.Pixel);
     }
-
-    return bitmap;
 }
-
- */

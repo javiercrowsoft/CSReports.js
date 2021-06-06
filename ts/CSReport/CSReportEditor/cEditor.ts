@@ -905,8 +905,8 @@ UNKNOWN >>             finally
 
                 if (!this.keyboardMove) {
                     aspect = this.paint.getPaintObject(this.vSelectedKeys[0]).getAspect();
-                    y = Convert.ToInt32(aspect.getTop());
-                    x = Convert.ToInt32(aspect.getLeft());
+                    y = Math.trunc(aspect.getTop());
+                    x = Math.trunc(aspect.getLeft());
                 }
                 else {
                     y = this.y;
@@ -924,8 +924,8 @@ UNKNOWN >>             finally
                     if (!this.keyboardMove) {
 
                         aspect = this.paint.getPaintObject(this.vSelectedKeys[0]).getAspect();
-                        y += Convert.ToInt32(aspect.getHeight());
-                        x += Convert.ToInt32(aspect.getWidth());
+                        y += Math.trunc(aspect.getHeight());
+                        x += Math.trunc(aspect.getWidth());
 
                         pSetMovingFromKeyboard(x, y);
 
@@ -1860,9 +1860,9 @@ UNKNOWN >>             int i;
             if (ctrlName !== "") {
                 msg = "Ctl:[" + ctrlName
                     + "]Tipo:[" + strCtlType
-                    + "]F.Hide:[" + cUtil.substring(formulaHide, 1, 100)
+                    + "]F.Hide:[" + formulaHide.substring(1, 100)
                     + "]Activa[" + ( hasFormulaHide).toString()
-                    + "]F.Value:[" + cUtil.substring(formulaValue, 1, 100)
+                    + "]F.Value:[" + formulaValue.substring(1, 100)
                     + "]Activa[" + ( hasFormulaValue).toString()
                     + "]Field:[" + fieldName + "]";
             }
@@ -3728,7 +3728,7 @@ UNKNOWN >>             bool isGroup;
         }
 
         public showProperties(key: string) {
-            if ("SL".IndexOf(cUtil.substring(key, 0, 1)) !== -1) {
+            if ("SL".IndexOf(key.substring(0, 1)) !== -1) {
                 let bIsSecLn: boolean = false;
                 pSelectSection(key.substring(1), bIsSecLn);
 
@@ -5065,7 +5065,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
 
         private refreshNextNameCtrl(nameCtrl: string) {
             let x: number = 0;
-            if (cUtil.substring(nameCtrl, 0, cGlobals.C_CONTROL_NAME.length).toUpperCase() === cGlobals.C_CONTROL_NAME.toUpperCase()) {
+            if (nameCtrl.substring(0, cGlobals.C_CONTROL_NAME.length).toUpperCase() === cGlobals.C_CONTROL_NAME.toUpperCase()) {
                 x = cUtil.valAsInt(nameCtrl.substring(cGlobals.C_CONTROL_NAME.length + 1));
                 if (x > this.nextNameCtrl) {
                     this.nextNameCtrl = x + 1;
@@ -5221,7 +5221,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
             let percent: number = 0;
             if (recordCount > 0 && currRecord > 0) {
                 percent = Convert.ToDouble(currRecord) / recordCount;
-                let value = Convert.ToInt32(percent * 100);
+                let value = Math.trunc(percent * 100);
                 if (value > 100) value = 100; {
                 this.fProgress.prgBar.Value = value;
             }
@@ -6410,7 +6410,7 @@ UNKNOWN >>             cReportAspect w_aspect;
             // if it isn't an internal function we give the user
             // a chance to cancel the changes
             //
-            if (cUtil.substring(formulaText, 0, 1).trim() !== "_") {
+            if (formulaText.substring(0, 1).trim() !== "_") {
                 let fReplace: fFormulaReplace = null;
                 fReplace = new fFormulaReplace();
                 fReplace.txCurrFormula.Text = formulaText;

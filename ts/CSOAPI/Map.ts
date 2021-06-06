@@ -77,10 +77,14 @@ namespace CSOAPI {
             }
         }
 
-        public clear(): void {
+        public baseClear(): void {
             this.length = 0;
             this.keys = [];
             this.values = [];
+        }
+
+        public clear(): void {
+            this.baseClear();
         }
 
         public count() {
@@ -105,6 +109,14 @@ namespace CSOAPI {
 
         private itemByKey(key: string): T {
             return this.itemByIndex(this.keys.indexOf(key));
+        }
+
+        private indexByKey(key: string): number {
+            return this.keys.indexOf(key);
+        }
+
+        private keyByIndex(index: number): string {
+            return this.keys[index];
         }
 
         private itemByIndex(index: number): T {

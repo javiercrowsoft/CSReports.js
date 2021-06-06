@@ -1,78 +1,50 @@
+namespace CSReportPaint {
 
-
-namespace CSReportPaint
-{
     export class cGraphics {
 
-
-    {
         private mGraphics: Graphics = null;
-UNKNOWN >>         public Graphics Graphics 
-        { 
-UNKNOWN >>             get{ return this.mGraphics; } 
-            let this.mGraphics: set{ = value; };
+
+        public getGraphics(): Graphics {
+            return this.mGraphics;
         }
 
+        public setGraphics(value: Graphics) {
+            this.mGraphics = value;
+        }
 
         public constructor(graphics: Graphics) {
-            this.Graphics = graphics;
+            this.mGraphics = graphics;
         } 
 
-
-UNKNOWN >>         #region Fills a Rounded Rectangle with integers. 
-        public FillRoundRectangle(brush: System.Drawing.Brush) {
-          int x, int y,
-          int width, int height, int radius) 
-        { 
+        public fillRoundRectangle(brush: Brush,
+                                  x: number, y: number,
+                                  width: number, height: number,
+                                  radius: number) {
 
             let fx: number = Convert.ToSingle(x);
             let fy: number = Convert.ToSingle(y);
             let fwidth: number = Convert.ToSingle(width);
             let fheight: number = Convert.ToSingle(height);
             let fradius: number = Convert.ToSingle(radius);
-            this.FillRoundRectangle(brush, fx, fy, 
-              fwidth, fheight, fradius); 
-
+            this.fillRoundRectangleWithBrush(brush, fx, fy, fwidth, fheight, fradius);
         } 
-UNKNOWN >>         #endregion 
 
-
-UNKNOWN >>         #region Fills a Rounded Rectangle with continuous numbers.
-        public FillRoundRectangle(brush: System.Drawing.Brush) {
-          float x, float y,
-          float width, float height, float radius)
-        {
+        public fillRoundRectangleWithBrush(brush: Brush, x: number, y: number, width: number, height: number, radius: number) {
             let rectangle: RectangleF = new RectangleF(x, y, width, height);
             let path: GraphicsPath = this.GetRoundedRect(rectangle, radius);
             this.Graphics.FillPath(brush, path);
         } 
-UNKNOWN >>         #endregion
 
-
-UNKNOWN >>         #region Draws a Rounded Rectangle border with integers. 
-        public DrawRoundRectangle(pen: System.Drawing.Pen, x: number, y: number) {
-          int width, int height, int radius) 
-        { 
+        public drawRoundRectangle(pen: System.Drawing.Pen, x: number, y: number, width: number, height: number, radius: number) {
             let fx: number = Convert.ToSingle(x);
             let fy: number = Convert.ToSingle(y);
             let fwidth: number = Convert.ToSingle(width);
             let fheight: number = Convert.ToSingle(height);
             let fradius: number = Convert.ToSingle(radius);
-            this.DrawRoundRectangle(pen, fx, fy, fwidth, fheight, fradius); 
-        }
-UNKNOWN >>         #endregion 
-
-
-UNKNOWN >>         #region Draws a Rounded Rectangle border with continuous numbers. 
-        public DrawRoundRectangle(pen: System.Drawing.Pen) {
-          float x, float y,
-          float width, float height, float radius) 
-        { 
             let rectangle: RectangleF = new RectangleF(x, y, width, height);
             let path: GraphicsPath = this.GetRoundedRect(rectangle, radius);
             this.Graphics.DrawPath(pen, path); 
         } 
-UNKNOWN >>         #endregion 
 
 
 UNKNOWN >>         #region Get the desired Rounded Rectangle path. 

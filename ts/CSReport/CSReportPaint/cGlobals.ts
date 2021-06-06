@@ -1,5 +1,9 @@
 namespace CSReportPaint {
 
+    import cReportPaperInfo = CSReportDll.cReportPaperInfo;
+    import csReportPaperType = CSReportGlobals.csReportPaperType;
+    import cReportFont = CSReportDll.cReportFont;
+
     export class cGlobals {
 
         private static nextKey = 1000;
@@ -26,41 +30,39 @@ namespace CSReportPaint {
             imgHeight = image.Height;
         }
 
-        public static setRectangleWidth(width: Single) {
-            if (width < 0) {
-                width = 0;
+        public static setRectangleWidth(width: number) {
+            if (width < 0) width = 0;
             return width;
         }
 
-        public static setRectangleHeight(height: Single) {
-            if (height < 0) {
-                height = 0;
+        public static setRectangleHeight(height: number) {
+            if (height < 0) height = 0;
             return height;
         }
 
-        public static newRectangleF(left: Single, top: Single, right: Single, bottom: Single) {
-            if (left < 0) left = 0; {
-            if (top < 0) top = 0; {
-            if (right < left) right = left; {
-            if (bottom < top) bottom = top; {
+        public static newRectangleF(left: number, top: number, right: number, bottom: number) {
+            if (left < 0) left = 0;
+            if (top < 0) top = 0;
+            if (right < left) right = left;
+            if (bottom < top) bottom = top;
 
             return new RectangleF(left, top, right-left, bottom-top);
         }
 
         public static newRectangle(left: number, top: number, right: number, bottom: number) {
-            if (left < 0) left = 0; {
-            if (top < 0) top = 0; {
-            if (right < left) right = left; {
-            if (bottom < top) bottom = top; {
+            if (left < 0) left = 0;
+            if (top < 0) top = 0;
+            if (right < left) right = left;
+            if (bottom < top) bottom = top;
 
             return new Rectangle(left, top, right-left, bottom-top);
         }
 
         private static getPixelsFromCmX(cm: number) {
-            return cm * _g.DpiX / 2.54f;
+            return cm * _g.DpiX / 2.54;
         }
         private static getPixelsFromCmY(cm: number) {
-            return cm * _g.DpiY / 2.54f;
+            return cm * _g.DpiY / 2.54;
         }
 
         public static getRectFromPaperSize(info: cReportPaperInfo, paperSize: csReportPaperType, orientation: number) {
@@ -69,33 +71,32 @@ namespace CSReportPaint {
             switch (paperSize)
             {
                 case csReportPaperType.CSRPTPAPERTYPELETTER:
-                    rtn.Height = getPixelsFromCmY(27.94f); // 15840;
-                    rtn.Width = getPixelsFromCmX(21.59f);  // 12240;
+                    rtn.Height = this.getPixelsFromCmY(27.94); // 15840;
+                    rtn.Width = this.getPixelsFromCmX(21.59);  // 12240;
                     break;
 
                 case csReportPaperType.CSRPTPAPERTYPELEGAL:
-                    rtn.Height = getPixelsFromCmY(35.56f); // 20160;
-                    rtn.Width = getPixelsFromCmX(21.59f);  // 12060;
+                    rtn.Height = this.getPixelsFromCmY(35.56); // 20160;
+                    rtn.Width = this.getPixelsFromCmX(21.59);  // 12060;
                     break;
 
                 case csReportPaperType.CSRPTPAPERTYPEA4:
-                    rtn.Height = getPixelsFromCmY(29.7f); // 16832;
-                    rtn.Width = getPixelsFromCmX(21f);    // 11908;
+                    rtn.Height = this.getPixelsFromCmY(29.7); // 16832;
+                    rtn.Width = this.getPixelsFromCmX(21);    // 11908;
                     break;
 
                 case csReportPaperType.CSRPTPAPERTYPEA3:
-                    rtn.Height = getPixelsFromCmY(42f); // 23816;
-                    rtn.Width = getPixelsFromCmX(29.7f);    // 16832;
+                    rtn.Height = this.getPixelsFromCmY(42); // 23816;
+                    rtn.Width = this.getPixelsFromCmX(29.7);    // 16832;
                     break;
 
                 case csReportPaperType.CSRPTPAPERUSER:
                     if (info === null) {
-                        let msg: string = "The settings for the custome user paper size is not defined";
-                        throw new ReportPaintException(csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT, C_MODULE, msg);
+                        throw new ReportPaintException("The settings for the custome user paper size is not defined");
                     }
                     else {
-                        rtn.Width = getPixelsFromCmY(info.getCustomWidth());
-                        rtn.Height = getPixelsFromCmX(info.getCustomHeight());
+                        rtn.Width = this.getPixelsFromCmY(info.getCustomWidth());
+                        rtn.Height = this.getPixelsFromCmX(info.getCustomHeight());
                     }
                     break;
             }
@@ -111,7 +112,7 @@ namespace CSReportPaint {
         }
 
         // fonts
-        public addFontIfRequired(font: cReportFont, this.fnt: Font[]) {
+        public addFontIfRequired(font: cReportFont, fnt: Font[]) {
             for(let i = 0; i < this.fnt.length; i++) {
                 if(font.getName() === this.fnt[i].Name 
                     && font.getBold() === this.fnt[i].Bold 
@@ -126,10 +127,10 @@ namespace CSReportPaint {
             redimPreserve(this.fnt, this.fnt.length + 1);
 
             let fontStyle: FontStyle = FontStyle.Regular;
-            if (font.getBold()) fontStyle = fontStyle | FontStyle.Bold; {
-            if (font.getItalic()) fontStyle = fontStyle | FontStyle.Italic; {
-            if (font.getUnderline()) fontStyle = fontStyle | FontStyle.Underline; {
-            if (font.getStrike()) fontStyle = fontStyle | FontStyle.Strikeout; {
+            if (font.getBold()) fontStyle = fontStyle + FontStyle.Bold;
+            if (font.getItalic()) fontStyle = fontStyle + FontStyle.Italic;
+            if (font.getUnderline()) fontStyle = fontStyle + FontStyle.Underline;
+            if (font.getStrike()) fontStyle = fontStyle + FontStyle.Strikeout;
 
             let afont: Font = new Font(font.getName(), ((font.getSize() > 0) ? font.getSize() : 3), fontStyle);
 
@@ -154,7 +155,7 @@ namespace CSReportPaint {
         CSRPTPAINTOBJIMAGE
     }
 
-    public enum csRptPaintRegionType {
+    export enum csRptPaintRegionType {
         CRPTPNTRGNTYPEBODY,
         CRPTPNTRGNTYPELEFTUP,
         CRPTPNTRGNTYPELEFTDOWN,
@@ -173,22 +174,10 @@ namespace CSReportPaint {
         C_LASTPAGE = -3
     } 
 
-
-
-
-
-
-
-
-    public enum csPDFQualityUNKNOWN >>     public enum csPDFQuality
-    {
+    export enum csPDFQuality {
         PDFQUALITYFULL = 1,
         PDFQUALITYSMALL = 2,
         PDFQUALITYMEDIUM = 3
-
-
-    } 
-
-
+    }
 
 }

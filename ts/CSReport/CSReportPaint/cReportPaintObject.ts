@@ -1,11 +1,9 @@
+namespace CSReportPaint {
 
+    import cReportAspect = CSReportDll.cReportAspect;
+    import csRptSectionType = CSReportGlobals.csRptSectionType;
 
-namespace CSReportPaint
-{
     export class cReportPaintObject {
-
-
-    {
 
         private C_MODULE: string = "cReportPaintObject";
 
@@ -128,11 +126,5 @@ namespace CSReportPaint
         public setIsSection(rhs: boolean) {
             this.isSection = rhs;
         }
-
-
-
-    } 
-
-
-
+    }
 }

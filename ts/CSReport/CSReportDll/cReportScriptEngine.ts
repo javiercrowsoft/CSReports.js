@@ -4,7 +4,7 @@ namespace CSReportDll {
 
         private getFunctionCall(code: string, formula: cReportFormula) {
             let n: number = code.indexOf("(");
-            let functionName = cUtil.substring(code, 8, n-8);
+            let functionName = code.substring(8, n-8);
             let parameters = "";
             for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 let fint = formula.getFormulasInt().item(_i);
@@ -35,7 +35,7 @@ namespace CSReportDll {
 
                      + "  Select Case Microsoft.VisualBasic.Information.VarType(value__)\r\n"
                      + "    Case 11\r\n"
-                     + "      RunScript = System.Convert.ToInt32(value__)\r\n"
+                     + "      RunScript = System.Math.trunc(value__)\r\n"
                      + "    Case 7\r\n"
                      + "      RunScript = String.Format(\"{0:MM/dd/yyyy}\", value__)\r\n"
                      + "    Case Else\r\n"
@@ -76,7 +76,7 @@ namespace CSReportDll {
 
 UNKNOWN >>             CodeDomProvider provider;
 
-            if (cUtil.substring(code, 0, 8).toLowerCase() === "function") {
+            if (code.substring(0, 8).toLowerCase() === "function") {
                 provider = new Microsoft.VisualBasic.VBCodeProvider();
             }
             else  {

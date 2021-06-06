@@ -1,7 +1,4 @@
-
-
-namespace CSReportPreview
-{
+namespace CSReportPreview {
 //     public delegate void FirstPage(object sender, EventArgs e);
 //     public delegate void PreviousPage(object sender, EventArgs e);
 //     public delegate void MoveToPage(object sender, PageEventArgs e);
@@ -12,9 +9,6 @@ namespace CSReportPreview
 //     public delegate void ExportToPDF(object sender, EventArgs e);
 
     export class cReportPreview {
-
-
-    {
 //         public event FirstPage FirstPage;
 //         public event PreviousPage PreviousPage;
 //         public event MoveToPage MoveToPage;
@@ -98,28 +92,15 @@ namespace CSReportPreview
         private pnReport_Click(sender: object, e: EventArgs) {
             pnEditor.Focus();
         }
+    }
 
-
-    } 
-
-
-
-
-
-    public class PageEventArgs : EventArgs    export class PageEventArgs {
-
-
-    {
-        private int: readonly this.page = -1;
+    export class PageEventArgs extends EventArgs {
+        private page: number = -1;
 
         public constructor(page: number) {
+            super();
             this.page = page;
         }
-        public page: number = null;{ get { return this.page; } };
-
-
-    } 
-
-
-
+        public getPage () { return this.page; }
+    }
 }

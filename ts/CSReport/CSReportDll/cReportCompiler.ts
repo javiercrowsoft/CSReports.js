@@ -351,7 +351,7 @@ namespace CSReportDll {
                     pEvalSyntax("", codeC, false, formula);
                 }
                 else {
-                    if (cUtil.substring(codeC.trim(), 0, 8).toLowerCase() === "function") {
+                    if (codeC.trim().substring(0, 8).toLowerCase() === "function") {
                         pEvalSyntax("", codeC, false, formula);
                     }
                 }
@@ -1994,7 +1994,7 @@ namespace CSReportDll {
                 word += c;
                 nStart += 1;
                 if (pIsSeparator(c)) break;
-                c = cUtil.substring(code, nStart, 1);
+                c = code.substring(nStart, 1);
             } while (!pIsSeparator(c) && nStart < nLenCode);
 
             return word;

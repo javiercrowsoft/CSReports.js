@@ -1,12 +1,8 @@
+namespace CSReportPaint {
 
-
-namespace CSReportPaint
-{
     export class cReportPaintError {
 
-
-    {
-        public errGetDescript(rptErrCode: csRptPaintErrors) {
+        public static errGetDescript(rptErrCode: csRptPaintErrors) {
             switch (rptErrCode)
             {
                 case csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT:
@@ -17,20 +13,12 @@ namespace CSReportPaint
                     return "There is not information for this error";
             }
         }
-
-
     } 
 
-
-
-
-
-    public enum csRptPaintErrorsUNKNOWN >>     public enum csRptPaintErrors
+    export enum csRptPaintErrors
     {
         CSRPT_PAINT_ERR_OBJ_CLIENT = 2001,
         CSRPT_PAINT_ERR_OBJ_CLIENT_INVALID,
-UNKNOWN >>         CSRPT_PAINT_ERR_PRINTING
-
-
+        CSRPT_PAINT_ERR_PRINTING
     } 
 }

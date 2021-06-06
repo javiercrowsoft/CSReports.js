@@ -354,17 +354,17 @@ namespace CSReportDll {
         }
 
         private twipsToPixels() {
-            this.height = cUtil.tp(Convert.ToInt32(this.height));
-            this.left = cUtil.tp(Convert.ToInt32(this.left));
-            this.top = cUtil.tp(Convert.ToInt32(this.top));
-            this.width = cUtil.tp(Convert.ToInt32(this.width));
+            this.height = cUtil.tp(Math.trunc(this.height));
+            this.left = cUtil.tp(Math.trunc(this.left));
+            this.top = cUtil.tp(Math.trunc(this.top));
+            this.width = cUtil.tp(Math.trunc(this.width));
         }
 
         private pixelsToTwips() {
-            this.height = cUtil.pt(Convert.ToInt32(this.height));
-            this.left = cUtil.pt(Convert.ToInt32(this.left));
-            this.top = cUtil.pt(Convert.ToInt32(this.top));
-            this.width = cUtil.pt(Convert.ToInt32(this.width));
+            this.height = cUtil.pt(Math.trunc(this.height));
+            this.left = cUtil.pt(Math.trunc(this.left));
+            this.top = cUtil.pt(Math.trunc(this.top));
+            this.width = cUtil.pt(Math.trunc(this.width));
         }
     }
 }

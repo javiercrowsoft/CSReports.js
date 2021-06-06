@@ -39,7 +39,7 @@ namespace CSXml {
         }
 
         public getValueInt(type: eTypes) {
-            return Convert.ToInt32(this.getValue(type));
+            return Math.trunc(this.getValue(type));
         }
 
         public getValueString(type: eTypes) {
