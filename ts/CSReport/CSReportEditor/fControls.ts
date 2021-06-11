@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fControls {
 
-
-    {
         private editor: cEditor = null;
 
         private C_CTRL_IMAGE: number = 1;
@@ -85,7 +81,5 @@ namespace CSReportEditor
                 this.editor.showProperties(info);
             }
         }
-
-
     }
 }

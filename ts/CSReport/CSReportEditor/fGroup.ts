@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fGroup {
 
-
-    {
         private editor: cEditor = null;
         private ok: boolean = false;
         private dbFieldChanged: boolean = false;
@@ -14,94 +10,6 @@ namespace CSReportEditor
 
         public constructor() {
             InitializeComponent();
-        }
-
-UNKNOWN >>         public TextBox txName
-        {
-UNKNOWN >>             get
-            {
-                return tx_name;
-            }
-        }
-
-UNKNOWN >>         public TextBox txDbField
-        {
-UNKNOWN >>             get
-            {
-                return tx_dbField;
-            }
-        }
-
-UNKNOWN >>         public RadioButton opDesc
-        {
-UNKNOWN >>             get 
-            {
-                return op_desc;
-            }
-        }
-
-UNKNOWN >>         public RadioButton opAsc
-        {
-UNKNOWN >>             get
-            {
-                return op_asc;
-            }
-        }
-
-UNKNOWN >>         public CheckBox chkPrintInNewPage
-        {
-UNKNOWN >>             get 
-            {
-                return chk_printInNewPage;
-            }
-        }
-
-UNKNOWN >>         public CheckBox chkReprintGroup
-        {
-UNKNOWN >>             get
-            {
-                return chk_reprintGroup;
-            }
-        }
-
-UNKNOWN >>         public CheckBox chkGrandTotal
-        {
-UNKNOWN >>             get
-            {
-                return chk_grandTotal;
-            }
-        }
-
-UNKNOWN >>         public RadioButton opDate
-        {
-UNKNOWN >>             get
-            {
-                return op_date;
-            }
-        }
-
-UNKNOWN >>         public RadioButton opNumber
-        {
-UNKNOWN >>             get
-            {
-                return op_number;
-            }
-        }
-
-UNKNOWN >>         public RadioButton opText
-        {
-UNKNOWN >>             get
-            {
-                return op_text;
-            }
-        }
-
-UNKNOWN >>         public Label lbGroup
-        {
-UNKNOWN >>             get
-            {
-                return lb_group;
-            }
         }
 
         public getAsc() {
@@ -211,7 +119,5 @@ UNKNOWN >>             get
         private fGroup_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
         }
-
-
-    } 
+    }
 }

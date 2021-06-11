@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fConnectsAux {
 
-
-    {
         public constructor() {
             InitializeComponent();
         }
@@ -13,7 +9,5 @@ namespace CSReportEditor
 		public addConnect(str: string, str2: string) {
 			throw new NotImplementedException ();
 		}
-
-
-    } 
+    }
 }

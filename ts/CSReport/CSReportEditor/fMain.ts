@@ -1,13 +1,6 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fMain {
-
-
-    {
-        // TODO: remove me
-        //static fMain instance;
 
         private C_MODULE: string = "fMain";
 
@@ -282,30 +275,6 @@ namespace CSReportEditor
 
         //------------------------------------------------------------------------------------------------------------------
 
-UNKNOWN >>         public OpenFileDialog openFileDialog 
-        {
-UNKNOWN >>             get
-            {
-                return openFileDlg;
-            }
-        }
-
-UNKNOWN >>         public SaveFileDialog saveFileDialog
-        {
-UNKNOWN >>             get
-            {
-                return saveFielDlg;
-            }            
-        }
-
-UNKNOWN >>         public PrintDialog printDialog
-        {
-UNKNOWN >>             get
-            {
-                return printDlg;
-            }
-        }
-
         private fMain_Load(sender: object, e: EventArgs) {
             cPrintAPI.getDefaultPrinter(
                 this.printerName, this.driverName, this.port, 
@@ -505,7 +474,7 @@ UNKNOWN >>             get
         }
 
         private setObjectDescription(anObject: object, n: number) {
-            if (anObject === null) return; {
+            if (anObject === null) return;
 
             let tabs = new String(' ', n*2);
             let methods = getMethods(anObject);
@@ -520,13 +489,13 @@ UNKNOWN >>             get
                     let item = lv_properties.Items.Add(tabs + m.Name.substring(3));
                     item.ImageIndex = C_IMG_CONTROL;
                     item.SubItems.Add(getValue(m.Invoke(anObject, null), n));
-                    if (item.SubItems[1].Text === "...") item.ImageIndex = C_IMG_FOLDER; {
+                    if (item.SubItems[1].Text === "...") item.ImageIndex = C_IMG_FOLDER;
                 }
             }
         }
 
         private getValue(value: object, n: number) {
-            if (n > 10) return ""; {
+            if (n > 10) return "";
 
             if (value === null) {
                 return "NULL";
@@ -642,12 +611,12 @@ UNKNOWN >>             get
         }
 
         private tv_controls_BeforeCollapse(sender: object, e: TreeViewCancelEventArgs) {
-            if (this.wasDoubleClick === true && e.Action === TreeViewAction.Collapse) {
+            if (this.wasDoubleClick === true && e.Action === TreeViewAction.Collapse)
                 e.Cancel = true;
         }
 
         private tv_controls_BeforeExpand(sender: object, e: TreeViewCancelEventArgs) {
-            if (this.wasDoubleClick === true && e.Action === TreeViewAction.Expand) {
+            if (this.wasDoubleClick === true && e.Action === TreeViewAction.Expand)
                 e.Cancel = true;
         }
 
@@ -750,9 +719,7 @@ UNKNOWN >>             get
 
         private mnuHelpAbout_Click(sender: object, e: EventArgs) {
             cWindow.msgInfo(
-UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Name 
-                + " - Version " 
-                + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version
+                + " - Version "
                 + "\r\n\r\nhttps://github.com/javiercrowsoft/CSReports.net");
         }
 
@@ -1078,7 +1045,5 @@ UNKNOWN >>                 System.Reflection.Assembly.GetExecutingAssembly().Get
                 editor.keyDown(sender, e);
             }
         }
-
-
     }
 }

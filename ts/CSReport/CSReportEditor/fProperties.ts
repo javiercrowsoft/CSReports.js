@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fProperties {
 
-
-    {
         private editor: cEditor = null;
 
         private ok: boolean = null;

@@ -1,11 +1,6 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fFormula {
-
-
-    {
 
         private C_KEY_SYSFUNCTIONS: string = "FS";
         private C_KEY_SYSVARS: string = "VS";
@@ -140,17 +135,5 @@ namespace CSReportEditor
                 tx_descrip.Text = cUtil.getInfoString(info, C_FUNDESCRIP, "");
             }
         }
-
-
-    } 
+    }
 }
-
-/**
- * TODO: I would like to add a code editor so you can se coloring and use intelisence when editing a formula
- * 
- * http://www.codeproject.com/Articles/27744/Net-Script-Editor-C-Vb-net-Mini-IDE
- * 
- * http://stackoverflow.com/questions/2968057/free-open-source-code-editor-ui-control-for-net
- * 
- * 
- */

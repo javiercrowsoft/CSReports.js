@@ -6448,9 +6448,7 @@ UNKNOWN >>             cReportAspect w_aspect;
 
     } 
 
-
-
-UNKNOWN >>     enum csAskEditResult {
+    export enum csAskEditResult {
         CSASKRSLTYES = 1,
         CSASKRSLTNO = 2,
         CSASKRSLTCANCEL = 3

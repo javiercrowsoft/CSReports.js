@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fPageSetup {
 
-
-    {
         private ok: boolean = false;
         private customHeight: number = null;
         private customWidth: number = null;
@@ -102,7 +98,5 @@ namespace CSReportEditor
             tx_height.Enabled = enabled;
             tx_width.Enabled = enabled;
         }
-
-
     }
 }

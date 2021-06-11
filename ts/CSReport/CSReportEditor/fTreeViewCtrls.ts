@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fTreeViewCtrls {
 
-
-    {
         private editor: cEditor = null;
 
         private C_IMG_FOLDER: number = 0;
@@ -14,10 +10,6 @@ namespace CSReportEditor
         private C_IMG_DATBASE_FIELD: number = 1;
 
         private formulaName: string = "";
-
-        public constructor() {
-            InitializeComponent();
-        }
 
         public getFormulaName() {
             return this.formulaName;
@@ -120,7 +112,7 @@ namespace CSReportEditor
         }
 
         private getValue(value: object, n: number) {
-            if (n > 10) return ""; {
+            if (n > 10) return "";
 
             if (value === null) {
                 return "NULL";
@@ -160,7 +152,6 @@ namespace CSReportEditor
         private cmd_close_Click(sender: object, e: EventArgs) {
             this.Close();
         }
-
 
     } 
 }

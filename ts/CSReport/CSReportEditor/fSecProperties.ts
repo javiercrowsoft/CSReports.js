@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fSecProperties {
 
-
-    {
         private editor: cEditor = null;
 
         private ok: boolean = false;
@@ -58,42 +54,6 @@ namespace CSReportEditor
 
         //------------------------------------------------------------------------------------------------------------------
 
-UNKNOWN >>         public System.Windows.Forms.Label lbSectionName
-        {
-UNKNOWN >>             get
-            {
-                return lb_section;
-            }
-        }
-UNKNOWN >>         public System.Windows.Forms.TextBox txName
-        {
-UNKNOWN >>             get
-            {
-                return tx_name;
-            }
-        }
-UNKNOWN >>         public System.Windows.Forms.Label lbFormulaHide
-        {
-UNKNOWN >>             get
-            {
-                return lb_formulaHide;
-            }
-        }
-UNKNOWN >>         public System.Windows.Forms.CheckBox chkFormulaHide
-        {
-UNKNOWN >>             get
-            {
-                return chk_formulaHide;
-            }
-        }
-UNKNOWN >>         public System.Windows.Forms.Button cmdFormulaHide
-        {
-UNKNOWN >>             get
-            {
-                return cmd_formulaHide;
-            }
-        }
-
         public getOk() {
             return this.ok;
         }
@@ -120,7 +80,5 @@ UNKNOWN >>             get
                 lb_formulaHide.Text = this.formulaHide;
             }
         }
-
-
-    } 
+    }
 }

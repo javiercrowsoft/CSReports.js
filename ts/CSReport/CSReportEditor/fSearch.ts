@@ -1,24 +1,19 @@
+namespace CSReportEditor {
 
+    enum csObjType {
+        iTypeFormulaH = 1,
+        iTypeFormulaV = 0,
+        iTypeCtrl = 2,
+        iTypeDbField = 3,
+        iTypeSecG = 4,
+        iTypeSec = 5,
+        iTypeSecLn = 6,
+        iTypeText = 7
+    }
 
-namespace CSReportEditor
-{
     export class fSearch {
 
-
-    {
         private editor: cEditor = null;
-
-UNKNOWN >>         private enum csObjType {
-            iTypeFormulaH = 1,
-            iTypeFormulaV = 0,
-            iTypeCtrl = 2,
-            iTypeDbField = 3,
-            iTypeSecG = 4,
-            iTypeSec = 5,
-            iTypeSecLn = 6,
-            iTypeText = 7
-        }
-
 
         public constructor() {
             InitializeComponent();
@@ -43,10 +38,10 @@ UNKNOWN >>         private enum csObjType {
         }
 
         private searchInSections(sections: cIReportGroupSections, objType: csObjType) {
-UNKNOWN >>             cReportSection sec;
-UNKNOWN >>             cReportSectionLine secLn;
-UNKNOWN >>             cReportControl ctrl;
-UNKNOWN >>             string toSearch;
+            let sec: cReportSection;
+            let secLn: cReportSectionLine;
+            let ctrl: cReportControl;
+            let toSearch: string;
 
             toSearch = tx_toSearch.Text.toLowerCase();
 
@@ -131,8 +126,5 @@ UNKNOWN >>             string toSearch;
                 this.editor.selectCtrl(info);
             }
         }
-
-
-
-    } 
+    }
 }

@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fSimpleConnect {
 
-
-    {
         private ok: boolean = false;
 
         public constructor() {
@@ -45,7 +41,7 @@ namespace CSReportEditor
 		}
 
 		public getStrConnect() {
-UNKNOWN >>             string strConnect;
+            string strConnect;
 			if(op_trustedConnection.Checked) {
                 strConnect = "Provider=SQLOLEDB.1;";
                 strConnect += "Integrated Security=SSPI;";
@@ -95,7 +91,5 @@ UNKNOWN >>             string strConnect;
         private fSimpleConnect_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
         }
-
-
     } 
 }

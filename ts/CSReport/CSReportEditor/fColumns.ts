@@ -1,11 +1,6 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fColumns {
-
-
-    {
 
         private C_FIELDTYPE: string = "t";
         private C_INDEX: string = "i";
@@ -89,7 +84,5 @@ namespace CSReportEditor
         private fColumns_Load(sender: object, e: EventArgs) {
             cWindow.centerForm(this);
         }
-
-
-    } 
+    }
 }

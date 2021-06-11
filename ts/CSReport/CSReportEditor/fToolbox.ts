@@ -1,11 +1,7 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class fToolbox {
 
-
-    {
         private editor: cEditor = null;
 
         private C_CTRL_IMAGE: number = 0;
@@ -56,8 +52,5 @@ namespace CSReportEditor
         public setHandler(editor: cEditor) {
             this.editor = editor;
         }
-
-
-
     }
 }
