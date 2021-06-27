@@ -826,7 +826,7 @@ namespace CSReportPaint {
             try {
                 if (graph === null) {
                     throw new ReportPaintException(
-                        cReportPaintError.errGetDescript(
+                        cReportPaintError.errGetDescription(
                                         csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT));
                 }
 
@@ -924,7 +924,7 @@ namespace CSReportPaint {
 
             }
             catch (ex) {
-                cError.mngError(ex, "Error al dibujar un objeto");
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -1458,8 +1458,8 @@ namespace CSReportPaint {
             // this.notBorder is used by preview and printing to indicate the controls must be print a border only
             // when BorderType !== NONE
             // 
-            if (this.notBorder == false || filled || aspect.getBorderType() !== csReportBorderType.CSRPTBSNONE) {
-                if (aspect.getBorderType() === csReportBorderType.CSRPTBS3D) {
+            if (this.notBorder == false || filled || aspect.getBorderType() !== csReportBorderType.CS_RPT_BS_NONE) {
+                if (aspect.getBorderType() === csReportBorderType.CS_RPT_BS_3D) {
 
                     this.printLine(graph, filled, x1, y1, x2, y2, colorIn, 0, false, csColors.C_COLOR_WHITE, false);
 
@@ -1483,13 +1483,13 @@ namespace CSReportPaint {
                     //
                     // we are in the editor window
                     //
-                    // TODO: this is a bug. Then only way to get a border is setting BorderType to CSRPTBS3D or 
+                    // TODO: this is a bug. Then only way to get a border is setting BorderType to CS_RPT_BS_3D or 
                     //       BorderRounded === TRUE
                     //
-                    //       when BorderType === CSRPTBSFIXED the border is not drawn
+                    //       when BorderType === CS_RPT_BS_FIXED the border is not drawn
                     //
                     //       we need to fix it but the fix will break all reports so first we need to update
-                    //       those reports to set the BorderType to CSRPTBSNONE
+                    //       those reports to set the BorderType to CS_RPT_BS_NONE
                     //
                     let dash: boolean = false;
                     let borderWidth: number = 1;
@@ -1497,11 +1497,11 @@ namespace CSReportPaint {
                     if (this.notBorder === false 
                             && (
                                 (
-                                    aspect.getBorderType() === csReportBorderType.CSRPTBSFIXED 
+                                    aspect.getBorderType() === csReportBorderType.CS_RPT_BS_FIXED 
                                     && !aspect.getBorderRounded()
                                     && aspect.getBorderWidth() === 0
                                 )
-                                || aspect.getBorderType() === csReportBorderType.CSRPTBSNONE
+                                || aspect.getBorderType() === csReportBorderType.CS_RPT_BS_NONE
                             )
                         ) {
                         colorOut = Color.Gray.ToArgb(); // 0xff9966; //Color.LightGray.ToArgb();
@@ -1514,7 +1514,7 @@ namespace CSReportPaint {
                     //
                     if (!this.notBorder 
                         || (filled && colorIn !== 16777215) // this is the value of white controls in cairo reports.
-                        || (aspect.getBorderType() === csReportBorderType.CSRPTBSFIXED && aspect.getBorderWidth() > 0)) {
+                        || (aspect.getBorderType() === csReportBorderType.CS_RPT_BS_FIXED && aspect.getBorderWidth() > 0)) {
                         this.printLine(graph, filled, x1, y1, x2, y2, colorIn, borderWidth, dash, colorOut, false);
                     }
                 }

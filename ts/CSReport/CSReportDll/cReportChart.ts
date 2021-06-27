@@ -4,7 +4,7 @@ namespace CSReportDll {
 
         private C_MODULE: string = "cReportChart";
 
-        private series: cReportChartSeries = new cReportChartSeries();
+        private series: cReportChartPUTO = new cReportChartPUTO();
         private chartLineStyle: csRptChartLineStyle = null;
         private chartBarOutline: boolean = null;
         private chartShowValues: boolean = null;
@@ -26,7 +26,7 @@ namespace CSReportDll {
             return this.series;
         }
 
-        public setSeries(rhs: cReportChartSeries) {
+        public setSeries(rhs: cReportChartPUTO) {
             this.series = rhs;
         }
 
@@ -273,10 +273,10 @@ namespace CSReportDll {
             xProperty.setName("Series");
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            let serie: cReportChartSerie = null;
+            let serie: cReportChartSequence = null;
             let index: number = 0;
 
-            for(var _i = 0; _i < this.series.count(); _i++) {
+            for(let _i = 0; _i < this.series.count(); _i++) {
                 serie = this.series.item(_i);
                 index = index + 1;
                 serie.save(xDoc, nodeObj, index);
@@ -492,11 +492,11 @@ namespace CSReportDll {
                 for (j = 0; j < rows.Count; j++) {
                     if (this.groupFieldIndex >= 0) {
                         if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
-                            if (pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
+                            if (this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
                         }
                     }
                     else {
-                        if (pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
+                        if (this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
                     }
                 }
 
@@ -517,7 +517,7 @@ namespace CSReportDll {
                                             pRedimPreserve(v, n);
                                             bHaveToRedim = false;
                                         }
-                                        pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.length, j, true);
+                                        this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.length, j, true);
                                     }
                                     else {
                                         k = k + 1;
@@ -529,7 +529,7 @@ namespace CSReportDll {
                                     pRedimPreserve(v, n);
                                     bHaveToRedim = false;
                                 }
-                                pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.length, j, true);
+                                this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.length, j, true);
                             }
                         }
                     }
@@ -560,7 +560,7 @@ namespace CSReportDll {
         private pFill(chart: cWebChart, rows: DataRowCollection, strFormat: string) {
             let i: number = 0;
             let values: t_SerieValue[] = null;
-            let serie: cReportChartSerie = null;
+            let serie: cReportChartSequence = null;
             let idxSerie: number = 0;
 
             if (this.top === 0) { this.top = 50; }
@@ -577,7 +577,7 @@ namespace CSReportDll {
                 pRedim(values, this.top - 1);
             }
 
-            for(var _i = 0; _i < this.series.count(); _i++) {
+            for(let _i = 0; _i < this.series.count(); _i++) {
                 serie = this.series.item(_i);
 
                 // At the time we only support two series
@@ -585,7 +585,7 @@ namespace CSReportDll {
                 idxSerie = idxSerie + 1;
                 if (idxSerie > 2) { return; }
 
-                pGetSerieValues(rows, 
+                this.pGetSerieValues(rows, 
                                 values, 
                                 serie.getValueIndex(), 
                                 serie.getLabelIndex(), 

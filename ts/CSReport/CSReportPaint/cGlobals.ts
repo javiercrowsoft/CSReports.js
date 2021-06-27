@@ -70,27 +70,27 @@ namespace CSReportPaint {
 
             switch (paperSize)
             {
-                case csReportPaperType.CSRPTPAPERTYPELETTER:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_LETTER:
                     rtn.Height = this.getPixelsFromCmY(27.94); // 15840;
                     rtn.Width = this.getPixelsFromCmX(21.59);  // 12240;
                     break;
 
-                case csReportPaperType.CSRPTPAPERTYPELEGAL:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL:
                     rtn.Height = this.getPixelsFromCmY(35.56); // 20160;
                     rtn.Width = this.getPixelsFromCmX(21.59);  // 12060;
                     break;
 
-                case csReportPaperType.CSRPTPAPERTYPEA4:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_A4:
                     rtn.Height = this.getPixelsFromCmY(29.7); // 16832;
                     rtn.Width = this.getPixelsFromCmX(21);    // 11908;
                     break;
 
-                case csReportPaperType.CSRPTPAPERTYPEA3:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_A3:
                     rtn.Height = this.getPixelsFromCmY(42); // 23816;
                     rtn.Width = this.getPixelsFromCmX(29.7);    // 16832;
                     break;
 
-                case csReportPaperType.CSRPTPAPERUSER:
+                case csReportPaperType.CS_RPT_PAPER_USER:
                     if (info === null) {
                         throw new ReportPaintException("The settings for the custome user paper size is not defined");
                     }

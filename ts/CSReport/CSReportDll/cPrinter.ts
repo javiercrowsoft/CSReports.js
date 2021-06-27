@@ -110,16 +110,16 @@ namespace CSReportDll {
             let size: PaperSize = new PaperSize();
 
             switch (paperSize) {
-                case csReportPaperType.CSRPTPAPERTYPEA4:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_A4:
                     size.RawKind = PaperKind.A4;
                     break;
-                case csReportPaperType.CSRPTPAPERTYPEA3:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_A3:
                     size.RawKind = PaperKind.A3;
                     break;
-                case csReportPaperType.CSRPTPAPERTYPELETTER:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_LETTER:
                     size.RawKind = PaperKind.Letter;
                     break;
-                case csReportPaperType.CSRPTPAPERTYPELEGAL:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL:
                     size.RawKind = PaperKind.Legal;
                     break;
             }

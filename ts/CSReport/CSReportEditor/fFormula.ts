@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fFormula {
+    export class FFormula {
 
         private C_KEY_SYSFUNCTIONS: string = "FS";
         private C_KEY_SYSVARS: string = "VS";

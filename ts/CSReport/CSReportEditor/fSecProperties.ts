@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fSecProperties {
+    export class FSecProperties {
 
         private editor: cEditor = null;
 

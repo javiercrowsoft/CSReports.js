@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fColumns {
+    export class FColumns {
 
         private C_FIELDTYPE: string = "t";
         private C_INDEX: string = "i";

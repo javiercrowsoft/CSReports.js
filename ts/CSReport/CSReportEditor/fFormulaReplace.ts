@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fFormulaReplace {
+    export class FFormulaReplace {
 
         public constructor() {
             InitializeComponent();

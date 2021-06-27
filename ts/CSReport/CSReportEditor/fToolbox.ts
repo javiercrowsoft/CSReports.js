@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fToolbox {
+    export class FToolbox {
 
         private editor: cEditor = null;
 

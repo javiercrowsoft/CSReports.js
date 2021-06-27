@@ -3,9 +3,9 @@ namespace CSReportDll {
     import csColors = CSReportGlobals.csColors;
     import eTypes = CSKernelClient.eTypes;
 
-    export class cReportChartSerie {
+    export class cReportChartSequence {
 
-        private C_MODULE: string = "cReportChartSerie";
+        private C_MODULE: string = "cReportChartSequence";
 
         private valueFieldName: string = "";
         private labelFieldName: string = "";

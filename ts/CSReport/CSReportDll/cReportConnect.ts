@@ -93,7 +93,7 @@ namespace CSReportDll {
         public getSqlParameters() {
             let s: string = "";
             let param: cParameter = null;
-            for(var _i = 0; _i < this.parameters.count(); _i++) {
+            for(let _i = 0; _i < this.parameters.count(); _i++) {
                 param = this.parameters.item(_i);
                 switch (param.getColumnType())
                 {
@@ -216,7 +216,7 @@ namespace CSReportDll {
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let col: cColumnInfo = null;
-            for(var _i = 0; _i < this.columns.count(); _i++) {
+            for(let _i = 0; _i < this.columns.count(); _i++) {
                 col = this.columns.item(_i);
                 if (!col.save(xDoc, nodeObj)) {
                     return false;
@@ -229,7 +229,7 @@ namespace CSReportDll {
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let param: cParameter = null;
-            for(var _i = 0; _i < this.parameters.count(); _i++) {
+            for(let _i = 0; _i < this.parameters.count(); _i++) {
                 param = this.parameters.item(_i);
                 if (!param.save(xDoc, nodeObj)) {
                     return false;

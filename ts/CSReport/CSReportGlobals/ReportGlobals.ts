@@ -1,12 +1,13 @@
 namespace CSReportGlobals {
 
     import Utils = CSOAPI.Utils;
+    import Constants = CSDatabase.Constants;
 
     export class ReportGlobals {
 
-        public C_KEYINDEXCOL: string = "indexcol";
-        public C_KEYINDEXCOL2: string = "indexcol2";
-        public C_KEYINDEXGROUP: string = "indexgroup";
+        public C_KEY_INDEX_COL: string   = "indexcol";
+        public C_KEY_INDEX_COL2: string  = "indexcol2";
+        public C_KEY_INDEX_GROUP: string = "indexgroup";
 
         private static nextKey = 1000;
 
@@ -46,7 +47,32 @@ namespace CSReportGlobals {
             return val === null;
         }
 
-        public dateValue(value: any) {
+        private static toType(obj): string {
+            return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+        }
+
+        public static valVariant(value: object) {
+            if (value === null) {
+                let typeCode = this.toType(value);
+                switch (typeCode) {
+                    case "string":
+                        return "";
+                    case "number":
+                        return 0;
+                    case "date":
+                        return Constants.C_NO_DATE;
+                    case "boolean":
+                        return false;
+                    default:
+                        return null;
+                }
+            }
+            else {
+                return value;
+            }
+        }
+
+        public static dateValue(value: any) {
             if (value === null) {
                 return CSDatabase.Constants.C_NO_DATE;
             }
@@ -65,7 +91,7 @@ namespace CSReportGlobals {
             return ! isNaN( Date.parse(value.toString()) );
         }
 
-        public format(expression: any, strFormat: string): String {
+        public static format(expression: any, strFormat: string): string {
             if (expression === null) {
                 return "";
             }
@@ -92,7 +118,7 @@ namespace CSReportGlobals {
             }
         }
 
-        public getRealName(name: string) {
+        public static getRealName(name: string) {
             let n: number = name.indexOf("}.");
             n = (n > -1) ? n + 2 : 0;
             return name.substring(n);
@@ -101,11 +127,11 @@ namespace CSReportGlobals {
 
     export enum csRptControlType 
     {
-        CSRPTCTLABEL = 1,
-        CSRPTCTFIELD = 2,
-        CSRPTCTIMAGE = 3,
-        CSRPTCTDBIMAGE = 4,
-        CSRPTCTCHART = 5
+        CS_RPT_CT_LABEL = 1,
+        CS_RPT_CT_FIELD = 2,
+        CS_RPT_CT_IMAGE = 3,
+        CS_RPT_CT_DB_IMAGE = 4,
+        CS_RPT_CT_CHART = 5
     } 
 
     export enum csRptSectionType 
@@ -128,61 +154,61 @@ namespace CSReportGlobals {
 
     export enum csRptLaunchAction
     {
-        CSRPTLAUNCHPRINTER = 0,
-        CSRPTLAUNCHFILE = 1,
-        CSRPTLAUNCHPREVIEW = 2
+        CS_RPT_LAUNCH_PRINTER = 0,
+        CS_RPT_LAUNCH_FILE = 1,
+        CS_RPT_LAUNCH_PREVIEW = 2
     } 
 
     export enum csRptWhenEval
     {
-        CSRPTEVALPRE = 0,
-        CSRPTEVALPOST = 1
+        CS_RPT_EVAL_PRE = 0,
+        CS_RPT_EVAL_POST = 1
     } 
 
     export enum csDataSourceType
     {
-        CSDTTABLE = 1,
-        CDDTPROCEDURE = 2
+        CS_DT_TABLE = 1,
+        CS_DT_PROCEDURE = 2
     }
 
     export enum csRptErrors
     {
         LAUNCH_INFO_UNDEFINED = 1001,
-        SINTAX_ERROR_MISSING_BRAKETS,
-        CSRPTERRINDEFINEDFUNCTION,
-        CSRPTERRMISSINGPARAM,
+        SYNTAX_ERROR_MISSING_BRACKETS,
+        CS_RPT_ERR_UNDEFINED_FUNCTION,
+        CS_RPT_ERR_MISSING_PARAM,
         CONTROL_NOT_FOUND,
         GROUP_NOT_FOUND,
         FIELD_NOT_FOUND,
-        CSRPTERRVARNOTDEFINED,
+        CS_RPT_ERR_VAR_NOT_DEFINED,
         PRINTER_NOT_DEFINED,
         GROUP_NOT_FOUND_IN_MAIN_RS,
-        CSRPTERRPARAMNOTDEFINED,
+        CS_RPT_ERR_PARAM_NOT_DEFINED,
         ERROR_IN_SCRIPT,
         ERROR_WHEN_RUNNING_REPORT
     } 
 
     export enum csReportPaperType
     {
-        CSRPTPAPERTYPEA4 = 9,
-        CSRPTPAPERTYPEA3 = 8,
-        CSRPTPAPERTYPELETTER = 1,
-        CSRPTPAPERTYPELEGAL = 5,
-        CSRPTPAPERNOTSUPORTED = 0,
-        CSRPTPAPERUSER = 99
+        CS_RPT_PAPER_TYPE_A4 = 9,
+        CS_RPT_PAPER_TYPE_A3 = 8,
+        CS_RPT_PAPER_TYPE_LETTER = 1,
+        CS_RPT_PAPER_TYPE_LEGAL = 5,
+        CS_RPT_PAPER_NOT_SUPPORTED = 0,
+        CS_RPT_PAPER_USER = 99
     }
 
     export enum RptGrpOrderType
     {
-        CSRPTGRPASC = 1,
-        CSRPTGRPDESC = 2
+        CS_RPT_GRP_ASC = 1,
+        CS_RPT_GRP_DESC = 2
     }
 
     export enum RptGrpComparisonType
     {
-        CSRPTGRPTEXT = 1,
-        CSRPTGRPNUMBER = 2,
-        CSRPTGRPDATE = 3
+        CS_RPT_GRP_TEXT = 1,
+        CS_RPT_GRP_NUMBER = 2,
+        CS_RPT_GRP_DATE = 3
     } 
 
     export enum csColors
@@ -373,12 +399,12 @@ namespace CSReportGlobals {
 
     export enum csRptFileFormat
     {
-        CSRPTEXPORTHTML = 0,
-        CSRPTEXPORTEXCEL = 1,
-        CSRPTEXPORTWORD = 2,
-        CSRPTEXPORTTXT = 3,
-        CSRPTEXPORTTXTTAB = 4,
-        CSRPTEXPORTXML = 5
+        CS_RPT_EXPORT_HTML = 0,
+        CS_RPT_EXPORT_EXCEL = 1,
+        CS_RPT_EXPORT_WORD = 2,
+        CS_RPT_EXPORT_TXT = 3,
+        CS_RPT_EXPORT_TXT_TAB = 4,
+        CS_RPT_EXPORT_XML = 5
     } 
 
     export enum HorizontalAlignment
@@ -390,34 +416,34 @@ namespace CSReportGlobals {
 
     export enum csReportBorderType
     {
-        CSRPTBSNONE = 0,
-        CSRPTBSFIXED = 1,
-        CSRPTBS3D = 2
+        CS_RPT_BS_NONE = 0,
+        CS_RPT_BS_FIXED = 1,
+        CS_RPT_BS_3D = 2
     } 
 
     export enum csRptGetLineResult
     {
-        CSRPTGLNONE = 0,
-        CSRPTGLDETAIL = 1,
-        CSRPTGLGROUPHEADER = 2,
-        CSRPTGLGROUPFOOTER = 3,
-        CSRPTGLEND = 4,
-        CSRPTGLNEWPAGE = 5,
-        CSRPTGLVIRTUALH = 6,
-        CSRPTGLVIRTUALF = 7
+        CS_RPT_GL_NONE = 0,
+        CS_RPT_GL_DETAIL = 1,
+        CS_RPT_GL_GROUP_HEADER = 2,
+        CS_RPT_GL_GROUP_FOOTER = 3,
+        CS_RPT_GL_END = 4,
+        CS_RPT_GL_NEW_PAGE = 5,
+        CS_RPT_GL_VIRTUAL_H = 6,
+        CS_RPT_GL_VIRTUAL_F = 7
     } 
 
     export enum csRptNewPageResult
     {
-        CSRPTNPERROR = 1,
-        CSRPTNPSUCCESS = 2,
-        CSRPTNPEND = 3
+        CS_RPT_NP_ERROR = 1,
+        CS_RPT_NP_SUCCESS = 2,
+        CS_RPT_NP_END = 3
     } 
 
     export enum csRptEndPageResult
     {
-        CSRPTEPERROR = csRptNewPageResult.CSRPTNPERROR,
-        CSRPTEPSUCCESS = csRptNewPageResult.CSRPTNPSUCCESS
+        CS_RPT_EP_ERROR = csRptNewPageResult.CS_RPT_NP_ERROR,
+        CS_RPT_EP_SUCCESS = csRptNewPageResult.CS_RPT_NP_SUCCESS
     } 
 
     export enum csRptChartLineStyle

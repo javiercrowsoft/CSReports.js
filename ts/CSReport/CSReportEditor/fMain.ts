@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fMain {
+    export class FMain {
 
         private C_MODULE: string = "fMain";
 
@@ -261,7 +261,7 @@ namespace CSReportEditor {
                 }
 
             } catch (Exception ex) {
-                cError.mngError(ex, "mnuOpenReport_Click", C_MODULE, "");
+                cError.mngError(ex);
             }
         }
 

@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fTreeViewCtrls {
+    export class FTreeViewCtrls {
 
         private editor: cEditor = null;
 

@@ -2,7 +2,7 @@ namespace CSReportPaint {
 
     export class cReportPaintError {
 
-        public static errGetDescript(rptErrCode: csRptPaintErrors) {
+        public static errGetDescription(rptErrCode: csRptPaintErrors) {
             switch (rptErrCode)
             {
                 case csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT:

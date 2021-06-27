@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fProgress {
+    export class FProgress {
 
     }
 }

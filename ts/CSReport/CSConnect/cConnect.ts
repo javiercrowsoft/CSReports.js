@@ -84,7 +84,7 @@ namespace CSConnect {
 		public getDataSourceColumnsInfo(str: string, csDataSourceType: csDataSourceType) {
             let sqlstmt: string;
 
-            if(this.dataSourceType === csDataSourceType.CDDTPROCEDURE) {
+            if(this.dataSourceType === csDataSourceType.CS_DT_PROCEDURE) {
                 if(! fillParameters(this.dataSource)) {
                     return false;
                 }

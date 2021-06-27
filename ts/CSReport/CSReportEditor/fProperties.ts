@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fProperties {
+    export class FProperties {
 
         private editor: cEditor = null;
 
@@ -91,9 +91,9 @@ namespace CSReportEditor {
             cUtil.listAdd(cb_align, "Center", (int)CSReportGlobals.HorizontalAlignment.Center);
 
             cb_borderType.Items.clear();
-            cUtil.listAdd(cb_borderType, "Flat", (int)csReportBorderType.CSRPTBSFIXED);
-            cUtil.listAdd(cb_borderType, "3D", (int)csReportBorderType.CSRPTBS3D);
-            cUtil.listAdd(cb_borderType, "(Ninguno)", (int)csReportBorderType.CSRPTBSNONE);
+            cUtil.listAdd(cb_borderType, "Flat", (int)csReportBorderType.CS_RPT_BS_FIXED);
+            cUtil.listAdd(cb_borderType, "3D", (int)csReportBorderType.CS_RPT_BS_3D);
+            cUtil.listAdd(cb_borderType, "(Ninguno)", (int)csReportBorderType.CS_RPT_BS_NONE);
 
             G.redim(this.chartFieldType, 3);
             G.redim(this.chartIndex, 3);

@@ -11,7 +11,7 @@ namespace CSReportEditor {
         iTypeText = 7
     }
 
-    export class fSearch {
+    export class FSearch {
 
         private editor: cEditor = null;
 
@@ -53,7 +53,7 @@ namespace CSReportEditor {
                 if (sec.getFormulaHide().getText().toLowerCase().IndexOf(toSearch) > -1) {
                     pAddToSearchResult(sec.getName(), objType, csObjType.iTypeFormulaH, "S" + sec.getKey(), sec.getFormulaHide().getText());
                 }
-                for(var j = 0; j < sec.getSectionLines().count(); j++) {
+                for(let j = 0; j < sec.getSectionLines().count(); j++) {
                     secLn = sec.getSectionLines().item(j);
                     if (secLn.getFormulaHide().getText().toLowerCase().IndexOf(toSearch) > -1) {
                         pAddToSearchResult(sec.getName() + " - Line " + secLn.getIndex().toString(),
@@ -64,8 +64,8 @@ namespace CSReportEditor {
                         if (ctrl.getName().toLowerCase().IndexOf(toSearch) > -1) {
                             pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeCtrl, ctrl.getKey());
                         }
-                        if (ctrl.getControlType() === csRptControlType.CSRPTCTFIELD
-                            || ctrl.getControlType() === csRptControlType.CSRPTCTDBIMAGE) {
+                        if (ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD
+                            || ctrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
                             if (ctrl.getField().getName().toLowerCase().IndexOf(toSearch) > -1) {
                                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeDbField, ctrl.getKey(), ctrl.getField().getName());
                             }

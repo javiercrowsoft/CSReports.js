@@ -145,7 +145,7 @@ namespace CSReportPaint {
 
             }
             catch (ex) {
-                cError.mngError(ex, "ClosePreviewWindow");
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -159,13 +159,13 @@ namespace CSReportPaint {
             else {
                 let w_item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
                 if (indexField < cReportPrint.C_OFFSETDETAIL) {
-                    return this.pGetLineAux(fld.getIndexLine(), w_item.getHeader());
+                    return this.this.pGetLineAux(fld.getIndexLine(), w_item.getHeader());
                 }
                 else if (indexField < cReportPrint.C_OFFSETFOOTER) {
-                    return this.pGetLineAux(fld.getIndexLine(), w_item.getDetail());
+                    return this.this.pGetLineAux(fld.getIndexLine(), w_item.getDetail());
                 }
                 else {
-                    return this.pGetLineAux(fld.getIndexLine(), w_item.getFooter());
+                    return this.this.pGetLineAux(fld.getIndexLine(), w_item.getFooter());
                 }
             }
         }
@@ -186,22 +186,22 @@ namespace CSReportPaint {
             page = this.report.getPages().item(this.currPage);
 
             if (indexField < cReportPrint.C_OFFSETDETAIL) {
-                if (!this.pGetFieldFromIndexAux(page.getHeader(), indexField, fld)) {
+                if (!this.this.pGetFieldFromIndexAux(page.getHeader(), indexField, fld)) {
                     return;
                 }
             }
             else if (indexField < cReportPrint.C_OFFSETFOOTER) {
-                if (!this.pGetFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, fld)) {
+                if (!this.this.pGetFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, fld)) {
                     return;
                 }
             }
             else {
-                if (!this.pGetFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, fld)) {
+                if (!this.this.pGetFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, fld)) {
                     return;
                 }
             }
 
-            paintObj = this.pGetPaintObjByIndex(indexField);
+            paintObj = this.this.pGetPaintObjByIndex(indexField);
 
             let ctrlFont: CSReportDll.cReportFont = null;
             ctrlFont = fld.getInfo().getAspect().getFont();
@@ -221,7 +221,7 @@ namespace CSReportPaint {
 
         public refreshCtrlFooter(ctrlName: string) {
             let paintObj: cReportPaintObject = null;
-            paintObj = this.pGetPaintObjByCtrlName(ctrlName,
+            paintObj = this.this.pGetPaintObjByCtrlName(ctrlName,
                 this.report.getPages().item(this.currPage).getFooter(), cReportPrint.C_OFFSETFOOTER);
             paintObj.setText(this.getCtrlFooter(ctrlName).getValue());
             this.paint.refreshObject(paintObj.getKey(), this.rpwPrint.getGraph());
@@ -304,17 +304,17 @@ namespace CSReportPaint {
             page = this.report.getPages().item(this.currPage);
 
             if (indexField < cReportPrint.C_OFFSETDETAIL) {
-                if (!this.pGetFieldFromIndexAux(page.getHeader(), indexField, rtn)) {
+                if (!this.this.pGetFieldFromIndexAux(page.getHeader(), indexField, rtn)) {
                     return null;
                 }
             }
             else if (indexField < cReportPrint.C_OFFSETFOOTER) {
-                if (!this.pGetFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, rtn)) {
+                if (!this.this.pGetFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, rtn)) {
                     return null;
                 }
             }
             else {
-                if (!this.pGetFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, rtn)) {
+                if (!this.this.pGetFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, rtn)) {
                     return null;
                 }
             }
@@ -472,7 +472,7 @@ namespace CSReportPaint {
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "pDoPrint");
+                cError.mngError(ex);
                 return false;
             }
             finally
@@ -529,7 +529,7 @@ namespace CSReportPaint {
                 printDoc.PrinterSettings.PrinterName = printer.getDeviceName();
 
                 this.pageToPrint = -1;
-                this.pagesToPrint = this.pGetPagesToPrint(printer.getPaperInfo().getPagesToPrint());
+                this.pagesToPrint = this.this.pGetPagesToPrint(printer.getPaperInfo().getPagesToPrint());
                 this.objClientToPrint = objClient;
                 printDoc.Print();
 
@@ -537,7 +537,7 @@ namespace CSReportPaint {
 
             }
             catch (ex) {
-                cError.mngError(ex, "printPagePrinter");
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -720,14 +720,14 @@ namespace CSReportPaint {
 
             // if it has failed
             //
-            if (rsltNewPage === csRptNewPageResult.CSRPTNPERROR) {
+            if (rsltNewPage === csRptNewPageResult.CS_RPT_NP_ERROR) {
                 return false;
             }
 
             // if there is no data
             //
-            if (rsltNewPage === csRptNewPageResult.CSRPTNPEND) {
-                return this.report.endPage() !== csRptEndPageResult.CSRPTEPERROR;
+            if (rsltNewPage === csRptNewPageResult.CS_RPT_NP_END) {
+                return this.report.endPage() !== csRptEndPageResult.CS_RPT_EP_ERROR;
             }
 
             // we are goin to evaluate the detail's first line
@@ -754,7 +754,7 @@ namespace CSReportPaint {
 
                 // if we have finished
                 //
-                if (rslt === csRptGetLineResult.CSRPTGLEND) {
+                if (rslt === csRptGetLineResult.CS_RPT_GL_END) {
                     break;
                 }
 
@@ -762,21 +762,21 @@ namespace CSReportPaint {
                 // to give it a chance to evalute formulas in the
                 // header which are marked to be compiled before printing
                 //
-                if (rslt === csRptGetLineResult.CSRPTGLVIRTUALH) {
+                if (rslt === csRptGetLineResult.CS_RPT_GL_VIRTUAL_H) {
 
                     this.report.evalPreGroupHeader();
 
                     // idem for footers
                     //
                 }
-                else if (rslt === csRptGetLineResult.CSRPTGLVIRTUALF) {
+                else if (rslt === csRptGetLineResult.CS_RPT_GL_VIRTUAL_F) {
 
                     this.report.evalPreGroupFooter();
 
                     // if the engine responded that we need to create a new page
                     //
                 }
-                else if (rslt === csRptGetLineResult.CSRPTGLNEWPAGE) {
+                else if (rslt === csRptGetLineResult.CS_RPT_GL_NEW_PAGE) {
                     // get the new page
                     //
                     if (!this.pNewPage(top, detailHeight)) {
@@ -843,7 +843,7 @@ namespace CSReportPaint {
 
                         // notify the engine about the groups' staste
                         //
-                        if (rslt === csRptGetLineResult.CSRPTGLGROUPHEADER) {
+                        if (rslt === csRptGetLineResult.CS_RPT_GL_GROUP_HEADER) {
                             this.report.markGroupHeaderPrinted();
 
                             // evaluate every function which are mark 
@@ -852,7 +852,7 @@ namespace CSReportPaint {
                             this.report.evalPostGroupHeader();
 
                         }
-                        else if (rslt === csRptGetLineResult.CSRPTGLGROUPFOOTER) {
+                        else if (rslt === csRptGetLineResult.CS_RPT_GL_GROUP_FOOTER) {
                             this.report.markGroupFooterPrinted();
 
                             // evaluate every function which are mark 
@@ -861,18 +861,18 @@ namespace CSReportPaint {
                             this.report.evalPostGroupFooter();
 
                         }
-                        else if (rslt === csRptGetLineResult.CSRPTGLDETAIL) {
+                        else if (rslt === csRptGetLineResult.CS_RPT_GL_DETAIL) {
                             this.report.evalPost();
                             this.report.moveToNext();
                         }
-                        if (this.report.getLineType() === csRptGetLineResult.CSRPTGLDETAIL) {
+                        if (this.report.getLineType() === csRptGetLineResult.CS_RPT_GL_DETAIL) {
                             this.report.evalPre();
                         }
                     }
                 }
             } while (true);
 
-            return this.report.endPage() !== csRptEndPageResult.CSRPTEPERROR;
+            return this.report.endPage() !== csRptEndPageResult.CS_RPT_EP_ERROR;
         }
 
         private printerSetSizeAndOrient(p: string, csReportPaperType: csReportPaperType, p_2: number) {
@@ -885,12 +885,12 @@ namespace CSReportPaint {
             let rsltEndPage: csRptEndPageResult;
 
             rsltEndPage = this.report.endPage();
-            if (rsltEndPage === csRptEndPageResult.CSRPTEPERROR) {
+            if (rsltEndPage === csRptEndPageResult.CS_RPT_EP_ERROR) {
                 return false;
             }
 
             rsltNewPage = this.report.newPage();
-            if (rsltNewPage === csRptNewPageResult.CSRPTNPERROR) {
+            if (rsltNewPage === csRptNewPageResult.CS_RPT_NP_ERROR) {
                 return false;
             }
 
@@ -1247,7 +1247,7 @@ namespace CSReportPaint {
 
                 //*TODO:** goto found: GoTo ExitProc;
             } catch (Exception ex) {
-                cError.mngError(ex, "this.rpwPrint_BodyDblClick", C_MODULE, "");
+                cError.mngError(ex);
                 if (VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
 
@@ -1293,7 +1293,7 @@ namespace CSReportPaint {
 
                 //*TODO:** goto found: GoTo ExitProc;
             } catch (Exception ex) {
-                cError.mngError(ex, "this.rpwPrint_BodyMouseDown", C_MODULE, "");
+                cError.mngError(ex);
                 if (VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
 
@@ -1335,7 +1335,7 @@ namespace CSReportPaint {
 
                 //*TODO:** goto found: GoTo ExitProc;
             } catch (Exception ex) {
-                cError.mngError(ex, "this.rpwPrint_BodyMouseMove", C_MODULE, "");
+                cError.mngError(ex);
                 if (VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
 
@@ -1418,7 +1418,7 @@ namespace CSReportPaint {
                     expExcel.export(this.report);
 
                 } catch (Exception ex) {
-                    cError.mngError(ex, "this.rpwPrint_ExportExcel", C_MODULE, "");
+                    cError.mngError(ex);
                 }
             }
         */
@@ -1461,14 +1461,14 @@ namespace CSReportPaint {
                 let expPDF: CSReportExport.cReportPdf = null;
                 expPDF = new CSReportExport.cReportPdf();
 
-                expPDF.setFileName(cUtil.getValidPath(System.Environment.GetEnvironmentVariable("TEMP")) + pGetExportFileName());
+                expPDF.setFileName(cUtil.getValidPath(System.Environment.GetEnvironmentVariable("TEMP")) + this.pGetExportFileName());
                 expPDF.setExportEmailAddress(this.report.getExportEmailAddress());
 
                 return expPDF.exportEx(this.report, this, outputFile, bShowPDFWindow);
 
             }
             catch (ex) {
-                cError.mngError(ex, "pExportPDF", C_MODULE, "");
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -1485,7 +1485,7 @@ namespace CSReportPaint {
                     expWord.export(this.report);
 
                 } catch (Exception ex) {
-                    cError.mngError(ex, "this.rpwPrint_ExportWord", C_MODULE, "");
+                    cError.mngError(ex);
                 }
             }
         */

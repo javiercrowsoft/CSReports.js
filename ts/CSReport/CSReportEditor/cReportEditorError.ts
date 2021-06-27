@@ -1,12 +1,8 @@
+namespace CSReportEditor {
 
-
-namespace CSReportEditor
-{
     export class cReportEditorError {
 
-
-    {
-        public errGetDescript(rptErrCode: csRptEditorErrors) {
+        public errGetDescription(rptErrCode: csRptEditorErrors) {
             switch (rptErrCode)
             {
                 case csRptEditorErrors.CSRPT_EDITOR_SECTION_TYPE_INVALID:
@@ -15,18 +11,10 @@ namespace CSReportEditor
                     return "There is not information for this error";
             }
         }
+    }
 
-
-    } 
-
-
-
-
-
-    public enum csRptEditorErrorsUNKNOWN >>     public enum csRptEditorErrors
+    export enum csRptEditorErrors
     {
         CSRPT_EDITOR_SECTION_TYPE_INVALID = 2001
-
-
-    } 
+    }
 }

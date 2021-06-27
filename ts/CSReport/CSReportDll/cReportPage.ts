@@ -145,7 +145,7 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < this.header.count(); _i++) {
+            for(let _i = 0; _i < this.header.count(); _i++) {
                 pageFld = this.header.item(_i);
                 pageFld.save(xDoc, nodeAux);
             }
@@ -154,7 +154,7 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < this.detail.count(); _i++) {
+            for(let _i = 0; _i < this.detail.count(); _i++) {
                 pageFld = this.detail.item(_i);
                 pageFld.save(xDoc, nodeAux);
             }
@@ -163,7 +163,7 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < this.footer.count(); _i++) {
+            for(let _i = 0; _i < this.footer.count(); _i++) {
                 pageFld = this.footer.item(_i);
                 pageFld.save(xDoc, nodeAux);
             }
@@ -193,7 +193,7 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < this.header.count(); _i++) {
+            for(let _i = 0; _i < this.header.count(); _i++) {
                 pageFld = this.header.item(_i);
                 addLine = false;
 
@@ -225,7 +225,7 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < this.detail.count(); _i++) {
+            for(let _i = 0; _i < this.detail.count(); _i++) {
                 pageFld = this.detail.item(_i);
 
                 addLine = false;
@@ -256,7 +256,7 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
-            for(var _i = 0; _i < this.footer.count(); _i++) {
+            for(let _i = 0; _i < this.footer.count(); _i++) {
                 pageFld = this.footer.item(_i);
                 addLine = false;
 

@@ -1,6 +1,13 @@
 namespace CSReportDll {
 
+    import XmlNode = CSXml.XmlNode;
+    import csRptLaunchAction = CSReportGlobals.csRptLaunchAction;
+    import csRptFileFormat = CSReportGlobals.csRptFileFormat;
+    import eTypes = CSKernelClient.eTypes;
+
     export class cReportLaunchInfo {
+
+        public static C_LAUNCH_INFO: string = "RptLaunchInfo";
 
         private file: string = "";
         private dataSource: object = null;
@@ -133,10 +140,10 @@ namespace CSReportDll {
             if (this.printer === null) { return; }
 
             if (paperBin.length === 0) {
-                let idPaperBin: number = 0;
-                idPaperBin = cPrintAPI.printerPaperBinNameToId(this.printer.getDeviceName(),
-                                                                this.printer.getPort(), 
-                                                                paperBin);
+                let idPaperBin: number = cPrintAPI.printerPaperBinNameToId(
+                                                        this.printer.getDeviceName(),
+                                                        this.printer.getPort(),
+                                                        paperBin);
                 this.printer.getPaperInfo().setPaperBin(idPaperBin);
             }
         }
@@ -157,9 +164,9 @@ namespace CSReportDll {
 
         public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let xProperty: CSXml.cXmlProperty = new CSXml.cXmlProperty();
-            let nodeObj: XmlNode = null;
+            let nodeObj: XmlNode;
 
-            xProperty.setName(C_LAUNCHINFO);
+            xProperty.setName(cReportLaunchInfo.C_LAUNCH_INFO);
 
             if (nodeFather !== null) {
                 nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -185,7 +192,7 @@ namespace CSReportDll {
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("InternalPreview");
-            public <<<ERROR>>> {{undefined}}() {
+            xProperty.setValue(eTypes.eBoolean, this.internalPreview);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("ShowPrintersDialog");

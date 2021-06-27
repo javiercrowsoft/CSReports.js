@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fSimpleConnect {
+    export class FSimpleConnect {
 
         private ok: boolean = false;
 

@@ -1,12 +1,12 @@
 namespace CSReportEditor {
 
-    export class fPageSetup {
+    export class FPageSetup {
 
         private ok: boolean = false;
         private customHeight: number = null;
         private customWidth: number = null;
         private orientation: number = 1;
-        private paperSize: csReportPaperType = csReportPaperType.CSRPTPAPERTYPEA4;
+        private paperSize: csReportPaperType = csReportPaperType.CS_RPT_PAPER_TYPE_A4;
 
         public constructor() {
             InitializeComponent();
@@ -76,11 +76,11 @@ namespace CSReportEditor {
         }
 
         private fPageSetup_Load(sender: object, e: EventArgs) {
-            cUtil.listAdd(cb_paperSize, "Letter", (int)csReportPaperType.CSRPTPAPERTYPELETTER);
-            cUtil.listAdd(cb_paperSize, "A4", (int)csReportPaperType.CSRPTPAPERTYPEA4);
-            cUtil.listAdd(cb_paperSize, "Legal", (int)csReportPaperType.CSRPTPAPERTYPELEGAL);
-            cUtil.listAdd(cb_paperSize, "A3", (int)csReportPaperType.CSRPTPAPERTYPEA3);
-            cUtil.listAdd(cb_paperSize, "User", (int)csReportPaperType.CSRPTPAPERUSER);
+            cUtil.listAdd(cb_paperSize, "Letter", (int)csReportPaperType.CS_RPT_PAPER_TYPE_LETTER);
+            cUtil.listAdd(cb_paperSize, "A4", (int)csReportPaperType.CS_RPT_PAPER_TYPE_A4);
+            cUtil.listAdd(cb_paperSize, "Legal", (int)csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL);
+            cUtil.listAdd(cb_paperSize, "A3", (int)csReportPaperType.CS_RPT_PAPER_TYPE_A3);
+            cUtil.listAdd(cb_paperSize, "User", (int)csReportPaperType.CS_RPT_PAPER_USER);
             cUtil.listSetListIndexForId(cb_paperSize, (int)this.paperSize);
             tx_height.Text = this.customHeight.toString();
             tx_width.Text = this.customWidth.toString();
@@ -94,7 +94,7 @@ namespace CSReportEditor {
         }
 
         private cb_paperSize_SelectedIndexChanged(sender: object, e: EventArgs) {
-            let enabled = cUtil.listID(cb_paperSize) === csReportPaperType.CSRPTPAPERUSER;
+            let enabled = cUtil.listID(cb_paperSize) === csReportPaperType.CS_RPT_PAPER_USER;
             tx_height.Enabled = enabled;
             tx_width.Enabled = enabled;
         }

@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fConnectsAux {
+    export class FConnectsAux {
 
         public constructor() {
             InitializeComponent();

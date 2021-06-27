@@ -107,6 +107,10 @@ namespace CSOAPI {
             }
         }
 
+        public containsKey(key: string) {
+            return this.keys.indexOf(key) > -1;
+        }
+
         private itemByKey(key: string): T {
             return this.itemByIndex(this.keys.indexOf(key));
         }
@@ -124,6 +128,16 @@ namespace CSOAPI {
                 return this.values[index];
             else
                 return null;
+        }
+
+        public forEach(f:(string, T) => void) {
+            for(let i = 0; i < this.length; i++) {
+                f(this.keys[i], this.values[i]);
+            }
+        }
+
+        public forEachValue(f: (T) => void) {
+            this.values.forEach(f);
         }
     }
 }

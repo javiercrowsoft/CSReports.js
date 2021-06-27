@@ -118,7 +118,7 @@ namespace CSReportDll {
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "checkSyntax", C_MODULE, "");
+                cError.mngError(ex);
 
                 this.formula = null;
                 this.fint = null;
@@ -133,9 +133,9 @@ namespace CSReportDll {
             let fint: cReportFormulaInt = null;
             let st: cStructTime = null;
 
-            for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
+            for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
-                for(var _j = 0; _j < fint.getVariables().count(); _j++) {
+                for(let _j = 0; _j < fint.getVariables().count(); _j++) {
                     variable = fint.getVariables().item(_j);
 
                     let typeCode: System.TypeCode = System.Type.GetTypeCode(variable.getValue().GetType());
@@ -183,7 +183,7 @@ namespace CSReportDll {
         private pEvalGroupFunctions(formula: cReportFormula) {
             let fint: cReportFormulaInt = null;
 
-            for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
+            for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
 
                 switch (fint.getFormulaType())
@@ -230,7 +230,7 @@ namespace CSReportDll {
 
             let fint: cReportFormulaInt = null;
 
-            for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
+            for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
                 vResult[_i] = pResultFunctionInt(fint);
             }
@@ -305,11 +305,11 @@ namespace CSReportDll {
             let total: number = 0;
 
             if (fint.getVariables().count() > 0) {
-                if (fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL2) === null) {
+                if (fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL2) === null) {
                     value = 0;
                 }
                 else {
-                    let columnIndex: number = Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL2).getValue());
+                    let columnIndex: number = Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL2).getValue());
                     value = Utils.val(this.report.getValueFromRs(columnIndex).toString());
                 }
 
@@ -325,7 +325,7 @@ namespace CSReportDll {
         public evalFunctionGroup(formula: cReportFormula) {
             let fint: cReportFormulaInt = null;
 
-            for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
+            for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
                 pEvalFunctionGroup(fint);
             }
@@ -382,7 +382,7 @@ namespace CSReportDll {
         private pIsFunction(word: string) {
             let f: cReportFormulaType = null;
 
-            for(var _i = 0; _i < this.formulaTypes.count(); _i++) {
+            for(let _i = 0; _i < this.formulaTypes.count(); _i++) {
                 f = this.formulaTypes.item(_i);
                 if (word.toLowerCase() === f.getName().toLowerCase()) {
                     return true;
@@ -713,7 +713,7 @@ namespace CSReportDll {
 
         private pIsControl(param: string) {
             let ctrl: cReportControl = null;
-            for(var _i = 0; _i < this.report.getControls().count(); _i++) {
+            for(let _i = 0; _i < this.report.getControls().count(); _i++) {
                 ctrl = this.report.getControls().item(_i);
                 if (ctrl.getName().toUpperCase() === param.toUpperCase()) {
                     return true;
@@ -724,7 +724,7 @@ namespace CSReportDll {
 
         private pGetControl(param: string) {
             let ctrl: cReportControl = null;
-            for(var _i = 0; _i < this.report.getControls().count(); _i++) {
+            for(let _i = 0; _i < this.report.getControls().count(); _i++) {
                 ctrl = this.report.getControls().item(_i);
                 if (ctrl.getName().toUpperCase() === param.toUpperCase()) {
                     return ctrl;
@@ -759,8 +759,8 @@ namespace CSReportDll {
             if (paramIndex > vParam.length + 1) {
                 throw new ReportArgumentMissingException(
                     C_MODULE,
-                    cReportError.errGetDescript(
-                                    csRptErrors.CSRPTERRMISSINGPARAM,
+                    cReportError.errGetDescription(
+                                    csRptErrors.CS_RPT_ERR_MISSING_PARAM,
                                     paramIndex.toString(),
                                     funName));
             }
@@ -798,7 +798,7 @@ namespace CSReportDll {
                                 + ReportGlobals.format(this.formula.getFormulasInt().count(), "000")
                                 + tc.substring(q));
 
-            idFunction = pGetIdFunction(name);
+            idFunction = this.pGetIdFunction(name);
             this.fint.setFormulaType(idFunction);
 
             switch (idFunction)
@@ -971,7 +971,7 @@ namespace CSReportDll {
                 default:
                     throw new ReportNotDefinedFunctionException(
                         C_MODULE,
-                        cReportError.errGetDescript(csRptErrors.CSRPTERRINDEFINEDFUNCTION,name));
+                        cReportError.errGetDescription(csRptErrors.CS_RPT_ERR_UNDEFINED_FUNCTION,name));
             }
         }
 
@@ -1029,8 +1029,8 @@ namespace CSReportDll {
             if (this.variables.item(varName) === null) {
                 throw new ReportArgumentMissingException(
                     C_MODULE,
-                    cReportError.errGetDescript(
-                                    csRptErrors.CSRPTERRMISSINGPARAM,
+                    cReportError.errGetDescription(
+                                    csRptErrors.CS_RPT_ERR_MISSING_PARAM,
                                     varName,
                                     "_getVar()"));
             }
@@ -1043,7 +1043,7 @@ namespace CSReportDll {
 
             paramName = fint.getParameters().item(0).getValue();
 
-            for(var _i = 0; _i < this.report.getConnect().getParameters().count(); _i++) {
+            for(let _i = 0; _i < this.report.getConnect().getParameters().count(); _i++) {
                 param = this.report.getConnect().getParameters().item(_i);
                 if (param.getName().toLowerCase() === paramName.toLowerCase()) {
                     break;
@@ -1053,8 +1053,8 @@ namespace CSReportDll {
             if (param === null) {
                 throw new ReportArgumentMissingException(
                     C_MODULE,
-                    cReportError.errGetDescript(
-                                    csRptErrors.CSRPTERRMISSINGPARAM,
+                    cReportError.errGetDescription(
+                                    csRptErrors.CS_RPT_ERR_MISSING_PARAM,
                                     paramName,
                                     "_getParameter()"));
             }
@@ -1196,7 +1196,7 @@ namespace CSReportDll {
             let text: string = "";
             let collCtrlsToReplace: List = null;
 
-            ctrl = pGetControl(this.ctrlName);
+            ctrl = this.pGetControl(this.ctrlName);
             if (ctrl === null) {
                 return "";
             }
@@ -1234,7 +1234,7 @@ namespace CSReportDll {
 
             let ctrlValue: cReportControl = null;
             for (i = 0; i < collCtrlsToReplace.Count; i++) {
-                ctrlValue = pGetControl(collCtrlsToReplace[i]);
+                ctrlValue = this.pGetControl(collCtrlsToReplace[i]);
                 if (ctrlValue !== null) {
                     text = text.replace(C_MACRO_CTRL + collCtrlsToReplace[i] + C_MACRO_CTRL,
                                         this.report.getValue(ctrlValue.getName(), false).toString());
@@ -1337,7 +1337,7 @@ namespace CSReportDll {
             // the average function is for numbers
             //
             item.setValue(item.getValue()
-                + pGetNumber(this.report.getValue(fint.getParameters().item(0).getValue(), true)));
+                + this.pGetNumber(this.report.getValue(fint.getParameters().item(0).getValue(), true)));
 
             item = fint.getVariables().item(C_AVERAGE_COUNT);
             // the average function is for numbers
@@ -1371,7 +1371,7 @@ namespace CSReportDll {
             // the sum function is for numbers
             //
             item.setValue(Convert.ToDouble(item.getValue())
-                + pGetNumber(this.report.getValue(fint.getParameters().item(0).getValue(), true)));
+                + this.pGetNumber(this.report.getValue(fint.getParameters().item(0).getValue(), true)));
         }
 
         private evalDeclareVar(fint: cReportFormulaInt) {
@@ -1392,8 +1392,8 @@ namespace CSReportDll {
             if (this.variables.item(varName) === null) {
                 throw new ReportArgumentMissingException(
                     C_MODULE,
-                    cReportError.errGetDescript(
-                                    csRptErrors.CSRPTERRMISSINGPARAM,
+                    cReportError.errGetDescription(
+                                    csRptErrors.CS_RPT_ERR_MISSING_PARAM,
                                     varName,
                                     "_setVar"));
             }
@@ -1418,8 +1418,8 @@ namespace CSReportDll {
             if (this.variables.item(varName) === null) {
                 throw new ReportArgumentMissingException(
                     C_MODULE,
-                    cReportError.errGetDescript(
-                                    csRptErrors.CSRPTERRMISSINGPARAM,
+                    cReportError.errGetDescription(
+                                    csRptErrors.CS_RPT_ERR_MISSING_PARAM,
                                     varName,
                                     "_evalAddToVar"));
             }
@@ -1428,7 +1428,7 @@ namespace CSReportDll {
             // the EvalAddToVar function is for numbers
             //
             item.setValue(item.getValue() 
-                                + pGetNumber(fint.getParameters().item(1).getValue()));
+                                + this.pGetNumber(fint.getParameters().item(1).getValue()));
         }
 
         private evalSumTime(fint: cReportFormulaInt) {
@@ -1517,7 +1517,7 @@ namespace CSReportDll {
             let iNumber: number = 0;
             let iLenguage: number = 0;
 
-            iNumber = pGetNumber(this.report.getValue(fint.getParameters().item(0).getValue(), true));
+            iNumber = this.pGetNumber(this.report.getValue(fint.getParameters().item(0).getValue(), true));
             iLenguage = cUtil.valAsInt(fint.getParameters().item(1).getValue());
 
             let ntos: cNumberToString = new cNumberToString();
@@ -1657,14 +1657,14 @@ namespace CSReportDll {
             // In the future we can analize it and modify the order and if this
             // doesn't produce any error we will remove this if :)
             //
-            if (fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL) === null) {
+            if (fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL) === null) {
                 item.setValue(0);
             }
             else {
                 item.setValue(
                     this.report.getGroupTotal(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).getValue())));
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1687,14 +1687,14 @@ namespace CSReportDll {
             // In the future we can analize it and modify the order and if this
             // doesn't produce any error we will remove this if :)
             //
-            if (fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL) === null) {
+            if (fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL) === null) {
                 item.setValue(0);
             }
             else {
                 item.setValue(
                     this.report.getGroupMax(
-                                Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL).getValue()),
-                                Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).getValue())));
+                                Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                                Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1717,14 +1717,14 @@ namespace CSReportDll {
             // In the future we can analize it and modify the order and if this
             // doesn't produce any error we will remove this if :)
             //
-            if (fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL) === null) {
+            if (fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL) === null) {
                 item.setValue(0);
             }
             else {
                 item.setValue(
                     this.report.getGroupMin(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).getValue())));
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1747,14 +1747,14 @@ namespace CSReportDll {
             // In the future we can analize it and modify the order and if this
             // doesn't produce any error we will remove this if :)
             //
-            if (fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL) === null) {
+            if (fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL) === null) {
                 item.setValue(0);
             }
             else {
                 item.setValue(
                     this.report.getGroupAverage(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).getValue())));
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1784,14 +1784,14 @@ namespace CSReportDll {
             // In the future we can analize it and modify the order and if this
             // doesn't produce any error we will remove this if :)
             //
-            if (fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL) === null) {
+            if (fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL) === null) {
                 item.setValue(0);
             }
             else {
                 item.setValue(
                     this.report.getGroupTotal(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).getValue())));
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
             pEvalFunctionGroup(fint);
         }
@@ -1815,14 +1815,14 @@ namespace CSReportDll {
             // In the future we can analize it and modify the order and if this
             // doesn't produce any error we will remove this if :)
             //
-            if (fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL) === null) {
+            if (fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL) === null) {
                 item.setValue(0);
             }
             else {
                 item.setValue(
                     this.report.getGroupCount(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXCOL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).getValue())));
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1835,7 +1835,7 @@ namespace CSReportDll {
             // the LineNumber function is for numbers
             item.setValue(
                 this.report.getGroupLineNumber(
-                    Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEYINDEXGROUP).getValue())));
+                    Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
         }
 
         private evalIsInRs(fint: cReportFormulaInt) {
@@ -1871,12 +1871,12 @@ namespace CSReportDll {
             for(let i = 0; i < cantParams; i++) {
                 // It must receive the control name
                 //
-                let param: string = pGetParameter(parameters, i, name);
+                let param: string = this.pGetParameter(parameters, i, name);
 
                 if (param.length === 0) {
                     throw new ReportArgumentMissingException(
-                        cReportError.errGetDescript(
-                                        csRptErrors.CSRPTERRMISSINGPARAM,
+                        cReportError.errGetDescription(
+                                        csRptErrors.CS_RPT_ERR_MISSING_PARAM,
                                         i.toString(),
                                         name));
                 }
@@ -1889,7 +1889,7 @@ namespace CSReportDll {
             let f: cReportFormulaType = null;
 
             name = name.toLowerCase();
-            for(var _i = 0; _i < this.formulaTypes.count(); _i++) {
+            for(let _i = 0; _i < this.formulaTypes.count(); _i++) {
                 f = this.formulaTypes.item(_i);
                 if (name === f.getName().toLowerCase()) {
                     return f.getId();
@@ -1962,10 +1962,10 @@ namespace CSReportDll {
             codeC = "";
 
             do {
-                word = pGetWord(code, nStart);
+                word = this.pGetWord(code, nStart);
                 if (pIsFunctionAux(word, functionName)) {
 
-                    codeCallFunction = pGetCallFunction(code, nStart);
+                    codeCallFunction = this.pGetCallFunction(code, nStart);
 
                     if (!pCompileAux(codeCallFunction, codeCallFunctionC)) {
                         return false;
@@ -2048,7 +2048,7 @@ namespace CSReportDll {
                 cReportFormulaInt fint = null;
                 this.idxFormula = this.idxFormula + 1;
                 fint = this.formula.getFormulasInt().item(this.idxFormula);
-                pSetParams(fint, parameters);
+                this.pSetParams(fint, parameters);
                 pEvalFunctionInt(fint);
                 object value = pResultFunctionInt(fint);
                 if (value !== null) {

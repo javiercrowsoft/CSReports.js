@@ -208,7 +208,7 @@ namespace CSReportDll {
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let ctrl: cReportControl = null;
-            for(var _i = 0; _i < this.controls.count(); _i++) {
+            for(let _i = 0; _i < this.controls.count(); _i++) {
                 ctrl = this.controls.item(_i);
                 ctrl.save(xDoc, nodeObj);
             }

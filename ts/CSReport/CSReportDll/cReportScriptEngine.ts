@@ -6,7 +6,7 @@ namespace CSReportDll {
             let n: number = code.indexOf("(");
             let functionName = code.substring(8, n-8);
             let parameters = "";
-            for(var _i = 0; _i < formula.getFormulasInt().count(); _i++) {
+            for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 let fint = formula.getFormulasInt().item(_i);
                 parameters += "globals.getVar(\"p__" + _i + "__\").getValue(),";
             }

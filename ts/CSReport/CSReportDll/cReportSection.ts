@@ -191,7 +191,7 @@ namespace CSReportDll {
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let seccLn: cReportSectionLine = null;
-            for(var _i = 0; _i < this.sectionLines.count(); _i++) {
+            for(let _i = 0; _i < this.sectionLines.count(); _i++) {
                 seccLn = this.sectionLines.item(_i);
                 seccLn.save(xDoc, nodeObj);
             }

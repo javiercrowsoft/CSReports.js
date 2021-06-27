@@ -45,15 +45,15 @@ namespace CSReportDll {
             throw new NotImplementedException();
         }
 
-        public getcPrint(
+        public static getcPrint(
             printDialog: PrintDialog,
             deviceName: string,
             driverName: string,
             port: string,
-            orientation: number,
-            paperSize: number,
-            width: number,
-            height: number) {
+            orientation: number = 1,
+            paperSize: number = 1,
+            width: number = 1,
+            height: number = 1) {
 
             let o: cPrinter = new cPrinter(printDialog);
 
@@ -88,7 +88,7 @@ namespace CSReportDll {
             return this.getcPrint(printDialog, deviceName, driverName, port, orientation, paperSize, width, height);
         }
 
-        public getcPrinterFromDefaultPrinter(printDialog: PrintDialog) {
+        public static getcPrinterFromDefaultPrinter(printDialog: PrintDialog) {
             let deviceName: string = "";
             let driverName: string = "";
             let port: string = "";
@@ -107,11 +107,11 @@ namespace CSReportDll {
             }
         }
 
-        public printerPaperBinNameToId(p: string, p_2: string, paperBin: string) {
+        public static printerPaperBinNameToId(p: string, p_2: string, paperBin: string): number {
             throw new NotImplementedException();
         }
 
-        public getDefaultPrinter(deviceName: string, driverName: string, port: string,
+        public static getDefaultPrinter(deviceName: string, driverName: string, port: string,
                                  paperSize: number, orientation: number, width: number, height: number) {
 
             let settings: PrinterSettings = new PrinterSettings();
@@ -134,29 +134,29 @@ namespace CSReportDll {
             if (width === 0 || height === 0 || paperSize === 99) {
                 if (paperSize === 99 /*UNKNOWN*/) paperSize = 1; /*LETTER*/
 
-                getSizeFromPaperSize(paperSize, orientation, width, height);
+                this.getSizeFromPaperSize(paperSize, orientation, width, height);
             }
         }
 
-        private getSizeFromPaperSize(paperSize: csReportPaperType, orientation: number, width: number, height: number) {
+        private static getSizeFromPaperSize(paperSize: csReportPaperType, orientation: number, width: number, height: number) {
             switch (paperSize)
             {
-                case csReportPaperType.CSRPTPAPERTYPELETTER:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_LETTER:
                     height = 279;
                     width = 216;
                     break;
 
-                case csReportPaperType.CSRPTPAPERTYPELEGAL:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL:
                     height = 356;
                     width = 216;
                     break;
 
-                case csReportPaperType.CSRPTPAPERTYPEA4:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_A4:
                     height = 297;
                     width = 210;
                     break;
 
-                case csReportPaperType.CSRPTPAPERTYPEA3:
+                case csReportPaperType.CS_RPT_PAPER_TYPE_A3:
                     height = 420;
                     width = 297;
                     break;
@@ -179,16 +179,16 @@ namespace CSReportDll {
             let size: number;
             switch (sizeName.toLowerCase()) {
                 case "a4":
-                    size = csReportPaperType.CSRPTPAPERTYPEA4;
+                    size = csReportPaperType.CS_RPT_PAPER_TYPE_A4;
                     break;
                 case "letter":
-                    size = csReportPaperType.CSRPTPAPERTYPELETTER;
+                    size = csReportPaperType.CS_RPT_PAPER_TYPE_LETTER;
                     break;
                 case "legal":
-                    size = csReportPaperType.CSRPTPAPERTYPELEGAL;
+                    size = csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL;
                     break;
                 default:
-                    size = csReportPaperType.CSRPTPAPERUSER;
+                    size = csReportPaperType.CS_RPT_PAPER_USER;
                     break;
             }
             return size;

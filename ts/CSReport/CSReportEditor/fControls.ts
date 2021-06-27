@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fControls {
+    export class FControls {
 
         private editor: cEditor = null;
 

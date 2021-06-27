@@ -29,6 +29,16 @@ namespace CSOAPI {
                 }
             }
         }
+
+        public static divideByZero(x1: number, x2: number) {
+            if (x2 !== 0) {
+                return x1 / x2;
+            }
+            else {
+                return 0;
+            }
+        }
+
     }
 
     export class Maths {

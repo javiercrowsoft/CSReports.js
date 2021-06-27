@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class fGroup {
+    export class FGroup {
 
         private editor: cEditor = null;
         private ok: boolean = false;

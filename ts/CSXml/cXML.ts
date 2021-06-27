@@ -70,7 +70,7 @@ namespace CSXml {
 
             }
             catch (ex) {
-                cError.mngError(ex, "OpenXmlWithDialog", C_MODULE, "There was an error trying to open file: " + this.name);
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -95,7 +95,7 @@ namespace CSXml {
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "OpenXml", C_MODULE, "There was an error trying to open the file: " + this.name);
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -138,7 +138,7 @@ namespace CSXml {
                 return newXml();
             }
             catch (ex) {
-                cError.mngError(ex, "NewXmlWithDialog", C_MODULE, "There was an error trying to create the file: " + this.name);
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -152,7 +152,7 @@ namespace CSXml {
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "NewXml", C_MODULE, "There was an error trying to create the file: " + this.name);
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -173,7 +173,7 @@ namespace CSXml {
                 return save();
             }
             catch (ex) {
-                cError.mngError(ex, "SaveWithDialog", C_MODULE, "There was an error trying to save the file: " + this.name);
+                cError.mngError(ex);
                 return false;
             }            
         }
@@ -188,7 +188,7 @@ namespace CSXml {
                 return true;
             }
             catch (ex) {
-                cError.mngError(ex, "Save", C_MODULE, "There was an error trying to save the file: " + this.name);
+                cError.mngError(ex);
                 return false;
             }
         }
@@ -217,12 +217,12 @@ namespace CSXml {
         }
 
         public addNode(xProperty: cXmlProperty) {
-            return addNodeToNodeByTag("Root", xProperty);
+            return this.addNodeToNodeByTag("Root", xProperty);
         }
 
         public addNodeToNodeByTag(nodeTag: string, xProperty: cXmlProperty) {
             let w_element: XmlNodeList = this.domDoc.GetElementsByTagName(nodeTag);
-            return addNodeToNode(w_element[0], xProperty);
+            return this.addNodeToNode(w_element[0], xProperty);
         }
 
         public addNodeToNode(nodeFather: XmlNode, xProperty: cXmlProperty) {
