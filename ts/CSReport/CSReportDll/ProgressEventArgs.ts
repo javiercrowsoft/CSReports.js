@@ -8,7 +8,7 @@ namespace CSReportDll {
         private recordCount = 0;
         private cancel: boolean = false;
 
-        public ProgressEventArgs(task: string, page: number, currRecord: number, recordCount: number) {
+        public constructor(task: string, page: number, currRecord: number, recordCount: number) {
             this.task = task;
             this.page = page;
             this.currRecord = currRecord;

@@ -28,7 +28,7 @@ namespace CSOAPI {
         }
 
         // add if key not present
-        public add(value: T, key: string): T {
+        public add(value: T, key?: string): T {
             return this.baseAdd(value, key);
         }
 

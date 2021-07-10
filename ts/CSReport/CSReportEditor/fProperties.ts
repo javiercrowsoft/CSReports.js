@@ -1717,7 +1717,7 @@ UNKNOWN >>             get
             let font: Font = new Font(txFont.Text, ((fontSize > 0f) ? fontSize : 3f), fontStyle);
 
             fontDialog.Font = font;
-            fontDialog.Color = cColor.colorFromRGB(cUtil.valAsInt(txForeColor.Text));
+            fontDialog.Color = cColor.colorFromRGB(Utils.valInt(txForeColor.Text));
 
 	        let result: DialogResult = fontDialog.ShowDialog();
 

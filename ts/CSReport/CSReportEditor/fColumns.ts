@@ -76,8 +76,8 @@ namespace CSReportEditor {
                 let item: ListViewItem = lv_columns.SelectedItems[0];
                 this.field = item.Text;
                 let info = item.Tag.toString();
-                this.fieldType = cUtil.valAsInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
-                this.fieldIndex = cUtil.valAsInt(cUtil.getInfoString(info, C_INDEX, "-1"));
+                this.fieldType = Utils.valInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
+                this.fieldIndex = Utils.valInt(cUtil.getInfoString(info, C_INDEX, "-1"));
             }
         }
 

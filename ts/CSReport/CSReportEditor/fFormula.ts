@@ -100,7 +100,7 @@ namespace CSReportEditor {
         }
 
         private isDbOrLabel(info: string) {
-            return cUtil.valAsInt(cUtil.getInfoString(info, C_ISDBFIELDORLABEL, "")) === 1;
+            return Utils.valInt(cUtil.getInfoString(info, C_ISDBFIELDORLABEL, "")) === 1;
         }
 
         private tv_formulas_NodeMouseDoubleClick(sender: object, e: TreeNodeMouseClickEventArgs) {

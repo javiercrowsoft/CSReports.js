@@ -74,7 +74,7 @@ namespace CSReportPreview {
 
         private tsbPage_KeyUp(sender: object, e: KeyEventArgs) {
             if (e.KeyCode === Keys.Enter) {
-                let page = cUtil.valAsInt(tsbPage.Text);
+                let page = Utils.valInt(tsbPage.Text);
                 if (page > 0)  {
                     if (MoveToPage !== null) {
                         MoveToPage(this, new PageEventArgs(page));

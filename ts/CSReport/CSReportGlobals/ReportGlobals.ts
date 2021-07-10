@@ -5,9 +5,9 @@ namespace CSReportGlobals {
 
     export class ReportGlobals {
 
-        public C_KEY_INDEX_COL: string   = "indexcol";
-        public C_KEY_INDEX_COL2: string  = "indexcol2";
-        public C_KEY_INDEX_GROUP: string = "indexgroup";
+        public static C_KEY_INDEX_COL: string   = "indexcol";
+        public static C_KEY_INDEX_COL2: string  = "indexcol2";
+        public static C_KEY_INDEX_GROUP: string = "indexgroup";
 
         private static nextKey = 1000;
 

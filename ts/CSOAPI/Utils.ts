@@ -30,6 +30,10 @@ namespace CSOAPI {
             }
         }
 
+        public static valInt(value: any): number {
+            return parseInt(this.val(value) as any);
+        }
+
         public static divideByZero(x1: number, x2: number) {
             if (x2 !== 0) {
                 return x1 / x2;

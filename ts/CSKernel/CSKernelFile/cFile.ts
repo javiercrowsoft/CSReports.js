@@ -11,5 +11,9 @@ namespace CSKernelFile  {
         public static getFileName(fileName: string): string {
             throw new NotImplementedException();
         }
+
+        static getFileWithoutExt(fileNameWithExt: string) {
+            throw new NotImplementedException();
+        }
     }
 }

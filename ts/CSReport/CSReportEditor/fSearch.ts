@@ -47,26 +47,26 @@ namespace CSReportEditor {
 
             for(let i = 0; i < sections.count(); i++) {
                 sec = sections.item(i);
-                if (sec.getName().toLowerCase().IndexOf(toSearch) > -1) {
+                if (sec.getName().toLowerCase().indexOf(toSearch) > -1) {
                     pAddToSearchResult(sec.getName(), objType, objType, "S" + sec.getKey());
                 }
-                if (sec.getFormulaHide().getText().toLowerCase().IndexOf(toSearch) > -1) {
+                if (sec.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
                     pAddToSearchResult(sec.getName(), objType, csObjType.iTypeFormulaH, "S" + sec.getKey(), sec.getFormulaHide().getText());
                 }
                 for(let j = 0; j < sec.getSectionLines().count(); j++) {
                     secLn = sec.getSectionLines().item(j);
-                    if (secLn.getFormulaHide().getText().toLowerCase().IndexOf(toSearch) > -1) {
+                    if (secLn.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
                         pAddToSearchResult(sec.getName() + " - Line " + secLn.getIndex().toString(),
                             csObjType.iTypeSecLn, csObjType.iTypeFormulaH, "S" + sec.getKey(), secLn.getFormulaHide().getText());
                     }
                     for(var t = 0; t < secLn.getControls().count(); t++) {
                         ctrl = secLn.getControls().item(t);
-                        if (ctrl.getName().toLowerCase().IndexOf(toSearch) > -1) {
+                        if (ctrl.getName().toLowerCase().indexOf(toSearch) > -1) {
                             pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeCtrl, ctrl.getKey());
                         }
                         if (ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD
                             || ctrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
-                            if (ctrl.getField().getName().toLowerCase().IndexOf(toSearch) > -1) {
+                            if (ctrl.getField().getName().toLowerCase().indexOf(toSearch) > -1) {
                                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeDbField, ctrl.getKey(), ctrl.getField().getName());
                             }
                         }
@@ -75,10 +75,10 @@ namespace CSReportEditor {
                                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeText, ctrl.getKey(), ctrl.getLabel().getText());
                             }
                         }
-                        if (ctrl.getFormulaValue().getText().toLowerCase().IndexOf(toSearch) > -1) {
+                        if (ctrl.getFormulaValue().getText().toLowerCase().indexOf(toSearch) > -1) {
                             pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeFormulaV, ctrl.getKey(), ctrl.getFormulaValue().getText());
                         }
-                        if (ctrl.getFormulaHide().getText().toLowerCase().IndexOf(toSearch) > -1) {
+                        if (ctrl.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
                             pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeFormulaH, ctrl.getKey(), ctrl.getFormulaHide().getText());
                         }
                     }

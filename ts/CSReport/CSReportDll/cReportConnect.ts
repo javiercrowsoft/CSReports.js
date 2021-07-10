@@ -146,7 +146,7 @@ namespace CSReportDll {
             return s;
         }
 
-        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
+        public load(xDoc: CSXml.cXml, nodeObj: XmlNode): boolean {
             let nodeObjAux: XmlNode = null;
             let nodeObjAux2: XmlNode = null;
 

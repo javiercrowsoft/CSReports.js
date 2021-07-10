@@ -3927,10 +3927,10 @@ UNKNOWN >>             bool isGroup;
                     if (this.fProperties.getSetFormulaValueChanged()) { rptCtrl.setHasFormulaValue(this.fProperties.chkFormulaValue.Checked); }
                     if (this.fProperties.getFormulaHideChanged()) { rptCtrl.getFormulaHide().setText(this.fProperties.getFormulaHide()); }
                     if (this.fProperties.getFormulaValueChanged()) { rptCtrl.getFormulaValue().setText(this.fProperties.getFormulaValue()); }
-                    if (this.fProperties.getIdxGroupChanged()) { rptCtrl.getFormulaValue().setIdxGroup(cUtil.valAsInt(this.fProperties.txIdxGroup.Text)); }
+                    if (this.fProperties.getIdxGroupChanged()) { rptCtrl.getFormulaValue().setIdxGroup(Utils.valInt(this.fProperties.txIdxGroup.Text)); }
                     if (this.fProperties.getWhenEvalChanged()) { rptCtrl.getFormulaValue().setWhenEval(this.fProperties.opAfterPrint.Checked ? csRptWhenEval.CS_RPT_EVAL_POST : csRptWhenEval.CS_RPT_EVAL_PRE); }
 
-                    if (this.fProperties.getExportColIdxChanged()) { rptCtrl.setExportColIdx(cUtil.valAsInt(this.fProperties.txExportColIdx.Text)); }
+                    if (this.fProperties.getExportColIdxChanged()) { rptCtrl.setExportColIdx(Utils.valInt(this.fProperties.txExportColIdx.Text)); }
                     if (this.fProperties.getIsFreeCtrlChanged()) { rptCtrl.setIsFreeCtrl(this.fProperties.chkIsFreeCtrl.Checked); }
 
                     if (rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD || rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
@@ -3981,7 +3981,7 @@ UNKNOWN >>             bool isGroup;
                         }
 
                         if (this.fProperties.getChartTopChanged()) {
-                            rptCtrl.getChart().setTop(cUtil.valAsInt(this.fProperties.txChartTop.Text));
+                            rptCtrl.getChart().setTop(Utils.valInt(this.fProperties.txChartTop.Text));
                         }
 
                         if (this.fProperties.getChartSortChanged()) {
@@ -4044,7 +4044,7 @@ UNKNOWN >>             bool isGroup;
                     if (this.fProperties.getTopChanged()) { w_aspect.setTop(Utils.val(this.fProperties.txTop.Text)); }
                     if (this.fProperties.getWidthChanged()) { w_aspect.setWidth(Utils.val(this.fProperties.txWidth.Text)); }
                     if (this.fProperties.getHeightChanged()) { w_aspect.setHeight(Utils.val(this.fProperties.txHeight.Text)); }
-                    if (this.fProperties.getBackColorChanged()) { w_aspect.setBackColor(cUtil.valAsInt(this.fProperties.txBackColor.Text)); }
+                    if (this.fProperties.getBackColorChanged()) { w_aspect.setBackColor(Utils.valInt(this.fProperties.txBackColor.Text)); }
                     if (this.fProperties.getTransparentChanged()) { w_aspect.setTransparent(this.fProperties.chkTransparent.Checked); }
                     if (this.fProperties.getAlignChanged()) { w_aspect.setAlign(cUtil.listID(this.fProperties.cbAlign)); }
                     if (this.fProperties.getFormatChanged()) { w_aspect.setFormat(this.fProperties.txFormat.Text); }
@@ -4055,16 +4055,16 @@ UNKNOWN >>             bool isGroup;
                     if (this.fProperties.getWordWrapChanged()) { w_aspect.setWordWrap(this.fProperties.chkWordWrap.Checked); }
                     if (this.fProperties.getCanGrowChanged()) { w_aspect.setCanGrow(this.fProperties.chkCanGrow.Checked); }
 
-                    if (this.fProperties.getBorderColorChanged()) { w_aspect.setBorderColor(cUtil.valAsInt(this.fProperties.txBorderColor.Text)); }
-                    if (this.fProperties.getBorder3DChanged()) { w_aspect.setBorderColor3d(cUtil.valAsInt(this.fProperties.txBorder3D.Text)); }
-                    if (this.fProperties.getBorder3DShadowChanged()) { w_aspect.setBorderColor3dShadow(cUtil.valAsInt(this.fProperties.txBorderShadow.Text)); }
+                    if (this.fProperties.getBorderColorChanged()) { w_aspect.setBorderColor(Utils.valInt(this.fProperties.txBorderColor.Text)); }
+                    if (this.fProperties.getBorder3DChanged()) { w_aspect.setBorderColor3d(Utils.valInt(this.fProperties.txBorder3D.Text)); }
+                    if (this.fProperties.getBorder3DShadowChanged()) { w_aspect.setBorderColor3dShadow(Utils.valInt(this.fProperties.txBorderShadow.Text)); }
                     if (this.fProperties.getBorderRoundedChanged()) { w_aspect.setBorderRounded(this.fProperties.chkBorderRounded.Checked); }
-                    if (this.fProperties.getBorderWidthChanged()) { w_aspect.setBorderWidth(cUtil.valAsInt(this.fProperties.txBorderWidth.Text)); }
+                    if (this.fProperties.getBorderWidthChanged()) { w_aspect.setBorderWidth(Utils.valInt(this.fProperties.txBorderWidth.Text)); }
                     if (this.fProperties.getBorderTypeChanged()) { w_aspect.setBorderType(cUtil.listID(this.fProperties.cbBorderType)); }
 
                     w_font = w_aspect.getFont();
                     if (this.fProperties.getFontChanged()) { w_font.setName(this.fProperties.txFont.Text); }
-                    if (this.fProperties.getForeColorChanged()) { w_font.setForeColor(cUtil.valAsInt(this.fProperties.txForeColor.Text)); }
+                    if (this.fProperties.getForeColorChanged()) { w_font.setForeColor(Utils.valInt(this.fProperties.txForeColor.Text)); }
                     if (this.fProperties.getFontSizeChanged()) { w_font.setSize(Utils.val(this.fProperties.txFontSize.Text)); }
                     if (this.fProperties.getBoldChanged()) { w_font.setBold(this.fProperties.chkFontBold.Checked); }
                     if (this.fProperties.getItalicChanged()) { w_font.setItalic(this.fProperties.chkFontItalic.Checked); }
@@ -4084,7 +4084,7 @@ UNKNOWN >>             bool isGroup;
                     if (this.fProperties.getTopChanged()) { w_aspect.setTop(Utils.val(this.fProperties.txTop.Text)); }
                     if (this.fProperties.getWidthChanged()) { w_aspect.setWidth(Utils.val(this.fProperties.txWidth.Text)); }
                     if (this.fProperties.getHeightChanged()) { w_aspect.setHeight(Utils.val(this.fProperties.txHeight.Text)); }
-                    if (this.fProperties.getBackColorChanged()) { w_aspect.setBackColor(cUtil.valAsInt(this.fProperties.txBackColor.Text)); }
+                    if (this.fProperties.getBackColorChanged()) { w_aspect.setBackColor(Utils.valInt(this.fProperties.txBackColor.Text)); }
                     if (this.fProperties.getTransparentChanged()) { w_aspect.setTransparent(this.fProperties.chkTransparent.Checked); }
                     if (this.fProperties.getAlignChanged()) { w_aspect.setAlign(cUtil.listID(this.fProperties.cbAlign)); }
                     if (this.fProperties.getFormatChanged()) { w_aspect.setFormat(this.fProperties.txFormat.Text); }
@@ -4100,16 +4100,16 @@ UNKNOWN >>             bool isGroup;
                         w_aspect.setBorderType(csReportBorderType.CS_RPT_BS_FIXED);
                     }
                     else {
-                        if (this.fProperties.getBorderColorChanged()) { w_aspect.setBorderColor(cUtil.valAsInt(this.fProperties.txBorderColor.Text)); }
-                        if (this.fProperties.getBorder3DChanged()) { w_aspect.setBorderColor3d(cUtil.valAsInt(this.fProperties.txBorder3D.Text)); }
-                        if (this.fProperties.getBorder3DShadowChanged()) { w_aspect.setBorderColor3dShadow(cUtil.valAsInt(this.fProperties.txBorderShadow.Text)); }
+                        if (this.fProperties.getBorderColorChanged()) { w_aspect.setBorderColor(Utils.valInt(this.fProperties.txBorderColor.Text)); }
+                        if (this.fProperties.getBorder3DChanged()) { w_aspect.setBorderColor3d(Utils.valInt(this.fProperties.txBorder3D.Text)); }
+                        if (this.fProperties.getBorder3DShadowChanged()) { w_aspect.setBorderColor3dShadow(Utils.valInt(this.fProperties.txBorderShadow.Text)); }
                         if (this.fProperties.getBorderRoundedChanged()) { w_aspect.setBorderRounded(this.fProperties.chkBorderRounded.Checked); }
-                        if (this.fProperties.getBorderWidthChanged()) { w_aspect.setBorderWidth(cUtil.valAsInt(this.fProperties.txBorderWidth.Text)); }
+                        if (this.fProperties.getBorderWidthChanged()) { w_aspect.setBorderWidth(Utils.valInt(this.fProperties.txBorderWidth.Text)); }
                     }
 
                     w_font = w_aspect.getFont();
                     if (this.fProperties.getFontChanged()) { w_font.setName(this.fProperties.txFont.Text); }
-                    if (this.fProperties.getForeColorChanged()) { w_font.setForeColor(cUtil.valAsInt(this.fProperties.txForeColor.Text)); }
+                    if (this.fProperties.getForeColorChanged()) { w_font.setForeColor(Utils.valInt(this.fProperties.txForeColor.Text)); }
                     if (this.fProperties.getFontSizeChanged()) { w_font.setSize(Utils.val(this.fProperties.txFontSize.Text)); }
                     if (this.fProperties.getBoldChanged()) { w_font.setBold(this.fProperties.chkFontBold.Checked); }
                     if (this.fProperties.getItalicChanged()) { w_font.setItalic(this.fProperties.chkFontItalic.Checked); }
@@ -5066,7 +5066,7 @@ UNKNOWN >>                     paintType =csRptPaintObjType.CSRPTPAINTOBJBOX;
         private refreshNextNameCtrl(nameCtrl: string) {
             let x: number = 0;
             if (nameCtrl.substring(0, cGlobals.C_CONTROL_NAME.length).toUpperCase() === cGlobals.C_CONTROL_NAME.toUpperCase()) {
-                x = cUtil.valAsInt(nameCtrl.substring(cGlobals.C_CONTROL_NAME.length + 1));
+                x = Utils.valInt(nameCtrl.substring(cGlobals.C_CONTROL_NAME.length + 1));
                 if (x > this.nextNameCtrl) {
                     this.nextNameCtrl = x + 1;
                 }

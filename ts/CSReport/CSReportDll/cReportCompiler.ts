@@ -790,8 +790,8 @@ namespace CSReportDll {
             // 
             tc = this.formula.getTextC();
             q = name.length;
-            r = tc.toLowerCase().IndexOf(name.toLowerCase(), 0);
-            q = tc.toLowerCase().IndexOf(")".toLowerCase(), r) + 1;
+            r = tc.toLowerCase().indexOf(name.toLowerCase(), 0);
+            q = tc.toLowerCase().indexOf(")".toLowerCase(), r) + 1;
 
             this.formula.setTextC((tc.substring(0, r)).toString()
                                 + C_KEYFUNCINT
@@ -1518,7 +1518,7 @@ namespace CSReportDll {
             let iLenguage: number = 0;
 
             iNumber = this.pGetNumber(this.report.getValue(fint.getParameters().item(0).getValue(), true));
-            iLenguage = cUtil.valAsInt(fint.getParameters().item(1).getValue());
+            iLenguage = Utils.valInt(fint.getParameters().item(1).getValue());
 
             let ntos: cNumberToString = new cNumberToString();
 

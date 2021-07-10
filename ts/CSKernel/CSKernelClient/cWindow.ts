@@ -4,26 +4,30 @@ namespace CSKernelClient {
 
     export class cWindow {
 
-        private lastErrorDescription = "";
-        private lastErrorInfoAdd = "";
-        private silent = false;
+        private static lastErrorDescription = "";
+        private static lastErrorInfoAdd = "";
+        private static silent = false;
 
-        public mngError(ex: Exception, infoAdd: string = "") {
+        public static mngError(ex: Exception, infoAdd: string = "") {
             let f: fErrors = new fErrors();
             f.setErrorIcon();
             f.setDetails(ex.getMessage());
             f.showDialog();
         }
 
-        public getLastErrorDescription() {
+        public static msgWarning(msg: string, title: string) {
+
+        }
+
+        public static getLastErrorDescription() {
             return this.lastErrorDescription;
         }
 
-        public getLastErrorInfoAdd() {
+        public static getLastErrorInfoAdd() {
             return this.lastErrorInfoAdd;
         }
 
-        public setSilent(rhs: boolean) {
+        public static setSilent(rhs: boolean) {
             this.silent = rhs;
         }
     }

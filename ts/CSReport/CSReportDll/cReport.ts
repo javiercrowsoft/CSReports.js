@@ -25,10 +25,10 @@ namespace CSReportDll {
     import Bitmap = CSKernelClient.Bitmap;
     import cMouseWait = CSKernelClient.cMouseWait;
     import DataType = CSDatabase.DataType;
-
-//     public delegate void ReportDoneHandler(object sender, EventArgs e);
-//     public delegate void ProgressHandler(object sender, ProgressEventArgs e);
-//     public delegate void FindAccessFileHandler(object sender, FindAccessFileEventArgs e);
+    import csRptFormulaType = CSReportGlobals.csRptFormulaType;
+    import csReportPaperType = CSReportGlobals.csReportPaperType;
+    import cWindow = CSKernelClient.cWindow;
+    import csDataSourceType = CSReportGlobals.csDataSourceType;
 
     export class T_Group {
         public first: number = null;
@@ -57,10 +57,18 @@ namespace CSReportDll {
         public lineNumber: number = null;
     }
 
+    export interface iReportDoneListener {
+        reportDone(report: cReport);
+    }
+
+    export interface iProgressListener {
+        progress(report: cReport, eventArgs: ProgressEventArgs);
+    }
+
     export class cReport {
-//         public event ReportDoneHandler ReportDone;
-//         public event ProgressHandler Progress;
-//         public event FindAccessFileHandler FindAccessFile;
+
+        public reportDoneListener: iReportDoneListener;
+        public progressListener: iProgressListener;
 
 
         // remember mark any change that could bring errors 
@@ -483,7 +491,7 @@ namespace CSReportDll {
 
             // if the user has canceled we return an error
             //
-            if (!this.OnProgress("", this.pages.count(), 0, 0)) {
+            if (!this.onProgress("", this.pages.count(), 0, 0)) {
                 return csRptNewPageResult.CS_RPT_NP_ERROR;
             }
 
@@ -1040,7 +1048,7 @@ namespace CSReportDll {
         private pGetLineAuxReportCancel() {
             // if the user has canceled we have finished
             //
-            if (!this.OnProgress("", 0, this.iRow, this.recordCount)) {
+            if (!this.onProgress("", 0, this.iRow, this.recordCount)) {
                 this.reportDone();
                 return csRptGetLineResult.CS_RPT_GL_END;
             }
@@ -1145,14 +1153,14 @@ namespace CSReportDll {
                     let date1: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row1][orderBy]));
                     let date2: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row2][orderBy]));
                     if (date1 < date2) {
-                        if (!this.OnProgress("", 0, q, t)) {
+                        if (!this.onProgress("", 0, q, t)) {
                             return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.OnProgress("", 0, q, t)) {
+                if (!this.onProgress("", 0, q, t)) {
                     return false;
                 }
                 if (!bChanged) {
@@ -1177,14 +1185,14 @@ namespace CSReportDll {
                     let date1: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row1][orderBy]));
                     let date2: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row2][orderBy]));
                     if (date1 > date2) {
-                        if (!this.OnProgress("", 0, q, t))  {
+                        if (!this.onProgress("", 0, q, t))  {
                             return false; 
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.OnProgress("", 0, q, t))  {
+                if (!this.onProgress("", 0, q, t))  {
                     return false; 
                 }
                 if (!bChanged)  {
@@ -1486,7 +1494,7 @@ namespace CSReportDll {
             let field: cReportPageField = null;
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
-            let isVisible: boolean = false;
+            let isVisible: boolean;
             let indexCtrl: number = 0;
 
             let fields: cReportPageFields = wfields.get();
@@ -1651,7 +1659,7 @@ namespace CSReportDll {
         //
         public launch(oLaunchInfo: cReportLaunchInfo = null) {
             try {
-                let recordSets: [object[]] = null;
+                let recordSets: [object|string[]] = null;
                 let rs: DataTable = null;
 
                 this.compiler.setReport(this);
@@ -1674,7 +1682,7 @@ namespace CSReportDll {
                                     cReportError.errGetDescription(csRptErrors.PRINTER_NOT_DEFINED));
                 }
 
-                if (!this.OnProgress("Building report ...")) {
+                if (!this.onProgress("Building report ...")) {
                     return false;
                 }
 
@@ -1682,7 +1690,7 @@ namespace CSReportDll {
                 //
                 this.sortCollection();
 
-                if (! this.OnProgress("Compiling report ...")) {
+                if (! this.onProgress("Compiling report ...")) {
                     return false;
                 }
 
@@ -1696,7 +1704,7 @@ namespace CSReportDll {
                 //
                 this.pSortControlsByLeft();
 
-                if (! this.OnProgress("Querying database")) {
+                if (! this.onProgress("Querying database")) {
                     return false;
                 }
 
@@ -1706,9 +1714,13 @@ namespace CSReportDll {
 
                 // get the main recordset
                 //
-                if (!this.pGetData(this.table, this.connect, true, recordSets, rs)) {
+                let dtr = new RefWrapper(this.table);
+                let rsr = new RefWrapper(rs);
+                if (! this.pGetData(dtr, this.connect, true, recordSets, rsr)) {
                     return false;
                 }
+                this.table = dtr.get();
+                rs = rsr.get()
 
                 // the first element contains the main recordset
                 //
@@ -1726,7 +1738,7 @@ namespace CSReportDll {
                     return false;
                 }
 
-                if (! this.OnProgress("Initializing report")) {
+                if (! this.onProgress("Initializing report")) {
                     return false;
                 }
 
@@ -1825,7 +1837,7 @@ namespace CSReportDll {
         public loadSilent(fileName: string) {
 
             try {
-                let docXml: CSXml.cXml = new CSXml.cXml();
+                let docXml: cXml = new cXml();
 
                 this.path = cFile.getPath(fileName);
                 this.name = cFile.getFileName(fileName);
@@ -2007,11 +2019,10 @@ namespace CSReportDll {
         }
 
         public loadSilentData(fileName: string) {
-            let docXml: CSXml.cXml = null;
-            docXml = new CSXml.cXml();
+            let docXml = new cXml();
 
-            this.path = CSKernelFile.cFile.getPath(fileName);
-            this.name = CSKernelFile.cFile.getFileName(fileName);
+            this.path = cFile.getPath(fileName);
+            this.name = cFile.getFileName(fileName);
 
             docXml.init(null);
             docXml.setFilter(this.C_FILE_DATA_EX);
@@ -2025,14 +2036,14 @@ namespace CSReportDll {
             this.path = docXml.getPath();
             this.name = docXml.getName();
 
-            let property: CSXml.cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
+            let property: cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
             this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
             return this.nLoadData(docXml);
         }
 
         public loadData(commDialog: object) {
-            let docXml: CSXml.cXml = new CSXml.cXml();
+            let docXml: cXml = new cXml();
 
             docXml.init(commDialog);
             docXml.setFilter(this.C_FILE_DATA_EX);
@@ -2045,14 +2056,14 @@ namespace CSReportDll {
 
             this.path = docXml.getPath();
             this.name = docXml.getName();
-            let property: CSXml.cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
+            let property: cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
             this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
             return this.nLoadData(docXml);
         }
 
         public saveData(commDialog: object, withDialog: boolean) {
-            let docXml: CSXml.cXml = new CSXml.cXml();
+            let docXml: cXml = new cXml();
 
             docXml.init(commDialog);
             docXml.setFilter(this.C_FILE_DATA_EX);
@@ -2114,7 +2125,7 @@ namespace CSReportDll {
         }
 
         private saveDataForWeb(page: cReportPage, dataName: string, dataPath: string) {
-            let docXml: CSXml.cXml = new CSXml.cXml();
+            let docXml: cXml = new cXml();
 
             docXml.init(null);
             docXml.setFilter("xml");
@@ -2264,7 +2275,7 @@ namespace CSReportDll {
             }
         }
 
-        private initControls(recordSets: [object[]]) {
+        private initControls(recordSets: [object|string[]]) {
             let ctrl: cReportControl = null;
             let sequence: cReportChartSequence = null;
             let idx = new RefWrapper(0);
@@ -2318,7 +2329,7 @@ namespace CSReportDll {
             }
         }
 
-        private initControlAux(ctrl: cReportControl, idx: RefWrapper<number>, recordSets: [object[]], fieldName: string) {
+        private initControlAux(ctrl: cReportControl, idx: RefWrapper<number>, recordSets: [object|string[]], fieldName: string) {
             let found: boolean = false;
             let j: number = 0;
             let bIsDBImage: boolean = false;
@@ -2330,7 +2341,7 @@ namespace CSReportDll {
             let k: number = 0;
 
             for(let _i = 0; _i < recordSets.length; _i++) {
-                let varRs: object[] = recordSets[_i];
+                let varRs: object|string[] = recordSets[_i];
                 let rsDataSource: string = varRs[1].toString();
                 if (rsDataSource.toUpperCase() === dataSource.toUpperCase() || dataSource === "") {
                     let rs: DataTable = varRs[0] as DataTable;
@@ -2977,7 +2988,7 @@ namespace CSReportDll {
                 }
             }
 
-            if (!this.OnProgress("Sorting report", 0, 0, 0)) {
+            if (!this.onProgress("Sorting report", 0, 0, 0)) {
                 return false;
             }
 
@@ -3134,7 +3145,7 @@ namespace CSReportDll {
                         else {
                             for (j = this.vGroups[i].groups[k].first; j <= this.vGroups[i].groups[k].last; j++) {
                                 q = q + 1;
-                                if (!this.OnProgress("", 0, q, recordCount)) {
+                                if (!this.onProgress("", 0, q, recordCount)) {
                                     return false;
                                 }
 
@@ -3205,14 +3216,14 @@ namespace CSReportDll {
                     let value1: number = Utils.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
                     let value2: number = Utils.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (value1 < value2) {
-                        if (!this.OnProgress("", 0, q, t))  {
+                        if (!this.onProgress("", 0, q, t))  {
                             return false; 
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.OnProgress("", 0, q, t))  {
+                if (!this.onProgress("", 0, q, t))  {
                     return false; 
                 }
                 if (!bChanged)  {
@@ -3237,14 +3248,14 @@ namespace CSReportDll {
                     let number1: number = Utils.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
                     let number2: number = Utils.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (number1 > number2) {
-                        if (!this.OnProgress("", 0, q, t)) {
+                        if (!this.onProgress("", 0, q, t)) {
                             return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.OnProgress("", 0, q, t)) {
+                if (!this.onProgress("", 0, q, t)) {
                     return false;
                 }
                 if (!bChanged) {
@@ -3267,14 +3278,14 @@ namespace CSReportDll {
                     let text1: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j]][orderBy]).toString();
                     let text2: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j - 1]][orderBy]).toString();
                     if (text1.toLowerCase().localeCompare(text2.toLowerCase()) < 0) {
-                        if (! this.OnProgress("", 0, q, t))  {
+                        if (! this.onProgress("", 0, q, t))  {
                             return false; 
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (! this.OnProgress("", 0, q, t))  {
+                if (! this.onProgress("", 0, q, t))  {
                     return false; 
                 }
                 if (! bChanged)  {
@@ -3297,14 +3308,14 @@ namespace CSReportDll {
                     let text1: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j]][orderBy]).toString();
                     let text2: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j - 1]][orderBy]).toString();
                     if (text1.toLowerCase().localeCompare(text2.toLowerCase()) > 0) {
-                        if (! this.OnProgress("", 0, q, t)) {
+                        if (! this.onProgress("", 0, q, t)) {
                             return false;
                         }
-                        changeRow(j, j - 1);
+                        this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.OnProgress("", 0, q, t)) {
+                if (!this.onProgress("", 0, q, t)) {
                     return false;
                 }
                 if (!bChanged) {
@@ -3513,7 +3524,7 @@ namespace CSReportDll {
             }
         }
 
-        private pSetGroupFormulaHF(sections: cReportSections, idxGrop: number) {
+        private pSetGroupFormulaHF(sections: cReportSections, idxGroup: number) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
@@ -3522,16 +3533,16 @@ namespace CSReportDll {
                 sec = sections.item(_i);
                 for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
                     secLn = sec.getSectionLines().item(_j);
-                    for(var _k = 0; _k < secLn.getControls().count(); _k++) {
+                    for(let _k = 0; _k < secLn.getControls().count(); _k++) {
                         ctrl = secLn.getControls().item(_k);
                         if (ctrl.getHasFormulaHide()) {
                             if (ctrl.getFormulaHide().getIdxGroup() === 0) {
-                                ctrl.getFormulaHide().setIdxGroup(idxGrop);
+                                ctrl.getFormulaHide().setIdxGroup(idxGroup);
                             }
                         }
                         if (ctrl.getHasFormulaValue()) {
                             if (ctrl.getFormulaValue().getIdxGroup() === 0) {
-                                ctrl.getFormulaValue().setIdxGroup(idxGrop);
+                                ctrl.getFormulaValue().setIdxGroup(idxGroup);
                             }
                         }
                     }
@@ -3557,7 +3568,7 @@ namespace CSReportDll {
 
                     // add the formula to the formulas collection
                     //
-                    addFormula(ctrl.getFormulaHide(), ctrl.getName() + "_" + "H");
+                    this.addFormula(ctrl.getFormulaHide(), ctrl.getName() + "_" + "H");
                 }
                 if (ctrl.getHasFormulaValue()) {
                     if (!this.compiler.checkSyntax(ctrl.getFormulaValue()))  {
@@ -3572,15 +3583,15 @@ namespace CSReportDll {
 
                     // add the formula to the formulas collection
                     //
-                    addFormula(ctrl.getFormulaValue(), ctrl.getName() + "_" + "V");
+                    this.addFormula(ctrl.getFormulaValue(), ctrl.getName() + "_" + "V");
                 }
             }
 
-            if (!pAddFormulasInSection(this.headers)) { return false; }
-            if (!pAddFormulasInSection(this.groupsHeaders)) { return false; }
-            if (!pAddFormulasInSection(this.groupsFooters)) { return false; }
-            if (!pAddFormulasInSection(this.details)) { return false; }
-            if (!pAddFormulasInSection(this.footers)) { return false; }
+            if (!this.pAddFormulasInSection(this.headers)) { return false; }
+            if (!this.pAddFormulasInSection(this.groupsHeaders)) { return false; }
+            if (!this.pAddFormulasInSection(this.groupsFooters)) { return false; }
+            if (!this.pAddFormulasInSection(this.details)) { return false; }
+            if (!this.pAddFormulasInSection(this.footers)) { return false; }
 
             let formula: cReportFormula = null;
 
@@ -3616,7 +3627,7 @@ namespace CSReportDll {
                     if (secLn.getHasFormulaHide()) {
                         this.pSetFormulaIndexGroup(secLn.getFormulaHide(), sec);
                     }
-                    for(var _k = 0; _k < secLn.getControls().count(); _k++) {
+                    for(let _k = 0; _k < secLn.getControls().count(); _k++) {
                         ctrl = secLn.getControls().item(_k);
                         if (ctrl.getHasFormulaHide()) {
                             this.pSetFormulaIndexGroup(ctrl.getFormulaHide(), sec);
@@ -3636,38 +3647,38 @@ namespace CSReportDll {
             for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
 
-                if (pIsGroupFormula(fint.getFormulaType())) {
+                if (this.pIsGroupFormula(fint.getFormulaType())) {
                     if (fint.getFormulaType() === csRptFormulaType.CSRPTF_GROUP_PERCENT) {
                         formula.setIdxGroup2(0);
-                        indexGroup = cUtil.valAsInt(fint.getParameters().item(2).getValue());
+                        indexGroup = Utils.valInt(fint.getParameters().item(2).getValue());
                     }
                     else {
-                        indexGroup = cUtil.valAsInt(fint.getParameters().item(1).getValue());
+                        indexGroup = Utils.valInt(fint.getParameters().item(1).getValue());
                     }
-                    if (fint.getParameters().item(ReportGlobals.this.C_KEY_INDEX_GROUP) === null) {
-                        fint.getParameters().add2("", ReportGlobals.this.C_KEY_INDEX_GROUP);
+                    if (fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP) === null) {
+                        fint.getParameters().add2("", ReportGlobals.C_KEY_INDEX_GROUP);
                     }
                     if (indexGroup === -1) {
                         if (sec.getTypeSection() === csRptSectionType.GROUP_HEADER
                             || sec.getTypeSection() === csRptSectionType.GROUP_FOOTER) {
                             // index of the group
                             //
-                            fint.getParameters().item(ReportGlobals.this.C_KEY_INDEX_GROUP).setValue(sec.getIndex().toString());
+                            fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).setValue(sec.getIndex().toString());
                             formula.setIdxGroup(sec.getIndex());
                         }
                         else if (sec.getTypeSection() === csRptSectionType.MAIN_DETAIL) {
                             // index of the most internal group
                             //
-                            fint.getParameters().item(ReportGlobals.this.C_KEY_INDEX_GROUP).setValue(this.groups.count().toString());
+                            fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).setValue(this.groups.count().toString());
                             formula.setIdxGroup(this.groups.count()-1);
                         }
                         else {
-                            fint.getParameters().item(ReportGlobals.this.C_KEY_INDEX_GROUP).setValue("0");
+                            fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).setValue("0");
                             formula.setIdxGroup(0);
                         }
                     }
                     else {
-                        fint.getParameters().item(ReportGlobals.this.C_KEY_INDEX_GROUP).setValue(indexGroup.toString());
+                        fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).setValue(indexGroup.toString());
                         formula.setIdxGroup(indexGroup);
                     }
                 }
@@ -3709,7 +3720,7 @@ namespace CSReportDll {
 
                     // add the formula to the formulas collection
                     //
-                    addFormula(sec.getFormulaHide(), sec.getName() + "_" + "H");
+                    this.addFormula(sec.getFormulaHide(), sec.getName() + "_" + "H");
                 }
                 for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
                     secLn = sec.getSectionLines().item(_j);
@@ -3724,7 +3735,7 @@ namespace CSReportDll {
 
                         // add the formula to the formulas collection
                         //
-                        addFormula(secLn.getFormulaHide(), sec.getName() 
+                        this.addFormula(secLn.getFormulaHide(), sec.getName()
                                     + "_R_" + secLn.getIndex().toString() + "_" + "H");
                     }
                 }
@@ -3774,7 +3785,7 @@ namespace CSReportDll {
         private addFieldToNewPage(sections: cReportSections, page: cReportPage, where: number) {
             let field: cReportPageField = null;
             let sec: cReportSection = null;
-            let secline: cReportSectionLine = null;
+            let secLine: cReportSectionLine = null;
             let ctrl: cReportControl = null;
             let isVisible: boolean = false;
             let indexCtrl: number = 0;
@@ -3807,9 +3818,9 @@ namespace CSReportDll {
                 }
                 if (isVisible) {
                     for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
-                        secline = sec.getSectionLines().item(_j);
-                        if (secline.getHasFormulaHide()) {
-                            isVisible = Utils.val(this.compiler.resultFunction(secline.getFormulaHide())) !== 0;
+                        secLine = sec.getSectionLines().item(_j);
+                        if (secLine.getHasFormulaHide()) {
+                            isVisible = Utils.val(this.compiler.resultFunction(secLine.getFormulaHide())) !== 0;
                         }
                         else {
                             isVisible = true;
@@ -3817,8 +3828,8 @@ namespace CSReportDll {
                         if (isVisible) {
                             // For Each Ctrl In Secline.Controls
                             //
-                            for (indexCtrl = 0; indexCtrl < secline.getControls().getCollByLeft().length; indexCtrl++) {
-                                ctrl = secline.getControls().item(secline.getControls().getCollByLeft()[indexCtrl]);
+                            for (indexCtrl = 0; indexCtrl < secLine.getControls().getCollByLeft().length; indexCtrl++) {
+                                ctrl = secLine.getControls().item(secLine.getControls().getCollByLeft()[indexCtrl]);
 
                                 if (where === this.C_HEADERS) {
                                     field = page.getHeader().add(null, "");
@@ -3847,13 +3858,13 @@ namespace CSReportDll {
                                                 //
                                                 // maybe this help a litle:
                                                 //
-                                                //    this.vCollRows(IndexRows)    a matrix with the data 
+                                                //    this.tables(IndexRows)    a matrix with the data
                                                 //                              contained in the datasource
-                                                //                              referd by this control
+                                                //                              referred by this control
                                                 //
                                                 //    (IndexField, IndexRow)    a cell in this matrix
                                                 //
-                                                let value: object = this.tables[indexRows].Rows[indexRow][indexField];
+                                                let value: object = this.tables[indexRows].rows[indexRow][indexField];
                                                 field.setValue(
                                                     ReportGlobals.format(
                                                         ReportGlobals.valVariant(value),
@@ -3927,7 +3938,7 @@ namespace CSReportDll {
             this.pageSetting.setHeight(this.launchInfo.getPrinter().getPaperInfo().getHeight());
 
             let sec: cReportSection = null;
-            let secline: cReportSectionLine = null;
+            let secLine: cReportSectionLine = null;
             let ctrl: cReportControl = null;
 
             // headers
@@ -3935,10 +3946,10 @@ namespace CSReportDll {
             for(let _i = 0; _i < this.headers.count(); _i++) {
                 sec = this.headers.item(_i);
                 for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
-                    secline = sec.getSectionLines().item(_j);
-                    for(var _k = 0; _k < secline.getControls().count(); _k++) {
-                        ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
+                    secLine = sec.getSectionLines().item(_j);
+                    for(let _k = 0; _k < secLine.getControls().count(); _k++) {
+                        ctrl = secLine.getControls().item(_k);
+                        let pageInfo: cReportPageInfo = this.pageSetting.add2(secLine, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         pageInfo.setName(ctrl.getName());
                         pageInfo.setFieldType(ctrl.getField().getFieldType());
@@ -3951,10 +3962,10 @@ namespace CSReportDll {
             for(let _i = 0; _i < this.details.count(); _i++) {
                 sec = this.details.item(_i);
                 for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
-                    secline = sec.getSectionLines().item(_j);
-                    for(var _k = 0; _k < secline.getControls().count(); _k++) {
-                        ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
+                    secLine = sec.getSectionLines().item(_j);
+                    for(let _k = 0; _k < secLine.getControls().count(); _k++) {
+                        ctrl = secLine.getControls().item(_k);
+                        let pageInfo: cReportPageInfo = this.pageSetting.add2(secLine, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         pageInfo.setName(ctrl.getName());
                         pageInfo.setFieldType(ctrl.getField().getFieldType());
@@ -3973,10 +3984,10 @@ namespace CSReportDll {
             for(let _i = 0; _i < this.footers.count(); _i++) {
                 sec = this.footers.item(_i);
                 for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
-                    secline = sec.getSectionLines().item(_j);
-                    for(var _k = 0; _k < secline.getControls().count(); _k++) {
-                        ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
+                    secLine = sec.getSectionLines().item(_j);
+                    for(let _k = 0; _k < secLine.getControls().count(); _k++) {
+                        ctrl = secLine.getControls().item(_k);
+                        let pageInfo: cReportPageInfo = this.pageSetting.add2(secLine, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         let aspect: cReportAspect = pageInfo.getAspect();
                         aspect.setTop(aspect.getTop() - offset);
@@ -3993,10 +4004,10 @@ namespace CSReportDll {
                 // header
                 //
                 for(let _j = 0; _j < grp.getHeader().getSectionLines().count(); _j++) {
-                    secline = grp.getHeader().getSectionLines().item(_j);
-                    for(var _k = 0; _k < secline.getControls().count(); _k++) {
-                        ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
+                    secLine = grp.getHeader().getSectionLines().item(_j);
+                    for(let _k = 0; _k < secLine.getControls().count(); _k++) {
+                        ctrl = secLine.getControls().item(_k);
+                        let pageInfo: cReportPageInfo = this.pageSetting.add2(secLine, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         pageInfo.setName(ctrl.getName());
                         pageInfo.setFieldType(ctrl.getField().getFieldType());
@@ -4006,10 +4017,10 @@ namespace CSReportDll {
                 // footer
                 //
                 for(let _j = 0; _j < grp.getFooter().getSectionLines().count(); _j++) {
-                    secline = grp.getFooter().getSectionLines().item(_j);
-                    for(var _k = 0; _k < secline.getControls().count(); _k++) {
-                        ctrl = secline.getControls().item(_k);
-                        let pageInfo: cReportPageInfo = this.pageSetting.add(secline, null, ctrl.getKey());
+                    secLine = grp.getFooter().getSectionLines().item(_j);
+                    for(let _k = 0; _k < secLine.getControls().count(); _k++) {
+                        ctrl = secLine.getControls().item(_k);
+                        let pageInfo: cReportPageInfo = this.pageSetting.add2(secLine, null, ctrl.getKey());
                         pageInfo.setAspect(ctrl.getLabel().getAspect());
                         pageInfo.setName(ctrl.getName());
                         pageInfo.setFieldType(ctrl.getField().getFieldType());
@@ -4020,30 +4031,29 @@ namespace CSReportDll {
             return true;
         }
 
-        private pGetDataAux(recordSets: [object[]]) {
+        private pGetDataAux(recordSets: [object|string[]]) {
             for(let _i = 0; _i < this.connectsAux.count(); _i++) {
                 let connect: cReportConnect = this.connectsAux.item(_i);
-                G.redimPreserve(this.tables, this.tables.length + 1);
-                if (!this.pGetData(this.tables[this.tables.length - 1], connect, false, recordSets)) {
+                let dtr = new RefWrapper(new DataTable());
+                if (! this.pGetData(dtr, connect, false, recordSets)) {
                     return false;
                 }
+                this.tables.push(dtr.get());
             }
-            this.vRowsIndexAux = new int[this.tables.length];
+            this.vRowsIndexAux = [];
             return true;
         }
 
-        private pGetData(
-            vRows: DataTable,
-            connect: cReportConnect,
-            createIndexVector: boolean,
-            recordSets: [object[]],
-            rs: DataTable = null) {
-            let strConnect: string = "";
+        private pGetData(dtr: RefWrapper<DataTable>,
+                         connect: cReportConnect, createIndexVector: boolean,
+                         recordSets: [object|string[]], rs: RefWrapper<DataTable> = null) {
+
+            let strConnect: string;
             let saveInReport: boolean = false;
-            let cn: CSDatabase.DataBase = null;
-            let varRs: object[] = null;
+            let cn: CSDatabase.Database = null;
+            let varRs: object|string[] = null;
             let rsAux: DataTable = null;
-            let dr: DbDataReader = null;
+            let dr: CSDatabase.DbDataReader = null;
 
             // if we get an string connection
             //
@@ -4057,17 +4067,17 @@ namespace CSReportDll {
                 strConnect = connect.getStrConnect();
                 saveInReport = true;
             }
-            if (!getReportDisconnected()) {
+            if (! this.getReportDisconnected()) {
                 if (strConnect.trim() === "") {
                     cWindow.msgWarning("The connection settings were not defined."
                                         + "Both the LaunchInfo and the Connect object have their "
-                                        + "strConnect property empty. Whitout this connection string "
-                                        + "it will be imposible to open the connection to the database.",
+                                        + "strConnect property empty. Without this connection string "
+                                        + "it will be impossible to open the connection to the database.",
                                         "CSReportEditor");
                     return false;
                 }
 
-                cn = new cDataBase(this.databaseEngine);
+                cn = new CSDatabase.Database(this.databaseEngine);
 
                 if (this.isForWeb) {
                     cn.setSilent(true);
@@ -4081,15 +4091,11 @@ namespace CSReportDll {
 
                 // open the connection
                 //
-                if (!cn.initDb("", "", "", "", strConnect)) {
-                    if (!resumeDBAccessMissing(strConnect, saveInReport, cn)) {
-                        return false;
-                    }
-                }
+                if (!cn.initDb(strConnect)) return false;
 
                 // we need to prepare the first sentence
                 //
-                let sqlstmt: string = "";
+                let sqlstmt: string;
 
                 // if it was a select
                 //
@@ -4112,69 +4118,61 @@ namespace CSReportDll {
                 //
                 cn.setOpenRsExDescript(this.userDescription);
 
-                if (!cn.loadDataTable(true,
-                                        false,
-                                        false,
-                                        sqlstmt,
-                                        rs,
-                                        dr,
-                                        "GetData",
-                                        this.C_MODULE,
-                                        "")) {
+                if (! cn.loadDataTable(true, false, false, sqlstmt, rs, dr)) {
                     return false;
                 }
 
-                vRows = rs;
+                dtr = rs;
 
-                if (rs.Rows.Count === 0) {
+                if (rs.get().rows.length === 0) {
                     if (createIndexVector) {
-                        this.vRowsIndex = new int[0];
+                        this.vRowsIndex = [];
                         this.lastRowIndex = -1;
                     }
                 }
                 else {
                     if (createIndexVector) {
-                        this.vRowsIndex = new int[vRows.Rows.Count];
-                        this.lastRowIndex = this.vRowsIndex.length - 1;
-                        let k: number = 0;
-                        for (k = 0; k < this.vRowsIndex.length; k++) {
-                            this.vRowsIndex[k] = k;
+                        this.vRowsIndex = [];
+                        this.lastRowIndex = dtr.get().rows.length - 1;
+                        for (let k = 0, count = dtr.get().rows.length; k < count; k++) {
+                            this.vRowsIndex.push(k);
                         }
                     }
                 }
 
-                varRs = new object[2];
+                varRs = [];
                 varRs[0] = rs;
                 varRs[1] = connect.getDataSource();
-                recordSets.Add(varRs);
+
+                recordSets.push(varRs);
 
                 // we need to load every recordset from every data source
-                // in the recordset collection (this code suport multiples
+                // in the recordset collection (this code support multiples
                 // recordset in the same reader)
                 //
-                while (!dr.IsClosed && dr.NextResult()) {
+                while (!dr.isClosed() && dr.nextResult()) {
                     rsAux = new DataTable();
-                    rsAux.Load(dr);
+                    rsAux.load(dr);
 
-                    varRs = new object[2];
+                    varRs = [];
                     varRs[0] = rsAux;
                     varRs[1] = connect.getDataSource();
-                    recordSets.Add(varRs);
+                    recordSets.push(varRs);
 
                     // TODO: check if this works
                     //
                     // we add an empty element to this.collRows to avoid
                     // index of bounds exception
                     //
-                    G.redimPreserve(this.tables, this.tables.length + 1);
+                    this.tables.push();
                 }
 
                 cn.closeDb();
             }
             else {
-                vRows = null;
+                dtr = null;
                 if (createIndexVector) {
-                    this.vRowsIndex = new int[0];
+                    this.vRowsIndex = [];
                     this.lastRowIndex = -1;
                 }
             }
@@ -4192,17 +4190,16 @@ namespace CSReportDll {
         }
 
         private pInitRowFormulas() {
-            let i: number = 0;
 
-            this.lastRowPreEvaluated = new int[3];
-            this.lastRowPostEvaluated = new int[3];
+            this.lastRowPreEvaluated = [];
+            this.lastRowPostEvaluated = [];
 
-            for (i = 0; i < 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 this.lastRowPreEvaluated[i] = -1;
                 this.lastRowPostEvaluated[i] = -1;
             }
 
-            for (i = 0; i < this.groupCount; i++) {
+            for (let i = 0; i < this.groupCount; i++) {
                 // headers
                 //
                 this.vGroups[i].lastHPreRowEvaluated = -1;
@@ -4215,12 +4212,12 @@ namespace CSReportDll {
             }
         }
 
-        private nLoad(docXml: CSXml.cXml) {
-            pDestroyCrossRef(this.headers);
-            pDestroyCrossRef(this.details);
-            pDestroyCrossRef(this.footers);
-            pDestroyCrossRef(this.groups.getGroupsHeaders());
-            pDestroyCrossRef(this.groups.getGroupsFooters());
+        private nLoad(docXml: cXml) {
+            this.pDestroyCrossRef(this.headers);
+            this.pDestroyCrossRef(this.details);
+            this.pDestroyCrossRef(this.footers);
+            this.pDestroyCrossRef(this.groups.getGroupsHeaders());
+            this.pDestroyCrossRef(this.groups.getGroupsFooters());
 
             this.headers.clear();
             this.groups.clear();
@@ -4237,21 +4234,21 @@ namespace CSReportDll {
             this.groupsHeaders.setCopyColl(this.controls);
             this.groupsFooters.setCopyColl(this.controls);
 
-            if (!loadAux(docXml, this.headers, this.C_NODE_RPT_HEADERS)) { return false; }
-            if (!loadAux(docXml, this.details, this.C_NODE_RPT_DETAILS)) { return false; }
-            if (!loadAux(docXml, this.footers, this.C_NODE_RPT_FOOTERS)) { return false; }
+            if (!this.loadAux(docXml, this.headers, this.C_NODE_RPT_HEADERS)) { return false; }
+            if (!this.loadAux(docXml, this.details, this.C_NODE_RPT_DETAILS)) { return false; }
+            if (!this.loadAux(docXml, this.footers, this.C_NODE_RPT_FOOTERS)) { return false; }
 
-            if (!loadGroups(docXml)) { return false; }
+            if (!this.loadGroups(docXml)) { return false; }
 
-            pFixGroupIndex();
+            this.pFixGroupIndex();
 
-            if (!loadConnect(docXml)) { return false; }
-            if (!loadConnectsAux(docXml)) { return false; }
-            if (!loadLaunchInfo(docXml)) { return false; }
+            if (!this.loadConnect(docXml)) { return false; }
+            if (!this.loadConnectsAux(docXml)) { return false; }
+            if (!this.loadLaunchInfo(docXml)) { return false; }
 
-            loadPaperInfo(docXml);
+            this.loadPaperInfo(docXml);
 
-            sortCollection();
+            this.sortCollection();
 
             this.originalHeight = this.paperInfo.getCustomHeight();
 
@@ -4259,55 +4256,47 @@ namespace CSReportDll {
         }
 
         private pFixGroupIndex() {
-            let idx: number = 0;
-            for(let _i = 0; _i < this.groups.count(); _i++) {
-                let group: cReportGroup = this.groups.item(_i);
-                group.setIndex(idx);
-                idx = idx + 1;
+            for(let i = 0; i < this.groups.count(); i++) {
+                this.groups.item(i).setIndex(i);
             }
         }
 
-        private loadPaperInfo(docXml: CSXml.cXml) {
-            let nodeObj: XmlNode = null;
-            nodeObj = docXml.getRootNode();
+        private loadPaperInfo(docXml: cXml): void {
+            let nodeObj = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, this.C_NODE_PAPER_INFO);
-            if (!this.paperInfo.load(docXml, nodeObj)) { return; }
+            this.paperInfo.load(docXml, nodeObj)
         }
 
         private sortCollection() {
-            sortCollectionAux(this.headers);
-            sortCollectionAux(this.details);
-            sortCollectionAux(this.footers);
-            sortCollectionAux(this.groupsFooters);
-            sortCollectionAux(this.groupsHeaders);
+            this.sortCollectionAux(this.headers);
+            this.sortCollectionAux(this.details);
+            this.sortCollectionAux(this.footers);
+            this.sortCollectionAux(this.groupsFooters);
+            this.sortCollectionAux(this.groupsHeaders);
         }
 
         private sortCollectionAux(col: cReportSections) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
 
-            for(let _i = 0; _i < col.count(); _i++) {
-                sec = col.item(_i);
-                for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
-                    secLn = sec.getSectionLines().item(_j);
-                    secLn.setControls(getControlsInZOrder(secLn.getControls()));
+            for(let i = 0; i < col.count(); i++) {
+                sec = col.item(i);
+                for(let j = 0; j < sec.getSectionLines().count(); j++) {
+                    secLn = sec.getSectionLines().item(j);
+                    secLn.setControls(this.getControlsInZOrder(secLn.getControls()));
                 }
             }
         }
 
-        private loadAux(docXml: CSXml.cXml, sections: cReportSections, keySection: string) {
-            let nodeObj: XmlNode = null;
-            let nodeObjAux: XmlNode = null;
-            let nodeObjSec: XmlNode = null;
-
-            nodeObj = docXml.getRootNode();
+        private loadAux(docXml: cXml, sections: cReportSections, keySection: string): boolean {
+            let nodeObj = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, keySection);
 
             if (docXml.nodeHasChild(nodeObj)) {
-                nodeObjSec = docXml.getNodeChild(nodeObj);
+                let nodeObjSec = docXml.getNodeChild(nodeObj);
 
                 while (nodeObjSec !== null) {
-                    nodeObjAux = nodeObjSec;
+                    let nodeObjAux = nodeObjSec;
                     let key: string = docXml.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
                     let sec: cReportSection = sections.add(null, key);
                     if (!sec.load(docXml, nodeObjAux))  {
@@ -4319,7 +4308,7 @@ namespace CSReportDll {
             return true;
         }
 
-        private loadFormulas(docXml: CSXml.cXml) {
+        private loadFormulas(docXml: cXml): boolean {
             let nodeObj: XmlNode = null;
             let nodeObjAux: XmlNode = null;
             let nodeObjSec: XmlNode = null;
@@ -4342,32 +4331,28 @@ namespace CSReportDll {
             return true;
         }
 
-        private loadConnect(docXml: CSXml.cXml) {
+        private loadConnect(docXml: cXml): boolean {
             let nodeObj: XmlNode = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, this.C_RPT_CONNECT);
             return this.connect.load(docXml, nodeObj);
         }
 
-        private loadConnectsAux(docXml: CSXml.cXml) {
+        private loadConnectsAux(docXml: cXml): boolean {
             let nodeObj: XmlNode = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, this.C_RPT_CONNECTS_AUX);
+            nodeObj = docXml.getNodeFromNode(nodeObj, cReportConnectsAux.C_RPT_CONNECTS_AUX);
             return this.connectsAux.load(docXml, nodeObj);
         }
 
-        private loadGroups(docXml: CSXml.cXml) {
-            let nodeObj: XmlNode = null;
-            let nodeObjAux: XmlNode = null;
-            let nodeObjGroup: XmlNode = null;
-
-            nodeObj = docXml.getRootNode();
+        private loadGroups(docXml: cXml) {
+            let nodeObj = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, this.C_NODE_GROUPS);
 
             if (docXml.nodeHasChild(nodeObj)) {
-                nodeObjGroup = docXml.getNodeChild(nodeObj);
+                let nodeObjGroup = docXml.getNodeChild(nodeObj);
                 while (nodeObjGroup !== null) {
-                    nodeObjAux = nodeObjGroup;
+                    let nodeObjAux = nodeObjGroup;
                     let key: string = docXml.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
-                    let group: cReportGroup = getGroups().add(null, key);
+                    let group: cReportGroup = this.getGroups().add(null, key);
                     if (!group.load(docXml, nodeObjAux))  {
                         return false; 
                     }
@@ -4377,29 +4362,25 @@ namespace CSReportDll {
             return true;
         }
 
-        private loadLaunchInfo(docXml: CSXml.cXml) {
+        private loadLaunchInfo(docXml: cXml) {
             let nodeObj: XmlNode = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, this.C_LAUNCH_INFO);
+            nodeObj = docXml.getNodeFromNode(nodeObj, cReportLaunchInfo.C_LAUNCH_INFO);
             return this.launchInfo.load(docXml, nodeObj);
         }
 
         private getFileName(fileNameWithExt: string) {
-            return CSKernelFile.cFile.getFileWithoutExt(fileNameWithExt);
+            return cFile.getFileWithoutExt(fileNameWithExt);
         }
 
-        private nLoadData(docXml: CSXml.cXml) {
-            let nodeObj: XmlNode = null;
-            let nodeObjAux: XmlNode = null;
-            let nodeObjSec: XmlNode = null;
-
+        private nLoadData(docXml: cXml) {
             this.pages.clear();
-            nodeObj = docXml.getRootNode();
+            let nodeObj = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, this.C_NODE_RPT_PAGES);
 
             if (docXml.nodeHasChild(nodeObj)) {
-                nodeObjSec = docXml.getNodeChild(nodeObj);
+                let nodeObjSec = docXml.getNodeChild(nodeObj);
                 while (nodeObjSec !== null) {
-                    nodeObjAux = nodeObjSec;
+                    let nodeObjAux = nodeObjSec;
                     let page: cReportPage = this.pages.add(null);
                     if (!page.load(docXml, nodeObjAux))  {
                         return false; 
@@ -4410,126 +4391,35 @@ namespace CSReportDll {
             return true;
         }
 
-        public OnReportDone() {
-            if (ReportDone !== null) {
-                ReportDone(this, new EventArgs());
+        private reportDone() {
+            if (this.reportDoneListener !== null) {
+                this.reportDoneListener.reportDone(this);
             }
         }
 
-        public OnProgress(task: string, page: number = 0, currRecord: number = 0, recordCount: number = 0) {
+        private onProgress(task: string, page: number = 0, currRecord: number = 0, recordCount: number = 0) {
             let cancel: boolean = false;
-            if (Progress !== null) {
+            if (this.progressListener !== null) {
                 let e: ProgressEventArgs = new ProgressEventArgs(task, page, currRecord, recordCount);
-                Progress(this, e);
-                cancel = e.cancel;
+                this.progressListener.progress(this, e);
+                cancel = e.isCancel();
             }
             return !cancel;
         }
 
-        private resumeDBAccessMissing(connectString: string, saveInReport: boolean, cn: CSDatabase.DataBase) {
-            try {
-                // if the database is not access we do nothing
-                //
-                if (connectString.toLowerCase().IndexOf("PROVIDER=Microsoft.Jet.OLEDB.4.0;".toLowerCase()) === 0) {
-                    return false;
-                }
-
-                // get the datasource's name
-                //
-                let fileName: string = "";
-                fileName = cUtil.getToken(connectString, "Data Source");
-
-                // ask to the user if he wan to search for the database file
-                //
-                let commDialog: CommonDialog = null;
-                if (FindAccessFile !== null) {
-                    let e: FindAccessFileEventArgs = new FindAccessFileEventArgs(fileName);
-                    FindAccessFile(this, e);
-                    if (e.cancel) {
-                        return false;
-                    }
-                    commDialog = e.commonDialog;
-                }
-
-                let file: CSKernelFile.cFile = new CSKernelFile.cFile();
-
-                file.filter = "Access files|*.mdb";
-                file.init("ResumeDBAccessMissing", this.C_MODULE, commDialog);
-
-                if (!file.open(this.pathDefault + Path.DirectorySeparatorChar + file,
-                                CSKernelClient.eFileMode.eRead,
-                                false,
-                                false,
-                                eFileAccess.eShared,
-                                true,
-                                true)) {
-                    return false;
-                }
-
-                fileName = file.fullName;
-
-                file.close();
-
-                connectString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source=" + fileName;
-
-                if (!cn.initDb(connectString)) {
-                    return false;
-                }
-
-                // save the new location 
-                //
-                if (saveInReport) {
-                    this.connect.setStrConnect(connectString);
-                }
-                return true;
-
-            }
-            catch (ex) {
-                cError.mngError(ex);
-                return false;
-            }
-        }
-
-        /* TODO: remove me
-        private String getToken(String source, String token)
-        {
-            token = token.trim();
-            if (token.substring(token.length - 1) !== "=")
-            { 
-                token = token + "="; 
-            }
-            int p = source.IndexOf(token);
-            if (p < 0) 
-            { 
-                return ""; 
-            }
-            int p2 = p2 = p + 1;
-            p = source.IndexOf(";", p2);
-            if (p < 0) 
-            { 
-                p = source.length + 1;
-            }
-            p2 = p2 + token.length - 1;
-            p = p - p2;
-            return source.substring(p2, p);
-        }*/
-
         private pSortControlsByLeft() {
-            pSortControlsByLeftAux1(this.headers);
-            pSortControlsByLeftAux1(this.groupsHeaders);
-            pSortControlsByLeftAux1(this.details);
-            pSortControlsByLeftAux1(this.groupsFooters);
-            pSortControlsByLeftAux1(this.footers);
+            this.pSortControlsByLeftAux1(this.headers);
+            this.pSortControlsByLeftAux1(this.groupsHeaders);
+            this.pSortControlsByLeftAux1(this.details);
+            this.pSortControlsByLeftAux1(this.groupsFooters);
+            this.pSortControlsByLeftAux1(this.footers);
         }
 
         private pSortControlsByLeftAux1(sections: cReportSections) {
-            let sec: cReportSection = null;
-            let secLn: cReportSectionLine = null;
-
-            for(let _i = 0; _i < sections.count(); _i++) {
-                sec = sections.item(_i);
-                for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
-                    secLn = sec.getSectionLines().item(_j);
+            for(let i = 0; i < sections.count(); i++) {
+                let sec = sections.item(i);
+                for(let j = 0; j < sec.getSectionLines().count(); j++) {
+                    let secLn = sec.getSectionLines().item(j);
                     secLn.getControls().orderCollByLeft();
                 }
             }
@@ -4548,11 +4438,11 @@ namespace CSReportDll {
             this.controls.clear();
             this.controls = null;
 
-            pDestroyCrossRef(this.headers);
-            pDestroyCrossRef(this.details);
-            pDestroyCrossRef(this.footers);
-            pDestroyCrossRef(this.groups.getGroupsHeaders());
-            pDestroyCrossRef(this.groups.getGroupsFooters());
+            this.pDestroyCrossRef(this.headers);
+            this.pDestroyCrossRef(this.details);
+            this.pDestroyCrossRef(this.footers);
+            this.pDestroyCrossRef(this.groups.getGroupsHeaders());
+            this.pDestroyCrossRef(this.groups.getGroupsFooters());
 
             this.headers.clear();
             this.details.clear();
@@ -4594,18 +4484,15 @@ namespace CSReportDll {
             this.connectsAux.clear();
             this.connectsAux = null;
 
-            pDestroyImages();
+            this.pDestroyImages();
             this.images = null;
         }
 
         private pDestroyCrossRef(secs: cReportSections) {
-            let sec: cReportSection = null;
-            let secl: cReportSectionLine = null;
-
-            for(let _i = 0; _i < secs.count(); _i++) {
-                sec = secs.item(_i);
-                for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
-                    secl = sec.getSectionLines().item(_j);
+            for(let i = 0; i < secs.count(); i++) {
+                let sec = secs.item(i);
+                for(let j = 0; j < sec.getSectionLines().count(); j++) {
+                    let secl = sec.getSectionLines().item(j);
                     secl.getControls().setSectionLine(null);
 
                     if (secl.getControls().getCopyColl() !== null) {
@@ -4620,7 +4507,7 @@ namespace CSReportDll {
             secs.setCopyColl(null);
         }
 
-        private pGetMainDataSource(recordSets: [object[]]): string {
+        private pGetMainDataSource(recordSets: [object|string[]]): string {
             if (recordSets.length > 0) {
                 return recordSets[0][1].toString();
             }
@@ -4629,7 +4516,7 @@ namespace CSReportDll {
             }
         }
 
-        private pSetIndexColInGroupFormulas(recordSets: [object[]]) {
+        private pSetIndexColInGroupFormulas(recordSets: [object|string[]]) {
             this.pSetIndexColInGroupFormulasAux(this.headers, recordSets);
             this.pSetIndexColInGroupFormulasAux(this.groupsHeaders, recordSets);
             this.pSetIndexColInGroupFormulasAux(this.groupsFooters, recordSets);
@@ -4637,23 +4524,19 @@ namespace CSReportDll {
             this.pSetIndexColInGroupFormulasAux(this.footers, recordSets);
         }
 
-        private pSetIndexColInGroupFormulasAux(sections: cReportSections, recordSets: [object[]]) {
-            let sec: cReportSection = null;
-            let secLn: cReportSectionLine = null;
-            let ctrl: cReportControl = null;
-
-            for(let _i = 0; _i < sections.count(); _i++) {
-                sec = sections.item(_i);
+        private pSetIndexColInGroupFormulasAux(sections: cReportSections, recordSets: [object|string[]]) {
+            for(let i = 0; i < sections.count(); i++) {
+                let sec = sections.item(i);
                 if (sec.getHasFormulaHide()) {
                     this.pSetIndexColInGroupFormula(sec.getFormulaHide(), recordSets);
                 }
-                for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
-                    secLn = sec.getSectionLines().item(_j);
+                for(let j = 0; j < sec.getSectionLines().count(); j++) {
+                    let secLn = sec.getSectionLines().item(j);
                     if (secLn.getHasFormulaHide()) {
                         this.pSetIndexColInGroupFormula(secLn.getFormulaHide(), recordSets);
                     }
-                    for(var _k = 0; _k < secLn.getControls().count(); _k++) {
-                        ctrl = secLn.getControls().item(_k);
+                    for(let k = 0; k < secLn.getControls().count(); k++) {
+                        let ctrl = secLn.getControls().item(k);
                         if (ctrl.getHasFormulaHide()) {
                             this.pSetIndexColInGroupFormula(ctrl.getFormulaHide(), recordSets);
                         }
@@ -4665,37 +4548,29 @@ namespace CSReportDll {
             }
         }
 
-        private pSetIndexColInGroupFormula(formula: cReportFormula, recordSets: [object[]]) {
-            let fint: cReportFormulaInt = null;
-            let colName: string = "";
-            let rs: DataTable = null;
-
+        private pSetIndexColInGroupFormula(formula: cReportFormula, recordSets: [object|string[]]) {
             if (!this.reportDisconnected) {
-                rs = recordSets[0][0];
+                let rs = recordSets[0][0];
 
-                for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
-                    fint = formula.getFormulasInt().item(_i);
+                for(let i = 0; i < formula.getFormulasInt().count(); i++) {
+                    let fint = formula.getFormulasInt().item(i);
 
-                    if (pIsGroupFormula(fint.getFormulaType())) {
-                        colName = fint.getParameters().item(0).getValue();
-                        this.pSetColIndexInGroupFormulaAux(rs, fint, colName, ReportGlobals.this.C_KEY_INDEX_COL);
+                    if (this.pIsGroupFormula(fint.getFormulaType())) {
+                        let colName = fint.getParameters().item(0).getValue();
+                        this.pSetColIndexInGroupFormulaAux(rs, fint, colName, ReportGlobals.C_KEY_INDEX_COL);
 
                         if (fint.getFormulaType() === csRptFormulaType.CSRPTF_GROUP_PERCENT) {
                             colName = fint.getParameters().item(1).getValue();
-                            this.pSetColIndexInGroupFormulaAux(rs, fint, colName, ReportGlobals.this.C_KEY_INDEX_COL2);
+                            this.pSetColIndexInGroupFormulaAux(rs, fint, colName, ReportGlobals.C_KEY_INDEX_COL2);
                         }
                     }
                 }
             }
         }
 
-        private pSetColIndexInGroupFormulaAux(
-            rs: DataTable
-            fint: cReportFormulaInt
-            colName: string
-            keyParam: string) {
-            for(let i = 0; i < rs.Columns.Count; i++) {
-                if (colName.toLowerCase() === rs.Columns[i].ColumnName.toLowerCase()) {
+        private pSetColIndexInGroupFormulaAux(rs: DataTable, fint: cReportFormulaInt, colName: string, keyParam: string) {
+            for(let i = 0; i < rs.columns.length; i++) {
+                if (colName.toLowerCase() === rs.columns[i].getName().toLowerCase()) {
                     if (fint.getParameters().item(keyParam) === null) {
                         fint.getParameters().add2("", keyParam);
                     }
@@ -4705,34 +4580,8 @@ namespace CSReportDll {
             }
         }
 
-        private redimPreserve(groups: T_Group[], size: number) {
-            if (size === 0) {
-                groups = null;
-            }
-            else {
-                if (groups === null) {
-                    groups = new T_Group[size];
-                }
-                else if (groups.length === 0) {
-                    groups = new T_Group[size];
-                }
-                else {
-                    let newArray: T_Group[] = new T_Group[size];
-                    Array.Copy(groups, newArray, groups.length);
-                    for (let t = groups.length; t < newArray.length; t++) {
-                        newArray[t] = new T_Group();
-                    }
-                    groups = newArray;
-                }
-            }
-        }
-
         private getControlsInZOrder(col: cReportControls) {
-            let i: number = 0;
-            let ctrl: cReportControl = null;
-            let ctrls: cReportControls = null;
-
-            ctrls = new cReportControls();
+            let ctrls = new cReportControls();
             ctrls.setCopyColl(col.getCopyColl());
             ctrls.setTypeSection(col.getTypeSection());
             ctrls.setSectionLine(col.getSectionLine());
@@ -4742,16 +4591,16 @@ namespace CSReportDll {
             while (col.count() > 0) {
                 // we search the lower zorder in this collection
                 //
-                i = 32767;
-                for(let _i = 0; _i < col.count(); _i++) {
-                    ctrl = col.item(_i);
+                let i = 32767;
+                for(let j = 0; j < col.count(); j++) {
+                    let ctrl = col.item(j);
                     if (ctrl.getLabel().getAspect().getNZOrder() < i) {
                         i = ctrl.getLabel().getAspect().getNZOrder();
                     }
                 }
 
-                for(let _i = 0; _i < col.count(); _i++) {
-                    ctrl = col.item(_i);
+                for(let j = 0; j < col.count(); j++) {
+                    let ctrl = col.item(j);
                     if (ctrl.getLabel().getAspect().getNZOrder() === i) {
                         col.remove(ctrl.getKey());
                         ctrls.add(ctrl, ctrl.getKey());
@@ -4761,12 +4610,6 @@ namespace CSReportDll {
                 i = i + 1;
             }
             return ctrls;
-        }
-
-        private reportDone() {
-            if (ReportDone !== null) {
-                ReportDone(this, new EventArgs());
-            }
         }
 
         //
