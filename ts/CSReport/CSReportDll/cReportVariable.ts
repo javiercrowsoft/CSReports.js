@@ -2,13 +2,13 @@ namespace CSReportDll {
 
     export class cReportVariable {
 
-        private value: object = null;
+        private value: any = null;
 
         public getValue() {
             return this.value;
         }
 
-        public setValue(rhs: object) {
+        public setValue(rhs: any) {
             this.value = rhs;
         }
     }

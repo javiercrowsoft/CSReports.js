@@ -3728,7 +3728,7 @@ UNKNOWN >>             bool isGroup;
         }
 
         public showProperties(key: string) {
-            if ("SL".IndexOf(key.substring(0, 1)) !== -1) {
+            if ("SL".indexOf(key.substring(0, 1)) !== -1) {
                 let bIsSecLn: boolean = false;
                 pSelectSection(key.substring(1), bIsSecLn);
 
@@ -6390,14 +6390,14 @@ UNKNOWN >>             cReportAspect w_aspect;
 
                 let w_formulaHide: cReportFormula = rptCtrl.getFormulaHide();
                 if (w_formulaHide.getText() !== "") {
-                    if (w_formulaHide.getText().IndexOf(currentName, 1) !== 0) {
+                    if (w_formulaHide.getText().indexOf(currentName, 1) !== 0) {
                         w_formulaHide.setText(pReplaceInFormula(w_formulaHide.getText(), currentName, newName));
                     }
                 }
 
                 let w_formulaValue: cReportFormula = rptCtrl.getFormulaValue();
                 if (w_formulaValue.getText() !== "") {
-                    if (w_formulaValue.getText().IndexOf(currentName, 1) !== 0) {
+                    if (w_formulaValue.getText().indexOf(currentName, 1) !== 0) {
                         w_formulaValue.setText(pReplaceInFormula(w_formulaValue.getText(), currentName, newName));
                     }
                 }

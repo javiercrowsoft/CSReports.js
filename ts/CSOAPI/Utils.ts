@@ -43,6 +43,19 @@ namespace CSOAPI {
             }
         }
 
+        public static removeLastColon(list: string) {
+            list = list.trim();
+            if (list.substring(list.length - 1) === ",") {
+                return list.substring(0, list.length - 1);
+            }
+            else {
+                return list;
+            }
+        }
+
+        static getSepDecimal() {
+            return (1.1).toLocaleString().substring(1, 2);
+        }
     }
 
     export class Maths {

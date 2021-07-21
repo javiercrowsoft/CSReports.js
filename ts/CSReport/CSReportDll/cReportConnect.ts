@@ -246,9 +246,9 @@ namespace CSReportDll {
             if (x.substring(x.length - 1) !== "=") {
                 x = x + "=";
             }
-            i = strConnect.IndexOf(x, 0);
+            i = strConnect.indexOf(x, 0);
             if (i > 0) {
-                p = strConnect.IndexOf(";", i);
+                p = strConnect.indexOf(";", i);
                 if (p === 0) {
                     p = strConnect.length + 1;
                 }

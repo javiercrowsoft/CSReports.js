@@ -71,7 +71,7 @@ namespace CSReportEditor {
                             }
                         }
                         else {
-                            if (ctrl.getLabel().getText().IndexOf(toSearch) > -1) {
+                            if (ctrl.getLabel().getText().indexOf(toSearch) > -1) {
                                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeText, ctrl.getKey(), ctrl.getLabel().getText());
                             }
                         }

@@ -35,7 +35,7 @@ namespace CSReportPaint {
         private beginMoveDone: boolean = null;
 
         private keyFocus: string = "";
-        private vGridObjs: string[][] = null;
+        private vGridObjs: [string[]] = null;
         private notBorder: boolean = null;
 
         private fnt: Font[] = null;
@@ -56,7 +56,7 @@ namespace CSReportPaint {
                 this.scaleX = 1;
                 this.scaleY = 1;
 
-                this.vGridObjs = [];
+                this.vGridObjs = [[]];
                 this.fnt = [];
                 this.vSelectedKeys = [];
 
@@ -405,7 +405,7 @@ namespace CSReportPaint {
             x = x + 1;
             y = y + 1;
 
-            this.vGridObjs = [];
+            this.vGridObjs = [[]];
 
             let l: number = 0;
             let t: number = 0;

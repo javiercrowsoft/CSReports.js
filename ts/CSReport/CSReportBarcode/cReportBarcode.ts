@@ -7,5 +7,9 @@ namespace CSReportBarcode {
         public encodeTo128(dataToEncode: string): string {
             throw new NotImplementedException();
         }
+
+        code128a(dataToEncode: string): string {
+            throw new NotImplementedException();
+        }
     }
 }

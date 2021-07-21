@@ -3,7 +3,7 @@ namespace CSDatabase {
     export class DataTable {
 
         public columns: DataColumn[];
-        public rows: [][];
+        public rows: [[]];
 
         public load(dr: CSDatabase.DbDataReader) {
 

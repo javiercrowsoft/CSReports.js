@@ -2153,7 +2153,7 @@ namespace CSReportDll {
             return docXml.save();
         }
 
-        public getValueFromRs(colIndex: number) {
+        public getValueFromRs(colIndex: number): any {
             return this.table.rows[this.vRowsIndex[this.iRow2]][colIndex];
         }
 

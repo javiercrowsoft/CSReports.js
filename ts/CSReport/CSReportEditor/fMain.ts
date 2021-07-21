@@ -576,7 +576,7 @@ namespace CSReportEditor {
                 let info = node.Tag.toString();
                 if (info.length > 0) {
                     let infoType = info.substring(0, 1);
-                    if ("@SL".IndexOf(infoType) === -1) {
+                    if ("@SL".indexOf(infoType) === -1) {
                         editor.selectCtrl(info);
                     }
                     else if (infoType === "S" || infoType === "L") {
@@ -598,7 +598,7 @@ namespace CSReportEditor {
                     let info = tv_controls.SelectedNode.Tag.toString();
                     if (info.length > 0) {
                         let infoType = info.substring(0, 1);
-                        if ("@".IndexOf(infoType) === -1) {
+                        if ("@".indexOf(infoType) === -1) {
                             editor.showProperties(info);
                         }
                     }
