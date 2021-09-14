@@ -2,6 +2,8 @@ namespace CSReportDll {
 
     import csDataType = CSDatabase.csDataType;
     import eTypes = CSKernelClient.eTypes;
+    import XmlNode = CSXml.XmlNode;
+    import cXmlProperty = CSXml.cXmlProperty;
 
     export class cColumnInfo {
 
@@ -53,35 +55,30 @@ namespace CSReportDll {
         }
 
         public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
-            let xProperty: CSXml.cXmlProperty = null;
-            let nodeObj: XmlNode = null;
-            xProperty = new CSXml.cXmlProperty();
-
+            let xProperty = new cXmlProperty();
             xProperty.setName(this.key);
-            nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
+            let nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
+            xProperty = new cXmlProperty();
             xProperty.setName("Key");
             xProperty.setValue(eTypes.eText, this.key);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
+            xProperty = new cXmlProperty();
             xProperty.setName("Name");
             xProperty.setValue(eTypes.eText, this.name);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
+            xProperty = new cXmlProperty();
             xProperty.setName("Position");
             xProperty.setValue(eTypes.eInteger, this.position);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
+            xProperty = new cXmlProperty();
             xProperty.setName("TypeColumn");
             xProperty.setValue(eTypes.eInteger, this.columnType);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            // TODO: remove me
-            /*
-            xProperty.setName("Value");
-            xProperty.setValue(eTypes.eText, this.value);
-            xDoc.addPropertyToNode(nodeObj, xProperty);
-            */
             return true;
         }
 

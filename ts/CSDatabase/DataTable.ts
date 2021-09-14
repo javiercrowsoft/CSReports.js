@@ -3,10 +3,22 @@ namespace CSDatabase {
     export class DataTable {
 
         public columns: DataColumn[];
-        public rows: [[]];
+        public rows: [][];
 
         public load(dr: CSDatabase.DbDataReader) {
 
+        }
+
+        getFieldCount() {
+            return 0;
+        }
+
+        getColumnName(i: number): string {
+            return "";
+        }
+
+        getFieldType(i: number): CSDatabase.csDataType {
+            return undefined;
         }
     }
 

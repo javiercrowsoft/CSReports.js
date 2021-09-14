@@ -14,7 +14,7 @@ namespace CSDatabase {
 
         public executeReader(behavior: CommandBehavior) {
             let cmdName: string = this.getCommandName();
-            let data: JSONDataSource = JSONServer.getDataSource(this.connection.ConnectionString + "." + cmdName);
+            let data: JSONDataSource = JSONServer.getDataSource(this.connection.connectionString() + "." + cmdName);
             return new JSONDataReader(data);
         }
 
@@ -38,4 +38,8 @@ namespace CSDatabase {
             return cmdText.substring(0, length).replace("[","").replace("]","");
         }
     }
+
+    class CommandBehavior {
+    }
+
 }

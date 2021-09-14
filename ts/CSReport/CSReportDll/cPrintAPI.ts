@@ -3,10 +3,11 @@ namespace CSReportDll {
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
     import NotImplementedException = CSOAPI.NotImplementedException;
+    import Utils = CSOAPI.Utils;
 
     export class cPrintAPI {
 
-        public showPrintDialog(
+        public static showPrintDialog(
             printDialog: PrintDialog,
             deviceName: string,
             driverName: string,
@@ -18,18 +19,17 @@ namespace CSReportDll {
             copies: number,
             paperBin: number) {
 
-            printDialog.AllowSomePages = true;
-            let settings = printDialog.PrinterSettings;
-            settings.PrinterName = deviceName;
-            settings.FromPage = fromPage;
-            settings.ToPage = toPage;
-            settings.Copies = copies;
+            let settings = printDialog.getPrinterSettings();
+            settings.setPrinterName(deviceName);
+            settings.setFromPage(fromPage);
+            settings.setToPage(toPage);
+            settings.setCopies(copies);
 
-            if (printDialog.ShowDialog() === DialogResult.OK) {
-                deviceName = settings.PrinterName;
-                fromPage = settings.FromPage;
-                toPage = settings.ToPage;
-                copies = settings.Copies;
+            if (printDialog.showDialog() === DialogResult.OK) {
+                deviceName = settings.getPrinterName();
+                fromPage = settings.getFromPage();
+                toPage = settings.getToPage();
+                copies = settings.getCopies();
                 return true;
             }
             else {
@@ -79,13 +79,17 @@ namespace CSReportDll {
         public getcPrint2(printDialog: PrintDialog, deviceName: string, driverName: string, port: string) {
             let printerConfigInfo: object = cPrintWMI.getPrinterConfigInfoFromWMI(deviceName);
 
-            let paperSize: number = this.getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperSize", printerConfigInfo, "A4") as string);
-            let orientation: number = cPrintWMI.getPrinterConfigInfoValueFromWMI("Orientation", printerConfigInfo, 1);
+            let paperSize: number = cPrintAPI.getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                            "PaperSize", printerConfigInfo, "A4"));
+            let orientation: number = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                            "Orientation", printerConfigInfo, 1));
 
-            let width: number = cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperWidth", printerConfigInfo, 210);
-            let height: number = cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperLength", printerConfigInfo, 297);
+            let width: number = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                            "PaperWidth", printerConfigInfo, 210));
+            let height: number = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                            "PaperLength", printerConfigInfo, 297));
 
-            return this.getcPrint(printDialog, deviceName, driverName, port, orientation, paperSize, width, height);
+            return cPrintAPI.getcPrint(printDialog, deviceName, driverName, port, orientation, paperSize, width, height);
         }
 
         public static getcPrinterFromDefaultPrinter(printDialog: PrintDialog) {
@@ -112,24 +116,29 @@ namespace CSReportDll {
         }
 
         public static getDefaultPrinter(deviceName: string, driverName: string, port: string,
-                                 paperSize: number, orientation: number, width: number, height: number) {
+                                        paperSize: number, orientation: number,
+                                        width: number, height: number) {
 
             let settings: PrinterSettings = new PrinterSettings();
 
-            deviceName = settings.PrinterName;
+            deviceName = settings.getPrinterName();
 
-            let printerInfo: object = cPrintWMI.getPrinterInfoFromWMI(settings.PrinterName);
+            let printerInfo: object = cPrintWMI.getPrinterInfoFromWMI(deviceName);
 
             driverName = cPrintWMI.getPrinterInfoValueFromWMI("DriverName", printerInfo, "") as string;
             port = cPrintWMI.getPrinterInfoValueFromWMI("PortName", printerInfo, "") as string;
 
-            let printerConfigInfo: object = cPrintWMI.getPrinterConfigInfoFromWMI(settings.PrinterName);
+            let printerConfigInfo: object = cPrintWMI.getPrinterConfigInfoFromWMI(settings.getPrinterName());
 
-            paperSize = this.getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperSize", printerConfigInfo, "A4") as string);
-            orientation = Math.trunc(cPrintWMI.getPrinterConfigInfoValueFromWMI("Orientation", printerConfigInfo, 1));
+            paperSize = this.getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                "PaperSize", printerConfigInfo, "A4").toString());
+            orientation = Math.trunc(Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                            "Orientation", printerConfigInfo, 1)));
 
-            width = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperWidth", printerConfigInfo, 210));
-            height = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI("PaperLength", printerConfigInfo, 297));
+            width = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                                "PaperWidth", printerConfigInfo, 210));
+            height = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                                "PaperLength", printerConfigInfo, 297));
 
             if (width === 0 || height === 0 || paperSize === 99) {
                 if (paperSize === 99 /*UNKNOWN*/) paperSize = 1; /*LETTER*/
@@ -175,7 +184,7 @@ namespace CSReportDll {
             }
         }
 
-        private getPaperSizeFromSizeName(sizeName: string) {
+        private static getPaperSizeFromSizeName(sizeName: string) {
             let size: number;
             switch (sizeName.toLowerCase()) {
                 case "a4":
@@ -194,4 +203,62 @@ namespace CSReportDll {
             return size;
         }
     }
+
+    export class PrintDialog {
+        getPrinterSettings(): PrinterSettings {
+            // TODO: implement
+            return null;
+        }
+
+        showDialog(): DialogResult {
+            // TODO: implement
+            return DialogResult.OK;
+        }
+    }
+
+    export class PrinterSettings {
+
+        private deviceName: string;
+        private fromPage: number;
+        private toPage: number;
+        private copies: number;
+        private printerName: string;
+
+        setPrinterName(deviceName: string) {
+            this.deviceName = deviceName;
+        }
+
+        setFromPage(fromPage: number) {
+            this.fromPage = fromPage;
+        }
+
+        setToPage(toPage: number) {
+            this.toPage = toPage;
+        }
+
+        setCopies(copies: number) {
+            this.copies = copies;
+        }
+
+        getPrinterName() {
+            return this.printerName;
+        }
+
+        getFromPage() {
+            return this.fromPage;
+        }
+
+        getToPage() {
+            return this.getToPage();
+        }
+
+        getCopies() {
+            return this.getCopies();
+        }
+    }
+
+    export enum DialogResult {
+        OK
+    }
+
 }

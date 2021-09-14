@@ -1,7 +1,25 @@
 {
   "include": ["ts/**/*"],
   "compilerOptions": {
+    "target": "ES5",
+    "removeComments": true,
+    "preserveConstEnums": true,
     "outDir": "dist",
+    "outFile":"./dist/csreports.js",
+    "sourceMap": true,
     "lib": ["es2015"]
-  }
+  },
+  "tasks": [
+    {
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
 }

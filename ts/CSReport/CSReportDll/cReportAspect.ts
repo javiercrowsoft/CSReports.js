@@ -3,6 +3,9 @@ namespace CSReportDll {
     import csColors = CSReportGlobals.csColors;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import csReportBorderType = CSReportGlobals.csReportBorderType;
+    import XmlNode = CSXml.XmlNode;
+    import eTypes = CSKernelClient.eTypes;
+    import Utils = CSOAPI.Utils;
 
     export class cReportAspect {
 
@@ -348,23 +351,23 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eBoolean, this.borderRounded);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            twipsToPixels();
+            this.twipsToPixels();
 
             return this.font.save(xDoc, nodeObj);
         }
 
         private twipsToPixels() {
-            this.height = cUtil.tp(Math.trunc(this.height));
-            this.left = cUtil.tp(Math.trunc(this.left));
-            this.top = cUtil.tp(Math.trunc(this.top));
-            this.width = cUtil.tp(Math.trunc(this.width));
+            this.height = Utils.tp(Math.trunc(this.height));
+            this.left = Utils.tp(Math.trunc(this.left));
+            this.top = Utils.tp(Math.trunc(this.top));
+            this.width = Utils.tp(Math.trunc(this.width));
         }
 
         private pixelsToTwips() {
-            this.height = cUtil.pt(Math.trunc(this.height));
-            this.left = cUtil.pt(Math.trunc(this.left));
-            this.top = cUtil.pt(Math.trunc(this.top));
-            this.width = cUtil.pt(Math.trunc(this.width));
+            this.height = Utils.pt(Math.trunc(this.height));
+            this.left = Utils.pt(Math.trunc(this.left));
+            this.top = Utils.pt(Math.trunc(this.top));
+            this.width = Utils.pt(Math.trunc(this.width));
         }
     }
 }

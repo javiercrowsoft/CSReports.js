@@ -2,34 +2,38 @@ namespace CSReportDll {
 
     export class cPrintWMI {
 
-        public getPrinterInfoValueFromWMI(propertyName: string, printerInfo: object, defaultValue: object) {
-
+        public static getPrinterInfoValueFromWMI(propertyName: string, printerInfo: object, defaultValue: string) {
+            // TODO: implement
+            return "";
         }
 
-        public getPrinterInfoValueFromWMI2(printerName: string, propertyName: string, defaultValue: object) {
+        public static getPrinterInfoValueFromWMI2(printerName: string, propertyName: string, defaultValue: string) {
             return this.getPrinterInfoValueFromWMI(propertyName, this.getPrinterInfoFromWMI(printerName), defaultValue);
         }
 
-        public getPrinterConfigInfoValueFromWMI(propertyName: string, printerInfo: object, defaultValue: object) {
-            return this.getPrinterInfoValueFromWMI(propertyName, printerInfo, defaultValue);
+        public static getPrinterConfigInfoValueFromWMI(propertyName: string, printerInfo: object, defaultValue: number|string) {
+            return this.getPrinterInfoValueFromWMI(propertyName, printerInfo, defaultValue.toString());
         }
 
-        public getPrinterConfigInfoValueFromWMI2(printerName: string, propertyName: string, defaultValue: object) {
-            return this.getPrinterInfoValueFromWMI(propertyName, this.getPrinterConfigInfoFromWMI(printerName), defaultValue);
+        public static getPrinterConfigInfoValueFromWMI2(printerName: string, propertyName: string, defaultValue: string) {
+            return this.getPrinterInfoValueFromWMI(propertyName, cPrintWMI.getPrinterConfigInfoFromWMI(printerName), defaultValue);
         }
 
-        public getPrinterInfoFromWMI(printerName: string) {
+        public static getPrinterInfoFromWMI(printerName: string) {
             return this.getInfoFromWMI("Win32_Printer", printerName);
         }
 
-        public getPrinterConfigInfoFromWMI(printerName: string) {
+        public static getPrinterConfigInfoFromWMI(printerName: string) {
             return this.getInfoFromWMI("Win32_PrinterConfiguration", printerName);
         }
 
         //
         // generic query function
         //
-        private getInfoFromWMI(tableName: string, objectName: string) {
+        private static getInfoFromWMI(tableName: string, objectName: string) {
+            // TODO: implement
+            return null;
+            /*
             try {
                 let query: string = string.Format("SELECT * from {0} WHERE Name = '{1}'", tableName, objectName);
                 let searcher: ManagementObjectSearcher = new ManagementObjectSearcher(query);
@@ -43,6 +47,7 @@ namespace CSReportDll {
             catch (ex) {
                 return null;
             }
+             */
         }
 
 

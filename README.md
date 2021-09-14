@@ -50,7 +50,9 @@ npm install typescript --save-dev
 
 npm install -g npx
 
+## To compile just
 
+tsc
 
 http://www.crowsoft.com.ar
 

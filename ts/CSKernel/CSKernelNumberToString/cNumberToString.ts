@@ -4,9 +4,7 @@ namespace CSKernelNumberToString {
 
     export class cNumberToString {
 
-        private C_MODULE: string = "cNumberToString";
-
-        public secondsToString(count: number) {
+        public static secondsToString(count: number) {
             let hours: number = 0;
             let minutes: number = 0;
             let second: number = 0;
@@ -20,11 +18,11 @@ namespace CSKernelNumberToString {
                 + ":" + this.pad(second,"00",2);
         }
 
-        private pad(value, pad, size) {
+        private static pad(value, pad, size) {
             return pad + value.toString().slice(-size);
         }
 
-        public spanishNumberToString(num: number) {
+        public static spanishNumberToString(num: number) {
             let iMillion: number = 0;
             let iThousand: number = 0;
             let rtn: string = "";
@@ -32,29 +30,29 @@ namespace CSKernelNumberToString {
             num = Maths.round(num, 2);
 
             if (num >= 1000000) {
-                iMillion = this.getValue(num, 1000000);
+                iMillion = cNumberToString.getValue(num, 1000000);
                 if (num >= 2000000) {
-                    rtn = this.spanishGetNumber(iMillion, true) + " Millones ";
+                    rtn = cNumberToString.spanishGetNumber(iMillion, true) + " Millones ";
                 }
                 else {
-                    rtn = this.spanishGetNumber(iMillion, true) + " Millon ";
+                    rtn = cNumberToString.spanishGetNumber(iMillion, true) + " Millon ";
                 }
                 num = num - (iMillion * 1000000);
             }
 
             if (num >= 1000) {
-                iThousand = this.getValue(num, 1000);
-                rtn = rtn + this.spanishGetNumber(iThousand, true) + " Mil ";
+                iThousand = cNumberToString.getValue(num, 1000);
+                rtn = rtn + cNumberToString.spanishGetNumber(iThousand, true) + " Mil ";
                 num = num - (iThousand * 1000);
             }
 
-            rtn = rtn + this.spanishGetNumber(Maths.trunc(num), false);
-            rtn = rtn + this.spanishGetDecimal(num);
+            rtn = rtn + cNumberToString.spanishGetNumber(Maths.trunc(num), false);
+            rtn = rtn + cNumberToString.spanishGetDecimal(num);
 
             return rtn.substring(0, 1).toUpperCase() + rtn.substring(1).toLowerCase();
         }
 
-        public frenchNumberToString(num: number) {
+        public static frenchNumberToString(num: number) {
             let iMillion: number = 0;
             let iThousand: number = 0;
             let rtn: string = "";
@@ -62,34 +60,34 @@ namespace CSKernelNumberToString {
             num = Maths.round(num, 2);
 
             if (num >= 1000000) {
-                iMillion = this.getValue(num, 1000000);
+                iMillion = cNumberToString.getValue(num, 1000000);
                 if (num >= 2000000) {
-                    rtn = this.frenchGetNumber(iMillion) + " Millions ";
+                    rtn = cNumberToString.frenchGetNumber(iMillion) + " Millions ";
                 }
                 else {
-                    rtn = this.frenchGetNumber(iMillion) + " Million ";
+                    rtn = cNumberToString.frenchGetNumber(iMillion) + " Million ";
                 }
                 num = num - (iMillion * 1000000);
             }
 
             if (num >= 1000) {
-                iThousand = this.getValue(num, 1000);
+                iThousand = cNumberToString.getValue(num, 1000);
                 if (iThousand === 1) {
                     rtn = " Mil ";
                 }
                 else {
-                    rtn = rtn + this.frenchGetNumber(iThousand) + " Mil ";
+                    rtn = rtn + cNumberToString.frenchGetNumber(iThousand) + " Mil ";
                 }
                 num = num - (iThousand * 1000);
             }
 
-            rtn = rtn + this.frenchGetNumber(Maths.trunc(num));
-            rtn = rtn + this.frenchGetDecimal(num);
+            rtn = rtn + cNumberToString.frenchGetNumber(Maths.trunc(num));
+            rtn = rtn + cNumberToString.frenchGetDecimal(num);
 
             return rtn.substring(0, 1).toUpperCase() + rtn.substring(2).toLowerCase();
         }
 
-        public englishNumberToString(num: number) {
+        public static englishNumberToString(num: number) {
             let iMillion: number = 0;
             let iThousand: number = 0;
             let rtn: string = "";
@@ -97,19 +95,19 @@ namespace CSKernelNumberToString {
             num = Maths.round(num, 2);
 
             if (num >= 1000000) {
-                iMillion = this.getValue(num, 1000000);
-                rtn = this.englishGetNumber(iMillion) + " Million ";
+                iMillion = cNumberToString.getValue(num, 1000000);
+                rtn = cNumberToString.englishGetNumber(iMillion) + " Million ";
                 num = num - (iMillion * 1000000);
             }
 
             if (num >= 1000) {
-                iThousand = this.getValue(num, 1000);
-                rtn = rtn + this.englishGetNumber(iThousand) + " Thousand ";
+                iThousand = cNumberToString.getValue(num, 1000);
+                rtn = rtn + cNumberToString.englishGetNumber(iThousand) + " Thousand ";
                 num = num - (iThousand * 1000);
             }
 
-            rtn = rtn + this.englishGetNumber(Maths.trunc(num));
-            rtn = rtn + this.englishGetDecimal(num);
+            rtn = rtn + cNumberToString.englishGetNumber(Maths.trunc(num));
+            rtn = rtn + cNumberToString.englishGetDecimal(num);
 
             return rtn.substring(0, 1).toUpperCase() + rtn.substring(2).toLowerCase();
         }
@@ -117,7 +115,7 @@ namespace CSKernelNumberToString {
         /////////////////////////////////////////////////////////////////////////////////////
         // Spanish
 
-        private spanishGetNumber(num: number, bPutOne: boolean) {
+        private static spanishGetNumber(num: number, bPutOne: boolean) {
             let rtn: string = "";
             let iTens: number = 0;
             let iUnit: number = 0;
@@ -130,8 +128,8 @@ namespace CSKernelNumberToString {
             else {
                 if (num > 100) {
                     iNumAux = num;
-                    rtn = this.spanishGetNameHundred(iNumAux) + " ";
-                    iTens = this.getHundred(iNumAux);
+                    rtn = cNumberToString.spanishGetNameHundred(iNumAux) + " ";
+                    iTens = cNumberToString.getHundred(iNumAux);
                     bPutOne = false;
                 }
                 else {
@@ -142,11 +140,11 @@ namespace CSKernelNumberToString {
             if (iTens !== 0) {
                 if (iTens >= 1 && iTens <= 15) {
                     bPutOneAux = bPutOne;
-                    rtn = rtn + this.spanishGetNameNumber(iTens, bPutOneAux);
+                    rtn = rtn + cNumberToString.spanishGetNameNumber(iTens, bPutOneAux);
                 }
                 else {
                     if (iTens >= 16 && iTens <= 19) {
-                        rtn = rtn + "Dieci" + this.spanishGetNameNumber(Maths.trunc(iTens - 10), bPutOne);
+                        rtn = rtn + "Dieci" + cNumberToString.spanishGetNameNumber(Maths.trunc(iTens - 10), bPutOne);
                     }
                     else {
                         if (iTens === 20) {
@@ -154,14 +152,14 @@ namespace CSKernelNumberToString {
                         }
                         else {
                             if (iTens >= 21 && iTens <= 29) {
-                                rtn = rtn + "Venti" + this.spanishGetNameNumber(Maths.trunc(iTens - 20), bPutOne);
+                                rtn = rtn + "Venti" + cNumberToString.spanishGetNameNumber(Maths.trunc(iTens - 20), bPutOne);
                             }
                             else {
                                 if (iTens >= 30) {
-                                    rtn = rtn + this.spanishGetNameTens(iTens);
-                                    iUnit = this.getUnit(iTens);
+                                    rtn = rtn + cNumberToString.spanishGetNameTens(iTens);
+                                    iUnit = cNumberToString.getUnit(iTens);
                                     rtn = rtn + (iUnit === 0 ? "" : " y ");
-                                    rtn = rtn + this.spanishGetNameNumber(iUnit, bPutOne);
+                                    rtn = rtn + cNumberToString.spanishGetNameNumber(iUnit, bPutOne);
                                 }
                             }
                         }
@@ -172,7 +170,7 @@ namespace CSKernelNumberToString {
             return rtn;
         }
 
-        private spanishGetNameNumber(num: number, bPutOne: boolean) {
+        private static spanishGetNameNumber(num: number, bPutOne: boolean) {
             switch (num)
             {
                 case 1:
@@ -200,7 +198,7 @@ namespace CSKernelNumberToString {
             }
         }
 
-        private spanishGetNameHundred(num: number) {
+        private static spanishGetNameHundred(num: number) {
             let number: number = num;
 
             if (number >= 900) return "Novecientos"; 
@@ -215,7 +213,7 @@ namespace CSKernelNumberToString {
             else return ""; 
         }
 
-        private spanishGetNameTens(num: number) {
+        private static spanishGetNameTens(num: number) {
             let number: number = num;
 
             if (number >= 90) return "Noventa"; 
@@ -228,14 +226,14 @@ namespace CSKernelNumberToString {
             else return ""; 
         }
 
-        private spanishGetDecimal(num: number) {
-            return this.getDecimalAux(num, "con");
+        private static spanishGetDecimal(num: number) {
+            return cNumberToString.getDecimalAux(num, "con");
         }
 
         /////////////////////////////////////////////////////////////////////////////////////
         // French
 
-        private frenchGetNumber(num: number) {
+        private static frenchGetNumber(num: number) {
             let rtn: string = "";
             let iTens: number = 0;
             let iUnit: number = 0;
@@ -247,8 +245,8 @@ namespace CSKernelNumberToString {
             else {
                 if (num > 100) {
                     iNumAux = num;
-                    rtn = this.frenchGetNameHundred(iNumAux) + " ";
-                    iTens = this.getHundred(iNumAux);
+                    rtn = cNumberToString.frenchGetNameHundred(iNumAux) + " ";
+                    iTens = cNumberToString.getHundred(iNumAux);
                 }
                 else {
                     iTens = num;
@@ -257,11 +255,11 @@ namespace CSKernelNumberToString {
 
             if (iTens !== 0) {
                 if (iTens >= 1 && iTens <= 16) {
-                    rtn = rtn + this.frenchGetNameNumber(iTens);
+                    rtn = rtn + cNumberToString.frenchGetNameNumber(iTens);
                 }
                 else {
                     if (iTens >= 17 && iTens <= 19) {
-                        rtn = rtn + "Dix " + this.frenchGetNameNumber(Maths.trunc(iTens - 10));
+                        rtn = rtn + "Dix " + cNumberToString.frenchGetNameNumber(Maths.trunc(iTens - 10));
                     }
                     else {
                         if (iTens === 20) {
@@ -273,23 +271,23 @@ namespace CSKernelNumberToString {
                                     rtn = rtn + "Vingt et un";
                                 }
                                 else {
-                                    rtn = rtn + "Vingt " + this.frenchGetNameNumber(Maths.trunc(iTens - 20));
+                                    rtn = rtn + "Vingt " + cNumberToString.frenchGetNameNumber(Maths.trunc(iTens - 20));
                                 }
                             }
                             else {
-                                iUnit = this.getUnit(iTens);
+                                iUnit = cNumberToString.getUnit(iTens);
                                 if (!(iTens >= 70 && iTens < 80) && !(iTens >= 90)) {
-                                    rtn = rtn + this.frenchGetNameTens(iTens);
+                                    rtn = rtn + cNumberToString.frenchGetNameTens(iTens);
                                     if (iUnit === 1) {
                                         rtn = rtn + " et ";
                                     }
                                     if (iUnit > 1) {
                                         rtn = rtn + " ";
                                     }
-                                    rtn = rtn + this.frenchGetNameNumber(iUnit);
+                                    rtn = rtn + cNumberToString.frenchGetNameNumber(iUnit);
                                 }
                                 else {
-                                    rtn = rtn + this.frenchGetNameTens(iTens) + this.frenchGetNameNumber(iUnit + 10);
+                                    rtn = rtn + cNumberToString.frenchGetNameTens(iTens) + this.frenchGetNameNumber(iUnit + 10);
                                 }
                             }
                         }
@@ -300,7 +298,7 @@ namespace CSKernelNumberToString {
             return rtn;
         }
 
-        private frenchGetNameNumber(num: number) {
+        private static frenchGetNameNumber(num: number) {
             switch (num)
             {
                 case 1: return "Un";
@@ -326,7 +324,7 @@ namespace CSKernelNumberToString {
             }
         }
 
-        private frenchGetNameHundred(num: number) {
+        private static frenchGetNameHundred(num: number) {
             let rtn: string = "";
             let number: number = num;
 
@@ -350,7 +348,7 @@ namespace CSKernelNumberToString {
             return rtn;
         }
 
-        private frenchGetNameTens(num: number) {
+        private static frenchGetNameTens(num: number) {
             let number: number = num;
 
             if (number >= 90) return "Quatre Vingt "; 
@@ -363,14 +361,14 @@ namespace CSKernelNumberToString {
             else return "";
         }
 
-        private frenchGetDecimal(num: number) {
-            return this.getDecimalAux(num, "Avec");
+        private static frenchGetDecimal(num: number) {
+            return cNumberToString.getDecimalAux(num, "Avec");
         }
 
         /////////////////////////////////////////////////////////////////////////////////////
         // English
 
-        private englishGetNumber(num: number) {
+        private static englishGetNumber(num: number) {
             let rtn: string = "";
             let iTens: number = 0;
             let iUnit: number = 0;
@@ -392,11 +390,11 @@ namespace CSKernelNumberToString {
 
             if (iTens !== 0) {
                 if (iTens >= 1 && iTens <= 15) {
-                    rtn = rtn + this.englishGetNameNumber(iTens);
+                    rtn = rtn + cNumberToString.englishGetNameNumber(iTens);
                 }
                 else {
                     if (iTens >= 16 && iTens <= 19) {
-                        rtn = rtn + this.englishGetNameNumber(Maths.trunc(iTens - 10)) + "teen";
+                        rtn = rtn + cNumberToString.englishGetNameNumber(Maths.trunc(iTens - 10)) + "teen";
                     }
                     else {
                         if (iTens === 20) {
@@ -415,7 +413,7 @@ namespace CSKernelNumberToString {
             return rtn;
         }
 
-        private englishGetNameNumber(num: number) {
+        private static englishGetNameNumber(num: number) {
             switch (num)
             {
                 case 1: return "One";
@@ -437,11 +435,11 @@ namespace CSKernelNumberToString {
             }
         }
 
-        private englishGetNameHundred(num: number) {
-            return this.englishGetNameNumber(num) + " Hundred";
+        private static englishGetNameHundred(num: number) {
+            return cNumberToString.englishGetNameNumber(num) + " Hundred";
         }
 
-        private englishGetNameTens(num: number) {
+        private static englishGetNameTens(num: number) {
             let number: number = num;
 
             if (number >= 90) return "Ninety"; 
@@ -455,13 +453,13 @@ namespace CSKernelNumberToString {
             else return ""; 
         }
 
-        private englishGetDecimal(num: number) {
-            return this.getDecimalAux(num, "with");
+        private static englishGetDecimal(num: number) {
+            return cNumberToString.getDecimalAux(num, "with");
         }
 
         // generics
         //
-        private getDecimalAux(num: number, word: string) {
+        private static getDecimalAux(num: number, word: string) {
             let iDecimal: number = 0;
 
             num = Maths.round(num, 2);
@@ -472,15 +470,15 @@ namespace CSKernelNumberToString {
                 return "";
         }
 
-        private getUnit(iTens: number) {
+        private static getUnit(iTens: number) {
             return iTens - (Maths.trunc(iTens / 10) * 10);
         }
 
-        private getHundred(iHundred: number) {
+        private static getHundred(iHundred: number) {
             return iHundred - (Maths.trunc(iHundred / 100) * 100);
         }
 
-        private getValue(num: number, iDividing: number) {
+        private static getValue(num: number, iDividing: number) {
             return Maths.trunc(Maths.trunc(num) / iDividing);
         }
 

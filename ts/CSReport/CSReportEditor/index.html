@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Report Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="csreports.js"></script>
+    <script>
+        function openTab(event, id) {
+            console.log("Open " + id);
+        }
+
+        function closeTab(event, id) {
+            event.stopPropagation();
+            console.log("Close " + id);
+        }
+    </script>
+</head>
+<body>
+<div id="wrapper">
+
+    <header>
+
+        <div id="header">
+            <ul class="nav topbar">
+                <li><a>File</a>
+                    <ul>
+                        <li><a id="mnuFileNew">New</a></li>
+                        <li><a id="mnuFileOpen">Open</a></li>
+                        <li><a id="mnuFileOpenRecent">Open Recent Files ...</a></li>
+                        <li><a id="mnuFileSave">Save</a></li>
+                        <li><a id="mnuFileSaveAs">Save As</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuFilePageSetup">Page Setup</a></li>
+                        <li><a id="mnuFilePageSettings">Page Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuFilePreview">Preview</a></li>
+                        <li><a id="mnuFilePrint">Print</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuFileExit">Exit</a></li>
+                    </ul>
+                </li>
+                <li><a>Edit</a>
+                    <ul>
+                        <li><a id="mnuEditCopy">Copy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+C</a></li>
+                        <li><a id="mnuEditPaste">Paste &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+V</a></li>
+                        <li><a id="mnuEditPasteSpecial">Paste Special</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuEditSearch">Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+F</a></li>
+                        <li class="divider"></li>
+                        <li><a>Sections</a>
+                            <ul>
+                                <li><a id="mnuEditAddHeader">Add Header</a></li>
+                                <li><a id="mnuEditAddGroup">Add Group</a></li>
+                                <li><a id="mnuEditAddFooter">Add Footer</a></li>
+                            </ul>
+                        </li>
+                        <li><a>Controls</a>
+                            <ul>
+                                <li><a id="mnuEditAddLabel">Add Label</a></li>
+                                <li><a id="mnuEditAddLine">Add Group</a></li>
+                                <li><a id="mnuEditAddDatabaseField">Add Field</a></li>
+                                <li><a id="mnuEditAddImage">Add Image</a></li>
+                                <li><a id="mnuEditAddChart">Add Chart</a></li>
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a>Move</a>
+                            <ul>
+                                <li><a id="mnuEditMoveHorizontal">Horizontal</a></li>
+                                <li><a id="mnuEditMoveVertical">Vertical</a></li>
+                                <li><a id="mnuEditMoveLocked">Locked</a></li>
+                                <li><a id="mnuEditMoveAll">All Directions</a></li>
+                                <li><a id="mnuEditMoveStep">Size of Step</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a>View</a>
+                    <ul>
+                        <li><a id="mnuViewShowToolbox">Toolbox</a></li>
+                        <li><a id="mnuViewShowCtrlsInTree">Controls in Tree</a></li>
+                        <li><a>Grid tools</a>
+                            <ul>
+                                <li><a id="mnuViewGridPoints">Points</a></li>
+                                <li><a id="mnuViewGridLines">Lines</a></li>
+                                <li><a id="mnuViewGridHidden">Hide Grid</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a>Database</a>
+                    <ul>
+                        <li><a id="mnuDbConnectionSettings">Connection Settings</a></li>
+                        <li><a id="mnuDbParameterSettings">Parameter Settings</a></li>
+                        <li><a id="mnuDbConnectionAuxSettings">Additional Connections</a></li>
+                        <li><a id="mnuDbSetDisconnected">Not a Database Report</a></li>
+                    </ul>
+                </li>
+                <li><a>Tools</a>
+                    <ul>
+                        <li><a id="mnuToolsSettings">Settings</a></li>
+                    </ul>
+                </li>
+                <li><a>Help</a>
+                    <ul>
+                        <li><a id="mnuHelpAbout">About</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </header>
+
+    <div id="main-view">
+        <!-- Tab links -->
+        <div class="tab">
+            <div class="tablinks sidebar-tab"></div>
+            <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1 <span class="close" onclick="closeTab(event, 'Tab1')">x</span></button>
+            <button class="tablinks" onclick="openTab(event, 'Tab2')">Tab 2 <span class="close" onclick="closeTab(event, 'Tab2')">x</span></button>
+            <button class="tablinks" onclick="openTab(event, 'Tab3')">Tab 3 <span class="close" onclick="closeTab(event, 'Tab3')">x</span></button>
+        </div>
+        <div id="sidebar">
+            content
+            <br>goes
+            <br>here
+        </div>
+
+        <div id="editor">
+            <div class="report">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>footer</p>
+</footer>
+</body>
+</html>

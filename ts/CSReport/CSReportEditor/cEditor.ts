@@ -1679,7 +1679,7 @@ UNKNOWN >>             int i;
                         let po: cReportPaintObject = this.paint.getPaintObject(sKey);
 
                         let ctrl: cReportControl = this.report.getControls().item(po.getTag());
-                        this.pSetSbPnlCtrl(
+                        this.psetStatusBarText(
                             ctrl.getName(),
                             ctrl.getControlType(),
                             ctrl.getFormulaHide().getText(),
@@ -1794,7 +1794,7 @@ UNKNOWN >>             int i;
                         }
                     }
                     else {
-                        this.pSetSbPnlCtrl("");
+                        this.psetStatusBarText("");
                         this.picReport.Cursor = Cursors.Default;
                         this.keySizing = "";
                         this.keyMoving = "";
@@ -1807,7 +1807,7 @@ UNKNOWN >>             int i;
                         let rptCtrl: cReportControl = null;
                         rptCtrl = this.report.getControls().item(po.getTag());
                         if (rptCtrl !== null) {
-                            this.pSetSbPnlCtrl(rptCtrl.getName(),
+                            this.psetStatusBarText(rptCtrl.getName(),
                                             rptCtrl.getControlType(),
                                             rptCtrl.getFormulaHide().getText(),
                                             rptCtrl.getFormulaValue().getText(),
@@ -1817,20 +1817,20 @@ UNKNOWN >>             int i;
                         }
                     }
                     else {
-                        this.pSetSbPnlCtrl("");
+                        this.psetStatusBarText("");
                     }
                 }
                 else {
-                    this.pSetSbPnlCtrl("");
+                    this.psetStatusBarText("");
                 }
             }
         }
 
-        private pSetSbPnlCtrl(ctrlName: string) {
-            this.pSetSbPnlCtrl (ctrlName, csRptControlType.CS_RPT_CT_LABEL, "", "", false, false, "");
+        private psetStatusBarText(ctrlName: string) {
+            this.psetStatusBarText (ctrlName, csRptControlType.CS_RPT_CT_LABEL, "", "", false, false, "");
         }
 
-        private pSetSbPnlCtrl(
+        private psetStatusBarText(
             ctrlName: string
             ctrlType: csRptControlType
             formulaHide: string
@@ -1866,7 +1866,7 @@ UNKNOWN >>             int i;
                     + "]Activa[" + ( hasFormulaValue).toString()
                     + "]Field:[" + fieldName + "]";
             }
-            this.fmain.setsbPnlCtrl(msg);
+            this.fmain.setStatusBarText(msg);
         }
 
         private picReport_MouseUp(sender: object, e: System.Windows.Forms.MouseEventArgs) {

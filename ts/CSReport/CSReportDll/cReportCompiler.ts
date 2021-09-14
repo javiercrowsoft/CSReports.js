@@ -1353,9 +1353,7 @@ namespace CSReportDll {
         }
 
         private evalAddToVar(fint: cReportFormulaInt) {
-            let varName: string = "";
-
-            varName = fint.getParameters().item(0).getValue();
+            let varName = fint.getParameters().item(0).getValue();
 
             if (this.variables.item(varName) === null) {
                 throw new ReportArgumentMissingException(
@@ -1379,14 +1377,14 @@ namespace CSReportDll {
             }
 
             let item: cReportVariable = fint.getVariables().item(cReportCompiler.C_SUM_TIME);
-            // the SumTime if for dates
+            // the SumTime is for dates
             //
             this.pSumTimes(
                 item.getValue(),
-                Date.parse(
+                new Date(Date.parse(
                     this.report.getValue(
                         fint.getParameters().item(0).getValue(), true
-                    ).toString()));
+                    ).toString())));
         }
 
         private evalMax(fint: cReportFormulaInt) {

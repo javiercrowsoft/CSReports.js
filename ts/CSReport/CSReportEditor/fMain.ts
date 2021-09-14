@@ -1,10 +1,14 @@
 namespace CSReportEditor {
 
+    import cError = CSKernelClient.cError;
+    import Utils = CSOAPI.Utils;
+    import cPrintAPI = CSReportDll.cPrintAPI;
+    import PrintDialog = CSReportDll.PrintDialog;
+    import cPrinter = CSReportDll.cPrinter;
+
     export class FMain {
 
-        private C_MODULE: string = "fMain";
-
-        private MRU_FILE: string = "mru.settings";
+        private printDlg: PrintDialog;
 
         private paperSize: number = 0;
         private paperSizeWidth: number = 0;
@@ -13,6 +17,7 @@ namespace CSReportEditor {
         private printerName: string = "";
         private driverName: string = "";
         private port: string = "";
+
         private sourceEditor: cEditor = null;
 
         private wasDoubleClick: boolean = false;
@@ -30,23 +35,36 @@ namespace CSReportEditor {
 
         private contextMenuEditor: cEditor = null;
 
-        private lvwColumnSorter: cListViewColumnSorter = null;
+        private tabReports: TabBar;
+        private pnEditor;
+        private pnRule;
+        private pnReport;
+        private tbpEditor;
 
         public constructor() {
-            InitializeComponent();
-
             // it is the first thing we need to do
             //
-            CSKernelClient.cUtil.setSepDecimal();
+            Utils.setSepDecimal();
 
+            // TODO: why is this ???
+            //
             let printer: cPrinter = cPrintAPI.getcPrinterFromDefaultPrinter(this.printDlg);
             this.paperSize = printer.getPaperInfo().getPaperSize();
             this.paperSizeHeight = Math.trunc(printer.getPaperInfo().getHeight());
             this.paperSizeWidth = Math.trunc(printer.getPaperInfo().getHeight());
+
+            // TODO: why is this ???
+            //
+            cPrintAPI.getDefaultPrinter(
+                this.printerName, this.driverName, this.port,
+                this.paperSize, this.orientation, this.paperSizeWidth,
+                this.paperSizeHeight);
+
+            this.loadRecentListFromUserSettings();
         }
 
         public init() {
-            let editor: cEditor = new cEditor(this, pnEditor, pnRule, pnReport, tbpEditor);
+            let editor: cEditor = new cEditor(this, this.pnEditor, this.pnRule, this.pnReport, this.tbpEditor);
             editor.init();
             editor.newReport(null);        
         }
@@ -61,36 +79,35 @@ namespace CSReportEditor {
             let pnRule: PictureBox = new PictureBox();
             let pnReport: PictureBox = new PictureBox();
 
-            pnEditor.Controls.Add(pnRule);
-            pnEditor.Controls.Add(pnReport);
-            tab.Controls.Add(pnEditor);
-            pnEditor.Dock = DockStyle.Fill;
-            tabReports.TabPages.Add(tab);
-            tab.Text = "New Report [X]";
+            pnEditor.getControls().add(pnRule);
+            pnEditor.getControls().add(pnReport);
+            tab.getControls().add(pnEditor);
+            this.tabReports.getPages().add(tab);
+            tab.setText("New Report [X]");
 
             return new cEditor(this, pnEditor, pnRule, pnReport, tab);
         }
 
-        private mnuNewReport_Click(sender: object, e: EventArgs) {
-            let editor: cEditor = createEditor();
+        private newReportClick() {
+            let editor: cEditor = this.createEditor();
             editor.init();
             editor.newReport(null);
         }
 
-        private tsbNew_Click(sender: object, e: EventArgs) {
-            mnuNewReport_Click(sender, e);
-        }
-
         public setEditAlignTextState(status: boolean) {
+            // TODO: implement
+            /*
             let buttons = this.tbMain.Items;
-
             buttons[cGlobals.c_BTN_ALIGN_CENTER].Enabled = status;
             buttons[cGlobals.c_BTN_ALIGN_LEFT].Enabled = status;
             buttons[cGlobals.c_BTN_ALIGN_RIGHT].Enabled = status;
             buttons[cGlobals.c_BTN_FONT_BOLD].Enabled = status;
+            */
         }
 
         public setEditAlignCtlState(status: boolean) {
+            // TODO: implement
+            /*
             let buttons = this.tbMain.Items;
 
             buttons[cGlobals.c_BTN_CTL_ALIGN_BOTTOM].Enabled = status;
@@ -103,9 +120,12 @@ namespace CSReportEditor {
 
             buttons[cGlobals.c_BTN_CTL_HEIGHT].Enabled = status;
             buttons[cGlobals.c_BTN_CTL_WIDTH].Enabled = status;
+            */
         }
 
         public setMenuAux(enabled: boolean) {
+            // TODO: implement
+            /*
             this.mnuEditAddControl.Enabled = enabled;
             this.mnuEditAddHeader.Enabled = enabled;
             this.mnuEditAddLabel.Enabled = enabled;
@@ -138,9 +158,12 @@ namespace CSReportEditor {
             tsbControls.Enabled = enabled;
             tsbPreview.Enabled = enabled;
             tsbSearch.Enabled = enabled;
+             */
         }
 
         public addToRecentList(fileName: string) {
+            // TODO: implement
+            /*
             let i: number = 0;
             let j: number = 0;
             let found: boolean = false;
@@ -169,22 +192,31 @@ namespace CSReportEditor {
             menuItems[0].Text = fileName;
 
             saveRecentList();
+             */
         }
 
         private getMRUFileName() {
+            // TODO: implement
+            /*
             let path = System.Environment.SpecialFolder.LocalApplicationData;
-            return Environment.GetFolderPath(path) + Path.DirectorySeparatorChar + MRU_FILE;
+            return Environment.GetFolderPath(path) + Path.DirectorySeparatorChar + this.MRU_FILE;
+             */
         }
 
         private loadRecentListFromUserSettings() {
+            // TODO: implement
+            /*
             let fileName = getMRUFileName();
             if (File.Exists(fileName)) {
                 let lines = File.ReadAllLines(fileName);
                 loadRecentList(lines.ToList());
             }
+             */
         }
 
-        private loadRecentList(recentList: List<String>) {
+        private loadRecentList(recentList: []) {
+            // TODO: implement
+            /*
             let i: number = 0;
             let recent: string = "";
 
@@ -198,18 +230,24 @@ namespace CSReportEditor {
             if (this.mnuFileRecentList.DropDownItems.Count > 0) {
                 this.mnuFileRecentList.Visible = true;
             }
+            */
         }
 
-        private mnuRecentClick(sender: object, e: EventArgs) {
+        private recentClick() {
+            // TODO: implement
+            /*
             let mnu: ToolStripMenuItem = sender;
             let editor: cEditor = createEditor();
             editor.init();
             if (editor.openDocument(mnu.Text)) {
                 addToRecentList(editor.getFileName());
             }
+             */
         }
 
         private saveRecentList() {
+            // TODO: implement
+            /*
             let i: number = 0;
             let mruList: string = "";
 
@@ -219,6 +257,7 @@ namespace CSReportEditor {
 
             let fileName = getMRUFileName();
             File.WriteAllText(fileName, mruList);
+             */
         }
 
         public setStatus(status: string) {
@@ -233,8 +272,8 @@ namespace CSReportEditor {
             // TODO: implement
         }
 
-		public setsbPnlCtrl(msg: string) {
-            cGlobals.implementThisMessage("setsbPnlCtrl", "(fMain)");
+		public setStatusBarText(msg: string) {
+            // TODO: implement
 		}
 
         public setReportCopySource(editor: cEditor) {
@@ -249,24 +288,20 @@ namespace CSReportEditor {
             return this.orientation;
         }
 
-        private mnuOpenReport_Click(sender: object, e: EventArgs) {
+        private openReportClick() {
             try {
 
-                let editor: cEditor = createEditor();
+                let editor: cEditor = this.createEditor();
 
                 editor.init();
 
                 if (editor.openDocument()) {
-                    addToRecentList(editor.getFileName());
+                    this.addToRecentList(editor.getFileName());
                 }
 
-            } catch (Exception ex) {
+            } catch (ex) {
                 cError.mngError(ex);
             }
-        }
-
-        private tsbOpen_Click(sender: object, e: EventArgs) {
-            mnuOpenReport_Click(sender, e);
         }
 
         //------------------------------------------------------------------------------------------------------------------
@@ -274,28 +309,6 @@ namespace CSReportEditor {
         // expose controls
 
         //------------------------------------------------------------------------------------------------------------------
-
-        private fMain_Load(sender: object, e: EventArgs) {
-            cPrintAPI.getDefaultPrinter(
-                this.printerName, this.driverName, this.port, 
-                this.paperSize, this.orientation, this.paperSizeWidth, 
-                this.paperSizeHeight);
-
-            //
-            // remove me and implement a better window position code
-            //
-            this.Width = 1200;
-            this.Height = 900;
-            cWindow.centerForm(this);
-
-            // Create an instance of a ListView column sorter and assign it 
-            // to the ListView control.
-            lvwColumnSorter = new cListViewColumnSorter();
-            lv_controls.ListViewItemSorter = lvwColumnSorter;
-            lv_controls_ColumnClick(this, new ColumnClickEventArgs(0));
-
-            loadRecentListFromUserSettings();
-        }
 
         private cmCtrlProperties_Click(sender: object, e: EventArgs) {
             if (this.contextMenuEditor !== null)  {
@@ -445,7 +458,7 @@ namespace CSReportEditor {
 
             if (editor !== null) {
                 cGlobals.addCtrls(editor.getReport(), tv_controls, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
-            }            
+            }
         }
 
         public showProperties(editor: cEditor, key: string) {
@@ -524,7 +537,7 @@ namespace CSReportEditor {
                 cGlobals.fillColumns(
                     connect.getDataSource(),
                     connect.getColumns(), lv_fields, C_INDEX, C_FIELDTYPE, false);
-            }            
+            }
         }
 
         private lv_controls_ColumnClick(sender: object, e: ColumnClickEventArgs) {
@@ -641,7 +654,7 @@ namespace CSReportEditor {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.preview();
-            }        
+            }
         }
 
 
@@ -942,7 +955,7 @@ namespace CSReportEditor {
                 }
                 else {
                     lockToolStripMenuItem.Text = "Unlock";
-                }                
+                }
             }
         }
 

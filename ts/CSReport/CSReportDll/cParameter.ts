@@ -1,6 +1,9 @@
 namespace CSReportDll {
 
     import csDataType = CSDatabase.csDataType;
+    import XmlNode = CSXml.XmlNode;
+    import eTypes = CSKernelClient.eTypes;
+    import DatabaseGlobals = CSDatabase.DatabaseGlobals;
 
     export class cParameter {
 
@@ -101,12 +104,10 @@ namespace CSReportDll {
         }
 
         public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
-            let xProperty: CSXml.cXmlProperty = null;
-            let nodeObj: XmlNode = null;
-            xProperty = new CSXml.cXmlProperty();
+            let xProperty = new CSXml.cXmlProperty();
 
             xProperty.setName(this.key);
-            nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
+            let nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Key");
             xProperty.setValue(eTypes.eText, this.key);

@@ -1,12 +1,16 @@
 namespace CSReportDll {
 
+    import csDataType = CSDatabase.csDataType;
+    import csDataSourceType = CSReportGlobals.csDataSourceType;
+    import eTypes = CSKernelClient.eTypes;
+    import cWindow = CSKernelClient.cWindow;
+    import Database = CSDatabase.Database;
+
     export class cReportConnect {
 
-        private C_MODULE: string = "cReportConnect";
-
-        private C_RPTCONNECT: string = "RptConnect";
-        private C_RPTCOLUMNS: string = "Columns";
-        private C_RPTPARAMETERS: string = "Parameters";
+        private static C_RPT_CONNECT: string = "RptConnect";
+        private static C_RPT_COLUMNS: string = "Columns";
+        private static C_RPT_PARAMETERS: string = "Parameters";
 
         private strConnect: string = "";
         private dataSource: string = "";
@@ -43,19 +47,19 @@ namespace CSReportDll {
         }
 
         public getDataBase() {
-            return getXFromStrConnect(this.strConnect, "Initial Catalog=");
+            return this.getXFromStrConnect(this.strConnect, "Initial Catalog=");
         }
 
         public getServer() {
-            return getXFromStrConnect(this.strConnect, "Data Source=");
+            return this.getXFromStrConnect(this.strConnect, "Data Source=");
         }
 
         public getUser() {
-            return getXFromStrConnect(this.strConnect, "User ID=");
+            return this.getXFromStrConnect(this.strConnect, "User ID=");
         }
 
         public getPassword() {
-            return getXFromStrConnect(this.strConnect, "Password=");
+            return this.getXFromStrConnect(this.strConnect, "Password=");
         }
 
         public getDataSource() {
@@ -97,36 +101,36 @@ namespace CSReportDll {
                 param = this.parameters.item(_i);
                 switch (param.getColumnType())
                 {
-                    case csDataType.CSTDWCHAR:
+                    case csDataType.CS_TD_WCHAR:
                         /*
-                            case  csDataType.CSTDVARWCHAR:
-                            case  csDataType.CSTDVARCHAR:
-                            case  csDataType.CSTDLONGVARWCHAR:
-                            case  csDataType.CSTDLONGVARCHAR:
-                            case  csDataType.CSTDCHAR:
+                            case  csDataType.CS_TD_VARWCHAR:
+                            case  csDataType.CS_TD_VARCHAR:
+                            case  csDataType.CS_TD_LONGVARWCHAR:
+                            case  csDataType.CS_TD_LONGVARCHAR:
+                            case  csDataType.CS_TD_CHAR:
                          */
                         s +=  Database.sqlString(param.getValue()) + ",";
                         break;
-                    case csDataType.CSTDTINYINT:
-                    case csDataType.CSTDUNSIGNEDTINYINT:
-                    case csDataType.CSTDSMALLINT:
-                    case csDataType.CSTDSINGLE:
-                    case csDataType.CSTDNUMERIC:
-                    case csDataType.CSTDINTEGER:
-                    case csDataType.CSTDDOUBLE:
+                    case csDataType.CS_TD_TINYINT:
+                    case csDataType.CS_TD_UNSIGNEDTINYINT:
+                    case csDataType.CS_TD_SMALLINT:
+                    case csDataType.CS_TD_SINGLE:
+                    case csDataType.CS_TD_NUMERIC:
+                    case csDataType.CS_TD_INTEGER:
+                    case csDataType.CS_TD_DOUBLE:
                     /*
-                        case  csDataType.CSTDDECIMAL:
-                        case  csDataType.CSTDCURRENCY:
+                        case  csDataType.CS_TD_DECIMAL:
+                        case  csDataType.CS_TD_CURRENCY:
                     */
-                    case csDataType.CSTDBOOLEAN:
-                    case csDataType.CSTDBIGINT:
+                    case csDataType.CS_TD_BOOLEAN:
+                    case csDataType.CS_TD_BIGINT:
                         s +=  Database.sqlNumber(param.getValue()) + ",";
                         break;
-                    case csDataType.CSTDDBTIMESTAMP:
+                    case csDataType.CS_TD_DBTIMESTAMP:
                         /*
-                        case  csDataType.CSTDDBTIME:
-                        case  csDataType.CSTDDBDATE:
-                        case  csDataType.CSTDDATE:
+                        case  csDataType.CS_TD_DBTIME:
+                        case  csDataType.CS_TD_DBDATE:
+                        case  csDataType.CS_TD_DATE:
                         */
                         s +=  Database.sqlDate(param.getValue()) + ",";
                         break;
@@ -134,7 +138,7 @@ namespace CSReportDll {
                         cWindow.msgWarning("This data type is not codified "
                                             + param.getColumnType()
                                             + ". Parameter: " + param.getName()
-                                            + ". Function: sqlParameters.");
+                                            + ". Function: sqlParameters.", "Report connect");
                         break;
                 }
             }
@@ -146,50 +150,35 @@ namespace CSReportDll {
             return s;
         }
 
-        public load(xDoc: CSXml.cXml, nodeObj: XmlNode): boolean {
-            let nodeObjAux: XmlNode = null;
-            let nodeObjAux2: XmlNode = null;
-
+        public load(xDoc: CSXml.cXml, nodeObj): boolean {
             this.dataSource = xDoc.getNodeProperty(nodeObj, "DataSource").getValueString(eTypes.eText);
             this.dataSourceType = xDoc.getNodeProperty(nodeObj, "DataSourceType").getValueInt(eTypes.eInteger);
             this.strConnect = xDoc.getNodeProperty(nodeObj, "StrConnect").getValueString(eTypes.eText);
 
-            nodeObjAux2 = xDoc.getNodeFromNode(nodeObj, C_RPTCOLUMNS);
-
-            if (xDoc.nodeHasChild(nodeObjAux2)) {
-                nodeObjAux = xDoc.getNodeChild(nodeObjAux2);
-                while (nodeObjAux !== null) {
-                    let key: string = xDoc.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
-                    if (!this.columns.add(null, key).load(xDoc, nodeObjAux)) {
-                        return false;
-                    }
-                    nodeObjAux = xDoc.getNextNode(nodeObjAux);
-                }
-            }
-
-            nodeObjAux2 = xDoc.getNodeFromNode(nodeObj, C_RPTPARAMETERS);
-
-            if (xDoc.nodeHasChild(nodeObjAux2)) {
-                nodeObjAux = xDoc.getNodeChild(nodeObjAux2);
-                while (nodeObjAux !== null) {
-                    let key: string = xDoc.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
-                    if (!this.parameters.add(null, key).load(xDoc, nodeObjAux)) {
-                        return false;
-                    }
-                    nodeObjAux = xDoc.getNextNode(nodeObjAux);
-                }
-            }
+            this.loadNode(xDoc, xDoc.getNodeFromNode(nodeObj, cReportConnect.C_RPT_COLUMNS), this.columns);
+            this.loadNode(xDoc, xDoc.getNodeFromNode(nodeObj, cReportConnect.C_RPT_PARAMETERS), this.parameters);
 
             return true;
         }
 
-        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
-            let xProperty: CSXml.cXmlProperty = null;
-            let nodeObj: XmlNode = null;
-            let nodeObjAux: XmlNode = null;
-            xProperty = new CSXml.cXmlProperty();
+        private loadNode(xDoc: CSXml.cXml, node, coll) {
+            if (xDoc.nodeHasChild(node)) {
+                let child = xDoc.getNodeChild(node);
+                while (child !== null) {
+                    let key: string = xDoc.getNodeProperty(child, "Key").getValueString(eTypes.eText);
+                    if (!coll.add(null, key).load(xDoc, child)) {
+                        return false;
+                    }
+                    child = xDoc.getNextNode(child);
+                }
+            }
+        }
 
-            xProperty.setName(C_RPTCONNECT);
+        public save(xDoc: CSXml.cXml, nodeFather) {
+            let nodeObj;
+            let xProperty = new CSXml.cXmlProperty();
+
+            xProperty.setName(cReportConnect.C_RPT_CONNECT);
 
             if (nodeFather !== null) {
                 nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -210,45 +199,42 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eText, this.strConnect);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            nodeObjAux = nodeObj;
+            xProperty.setName(cReportConnect.C_RPT_COLUMNS);
+            this.saveColumnNode(xDoc, xDoc.addNodeToNode(nodeObj, xProperty));
 
-            xProperty.setName(C_RPTCOLUMNS);
-            nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
-
-            let col: cColumnInfo = null;
-            for(let _i = 0; _i < this.columns.count(); _i++) {
-                col = this.columns.item(_i);
-                if (!col.save(xDoc, nodeObj)) {
-                    return false;
-                }
-            }
-
-            nodeObj = nodeObjAux;
-
-            xProperty.setName(C_RPTPARAMETERS);
-            nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
-
-            let param: cParameter = null;
-            for(let _i = 0; _i < this.parameters.count(); _i++) {
-                param = this.parameters.item(_i);
-                if (!param.save(xDoc, nodeObj)) {
-                    return false;
-                }
-            }
+            xProperty.setName(cReportConnect.C_RPT_PARAMETERS);
+            this.saveParamNode(xDoc, xDoc.addNodeToNode(nodeObj, xProperty));
 
             return true;
         }
 
-        private getXFromStrConnect(strConnect: string, x: string) {
-            let i: number = 0;
-            let p: number = 0;
+        private saveColumnNode(xDoc: CSXml.cXml, node) {
+            let col: cColumnInfo = null;
+            for(let _i = 0; _i < this.columns.count(); _i++) {
+                col = this.columns.item(_i);
+                if (!col.save(xDoc, node)) {
+                    return false;
+                }
+            }
+        }
 
+        private saveParamNode(xDoc: CSXml.cXml, node) {
+            let param: cParameter = null;
+            for(let _i = 0; _i < this.parameters.count(); _i++) {
+                param = this.parameters.item(_i);
+                if (!param.save(xDoc, node)) {
+                    return false;
+                }
+            }
+        }
+
+        private getXFromStrConnect(strConnect: string, x: string) {
             if (x.substring(x.length - 1) !== "=") {
                 x = x + "=";
             }
-            i = strConnect.indexOf(x, 0);
+            let i = strConnect.indexOf(x, 0);
             if (i > 0) {
-                p = strConnect.indexOf(";", i);
+                let p = strConnect.indexOf(";", i);
                 if (p === 0) {
                     p = strConnect.length + 1;
                 }

@@ -4,6 +4,10 @@ namespace CSConnect {
     import Database = CSDatabase.Database;
     import DatabaseEngine = CSDatabase.DatabaseEngine;
     import csDataSourceType = CSReportGlobals.csDataSourceType;
+    import DataTable = CSDatabase.DataTable;
+    import DatabaseGlobals = CSDatabase.DatabaseGlobals;
+    import Exception = CSOAPI.Exception;
+    import RefWrapper = CSKernelClient.RefWrapper;
 
     export class cConnect {
 
@@ -25,7 +29,7 @@ namespace CSConnect {
         public fillParameters(dataSource: string) {
             let db: Database = new Database(DatabaseEngine.SQL_SERVER);
             if (db.initDb(this.strConnect)) {
-                let restrictions: string[] = new string[4];
+                let restrictions: string[] = [];
                 restrictions[2] = dataSource;
                 let dt: DataTable = db.openSchema("ProcedureParameters", restrictions);
 
@@ -33,7 +37,8 @@ namespace CSConnect {
 
                 let parameters: cParameters = new cParameters();
 
-                for(let i_ = 0; i_ < dt.Rows.length; i_++) {
+                for(let i = 0; i < dt.rows.length; i++) {
+                    let row = dt.rows[i];
                     if (row["parameter_mode"].toString() !== "OUT")  {
                         let p: cParameter = null;
                         let found: boolean = false;
@@ -81,11 +86,11 @@ namespace CSConnect {
             return false;
         }
 
-		public getDataSourceColumnsInfo(str: string, csDataSourceType: csDataSourceType) {
+		public getDataSourceColumnsInfo() {
             let sqlstmt: string;
 
             if(this.dataSourceType === csDataSourceType.CS_DT_PROCEDURE) {
-                if(! fillParameters(this.dataSource)) {
+                if(! this.fillParameters(this.dataSource)) {
                     return false;
                 }
 
@@ -103,18 +108,20 @@ namespace CSConnect {
                 sqlstmt = "select * from [" + this.dataSource + "]";
             }
 
-            return fillColumns(sqlstmt);
+            return this.fillColumns(sqlstmt);
 		}
 
         private fillColumns(sqlstmt: string) {
             let db = new Database(DatabaseEngine.SQL_SERVER);
             if (db.initDb(this.strConnect)) {
-                if (db.openRs(sqlstmt, rs, "fillColumns", "cConnect", "Update columns's definition", CSKernelClient.eErrorLevel.eErrorInformation)) {
-                    for(let i = 0; i < rs.FieldCount; i++) {
+                let rsRef = new RefWrapper<DataTable>();
+                if (db.openRs(sqlstmt, rsRef)) {
+                    let rs = rsRef.get();
+                    for(let i = 0; i < rs.getFieldCount(); i++) {
                         let column = new cColumnInfo();
-                        column.setName(rs.GetName(i));
+                        column.setName(rs.getColumnName(i));
                         column.setPosition(i);
-                        column.setColumnType(System.Type.GetTypeCode((rs.GetFieldType(i))));
+                        column.setColumnType(rs.getFieldType(i));
                         this.columnsInfo.add(column, "");
                     }
                 }

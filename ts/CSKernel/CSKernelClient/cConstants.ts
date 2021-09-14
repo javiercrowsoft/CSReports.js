@@ -48,7 +48,7 @@ namespace CSKernelClient {
         eFieldDate = eTypes.eDate
     }
 
-    export enum CSMSGICONS {
+    export enum CS_MSG_ICONS {
         Exclamation,
         Information,
         Error

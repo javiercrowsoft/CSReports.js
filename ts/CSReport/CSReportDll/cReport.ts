@@ -1,3 +1,7 @@
+///<reference path="../CSReportGlobals/ReportGlobals.ts"/>
+///<reference path="../../CSXml/cXmlProperty.ts"/>
+///<reference path="../../CSXml/cXML.ts"/>
+
 namespace CSReportDll {
 
     import RptGrpComparisonType = CSReportGlobals.RptGrpComparisonType;

@@ -2,23 +2,28 @@ namespace CSDatabase {
 
     export class JSONServer {
 
-        private dataSources: JSONDataSources = new JSONDataSources();
+        private static dataSources: JSONDataSources = new JSONDataSources();
 
-        public registerDataSource(dataSource: JSONDataSource, name: string) {
+        public static registerDataSource(dataSource: JSONDataSource, name: string) {
             this.dataSources.add(dataSource, name.toLowerCase());
         }
 
-        public getDataSource(name: string) {
+        public static getDataSource(name: string): JSONDataSource {
             return this.dataSources.item(name.toLowerCase());
         }
     }
 
     export class JSONServerConnection {
 
-        private readonly connectionString: string;
+        private readonly _connectionString: string;
 
         public constructor(connectionString: string = "") {
-            this.connectionString = connectionString;
+            this._connectionString = connectionString;
+        }
+
+
+        public connectionString(): string {
+            return this._connectionString;
         }
     }
 }

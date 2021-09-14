@@ -1,8 +1,12 @@
 namespace CSDatabase {
 
     import RefWrapper = CSKernelClient.RefWrapper;
+    import Utils = CSOAPI.Utils;
 
     export class Database {
+
+        // yyyyMMdd HH:mm:ss
+        private static SQL_DATE_FORMAT = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
         private silent: boolean;
         private commandTimeout: number;
@@ -42,6 +46,79 @@ namespace CSDatabase {
 
         public closeDb() {
 
+        }
+
+        public static sqlString(val: string) {
+            return "'" + val.replace(/'/g, "''") + "'";
+        }
+
+        public static sqlDate(val: string) {
+            const date  = new Date(val);
+            // @ts-ignore
+            return "'" + new Intl.DateTimeFormat('ja-JP', Database.SQL_DATE_FORMAT).format(date)  + "'";
+        }
+
+    /* TODO: remove me
+    private string getNumberSql(string number)
+    {
+        if (! G.isNumeric(number))
+        {
+            return "0";
+        }
+        else
+        {
+            var s = cUtil.val(number).ToString(new String('#', 27) + "0." + new String('#', 28), CultureInfo.InvariantCulture);
+            s = s.Replace(",", ".");
+            if (s.Substring(s.Length - 1, 0) == ".")
+            {
+                s = s.Substring(0, s.Length - 1);
+            }
+            return s;
+        }
+
+    }
+    private string getNumberSql(string number)
+    {
+        if (!G.isNumeric(number))
+        {
+            return "0";
+        }
+        else
+        {
+            var s = cUtil.val(number).ToString(new String('#', 27) + "0." + new String('#', 28), CultureInfo.InvariantCulture);
+            s = s.Replace(",", ".");
+            if (s.Substring(s.Length - 1, 0) == ".")
+            {
+                s = s.Substring(0, s.Length - 1);
+            }
+            return s;
+        }
+
+    }
+
+     */
+        public static sqlNumber(number: string): string {
+            if (! Utils.isNumber(number)) {
+                return "0";
+            }
+            else {
+                let s = Utils.val(number).toString();
+                s = s.replace(",", ".");
+                if (s.substring(s.length - 1, 0) == ".") {
+                    s = s.substring(0, s.length - 1);
+                }
+                return s;
+            }
+        }
+
+        public openSchema(procedureParameters: string, restrictions: string[]): DataTable {
+            // TODO: implement
+            return undefined;
+        }
+
+        public openRs(sqlstmt: string, rs: RefWrapper<DataTable>): boolean {
+            // TODO: implement
+            return false;
         }
     }
 

@@ -5,8 +5,6 @@ namespace CSReportDll {
 
     export class cPrinter {
 
-        private C_MODULE: string = "cPrinter";
-
         private deviceName: string = "";
         private driverName: string = "";
         private port: string = "";
@@ -16,7 +14,7 @@ namespace CSReportDll {
 
         private graph: Graphics = null;
 
-        private printDialog: PrintDialog = null;
+        private readonly printDialog: PrintDialog = null;
 
         public constructor(printDialog: PrintDialog) {
             this.printDialog = printDialog;
@@ -127,10 +125,34 @@ namespace CSReportDll {
         }
 
         public starDoc(printDoc: PrintDocument, title: string, paperSize: csReportPaperType, orientation: number) {
-            printDoc.DefaultPageSettings.Landscape = (orientation === csRptPageOrientation.LANDSCAPE);
-            printDoc.DefaultPageSettings.PaperSize = this.getPaperSize(paperSize);
+            printDoc.defaultPageSettings.Landscape = (orientation === csRptPageOrientation.LANDSCAPE);
+            printDoc.defaultPageSettings.PaperSize = this.getPaperSize(paperSize);
 
             return true;
         }
+    }
+
+    export class PageSettings {
+        Landscape: boolean;
+        PaperSize: CSReportDll.PaperSize;
+    }
+
+    export class PrintDocument {
+        public defaultPageSettings = new PageSettings();
+    }
+
+    export class PaperSize {
+        public RawKind;
+    }
+
+    export enum PaperKind {
+        A4,
+        A3,
+        Letter,
+        Legal
+    }
+
+    export class Graphics {
+
     }
 }

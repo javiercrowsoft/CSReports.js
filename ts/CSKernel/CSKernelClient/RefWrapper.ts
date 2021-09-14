@@ -4,7 +4,7 @@ namespace CSKernelClient {
 
         private value: T;
 
-        public constructor(value: T) {
+        public constructor(value: T = null) {
             this.value = value;
         }
 
@@ -15,6 +15,5 @@ namespace CSKernelClient {
         public get(): T {
             return this.value;
         }
-
     }
 }

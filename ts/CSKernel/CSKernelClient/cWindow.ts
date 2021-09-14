@@ -9,14 +9,11 @@ namespace CSKernelClient {
         private static silent = false;
 
         public static mngError(ex: Exception, infoAdd: string = "") {
-            let f: fErrors = new fErrors();
-            f.setErrorIcon();
-            f.setDetails(ex.getMessage());
-            f.showDialog();
+            cError.mngError(ex, infoAdd);
         }
 
-        public static msgWarning(msg: string, title: string) {
-
+        public static msgWarning(msg: string, title: string = "") {
+            cError.mngWarning(msg, title);
         }
 
         public static getLastErrorDescription() {
