@@ -934,7 +934,7 @@ namespace CSReportEditor {
 			throw new NotImplementedException ();
 		}
         */
-		public getDbFieldGroupValue() {
+		public getDbFieldGroupValue(): string {
 			throw new NotImplementedException ();
 		}
         /*

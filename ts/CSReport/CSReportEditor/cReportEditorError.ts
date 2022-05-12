@@ -2,7 +2,7 @@ namespace CSReportEditor {
 
     export class cReportEditorError {
 
-        public errGetDescription(rptErrCode: csRptEditorErrors) {
+        public static errGetDescription(rptErrCode: csRptEditorErrors) {
             switch (rptErrCode)
             {
                 case csRptEditorErrors.CSRPT_EDITOR_SECTION_TYPE_INVALID:

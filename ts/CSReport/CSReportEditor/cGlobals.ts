@@ -11,8 +11,35 @@ namespace CSReportEditor {
     import cReportControl = CSReportDll.cReportControl;
     import cReportAspect = CSReportDll.cReportAspect;
     import cReportSectionLine = CSReportDll.cReportSectionLine;
+    import RectangleF = CSReportPaint.RectangleF;
+    import cIReportGroupSections = CSReportDll.cIReportGroupSections;
 
-    export static class cGlobals {
+    export enum csRptEditorMoveType {
+        CSRPTEDMOVTHORIZONTAL,
+        CSRPTEDMOVTVERTICAL,
+        CSRPTEDMOVTALL,
+        CSRPTEDMOVLEFT,
+        CSRPTEDMOVRIGHT,
+        CSRPTEDMOVUP,
+        CSRPTEDMOVDOWN,
+        CSRPTEDMOVLEFTDOWN,
+        CSRPTEDMOVLEFTUP,
+        CSRPTEDMOVRIGHTDOWN,
+        CSRPTEDMOVRIGHTUP,
+        CSRPTEDMOVTNONE
+    }
+
+    export enum csRptEditCtrlType {
+        none,
+        label,
+        field,
+        formula,
+        image,
+        chart,
+        lineLabel
+    }
+
+    export class cGlobals {
 
         public static C_KEY_HEADER: string = "RH";
         public static C_KEY_FOOTER: string = "RF";
@@ -67,8 +94,8 @@ namespace CSReportEditor {
 
         }
 
-		public showDbFields(field: string, fieldType: number, index: number, editor: cEditor) {
-            let fc: fColumns = null;
+		public showDbFields(field: string, fieldType: number, index: number, editor: cEditor): boolean {
+            let fc: FColumns = null;
 
             const close = () => {
                 if (fc !== null) {
@@ -77,7 +104,7 @@ namespace CSReportEditor {
             }
 
             try {
-                fc = new fColumns();
+                fc = new FColumns();
 
                 fc.clearColumns();
 
@@ -113,23 +140,23 @@ namespace CSReportEditor {
             }
 		}
 
-		public setEditAlignTextState(length: object) {
+		public static setEditAlignTextState(state) {
             this.implementThisMessage("setEditAlignTextState", "(CSReportEditor cGlobals)");
 		}
 
-		public setEditAlignCtlState(b: boolean) {
+		public static setEditAlignCtlState(b: boolean) {
             this.implementThisMessage("setEditAlignCtlState", "(CSReportEditor cGlobals)");
 		}
 
-		public setEditFontBoldValue(bBold: number) {
+		public static setEditFontBoldValue(bBold: number) {
             this.implementThisMessage("setEditFontBoldValue", "(CSReportEditor cGlobals)");
 		}
 
-		public setEditAlignValue(align: number) {
+		public static setEditAlignValue(align: number) {
             this.implementThisMessage("setEditAlignValue", "(CSReportEditor cGlobals)");
 		}
 
-		public setParametersAux(connect: cConnect, rptConnect: cReportConnect) {
+		public static setParametersAux(connect: cConnect, rptConnect: cReportConnect) {
             rptConnect.getColumns().clear();
             rptConnect.getParameters().clear();
 
@@ -155,15 +182,15 @@ namespace CSReportEditor {
             }        
         }
 
-        public moveGroup(group: cReportGroup, editor: cEditor) {
+        public static moveGroup(group: cReportGroup, editor: cEditor) {
             throw new NotImplementedException();
         }
 
-        public getDataSourceStr(dataSource: string) {
+        public static getDataSourceStr(dataSource: string) {
             return "{" + dataSource + "}.";
         }
 
-        public createStandardSections(report: cReport, tr: Rectangle) {
+        public static createStandardSections(report: cReport, tr: Rectangle) {
             report.getHeaders().add(null, cGlobals.C_KEY_HEADER);
             report.getFooters().add(null, cGlobals.C_KEY_FOOTER);
             report.getDetails().add(null, cGlobals.C_KEY_DETAIL);
@@ -220,15 +247,15 @@ namespace CSReportEditor {
             aspect.setWidth(tr.width);
         }
 
-        public clearCtrlBox(editor: cEditor) {
+        public static clearCtrlBox(editor: cEditor) {
             throw new NotImplementedException();
         }
 
-        public implementThisMessage(functionName: string, moduleName: string) {
+        public static implementThisMessage(functionName: string, moduleName: string) {
             //Console.WriteLine(String.Format("Implement this: public static void {0} {1}", functionName, moduleName));
         }
 
-        public addCtrls(report: cReport, lv_controls: ListView, C_CTRL_IMAGE: number, C_DB_IMAGE: number) {
+        public static addCtrls(report: cReport, lv_controls: ListView, C_CTRL_IMAGE: number, C_DB_IMAGE: number) {
             lv_controls.Items.clear();
 
             for(let i = 0; i < report.getControls().count(); i++) {
@@ -277,7 +304,7 @@ namespace CSReportEditor {
             }
         }
 
-        public addCtrls(report: cReport, tv_controls: TreeView,
+        public static addCtrls2(report: cReport, tv_controls: TreeView,
                         C_IMG_FOLDER: number, C_IMG_FORMULA: number,
                         C_IMG_CONTROL: number, C_IMG_DATBASE_FIELD: number) {
 
@@ -310,7 +337,7 @@ namespace CSReportEditor {
             nodeRoot.ExpandAll();
         }
 
-        private pAddCtrlsAux(sections: cIReportGroupSections, father: TreeNode,
+        private static pAddCtrlsAux(sections: cIReportGroupSections, father: TreeNode,
                              C_IMG_FOLDER: number, C_IMG_FORMULA: number,
                              C_IMG_CONTROL: number, C_IMG_DATBASE_FIELD: number) {
             let nodeSec: TreeNode;
@@ -332,7 +359,7 @@ namespace CSReportEditor {
                 if (sec.getFormulaHide().getText() !== "") {
                     if (sec.getFormulaHide().getText() === "0") {
                         text = "Hidden";
-                        bComplexF = false; ;
+                        bComplexF = false;
                     }
                     else {
                         text = "Visibility formula";
@@ -431,10 +458,10 @@ namespace CSReportEditor {
             father.ExpandAll();
         }
 
-        public fillColumns(dataSource: string, columns: CSReportDll.cColumnsInfo, lv_columns: ListView,
+        public static fillColumns(dataSource: string, columns: CSReportDll.cColumnsInfo, lv_columns: ListView,
                            C_INDEX: string, C_FIELDTYPE: string, add: boolean) {
 
-            if (!add) lv_columns.Items.clear(); {
+            if (!add) lv_columns.Items.clear();
 
             for(let i_ = 0; i_ < columns.count(); i_++) {
                 let item = lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
@@ -444,8 +471,6 @@ namespace CSReportEditor {
                 item.Tag = info;
             }
         }
-
-
     } 
 
     export class Rectangle {
@@ -464,30 +489,4 @@ namespace CSReportEditor {
         getIndex(): number;
         setIndex(rhs: number): void;
     }
-    export enum csRptEditorMoveType {
-        CSRPTEDMOVTHORIZONTAL,
-        CSRPTEDMOVTVERTICAL,
-        CSRPTEDMOVTALL,
-        CSRPTEDMOVLEFT,
-        CSRPTEDMOVRIGHT,
-        CSRPTEDMOVUP,
-        CSRPTEDMOVDOWN,
-        CSRPTEDMOVLEFTDOWN,
-        CSRPTEDMOVLEFTUP,
-        CSRPTEDMOVRIGHTDOWN,
-        CSRPTEDMOVRIGHTUP,
-        CSRPTEDMOVTNONE
-    } 
-
-
-
-export enum csRptEditCtrlType {
-        none,
-        label,
-        field,
-        formula,
-        image,
-        chart,
-        lineLabel
-    } 
 }

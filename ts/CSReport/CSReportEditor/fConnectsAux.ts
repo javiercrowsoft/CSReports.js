@@ -1,9 +1,10 @@
 namespace CSReportEditor {
 
-    export class FConnectsAux {
+    import NotImplementedException = CSOAPI.NotImplementedException;
+
+    export class FConnectsAux extends Form {
 
         public constructor() {
-            InitializeComponent();
         }
 
 		public addConnect(str: string, str2: string) {

@@ -1,6 +1,8 @@
+///<reference path="./controls/Form.ts"/>
+
 namespace CSReportEditor {
 
-    export class FFormula {
+    export class FFormula extends Form {
 
         private C_KEY_SYSFUNCTIONS: string = "FS";
         private C_KEY_SYSVARS: string = "VS";
@@ -21,10 +23,6 @@ namespace CSReportEditor {
         private ok: boolean = false;
 
         private editor: cEditor = null;
-
-        public constructor() {
-            InitializeComponent();
-        }
 
 		public createTree() {
             tv_formulas.Nodes.Add(C_KEY_SYSFUNCTIONS, "Internal functions", C_FOLDER_INDEX);

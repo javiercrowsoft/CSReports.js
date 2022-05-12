@@ -8,5 +8,8 @@ namespace CSReportEditor {
             this.text = text;
         }
 
+        getText() {
+            return "";
+        }
     }
 }

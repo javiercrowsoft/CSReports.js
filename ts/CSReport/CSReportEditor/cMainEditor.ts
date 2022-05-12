@@ -24,7 +24,7 @@ namespace CSReportEditor {
 
         private static fMain: FMain = null;
 
-        public initEditor() {
+        public static initEditor() {
 
             cRegionalCfg.init();
 
@@ -35,15 +35,15 @@ namespace CSReportEditor {
             return cMainEditor.fMain;
         }
 
-        public getEditor() {
+        public static getEditor() {
             return cMainEditor.fMain;
         }
 
-	    public getDocActive() {
+	    public static getDocActive() {
 	        return cMainEditor.editor;
 	    }
 
-	    public setDocActive(editor: cEditor) {
+	    public static setDocActive(editor: cEditor) {
 	        cMainEditor.editor = editor;
 	        this.setMenu();
             if (editor !== null) {
@@ -76,14 +76,14 @@ namespace CSReportEditor {
             cMainEditor.fMain.showFields(editor);
         }
 
-	    public setDocInacActive(editor: cEditor) {
+	    public static setDocInacActive(editor: cEditor) {
 	        if (cMainEditor.editor !== editor) { return; }
 	        cMainEditor.editor = null;
 	        this.setMenu();
             this.setEditAlignTextState(false);
 	    }
 
-	    public setStatus() {
+	    public static setStatus() {
 	        try {
 	            if (cMainEditor.editor === null) {
 	                this.setStatusAux("");
@@ -97,39 +97,39 @@ namespace CSReportEditor {
 	        }
 	    }
 	    
-	    private setStatusAux(status: string) {
+	    private static setStatusAux(status: string) {
             // TODO: implement
         }
 
-        public setBarText(text: string) {
+        public static setBarText(text: string) {
 
         }
 
-        public setDisconnectedReport(isDisconnectedReport: boolean) {
+        public static setDisconnectedReport(isDisconnectedReport: boolean) {
 
         }
 
-        public setEditAlignTextState(status: boolean) {
+        public static setEditAlignTextState(status: boolean) {
             cMainEditor.fMain.setEditAlignTextState(status);
         }
 
-        public setEditAlignCtlState(status: boolean) {
+        public static setEditAlignCtlState(status: boolean) {
             cMainEditor.fMain.setEditAlignCtlState(status);
         }
 
-        public setMenuAux(enabled: boolean) {
+        public static setMenuAux(enabled: boolean) {
             cMainEditor.fMain.setMenuAux(enabled);
         }
 
-        public addToRecentList(fileName: string) {
+        public static addToRecentList(fileName: string) {
             cMainEditor.fMain.addToRecentList(fileName);
         }
 
-	    public setEditFontBoldValue(bBold: number) {
+	    public static setEditFontBoldValue(bBold: number) {
 			// TODO: implement
 	    }
 
-	    private setMenu() {
+	    private static setMenu() {
 	        try {
 
                 if (cMainEditor.editor === null || cMainEditor.editor.getReport() === null) {
@@ -148,11 +148,11 @@ namespace CSReportEditor {
 	        }
 	    }
 
-        private pGetStatus() {
+        private static pGetStatus() {
             return "";
         }
 
-        public getSearch(editor?: cEditor) {
+        public static getSearch(editor?: cEditor) {
             if (cMainEditor.fSearch === null || cMainEditor.fSearch.IsDisposed) {
                 cMainEditor.fSearch = new fSearch();
             }
@@ -160,7 +160,7 @@ namespace CSReportEditor {
             return cMainEditor.fSearch;
         }
 
-        public getToolbox(editor?: cEditor) {
+        public static getToolbox(editor?: cEditor) {
             if (cMainEditor.fToolbox === null || cMainEditor.fToolbox.IsDisposed) {
                 cMainEditor.fToolbox = new FToolbox();
             }
@@ -168,7 +168,7 @@ namespace CSReportEditor {
             return cMainEditor.fToolbox;
         }
 
-        public getCtrlBox(editor?: cEditor) {
+        public static getCtrlBox(editor?: cEditor) {
             if (cMainEditor.fControls === null || cMainEditor.fControls.IsDisposed) {
                 cMainEditor.fControls = new FControls();
             }
@@ -176,7 +176,7 @@ namespace CSReportEditor {
             return cMainEditor.fControls;
         }
 
-        public getCtrlTreeBox(editor: cEditor) {
+        public static getCtrlTreeBox(editor: cEditor) {
             if (cMainEditor.fTreeViewCtrls === null || cMainEditor.fTreeViewCtrls.IsDisposed) {
                 cMainEditor.fTreeViewCtrls = new FTreeViewCtrls();
             }
@@ -184,7 +184,7 @@ namespace CSReportEditor {
             return cMainEditor.fTreeViewCtrls;
         }
 
-        public clearToolbox(editor: cEditor) {
+        public static clearToolbox(editor: cEditor) {
             if (cMainEditor.editor === editor) {
                 if (cMainEditor.fToolbox !== null && !cMainEditor.fToolbox.IsDisposed && cMainEditor.fToolbox.Visible) {
                     cMainEditor.fToolbox.clear();
@@ -192,7 +192,7 @@ namespace CSReportEditor {
             }
         }
 
-        public showProperties(key: string) {
+        public static showProperties(key: string) {
             cMainEditor.fMain.showProperties(cMainEditor.editor, key);
         }
     }
