@@ -13,6 +13,7 @@ namespace CSReportEditor {
     import cReportSectionLine = CSReportDll.cReportSectionLine;
     import RectangleF = CSReportPaint.RectangleF;
     import cIReportGroupSections = CSReportDll.cIReportGroupSections;
+    import Color = CSReportPaint.Color;
 
     export enum csRptEditorMoveType {
         CSRPTEDMOVTHORIZONTAL,
@@ -90,16 +91,16 @@ namespace CSReportEditor {
 
 		public static ShiftMask: number = 1;
 
-        public setStatus() {
+        public static setStatus() {
 
         }
 
-		public showDbFields(field: string, fieldType: number, index: number, editor: cEditor): boolean {
+		public static showDbFields(field: string, fieldType: number, index: number, editor: cEditor): boolean {
             let fc: FColumns = null;
 
             const close = () => {
                 if (fc !== null) {
-                    fc.Close();
+                    fc.close();
                 }
             }
 
@@ -133,7 +134,7 @@ namespace CSReportEditor {
                     return false;
                 }
 
-            } catch (ex: object) {
+            } catch (ex) {
                 close();
                 cError.mngError(ex);
                 return false;
@@ -310,8 +311,8 @@ namespace CSReportEditor {
 
             tv_controls.Nodes.clear();
 
-            let nodeGroup: TreeNode;
-            let nodeRoot: TreeNode = tv_controls.Nodes.Add(report.getName());
+            let nodeGroup: object;
+            let nodeRoot: object = tv_controls.Nodes.Add(report.getName());
             nodeRoot.ImageIndex = C_IMG_FOLDER;
 
             nodeGroup = nodeRoot.Nodes.Add("Headers");
@@ -337,13 +338,13 @@ namespace CSReportEditor {
             nodeRoot.ExpandAll();
         }
 
-        private static pAddCtrlsAux(sections: cIReportGroupSections, father: TreeNode,
+        private static pAddCtrlsAux(sections: cIReportGroupSections, father: object,
                              C_IMG_FOLDER: number, C_IMG_FORMULA: number,
                              C_IMG_CONTROL: number, C_IMG_DATBASE_FIELD: number) {
-            let nodeSec: TreeNode;
-            let nodeSecLn: TreeNode;
-            let nodeCtrl: TreeNode;
-            let item: TreeNode;
+            let nodeSec: object;
+            let nodeSecLn: object;
+            let nodeCtrl: object;
+            let item: object;
             let text: string;
             let bComplexF: boolean = false; ;
 

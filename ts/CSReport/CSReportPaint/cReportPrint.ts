@@ -1489,19 +1489,19 @@ namespace CSReportPaint {
                 }
             }
         */
-        private rpwPrintMoveFirst(sender: object, e: EventArgs) {
+        private rpwPrintMoveFirst(sender: object, e: object) {
             printPage(csEMoveTo.C_FIRSTPAGE);
         }
 
-        private rpwPrintMoveLast(sender: object, e: EventArgs) {
+        private rpwPrintMoveLast(sender: object, e: object) {
             printPage(csEMoveTo.C_LASTPAGE);
         }
 
-        private rpwPrintMoveNext(sender: object, e: EventArgs) {
+        private rpwPrintMoveNext(sender: object, e: object) {
             printPage(csEMoveTo.C_NEXTPAGE);
         }
 
-        private rpwPrintMovePrevious(sender: object, e: EventArgs) {
+        private rpwPrintMovePrevious(sender: object, e: object) {
             printPage(csEMoveTo.C_PREVIOUSPAGE);
         }
 

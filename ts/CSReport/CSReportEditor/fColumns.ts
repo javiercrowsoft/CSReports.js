@@ -1,5 +1,7 @@
 namespace CSReportEditor {
 
+    import cColumnsInfo = CSConnect.cColumnsInfo;
+
     export class FColumns {
 
         private C_FIELDTYPE: string = "t";
@@ -12,25 +14,25 @@ namespace CSReportEditor {
         private ok: boolean = false;
 
         public constructor() {
-            InitializeComponent();
+            // InitializeComponent();
         }
 
-        private cmd_apply_Click(sender: object, e: EventArgs) {
-            this.ok = true;
-            this.Hide();
+        private cmd_apply_Click(sender: object, e: object) {
+            // this.ok = true;
+            // this.Hide();
         }
 
-        private cmd_cancel_Click(sender: object, e: EventArgs) {
-            this.ok = false;
-            this.Hide();
+        private cmd_cancel_Click(sender: object, e: object) {
+            // this.ok = false;
+            // this.Hide();
         }
 
         public clearColumns() {
-            lv_columns.Items.clear();
+            // lv_columns.Items.clear();
         }
 
         public fillColumns(dataSource: string, columns: cColumnsInfo, add: boolean) {
-            cGlobals.fillColumns(dataSource, columns, lv_columns, C_INDEX, C_FIELDTYPE, add);
+            // cGlobals.fillColumns(dataSource, columns, lv_columns, C_INDEX, C_FIELDTYPE, add);
             /*
             foreach (cColumnInfo column in columns) 
             {
@@ -44,15 +46,15 @@ namespace CSReportEditor {
         }
 
         public setField(field: string) {
-            this.field = field;
-            for(let i_ = 0; i_ < lv_columns.Items.length; i_++) {
-                if (item.Text === field)  {
-                    item.Selected = true;
-                    item.Focused = true;
-                    lv_columns.Select();
-                    break;
-                }
-            }
+            // this.field = field;
+            // for(let i_ = 0; i_ < lv_columns.Items.length; i_++) {
+            //     if (item.Text === field)  {
+            //         item.Selected = true;
+            //         item.Focused = true;
+            //         lv_columns.Select();
+            //         break;
+            //     }
+            // }
         }
 
         public getOk() {
@@ -71,18 +73,26 @@ namespace CSReportEditor {
             return this.fieldIndex;
         }
 
-        private lv_columns_Click(sender: object, e: EventArgs) {
-            if (lv_columns.SelectedItems.Count > 0) {
-                let item: ListViewItem = lv_columns.SelectedItems[0];
-                this.field = item.Text;
-                let info = item.Tag.toString();
-                this.fieldType = Utils.valInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
-                this.fieldIndex = Utils.valInt(cUtil.getInfoString(info, C_INDEX, "-1"));
-            }
+        private lv_columns_Click(sender: object, e: object) {
+            // if (lv_columns.SelectedItems.Count > 0) {
+            //     let item: ListViewItem = lv_columns.SelectedItems[0];
+            //     this.field = item.Text;
+            //     let info = item.Tag.toString();
+            //     this.fieldType = Utils.valInt(cUtil.getInfoString(info, C_FIELDTYPE, "-1"));
+            //     this.fieldIndex = Utils.valInt(cUtil.getInfoString(info, C_INDEX, "-1"));
+            // }
         }
 
-        private fColumns_Load(sender: object, e: EventArgs) {
-            cWindow.centerForm(this);
+        private fColumns_Load(sender: object, e: object) {
+            // cWindow.centerForm(this);
+        }
+
+        showDialog() {
+
+        }
+
+        close() {
+
         }
     }
 }

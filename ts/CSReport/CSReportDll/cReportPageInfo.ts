@@ -1,5 +1,8 @@
 namespace CSReportDll {
 
+    import eTypes = CSKernelClient.eTypes;
+    import XmlNode = CSXml.XmlNode;
+
     export class cReportPageInfo {
 
         private aspect: cReportAspect = null;

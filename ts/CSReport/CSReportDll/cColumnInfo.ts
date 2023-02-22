@@ -1,3 +1,5 @@
+///<reference path="../../CSXml/cXmlProperty.ts"/>
+
 namespace CSReportDll {
 
     import csDataType = CSDatabase.csDataType;

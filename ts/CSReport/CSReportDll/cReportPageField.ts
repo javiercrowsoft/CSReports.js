@@ -1,5 +1,8 @@
 namespace CSReportDll {
 
+    import eTypes = CSKernelClient.eTypes;
+    import XmlNode = CSXml.XmlNode;
+
     export class cReportPageField {
 
         private value: string = "";
@@ -10,7 +13,7 @@ namespace CSReportDll {
         private top: number = 0;
         private height: number = 0;
         private width: number = 0;
-        private image: Image = null;
+        private image: object = null;
 
         public getValue() {
             return this.value;
@@ -72,7 +75,7 @@ namespace CSReportDll {
             return this.image;
         }
 
-        public setImage(rhs: Image) {
+        public setImage(rhs: object) {
             this.image = rhs;
         }
 

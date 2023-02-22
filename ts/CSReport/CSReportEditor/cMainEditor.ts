@@ -1,10 +1,11 @@
 namespace CSReportEditor {
 
     import cError = CSKernelClient.cError;
-    
+    import Utils = CSOAPI.Utils;
+
 	export class cMainEditor {
 
-		public csNoDate: Date = DateTime.ParseExact("01/01/1900", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+		public csNoDate: Date = new Date("1900-01-01T00:00:00Z");
 
 	    public C_HEIGHT_BAR_SECTION: number = 120;
 	    public C_HEIGHT_NEW_SECTION: number = 350;
@@ -25,14 +26,10 @@ namespace CSReportEditor {
         private static fMain: FMain = null;
 
         public static initEditor() {
-
-            cRegionalCfg.init();
-
-            if (cMainEditor.fMain === null) {
+            if(this.fMain === null) {
                 cMainEditor.fMain = new FMain();
-                cMainEditor.fMain.init();
+                this.fMain.init();
             }
-            return cMainEditor.fMain;
         }
 
         public static getEditor() {
@@ -48,26 +45,27 @@ namespace CSReportEditor {
 	        this.setMenu();
             if (editor !== null) {
                 let editorTab: TabPage = editor.getEditorTab();
-                this.selectedTab = editorTab;
+                // TODO: implement
+                //  this.selectedTab = editorTab;
 
-                if (cMainEditor.fToolbox !== null && !cMainEditor.fToolbox.IsDisposed && cMainEditor.fToolbox.Visible) {
+                if (cMainEditor.fToolbox !== null && Utils.isVisible(cMainEditor.fToolbox)) {
                     if (this.getToolbox(editor) !== null) { editor.showToolbox(); }
                 }
-                if (cMainEditor.fControls !== null && !cMainEditor.fControls.IsDisposed && cMainEditor.fControls.Visible) {
+                if (cMainEditor.fControls !== null && Utils.isVisible(cMainEditor.fControls)) {
                     if (this.getCtrlBox(editor) !== null) { editor.showControls(); }
                 }
-                if (cMainEditor.fTreeViewCtrls !== null && !cMainEditor.fTreeViewCtrls.IsDisposed && cMainEditor.fTreeViewCtrls.Visible) {
+                if (cMainEditor.fTreeViewCtrls !== null && Utils.isVisible(cMainEditor.fTreeViewCtrls)) {
                     if (this.getCtrlTreeBox(editor) !== null) { editor.showControlsTree(); }
                 }
             }
             else {
-                if (cMainEditor.fToolbox !== null && !cMainEditor.fToolbox.IsDisposed && cMainEditor.fToolbox.Visible) {
+                if (cMainEditor.fToolbox !== null && Utils.isVisible(cMainEditor.fToolbox)) {
                     cMainEditor.fToolbox.clear();
                 }
-                if (cMainEditor.fControls !== null && !cMainEditor.fControls.IsDisposed && cMainEditor.fControls.Visible) {
+                if (cMainEditor.fControls !== null && Utils.isVisible(cMainEditor.fControls)) {
                     cMainEditor.fControls.clear();
                 }
-                if (cMainEditor.fTreeViewCtrls !== null && !cMainEditor.fTreeViewCtrls.IsDisposed && cMainEditor.fTreeViewCtrls.Visible) {
+                if (cMainEditor.fTreeViewCtrls !== null && Utils.isVisible(cMainEditor.fTreeViewCtrls)) {
                     cMainEditor.fTreeViewCtrls.clear();
                 }
             }
@@ -89,7 +87,7 @@ namespace CSReportEditor {
 	                this.setStatusAux("");
 	            } 
 	            else {
-                    this.setStatusAux(this.this.pGetStatus());
+                    this.setStatusAux(this.pGetStatus());
 	            }
 
 	        } catch (ex) {
@@ -141,7 +139,7 @@ namespace CSReportEditor {
                     cMainEditor.fMain.setMenuAux(true);
                     cMainEditor.fMain.setDisconnectedReport(cMainEditor.editor.getReport().getReportDisconnected());
                     cMainEditor.fMain.setBarText(cMainEditor.editor.getReport().getName());
-                    cMainEditor.fMain.setStatus(this.this.pGetStatus());
+                    cMainEditor.fMain.setStatus(this.pGetStatus());
 	            }
 	        } catch (ex) {
 	            cError.mngError(ex);
@@ -153,15 +151,15 @@ namespace CSReportEditor {
         }
 
         public static getSearch(editor?: cEditor) {
-            if (cMainEditor.fSearch === null || cMainEditor.fSearch.IsDisposed) {
-                cMainEditor.fSearch = new fSearch();
+            if (cMainEditor.fSearch === null) {
+                cMainEditor.fSearch = new FSearch();
             }
             if(editor) cMainEditor.fSearch.setHandler(editor);
             return cMainEditor.fSearch;
         }
 
         public static getToolbox(editor?: cEditor) {
-            if (cMainEditor.fToolbox === null || cMainEditor.fToolbox.IsDisposed) {
+            if (cMainEditor.fToolbox === null) {
                 cMainEditor.fToolbox = new FToolbox();
             }
             if(editor) cMainEditor.fToolbox.setHandler(editor);
@@ -169,15 +167,15 @@ namespace CSReportEditor {
         }
 
         public static getCtrlBox(editor?: cEditor) {
-            if (cMainEditor.fControls === null || cMainEditor.fControls.IsDisposed) {
+            if (cMainEditor.fControls === null) {
                 cMainEditor.fControls = new FControls();
             }
             if(editor) cMainEditor.fControls.setHandler(editor);
             return cMainEditor.fControls;
         }
 
-        public static getCtrlTreeBox(editor: cEditor) {
-            if (cMainEditor.fTreeViewCtrls === null || cMainEditor.fTreeViewCtrls.IsDisposed) {
+        public static getCtrlTreeBox(editor?: cEditor) {
+            if (cMainEditor.fTreeViewCtrls === null) {
                 cMainEditor.fTreeViewCtrls = new FTreeViewCtrls();
             }
             if(editor) cMainEditor.fTreeViewCtrls.setHandler(editor);
@@ -186,13 +184,13 @@ namespace CSReportEditor {
 
         public static clearToolbox(editor: cEditor) {
             if (cMainEditor.editor === editor) {
-                if (cMainEditor.fToolbox !== null && !cMainEditor.fToolbox.IsDisposed && cMainEditor.fToolbox.Visible) {
+                if (cMainEditor.fToolbox !== null && Utils.isVisible(cMainEditor.fToolbox)) {
                     cMainEditor.fToolbox.clear();
                 }
             }
         }
 
-        public static showProperties(key: string) {
+        public static showProperties(key?: string) {
             cMainEditor.fMain.showProperties(cMainEditor.editor, key);
         }
     }

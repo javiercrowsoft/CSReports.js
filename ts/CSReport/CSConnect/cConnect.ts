@@ -144,7 +144,7 @@ namespace CSConnect {
             this.dataSourceType = dataSourceType;
 		}
 
-		public showOpenConnection() {
+		public showOpenConnection(): boolean {
 			throw new NotImplementedException();
 		}
 

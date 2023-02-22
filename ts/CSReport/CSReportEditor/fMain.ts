@@ -310,7 +310,7 @@ namespace CSReportEditor {
 
         //------------------------------------------------------------------------------------------------------------------
 
-        private cmCtrlProperties_Click(sender: object, e: EventArgs) {
+        private cmCtrlProperties_Click(sender: object, e: object) {
             if (this.contextMenuEditor !== null)  {
                 this.contextMenuEditor.showProperties();
             }
@@ -343,43 +343,43 @@ namespace CSReportEditor {
             cmnControl.Show(p);
         }
 
-        private cmSectionSectionProperties_Click(sender: object, e: EventArgs) {
+        private cmSectionSectionProperties_Click(sender: object, e: object) {
             if (this.contextMenuEditor !== null) {
                 this.contextMenuEditor.showProperties();
             }
         }
 
-        private cmSectionSectionLineProperties_Click(sender: object, e: EventArgs) {
+        private cmSectionSectionLineProperties_Click(sender: object, e: object) {
             if (this.contextMenuEditor !== null) {
                 this.contextMenuEditor.showSecLnProperties();
             }
         }
 
-        private cmSectionGroupProperties_Click(sender: object, e: EventArgs) {
+        private cmSectionGroupProperties_Click(sender: object, e: object) {
             if (this.contextMenuEditor !== null) {
                 this.contextMenuEditor.showGroupProperties();
             }
         }
 
-        private mnuViewTreeViewCtrls_Click(sender: object, e: EventArgs) {
+        private mnuViewTreeViewCtrls_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.showControlsTree();
             }
         }
 
-        private mnuViewControls_Click(sender: object, e: EventArgs) {
+        private mnuViewControls_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.showControls();
             }
         }
 
-        private mnuViewToolbar_Click(sender: object, e: EventArgs) {
+        private mnuViewToolbar_Click(sender: object, e: object) {
             showToolbox();
         }
 
-        private tsbControls_Click(sender: object, e: EventArgs) {
+        private tsbControls_Click(sender: object, e: object) {
             showToolbox();
         }
 
@@ -390,11 +390,11 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbSearch_Click(sender: object, e: EventArgs) {
+        private tsbSearch_Click(sender: object, e: object) {
             search();
         }
 
-        private mnuEditSearch_Click(sender: object, e: EventArgs) {
+        private mnuEditSearch_Click(sender: object, e: object) {
             search();
         }
 
@@ -405,39 +405,39 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbProperties_Click(sender: object, e: EventArgs) {
+        private tsbProperties_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.showProperties();
             }
         }
 
-        private mnuDataBaseSQLServerConnection_Click(sender: object, e: EventArgs) {
+        private mnuDataBaseSQLServerConnection_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.setSimpleConnection();
             }
         }
 
-        private mnuDataBaseConnectConfig_Click(sender: object, e: EventArgs) {
+        private mnuDataBaseConnectConfig_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.editConnectionString();
             }
         }
 
-        private mnuDataBaseEditDataSource_Click(sender: object, e: EventArgs) {
+        private mnuDataBaseEditDataSource_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.editDataSource();
             }
         }
 
-        private mnuExit_Click(sender: object, e: EventArgs) {
+        private mnuExit_Click(sender: object, e: object) {
             this.Close();
         }
 
-        private mnuParametersSettings_Click(sender: object, e: EventArgs) {
+        private mnuParametersSettings_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.setParameters();
@@ -461,15 +461,15 @@ namespace CSReportEditor {
             }
         }
 
-        public showProperties(editor: cEditor, key: string) {
+        public showProperties(editor?: cEditor, key?: string) {
             lv_properties.Items.clear();
             if (editor !== null) {
-                setObjectDescription(getControlOrSection(editor, key));
+                this.setObjectDescription(this.getControlOrSection(editor, key));
             }
         }
 
-        private getControlOrSection(editor: cEditor, key: string) {
-            if (key.length > 1) {
+        private getControlOrSection(editor: cEditor, key?: string) {
+            if (key && key.length > 1) {
                 if (key.substring(0, 1) === "S") {
                     return editor.getSectionOrSectionLineFromKey(key.substring(1));
                 }
@@ -482,15 +482,11 @@ namespace CSReportEditor {
             }
         }
 
-        private setObjectDescription(anObject: object) {
-            setObjectDescription(anObject, 0);
-        }
-
-        private setObjectDescription(anObject: object, n: number) {
+        private setObjectDescription(anObject: object, n?: number) {
             if (anObject === null) return;
 
             let tabs = new String(' ', n*2);
-            let methods = getMethods(anObject);
+            let methods = this.getMethods(anObject);
             for(let i_ = 0; i_ < methods.length; i_++) {
                 if (m.IsPublic
                     && m.Name.length > 3
@@ -540,7 +536,7 @@ namespace CSReportEditor {
             }
         }
 
-        private lv_controls_ColumnClick(sender: object, e: ColumnClickEventArgs) {
+        private lv_controls_ColumnClick(sender: object, e: object) {
             // Determine if clicked column is already the column that is being sorted.
             if (e.Column === lvwColumnSorter.SortColumn) {
                 // Reverse the current sort direction for this column.
@@ -561,11 +557,11 @@ namespace CSReportEditor {
             lv_controls.Sort();
         }
 
-        private lv_controls_MouseClick(sender: object, e: MouseEventArgs) {
+        private lv_controls_MouseClick(sender: object, e: object) {
             selectControl();
         }
 
-        private lv_controls_KeyUp(sender: object, e: KeyEventArgs) {
+        private lv_controls_KeyUp(sender: object, e: object) {
             selectControl();
         }
 
@@ -578,11 +574,11 @@ namespace CSReportEditor {
             }
         }
 
-        private tv_controls_NodeMouseClick(sender: object, e: TreeNodeMouseClickEventArgs) {
+        private tv_controls_NodeMouseClick(sender: object, e: object) {
             selectControl(e.Node);
         }
 
-        private selectControl(node: TreeNode) {
+        private selectControl(node: object) {
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (node !== null && node.Tag !== null && editor !== null) {
@@ -599,11 +595,11 @@ namespace CSReportEditor {
             }
         }
 
-        private tv_controls_KeyUp(sender: object, e: KeyEventArgs) {
+        private tv_controls_KeyUp(sender: object, e: object) {
             selectControl(tv_controls.SelectedNode);
         }
 
-        private tv_controls_MouseDoubleClick(sender: object, e: MouseEventArgs) {
+        private tv_controls_MouseDoubleClick(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (tv_controls.SelectedNode !== null && editor !== null) {
@@ -619,7 +615,7 @@ namespace CSReportEditor {
             }
         }
 
-        private tv_controls_MouseDown(sender: object, e: MouseEventArgs) {
+        private tv_controls_MouseDown(sender: object, e: object) {
             this.wasDoubleClick = e.Clicks > 1;
         }
 
@@ -633,7 +629,7 @@ namespace CSReportEditor {
                 e.Cancel = true;
         }
 
-        private lv_controls_MouseDoubleClick(sender: object, e: MouseEventArgs) {
+        private lv_controls_MouseDoubleClick(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (lv_controls.SelectedItems.Count > 0 && editor !== null) {
@@ -642,11 +638,11 @@ namespace CSReportEditor {
             }
         }
 
-        private mnuPreviewReport_Click(sender: object, e: EventArgs) {
+        private mnuPreviewReport_Click(sender: object, e: object) {
             previewReport();
         }
 
-        private tsbPreview_Click(sender: object, e: EventArgs) {
+        private tsbPreview_Click(sender: object, e: object) {
             previewReport();
         }
 
@@ -658,7 +654,7 @@ namespace CSReportEditor {
         }
 
 
-        private tabReports_MouseClick(sender: object, e: MouseEventArgs) {
+        private tabReports_MouseClick(sender: object, e: object) {
             for(let i = 0; i < tabReports.TabCount; ++i) {
                 let rect = tabReports.GetTabRect(i);
                 let xRect = new System.Drawing.Rectangle(rect.Left + rect.Width - 18, rect.Top, 18, rect.Height);
@@ -674,69 +670,69 @@ namespace CSReportEditor {
             }
         }
 
-        private mnuEditAddHeader_Click(sender: object, e: EventArgs) {
+        private mnuEditAddHeader_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addSection(csRptSectionType.HEADER);
             }
         }
 
-        private mnuEditAddGroup_Click(sender: object, e: EventArgs) {
+        private mnuEditAddGroup_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addGroup();
             }
         }
 
-        private mnuEditAddFooter_Click(sender: object, e: EventArgs) {
+        private mnuEditAddFooter_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addSection(csRptSectionType.FOOTER);
             }
         }
 
-        private mnuEditAddLabel_Click(sender: object, e: EventArgs) {
+        private mnuEditAddLabel_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addLabel();
             }
         }
 
-        private mnuEditAddLine_Click(sender: object, e: EventArgs) {
+        private mnuEditAddLine_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addLineLabel();
             }
         }
 
-        private mnuEditAddControl_Click(sender: object, e: EventArgs) {
+        private mnuEditAddControl_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addDBField();
             }
         }
 
-        private mnuEditAddImage_Click(sender: object, e: EventArgs) {
+        private mnuEditAddImage_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addImage();
             }
         }
 
-        private mnuEditAddChart_Click(sender: object, e: EventArgs) {
+        private mnuEditAddChart_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addChart();
             }
         }
 
-        private mnuHelpAbout_Click(sender: object, e: EventArgs) {
+        private mnuHelpAbout_Click(sender: object, e: object) {
             cWindow.msgInfo(
                 + " - Version "
                 + "\r\n\r\nhttps://github.com/javiercrowsoft/CSReports.net");
         }
 
-        private cmSectionAddSectionLine_Click(sender: object, e: EventArgs) {
+        private cmSectionAddSectionLine_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.addSectionLine();
@@ -750,26 +746,26 @@ namespace CSReportEditor {
             }
         }
 
-        private cmSectionDeleteSection_Click(sender: object, e: EventArgs) {
+        private cmSectionDeleteSection_Click(sender: object, e: object) {
             deleteReportObject(false);
         }
 
-        private cmSectionDeleteSectionLine_Click(sender: object, e: EventArgs) {
+        private cmSectionDeleteSectionLine_Click(sender: object, e: object) {
             deleteReportObject(true);
         }
 
-        private cmSectionMoveGroup_Click(sender: object, e: EventArgs) {
+        private cmSectionMoveGroup_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveGroup();
             }
         }
 
-        private tsbDatabase_Click(sender: object, e: EventArgs) {
+        private tsbDatabase_Click(sender: object, e: object) {
             mnuDataBaseConnectConfig_Click(sender, e);
         }
 
-        private mnuDataBaseSetToMainConnect_Click(sender: object, e: EventArgs) {
+        private mnuDataBaseSetToMainConnect_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.setAllConnectToMainConnect();
@@ -783,19 +779,19 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbAlignLeft_Click(sender: object, e: EventArgs) {
+        private tsbAlignLeft_Click(sender: object, e: object) {
             alignText(CSReportGlobals.HorizontalAlignment.Left);
         }
 
-        private tsbAligntCenter_Click(sender: object, e: EventArgs) {
+        private tsbAligntCenter_Click(sender: object, e: object) {
             alignText(CSReportGlobals.HorizontalAlignment.Center);
         }
 
-        private tsbAlignRight_Click(sender: object, e: EventArgs) {
+        private tsbAlignRight_Click(sender: object, e: object) {
             alignText(CSReportGlobals.HorizontalAlignment.Right);
         }
 
-        private tsbBold_Click(sender: object, e: EventArgs) {
+        private tsbBold_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.setFontBold();
@@ -810,23 +806,23 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbSaveAs_Click(sender: object, e: EventArgs) {
+        private tsbSaveAs_Click(sender: object, e: object) {
             saveReport(true);
         }
 
-        private tsbSave_Click(sender: object, e: EventArgs) {
+        private tsbSave_Click(sender: object, e: object) {
             saveReport(false);
         }
 
-        private mnuSaveReport_Click(sender: object, e: EventArgs) {
+        private mnuSaveReport_Click(sender: object, e: object) {
             saveReport(false);
         }
 
-        private mnuReportSaveAs_Click(sender: object, e: EventArgs) {
+        private mnuReportSaveAs_Click(sender: object, e: object) {
             saveReport(true);
         }
 
-        private mnuPageSetup_Click(sender: object, e: EventArgs) {
+        private mnuPageSetup_Click(sender: object, e: object) {
             let pageSetup: fPageSetup = new fPageSetup();
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
@@ -851,23 +847,23 @@ namespace CSReportEditor {
             pageSetup.Close();
         }
 
-        private mnuPrinterSettings_Click(sender: object, e: EventArgs) {
+        private mnuPrinterSettings_Click(sender: object, e: object) {
 
         }
 
-        private mnuHideGrid_Click(sender: object, e: EventArgs) {
+        private mnuHideGrid_Click(sender: object, e: object) {
 
         }
 
-        private mnuGridLines_Click(sender: object, e: EventArgs) {
+        private mnuGridLines_Click(sender: object, e: object) {
 
         }
 
-        private mnuGridPoints_Click(sender: object, e: EventArgs) {
+        private mnuGridPoints_Click(sender: object, e: object) {
 
         }
 
-        private mnuOptionsTool_Click(sender: object, e: EventArgs) {
+        private mnuOptionsTool_Click(sender: object, e: object) {
 
         }
 
@@ -878,7 +874,7 @@ namespace CSReportEditor {
             }
         }
 
-        private mnuCopy_Click(sender: object, e: EventArgs) {
+        private mnuCopy_Click(sender: object, e: object) {
             copy();
         }
 
@@ -889,27 +885,27 @@ namespace CSReportEditor {
             }
         }
 
-        private mnuPaste_Click(sender: object, e: EventArgs) {
+        private mnuPaste_Click(sender: object, e: object) {
             paste(false);
         }
 
-        private mnuPasteSpecial_Click(sender: object, e: EventArgs) {
+        private mnuPasteSpecial_Click(sender: object, e: object) {
             paste(true);
         }
 
-        private cmCtrlCopy_Click(sender: object, e: EventArgs) {
+        private cmCtrlCopy_Click(sender: object, e: object) {
             copy();
         }
 
-        private cmCtrlPaste_Click(sender: object, e: EventArgs) {
+        private cmCtrlPaste_Click(sender: object, e: object) {
             paste(false);
         }
 
-        private cmCtrlPasteEx_Click(sender: object, e: EventArgs) {
+        private cmCtrlPasteEx_Click(sender: object, e: object) {
             paste(true);
         }
 
-        private cmCtrlDelete_Click(sender: object, e: EventArgs) {
+        private cmCtrlDelete_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.deleteObj(false);
@@ -923,29 +919,29 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbPrint_Click(sender: object, e: EventArgs) {
+        private tsbPrint_Click(sender: object, e: object) {
             printReport();
         }
 
-        private mnuPrintReport_Click(sender: object, e: EventArgs) {
+        private mnuPrintReport_Click(sender: object, e: object) {
             printReport();
         }
 
-        private cmCtrlBringFront_Click(sender: object, e: EventArgs) {
+        private cmCtrlBringFront_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.bringToFront();
             }
         }
 
-        private cmCtrlSendBack_Click(sender: object, e: EventArgs) {
+        private cmCtrlSendBack_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.sendToBack();
             }
         }
 
-        private lockToolStripMenuItethis.Click(sender: object, e: EventArgs) {
+        private lockToolStripMenuItethis.Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveNoMove();
@@ -959,7 +955,7 @@ namespace CSReportEditor {
             }
         }
 
-        private verticalToolStripMenuItethis.Click(sender: object, e: EventArgs) {
+        private verticalToolStripMenuItethis.Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveVertical();
@@ -969,7 +965,7 @@ namespace CSReportEditor {
             }
         }
 
-        private horizontalToolStripMenuItethis.Click(sender: object, e: EventArgs) {
+        private horizontalToolStripMenuItethis.Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveHorizontal();
@@ -979,7 +975,7 @@ namespace CSReportEditor {
             }
         }
 
-        private allDirectionsToolStripMenuItethis.Click(sender: object, e: EventArgs) {
+        private allDirectionsToolStripMenuItethis.Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveAll();
@@ -989,70 +985,70 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbCtrlAlignLeft_Click(sender: object, e: EventArgs) {
+        private tsbCtrlAlignLeft_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignLeft);
             }
         }
 
-        private tsbCtrlAlignRight_Click(sender: object, e: EventArgs) {
+        private tsbCtrlAlignRight_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignRight);
             }
         }
 
-        private tsbCtrlAlignTop_Click(sender: object, e: EventArgs) {
+        private tsbCtrlAlignTop_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignTop);
             }
         }
 
-        private tsbCtrlAlignBottothis.Click(sender: object, e: EventArgs) {
+        private tsbCtrlAlignBottothis.Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignBottom);
             }
         }
 
-        private tsbCtrlSameHeight_Click(sender: object, e: EventArgs) {
+        private tsbCtrlSameHeight_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignHeight);
             }
         }
 
-        private tsbCtrlSameWidth_Click(sender: object, e: EventArgs) {
+        private tsbCtrlSameWidth_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignWidth);
             }
         }
 
-        private tsbCtrlSameLeft_Click(sender: object, e: EventArgs) {
+        private tsbCtrlSameLeft_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignHorizontal);
             }
         }
 
-        private tsbCtrlSameTop_Click(sender: object, e: EventArgs) {
+        private tsbCtrlSameTop_Click(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignVertical);
             }
         }
 
-        private fMain_KeyUp(sender: object, e: KeyEventArgs) {
+        private fMain_KeyUp(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.keyUp(sender, e);
             }
         }
 
-        private fMain_KeyDown(sender: object, e: KeyEventArgs) {
+        private fMain_KeyDown(sender: object, e: object) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.keyDown(sender, e);

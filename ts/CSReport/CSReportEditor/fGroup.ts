@@ -96,12 +96,12 @@ namespace CSReportEditor {
             this.index = rhs;
         }
 
-        private cmdOk_Click(sender: object, e: EventArgs) {
+        private cmdOk_Click(sender: object, e: object) {
             this.ok = true;
             this.Hide();
         }
 
-        private cmdCancel_Click(sender: object, e: EventArgs) {
+        private cmdCancel_Click(sender: object, e: object) {
             this.ok = false;
             this.Hide();
         }
@@ -110,13 +110,13 @@ namespace CSReportEditor {
             this.editor = editor;
         }
 
-        private cmd_dbField_Click(sender: object, e: EventArgs) {
+        private cmd_dbField_Click(sender: object, e: object) {
             if (this.editor.showHelpDbFieldForGroup()) {
                 this.dbFieldChanged = true;
             }
         }
 
-        private fGroup_Load(sender: object, e: EventArgs) {
+        private fGroup_Load(sender: object, e: object) {
             cWindow.centerForm(this);
         }
     }

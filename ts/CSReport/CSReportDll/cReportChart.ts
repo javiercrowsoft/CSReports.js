@@ -464,7 +464,7 @@ namespace CSReportDll {
                         if (bCompare) {
                             value = Utils.val(ReportGlobals.valVariant(rows[j][valueIndex]));
 
-                            if (
+                            if ((value > v[i].value || v[i].idx == -1)
                                 && value <= v[i - 1].value && j !== v[i - 1].idx) {
 
                                 bFound = false;
@@ -610,7 +610,7 @@ namespace CSReportDll {
                     }
                 }
 
-                if ( && this.chartType === csRptChartType.PIE) {
+                if ((values.length > this.top - 1) && this.chartType === csRptChartType.PIE) {
 
                     let w_item: cWebChartItem = chart.getItems().item(chart.getItems().count()-1);
                     w_item.setPrimaryLabel("Otros");

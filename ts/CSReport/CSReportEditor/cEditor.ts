@@ -1,3 +1,5 @@
+///<reference path="../CSReportPaint/cReportPaint.ts"/>
+///<reference path="../CSReportPaint/cReportPrint.ts"/>
 
 namespace CSReportEditor {
 
@@ -42,6 +44,8 @@ namespace CSReportEditor {
     import csRptPaintRegionType = CSReportPaint.csRptPaintRegionType;
     import cReportPaint = CSReportPaint.cReportPaint;
     import cReportPrint = CSReportPaint.cReportPrint;
+    import cWindow = CSKernelClient.cWindow;
+    import cParameter = CSConnect.cParameter;
 
     export class cEditor {
 
@@ -349,8 +353,7 @@ namespace CSReportEditor {
 
             if (this.keyboardMove) {
                 this.keyboardMove = false;
-                // TODO: reimplement
-                // this.picReport_MouseUp(this, new MouseEventArgs(MouseButtons.Left, 0, this.x, this.y, 0));
+                this.picReport_MouseUp(this, new MouseEventArgs(MouseButtons.Left, 0, this.x, this.y, 0));
                 e.Handled = true;
             }
         }
@@ -398,7 +401,7 @@ namespace CSReportEditor {
                     break;
 
                 case Keys.F4:
-                    this.showProperties();
+                    this.showProperties2();
                     break;
 
                 case Keys.C:
@@ -436,7 +439,7 @@ namespace CSReportEditor {
         private fSearch_EditCtrl(ctrlKey: string) {
             try {
                 this.selectCtrl(ctrlKey);
-                this.showProperties();
+                this.showProperties2();
             } catch (ex) {
                 cError.mngError(ex);
             }
@@ -453,7 +456,7 @@ namespace CSReportEditor {
         private editCtrl(ctrlKey: string) {
             try {
                 this.selectCtrl(ctrlKey);
-                this.showProperties();
+                this.showProperties2();
             } catch (ex) {
                 cError.mngError(ex);
             }
@@ -468,7 +471,7 @@ namespace CSReportEditor {
                     this.showSecLnProperties();
                 }
                 else {
-                    this.showProperties();
+                    this.showProperties2();
                 }
             } catch (ex) {
                 cError.mngError(ex);
@@ -516,14 +519,6 @@ namespace CSReportEditor {
             return null;
         }
 
-        public selectSection(secKey: string) {
-            try {
-                this.pSelectSection(secKey);
-            } catch (ex) {
-                cError.mngError(ex);
-            }
-        }
-
         public selectCtrl(ctrlKey: string) {
             let bWasRemoved = new RefWrapper(false);
             let sKey = this.getReport().getControls().item(ctrlKey).getKeyPaint();
@@ -538,43 +533,36 @@ namespace CSReportEditor {
             cMainEditor.showProperties(ctrlKey);
         }
 
-        private pSelectSection(secKey: string, bIsSecLn?: RefWrapper<boolean>) {
-            let bWasRemoved = new RefWrapper(false);
-            let sKey: string = "";
+        public selectSection(secKey: string, bIsSecLn: RefWrapper<boolean> = new RefWrapper()) {
+            try {
+                let bWasRemoved = new RefWrapper(false);
+                let sKey: string = "";
 
-            bIsSecLn?.set(false);
+                bIsSecLn.set(false);
 
-            this.vSelectedKeys = [];
+                this.vSelectedKeys = [];
 
-            if (this.report.getHeaders().item(secKey) !== null) {
-                sKey = this.report.getHeaders().item(secKey).getKeyPaint();
-            }
-            else if (this.report.getGroupsHeaders().item(secKey) !== null) {
-                sKey = this.report.getGroupsHeaders().item(secKey).getKeyPaint();
-            }
-            else if (this.report.getDetails().item(secKey) !== null) {
-                sKey = this.report.getDetails().item(secKey).getKeyPaint();
-            }
-            else if (this.report.getGroupsFooters().item(secKey) !== null) {
-                sKey = this.report.getGroupsFooters().item(secKey).getKeyPaint();
-            }
-            else if (this.report.getFooters().item(secKey) !== null) {
-                sKey = this.report.getFooters().item(secKey).getKeyPaint();
-            }
-            else {
-                let sec: RefWrapper<cReportSection> = new RefWrapper();
-
-                bIsSecLn?.set(true);
-
-                let secLn = this.getSecLnFromKey(secKey, this.report.getHeaders(), sec);
-                if (secLn !== null) {
-                    sKey = secLn.getKeyPaint();
-                    if (sKey === "") {
-                        sKey = sec.get().getKeyPaint();
-                    }
+                if (this.report.getHeaders().item(secKey) !== null) {
+                    sKey = this.report.getHeaders().item(secKey).getKeyPaint();
+                }
+                else if (this.report.getGroupsHeaders().item(secKey) !== null) {
+                    sKey = this.report.getGroupsHeaders().item(secKey).getKeyPaint();
+                }
+                else if (this.report.getDetails().item(secKey) !== null) {
+                    sKey = this.report.getDetails().item(secKey).getKeyPaint();
+                }
+                else if (this.report.getGroupsFooters().item(secKey) !== null) {
+                    sKey = this.report.getGroupsFooters().item(secKey).getKeyPaint();
+                }
+                else if (this.report.getFooters().item(secKey) !== null) {
+                    sKey = this.report.getFooters().item(secKey).getKeyPaint();
                 }
                 else {
-                    secLn = this.getSecLnFromKey(secKey, this.report.getGroupsHeaders(), sec);
+                    let sec: RefWrapper<cReportSection> = new RefWrapper();
+
+                    bIsSecLn.set(true);
+
+                    let secLn = this.getSecLnFromKey(secKey, this.report.getHeaders(), sec);
                     if (secLn !== null) {
                         sKey = secLn.getKeyPaint();
                         if (sKey === "") {
@@ -582,7 +570,7 @@ namespace CSReportEditor {
                         }
                     }
                     else {
-                        secLn = this.getSecLnFromKey(secKey, this.report.getDetails(), sec);
+                        secLn = this.getSecLnFromKey(secKey, this.report.getGroupsHeaders(), sec);
                         if (secLn !== null) {
                             sKey = secLn.getKeyPaint();
                             if (sKey === "") {
@@ -590,7 +578,7 @@ namespace CSReportEditor {
                             }
                         }
                         else {
-                            secLn = this.getSecLnFromKey(secKey, this.report.getGroupsFooters(), sec);
+                            secLn = this.getSecLnFromKey(secKey, this.report.getDetails(), sec);
                             if (secLn !== null) {
                                 sKey = secLn.getKeyPaint();
                                 if (sKey === "") {
@@ -598,28 +586,39 @@ namespace CSReportEditor {
                                 }
                             }
                             else {
-                                secLn = this.getSecLnFromKey(secKey, this.report.getFooters(), sec);
+                                secLn = this.getSecLnFromKey(secKey, this.report.getGroupsFooters(), sec);
                                 if (secLn !== null) {
                                     sKey = secLn.getKeyPaint();
                                     if (sKey === "") {
                                         sKey = sec.get().getKeyPaint();
                                     }
                                 }
+                                else {
+                                    secLn = this.getSecLnFromKey(secKey, this.report.getFooters(), sec);
+                                    if (secLn !== null) {
+                                        sKey = secLn.getKeyPaint();
+                                        if (sKey === "") {
+                                            sKey = sec.get().getKeyPaint();
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
+
+                if (sKey === "") return;
+
+                this.pAddToSelected(sKey, false, bWasRemoved);
+                if (bWasRemoved.get()) { sKey = ""; }
+
+                this.keyFocus = sKey;
+                this.keyObj = sKey;
+                this.paint.setFocus(this.keyFocus, this.picReport.getGraphics(), true);
+                cMainEditor.showProperties("S" + secKey);
+            } catch (ex) {
+                cError.mngError(ex);
             }
-
-            if (sKey === "") return;
-
-            this.pAddToSelected(sKey, false, bWasRemoved);
-            if (bWasRemoved.get()) { sKey = ""; }
-
-            this.keyFocus = sKey;
-            this.keyObj = sKey;
-            this.paint.setFocus(this.keyFocus, this.picReport.getGraphics(), true);
-            cMainEditor.showProperties("S" + secKey);
         }
 
         private getSecLnFromKey(secKey: string, sections: cIReportGroupSections, rtnSec: RefWrapper<cReportSection>) {
@@ -1012,7 +1011,7 @@ namespace CSReportEditor {
             if (this.paint === null) return;
 
             let button = e.Button;
-            let ctrlKey: boolean = Control.ModifierKeys.HasFlag(Keys.Control) || Control.ModifierKeys.HasFlag(Keys.Shift);
+            let ctrlKey: boolean = e.ctrlKey || e.shiftKey;
             let x: number = e.X;
             let y: number = e.Y;
 
@@ -1184,7 +1183,7 @@ namespace CSReportEditor {
                             let isGroup = new RefWrapper(false);
                             let isSecLn = new RefWrapper(false);
 
-                            this.pGetSection(isGroup, isSecLn);
+                            this.getSection(isGroup, isSecLn);
 
                             if (isSecLn.get()) { noDelete = true; }
 
@@ -1210,13 +1209,13 @@ namespace CSReportEditor {
                 cError.mngError(ex);
             }
             finally {
-                this.setInMouseDown(false);
+                this.inMouseDown = false;
             }
         }
 
         public setFontBold() {
             let bBold: number = -2;
-            let bBoldValue: boolean = false;
+            let bBoldValue: boolean;
 
             for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 let font: cReportFont = this.paint.getPaintObject(this.vSelectedKeys[i]).getAspect().getFont();
@@ -1429,12 +1428,12 @@ namespace CSReportEditor {
                 }
             }
             else {
-                if (this.pAllreadySelected(sKey)) return;
+                if (this.alreadySelected(sKey)) return;
             }
             this.vSelectedKeys.push(sKey);
         }
 
-        private pAllreadySelected(sKey: string) {
+        private alreadySelected(sKey: string) {
             if (sKey === "") {
                 return true;
             }
@@ -1611,7 +1610,7 @@ namespace CSReportEditor {
                         let po: cReportPaintObject = this.paint.getPaintObject(sKey);
 
                         let ctrl: cReportControl = this.report.getControls().item(po.getTag());
-                        this.psetStatusBarText(
+                        this.setStatusBarText(
                             ctrl.getName(),
                             ctrl.getControlType(),
                             ctrl.getFormulaHide().getText(),
@@ -1623,7 +1622,7 @@ namespace CSReportEditor {
                         if (po.getPaintType() === csRptPaintObjType.CSRPTPAINTOBJLINE) {
                             this.keyMoving = sKey;
                             this.keySizing = "";
-                            this.picReport.Cursor = Cursors.SizeNS;
+                            this.picReport.setCursor(Cursors.SizeNS);
                         }
                         else {
                             switch (po.getTag()) {
@@ -1632,7 +1631,7 @@ namespace CSReportEditor {
                                 case cGlobals.C_KEY_HEADER:
                                     this.keyMoving = sKey;
                                     this.keySizing = "";
-                                    this.picReport.Cursor = Cursors.SizeNS;
+                                    this.picReport.setCursor(Cursors.SizeNS);
                                     this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     break;
 
@@ -1646,70 +1645,70 @@ namespace CSReportEditor {
 
                                         this.keyMoving = sKey;
                                         this.keySizing = "";
-                                        this.picReport.Cursor = Cursors.SizeNS;
+                                        this.picReport.setCursor(Cursors.SizeNS);
                                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     }
                                     else {
 
                                         switch (rgnTp.get()) {
                                             case csRptPaintRegionType.CRPTPNTRGNTYPEBODY:
-                                                this.picReport.Cursor = Cursors.SizeAll;
+                                                this.picReport.setCursor(Cursors.SizeAll);
                                                 this.keyMoving = sKey;
                                                 this.keySizing = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPEDOWN:
-                                                this.picReport.Cursor = Cursors.SizeNS;
+                                                this.picReport.setCursor(Cursors.SizeNS);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPEUP:
-                                                this.picReport.Cursor = Cursors.SizeNS;
+                                                this.picReport.setCursor(Cursors.SizeNS);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVUP;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFT:
-                                                this.picReport.Cursor = Cursors.SizeWE;
+                                                this.picReport.setCursor(Cursors.SizeWE);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFT;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHT:
-                                                this.picReport.Cursor = Cursors.SizeWE;
+                                                this.picReport.setCursor(Cursors.SizeWE);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHT;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN:
-                                                this.picReport.Cursor = Cursors.SizeNESW;
+                                                this.picReport.setCursor(Cursors.SizeNESW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFTDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP:
-                                                this.picReport.Cursor = Cursors.SizeNESW;
+                                                this.picReport.setCursor(Cursors.SizeNESW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTUP;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHTDOWN:
-                                                this.picReport.Cursor = Cursors.SizeNWSE;
+                                                this.picReport.setCursor(Cursors.SizeNWSE);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP:
-                                                this.picReport.Cursor = Cursors.SizeNWSE;
+                                                this.picReport.setCursor(Cursors.SizeNWSE);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFTUP;
@@ -1726,8 +1725,8 @@ namespace CSReportEditor {
                         }
                     }
                     else {
-                        this.psetStatusBarText("");
-                        this.picReport.Cursor = Cursors.Default;
+                        this.setStatusBarText("");
+                        this.picReport.setCursor(Cursors.Default);
                         this.keySizing = "";
                         this.keyMoving = "";
                     }
@@ -1739,7 +1738,7 @@ namespace CSReportEditor {
                         let rptCtrl: cReportControl = null;
                         rptCtrl = this.report.getControls().item(po.getTag());
                         if (rptCtrl !== null) {
-                            this.psetStatusBarText(rptCtrl.getName(),
+                            this.setStatusBarText(rptCtrl.getName(),
                                             rptCtrl.getControlType(),
                                             rptCtrl.getFormulaHide().getText(),
                                             rptCtrl.getFormulaValue().getText(),
@@ -1749,22 +1748,22 @@ namespace CSReportEditor {
                         }
                     }
                     else {
-                        this.psetStatusBarText("");
+                        this.setStatusBarText("");
                     }
                 }
                 else {
-                    this.psetStatusBarText("");
+                    this.setStatusBarText("");
                 }
             }
         }
 
-        private psetStatusBarText(ctrlName: string,
-                                  ctrlType: csRptControlType = csRptControlType.CS_RPT_CT_LABEL,
+        private setStatusBarText(ctrlName: string,
+                                  ctrlType?: csRptControlType = csRptControlType.CS_RPT_CT_LABEL,
                                   formulaHide: string = "",
                                   formulaValue: string = "",
                                   hasFormulaHide: boolean = false,
                                   hasFormulaValue: boolean = false,
-                                  fieldName: string) {
+                                  fieldName: string = "") {
 
             let msg: string = "";
             let strCtlType: string = "";
@@ -1815,22 +1814,22 @@ namespace CSReportEditor {
                     switch (this.moveType) {
                         case csRptEditorMoveType.CSRPTEDMOVTALL:
                             if (this.bMoveVertical) {
-                                pMoveAll(C_NOMOVE, y);
+                                this.pMoveAll(this.C_NOMOVE, y);
                             }
                             else if (this.bMoveHorizontal) {
-                                pMoveAll(x, C_NOMOVE);
+                                this.pMoveAll(x, this.C_NOMOVE);
                             }
                             else {
-                                pMoveAll(x, y);
+                                this.pMoveAll(x, y);
                             }
                             break;
 
                         case csRptEditorMoveType.CSRPTEDMOVTHORIZONTAL:
-                            pMoveHorizontal(x);
+                            this.pMoveHorizontal(x);
                             break;
 
                         case csRptEditorMoveType.CSRPTEDMOVTVERTICAL:
-                            pMoveVertical(x, y);
+                            this.pMoveVertical(x, y);
                             break;
                     }
 
@@ -1839,12 +1838,12 @@ namespace CSReportEditor {
                 //----------------------------------------------------
                 }
                 else if (this.keySizing !== "") {
-                    pResizeControl(x, y);
+                    this.pResizeControl(x, y);
                 }
 
-                refreshBody();
+                this.refreshBody();
                 this.moving = false;
-                refreshRule();
+                this.refreshRule();
             }
 
             this.keySizing = "";
@@ -1878,7 +1877,7 @@ namespace CSReportEditor {
             }
 
             if (this.report.getConnect().getDataSource() === "") {
-                cWindow.msgWarning("Before editting the parameter info you must define a connection");
+                cWindow.msgWarning("Before editing the parameter info you must define a connection");
                 return;
             }
 
@@ -1886,10 +1885,7 @@ namespace CSReportEditor {
             connect.setDataSource(this.report.getConnect().getDataSource());
             connect.setDataSourceType(this.report.getConnect().getDataSourceType());
 
-            if (! connect.getDataSourceColumnsInfo(
-                    this.report.getConnect().getDataSource(),
-                    this.report.getConnect().getDataSourceType())
-            ) {
+            if (! connect.getDataSourceColumnsInfo()) {
                 return;
             }
 
@@ -1932,14 +1928,12 @@ namespace CSReportEditor {
 
                 let connect: CSConnect.cConnect = new CSConnect.cConnect();
 
-                if (!connect.showOpenConnection())
+                if (! connect.showOpenConnection())
                     return false;
 
                 this.refreshAll();
 
-                if (! connect.getDataSourceColumnsInfo(
-                                connect.getDataSource(),
-                                connect.getDataSourceType())) {
+                if (! connect.getDataSourceColumnsInfo()) {
                     return false;
                 }
 
@@ -1977,13 +1971,13 @@ namespace CSReportEditor {
         public deleteObj(bDelSectionLine: boolean) {
             let sec: cReportSection = null;
             let secs: cReportSections = null;
-            let secLn: cReportSectionLine = null;
+            let secLn = new RefWrapper<cReportSectionLine>(null);
             let ctrl: cReportControl = null;
             let paintObj: cReportPaintObject = null;
 
-            let isGroupFooter: boolean = false;
-            let isGroupHeader: boolean = false;
-            let isSecLn: boolean = false;
+            let isGroupFooter = new RefWrapper(false);
+            let isGroupHeader = new RefWrapper(false);
+            let isSecLn = new RefWrapper(false);
 
             if (this.keyFocus === "") return;
 
@@ -1997,14 +1991,14 @@ namespace CSReportEditor {
 
                 // first we check it instanceof not a section line
                 //
-                sec = this.pGetSection(isSecLn, secLn, false, isGroupHeader, isGroupFooter);
+                sec = this.getSection(null, isSecLn, secLn, false, isGroupHeader, isGroupFooter);
                 if (!isSecLn) {
 
                     // check it instanceof not the last section line in this section
                     //
                     if (bDelSectionLine) {
 
-                        sec = this.pGetSection(isSecLn, secLn, true, isGroupHeader, isGroupFooter);
+                        sec = this.getSection(null, isSecLn, secLn, true, isGroupHeader, isGroupFooter);
                     }
                     if (! pCanDeleteSection(secs, sec, po.getTag())) return;
                 }
@@ -2703,9 +2697,9 @@ namespace CSReportEditor {
         public addSectionLine() {
             let sec: cReportSection = null;
             let aspect: cReportAspect = null;
-            let isGroup: boolean = false;
+            let isGroup = new RefWrapper(false);
 
-            sec = this.pGetSection(isGroup);
+            sec = this.getSection(isGroup);
 
             if (sec === null) return;
 
@@ -3206,9 +3200,9 @@ namespace CSReportEditor {
         public showGroupProperties() {
             let sec: cReportSection = null;
             let group: cReportGroup = null;
-            let isGroup: boolean = false;
+            let isGroup = new RefWrapper(false);
 
-            sec = this.pGetSection(isGroup);
+            sec = this.getSection(isGroup);
 
             if (sec === null) return;
 
@@ -3325,9 +3319,9 @@ namespace CSReportEditor {
         public moveGroup() {
             let sec: cReportSection = null;
             let group: cReportGroup = null;
-            let isGroup: boolean = false;
+            let isGroup = new RefWrapper(false);
 
-            sec = this.pGetSection(isGroup);
+            sec = this.getSection(isGroup);
 
             if (sec === null) return;
 
@@ -3347,9 +3341,9 @@ namespace CSReportEditor {
 
         public showSectionProperties() {
             let sec: cReportSection = null;
-            let isGroup: boolean = false;
+            let isGroup = new RefWrapper(false);
 
-            sec = this.pGetSection(isGroup);
+            sec = this.getSection(isGroup);
 
             if (sec === null) return;
 
@@ -3360,10 +3354,10 @@ namespace CSReportEditor {
 
         public showSecLnProperties() {
             let sec: cReportSection = null;
-            let secLn: cReportSectionLine = null;
-            let isSecLn: boolean = false;
+            let secLn = new RefWrapper<cReportSectionLine>(null);
+            let isSecLn = new RefWrapper(false);
 
-            sec = this.pGetSection(isSecLn, secLn, true);
+            sec = this.getSection(null, isSecLn, secLn, true);
 
             if (sec === null) return;
             if (secLn === null) return;
@@ -3415,12 +3409,12 @@ namespace CSReportEditor {
         }
 
         // ReturnSecLn instanceof flag to state that the caller wants to get
-        // the section line asociated with the separator of the section
+        // the section line associated with the separator of the section
         // remember that the last section line don't have a separator
         // but share it with the section.
         //
-        private pGetSection(isGroup: RefWrapper<boolean>,
-                            isSecLn: RefWrapper<boolean>,
+        private getSection( isGroup: RefWrapper<boolean>,
+                            isSecLn: RefWrapper<boolean> = null,
                             secLn: RefWrapper<cReportSectionLine> = null,
                             returnSecLn: boolean = false,
                             isGroupHeader: RefWrapper<boolean> = null,
@@ -3428,6 +3422,8 @@ namespace CSReportEditor {
 
             let sec: cReportSection = null;
 
+            if(isGroup === null) isGroup = new RefWrapper(false);
+            if(isSecLn === null) isSecLn = new RefWrapper(false);
             isGroup.set(false);
             isSecLn.set(false);
             secLn.set(null);
@@ -3533,7 +3529,7 @@ namespace CSReportEditor {
         public showProperties(key: string) {
             if ("SL".indexOf(key.substring(0, 1)) !== -1) {
                 let bIsSecLn = new RefWrapper(false);
-                this.pSelectSection(key.substring(1), bIsSecLn);
+                this.selectSection(key.substring(1), bIsSecLn);
 
                 if (bIsSecLn.get()) {
                     this.showSecLnProperties();
@@ -4950,7 +4946,7 @@ namespace CSReportEditor {
             this.cMainEditor.setDocActive(this);
         }
 
-        private reportDone(sender: object, e: EventArgs) {
+        private reportDone(sender: object, e: object) {
             this.closeProgressDlg();
         }
 
@@ -6104,9 +6100,4 @@ namespace CSReportEditor {
         C,
         V
     }
-
-    enum MouseButtons {
-
-    }
-
 }

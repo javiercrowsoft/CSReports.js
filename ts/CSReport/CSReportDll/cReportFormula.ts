@@ -2,6 +2,7 @@ namespace CSReportDll {
 
     import csRptWhenEval = CSReportGlobals.csRptWhenEval;
     import eTypes = CSKernelClient.eTypes;
+    import XmlNode = CSXml.XmlNode;
 
     export class cReportFormula {
 
@@ -17,7 +18,7 @@ namespace CSReportDll {
         // n is the index of the function in this.FormulasInt
         // when we run the script every occurrence of $$$n is replaced for
         // the value of their corresponding function
-        // finally if the text contains an script we evalute this with the
+        // finally if the text contains an script we evaluate this with the
         // ScriptControl
         // 
         // compiled text of the function
@@ -35,13 +36,13 @@ namespace CSReportDll {
         private sectionLineIndex: number = 0;
         private sectionName: string = "";
 
-        private compiledScript: Assembly = null;
+        private compiledScript: object = null;
 
         public getCompiledScript() {
             return this.compiledScript;
         }
 
-        public setCompiledScript(value: Assembly) {
+        public setCompiledScript(value: object) {
             this.compiledScript = value;
         }
 

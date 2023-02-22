@@ -42,37 +42,37 @@ namespace CSReportPreview {
             tsbPages.Text = pages.toString();
         }
 
-        private tsbFirstPage_Click(sender: object, e: EventArgs) {
+        private tsbFirstPage_Click(sender: object, e: object) {
             if (FirstPage !== null) {
                 FirstPage(this, EventArgs.Empty);
             }
         }
 
-        private tsbPreviousPage_Click(sender: object, e: EventArgs) {
+        private tsbPreviousPage_Click(sender: object, e: object) {
             if (PreviousPage !== null) {
                 PreviousPage(this, EventArgs.Empty);
             }
         }
 
-        private tsbNextPage_Click(sender: object, e: EventArgs) {
+        private tsbNextPage_Click(sender: object, e: object) {
             if (NextPage !== null) {
                 NextPage(this, EventArgs.Empty);
             }
         }
 
-        private tsbLastPage_Click(sender: object, e: EventArgs) {
+        private tsbLastPage_Click(sender: object, e: object) {
             if (LastPage !== null) {
                 LastPage(this, EventArgs.Empty);
             }
         }
 
-        private tsbExportPDF_Click(sender: object, e: EventArgs) {
+        private tsbExportPDF_Click(sender: object, e: object) {
             if (ExportToPDF !== null) {
                 ExportToPDF(this, EventArgs.Empty);
             }
         }
 
-        private tsbPage_KeyUp(sender: object, e: KeyEventArgs) {
+        private tsbPage_KeyUp(sender: object, e: object) {
             if (e.KeyCode === Keys.Enter) {
                 let page = Utils.valInt(tsbPage.Text);
                 if (page > 0)  {
@@ -83,13 +83,13 @@ namespace CSReportPreview {
             }
         }
 
-        private tsbPrint_Click(sender: object, e: EventArgs) {
+        private tsbPrint_Click(sender: object, e: object) {
             if (Print !== null) {
                 Print(this, EventArgs.Empty);
             }
         }
 
-        private pnReport_Click(sender: object, e: EventArgs) {
+        private pnReport_Click(sender: object, e: object) {
             pnEditor.Focus();
         }
     }

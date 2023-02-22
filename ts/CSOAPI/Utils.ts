@@ -11,11 +11,10 @@ namespace CSOAPI {
         }
 
         public static isNumber(value: any): boolean {
-            value = value.toString();
             try {
-                value = parseFloat(value);
-                return isNaN(value) ? false : true;
-            } catch (ignore) {
+                return isNaN(parseFloat(value.toString()));
+            }
+            catch (ignore) {
                 return false;
             }
         }
@@ -71,25 +70,20 @@ namespace CSOAPI {
 
         private static getDPI() {
             if (Utils._dpi < 0) {
-                let currentDPI: number = 0;
-                {
-                    {
-                        currentDPI = 96; // default HTML canvas DPI
-                    }
-                }
-                Utils._dpi = currentDPI;
+                Utils._dpi = 96; // default HTML canvas DPI
             }
             return Utils._dpi;
         }
 
-        private static _sepDecimal = "";
+        public static isVisible(el) {
+            return ! this.isHidden(el);
+        }
 
-        /*
-        * I wish I have taken my wallet with my so I could by that phone
-        * I prefer swimming rather than hiking
-        * I rather take a taxi than walk there
-        *
-        * */
+        public static isHidden(el) {
+            return (window.getComputedStyle(el).display === 'none');
+        }
+
+        private static _sepDecimal = "";
 
         public static setSepDecimal() {
             const decimalSeparator = 1.1;
@@ -147,13 +141,19 @@ namespace CSOAPI {
         }
 
         private listAdd_(list: ComboBox, value: string, id: number) {
-            list.Items.Add(new ListValueWithId(value, id));
+            // TODO: implement
+            // list.Items.Add(new ListValueWithId(value, id));
         }
         private listID_(list: ComboBox) {
+            // TODO: implement
+            /*
             if (list.SelectedIndex === -1) { return 0; }
             return (list.SelectedItem).Id;
+            */
         }
         private listItemData_(list: ComboBox, index: number) {
+            // TODO: implement
+            /*
             let _rtn: number = 0;
 
             if (index < list.Items.Count) {
@@ -165,12 +165,18 @@ namespace CSOAPI {
                 }
             }
             return _rtn;
+            */
         }
         private listSetListIndex_(list: ComboBox, idx: number) {
+            // TODO: implement
+            /*
             if (list.Items.Count < 1) { return; }
             if (list.Items.Count > idx) { list.SelectedIndex = idx; }
+            */
         }
         private listSetListIndexForId_(list: ComboBox, id: number) {
+            // TODO: implement
+            /*
             let i: number = 0;
             for (i = 0; i < list.Items.Count; i++) {
                 if ((list.Items[i]).Id === id) {
@@ -178,8 +184,11 @@ namespace CSOAPI {
                     break;
                 }
             }
+            */
         }
         private listSetListIndexForText_(list: ComboBox, text: string) {
+            // TODO: implement
+            /*
             let i: number = 0;
             for (i = 0; i < list.Items.Count; i++) {
                 if (list.Items[i].ToString() === text) {
@@ -187,11 +196,15 @@ namespace CSOAPI {
                     break;
                 }
             }
+            */
         }
         private listChangeTextForSelected_(list: ComboBox, value: string) {
-            this.listChangeText_(list, list.SelectedIndex, value);
+            // TODO: implement
+            // this.listChangeText_(list, list.SelectedIndex, value);
         }
         private listChangeText_(list: ComboBox, idx: number, value: string) {
+            // TODO: implement
+            /*
             if (idx < list.Items.Count && idx > -1) {
                 let item: object = list.Items[idx];
                 if (item is ListValueWithId) {
@@ -201,8 +214,11 @@ namespace CSOAPI {
                     list.Items[idx] = value;
                 }
             }
+            */
         }
         private listGetIndexFromItemData_(list: ComboBox, valueItemData: number) {
+            // TODO: implement
+            /*
             for(var i = 0; i < list.Items.Count; i++) {
 
                 if (list.Items[i] is ListValueWithId && (list.Items[i]).Id === valueItemData) {
@@ -210,6 +226,7 @@ namespace CSOAPI {
                 }
             }
             return -1;
+            */
         }
 
     }

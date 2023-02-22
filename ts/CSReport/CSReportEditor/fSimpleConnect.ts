@@ -60,7 +60,7 @@ namespace CSReportEditor {
             return strConnect;
 		}
 
-        private cmd_apply_Click(sender: object, e: EventArgs) {
+        private cmd_apply_Click(sender: object, e: object) {
             if (op_sqlConnection.Checked && tx_user.Text === "") {
                 cWindow.msgWarning("You must indicate a user");
             }
@@ -70,16 +70,16 @@ namespace CSReportEditor {
             }
         }
 
-        private cmd_cancel_Click(sender: object, e: EventArgs) {
+        private cmd_cancel_Click(sender: object, e: object) {
             this.ok = false;
             this.Close();
         }
 
-        private op_sqlConnection_CheckedChanged(sender: object, e: EventArgs) {
+        private op_sqlConnection_CheckedChanged(sender: object, e: object) {
             setEnabledUserAndPassword();
         }
 
-        private op_trustedConnection_CheckedChanged(sender: object, e: EventArgs) {
+        private op_trustedConnection_CheckedChanged(sender: object, e: object) {
             setEnabledUserAndPassword();
         }
 
@@ -88,8 +88,16 @@ namespace CSReportEditor {
             tx_password.Enabled = op_sqlConnection.Checked;
         }
 
-        private fSimpleConnect_Load(sender: object, e: EventArgs) {
+        private fSimpleConnect_Load(sender: object, e: object) {
             cWindow.centerForm(this);
+        }
+
+        showDialog() {
+
+        }
+
+        close() {
+
         }
     } 
 }

@@ -58,27 +58,35 @@ namespace CSReportEditor {
             return this.ok;
         }
 
-        private fSecProperties_Load(sender: object, e: EventArgs) {
+        private fSecProperties_Load(sender: object, e: object) {
             cWindow.centerForm(this);
             lb_formulaHide.Text = this.formulaHide;
         }
 
-        private cmd_apply_Click(sender: object, e: EventArgs) {
+        private cmd_apply_Click(sender: object, e: object) {
             this.ok = true;
             this.Hide();
         }
 
-        private cmd_cancel_Click(sender: object, e: EventArgs) {
+        private cmd_cancel_Click(sender: object, e: object) {
             this.ok = false;
             this.Hide();
         }
 
-        private cmd_formulaHide_Click(sender: object, e: EventArgs) {
+        private cmd_formulaHide_Click(sender: object, e: object) {
             this.formulaName = "Ocultar";
             if (this.editor.showEditFormula(this.formulaHide)) {
                 this.formulaHideChanged = true;
                 lb_formulaHide.Text = this.formulaHide;
             }
+        }
+
+        showDialog() {
+
+        }
+
+        close() {
+
         }
     }
 }

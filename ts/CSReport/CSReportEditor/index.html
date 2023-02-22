@@ -14,6 +14,9 @@
             event.stopPropagation();
             console.log("Close " + id);
         }
+        (function() {
+            CSReportEditor.cMainEditor.initEditor();
+        }())
     </script>
 </head>
 <body>

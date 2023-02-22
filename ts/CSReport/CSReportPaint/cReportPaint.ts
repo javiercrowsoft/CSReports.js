@@ -6,6 +6,7 @@ namespace CSReportPaint {
     import cColor = CSKernelClient.cColor;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import csReportBorderType = CSReportGlobals.csReportBorderType;
+    import RefWrapper = CSKernelClient.RefWrapper;
 
     export class cReportPaint {
 
@@ -165,21 +166,23 @@ namespace CSReportPaint {
             return sKey.substring(0, cReportPaint.C_KEY_PAINT_SEC.length) === cReportPaint.C_KEY_PAINT_SEC;
         }
 
-		public pointIsInObject(x: number, y: number, sKey: string, regionType: csRptPaintRegionType = csRptPaintRegionType.CRPTPNTRGNTYPEBODY) {
+		public pointIsInObject(
+		    x: number, y: number, sKey: string,
+            regionType: RefWrapper<csRptPaintRegionType> = new RefWrapper(csRptPaintRegionType.CRPTPNTRGNTYPEBODY)) {
             if (this.pointIsInObjectAux(this.paintSections, x, y, sKey, regionType)) {
                 return true;
             }
-            if (this.pointIsInObjectAux(this.paintObjects, x, y, sKey, regionType)) {
+            else if (this.pointIsInObjectAux(this.paintObjects, x, y, sKey, regionType)) {
                 return true;
             }
             return false;
         }
 
-        public pointIsInThisObject(x: number, y: number, sKey: string, regionType: csRptPaintRegionType) {
+        public pointIsInThisObject(x: number, y: number, sKey: string, regionType: RefWrapper<csRptPaintRegionType>) {
             if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
                 return true;
             }
-            if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
+            else if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
                 return true;
             }
             return false;
@@ -190,7 +193,7 @@ namespace CSReportPaint {
             x: number,
             y: number,
             sKey: string,
-            regionType: csRptPaintRegionType) {
+            regionType: RefWrapper<csRptPaintRegionType>) {
             for(let i = paintObjs.count()-1; i > -1; i--) {
                 if (this.pointIsInThisObjectAux(paintObjs.getNextPaintObjForZOrder(i), x, y, sKey, regionType)) {
                     return true;
@@ -204,7 +207,7 @@ namespace CSReportPaint {
             x: number,
             y: number,
             sKey: string,
-            regionType: csRptPaintRegionType) {
+            regionType: RefWrapper<csRptPaintRegionType>) {
 
             const C_WIDTH_REGION: number = 3;
 
@@ -249,7 +252,7 @@ namespace CSReportPaint {
                                         left + width - C_WIDTH_REGION,
                                         top + height - C_WIDTH_REGION,
                                         x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPEBODY;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEBODY);
                     }
                     // Left
                     else if (this.pointIsInRegion(left - C_WIDTH_REGION * 2,
@@ -257,7 +260,7 @@ namespace CSReportPaint {
                                                 left + C_WIDTH_REGION * 2,
                                                 yY + C_WIDTH_REGION * 2,
                                                 x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPELEFT;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFT);
                     }
                     // Rigth
                     else if (this.pointIsInRegion(left + width - C_WIDTH_REGION * 2,
@@ -265,7 +268,7 @@ namespace CSReportPaint {
                                                 left + width + C_WIDTH_REGION * 2,
                                                 yY + C_WIDTH_REGION * 2,
                                                 x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPERIGHT;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHT);
                     }
                     // Up
                     else if (this.pointIsInRegion(xX,
@@ -273,7 +276,7 @@ namespace CSReportPaint {
                                                 xX + C_WIDTH_REGION * 2,
                                                 top + C_WIDTH_REGION * 2,
                                                 x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPEUP;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEUP);
                     }
                     // Down
                     else if (this.pointIsInRegion(xX,
@@ -281,7 +284,7 @@ namespace CSReportPaint {
                                                 xX + C_WIDTH_REGION * 2,
                                                 top + height + C_WIDTH_REGION * 2,
                                                 x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPEDOWN;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEDOWN);
                     }
                     // LeftUp
                     else if (this.pointIsInRegion(left - C_WIDTH_REGION,
@@ -289,7 +292,7 @@ namespace CSReportPaint {
                                                 left + C_WIDTH_REGION,
                                                 top + C_WIDTH_REGION,
                                                 x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP);
                     }
                     // LeftDown
                     else if (this.pointIsInRegion(left - C_WIDTH_REGION,
@@ -297,23 +300,23 @@ namespace CSReportPaint {
                                                 left + C_WIDTH_REGION,
                                                 top + height + C_WIDTH_REGION,
                                                 x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN);
                     }
-                    // RigthUp
+                    // RightUp
                     else if (this.pointIsInRegion(left + width - C_WIDTH_REGION,
                                                 top - C_WIDTH_REGION,
                                                 left + width + C_WIDTH_REGION,
                                                 top + C_WIDTH_REGION,
                                                 x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP);
                     }
-                    // RitgthDown
+                    // RightDown
                     else if (this.pointIsInRegion(left + width - C_WIDTH_REGION,
                                                 top + height - C_WIDTH_REGION,
                                                 left + width + C_WIDTH_REGION,
                                                 top + height + C_WIDTH_REGION,
                                                 x, y)) {
-                        regionType = csRptPaintRegionType.CRPTPNTRGNTYPERIGHTDOWN;
+                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHTDOWN);
                     }
 
                     return true;
@@ -346,7 +349,7 @@ namespace CSReportPaint {
         // we have four points for every region. we need to know if at least one point
         // of region A is in region B or viceversa
         //
-        private regionIsInRegion(
+        private regionIsInRegion3D(
             x1: number,
             y1: number,
             x2: number,
@@ -360,27 +363,27 @@ namespace CSReportPaint {
             if (x1 <= z1 && x2 >= z1 && w1 <= y1 && w2 >= y1) {
                 return true;
             }
-            if (x1 <= z2 && x2 >= z2 && w1 <= y1 && w2 >= y1) {
+            else if (x1 <= z2 && x2 >= z2 && w1 <= y1 && w2 >= y1) {
                 return true;
             }
-            if (x1 <= z1 && x2 >= z1 && w1 <= y2 && w2 >= y2) {
+            else if (x1 <= z1 && x2 >= z1 && w1 <= y2 && w2 >= y2) {
                 return true;
             }
-            if (x1 <= z2 && x2 >= z2 && w1 <= y2 && w2 >= y2) {
+            else if (x1 <= z2 && x2 >= z2 && w1 <= y2 && w2 >= y2) {
                 return true;
             }
             // then A in B
             //
-            if (z1 <= x1 && z2 >= x1 && y1 <= w1 && y2 >= w1) {
+            else if (z1 <= x1 && z2 >= x1 && y1 <= w1 && y2 >= w1) {
                 return true;
             }
-            if (z1 <= x2 && z2 >= x2 && y1 <= w1 && y2 >= w1) {
+            else if (z1 <= x2 && z2 >= x2 && y1 <= w1 && y2 >= w1) {
                 return true;
             }
-            if (z1 <= x1 && z2 >= x1 && y1 <= w2 && y2 >= w2) {
+            else if (z1 <= x1 && z2 >= x1 && y1 <= w2 && y2 >= w2) {
                 return true;
             }
-            if (z1 <= x2 && z2 >= x2 && y1 <= w2 && y2 >= w2) {
+            else if (z1 <= x2 && z2 >= x2 && y1 <= w2 && y2 >= w2) {
                 return true;
             }
             return false;
@@ -1312,14 +1315,14 @@ namespace CSReportPaint {
             rect = cGlobals.newRectangle(x2, y2, x2 + iSize, y2 + iSize);
             this.showHandle(graph, brush, rect, bCircle);
 
-            let x: number = Math.trunc((x1 +  / 2) - iSize / 2);
+            let x: number = Math.trunc((x1 + (x2 - x1) / 2) - iSize / 2);
             rect = cGlobals.newRectangle(x, y2, x + iSize, y2 + iSize);
             this.showHandle(graph, brush, rect, bCircle);
 
             rect = cGlobals.newRectangle(x, y1 - iSize - 1, x + iSize, y1);
             this.showHandle(graph, brush, rect, bCircle);
 
-            let y: number = Math.trunc((y1 +  / 2) - iSize / 2);
+            let y: number = Math.trunc((y1 + (y2 - y1) / 2) - iSize / 2);
             rect = cGlobals.newRectangle(x1 - iSize, y, x1, y + iSize);
             this.showHandle(graph, brush, rect, bCircle);
 
