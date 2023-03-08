@@ -1,3 +1,6 @@
+///<reference path="../CSOAPI/Exception.ts"/>
+///<reference path="../CSKernel/CSKernelClient/cWindow.ts"/>
+
 namespace CSDatabase {
 
     import Exception = CSOAPI.Exception;
@@ -7,7 +10,7 @@ namespace CSDatabase {
 
         public silent: boolean = false;
 
-        public isNumberField(fieldType: number) {
+        public static isNumberField(fieldType: number) {
             switch (fieldType) 
             { 
                 case csAdoDataType.adDecimal:

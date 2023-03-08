@@ -10,7 +10,14 @@ namespace CSReportPaint {
     export class SolidBrush {}
     export class HatchBrush {}
     export class HatchStyle {}
-    export class Color {}
+    export class Color {
+
+        public toArgb() {
+            return 0;
+        }
+
+        public static Gray = new Color();
+    }
     export class StringFormat {}
     export enum StringTrimming {
         EllipsisWord

@@ -542,7 +542,7 @@ namespace CSReportPaint {
             }
         }
 
-        private printPage(sender: object, e: PrintPageEventArgs) {
+        private printPage(sender: object, e: object) {
             if (this.pageToPrint === -1) {
 
                 let dpiX: number = 0;
@@ -1343,7 +1343,7 @@ namespace CSReportPaint {
         */
         }
 
-        private rpwPrintBodyPaint(sender: object, e: PaintEventArgs) {
+        private rpwPrintBodyPaint(sender: object, e: object) {
             if (this.paint !== null) {
                 this.drawPage(e.Graphics, false);
             }

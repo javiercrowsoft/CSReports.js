@@ -4,7 +4,7 @@ namespace CSReportDll {
 
         private C_MODULE: string = "cReportChart";
 
-        private series: cReportChartPUTO = new cReportChartPUTO();
+        private series: cReportChartSeries = new cReportChartSeries();
         private chartLineStyle: csRptChartLineStyle = null;
         private chartBarOutline: boolean = null;
         private chartShowValues: boolean = null;
@@ -26,7 +26,7 @@ namespace CSReportDll {
             return this.series;
         }
 
-        public setSeries(rhs: cReportChartPUTO) {
+        public setSeries(rhs: cReportChartSeries) {
             this.series = rhs;
         }
 
