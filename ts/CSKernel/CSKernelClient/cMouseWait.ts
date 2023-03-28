@@ -1,6 +1,6 @@
 namespace CSKernelClient  {
 
-    export class cMouseWait {
+    export class CMouseWait {
 
         dispose() {
 

@@ -208,7 +208,7 @@ namespace CSOAPI {
             if (idx < list.Items.Count && idx > -1) {
                 let item: object = list.Items[idx];
                 if (item is ListValueWithId) {
-                    (item).Text = value;
+                    (item).setText(value);
                 }
                 else {
                     list.Items[idx] = value;

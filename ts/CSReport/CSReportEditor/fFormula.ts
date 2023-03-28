@@ -57,7 +57,7 @@ namespace CSReportEditor {
 		}
 
 		public setFormula(formula: RefWrapper<string>) {
-			// tx_formula.Text = formula;
+			// tx_formula.setText(formula);
 		}
 
 		public expandTree() {
@@ -80,7 +80,7 @@ namespace CSReportEditor {
             // item.SelectedImageIndex = item.ImageIndex;
             //
             // if (descrip !== "")  {
-            //     item.Text = descrip + " ( "+ name + " )";
+            //     item.setText(descrip + " ( "+ name + " )");
             // }
             //
             // let info = "";
@@ -97,7 +97,7 @@ namespace CSReportEditor {
 
         private tv_formulas_NodeMouseClick(sender: object, e: object) {
             // let info = e.Node.Tag as string;
-            // tx_descrip.Text = cUtil.getInfoString(info, C_FUNDESCRIP, "");
+            // tx_descrip.setText(cUtil.getInfoString(info, C_FUNDESCRIP, ""));
         }
 
         private isDbOrLabel(info: string) {
@@ -111,7 +111,7 @@ namespace CSReportEditor {
             //     name += "()";
             // }
             // let i: number = tx_formula.SelectionStart;
-            // tx_formula.Text = tx_formula.Text.substring(0, i) + name + tx_formula.Text.substring(i);
+            // tx_formula.setText(tx_formula.Text.substring(0, i) + name + tx_formula.Text.substring(i));
         }
 
         private cmd_apply_Click(sender: object, e: object) {
@@ -133,7 +133,7 @@ namespace CSReportEditor {
         private tv_formulas_KeyUp(sender: object, e: object) {
             // if (tv_formulas.SelectedNode !== null) {
             //     let info = tv_formulas.SelectedNode.Tag as string;
-            //     tx_descrip.Text = cUtil.getInfoString(info, C_FUNDESCRIP, "");
+            //     tx_descrip.setText(cUtil.getInfoString(info, C_FUNDESCRIP, ""));
             // }
         }
     }

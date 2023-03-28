@@ -98,10 +98,10 @@ namespace CSReportEditor {
             // TODO: implement
             /*
             let buttons = this.tbMain.Items;
-            buttons[cGlobals.c_BTN_ALIGN_CENTER].Enabled = status;
-            buttons[cGlobals.c_BTN_ALIGN_LEFT].Enabled = status;
-            buttons[cGlobals.c_BTN_ALIGN_RIGHT].Enabled = status;
-            buttons[cGlobals.c_BTN_FONT_BOLD].Enabled = status;
+            buttons[cGlobals.c_BTN_ALIGN_CENTER].setEnabled(status);
+            buttons[cGlobals.c_BTN_ALIGN_LEFT].setEnabled(status);
+            buttons[cGlobals.c_BTN_ALIGN_RIGHT].setEnabled(status);
+            buttons[cGlobals.c_BTN_FONT_BOLD].setEnabled(status);
             */
         }
 
@@ -110,54 +110,54 @@ namespace CSReportEditor {
             /*
             let buttons = this.tbMain.Items;
 
-            buttons[cGlobals.c_BTN_CTL_ALIGN_BOTTOM].Enabled = status;
-            buttons[cGlobals.c_BTN_CTL_ALIGN_TOP].Enabled = status;
+            buttons[cGlobals.c_BTN_CTL_ALIGN_BOTTOM].setEnabled(status);
+            buttons[cGlobals.c_BTN_CTL_ALIGN_TOP].setEnabled(status);
 
-            buttons[cGlobals.c_BTN_CTL_ALIGN_VERTICAL].Enabled = status;
-            buttons[cGlobals.c_BTN_CTL_ALIGN_HORIZONTAL].Enabled = status;
-            buttons[cGlobals.c_BTN_CTL_ALIGN_LEFT].Enabled = status;
-            buttons[cGlobals.c_BTN_CTL_ALIGN_RIGHT].Enabled = status;
+            buttons[cGlobals.c_BTN_CTL_ALIGN_VERTICAL].setEnabled(status);
+            buttons[cGlobals.c_BTN_CTL_ALIGN_HORIZONTAL].setEnabled(status);
+            buttons[cGlobals.c_BTN_CTL_ALIGN_LEFT].setEnabled(status);
+            buttons[cGlobals.c_BTN_CTL_ALIGN_RIGHT].setEnabled(status);
 
-            buttons[cGlobals.c_BTN_CTL_HEIGHT].Enabled = status;
-            buttons[cGlobals.c_BTN_CTL_WIDTH].Enabled = status;
+            buttons[cGlobals.c_BTN_CTL_HEIGHT].setEnabled(status);
+            buttons[cGlobals.c_BTN_CTL_WIDTH].setEnabled(status);
             */
         }
 
         public setMenuAux(enabled: boolean) {
             // TODO: implement
             /*
-            this.mnuEditAddControl.Enabled = enabled;
-            this.mnuEditAddHeader.Enabled = enabled;
-            this.mnuEditAddLabel.Enabled = enabled;
-            this.mnuEditAddGroup.Enabled = enabled;
-            this.mnuEditAddFooter.Enabled = enabled;
-            this.mnuEditAddLine.Enabled = enabled;
-            this.mnuEditAddSec.Enabled = enabled;
-            this.mnuEditMove.Enabled = enabled;
-            this.mnuDataBaseEditDataSource.Enabled = enabled;
-            this.mnuPreviewReport.Enabled = enabled;
-            this.mnuPrintReport.Enabled = enabled;
-            this.mnuSaveReport.Enabled = enabled;
-            this.mnuReportSaveAs.Enabled = enabled;
-            this.mnuDataBaseSetDisconnected.Enabled = enabled;
-            this.mnuEditSearch.Enabled = enabled;
-            this.mnuDataBaseSQLServerConnection.Enabled = enabled;
-            this.mnuDataBaseSetToMainConnect.Enabled = enabled;
-            this.mnuDataBaseEditDataSource.Enabled = enabled;
-            this.mnuDataBaseConnectsAuxCfg.Enabled = enabled;
-            this.mnuHideGrid.Enabled = enabled;
-            this.mnuViewToolbar.Enabled = enabled;
-            this.mnuViewControls.Enabled = enabled;
-            this.mnuViewTreeViewCtrls.Enabled = enabled;
+            this.mnuEditAddControl.setEnabled(enabled);
+            this.mnuEditAddHeader.setEnabled(enabled);
+            this.mnuEditAddLabel.setEnabled(enabled);
+            this.mnuEditAddGroup.setEnabled(enabled);
+            this.mnuEditAddFooter.setEnabled(enabled);
+            this.mnuEditAddLine.setEnabled(enabled);
+            this.mnuEditAddSec.setEnabled(enabled);
+            this.mnuEditMove.setEnabled(enabled);
+            this.mnuDataBaseEditDataSource.setEnabled(enabled);
+            this.mnuPreviewReport.setEnabled(enabled);
+            this.mnuPrintReport.setEnabled(enabled);
+            this.mnuSaveReport.setEnabled(enabled);
+            this.mnuReportSaveAs.setEnabled(enabled);
+            this.mnuDataBaseSetDisconnected.setEnabled(enabled);
+            this.mnuEditSearch.setEnabled(enabled);
+            this.mnuDataBaseSQLServerConnection.setEnabled(enabled);
+            this.mnuDataBaseSetToMainConnect.setEnabled(enabled);
+            this.mnuDataBaseEditDataSource.setEnabled(enabled);
+            this.mnuDataBaseConnectsAuxCfg.setEnabled(enabled);
+            this.mnuHideGrid.setEnabled(enabled);
+            this.mnuViewToolbar.setEnabled(enabled);
+            this.mnuViewControls.setEnabled(enabled);
+            this.mnuViewTreeViewCtrls.setEnabled(enabled);
 
             let buttons = this.tbMain.Items;
-            tsbPrint.Enabled = enabled;
-            tsbProperties.Enabled = enabled;
-            tsbDatabase.Enabled = enabled;
-            tsbSave.Enabled = enabled;
-            tsbControls.Enabled = enabled;
-            tsbPreview.Enabled = enabled;
-            tsbSearch.Enabled = enabled;
+            tsbPrint.setEnabled(enabled);
+            tsbProperties.setEnabled(enabled);
+            tsbDatabase.setEnabled(enabled);
+            tsbSave.setEnabled(enabled);
+            tsbControls.setEnabled(enabled);
+            tsbPreview.setEnabled(enabled);
+            tsbSearch.setEnabled(enabled);
              */
         }
 
@@ -186,10 +186,10 @@ namespace CSReportEditor {
             if (!found) { j = menuItems.Count - 1; }
 
             for (i = j; i > 0; i--) {
-                menuItems[i].Text = menuItems[i - 1].Text;
+                menuItems[i].setText(menuItems[i - 1].Text);
             }
 
-            menuItems[0].Text = fileName;
+            menuItems[0].setText(fileName);
 
             saveRecentList();
              */
@@ -317,7 +317,7 @@ namespace CSReportEditor {
         }
 
         public showPopMenuSection(editor: cEditor, noDelete: boolean, showGroups: boolean, p: Point) {
-            cmSectionDeleteSection.Enabled = !noDelete;
+            cmSectionDeleteSection.setEnabled(!noDelete);
             cmSectionGroupProperties.Visible = showGroups;
             cmSectionMoveGroup.Visible = showGroups;
             cmSectionGroupSeparator.Visible = showGroups;
@@ -328,15 +328,15 @@ namespace CSReportEditor {
         }
 
         public showPopMenuControl(editor: cEditor, clickInCtrl: boolean, pasteEnabled: boolean, p: Point) {
-            cmCtrlCopy.Enabled = clickInCtrl;
-            cmCtrlDelete.Enabled = clickInCtrl;
-            cmCtrlEditText.Enabled = clickInCtrl;
-            cmCtrlSendBack.Enabled = clickInCtrl;
-            cmCtrlBringFront.Enabled = clickInCtrl;
-            cmCtrlProperties.Enabled = clickInCtrl;
+            cmCtrlCopy.setEnabled(clickInCtrl);
+            cmCtrlDelete.setEnabled(clickInCtrl);
+            cmCtrlEditText.setEnabled(clickInCtrl);
+            cmCtrlSendBack.setEnabled(clickInCtrl);
+            cmCtrlBringFront.setEnabled(clickInCtrl);
+            cmCtrlProperties.setEnabled(clickInCtrl);
 
-            cmCtrlPaste.Enabled = pasteEnabled;
-            cmCtrlPasteEx.Enabled = pasteEnabled;
+            cmCtrlPaste.setEnabled(pasteEnabled);
+            cmCtrlPasteEx.setEnabled(pasteEnabled);
 
             this.contextMenuEditor = editor;
 
@@ -945,12 +945,12 @@ namespace CSReportEditor {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveNoMove();
-                lockToolStripMenuItem.Checked = !lockToolStripMenuItem.Checked;
+                lockToolStripMenuItem.setChecked(!lockToolStripMenuItem.Checked);
                 if (lockToolStripMenuItem.Checked) {
-                    lockToolStripMenuItem.Text = "Unlock";
+                    lockToolStripMenuItem.setText("Unlock");
                 }
                 else {
-                    lockToolStripMenuItem.Text = "Unlock";
+                    lockToolStripMenuItem.setText("Unlock");
                 }
             }
         }
@@ -959,9 +959,9 @@ namespace CSReportEditor {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveVertical();
-                horizontalToolStripMenuItem.Checked = false;
-                verticalToolStripMenuItem.Checked = true;
-                allDirectionsToolStripMenuItem.Checked = false;
+                horizontalToolStripMenuItem.setChecked(false);
+                verticalToolStripMenuItem.setChecked(true);
+                allDirectionsToolStripMenuItem.setChecked(false);
             }
         }
 
@@ -969,9 +969,9 @@ namespace CSReportEditor {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveHorizontal();
-                horizontalToolStripMenuItem.Checked = true;
-                verticalToolStripMenuItem.Checked = false;
-                allDirectionsToolStripMenuItem.Checked = false;
+                horizontalToolStripMenuItem.setChecked(true);
+                verticalToolStripMenuItem.setChecked(false);
+                allDirectionsToolStripMenuItem.setChecked(false);
             }
         }
 
@@ -979,9 +979,9 @@ namespace CSReportEditor {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveAll();
-                horizontalToolStripMenuItem.Checked = false;
-                verticalToolStripMenuItem.Checked = false;
-                allDirectionsToolStripMenuItem.Checked = true;
+                horizontalToolStripMenuItem.setChecked(false);
+                verticalToolStripMenuItem.setChecked(false);
+                allDirectionsToolStripMenuItem.setChecked(true);
             }
         }
 

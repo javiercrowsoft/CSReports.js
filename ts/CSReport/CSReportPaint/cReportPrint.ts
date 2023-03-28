@@ -3,7 +3,7 @@ namespace CSReportPaint {
     import cError = CSKernelClient.cError;
     import Utils = CSOAPI.Utils;
     import cIPrintClient = CSIReportPrint.cIPrintClient;
-    import cMouseWait = CSKernelClient.cMouseWait;
+    import CMouseWait = CSKernelClient.CMouseWait;
     import cPrinter = CSReportDll.cPrinter;
     import cPrintAPI = CSReportDll.cPrintAPI;
     import cReportLaunchInfo = CSReportDll.cReportLaunchInfo;
@@ -328,7 +328,7 @@ namespace CSReportPaint {
         public printPage(nPage: number, inPrinter: boolean = false) {
             let page: CSReportDll.cReportPage = null;
 
-            let mouse: cMouseWait = new cMouseWait();
+            let mouse: CMouseWait = new CMouseWait();
 
             this.rePaintObject = true;
 
@@ -705,7 +705,7 @@ namespace CSReportPaint {
             let offsetTop: number[] = null;
             let vdummy: number[] = null;
 
-            let mouse: cMouseWait = new cMouseWait();
+            let mouse: CMouseWait = new CMouseWait();
 
             this.printerSetSizeAndOrient(
                 this.report.getLaunchInfo().getPrinter().getDeviceName(),
@@ -1408,7 +1408,7 @@ namespace CSReportPaint {
             private void this.rpwPrint_ExportExcel() {
                 try {
 
-                    cMouseWait mouse = new cMouseWait();
+                    CMouseWait mouse = new CMouseWait();
 
                     Application.DoEvents();
 
@@ -1456,7 +1456,7 @@ namespace CSReportPaint {
 
         private pExportPDF(outputFile: string, bShowPDFWindow: boolean) {
             try {
-                let mouse: cMouseWait = new cMouseWait();
+                let mouse: CMouseWait = new CMouseWait();
 
                 let expPDF: CSReportExport.cReportPdf = null;
                 expPDF = new CSReportExport.cReportPdf();
@@ -1477,7 +1477,7 @@ namespace CSReportPaint {
          * 
             private void this.rpwPrint_ExportWord() {
                 try {
-                    cMouseWait mouse = new cMouseWait();
+                    CMouseWait mouse = new CMouseWait();
 
                     CSReportExport.cReportWord expWord = null;
                     expWord = new CSReportExport.cReportWord();

@@ -22,7 +22,7 @@ namespace CSReportEditor {
         public addCtrls() {
             // let report = this.editor.getReport();
             // cGlobals.addCtrls(report, tv_controls, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
-            // lbTitle.Text = "Report definition: " + report.getName();
+            // lbTitle.setText("Report definition: " + report.getName());
         }
 
         public setHandler(editor: cEditor) {
@@ -43,13 +43,13 @@ namespace CSReportEditor {
             //     if (info.length > 0) {
             //         let infoType = info.substring(0, 1);
             //         if (infoType === "@") {
-            //             tx_descrip.Text = info.substring(4);
+            //             tx_descrip.setText(info.substring(4));
             //         }
             //         else if (infoType === "S" || infoType === "L") {
             //             this.editor.selectSection(info.substring(1));
             //         }
             //         else {
-            //             tx_descrip.Text = getObjectDescription(getControl(info));
+            //             tx_descrip.setText(getObjectDescription(getControl(info)));
             //             this.editor.selectCtrl(info);
             //         }
             //     }
@@ -139,7 +139,7 @@ namespace CSReportEditor {
             //         if (info.length > 0) {
             //             let infoType = info.substring(0, 1);
             //             if (infoType === "@") {
-            //                 tx_descrip.Text = info.substring(4);
+            //                 tx_descrip.setText(info.substring(4));
             //             }
             //             else {
             //                 this.editor.showProperties(info);

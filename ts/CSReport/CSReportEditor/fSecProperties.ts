@@ -60,7 +60,7 @@ namespace CSReportEditor {
 
         private fSecProperties_Load(sender: object, e: object) {
             cWindow.centerForm(this);
-            lb_formulaHide.Text = this.formulaHide;
+            lb_formulaHide.setText(this.formulaHide);
         }
 
         private cmd_apply_Click(sender: object, e: object) {
@@ -77,7 +77,7 @@ namespace CSReportEditor {
             this.formulaName = "Ocultar";
             if (this.editor.showEditFormula(this.formulaHide)) {
                 this.formulaHideChanged = true;
-                lb_formulaHide.Text = this.formulaHide;
+                lb_formulaHide.setText(this.formulaHide);
             }
         }
 

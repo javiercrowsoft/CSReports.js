@@ -9,19 +9,19 @@ namespace CSReportEditor {
         }
 
 		public setServer(value: string) {
-            tx_server.Text = value;
+            tx_server.setText(value);
 		}
 
 		public setDataBase(value: string) {
-            tx_database.Text = value;
+            tx_database.setText(value);
 		}
 
 		public setUser(value: string) {
-            tx_user.Text = value;
+            tx_user.setText(value);
 		}
 
 		public setPassword(value: string) {
-            tx_password.Text = value;
+            tx_password.setText(value);
 		}
 
 		public getUser() {
@@ -29,11 +29,11 @@ namespace CSReportEditor {
 		}
 
 		public setConnectTypeToNT() {
-            op_trustedConnection.Checked = true;
+            op_trustedConnection.setChecked(true);
 		}
 
 		public setConnectTypeToSQL() {
-            op_sqlConnection.Checked = true;
+            op_sqlConnection.setChecked(true);
 		}
 
 		public getOk() {
@@ -84,8 +84,8 @@ namespace CSReportEditor {
         }
 
         private setEnabledUserAndPassword() {
-            tx_user.Enabled = op_sqlConnection.Checked;
-            tx_password.Enabled = op_sqlConnection.Checked;
+            tx_user.setEnabled(op_sqlConnection.Checked);
+            tx_password.setEnabled(op_sqlConnection.Checked);
         }
 
         private fSimpleConnect_Load(sender: object, e: object) {

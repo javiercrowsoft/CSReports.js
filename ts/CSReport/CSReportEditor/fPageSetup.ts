@@ -82,21 +82,21 @@ namespace CSReportEditor {
             cUtil.listAdd(cb_paperSize, "A3", (int)csReportPaperType.CS_RPT_PAPER_TYPE_A3);
             cUtil.listAdd(cb_paperSize, "User", (int)csReportPaperType.CS_RPT_PAPER_USER);
             cUtil.listSetListIndexForId(cb_paperSize, (int)this.paperSize);
-            tx_height.Text = this.customHeight.toString();
-            tx_width.Text = this.customWidth.toString();
+            tx_height.setText(this.customHeight.toString());
+            tx_width.setText(this.customWidth.toString());
             if (this.orientation === csRptPageOrientation.LANDSCAPE) {
-                op_landscape.Checked = true;
+                op_landscape.setChecked(true);
             }
             else {
-                op_portrait.Checked = true;
+                op_portrait.setChecked(true);
             }
             cWindow.centerForm(this);
         }
 
         private cb_paperSize_SelectedIndexChanged(sender: object, e: object) {
             let enabled = cUtil.listID(cb_paperSize) === csReportPaperType.CS_RPT_PAPER_USER;
-            tx_height.Enabled = enabled;
-            tx_width.Enabled = enabled;
+            tx_height.setEnabled(enabled);
+            tx_width.setEnabled(enabled);
         }
     }
 }

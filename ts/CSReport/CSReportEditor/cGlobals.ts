@@ -291,11 +291,11 @@ namespace CSReportEditor {
                 item.SubItems.Add("");
                 item.SubItems.Add("");
 
-                if (ctrl.getHasFormulaValue()) item.SubItems[1].Text = "*";
-                if (ctrl.getHasFormulaHide()) item.SubItems[2].Text = "*";
+                if (ctrl.getHasFormulaValue()) item.SubItems[1].setText("*");
+                if (ctrl.getHasFormulaHide()) item.SubItems[2].setText("*");
 
                 if (ctrlField.length > 0) {
-                    item.SubItems[3].Text = ctrlField;
+                    item.SubItems[3].setText(ctrlField);
                     item.SubItems[3].ForeColor = Color.Blue;
                     item.ImageIndex = C_DB_IMAGE;
                 }
@@ -414,7 +414,7 @@ namespace CSReportEditor {
                         nodeCtrl.ImageIndex = C_IMG_CONTROL;
                         nodeCtrl.SelectedImageIndex = C_IMG_CONTROL;
                         nodeCtrl.Tag = ctrl.getKey();
-                        nodeCtrl.BackColor = cColor.colorFromRGB(ctrl.getLabel().getAspect().getBackColor());
+                        nodeCtrl.setBackColor(cColor.colorFromRGB(ctrl.getLabel().getAspect().getBackColor()));
                         nodeCtrl.ForeColor = cColor.colorFromRGB(ctrl.getLabel().getAspect().getFont().getForeColor());
 
                         if (ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {

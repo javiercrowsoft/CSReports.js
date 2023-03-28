@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    import cMouseWait = CSKernelClient.cMouseWait;
+    import CMouseWait = CSKernelClient.CMouseWait;
     import NotImplementedException = CSOAPI.NotImplementedException;
 
     export class FProperties {
@@ -20,7 +20,7 @@ namespace CSReportEditor {
 
         private isAccounting: boolean = null;
 
-        private mouse: cMouseWait = null;
+        private mouse: CMouseWait = null;
 
         private textChanged: boolean = null;
         private tagChanged: boolean = null;
@@ -644,7 +644,7 @@ namespace CSReportEditor {
             // this.formulaName = "Hide";
             // if (this.editor.showEditFormula(this.formulaHide)) {
             //     this.formulaHideChanged = true;
-            //     lb_formulaHide.Text = this.formulaHide;
+            //     lb_formulaHide.setText(this.formulaHide);
             // }
         }
 
@@ -652,7 +652,7 @@ namespace CSReportEditor {
             // this.formulaName = "Value";
             // if (this.editor.showEditFormula(this.formulaValue)) {
             //     this.formulaValueChanged = true;
-            //     lbFormulaValue.Text = this.formulaValue;
+            //     lbFormulaValue.setText(this.formulaValue);
             // }
         }
 
@@ -666,7 +666,7 @@ namespace CSReportEditor {
 
         private tx_border3D_LostFocus(sender: object, e: object) {
             // try {
-            //     shBorder3D.BackColor = Color.FromArgb(Int32.Parse(txBorder3D.Text));
+            //     shBorder3D.setBackColor(Color.FromArgb(Int32.Parse(txBorder3D.Text)));
             // }
             // catch (ignore) { }
         }
@@ -691,7 +691,7 @@ namespace CSReportEditor {
 
         private tx_borderColor_LostFocus(sender: object, e: object) {
             // try {
-            //     shBorderColor.BackColor = Color.FromArgb(Int32.Parse(txBorderColor.Text));
+            //     shBorderColor.setBackColor(Color.FromArgb(Int32.Parse(txBorderColor.Text)));
             // }
             // catch (ignore) { }
         }
@@ -716,7 +716,7 @@ namespace CSReportEditor {
 
         private tx_borderShadow_LostFocus(sender: object, e: object) {
             // try {
-            //     shBorderShadow.BackColor = Color.FromArgb(Int32.Parse(txBorderShadow.Text));
+            //     shBorderShadow.setBackColor(Color.FromArgb(Int32.Parse(txBorderShadow.Text)));
             // }
             // catch (ignore) { }
         }
@@ -818,14 +818,14 @@ namespace CSReportEditor {
 
         private tx_foreColor_LostFocus(sender: object, e: object) {
             // try {
-            //     shForeColor.BackColor = Color.FromArgb(Int32.Parse(tx_foreColor.Text));
+            //     shForeColor.setBackColor(Color.FromArgb(Int32.Parse(tx_foreColor.Text)));
             // }
             // catch (ignore) { }
         }
 
         private tx_backColor_LostFocus(sender: object, e: object) {
             // try {
-            //     shBackColor.BackColor = Color.FromArgb(Int32.Parse(tx_backColor.Text));
+            //     shBackColor.setBackColor(Color.FromArgb(Int32.Parse(tx_backColor.Text)));
             // }
             // catch (ignore) { }
         }
@@ -978,8 +978,8 @@ namespace CSReportEditor {
             // cWindow.centerForm(this);
             // this.ok = false;
             //
-            // lb_formulaHide.Text = this.formulaHide;
-            // lb_formulaValue.Text = this.formulaValue;
+            // lb_formulaHide.setText(this.formulaHide);
+            // lb_formulaValue.setText(this.formulaValue);
         }
 
         private initChart() {
@@ -993,8 +993,8 @@ namespace CSReportEditor {
             // cUtil.listAdd(cb_type, "Bar", (int)csRptChartType.BAR);
             // cUtil.listSetListIndex(cb_type, 0);
             //
-            // chk_showOutlines.Checked = true;
-            // chk_showBarValues.Checked = true;
+            // chk_showOutlines.setChecked(true);
+            // chk_showBarValues.setChecked(true);
             //
             // pFillColors(cbColorSerie1);
             // cUtil.listSetListIndex(cb_colorSerie1, 10);
@@ -1188,8 +1188,8 @@ namespace CSReportEditor {
             // // See if user pressed ok.
             // if (result === DialogResult.OK) {
             //     // Set form background to the selected color.
-            //     txColor.Text = colorDialog.Color.ToArgb().toString();
-            //     shColor.BackColor = colorDialog.Color;
+            //     txColor.setText(colorDialog.Color.ToArgb().toString());
+            //     shColor.setBackColor(colorDialog.Color);
             // }
         }
 
@@ -1214,14 +1214,14 @@ namespace CSReportEditor {
             // if (result === DialogResult.OK) {
             //     font = fontDialog.Font;
             //
-            //     txFont.Text = font.Name;
-            //     chkFontBold.Checked = font.Bold;
-            //     chkFontItalic.Checked = font.Italic;
-            //     chkFontUnderline.Checked = font.Underline;
-            //     chkFontStrike.Checked = font.Strikeout;
-            //     txFontSize.Text = font.Size.toString();
-            //     txForeColor.Text = fontDialog.Color.ToArgb().toString();
-            //     shForeColor.BackColor = fontDialog.Color;
+            //     txFont.setText(font.Name);
+            //     chkFontBold.setChecked(font.Bold);
+            //     chkFontItalic.setChecked(font.Italic);
+            //     chkFontUnderline.setChecked(font.Underline);
+            //     chkFontStrike.setChecked(font.Strikeout);
+            //     txFontSize.setText(font.Size.toString());
+            //     txForeColor.setText(fontDialog.Color.ToArgb().toString());
+            //     shForeColor.setBackColor(fontDialog.Color);
             // }
         }
 
@@ -1433,5 +1433,220 @@ namespace CSReportEditor {
         }
 
 
-    } 
+        getTxText() {
+
+        }
+
+        getPicImage() {
+
+        }
+
+        getCbType() {
+            return undefined;
+        }
+
+        getCbFormatType() {
+            return undefined;
+        }
+
+        getCbChartSize() {
+            return undefined;
+        }
+
+        getCbChartThickness() {
+            return undefined;
+        }
+
+        getCbLinesType() {
+            return undefined;
+        }
+
+        getTxChartTop() {
+
+        }
+
+        getTxDbFieldGroupValue() {
+
+        }
+
+        getTxChartGroupValue() {
+
+        }
+
+        getChkShowOutlines() {
+
+        }
+
+        getChkSort() {
+
+        }
+
+        getChkShowBarValues() {
+
+        }
+
+        getTxDbFieldLbl1() {
+
+        }
+
+        getTxDbFieldVal1() {
+
+        }
+
+        getCbColorSerie1() {
+            return undefined;
+        }
+
+        getTxDbFieldVal2() {
+
+        }
+
+        getCbColorSerie2() {
+            return undefined;
+        }
+
+        getTxDbField() {
+
+        }
+
+        getTxName() {
+
+        }
+
+        getLbControl() {
+
+        }
+
+        getChkFormulaHide() {
+
+        }
+
+        getChkFormulaValue() {
+
+        }
+
+        getTxExportColIdx() {
+
+        }
+
+        getChkIsFreeCtrl() {
+
+        }
+
+        getTxTag() {
+
+        }
+
+        getTxIdxGroup() {
+
+        }
+
+        getOpBeforePrint() {
+
+        }
+
+        getOpAfterPrint() {
+
+        }
+
+        getChkCanGrow() {
+
+        }
+
+        getTxFormat() {
+
+        }
+
+        getTxSymbol() {
+
+        }
+
+        getChkWordWrap() {
+
+        }
+
+        getTxBorderColor() {
+
+        }
+
+        getTxBorder3D() {
+
+        }
+
+        getTxBorderShadow() {
+
+        }
+
+        getChkBorderRounded() {
+
+        }
+
+        getTxBorderWidth() {
+
+        }
+
+        getCbBorderType() {
+            return undefined;
+        }
+
+        getTxFont() {
+
+        }
+
+        getShForeColor() {
+
+        }
+
+        getTxForeColor() {
+
+        }
+
+        getChkFontBold() {
+
+        }
+
+        getChkFontItalic() {
+
+        }
+
+        getTxFontSize() {
+
+        }
+
+        getChkFontUnderline() {
+
+        }
+
+        getChkFontStrike() {
+
+        }
+
+        getTxLeft() {
+
+        }
+
+        getTxTop() {
+
+        }
+
+        getTxWidth() {
+
+        }
+
+        getTxHeight() {
+
+        }
+
+        getTxBackColor() {
+
+        }
+
+        getShBackColor() {
+
+        }
+
+        getChkTransparent() {
+
+        }
+    }
 }

@@ -17,11 +17,11 @@ namespace CSReportEditor {
         }
 
         public setAsc(value: boolean) {
-            op_asc.Checked = value;
+            op_asc.setChecked(value);
         }
 
         public setDesc(value: boolean) {
-            op_desc.Checked = value;
+            op_desc.setChecked(value);
         }
 
         public getPrintInNewPage() {
@@ -29,7 +29,7 @@ namespace CSReportEditor {
         }
 
         public setPrintInNewPage(value: boolean) {
-            chk_printInNewPage.Checked = value;
+            chk_printInNewPage.setChecked(value);
         }
 
         public getReprintGroup() {
@@ -37,7 +37,7 @@ namespace CSReportEditor {
         }
 
         public setReprintGroup(value: boolean) {
-            chk_reprintGroup.Checked = value;
+            chk_reprintGroup.setChecked(value);
         }
 
         public getGrandTotal() {
@@ -45,7 +45,7 @@ namespace CSReportEditor {
         }
 
         public setGrandTotal(value: boolean) {
-            chk_grandTotal.Checked = value;
+            chk_grandTotal.setChecked(value);
         }
 
         public getSortByDate() {
@@ -53,7 +53,7 @@ namespace CSReportEditor {
         }
 
         public setSortByDate(value: boolean) {
-            op_date.Checked = value;
+            op_date.setChecked(value);
         }
 
         public getSortByNumber() {
@@ -61,7 +61,7 @@ namespace CSReportEditor {
         }
 
         public setSortByNumber(value: boolean) {
-            op_number.Checked = value;
+            op_number.setChecked(value);
         }
 
         public getSortByText() {
@@ -69,7 +69,7 @@ namespace CSReportEditor {
         }
 
         public setSortByText(value: boolean) {
-            op_text.Checked = value;
+            op_text.setChecked(value);
         }
 
         public getOk() {

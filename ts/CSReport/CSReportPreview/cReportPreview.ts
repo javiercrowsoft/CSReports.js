@@ -35,11 +35,11 @@ namespace CSReportPreview {
         }
 
         public setCurrPage(page: number) {
-            tsbPage.Text = .toString();
+            tsbPage.setText(.toString());
         }
 
         public setPages(pages: number) {
-            tsbPages.Text = pages.toString();
+            tsbPages.setText(pages.toString());
         }
 
         private tsbFirstPage_Click(sender: object, e: object) {

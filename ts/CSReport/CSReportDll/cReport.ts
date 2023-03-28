@@ -27,7 +27,7 @@ namespace CSReportDll {
     import DataTable = CSDatabase.DataTable;
     import Map = CSOAPI.Map;
     import Bitmap = CSKernelClient.Bitmap;
-    import cMouseWait = CSKernelClient.cMouseWait;
+    import CMouseWait = CSKernelClient.CMouseWait;
     import DataType = CSDatabase.DataType;
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
@@ -2085,7 +2085,7 @@ namespace CSReportDll {
                 }
             }
 
-            let mouse: cMouseWait = new cMouseWait();
+            let mouse: CMouseWait = new CMouseWait();
 
             let dataName = docXml.getName();
             let dataPath = docXml.getPath();
