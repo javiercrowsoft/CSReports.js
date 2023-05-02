@@ -7,5 +7,9 @@ namespace CSReportEditor {
         getGraphics() {
             return undefined;
         }
+
+        refresh() {
+
+        }
     }
 }

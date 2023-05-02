@@ -6,6 +6,8 @@ namespace CSReportEditor {
         private text = "";
         private width = 0;
         private height = 0;
+        private top = 0;
+        private left = 0;
 
         setText(text: string) {
             this.text = text;
@@ -37,6 +39,26 @@ namespace CSReportEditor {
 
         setHeight(value: number) {
             this.height = value;
+        }
+
+        getTop(): number {
+            return this.top;
+        }
+
+        setTop(value: number) {
+            this.top = value;
+        }
+
+        getLeft(): number {
+            return this.left;
+        }
+
+        setLeft(value: number) {
+            this.left = value;
+        }
+
+        focus() {
+
         }
     }
 }

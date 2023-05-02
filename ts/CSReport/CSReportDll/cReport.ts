@@ -61,19 +61,7 @@ namespace CSReportDll {
         public lineNumber: number = null;
     }
 
-    export interface iReportDoneListener {
-        reportDone(report: cReport);
-    }
-
-    export interface iProgressListener {
-        progress(report: cReport, eventArgs: ProgressEventArgs);
-    }
-
     export class cReport {
-
-        public reportDoneListener: iReportDoneListener;
-        public progressListener: iProgressListener;
-
 
         // remember mark any change that could bring errors 
         // with the label WARNING and the date
@@ -254,6 +242,9 @@ namespace CSReportDll {
         private databaseEngine: DatabaseEngine = DatabaseEngine.SQL_SERVER;
 
         private exportEmailAddress: string = "";
+
+        private reportDoneListener: (report: cReport) => void;
+        private progressListener: (report: cReport, eventArgs: ProgressEventArgs) => void;
 
         public constructor() {
             try {
@@ -495,7 +486,7 @@ namespace CSReportDll {
 
             // if the user has canceled we return an error
             //
-            if (!this.onProgress("", this.pages.count(), 0, 0)) {
+            if (!this.progress("", this.pages.count(), 0, 0)) {
                 return csRptNewPageResult.CS_RPT_NP_ERROR;
             }
 
@@ -1052,7 +1043,7 @@ namespace CSReportDll {
         private pGetLineAuxReportCancel() {
             // if the user has canceled we have finished
             //
-            if (!this.onProgress("", 0, this.iRow, this.recordCount)) {
+            if (!this.progress("", 0, this.iRow, this.recordCount)) {
                 this.reportDone();
                 return csRptGetLineResult.CS_RPT_GL_END;
             }
@@ -1157,14 +1148,14 @@ namespace CSReportDll {
                     let date1: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row1][orderBy]));
                     let date2: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row2][orderBy]));
                     if (date1 < date2) {
-                        if (!this.onProgress("", 0, q, t)) {
+                        if (!this.progress("", 0, q, t)) {
                             return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.onProgress("", 0, q, t)) {
+                if (!this.progress("", 0, q, t)) {
                     return false;
                 }
                 if (!bChanged) {
@@ -1189,14 +1180,14 @@ namespace CSReportDll {
                     let date1: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row1][orderBy]));
                     let date2: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row2][orderBy]));
                     if (date1 > date2) {
-                        if (!this.onProgress("", 0, q, t))  {
+                        if (!this.progress("", 0, q, t))  {
                             return false; 
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.onProgress("", 0, q, t))  {
+                if (!this.progress("", 0, q, t))  {
                     return false; 
                 }
                 if (!bChanged)  {
@@ -1686,7 +1677,7 @@ namespace CSReportDll {
                                     cReportError.errGetDescription(csRptErrors.PRINTER_NOT_DEFINED));
                 }
 
-                if (!this.onProgress("Building report ...")) {
+                if (!this.progress("Building report ...")) {
                     return false;
                 }
 
@@ -1694,7 +1685,7 @@ namespace CSReportDll {
                 //
                 this.sortCollection();
 
-                if (! this.onProgress("Compiling report ...")) {
+                if (! this.progress("Compiling report ...")) {
                     return false;
                 }
 
@@ -1708,7 +1699,7 @@ namespace CSReportDll {
                 //
                 this.pSortControlsByLeft();
 
-                if (! this.onProgress("Querying database")) {
+                if (! this.progress("Querying database")) {
                     return false;
                 }
 
@@ -1742,7 +1733,7 @@ namespace CSReportDll {
                     return false;
                 }
 
-                if (! this.onProgress("Initializing report")) {
+                if (! this.progress("Initializing report")) {
                     return false;
                 }
 
@@ -2992,7 +2983,7 @@ namespace CSReportDll {
                 }
             }
 
-            if (!this.onProgress("Sorting report", 0, 0, 0)) {
+            if (!this.progress("Sorting report", 0, 0, 0)) {
                 return false;
             }
 
@@ -3149,7 +3140,7 @@ namespace CSReportDll {
                         else {
                             for (j = this.vGroups[i].groups[k].first; j <= this.vGroups[i].groups[k].last; j++) {
                                 q = q + 1;
-                                if (!this.onProgress("", 0, q, recordCount)) {
+                                if (!this.progress("", 0, q, recordCount)) {
                                     return false;
                                 }
 
@@ -3220,14 +3211,14 @@ namespace CSReportDll {
                     let value1: number = Utils.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
                     let value2: number = Utils.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (value1 < value2) {
-                        if (!this.onProgress("", 0, q, t))  {
+                        if (!this.progress("", 0, q, t))  {
                             return false; 
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.onProgress("", 0, q, t))  {
+                if (!this.progress("", 0, q, t))  {
                     return false; 
                 }
                 if (!bChanged)  {
@@ -3252,14 +3243,14 @@ namespace CSReportDll {
                     let number1: number = Utils.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
                     let number2: number = Utils.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (number1 > number2) {
-                        if (!this.onProgress("", 0, q, t)) {
+                        if (!this.progress("", 0, q, t)) {
                             return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.onProgress("", 0, q, t)) {
+                if (!this.progress("", 0, q, t)) {
                     return false;
                 }
                 if (!bChanged) {
@@ -3282,14 +3273,14 @@ namespace CSReportDll {
                     let text1: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j]][orderBy]).toString();
                     let text2: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j - 1]][orderBy]).toString();
                     if (text1.toLowerCase().localeCompare(text2.toLowerCase()) < 0) {
-                        if (! this.onProgress("", 0, q, t))  {
+                        if (! this.progress("", 0, q, t))  {
                             return false; 
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (! this.onProgress("", 0, q, t))  {
+                if (! this.progress("", 0, q, t))  {
                     return false; 
                 }
                 if (! bChanged)  {
@@ -3312,14 +3303,14 @@ namespace CSReportDll {
                     let text1: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j]][orderBy]).toString();
                     let text2: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j - 1]][orderBy]).toString();
                     if (text1.toLowerCase().localeCompare(text2.toLowerCase()) > 0) {
-                        if (! this.onProgress("", 0, q, t)) {
+                        if (! this.progress("", 0, q, t)) {
                             return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if (!this.onProgress("", 0, q, t)) {
+                if (!this.progress("", 0, q, t)) {
                     return false;
                 }
                 if (!bChanged) {
@@ -4395,17 +4386,25 @@ namespace CSReportDll {
             return true;
         }
 
+        public onReportDone(f: (report: cReport) => void) {
+            this.reportDoneListener = f;
+        }
+
         private reportDone() {
             if (this.reportDoneListener !== null) {
-                this.reportDoneListener.reportDone(this);
+                this.reportDoneListener(this);
             }
         }
 
-        private onProgress(task: string, page: number = 0, currRecord: number = 0, recordCount: number = 0) {
+        public onProgress(f: (report: cReport, eventArgs: ProgressEventArgs) => void) {
+            this.progressListener = f;
+        }
+
+        private progress(task: string, page: number = 0, currRecord: number = 0, recordCount: number = 0) {
             let cancel: boolean = false;
             if (this.progressListener !== null) {
                 let e: ProgressEventArgs = new ProgressEventArgs(task, page, currRecord, recordCount);
-                this.progressListener.progress(this, e);
+                this.progressListener(this, e);
                 cancel = e.isCancel();
             }
             return !cancel;

@@ -41,6 +41,11 @@ namespace CSReportEditor {
         private pnReport;
         private tbpEditor;
 
+        // TODO: implement
+        //
+        saveFileDialog: object;
+        openFileDialog: object;
+
         public constructor() {
             // it is the first thing we need to do
             //
@@ -1053,6 +1058,10 @@ namespace CSReportEditor {
             if (editor !== null) {
                 editor.keyDown(sender, e);
             }
+        }
+
+        printDialog() {
+            return undefined;
         }
     }
 }

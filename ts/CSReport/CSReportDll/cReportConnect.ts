@@ -22,6 +22,8 @@ namespace CSReportDll {
         private connectionTimeout: number = 0;
         private commandTimeout: number = 0;
 
+        public constructor() {}
+
         public getConnectionTimeout() {
             return this.connectionTimeout;
         }

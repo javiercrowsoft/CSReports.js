@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class FToolbox {
+    export class FToolbox extends Form {
 
         private editor: cEditor = null;
 
@@ -16,6 +16,7 @@ namespace CSReportEditor {
         private C_FIELD_TYPE: string = "FT";
 
         public constructor() {
+            super();
             // InitializeComponent();
         }
 

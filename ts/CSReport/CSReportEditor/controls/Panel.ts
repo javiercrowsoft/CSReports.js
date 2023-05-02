@@ -4,5 +4,8 @@ namespace CSReportEditor {
 
     export class Panel extends Container<Control> {
 
+        isVisible() {
+            return false;
+        }
     }
 }

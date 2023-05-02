@@ -13,6 +13,8 @@ namespace CSReportDll {
         private valueIndex: number = 0;
         private labelIndex: number = 0;
 
+        public constructor() {}
+
         public getValueFieldName() {
             return this.valueFieldName;
         }

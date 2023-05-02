@@ -88,5 +88,17 @@ namespace CSReportEditor {
         close() {
 
         }
+
+        getChkFormulaHide(): any {
+
+        }
+
+        getTxName(): any {
+
+        }
+
+        getLbSectionName(): any {
+
+        }
     }
 }

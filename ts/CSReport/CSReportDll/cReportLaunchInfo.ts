@@ -24,6 +24,8 @@ namespace CSReportDll {
 
         private objPaint: CSIReportPrint.cIReportPrint = null;
 
+        public constructor() {}
+
         public getHwnd() {
             return this.hWnd;
         }

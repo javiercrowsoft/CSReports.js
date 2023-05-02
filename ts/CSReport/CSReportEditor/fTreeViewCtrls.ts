@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class FTreeViewCtrls {
+    export class FTreeViewCtrls extends Form {
 
         private editor: cEditor = null;
 

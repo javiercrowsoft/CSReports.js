@@ -38,6 +38,8 @@ namespace CSReportDll {
 
         private compiledScript: object = null;
 
+        public constructor() {}
+
         public getCompiledScript() {
             return this.compiledScript;
         }
@@ -160,12 +162,9 @@ namespace CSReportDll {
         }
 
         public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
-            let xProperty: CSXml.cXmlProperty = null;
-            let nodeObj: XmlNode = null;
-            xProperty = new CSXml.cXmlProperty();
-
+            const xProperty = new CSXml.cXmlProperty();
             xProperty.setName(this.name);
-            nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
+            const nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("Name");
             xProperty.setValue(eTypes.eText, this.name);

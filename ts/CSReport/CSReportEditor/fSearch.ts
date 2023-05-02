@@ -16,6 +16,8 @@ namespace CSReportEditor {
     export class FSearch extends Form {
 
         private editor: cEditor = null;
+        private editCtrl: (ctrlKey: string) => void;
+        private focusSec: (secKey: string) => void;
 
         public constructor() {
             super();
@@ -129,5 +131,8 @@ namespace CSReportEditor {
             //     this.editor.selectCtrl(info);
             // }
         }
+
+        public setEditCtrl = (f: (ctrlKey: string) => void ): void => { this.editCtrl = f; }
+        public setFocusSec = (f: (secKey: string) => void ): void => { this.focusSec = f; }
     }
 }

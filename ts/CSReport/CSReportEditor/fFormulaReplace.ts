@@ -1,13 +1,24 @@
 namespace CSReportEditor {
 
-    export class FFormulaReplace {
+    import NotImplementedException = CSOAPI.NotImplementedException;
+
+    export class FFormulaReplace extends Form {
 
         public constructor() {
-            InitializeComponent();
+            super();
+            // InitializeComponent();
         }
 
-        public getOk() {
+        public getOk(): boolean {
             throw new NotImplementedException();
+        }
+
+        getTxCurrFormula(): any {
+
+        }
+
+        getTxNewFormula(): any {
+
         }
     }
 }

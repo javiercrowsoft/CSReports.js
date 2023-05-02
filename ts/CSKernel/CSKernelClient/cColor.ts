@@ -2,7 +2,7 @@ namespace CSKernelClient  {
 
     export class cColor {
 
-        public colorFromRGB(rgb: number) {
+        public static colorFromRGB(rgb: number): any {
             // TODO: implement
         }
     }

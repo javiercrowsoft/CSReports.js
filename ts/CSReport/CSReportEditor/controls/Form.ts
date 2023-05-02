@@ -2,7 +2,7 @@ namespace CSReportEditor {
 
     export class Form {
 
-        show(owner) {
+        show(owner = null) {
 
         }
 
@@ -17,5 +17,18 @@ namespace CSReportEditor {
         getVisible() {
             return false;
         }
+
+        hide() {
+
+        }
+
+        bringToFront() {
+
+        }
+
+        isDisposed() {
+            return false;
+        }
+
     }
 }

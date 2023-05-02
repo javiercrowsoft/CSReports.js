@@ -112,46 +112,46 @@ namespace CSOAPI {
 
         //-------------------------------------------------------------------------
 
-        public listAdd(list: ComboBox, value: string, id: number = 0) {
+        public static listAdd(list: ComboBox, value: string, id: number = 0) {
             this.listAdd_(list, value, id);
         }
-        public listID(list: ComboBox) {
+        public static listID(list: ComboBox) {
             return this.listID_(list);
         }
-        public listItemData(list: ComboBox, index: number) {
+        public static listItemData(list: ComboBox, index: number) {
             return this.listItemData_(list, index);
         }
-        public listSetListIndex(list: ComboBox, idx: number) {
+        public static listSetListIndex(list: ComboBox, idx: number) {
             this.listSetListIndex_(list, idx);
         }
-        public listSetListIndexForId(list: ComboBox, id: number) {
+        public static listSetListIndexForId(list: ComboBox, id: number) {
             this.listSetListIndexForId_(list, id);
         }
-        public listSetListIndexForText(list: ComboBox, text: string) {
+        public static listSetListIndexForText(list: ComboBox, text: string) {
             this.listSetListIndexForText_(list, text);
         }
-        public listChangeTextForSelected(list: ComboBox, value: string) {
+        public static listChangeTextForSelected(list: ComboBox, value: string) {
             this.listChangeTextForSelected_(list, value);
         }
-        public listChangeText(list: ComboBox, idx: number, value: string) {
+        public static listChangeText(list: ComboBox, idx: number, value: string) {
             this.listChangeText_(list, idx, value);
         }
-        public listGetIndexFromItemData(list: ComboBox, valueItemData: number) {
+        public static listGetIndexFromItemData(list: ComboBox, valueItemData: number) {
             return this.listGetIndexFromItemData_(list, valueItemData);
         }
 
-        private listAdd_(list: ComboBox, value: string, id: number) {
+        private static listAdd_(list: ComboBox, value: string, id: number) {
             // TODO: implement
             // list.Items.Add(new ListValueWithId(value, id));
         }
-        private listID_(list: ComboBox) {
+        private static listID_(list: ComboBox): number {
             // TODO: implement
             /*
             if (list.SelectedIndex === -1) { return 0; }
             return (list.SelectedItem).Id;
             */
         }
-        private listItemData_(list: ComboBox, index: number) {
+        private static listItemData_(list: ComboBox, index: number) {
             // TODO: implement
             /*
             let _rtn: number = 0;
@@ -167,14 +167,14 @@ namespace CSOAPI {
             return _rtn;
             */
         }
-        private listSetListIndex_(list: ComboBox, idx: number) {
+        private static listSetListIndex_(list: ComboBox, idx: number) {
             // TODO: implement
             /*
             if (list.Items.Count < 1) { return; }
             if (list.Items.Count > idx) { list.SelectedIndex = idx; }
             */
         }
-        private listSetListIndexForId_(list: ComboBox, id: number) {
+        private static listSetListIndexForId_(list: ComboBox, id: number) {
             // TODO: implement
             /*
             let i: number = 0;
@@ -186,7 +186,7 @@ namespace CSOAPI {
             }
             */
         }
-        private listSetListIndexForText_(list: ComboBox, text: string) {
+        private static listSetListIndexForText_(list: ComboBox, text: string) {
             // TODO: implement
             /*
             let i: number = 0;
@@ -198,11 +198,11 @@ namespace CSOAPI {
             }
             */
         }
-        private listChangeTextForSelected_(list: ComboBox, value: string) {
+        private static listChangeTextForSelected_(list: ComboBox, value: string) {
             // TODO: implement
             // this.listChangeText_(list, list.SelectedIndex, value);
         }
-        private listChangeText_(list: ComboBox, idx: number, value: string) {
+        private static listChangeText_(list: ComboBox, idx: number, value: string) {
             // TODO: implement
             /*
             if (idx < list.Items.Count && idx > -1) {
@@ -216,7 +216,7 @@ namespace CSOAPI {
             }
             */
         }
-        private listGetIndexFromItemData_(list: ComboBox, valueItemData: number) {
+        private static listGetIndexFromItemData_(list: ComboBox, valueItemData: number) {
             // TODO: implement
             /*
             for(var i = 0; i < list.Items.Count; i++) {

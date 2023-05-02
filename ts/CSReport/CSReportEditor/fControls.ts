@@ -2,7 +2,7 @@ namespace CSReportEditor {
 
     import cReport = CSReportDll.cReport;
 
-    export class FControls {
+    export class FControls extends Form {
 
         private editor: cEditor = null;
 
@@ -12,6 +12,7 @@ namespace CSReportEditor {
         private lvwColumnSorter: object = null;
 
         public constructor() {
+            super()
             // InitializeComponent();
         }
 

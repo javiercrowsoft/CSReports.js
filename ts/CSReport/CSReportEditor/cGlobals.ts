@@ -489,5 +489,6 @@ namespace CSReportEditor {
         setFieldType(rhs: number): void;
         getIndex(): number;
         setIndex(rhs: number): void;
+        getTxDbField(): any;
     }
 }

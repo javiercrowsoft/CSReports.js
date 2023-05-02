@@ -6,6 +6,7 @@ namespace CSReportEditor {
         SizeNESW,
         SizeWE,
         SizeNWSE,
+        Move,
         Default
     }
 }

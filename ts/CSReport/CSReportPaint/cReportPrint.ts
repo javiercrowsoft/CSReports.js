@@ -10,8 +10,9 @@ namespace CSReportPaint {
     import csRptGetLineResult = CSReportGlobals.csRptGetLineResult;
     import csRptNewPageResult = CSReportGlobals.csRptNewPageResult;
     import csRptEndPageResult = CSReportGlobals.csRptEndPageResult;
+    import cIReportPrint = CSIReportPrint.cIReportPrint;
 
-	export class cReportPrint {
+	export class cReportPrint implements cIReportPrint {
 
         private C_MODULE: string = "cReportPrint";
 
@@ -131,7 +132,7 @@ namespace CSReportPaint {
             this.bHidePreviewWindow = rhs;
         }
 
-        private setReport(rhs: CSReportDll.cReport) {
+        public setReport(rhs: CSReportDll.cReport) {
             this.report = rhs;
         }
 
@@ -669,10 +670,6 @@ namespace CSReportPaint {
                 }
             }
             return n;
-        }
-
-        public setReport(rhs: object) {
-            this.report = rhs;
         }
 
         private pGetLineAux(indexLine: number, fields: CSReportDll.cReportPageFields) {

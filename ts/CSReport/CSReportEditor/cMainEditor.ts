@@ -19,9 +19,9 @@ namespace CSReportEditor {
 
 		public static gBackColor = 0;
 
-	    public gHideLeftBar = false;
-	    public gWorkFolder = "";
-	    public gbFirstOpen = false;
+	    public static gHideLeftBar = false;
+	    public static gWorkFolder = "";
+	    public static gbFirstOpen = false;
 
         private static fMain: FMain = null;
 

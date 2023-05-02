@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    export class FGroup {
+    export class FGroup extends Form {
 
         private editor: cEditor = null;
         private ok: boolean = false;
@@ -9,7 +9,7 @@ namespace CSReportEditor {
         private fieldType: number = 0;
 
         public constructor() {
-            InitializeComponent();
+            super();
         }
 
         public getAsc() {
@@ -118,6 +118,50 @@ namespace CSReportEditor {
 
         private fGroup_Load(sender: object, e: object) {
             cWindow.centerForm(this);
+        }
+
+        getTxName(): any {
+
+        }
+
+        getTxDbField(): any {
+
+        }
+
+        getOpAsc(): any {
+
+        }
+
+        getOpDesc(): any {
+
+        }
+
+        getChkPrintInNewPage(): any {
+
+        }
+
+        getChkReprintGroup(): any {
+
+        }
+
+        getChkGrandTotal(): any {
+
+        }
+
+        getOpDate(): any {
+
+        }
+
+        getOpNumber(): any {
+
+        }
+
+        getOpText(): any {
+
+        }
+
+        getLbGroup(): any {
+
         }
     }
 }

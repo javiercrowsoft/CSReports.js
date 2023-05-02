@@ -452,43 +452,43 @@ namespace CSReportPaint {
         // a define top and left
         // b define widht
         // c define heigth
-        public alingObjTopToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, false, true, false, false, true);
+        public alignObjTopToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, false, true, false, false, true);
         }
 
-        public alingObjLeftToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, true, false, false, false, true);
+        public alignObjLeftToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, true, false, false, false, true);
         }
 
-        public alingObjBottomToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, false, false, true, false, true);
+        public alignObjBottomToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, false, false, true, false, true);
         }
 
-        public alingObjRightToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, false, false, false, true, true);
+        public alignObjRightToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, false, false, false, true, true);
         }
 
-        public alingObjLeftTopToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, true, true, false, false, true);
+        public alignObjLeftTopToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, true, true, false, false, true);
         }
 
-        public alingObjLeftBottomToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, true, false, true, false, true);
+        public alignObjLeftBottomToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, true, false, true, false, true);
         }
 
-        public alingObjRightTopToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, false, true, false, true, true);
+        public alignObjRightTopToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, false, true, false, true, true);
         }
 
-        public alingObjRightBottomToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, false, false, true, true, true);
+        public alignObjRightBottomToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, false, false, true, true, true);
         }
 
-        public alingToGrid(sKey: string) {
-            this.alingObjToGrid(sKey, true, true, false, false, false);
+        public alignToGrid(sKey: string) {
+            this.alignObjToGrid(sKey, true, true, false, false, false);
         }
 
-        private alingObjToGrid(
+        private alignObjToGrid(
             sKey: string,
             toLeft: boolean,
             toTop: boolean,

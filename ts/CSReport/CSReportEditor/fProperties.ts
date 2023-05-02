@@ -3,7 +3,7 @@ namespace CSReportEditor {
     import CMouseWait = CSKernelClient.CMouseWait;
     import NotImplementedException = CSOAPI.NotImplementedException;
 
-    export class FProperties {
+    export class FProperties extends Form {
 
         private editor: cEditor = null;
 
@@ -1433,11 +1433,11 @@ namespace CSReportEditor {
         }
 
 
-        getTxText() {
+        getTxText(): any {
 
         }
 
-        getPicImage() {
+        getPicImage(): any {
 
         }
 
@@ -1461,192 +1461,200 @@ namespace CSReportEditor {
             return undefined;
         }
 
-        getTxChartTop() {
+        getTxChartTop(): any {
 
         }
 
-        getTxDbFieldGroupValue() {
+        getTxDbFieldGroupValue(): any {
 
         }
 
-        getTxChartGroupValue() {
+        getTxChartGroupValue(): any {
 
         }
 
-        getChkShowOutlines() {
+        getChkShowOutlines(): any {
 
         }
 
-        getChkSort() {
+        getChkSort(): any {
 
         }
 
-        getChkShowBarValues() {
+        getChkShowBarValues(): any {
 
         }
 
-        getTxDbFieldLbl1() {
+        getTxDbFieldLbl1(): any {
 
         }
 
-        getTxDbFieldVal1() {
+        getTxDbFieldVal1(): any {
 
         }
 
-        getCbColorSerie1() {
+        getCbColorSerie1(): any {
             return undefined;
         }
 
-        getTxDbFieldVal2() {
+        getTxDbFieldVal2(): any {
 
         }
 
-        getCbColorSerie2() {
+        getCbColorSerie2(): any {
             return undefined;
         }
 
-        getTxDbField() {
+        getTxDbField(): any {
 
         }
 
-        getTxName() {
+        getTxName(): any {
 
         }
 
-        getLbControl() {
+        getLbControl(): any {
 
         }
 
-        getChkFormulaHide() {
+        getChkFormulaHide(): any {
 
         }
 
-        getChkFormulaValue() {
+        getChkFormulaValue(): any {
 
         }
 
-        getTxExportColIdx() {
+        getTxExportColIdx(): any {
 
         }
 
-        getChkIsFreeCtrl() {
+        getChkIsFreeCtrl(): any {
 
         }
 
-        getTxTag() {
+        getTxTag(): any {
 
         }
 
-        getTxIdxGroup() {
+        getTxIdxGroup(): any {
 
         }
 
-        getOpBeforePrint() {
+        getOpBeforePrint(): any {
 
         }
 
-        getOpAfterPrint() {
+        getOpAfterPrint(): any {
 
         }
 
-        getChkCanGrow() {
+        getChkCanGrow(): any {
 
         }
 
-        getTxFormat() {
+        getTxFormat(): any {
 
         }
 
-        getTxSymbol() {
+        getTxSymbol(): any {
 
         }
 
-        getChkWordWrap() {
+        getChkWordWrap(): any {
 
         }
 
-        getTxBorderColor() {
+        getTxBorderColor(): any {
 
         }
 
-        getTxBorder3D() {
+        getTxBorder3D(): any {
 
         }
 
-        getTxBorderShadow() {
+        getTxBorderShadow(): any {
 
         }
 
-        getChkBorderRounded() {
+        getChkBorderRounded(): any {
 
         }
 
-        getTxBorderWidth() {
+        getTxBorderWidth(): any {
 
         }
 
-        getCbBorderType() {
+        getCbBorderType(): any {
             return undefined;
         }
 
-        getTxFont() {
+        getTxFont(): any {
 
         }
 
-        getShForeColor() {
+        getShForeColor(): any {
 
         }
 
-        getTxForeColor() {
+        getTxForeColor(): any {
 
         }
 
-        getChkFontBold() {
+        getChkFontBold(): any {
 
         }
 
-        getChkFontItalic() {
+        getChkFontItalic(): any {
 
         }
 
-        getTxFontSize() {
+        getTxFontSize(): any {
 
         }
 
-        getChkFontUnderline() {
+        getChkFontUnderline(): any {
 
         }
 
-        getChkFontStrike() {
+        getChkFontStrike(): any {
 
         }
 
-        getTxLeft() {
+        getTxLeft(): any {
 
         }
 
-        getTxTop() {
+        getTxTop(): any {
 
         }
 
-        getTxWidth() {
+        getTxWidth(): any {
 
         }
 
-        getTxHeight() {
+        getTxHeight(): any {
 
         }
 
-        getTxBackColor() {
+        getTxBackColor(): any {
 
         }
 
-        getShBackColor() {
+        getShBackColor(): any {
 
         }
 
-        getChkTransparent() {
+        getChkTransparent(): any {
 
+        }
+
+        getTxDbFieldLbl2(): any {
+
+        }
+
+        getCbAlign(): any {
+            return undefined;
         }
     }
 }
