@@ -47,11 +47,15 @@ namespace CSReportEditor {
     import cReportPaint = CSReportPaint.cReportPaint;
     import cReportPrint = CSReportPaint.cReportPrint;
     import cWindow = CSKernelClient.cWindow;
+    import MessageBoxDefaultButton = CSKernelClient.MessageBoxDefaultButton;
+    import csAskEditResult = CSKernelClient.csAskEditResult;
     import cParameter = CSConnect.cParameter;
     import Exception = CSOAPI.Exception;
     import Color = CSReportPaint.Color;
     import csRptLaunchAction = CSReportGlobals.csRptLaunchAction;
     import cColor = CSKernelClient.cColor;
+    import Bitmap = CSReportPaint.Bitmap;
+    import Point = CSReportPaint.Point;
 
     export class cEditor {
 
@@ -1962,7 +1966,7 @@ namespace CSReportEditor {
             }
         }
 
-        public deleteObj(bDelSectionLine: boolean) {
+        public deleteObj(bDelSectionLine: boolean): Promise<void> {
             let sec: cReportSection = null;
             let secs = new RefWrapper<cReportSections>(null);
             let secLn = new RefWrapper<cReportSectionLine>(null);
@@ -1986,7 +1990,7 @@ namespace CSReportEditor {
                 // first we check it instanceof not a section line
                 //
                 sec = this.getSection(null, isSecLn, secLn, false, isGroupHeader, isGroupFooter);
-                if (! isSecLn.get()) {
+                if (!isSecLn.get()) {
 
                     // check it instanceof not the last section line in this section
                     //
@@ -1994,52 +1998,27 @@ namespace CSReportEditor {
 
                         sec = this.getSection(null, isSecLn, secLn, true, isGroupHeader, isGroupFooter);
                     }
-                    if (! this.canDeleteSection(secs, sec, po.getTag())) return;
+                    if (!this.canDeleteSection(secs, sec, po.getTag())) return;
                 }
 
                 let what: string;
 
                 if (isSecLn.get()) {
                     what = "the section line";
-                }
-                else {
+                } else {
                     what = "the section";
                 }
 
-                if (! cWindow.ask("Are yuo sure you want to delete "
-                            + what + " and all the controls it contains? ", MessageBoxDefaultButton.Button2)) {
-                    return;
-                }
+                return cWindow.ask("Are yuo sure you want to delete "
+                    + what + " and all the controls it contains? ", MessageBoxDefaultButton.Button2).then((answer) => {
+                    if(!answer)
+                        return;
 
-                if (isSecLn) {
+                    if (isSecLn) {
 
-                    for(let _i = 0; _i < secLn.get().getControls().count(); _i++) {
-                        ctrl = secLn.get().getControls().item(_i);
-                        for(let i = 0; i < this.paint.getPaintObjects().count(); i++) {
-                            paintObj = this.paint.getPaintObjects().item(i);
-                            if (paintObj.getTag() === ctrl.getKey()) {
-                                this.paint.getPaintObjects().remove(paintObj.getKey());
-                                break;
-                            }
-                        }
-                    }
-
-                    secLn.get().getControls().clear();
-
-                    // at least one section line has to be in the section
-                    //
-                    if (sec.getSectionLines().count() > 1) {
-                        sec.getSectionLines().remove(secLn.get().getKey());
-                    }
-
-                }
-                else {
-
-                    for(let _i = 0; _i < sec.getSectionLines().count(); _i++) {
-                        secLn = sec.getSectionLines().item(_i);
-                        for(let _j = 0; _j < secLn.get().getControls().count(); _j++) {
-                            ctrl = secLn.get().getControls().item(_j);
-                            for(let i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                        for (let _i = 0; _i < secLn.get().getControls().count(); _i++) {
+                            ctrl = secLn.get().getControls().item(_i);
+                            for (let i = 0; i < this.paint.getPaintObjects().count(); i++) {
                                 paintObj = this.paint.getPaintObjects().item(i);
                                 if (paintObj.getTag() === ctrl.getKey()) {
                                     this.paint.getPaintObjects().remove(paintObj.getKey());
@@ -2047,32 +2026,22 @@ namespace CSReportEditor {
                                 }
                             }
                         }
-                    }
 
-                    // if this instanceof a group section we need to delete the header and the footer
-                    //
+                        secLn.get().getControls().clear();
 
-                    if (isGroupFooter || isGroupHeader) {
-                        if (isGroupHeader) {
-                            for(let _i = 0; _i < this.report.getGroups().count(); _i++) {
-                                group = this.report.getGroups().item(_i);
-                                if (group.getHeader().getKey() === sec.getKey()) { break; }
-                            }
-                            secG = group.getFooter();
-                        }
-                        else if (isGroupFooter) {
-                            for(let _i = 0; _i < this.report.getGroups().count(); _i++) {
-                                group = this.report.getGroups().item(_i);
-                                if (group.getFooter().getKey() === sec.getKey()) { break; }
-                            }
-                            secG = group.getHeader();
+                        // at least one section line has to be in the section
+                        //
+                        if (sec.getSectionLines().count() > 1) {
+                            sec.getSectionLines().remove(secLn.get().getKey());
                         }
 
-                        for(let _i = 0; _i < secG.getSectionLines().count(); _i++) {
-                            secLn = secG.getSectionLines().item(_i);
-                            for(let _j = 0; _j < secLn.get().getControls().count(); _j++) {
+                    } else {
+
+                        for (let _i = 0; _i < sec.getSectionLines().count(); _i++) {
+                            secLn = sec.getSectionLines().item(_i);
+                            for (let _j = 0; _j < secLn.get().getControls().count(); _j++) {
                                 ctrl = secLn.get().getControls().item(_j);
-                                for(let i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                                for (let i = 0; i < this.paint.getPaintObjects().count(); i++) {
                                     paintObj = this.paint.getPaintObjects().item(i);
                                     if (paintObj.getTag() === ctrl.getKey()) {
                                         this.paint.getPaintObjects().remove(paintObj.getKey());
@@ -2082,52 +2051,87 @@ namespace CSReportEditor {
                             }
                         }
 
-                        for(let i = 0; i < this.paint.getPaintSections().count(); i++) {
-                            paintObj = this.paint.getPaintSections().item(i);
-                            if (paintObj.getTag() === secG.getKey()) {
-                                this.paint.getPaintSections().remove(paintObj.getKey());
-                                break;
+                        // if this instanceof a group section we need to delete the header and the footer
+                        //
+
+                        if (isGroupFooter || isGroupHeader) {
+                            if (isGroupHeader) {
+                                for (let _i = 0; _i < this.report.getGroups().count(); _i++) {
+                                    group = this.report.getGroups().item(_i);
+                                    if (group.getHeader().getKey() === sec.getKey()) {
+                                        break;
+                                    }
+                                }
+                                secG = group.getFooter();
+                            } else if (isGroupFooter) {
+                                for (let _i = 0; _i < this.report.getGroups().count(); _i++) {
+                                    group = this.report.getGroups().item(_i);
+                                    if (group.getFooter().getKey() === sec.getKey()) {
+                                        break;
+                                    }
+                                }
+                                secG = group.getHeader();
                             }
+
+                            for (let _i = 0; _i < secG.getSectionLines().count(); _i++) {
+                                secLn = secG.getSectionLines().item(_i);
+                                for (let _j = 0; _j < secLn.get().getControls().count(); _j++) {
+                                    ctrl = secLn.get().getControls().item(_j);
+                                    for (let i = 0; i < this.paint.getPaintObjects().count(); i++) {
+                                        paintObj = this.paint.getPaintObjects().item(i);
+                                        if (paintObj.getTag() === ctrl.getKey()) {
+                                            this.paint.getPaintObjects().remove(paintObj.getKey());
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            for (let i = 0; i < this.paint.getPaintSections().count(); i++) {
+                                paintObj = this.paint.getPaintSections().item(i);
+                                if (paintObj.getTag() === secG.getKey()) {
+                                    this.paint.getPaintSections().remove(paintObj.getKey());
+                                    break;
+                                }
+                            }
+                            if (group === null) {
+                                throw new Exception("group is null");
+                            }
+                            this.report.getGroups().remove(group.getIndex());
+                        } else {
+                            if (secs === null) {
+                                throw new Exception("secs is null");
+                            }
+                            secs.get().remove(sec.getKey());
                         }
-                        if(group === null) {
-                            throw new Exception("group is null");
-                        }
-                        this.report.getGroups().remove(group.getIndex());
                     }
-                    else {
-                        if(secs === null) {
-                            throw new Exception("secs is null");
-                        }
-                        secs.get().remove(sec.getKey());
+
+                    let bDeletePaintObj: boolean = true;
+                    if (isSecLn) {
+                        bDeletePaintObj = sec.getKeyPaint() !== this.keyFocus;
                     }
-                }
 
-                let bDeletePaintObj: boolean = true;
-                if (isSecLn) {
-                    bDeletePaintObj = sec.getKeyPaint() !== this.keyFocus;
-                }
+                    if (bDeletePaintObj) {
 
-                if (bDeletePaintObj) {
+                        this.paint.getPaintSections().remove(this.keyFocus);
 
-                    this.paint.getPaintSections().remove(this.keyFocus);
+                        // if I have deleted the last section line in this
+                        // section I need to delete the paint object
+                        // associated with the current last section line
+                        // and then to associate this section line with
+                        // the paint object of the section
+                    } else {
+                        let secLns: cReportSectionLines = sec.getSectionLines();
+                        this.paint.getPaintSections().remove(secLns.item(secLns.count() - 1).getKeyPaint());
+                        secLns.item(secLns.count() - 1).setKeyPaint(sec.getKeyPaint());
+                    }
 
-                    // if I have deleted the last section line in this
-                    // section I need to delete the paint object
-                    // associated with the current last section line
-                    // and then to associate this section line with
-                    // the paint object of the section
-                }
-                else {
-                    let secLns: cReportSectionLines = sec.getSectionLines();
-                    this.paint.getPaintSections().remove(secLns.item(secLns.count() - 1).getKeyPaint());
-                    secLns.item(secLns.count() - 1).setKeyPaint(sec.getKeyPaint());
-                }
+                    this.pResetKeysFocus();
+                    this.vSelectedKeys = [];
 
-                this.pResetKeysFocus();
-                this.vSelectedKeys = [];
-
-                this.validateSectionAspect();
-                this.updateSectionNameInPaintObjects();
+                    this.validateSectionAspect();
+                    this.updateSectionNameInPaintObjects();
+                });
             }
             else {
                 paintObj = this.paint.getPaintObjects().item(this.keyFocus);
@@ -2149,6 +2153,8 @@ namespace CSReportEditor {
             }
 
             this.refreshAll();
+
+            return Promise.resolve();
         }
 
         private updateSectionNameInPaintObjects() {
@@ -2180,8 +2186,9 @@ namespace CSReportEditor {
             if (secAux !== null) {
                 if (secAux === sec || sec === null) {
                     if (secAux.getTypeSection() === csRptSectionType.MAIN_HEADER) {
-                        cWindow.msgInfo("The main header can't be deleted");
-                        return false;
+                        return cWindow.msgInfo("The main header can't be deleted").then(() => {
+                            return false;
+                        });
                     }
                     secs.set(this.report.getHeaders());
                 }
@@ -3120,33 +3127,25 @@ namespace CSReportEditor {
 
         public saveChanges() {
             if (this.dataHasChanged) {
-                if (this.askEdit("Do you want to save changes to " + this.reportFullPath + "?", "CSReportEditor")
-                    === csAskEditResult.CSASKRSLTYES) {
-                    if (! this.saveDocument(false)) return false;
-                }
-                else {
-                    return false;
-                }
+                return this.askEdit("Do you want to save changes to " + this.reportFullPath + "?", "CSReportEditor").then((answer) => {
+                    if (answer === csAskEditResult.CSASKRSLTYES) {
+                        if (! this.saveDocument(false))
+                            return false;
+                        else {
+                            this.dataHasChanged = false;
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                });
             }
             this.dataHasChanged = false;
             return true;
         }
 
         private askEdit(msg: string, title: string) {
-
-            let rslt: DialogResult = MessageBox.Show(
-                                        msg, title,
-                                        MessageBoxButtons.YesNoCancel,
-                                        MessageBoxIcon.Question,
-                                        MessageBoxDefaultButton.Button3);
-            switch (rslt) {
-                case DialogResult.Yes:
-                    return csAskEditResult.CSASKRSLTYES;
-                case DialogResult.No:
-                    return csAskEditResult.CSASKRSLTNO;
-                default:
-                    return csAskEditResult.CSASKRSLTCANCEL;
-            }
+            return cWindow.askYesNoCancel(msg, title, MessageBoxDefaultButton.Button3);
         }
 
         public showHelpDbField() {
@@ -4875,7 +4874,7 @@ namespace CSReportEditor {
                 pasteEnabled = this.fMain.getReportCopySource().getVCopyKeysCount() > 0;
             }
 
-            this.fMain.showPopMenuControl(this, clickInCtrl, pasteEnabled, this.picReport.PointToScreen(new Point(x, y)));
+            this.fMain.showPopMenuControl(this, clickInCtrl, pasteEnabled, this.picReport.pointToScreen(new Point(x, y)));
         }
 
         private fGroup_UnloadForm() {
@@ -6028,28 +6027,20 @@ namespace CSReportEditor {
         }
 
         public editConnectionString() {
-            let stringConnection: string = this.report.getConnect().getStrConnect();
-            if (Utils.getInput(stringConnection, "You can modify the string connection of this report", "String connection")) {
-                this.report.getConnect().setStrConnect(stringConnection);
-            }
+            let stringConnection = new RefWrapper(this.report.getConnect().getStrConnect());
+            return Utils.getInput(stringConnection, "You can modify the string connection of this report", "String connection").then(()=> {
+                this.report.getConnect().setStrConnect(stringConnection.get());
+            });
         }
 
         public editDataSource() {
-            let dataSource: string = this.report.getConnect().getDataSource();
-            if (Utils.getInput(dataSource, "You can modify the data source of this report", "Data Source")) {
-                this.report.getConnect().setDataSource(dataSource);
-            }
+            let dataSource = new RefWrapper(this.report.getConnect().getDataSource());
+            return Utils.getInput(dataSource, "You can modify the data source of this report", "Data Source").then(()=> {
+                this.report.getConnect().setDataSource(dataSource.get());
+            });
         }
-
-
     } 
 
-    export enum csAskEditResult {
-        CSASKRSLTYES = 1,
-        CSASKRSLTNO = 2,
-        CSASKRSLTCANCEL = 3
-    }
-    
     enum Keys {
         F11,
         F12,

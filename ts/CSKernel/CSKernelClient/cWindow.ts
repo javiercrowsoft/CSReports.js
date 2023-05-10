@@ -27,5 +27,29 @@ namespace CSKernelClient {
         public static setSilent(rhs: boolean) {
             this.silent = rhs;
         }
+
+        static ask(question: string, defaultButton: any): Promise<boolean> {
+            return Promise.resolve(false);
+        }
+
+        static askYesNoCancel(question: string, title: string, defaultButton: any): Promise<csAskEditResult> {
+            return Promise.resolve(csAskEditResult.CSASKRSLTCANCEL);
+        }
+
+        static msgInfo(theMainHeaderCanTBeDeleted: string): Promise<void> {
+            return Promise.resolve();
+        }
     }
+
+    export enum MessageBoxDefaultButton {
+        Button2,
+        Button3
+    }
+
+    export enum csAskEditResult {
+        CSASKRSLTYES = 1,
+        CSASKRSLTNO = 2,
+        CSASKRSLTCANCEL = 3
+    }
+
 }

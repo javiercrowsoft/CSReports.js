@@ -1,6 +1,11 @@
 namespace CSReportPaint {
 
-    export class Bitmap {}
+    export class Bitmap {
+
+        constructor(image: Image) {
+
+        }
+    }
     export class Image {}
     export class Graphics {}
     export class Rectangle {}
@@ -12,6 +17,12 @@ namespace CSReportPaint {
         getWidth() {
             return 0;
         }
+    }
+    export class Point {
+        constructor(x: number, y: number) {
+
+        }
+
     }
     export class Pen {}
     export class Brush {}

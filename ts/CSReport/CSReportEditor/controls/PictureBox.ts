@@ -11,5 +11,9 @@ namespace CSReportEditor {
         refresh() {
 
         }
+
+        pointToScreen(point: Point) {
+            return undefined;
+        }
     }
 }

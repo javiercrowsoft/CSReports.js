@@ -1,6 +1,7 @@
 namespace CSOAPI {
 
     import ComboBox = CSReportEditor.ComboBox;
+    import RefWrapper = CSKernelClient.RefWrapper;
 
     export class Utils {
 
@@ -229,6 +230,9 @@ namespace CSOAPI {
             */
         }
 
+        static getInput(input: RefWrapper<string>, description: string, title: string): Promise<boolean> {
+            return Promise.resolve(false);
+        }
     }
 
     export class Maths {
