@@ -1,5 +1,16 @@
 namespace CSReportDll {
 
+    import csRptChartLineStyle = CSReportGlobals.csRptChartLineStyle;
+    import csRptChartPieThickness = CSReportGlobals.csRptChartPieThickness;
+    import csRptChartPieDiameter = CSReportGlobals.csRptChartPieDiameter;
+    import csRptChartFormat = CSReportGlobals.csRptChartFormat;
+    import csRptChartType = CSReportGlobals.csRptChartType;
+    import ReportGlobals = CSReportGlobals.ReportGlobals;
+    import XmlNode = CSXml.XmlNode;
+    import eTypes = CSKernelClient.eTypes;
+    import cWebChart = CSChartServer.cWebChart;
+    import DataTable = CSDatabase.DataTable;
+
     export class cReportChart {
 
         private C_MODULE: string = "cReportChart";
@@ -194,7 +205,7 @@ namespace CSReportDll {
                     while (nodeObjSerie !== null) {
                         index = index + 1;
                         nodeObjAux = nodeObjSerie;
-                        if (!getSeries().add(null, "").load(xDoc, nodeObjAux, index)) {
+                        if (!this.getSeries().add(null, "").load(xDoc, nodeObjAux, index)) {
                             return false;
                         }
                         nodeObjSerie = xDoc.getNextNode(nodeObjSerie);
@@ -288,7 +299,7 @@ namespace CSReportDll {
         public make(rows: DataRowCollection, strFormat: string, bIsForWeb: boolean, fileName: string) {
             // we need to delete any previous work image
             //
-            pDestroyImage();
+            this.destroyImage();
 
             if (rows === null) {
                 return false;
@@ -298,7 +309,7 @@ namespace CSReportDll {
 
             chart.newChartType(this.chartType, this.chartTitle);
 
-            pFill(chart, rows, strFormat);
+            this.fill(chart, rows, strFormat);
 
             chart.setColorPrimary(this.series.item(0).getColor());
             chart.setLabelPrimary(ReportGlobals.getRealName(this.series.item(0).getValueFieldName()));
@@ -374,7 +385,7 @@ namespace CSReportDll {
             }
         }
 
-        private pDestroyImage() {
+        private destroyImage() {
             this.chartCreated = false;
         }
 
@@ -538,12 +549,12 @@ namespace CSReportDll {
         }
 
         private pGetSerieValuesAux(
-            rows: DataRowCollection
-            v: t_SerieValue[]
-            valueIndex: number
-            labelIndex: number
-            i: number
-            j: number
+            rows: DataRowCollection,
+            v: t_SerieValue[],
+            valueIndex: number,
+            labelIndex: number,
+            i: number,
+            j: number,
             bAdd: boolean) {
             if (bAdd) {
                 v[i].value = v[i].value + ReportGlobals.valVariant(rows[j][valueIndex]);
@@ -557,7 +568,7 @@ namespace CSReportDll {
             return i > v.length;
         }
 
-        private pFill(chart: cWebChart, rows: DataRowCollection, strFormat: string) {
+        private fill(chart: cWebChart, rows: DataRowCollection, strFormat: string) {
             let i: number = 0;
             let values: t_SerieValue[] = null;
             let serie: cReportChartSequence = null;

@@ -94,6 +94,10 @@ namespace CSReportPreview {
         }
     }
 
+    export class EventArgs {
+
+    }
+
     export class PageEventArgs extends EventArgs {
         private page: number = -1;
 

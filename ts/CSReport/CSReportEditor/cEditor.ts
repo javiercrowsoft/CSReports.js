@@ -1,6 +1,7 @@
 ///<reference path="../CSReportPaint/cReportPaint.ts"/>
 ///<reference path="../CSReportPaint/cReportPrint.ts"/>
 ///<reference path="../CSReportPaint/Bitmap.ts"/>
+///<reference path="../CSReportPaint/cGlobals.ts"/>
 
 namespace CSReportEditor {
 

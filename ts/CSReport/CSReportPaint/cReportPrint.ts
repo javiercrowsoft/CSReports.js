@@ -11,6 +11,13 @@ namespace CSReportPaint {
     import csRptNewPageResult = CSReportGlobals.csRptNewPageResult;
     import csRptEndPageResult = CSReportGlobals.csRptEndPageResult;
     import cIReportPrint = CSIReportPrint.cIReportPrint;
+    import RefWrapper = CSKernelClient.RefWrapper;
+    import cReportPaperInfo = CSReportDll.cReportPaperInfo;
+    import PrintDocument = CSReportDll.PrintDocument;
+    import cReportPageFields = CSReportDll.cReportPageFields;
+    import csReportPaperType = CSReportGlobals.csReportPaperType;
+    import NotImplementedException = CSOAPI.NotImplementedException;
+    import PageEventArgs = CSReportPreview.PageEventArgs;
 
 	export class cReportPrint implements cIReportPrint {
 
@@ -152,21 +159,21 @@ namespace CSReportPaint {
         }
 
         public getLine(indexField: number) {
-            let fld: CSReportDll.cReportPageField = this.getField(indexField);
+            let fld = this.getField(indexField);
 
             if (fld === null) {
                 return null;
             }
             else {
-                let w_item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
+                let item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
                 if (indexField < cReportPrint.C_OFFSETDETAIL) {
-                    return this.this.pGetLineAux(fld.getIndexLine(), w_item.getHeader());
+                    return this.getLineAux(fld.get().getIndexLine(), item.getHeader());
                 }
                 else if (indexField < cReportPrint.C_OFFSETFOOTER) {
-                    return this.this.pGetLineAux(fld.getIndexLine(), w_item.getDetail());
+                    return this.getLineAux(fld.get().getIndexLine(), item.getDetail());
                 }
                 else {
-                    return this.this.pGetLineAux(fld.getIndexLine(), w_item.getFooter());
+                    return this.getLineAux(fld.get().getIndexLine(), item.getFooter());
                 }
             }
         }
@@ -181,49 +188,49 @@ namespace CSReportPaint {
 
         public refreshCtrl(indexField: number) {
             let paintObj: cReportPaintObject = null;
-            let fld: CSReportDll.cReportPageField = null;
-            let page: CSReportDll.cReportPage = null;
+            let fld = new RefWrapper<CSReportDll.cReportPageField>(null);
+            let page: CSReportDll.cReportPage;
 
             page = this.report.getPages().item(this.currPage);
 
             if (indexField < cReportPrint.C_OFFSETDETAIL) {
-                if (!this.this.pGetFieldFromIndexAux(page.getHeader(), indexField, fld)) {
+                if (!this.getFieldFromIndexAux(page.getHeader(), indexField, fld)) {
                     return;
                 }
             }
             else if (indexField < cReportPrint.C_OFFSETFOOTER) {
-                if (!this.this.pGetFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, fld)) {
+                if (!this.getFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, fld)) {
                     return;
                 }
             }
             else {
-                if (!this.this.pGetFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, fld)) {
+                if (!this.getFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, fld)) {
                     return;
                 }
             }
 
-            paintObj = this.this.pGetPaintObjByIndex(indexField);
+            paintObj = this.pGetPaintObjByIndex(indexField);
 
-            let ctrlFont: CSReportDll.cReportFont = null;
-            ctrlFont = fld.getInfo().getAspect().getFont();
+            let ctrlFont = fld.get().getInfo().getAspect().getFont();
 
-            let w_aspect: CSReportDll.cReportAspect = paintObj.getAspect();
-            let w_font: CSReportDll.cReportFont = w_aspect.getFont();
-            w_font.setForeColor(ctrlFont.getForeColor());
-            w_font.setBold(ctrlFont.getBold());
-            w_font.setItalic(ctrlFont.getItalic());
-            w_font.setName(ctrlFont.getName());
-            w_font.setSize(ctrlFont.getSize());
-            w_font.setStrike(ctrlFont.getStrike());
-			w_font.setUnderline(ctrlFont.getUnderline());
+            let aspect: CSReportDll.cReportAspect = paintObj.getAspect();
+            let font: CSReportDll.cReportFont = aspect.getFont();
+            font.setForeColor(ctrlFont.getForeColor());
+            font.setBold(ctrlFont.getBold());
+            font.setItalic(ctrlFont.getItalic());
+            font.setName(ctrlFont.getName());
+            font.setSize(ctrlFont.getSize());
+            font.setStrike(ctrlFont.getStrike());
+			font.setUnderline(ctrlFont.getUnderline());
 
             this.paint.refreshObject(paintObj.getKey(), this.rpwPrint.getGraph());
         }
 
         public refreshCtrlFooter(ctrlName: string) {
-            let paintObj: cReportPaintObject = null;
-            paintObj = this.this.pGetPaintObjByCtrlName(ctrlName,
-                this.report.getPages().item(this.currPage).getFooter(), cReportPrint.C_OFFSETFOOTER);
+            let paintObj = this.pGetPaintObjByCtrlName(
+                ctrlName,
+                this.report.getPages().item(this.currPage).getFooter(),
+                cReportPrint.C_OFFSETFOOTER);
             paintObj.setText(this.getCtrlFooter(ctrlName).getValue());
             this.paint.refreshObject(paintObj.getKey(), this.rpwPrint.getGraph());
         }
@@ -243,23 +250,19 @@ namespace CSReportPaint {
         }
 
         public getPaintObjByCtrlNameEx(ctrlName: string, indexField: number) {
-            let fld: CSReportDll.cReportPageField = null;
-            let fields: CSReportDll.cReportPageFields = null;
-            let offset: number = 0;
-
-            let w_item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
-
-            fields = w_item.getHeader();
+            let offset: number;
+            let item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
+            let fields = item.getHeader();
             offset = cReportPrint.C_OFFSETHEADER;
-            fld = this.getFieldByCtrlName(ctrlName, fields, indexField);
+            let fld = this.getFieldByCtrlName(ctrlName, fields, indexField);
 
             if (fld === null) {
-                fields = w_item.getDetail();
+                fields = item.getDetail();
                 offset = cReportPrint.C_OFFSETDETAIL;
                 fld = this.getFieldByCtrlName(ctrlName, fields, indexField);
 
                 if (fld === null) {
-                    fields = w_item.getFooter();
+                    fields = item.getFooter();
                     offset = cReportPrint.C_OFFSETFOOTER;
                     fld = this.getFieldByCtrlName(ctrlName, fields, indexField);
                     if (fld === null) {
@@ -299,23 +302,21 @@ namespace CSReportPaint {
         }
 
         public getField(indexField: number) {
-            let rtn: CSReportDll.cReportPageField = null;
-            let page: CSReportDll.cReportPage = null;
-
-            page = this.report.getPages().item(this.currPage);
+            let rtn = new RefWrapper<CSReportDll.cReportPageField>(null);
+            let page = this.report.getPages().item(this.currPage);
 
             if (indexField < cReportPrint.C_OFFSETDETAIL) {
-                if (!this.this.pGetFieldFromIndexAux(page.getHeader(), indexField, rtn)) {
+                if (!this.getFieldFromIndexAux(page.getHeader(), indexField, rtn)) {
                     return null;
                 }
             }
             else if (indexField < cReportPrint.C_OFFSETFOOTER) {
-                if (!this.this.pGetFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, rtn)) {
+                if (!this.getFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, rtn)) {
                     return null;
                 }
             }
             else {
-                if (!this.this.pGetFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, rtn)) {
+                if (!this.getFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, rtn)) {
                     return null;
                 }
             }
@@ -409,6 +410,9 @@ namespace CSReportPaint {
             this.rpwPrint.setPages(this.report.getPages().count());
             this.printPage(csEMoveTo.C_FIRSTPAGE, false);
 
+            // TODO: implement this
+
+            /*
             let f: Form = this.rpwPrint.Parent;
 
             if (this.bModal) {
@@ -422,7 +426,7 @@ namespace CSReportPaint {
                     }
                 }
             }
-
+            */
             return true;
         }
 
@@ -518,24 +522,23 @@ namespace CSReportPaint {
             try {
                 let printDoc: PrintDocument = new PrintDocument();
 
-                let w_paperInfo: cReportPaperInfo = this.report.getPaperInfo();
+                let paperInfo: cReportPaperInfo = this.report.getPaperInfo();
                 if (!printer.starDoc(printDoc,
                                         this.report.getName(),
-                                        w_paperInfo.getPaperSize(),
-                                        w_paperInfo.getOrientation())) {
+                                        paperInfo.getPaperSize(),
+                                        paperInfo.getOrientation())) {
                     return false;
                 }
 
-                printDoc.PrintPage += new PrintPageEventHandler(this.printPage);
-                printDoc.PrinterSettings.PrinterName = printer.getDeviceName();
+                printDoc.setPrintPage(this.printPage);
+                printDoc.getPrinterSettings().setPrinterName(printer.getDeviceName());
 
                 this.pageToPrint = -1;
-                this.pagesToPrint = this.this.pGetPagesToPrint(printer.getPaperInfo().getPagesToPrint());
+                this.pagesToPrint = this.getPagesToPrint(printer.getPaperInfo().getPagesToPrint());
                 this.objClientToPrint = objClient;
-                printDoc.Print();
+                printDoc.print();
 
                 return true;
-
             }
             catch (ex) {
                 cError.mngError(ex);
@@ -543,7 +546,7 @@ namespace CSReportPaint {
             }
         }
 
-        private printPage(sender: object, e: object) {
+        private doPrintPage(sender: object, e: any) {
             if (this.pageToPrint === -1) {
 
                 let dpiX: number = 0;
@@ -584,7 +587,7 @@ namespace CSReportPaint {
             this.pageToPrint += 1;
 
             while (this.pageToPrint < this.report.getPages().count()) {
-                if (this.pHaveToPrintThisPage(this.pageToPrint+1, this.pagesToPrint)) {
+                if (this.haveToPrintThisPage(this.pageToPrint+1, this.pagesToPrint)) {
                     this.printPage(this.pageToPrint+1, true);
                     let graph = e.Graphics;
 
@@ -592,7 +595,7 @@ namespace CSReportPaint {
                         throw new ReportPaintException("There was an error when printing the report.");
                     }
 
-                    if (!this.pRefreshObjClient(this.pageToPrint, this.objClientToPrint)) {
+                    if (!this.refreshObjClient(this.pageToPrint, this.objClientToPrint)) {
                         throw new ReportPaintException("There was an error when printing the report.");
                     }
 
@@ -614,7 +617,7 @@ namespace CSReportPaint {
             e.HasMorePages = false;
         }
 
-        private pRefreshObjClient(iPage: number, objClient: cIPrintClient) {
+        private refreshObjClient(iPage: number, objClient: cIPrintClient) {
             if (objClient === null) {
                 return true;
             }
@@ -623,7 +626,7 @@ namespace CSReportPaint {
             }
         }
 
-        private pHaveToPrintThisPage(page: number, v: number[]) {
+        private haveToPrintThisPage(page: number, v: number[]) {
             for(let n = 0; n < v.length; n++) {
                 if (page === v[n]) {
                     return true;
@@ -632,7 +635,7 @@ namespace CSReportPaint {
             return false;
         }
 
-        private pGetPagesToPrint(pagesToPrint: string) {
+        private getPagesToPrint(pagesToPrint: string) {
             let v: string[];
             let n: number[];
             let v2: string[] = null;
@@ -672,23 +675,23 @@ namespace CSReportPaint {
             return n;
         }
 
-        private pGetLineAux(indexLine: number, fields: CSReportDll.cReportPageFields) {
-            let flds: CSReportDll.cReportPageFields = new CSReportDll.cReportPageFields();
+        private getLineAux(indexLine: number, fields: CSReportDll.cReportPageFields) {
+            let newFields = new CSReportDll.cReportPageFields();
 
             for(let _i = 0; _i < fields.count(); _i++) {
-                let fld: CSReportDll.cReportPageField = fields.item(_i);
+                let fld = fields.item(_i);
                 if (fld.getIndexLine() === indexLine) {
-                    flds.add(fld);
+                    newFields.add(fld);
                 }
             }
-            return flds;
+            return newFields;
         }
 
         private make() {
             let detailHeight: number = 0;
             let lineHeight: number = 0;
 
-            let fields: CSReportDll.cReportPageFields = null;
+            let fields = new RefWrapper<cReportPageFields>(null);
             let field: CSReportDll.cReportPageField = null;
             let detail: CSReportDll.cReportPageFields = null;
 
@@ -756,7 +759,7 @@ namespace CSReportPaint {
                 }
 
                 // if the row is virtual we need to call the engine
-                // to give it a chance to evalute formulas in the
+                // to give it a chance to evaluate formulas in the
                 // header which are marked to be compiled before printing
                 //
                 if (rslt === csRptGetLineResult.CS_RPT_GL_VIRTUAL_H) {
@@ -776,14 +779,14 @@ namespace CSReportPaint {
                 else if (rslt === csRptGetLineResult.CS_RPT_GL_NEW_PAGE) {
                     // get the new page
                     //
-                    if (!this.pNewPage(top, detailHeight)) {
+                    if (!this.newPage(top, detailHeight)) {
                         return false;
                     }
                 }
                 else {
                     // get the line's height
                     //
-                    lineHeight = this.getLineHeight(fields, offsetTop);
+                    lineHeight = this.getLineHeight(fields.get(), offsetTop);
 
                     // if it can fit we create a new page
                     //
@@ -791,7 +794,7 @@ namespace CSReportPaint {
 
                         // get the new page
                         //
-                        if (!this.pNewPage(top, detailHeight)) {
+                        if (!this.newPage(top, detailHeight)) {
                             return false;
                         }
                     }
@@ -808,18 +811,18 @@ namespace CSReportPaint {
                         //
                         detail = this.report.getPages().item(this.report.getPages().count()-1).getDetail();
 
-                        for(let _i = 0; _i < fields.count(); _i++) {
-                            field = fields.item(_i);
+                        for(let _i = 0; _i < fields.get().count(); _i++) {
+                            field = fields.get().item(_i);
 
                             // get the field's top
                             //
-                            let w_sectionLine: CSReportDll.cReportSectionLine = field.getInfo().getSectionLine();
+                            let sectionLine: CSReportDll.cReportSectionLine = field.getInfo().getSectionLine();
 
                             // one time for section
                             //
-                            if (secLnIndex !== w_sectionLine.getIndex()) {
-                                secLnIndex = w_sectionLine.getIndex();
-                                let w_aspect: CSReportDll.cReportAspect = w_sectionLine.getAspect();
+                            if (secLnIndex !== sectionLine.getIndex()) {
+                                secLnIndex = sectionLine.getIndex();
+                                let w_aspect: CSReportDll.cReportAspect = sectionLine.getAspect();
                                 topSection = topSection + (w_aspect.getTop() - (topSection + heightSection));
                                 heightSection = heightSection + w_aspect.getHeight();
                             }
@@ -872,12 +875,12 @@ namespace CSReportPaint {
             return this.report.endPage() !== csRptEndPageResult.CS_RPT_EP_ERROR;
         }
 
-        private printerSetSizeAndOrient(p: string, csReportPaperType: csReportPaperType, p_2: number) {
+        private printerSetSizeAndOrient(p: string, paperType: csReportPaperType, p_2: number) {
             // TODO: implement this
-            // throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        private pNewPage(top: number, detailHeight: number) {
+        private newPage(top: number, detailHeight: number) {
             let rsltNewPage: csRptNewPageResult;
             let rsltEndPage: csRptEndPageResult;
 
@@ -891,9 +894,12 @@ namespace CSReportPaint {
                 return false;
             }
 
-            // get details' dimentions
+            // get details' dimensions
             //
-            detailHeight = this.getDetailHeight(this.report.getPages().item(this.report.getPages().count()-1), top);
+            detailHeight = this.getDetailHeight(
+                this.report.getPages().item(
+                    this.report.getPages().count()-1),
+                top);
 
             return true;
         }
@@ -980,7 +986,7 @@ namespace CSReportPaint {
                         //
                         lnHeight2 = lnHeight;
 
-                        // save the height of the line to analize canGrow
+                        // save the height of the line to analyze canGrow
                         //
                         newLnHeight = lnHeight;
                     }
@@ -1084,12 +1090,16 @@ namespace CSReportPaint {
         // TODO: check if we should have a bitmap as a member field so it is not created everytime
         //
         private evaluateTextHeight(text: string, font: Font, width: number, flags: number, scaleY: number, scaleX: number) {
+            // TODO: implement
+            /*
             let bmp: Bitmap = new Bitmap(1, 1);
             let graph: Graphics = Graphics.FromImage(bmp);
             let stringSize: SizeF = graph.MeasureString(text, font, Math.trunc(width * scaleX));
             graph.Dispose();
             bmp.Dispose();
             return stringSize.Height * scaleY;
+            */
+            return 0;
         }
 
         // if the caller hasn't assigned a preview object
@@ -1120,8 +1130,8 @@ namespace CSReportPaint {
             let w_printer: cPrinter = this.report.getLaunchInfo().getPrinter();
             tR = cGlobals.getRectFromPaperSize(w_printer.getPaperInfo(), w_printer.getPaperInfo().getPaperSize(), w_printer.getPaperInfo().getOrientation());
 
-            this.realWidth = tR.Width;
-            this.realHeight = tR.Height;
+            this.realWidth = tR.getWidth();
+            this.realHeight = tR.getHeight();
 
             this.rpwPrint.getBody().Width = this.realWidth;
             this.rpwPrint.getBody().Height = this.realHeight;
@@ -1136,12 +1146,12 @@ namespace CSReportPaint {
                 }
             }
 
-            this.rpwPrint.getBody().Paint += new PaintEventHandler(rpwPrintBodyPaint);
-            this.rpwPrint.FirstPage += new CSReportPreview.FirstPage(rpwPrintMoveFirst);
-            this.rpwPrint.PreviousPage += new CSReportPreview.PreviousPage(rpwPrintMovePrevious);
-            this.rpwPrint.MoveToPage += new CSReportPreview.MoveToPage(rpwPrintMoveToPage);
-            this.rpwPrint.NextPage += new CSReportPreview.NextPage(rpwPrintMoveNext);
-            this.rpwPrint.LastPage += new CSReportPreview.LastPage(rpwPrintMoveLast);
+            this.rpwPrint.getBody().setPaint(this.rpwPrintBodyPaint);
+            this.rpwPrint.setFirstPage(this.rpwPrintMoveFirst);
+            this.rpwPrint.setPreviousPage(this.rpwPrintMovePrevious);
+            this.rpwPrint.setMoveToPage(this.rpwPrintMoveToPage);
+            this.rpwPrint.setNextPage(this.rpwPrintMoveNext);
+            this.rpwPrint.setLastPage(this.rpwPrintMoveLast);
         }
 
         private createPaintObjects(fields: CSReportDll.cReportPageFields, offset: number) {
@@ -1160,58 +1170,58 @@ namespace CSReportPaint {
 
                     rptAspect = field.getInfo().getAspect();
 
-                    let w_add: cReportPaintObject = this.paint.getPaintObjects().add(null, "");
-                    let w_aspect: CSReportDll.cReportAspect = w_add.getAspect();
+                    let po: cReportPaintObject = this.paint.getPaintObjects().add(null, "");
+                    let aspect: CSReportDll.cReportAspect = po.getAspect();
                     if (field.getTop() > 0) {
-                        w_aspect.setTop(field.getTop());
+                        aspect.setTop(field.getTop());
                     }
                     else {
-                        w_aspect.setTop(rptAspect.getTop());
+                        aspect.setTop(rptAspect.getTop());
                     }
                     if (field.getHeight() > 0) {
-                        w_aspect.setHeight(field.getHeight());
+                        aspect.setHeight(field.getHeight());
                     }
                     else {
-                        w_aspect.setHeight(rptAspect.getHeight());
+                        aspect.setHeight(rptAspect.getHeight());
                     }
                     if (field.getWidth() > 0) {
-                        w_aspect.setWidth(field.getWidth());
+                        aspect.setWidth(field.getWidth());
                     }
                     else {
-                        w_aspect.setWidth(rptAspect.getWidth());
+                        aspect.setWidth(rptAspect.getWidth());
                     }
-                    w_aspect.setLeft(rptAspect.getLeft());
-                    w_aspect.setBackColor(rptAspect.getBackColor());
-                    w_aspect.setTransparent(rptAspect.getTransparent());
-                    w_aspect.setAlign(rptAspect.getAlign());
-                    w_aspect.setWordWrap(rptAspect.getWordWrap());
+                    aspect.setLeft(rptAspect.getLeft());
+                    aspect.setBackColor(rptAspect.getBackColor());
+                    aspect.setTransparent(rptAspect.getTransparent());
+                    aspect.setAlign(rptAspect.getAlign());
+                    aspect.setWordWrap(rptAspect.getWordWrap());
 
-                    w_aspect.setBorderColor(rptAspect.getBorderColor());
-                    w_aspect.setBorderColor3d(rptAspect.getBorderColor3d());
-                    w_aspect.setBorderColor3dShadow(rptAspect.getBorderColor3dShadow());
-                    w_aspect.setBorderRounded(rptAspect.getBorderRounded());
-                    w_aspect.setBorderType(rptAspect.getBorderType());
-                    w_aspect.setBorderWidth(rptAspect.getBorderWidth());
+                    aspect.setBorderColor(rptAspect.getBorderColor());
+                    aspect.setBorderColor3d(rptAspect.getBorderColor3d());
+                    aspect.setBorderColor3dShadow(rptAspect.getBorderColor3dShadow());
+                    aspect.setBorderRounded(rptAspect.getBorderRounded());
+                    aspect.setBorderType(rptAspect.getBorderType());
+                    aspect.setBorderWidth(rptAspect.getBorderWidth());
 
                     rptFont = rptAspect.getFont();
-                    let w_font: CSReportDll.cReportFont = w_aspect.getFont();
-                    w_font.setBold(rptFont.getBold());
-                    w_font.setForeColor(rptFont.getForeColor());
-                    w_font.setItalic(rptFont.getItalic());
-                    w_font.setName(rptFont.getName());
-                    w_font.setSize(rptFont.getSize() * this.scaleFont);
-                    w_font.setStrike(rptFont.getStrike());
-					w_font.setUnderline(rptFont.getUnderline());
+                    let font: CSReportDll.cReportFont = aspect.getFont();
+                    font.setBold(rptFont.getBold());
+                    font.setForeColor(rptFont.getForeColor());
+                    font.setItalic(rptFont.getItalic());
+                    font.setName(rptFont.getName());
+                    font.setSize(rptFont.getSize() * this.scaleFont);
+                    font.setStrike(rptFont.getStrike());
+					font.setUnderline(rptFont.getUnderline());
 
-                    w_add.setText(field.getValue());
-                    w_add.setImage(field.getImage());
+                    po.setText(field.getValue());
+                    po.setImage(field.getImage());
 
-                    if (w_add.getImage() !== null) {
-                        w_add.setPaintType(csRptPaintObjType.CSRPTPAINTOBJIMAGE);
+                    if (po.getImage() !== null) {
+                        po.setPaintType(csRptPaintObjType.CSRPTPAINTOBJIMAGE);
                     }
-                    w_add.setIndexField(index + offset);
+                    po.setIndexField(index + offset);
                     if (field.getObjectID() !== null) {
-                        w_add.setTag(field.getObjectID().getValue());
+                        po.setTag(field.getObjectID().getValue());
                     }
                 }
             }
@@ -1252,9 +1262,9 @@ namespace CSReportPaint {
         */
         }
 
-        private pGetFieldFromIndexAux(fields: CSReportDll.cReportPageFields, index: number, rtn: CSReportDll.cReportPageField) {
+        private getFieldFromIndexAux(fields: CSReportDll.cReportPageFields, index: number, rtn: RefWrapper<CSReportDll.cReportPageField>) {
             try {
-                rtn = fields.item(index);
+                rtn.set(fields.item(index));
                 return true;
             }
             catch(ex) {
@@ -1487,23 +1497,23 @@ namespace CSReportPaint {
             }
         */
         private rpwPrintMoveFirst(sender: object, e: object) {
-            printPage(csEMoveTo.C_FIRSTPAGE);
+            this.printPage(csEMoveTo.C_FIRSTPAGE);
         }
 
         private rpwPrintMoveLast(sender: object, e: object) {
-            printPage(csEMoveTo.C_LASTPAGE);
+            this.printPage(csEMoveTo.C_LASTPAGE);
         }
 
         private rpwPrintMoveNext(sender: object, e: object) {
-            printPage(csEMoveTo.C_NEXTPAGE);
+            this.printPage(csEMoveTo.C_NEXTPAGE);
         }
 
         private rpwPrintMovePrevious(sender: object, e: object) {
-            printPage(csEMoveTo.C_PREVIOUSPAGE);
+            this.printPage(csEMoveTo.C_PREVIOUSPAGE);
         }
 
         private rpwPrintMoveToPage(sender: object, e: PageEventArgs) {
-            printPage(e.page);
+            this.printPage(e.getPage());
         }
 
         private rpwPrint_SaveDocument() {

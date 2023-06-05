@@ -1,5 +1,9 @@
 namespace CSReportPaint {
 
-    export class fPreview { }
+    export class fPreview {
+        getRpwReport() {
+            return undefined;
+        }
+    }
 
 }

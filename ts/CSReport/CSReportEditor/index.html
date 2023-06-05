@@ -5,19 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript" src="csreports.js"></script>
-    <script>
-        function openTab(event, id) {
-            console.log("Open " + id);
-        }
-
-        function closeTab(event, id) {
-            event.stopPropagation();
-            console.log("Close " + id);
-        }
-        (function() {
-            CSReportEditor.cMainEditor.initEditor();
-        }())
-    </script>
 </head>
 <body>
 <div id="wrapper">
@@ -129,9 +116,12 @@
             <br>here
         </div>
 
-        <div id="editor">
-            <div class="report">
-
+        <div id="tbpEditor" class="editor">
+            <div id="pnEditor" class="editor-container">
+                <div id="pnRule" class="rule">
+                </div>
+                <div id="pnReport" class="report">
+                </div>
             </div>
         </div>
     </div>
@@ -142,4 +132,17 @@
     <p>footer</p>
 </footer>
 </body>
+<script defer>
+    function openTab(event, id) {
+        console.log("Open " + id);
+    }
+
+    function closeTab(event, id) {
+        event.stopPropagation();
+        console.log("Close " + id);
+    }
+    (function() {
+        CSReportEditor.cMainEditor.initEditor();
+    }())
+</script>
 </html>

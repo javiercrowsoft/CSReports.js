@@ -4,6 +4,7 @@ namespace CSReportDll {
     import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import Utils = CSOAPI.Utils;
+    import RefWrapper = CSKernelClient.RefWrapper;
 
     export class cPrintAPI {
 
@@ -52,8 +53,9 @@ namespace CSReportDll {
             port: string,
             orientation: number = 1,
             paperSize: number = 1,
-            width: number = 1,
-            height: number = 1) {
+            width = new RefWrapper(1),
+            height = new RefWrapper(1)
+        ) {
 
             let o: cPrinter = new cPrinter(printDialog);
 
@@ -66,12 +68,12 @@ namespace CSReportDll {
             paperInfo.setOrientation(orientation);
             paperInfo.setPaperSize(paperSize);
 
-            if (width === 0 || height === 0) {
+            if (width.get() === 0 || height.get() === 0) {
                 this.getSizeFromPaperSize(paperSize, orientation, width, height);
             }
 
-            paperInfo.setWidth(width);
-            paperInfo.setHeight(height);
+            paperInfo.setWidth(width.get());
+            paperInfo.setHeight(height.get());
 
             return o;
         }
@@ -84,27 +86,28 @@ namespace CSReportDll {
             let orientation: number = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
                             "Orientation", printerConfigInfo, 1));
 
-            let width: number = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
-                            "PaperWidth", printerConfigInfo, 210));
-            let height: number = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
-                            "PaperLength", printerConfigInfo, 297));
+            let width = new RefWrapper(Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                            "PaperWidth", printerConfigInfo, 210)));
+            let height = new RefWrapper(Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                            "PaperLength", printerConfigInfo, 297)));
 
             return cPrintAPI.getcPrint(printDialog, deviceName, driverName, port, orientation, paperSize, width, height);
         }
 
         public static getcPrinterFromDefaultPrinter(printDialog: PrintDialog) {
-            let deviceName: string = "";
-            let driverName: string = "";
-            let port: string = "";
-            let paperSize: number = 0;
-            let orientation: number = 0;
-            let width: number = 0;
-            let height: number = 0;
+            let deviceName = new RefWrapper("");
+            let driverName = new RefWrapper("");
+            let port = new RefWrapper("");
+            let paperSize = new RefWrapper(0);
+            let orientation = new RefWrapper(0);
+            let width = new RefWrapper(0);
+            let height = new RefWrapper(0);
 
             this.getDefaultPrinter(deviceName, driverName, port, paperSize, orientation, width, height);
 
-            if (deviceName !== "") {
-                return this.getcPrint(printDialog, deviceName, driverName, port, orientation, paperSize, width, height);
+            if (deviceName.get() !== "") {
+                return this.getcPrint(printDialog, deviceName.get(), driverName.get(), port.get(),
+                    orientation.get(), paperSize.get(), width, height);
             }
             else {
                 return null;
@@ -115,72 +118,78 @@ namespace CSReportDll {
             throw new NotImplementedException();
         }
 
-        public static getDefaultPrinter(deviceName: string, driverName: string, port: string,
-                                        paperSize: number, orientation: number,
-                                        width: number, height: number) {
+        public static getDefaultPrinter(deviceName: RefWrapper<string>,
+                                        driverName: RefWrapper<string>,
+                                        port: RefWrapper<string>,
+                                        paperSize: RefWrapper<number>,
+                                        orientation: RefWrapper<number>,
+                                        width: RefWrapper<number>,
+                                        height: RefWrapper<number>) {
 
             let settings: PrinterSettings = new PrinterSettings();
 
-            deviceName = settings.getPrinterName();
+            deviceName.set(settings.getPrinterName());
 
-            let printerInfo: object = cPrintWMI.getPrinterInfoFromWMI(deviceName);
+            let printerInfo: object = cPrintWMI.getPrinterInfoFromWMI(deviceName.get());
 
-            driverName = cPrintWMI.getPrinterInfoValueFromWMI("DriverName", printerInfo, "") as string;
-            port = cPrintWMI.getPrinterInfoValueFromWMI("PortName", printerInfo, "") as string;
+            driverName.set(cPrintWMI.getPrinterInfoValueFromWMI("DriverName", printerInfo, "") as string);
+            port.set(cPrintWMI.getPrinterInfoValueFromWMI("PortName", printerInfo, "") as string);
 
             let printerConfigInfo: object = cPrintWMI.getPrinterConfigInfoFromWMI(settings.getPrinterName());
 
-            paperSize = this.getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI(
-                "PaperSize", printerConfigInfo, "A4").toString());
-            orientation = Math.trunc(Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
-                            "Orientation", printerConfigInfo, 1)));
+            paperSize.set(this.getPaperSizeFromSizeName(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                "PaperSize", printerConfigInfo, "A4").toString()));
+            orientation.set(Math.trunc(Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                            "Orientation", printerConfigInfo, 1))));
 
-            width = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
-                                "PaperWidth", printerConfigInfo, 210));
-            height = Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
-                                "PaperLength", printerConfigInfo, 297));
+            width.set(Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                                "PaperWidth", printerConfigInfo, 210)));
+            height.set(Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
+                                "PaperLength", printerConfigInfo, 297)));
 
-            if (width === 0 || height === 0 || paperSize === 99) {
-                if (paperSize === 99 /*UNKNOWN*/) paperSize = 1; /*LETTER*/
+            if (width.get() === 0 || height.get()  === 0 || paperSize.get()  === 99) {
+                if (paperSize.get()  === 99 /*UNKNOWN*/) paperSize.set(1); /*LETTER*/
 
-                this.getSizeFromPaperSize(paperSize, orientation, width, height);
+                this.getSizeFromPaperSize(paperSize.get(), orientation.get(), width, height);
             }
         }
 
-        private static getSizeFromPaperSize(paperSize: csReportPaperType, orientation: number, width: number, height: number) {
+        private static getSizeFromPaperSize(paperSize: csReportPaperType,
+                                            orientation: number,
+                                            width: RefWrapper<number>,
+                                            height: RefWrapper<number>) {
             switch (paperSize)
             {
                 case csReportPaperType.CS_RPT_PAPER_TYPE_LETTER:
-                    height = 279;
-                    width = 216;
+                    height.set(279);
+                    width.set(216);
                     break;
 
                 case csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL:
-                    height = 356;
-                    width = 216;
+                    height.set(356);
+                    width.set(216);
                     break;
 
                 case csReportPaperType.CS_RPT_PAPER_TYPE_A4:
-                    height = 297;
-                    width = 210;
+                    height.set(297);
+                    width.set(210);
                     break;
 
                 case csReportPaperType.CS_RPT_PAPER_TYPE_A3:
-                    height = 420;
-                    width = 297;
+                    height.set(420);
+                    width.set(297);
                     break;
 
                 default:
-                    height = 0;
-                    width = 0;
+                    height.set(0);
+                    width.set(0);
                     break;
             }
 
             if (orientation === csRptPageOrientation.LANDSCAPE) {
-                let tmp: number = 0;
-                tmp = height;
-                height = width;
-                width = tmp;
+                const tmp = height.get();
+                height.set(width.get());
+                width.set(tmp);
             }
         }
 

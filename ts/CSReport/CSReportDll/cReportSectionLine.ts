@@ -1,6 +1,12 @@
 namespace CSReportDll {
 
+    import csRptSectionType = CSReportGlobals.csRptSectionType;
+    import eTypes = CSKernelClient.eTypes;
+    import XmlNode = CSXml.XmlNode;
+
     export class cReportSectionLine {
+
+        private C_NODE_RPT_CONTROLS: string = "RptControls";
 
         private controls: cReportControls = new cReportControls();
         private aspect: cReportAspect = new cReportAspect();
@@ -13,7 +19,7 @@ namespace CSReportDll {
 
         // it is the name of the control which have the id of the line
         // it is used by cReportLinkServer
-        // when a user makes double clic over a line in a preview report
+        // when a user makes double click over a line in a preview report
         // window the showDetails() event of cReportLinkServer will be raised
         // a listener for this event could use this property to know which
         // control contains the id of the record expressed in the line selected
@@ -152,7 +158,7 @@ namespace CSReportDll {
                 return false; 
             }
 
-            nodeObjCtrls = xDoc.getNodeFromNode(nodeObj, C_NODERPTCONTROLS);
+            nodeObjCtrls = xDoc.getNodeFromNode(nodeObj, this.C_NODE_RPT_CONTROLS);
 
             if (xDoc.nodeHasChild(nodeObjCtrls))  {
                 nodeObjCtrl = xDoc.getNodeChild(nodeObjCtrls);
@@ -204,7 +210,7 @@ namespace CSReportDll {
                 return false; 
             }
 
-            xProperty.setName(C_NODERPTCONTROLS);
+            xProperty.setName(this.C_NODE_RPT_CONTROLS);
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let ctrl: cReportControl = null;

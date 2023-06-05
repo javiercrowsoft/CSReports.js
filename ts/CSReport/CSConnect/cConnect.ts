@@ -1,3 +1,5 @@
+///<reference path="../CSReportGlobals/ReportGlobals.ts"/>
+
 namespace CSConnect {
 
     import NotImplementedException = CSOAPI.NotImplementedException;

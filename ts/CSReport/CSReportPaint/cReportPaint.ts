@@ -495,6 +495,7 @@ namespace CSReportPaint {
             toBottom: boolean,
             toRight: boolean,
             resizing: boolean) {
+            
             let z1: number = 0;
             let q1: number = 0;
             let maxY: number = 0;
@@ -512,7 +513,7 @@ namespace CSReportPaint {
             const pointSeparation: number = 0.6;
             const offSetPointSep: number = 0.3;
 
-            let paintObjs: cReportPaintObjects = null;
+            let paintObjs: cReportPaintObjects;
 
             if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_SEC) {
                 paintObjs = this.paintSections;
@@ -524,10 +525,10 @@ namespace CSReportPaint {
             let nLeft: number = 0;
             let nTop: number = 0;
 
-            let w_item: cReportPaintObject = paintObjs.item(sKey);
-            let w_aspect: cReportAspect = w_item.getAspect();
-            nLeft = w_aspect.getLeft() - offSetPointSep;
-            nTop = w_aspect.getTop() - w_aspect.getOffset() - offSetPointSep;
+            let item: cReportPaintObject = paintObjs.item(sKey);
+            let aspect: cReportAspect = item.getAspect();
+            nLeft = aspect.getLeft() - offSetPointSep;
+            nTop = aspect.getTop() - aspect.getOffset() - offSetPointSep;
 
             if (nLeft < 0) { nLeft = 0; }
             if (nTop < 0) { nTop = 0; }
@@ -552,27 +553,27 @@ namespace CSReportPaint {
                 if (toTop) {
                     // now we need to get which is the nearest point
                     //
-                    top = (w_aspect.getTop() - w_aspect.getOffset()) - gridObjAspect.getTop();
+                    top = (aspect.getTop() - aspect.getOffset()) - gridObjAspect.getTop();
                     top = Math.trunc(top / pointSeparation) * pointSeparation;
                     offset = gridObjAspect.getTop()
                                 + top 
                                 - offSetPointSep
-                                - (w_aspect.getTop() - w_aspect.getOffset());
-                    w_aspect.setTop((gridObjAspect.getTop() + top - offSetPointSep) + w_aspect.getOffset());
+                                - (aspect.getTop() - aspect.getOffset());
+                    aspect.setTop((gridObjAspect.getTop() + top - offSetPointSep) + aspect.getOffset());
 
                     if (resizing) {
-                        w_aspect.setHeight(w_aspect.getHeight() - offset);
+                        aspect.setHeight(aspect.getHeight() - offset);
                     }
                 }
 
                 if (toLeft) {
-                    left = w_aspect.getLeft() - gridObjAspect.getLeft();
+                    left = aspect.getLeft() - gridObjAspect.getLeft();
                     left = Math.trunc(left / pointSeparation) * pointSeparation;
-                    offset = gridObjAspect.getLeft() + left - offSetPointSep - w_aspect.getLeft();
-                    w_aspect.setLeft(gridObjAspect.getLeft() + left - offSetPointSep);
+                    offset = gridObjAspect.getLeft() + left - offSetPointSep - aspect.getLeft();
+                    aspect.setLeft(gridObjAspect.getLeft() + left - offSetPointSep);
 
                     if (resizing) {
-                        w_aspect.setWidth(w_aspect.getWidth() - offset);
+                        aspect.setWidth(aspect.getWidth() - offset);
                     }
                 }
             }
@@ -580,8 +581,8 @@ namespace CSReportPaint {
             if (toRight) {
                 // we get the grid where the point B is located
                 //
-                z1 = Math.trunc((nLeft + w_aspect.getWidth()) / cReportPaint.C_GRID_AREA_WIDTH);
-                if (nLeft + w_aspect.getWidth() > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
+                z1 = Math.trunc((nLeft + aspect.getWidth()) / cReportPaint.C_GRID_AREA_WIDTH);
+                if (nLeft + aspect.getWidth() > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
 
                 q1 = Math.trunc(nTop / cReportPaint.C_GRID_AREA_HEIGHT);
                 if (nTop > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
@@ -596,9 +597,9 @@ namespace CSReportPaint {
 
                 // now we need to get which is the nearest point
                 //
-                width = w_aspect.getLeft() + w_aspect.getWidth() - gridObjAspect.getLeft();
+                width = aspect.getLeft() + aspect.getWidth() - gridObjAspect.getLeft();
                 width = Math.trunc(width / pointSeparation) * pointSeparation - offSetPointSep;
-                w_aspect.setWidth(gridObjAspect.getLeft() + width - w_aspect.getLeft());
+                aspect.setWidth(gridObjAspect.getLeft() + width - aspect.getLeft());
 
             }
 
@@ -606,10 +607,10 @@ namespace CSReportPaint {
                 // we get the grid where the point C is located
                 //
                 z1 = Math.trunc(nLeft / cReportPaint.C_GRID_AREA_WIDTH);
-                q1 = Math.trunc((nTop + w_aspect.getHeight()) / cReportPaint.C_GRID_AREA_HEIGHT);
+                q1 = Math.trunc((nTop + aspect.getHeight()) / cReportPaint.C_GRID_AREA_HEIGHT);
 
                 if (nLeft > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
-                if (nTop + w_aspect.getHeight() > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
+                if (nTop + aspect.getHeight() > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
 
                 if (z1 < 1) { z1 = 0; }
                 if (q1 < 1) { q1 = 0; }
@@ -621,9 +622,9 @@ namespace CSReportPaint {
 
                 // now we need to get which is the nearest point
                 //
-                height = (w_aspect.getTop() - w_aspect.getOffset()) + w_aspect.getHeight() - gridObjAspect.getTop();
+                height = (aspect.getTop() - aspect.getOffset()) + aspect.getHeight() - gridObjAspect.getTop();
                 height = Math.trunc(height / pointSeparation) * pointSeparation - offSetPointSep;
-                w_aspect.setHeight(gridObjAspect.getTop() + height - (w_aspect.getTop() - w_aspect.getOffset()));
+                aspect.setHeight(gridObjAspect.getTop() + height - (aspect.getTop() - aspect.getOffset()));
             }
         }
 
@@ -679,7 +680,7 @@ namespace CSReportPaint {
                 w_aspect = w_item.getAspect();
                 top += Math.trunc(w_aspect.getTop() - w_aspect.getOffset() - 6 + w_aspect.getHeight() * 2);
 
-                this.this.printLine(graph,
+                this.printLine(graph,
                             true, 
                             0, 
                             top, 
@@ -710,7 +711,7 @@ namespace CSReportPaint {
                 top = Math.trunc(aspect.getTop() - aspect.getOffset() - heightSec + w_item.getAspect().getHeight());
 
                 if (w_item.getIsSection()) {
-                    this.this.printLine(graph,
+                    this.printLine(graph,
                                 true,
                                 0, 
                                 top, 
@@ -732,7 +733,7 @@ namespace CSReportPaint {
                 top = Math.trunc(aspect.getTop() + w_item.getHeightSecLine() - heightSec - aspect.getOffset() + 6);
 
                 if (w_item.getIsSection()) {
-                    this.this.printLine(graph,
+                    this.printLine(graph,
                                 true,
                                 0,
                                 top,
@@ -874,7 +875,7 @@ namespace CSReportPaint {
 
                     case csRptPaintObjType.CSRPTPAINTOBJLINE:
 
-                        this.this.printLine(graph, filled, x1, y1, x2, y2, colorIn, 1, false, colorOut, false);
+                        this.printLine(graph, filled, x1, y1, x2, y2, colorIn, 1, false, colorOut, false);
                         break;
 
                     case csRptPaintObjType.CSRPTPAINTOBJCIRCLE:
@@ -933,8 +934,8 @@ namespace CSReportPaint {
         }
 
         private drawBMP(graph: Graphics, image: Image, x: number, y: number, bmpWidth: number, bmpHeight: number, destWidth: number, destHeight: number) {
-            let sourceRect: Rectangle = new Rectangle(0, 0, bmpWidth, bmpHeight);
-            let destRect: Rectangle = new Rectangle(Math.trunc(x), Math.trunc(y), bmpWidth, bmpHeight);
+            let sourceRect: Rectangle = Rectangle.new4(0, 0, bmpWidth, bmpHeight);
+            let destRect: Rectangle = Rectangle.new4(Math.trunc(x), Math.trunc(y), bmpWidth, bmpHeight);
 
             graph.DrawImage(image, destRect, sourceRect, GraphicsUnit.Pixel);
         }
@@ -1029,7 +1030,11 @@ namespace CSReportPaint {
             this.x2 = left + width;
             this.y2 = top + height;
 
-            this.printLine(graph, false, this.x1, this.y1, this.x2, this.y2, 0, 1, true, (int)csColors.C_COLOR_BLACK, false);
+            this.printLine(
+                graph, false,
+                this.x1, this.y1, this.x2, this.y2,
+                0, 1, true,
+                csColors.C_COLOR_BLACK, false);
 
             if (this.x1 > 1) { this.x1 = this.x1 - 2; }
             if (this.y1 > 1) { this.y1 = this.y1 - 2; }
@@ -1087,11 +1092,16 @@ namespace CSReportPaint {
             if (this.x2 < paintObjAsp.getLeft() + C_MIN_WIDTH) { this.x2 = paintObjAsp.getLeft() + C_MIN_WIDTH; }
 
             // y2 can't be lower than Top
-            if (this.y2 < paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT) { this.y2 = paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT; }
+            if (this.y2 < paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT) {
+                this.y2 = paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT;
+            }
 
             this.paintPicture(graph, false);
 
-            this.printLine(graph, false, this.x1, this.y1, this.x2, this.y2, (int)csColors.C_COLOR_WHITE, 1, true, (int)csColors.C_COLOR_BLACK, false);
+            this.printLine(
+                graph, false,
+                this.x1, this.y1, this.x2, this.y2,
+                csColors.C_COLOR_WHITE, 1, true, csColors.C_COLOR_BLACK, false);
 
             graph.Dispose();
         }
@@ -1113,7 +1123,9 @@ namespace CSReportPaint {
 
             let bitmapGraphic: Graphics = Graphics.FromImage(this.bitmap);
 
-            let rect: Rectangle = cGlobals.newRectangle(0, 0, (int)graph.VisibleClipBounds.Width, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???;
+            let rect: Rectangle = cGlobals
+                .newRectangle(0, 0,
+                    graph.VisibleClipBounds.Width, graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???;
 
             if (this.brushGrid !== null) {
                 bitmapGraphic.FillRectangle(this.brushGrid, rect);
@@ -1124,12 +1136,12 @@ namespace CSReportPaint {
                 brush.Dispose();            
             }
 
-            for(let i = 0; i < getPaintObjects().count(); i++) {
-                this.drawObject(getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
+            for(let i = 0; i < this.getPaintObjects().count(); i++) {
+                this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
             }
 
-            for(let i = 0; i < getPaintSections().count(); i++) {
-                this.drawSection(getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
+            for(let i = 0; i < this.getPaintSections().count(); i++) {
+                this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
             }
 
             this.paintPicture(graph, true);
@@ -1150,9 +1162,7 @@ namespace CSReportPaint {
             colorOut: number,
             rounded: boolean) {
 
-            let pen: Pen;
-
-            pen = new Pen(cColor.colorFromRGB(colorOut), width);
+            let pen = new Pen(cColor.colorFromRGB(colorOut), width);
 
             if (dash) {
                 pen.DashStyle = DashStyle.Dot;
@@ -1165,7 +1175,7 @@ namespace CSReportPaint {
                 x2 = x2 * this.scaleX;
 
                 let extGraph: cGraphics = new cGraphics(graph);
-                extGraph.DrawRoundRectangle(pen, x1, y1, x2-x1, y2-y1, 8f);
+                extGraph.DrawRoundRectangle(pen, x1, y1, x2-x1, y2-y1, 8);
             }
             else {
                 let rect: Rectangle = cGlobals.newRectangle(Math.trunc(x1), Math.trunc(y1), Math.trunc(x2), Math.trunc(y2));
@@ -1187,13 +1197,13 @@ namespace CSReportPaint {
                     // the original version didn't put a border when the height is 20 twips
                     // we want to preserve that behaviour
                     //
-                    if (!(rect.Height === 1 && filled)) {
+                    if (!(rect.getHeight() === 1 && filled)) {
                         graph.DrawRectangle(pen, rect);
                     }
                 }
                 else {
-                    if (rect.Height === 0 || rect.Bottom === rect.Top) { rect.Height = 1; }
-                    if (rect.Width === 0 || rect.Left === rect.Right) { rect.Width = 1; }
+                    if (rect.getHeight() === 0 || rect.getBottom() === rect.getTop()) { rect.setHeight(1); }
+                    if (rect.getWidth() === 0 || rect.getLeft() === rect.getRight()) { rect.setWidth(1); }
 
                     graph.DrawRectangle(pen, rect);
                 }
@@ -1226,32 +1236,31 @@ namespace CSReportPaint {
 
             // TODO: translate this to English if it is really needed
             //
-            // Esto es por seguridad, ya que
-            // cuando imprimo en la impresora (en pantalla esto no pasa)
-            // por pequeñas diferencias en la
-            // proceso de escalar hasta la resolucion
-            // de la impresora en algunos casos
-            // pierdo parte del texto si el
-            // rectangulo que pido es demasiado pequeño
+            // this is for security, because
+            // when we print to the printer (on screen this doesn't happen)
+            // for small differences in the
+            // process of scaling up to the printer resolution
+            // in some cases part of the text is lost if the
+            // rectangle that requested is too small
             //
             stringHeight += 25; //+ 400 the original code was in twips;
 
-            let margenX: number = c_Margen_X;
-            let margenY: number = c_Margen_Y;
+            let marginX: number = c_Margen_X;
+            let marginY: number = c_Margen_Y;
 
             if (image !== null) {
-                margenX += image.Size.Width;
-                margenY = image.Size.Height - stringHeight - c_Margen_Bottom;
+                marginX += image.Size.Width;
+                marginY = image.Size.Height - stringHeight - c_Margen_Bottom;
 
-                if (margenY + stringHeight > aspect.getHeight())  {
-                    margenY = Math.trunc(aspect.getHeight() - stringHeight - c_Margen_Bottom);
+                if (marginY + stringHeight > aspect.getHeight())  {
+                    marginY = Math.trunc(aspect.getHeight() - stringHeight - c_Margen_Bottom);
                 }                
-                if (margenY < c_Margen_Y)  {
-                    margenY = c_Margen_Y;
+                if (marginY < c_Margen_Y)  {
+                    marginY = c_Margen_Y;
                 }
             }
 
-            let nWidth: number = Math.trunc(aspect.getWidth() - margenX * 2);
+            let nWidth: number = Math.trunc(aspect.getWidth() - marginX * 2);
 
             if (stringWidth > nWidth)  {
                 stringWidth = nWidth;
@@ -1263,19 +1272,19 @@ namespace CSReportPaint {
             switch (aspect.getAlign())
             {
                 case HorizontalAlignment.Right:
-                    x = Math.trunc(aspect.getLeft() + aspect.getWidth() - stringWidth - margenX);
+                    x = Math.trunc(aspect.getLeft() + aspect.getWidth() - stringWidth - marginX);
                     break;
                 case HorizontalAlignment.Center:
                     x = Math.trunc(aspect.getLeft() + (aspect.getWidth() - stringWidth) * 0.5);
                     break;
                 case HorizontalAlignment.Left:
-                    x = Math.trunc(aspect.getLeft() + margenX);
+                    x = Math.trunc(aspect.getLeft() + marginX);
                     break;
             }
 
-            y = Math.trunc(aspect.getTop() - aspect.getOffset() + margenY);
+            y = Math.trunc(aspect.getTop() - aspect.getOffset() + marginY);
 
-            let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - margenX), y + stringHeight);
+            let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - marginX), y + stringHeight);
 
             let brush: SolidBrush = new SolidBrush(cColor.colorFromRGB(aspect.getFont().getForeColor()));
 

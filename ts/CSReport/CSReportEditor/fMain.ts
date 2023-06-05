@@ -36,7 +36,7 @@ namespace CSReportEditor {
         private contextMenuEditor: cEditor = null;
 
         private tabReports: TabBar;
-        private pnEditor;
+        private pnEditor: Panel;
         private pnRule;
         private pnReport;
         private tbpEditor;
@@ -46,26 +46,30 @@ namespace CSReportEditor {
         saveFileDialog: object;
         openFileDialog: object;
 
+        private el(id: string) {
+            return document.getElementById(id);
+        }
+
         public constructor() {
             // it is the first thing we need to do
             //
             Utils.setSepDecimal();
 
-            // TODO: why is this ???
-            //
             let printer: cPrinter = cPrintAPI.getcPrinterFromDefaultPrinter(this.printDlg);
+            this.printerName = printer.getDeviceName();
+            this.driverName = printer.getDriverName();
+            this.port = printer.getPort();
             this.paperSize = printer.getPaperInfo().getPaperSize();
-            this.paperSizeHeight = Math.trunc(printer.getPaperInfo().getHeight());
-            this.paperSizeWidth = Math.trunc(printer.getPaperInfo().getHeight());
-
-            // TODO: why is this ???
-            //
-            cPrintAPI.getDefaultPrinter(
-                this.printerName, this.driverName, this.port,
-                this.paperSize, this.orientation, this.paperSizeWidth,
-                this.paperSizeHeight);
+            this.orientation = printer.getPaperInfo().getOrientation();
+            this.paperSizeWidth = printer.getPaperInfo().getPaperSize();
+            this.paperSizeHeight = printer.getPaperInfo().getPaperSize();
 
             this.loadRecentListFromUserSettings();
+
+            this.pnEditor = new Panel(this.el('pnEditor'));
+            this.pnRule = new Panel(this.el('pnRule'));
+            this.pnReport = new Panel(this.el('pnReport'));
+            this.tbpEditor = new TabPage(this.el('tbpReport'));
         }
 
         public init() {

@@ -11,7 +11,7 @@ It is written in TypeScript.
 
 It runs in a browser.
 
-It support multiple headers, footers and groups.
+It supports multiple headers, footers and groups.
 
 Sections can contain subsections.
 

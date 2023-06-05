@@ -1,3 +1,5 @@
+///<reference path="../../CSOAPI/NotImplementedException.ts"/>
+
 namespace CSChartServer {
 
     import NotImplementedException = CSOAPI.NotImplementedException;

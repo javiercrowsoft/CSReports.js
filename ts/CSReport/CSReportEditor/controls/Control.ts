@@ -2,12 +2,17 @@ namespace CSReportEditor {
 
     export class Control {
 
+        private el: HTMLElement;
         private cursor = Cursors.Default;
         private text = "";
         private width = 0;
         private height = 0;
         private top = 0;
         private left = 0;
+
+        public constructor(el: HTMLElement = null) {
+            this.el = el;
+        }
 
         setText(text: string) {
             this.text = text;

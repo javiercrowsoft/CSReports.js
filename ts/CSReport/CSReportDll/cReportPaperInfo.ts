@@ -1,6 +1,8 @@
 namespace CSReportDll {
 
     import csReportPaperType = CSReportGlobals.csReportPaperType;
+    import XmlNode = CSXml.XmlNode;
+    import eTypes = CSKernelClient.eTypes;
 
     export class cReportPaperInfo {
 

@@ -1,3 +1,5 @@
+///<reference path="../CSReportScript/cReportCompilerGlobals.ts"/>
+
 namespace CSReportDll {
 
     import Map = CSOAPI.Map;

@@ -3,13 +3,15 @@ namespace CSReportPaint {
     import cReportPaperInfo = CSReportDll.cReportPaperInfo;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import cReportFont = CSReportDll.cReportFont;
+    import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
 
     export class cGlobals {
 
         private static nextKey = 1000;
 
-        private _flag = new Bitmap(1, 1);
-        private _g = Graphics.FromImage(_flag);
+        // TODO: validate if needed
+        private _flag = {}; // new Bitmap(1, 1);
+        private static _g = {DpiX: 1, DpiY: 1};// Graphics.FromImage(_flag);
 
         public static getNextKey() {
             this.nextKey++;
@@ -26,8 +28,11 @@ namespace CSReportPaint {
         }
 
         public static getBitmapSize(image: Image, imgWidth: number, imgHeight: number, inTwips: boolean) {
+            // TODO: validate if needed
+            /*
             imgWidth = image.Width;
             imgHeight = image.Height;
+            */
         }
 
         public static setRectangleWidth(width: number) {
@@ -46,7 +51,7 @@ namespace CSReportPaint {
             if (right < left) right = left;
             if (bottom < top) bottom = top;
 
-            return new RectangleF(left, top, right-left, bottom-top);
+            return RectangleF.new4(left, top, right-left, bottom-top);
         }
 
         public static newRectangle(left: number, top: number, right: number, bottom: number) {
@@ -55,14 +60,14 @@ namespace CSReportPaint {
             if (right < left) right = left;
             if (bottom < top) bottom = top;
 
-            return new Rectangle(left, top, right-left, bottom-top);
+            return RectangleF.new4(left, top, right-left, bottom-top);
         }
 
         private static getPixelsFromCmX(cm: number) {
-            return cm * _g.DpiX / 2.54;
+            return cm * this._g.DpiX / 2.54;
         }
         private static getPixelsFromCmY(cm: number) {
-            return cm * _g.DpiY / 2.54;
+            return cm * this._g.DpiY / 2.54;
         }
 
         public static getRectFromPaperSize(info: cReportPaperInfo, paperSize: csReportPaperType, orientation: number) {
@@ -71,23 +76,23 @@ namespace CSReportPaint {
             switch (paperSize)
             {
                 case csReportPaperType.CS_RPT_PAPER_TYPE_LETTER:
-                    rtn.Height = this.getPixelsFromCmY(27.94); // 15840;
-                    rtn.Width = this.getPixelsFromCmX(21.59);  // 12240;
+                    rtn.setHeight(this.getPixelsFromCmY(27.94)); // 15840;
+                    rtn.setWidth(this.getPixelsFromCmX(21.59));  // 12240;
                     break;
 
                 case csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL:
-                    rtn.Height = this.getPixelsFromCmY(35.56); // 20160;
-                    rtn.Width = this.getPixelsFromCmX(21.59);  // 12060;
+                    rtn.setHeight(this.getPixelsFromCmY(35.56)); // 20160;
+                    rtn.setWidth(this.getPixelsFromCmX(21.59));  // 12060;
                     break;
 
                 case csReportPaperType.CS_RPT_PAPER_TYPE_A4:
-                    rtn.Height = this.getPixelsFromCmY(29.7); // 16832;
-                    rtn.Width = this.getPixelsFromCmX(21);    // 11908;
+                    rtn.setHeight(this.getPixelsFromCmY(29.7)); // 16832;
+                    rtn.setWidth(this.getPixelsFromCmX(21));    // 11908;
                     break;
 
                 case csReportPaperType.CS_RPT_PAPER_TYPE_A3:
-                    rtn.Height = this.getPixelsFromCmY(42); // 23816;
-                    rtn.Width = this.getPixelsFromCmX(29.7);    // 16832;
+                    rtn.setHeight(this.getPixelsFromCmY(42)); // 23816;
+                    rtn.setWidth(this.getPixelsFromCmX(29.7));    // 16832;
                     break;
 
                 case csReportPaperType.CS_RPT_PAPER_USER:
@@ -95,24 +100,27 @@ namespace CSReportPaint {
                         throw new ReportPaintException("The settings for the custome user paper size is not defined");
                     }
                     else {
-                        rtn.Width = this.getPixelsFromCmY(info.getCustomWidth());
-                        rtn.Height = this.getPixelsFromCmX(info.getCustomHeight());
+                        rtn.setWidth(this.getPixelsFromCmY(info.getCustomWidth()));
+                        rtn.setHeight(this.getPixelsFromCmX(info.getCustomHeight()));
                     }
                     break;
             }
 
             if (orientation === csRptPageOrientation.LANDSCAPE) {
                 let tmp: number = 0;
-                tmp = rtn.Height;
-                rtn.Height = rtn.Width;
-                rtn.Width = tmp;
+                tmp = rtn.getHeight();
+                rtn.setHeight(rtn.getWidth());
+                rtn.setWidth(tmp);
             }
 
             return rtn;
         }
 
         // fonts
-        public addFontIfRequired(font: cReportFont, fnt: Font[]) {
+        public static addFontIfRequired(font: cReportFont, fnt: Font[]): number {
+            return 0;
+            // TODO: maybe is not needed
+            /*
             for(let i = 0; i < this.fnt.length; i++) {
                 if(font.getName() === this.fnt[i].Name 
                     && font.getBold() === this.fnt[i].Bold 
@@ -137,6 +145,7 @@ namespace CSReportPaint {
             this.fnt[this.fnt.length - 1] = afont;
 
             return this.fnt.length - 1;
+             */
         }
     }
 
