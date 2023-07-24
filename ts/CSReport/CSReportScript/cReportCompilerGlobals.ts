@@ -6,6 +6,10 @@ namespace CSReportScript {
 
         private mode: eReportCompilerMode = eReportCompilerMode.C_EVAL;
 
+        constructor() {
+            super(null, false, cReportCompilerVar);
+        }
+
         public getMode(): eReportCompilerMode {
             return this.mode;
         }

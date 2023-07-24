@@ -71,7 +71,7 @@ namespace CSReportDll {
         }
 
         public static compileCode(code: string, formula: cReportFormula) {
-
+            return {};
         }
 
         public static eval(script: object, globals: cReportCompilerGlobals): any {

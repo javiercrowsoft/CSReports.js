@@ -2,6 +2,11 @@ namespace CSConnect {
 
     import Map = CSOAPI.Map;
 
-    export class cColumnsInfo extends Map<cColumnInfo> { }
+    export class cColumnsInfo extends Map<cColumnInfo> {
+
+        constructor() {
+            super(null, false, cColumnInfo);
+        }
+    }
 
 }

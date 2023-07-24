@@ -9,6 +9,10 @@ namespace CSReportDll {
         private groupsHeaders: cReportSections = new cReportSections();
         private groupsFooters: cReportSections = new cReportSections();
 
+        constructor() {
+            super(null, false, cReportGroup);
+        }
+
         public getGroupsHeaders() {
             return this.groupsHeaders;
         }
@@ -41,7 +45,7 @@ namespace CSReportDll {
                 this.baseAdd(c, key);
 
                 c.setKey(key);
-                c.setIndex(count()-1);
+                c.setIndex(this.count()-1);
 
                 c.setHeader(this.groupsHeaders.add(null, "", -1));
                 c.setFooter(this.groupsFooters.add(null, "", 0));

@@ -7,6 +7,10 @@ namespace CSReportDll {
 
         public static C_RPT_CONNECTS_AUX: string = "RptConnectsAux";
 
+        constructor() {
+            super(null, false, cReportConnect);
+        }
+
         public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let connect: cReportConnect = null;
 

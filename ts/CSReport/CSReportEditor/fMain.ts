@@ -37,8 +37,8 @@ namespace CSReportEditor {
 
         private tabReports: TabBar;
         private pnEditor: Panel;
-        private pnRule;
-        private pnReport;
+        private pnRule: PictureBox;
+        private pnReport: PictureBox;
         private tbpEditor;
 
         // TODO: implement
@@ -67,8 +67,8 @@ namespace CSReportEditor {
             this.loadRecentListFromUserSettings();
 
             this.pnEditor = new Panel(this.el('pnEditor'));
-            this.pnRule = new Panel(this.el('pnRule'));
-            this.pnReport = new Panel(this.el('pnReport'));
+            this.pnRule = new PictureBox(this.el('pnRule'));
+            this.pnReport = new PictureBox(this.el('pnReport'));
             this.tbpEditor = new TabPage(this.el('tbpReport'));
         }
 

@@ -151,6 +151,7 @@ namespace CSOAPI {
             if (list.SelectedIndex === -1) { return 0; }
             return (list.SelectedItem).Id;
             */
+            return 0;
         }
         private static listItemData_(list: ComboBox, index: number) {
             // TODO: implement
@@ -232,6 +233,10 @@ namespace CSOAPI {
 
         static getInput(input: RefWrapper<string>, description: string, title: string): Promise<boolean> {
             return Promise.resolve(false);
+        }
+
+        static getValidPath(path: string) {
+            return "";
         }
     }
 

@@ -133,6 +133,16 @@
 </footer>
 </body>
 <script defer>
+
+    String.prototype.contains = function(value) {
+        let d = String(this);
+        return(d.indexOf(value) > -1);
+    };
+
+    String.prototype.format = function(format) {
+        return String(this);
+    };
+
     function openTab(event, id) {
         console.log("Open " + id);
     }

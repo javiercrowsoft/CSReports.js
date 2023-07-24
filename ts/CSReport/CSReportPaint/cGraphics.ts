@@ -2,17 +2,17 @@ namespace CSReportPaint {
 
     export class cGraphics {
 
-        private graphics: Graphics = null;
+        private graphics: Graphic = null;
 
-        public getGraphics(): Graphics {
+        public getGraphics(): Graphic {
             return this.graphics;
         }
 
-        public setGraphics(value: Graphics) {
+        public setGraphics(value: Graphic) {
             this.graphics = value;
         }
 
-        public constructor(graphics: Graphics) {
+        public constructor(graphics: Graphic) {
             this.graphics = graphics;
         } 
 

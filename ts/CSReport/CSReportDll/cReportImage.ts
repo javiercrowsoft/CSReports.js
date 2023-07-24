@@ -1,5 +1,7 @@
 namespace CSReportDll {
 
+    import Image = CSReportPaint.Image;
+
     export class cReportImage {
 
         private aspect: cReportAspect = null;
@@ -25,7 +27,7 @@ namespace CSReportDll {
             this.image = rhs;
         }
 
-        public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
+        public load(xDoc: CSXml.cXml, nodeObj: CSXml.XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Image");
             let vBytes: byte[] = null;
             vBytes = xDoc.getBinaryNodeProperty(nodeObj, "Data").getBinaryValue();
@@ -39,7 +41,7 @@ namespace CSReportDll {
             return this.aspect.load(xDoc, nodeObj);
         }
 
-        public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
+        public save(xDoc: CSXml.cXml, nodeFather: CSXml.XmlNode) {
             let xProperty: CSXml.cXmlProperty = null;
             let nodeObj: XmlNode = null;
             let nodImage: object = null;

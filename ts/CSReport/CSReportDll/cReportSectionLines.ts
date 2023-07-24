@@ -12,6 +12,10 @@ namespace CSReportDll {
         private typeSection: csRptSectionType = null;
         private _keys = [];
 
+        constructor() {
+            super(null, false, cReportSectionLine);
+        }
+
         public getTypeSection() {
             return this.typeSection;
         }

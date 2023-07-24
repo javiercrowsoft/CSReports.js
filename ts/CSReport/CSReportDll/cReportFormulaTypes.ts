@@ -6,7 +6,7 @@ namespace CSReportDll {
     export class cReportFormulaTypes extends Map<cReportFormulaType> {
 
         public constructor() {
-            super();
+            super(null, false, cReportFormulaType);
             this.initialize();
         }
 

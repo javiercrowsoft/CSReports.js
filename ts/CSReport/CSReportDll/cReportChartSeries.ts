@@ -4,6 +4,10 @@ namespace CSReportDll {
 
     export class cReportChartSeries extends Map<cReportChartSequence> {
 
+        constructor() {
+            super(null, false, cReportChartSequence);
+        }
+
         public add(value?: cReportChartSequence, key?: string): cReportChartSequence {
             if(value === null || value === undefined) {
                 value = new cReportChartSequence();

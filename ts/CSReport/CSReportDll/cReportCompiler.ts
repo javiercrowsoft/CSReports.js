@@ -655,10 +655,8 @@ namespace CSReportDll {
                 return false; 
             }
 
-            if (!(Utils.isNumber(vTime[0]) && Utils.isNumber(vTime[1])))  {
-                return false; 
-            }
-            return true;
+            return Utils.isNumber(vTime[0]) && Utils.isNumber(vTime[1]);
+
         }
 
         private pCheckSyntax(code: string) {
@@ -1457,18 +1455,16 @@ namespace CSReportDll {
                 this.report.getValue(fint.getParameters().item(0).getValue(), true));
             let iLanguage = Utils.valInt(fint.getParameters().item(1).getValue());
 
-            let n2s: cNumberToString = new cNumberToString();
-
             switch (iLanguage)
             {
                 case cReportCompiler.C_SPANISH:
-                    item.setValue(n2s.spanishNumberToString(iNumber));
+                    item.setValue(cNumberToString.spanishNumberToString(iNumber));
                     break;
                 case cReportCompiler.C_ENGLISH:
-                    item.setValue(n2s.englishNumberToString(iNumber));
+                    item.setValue(cNumberToString.englishNumberToString(iNumber));
                     break;
                 case cReportCompiler.C_FRENCH:
-                    item.setValue(n2s.frenchNumberToString(iNumber));
+                    item.setValue(cNumberToString.frenchNumberToString(iNumber));
                     break;
             }
         }

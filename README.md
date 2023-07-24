@@ -23,7 +23,7 @@ It supports images embedded in the report or from the database.
 
 It can export to PDF and Excel.
 
-The datasource can be a JSON file so it can run disconnected from a database as a client preview tool that consume
+The datasource can be a JSON file, so it can run disconnected from a database as a client preview tool that consume
 reports from a web application.
 
 All the controls in the report can be browsed and linked to other reports or web pages.
@@ -50,6 +50,12 @@ npm install typescript --save-dev
 
 npm install -g npx
 
+## To deploy in local
+
+./build.sh
+
+then run /dist/index.html in your browser
+
 ## To compile just
 
 tsc
@@ -57,3 +63,11 @@ tsc
 http://www.crowsoft.com.ar
 
 javier at crowsoft.com.ar
+
+
+## Canvas Drawing Examples
+
+https://codeburst.io/creating-and-drawing-on-an-html5-canvas-using-javascript-93da75f001c1
+
+### Bush
+https://library.superhi.com/posts/how-to-paint-with-code-creating-paintbrushes

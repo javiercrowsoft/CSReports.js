@@ -1866,7 +1866,7 @@ namespace CSReportEditor {
 
         public setParameters() {
             let connect: CSConnect.cConnect = new CSConnect.cConnect();
-            let param: cParameter = null;
+            let param: CSReportDll.cParameter = null;
 
             for(let _i = 0; _i < this.report.getConnect().getParameters().count(); _i++) {
                 param = this.report.getConnect().getParameters().item(_i);
@@ -4598,8 +4598,6 @@ namespace CSReportEditor {
 
             let paintSec: cReportPaintObject = null;
 
-            this.paint = null;
-
             this.keyMoving = "";
             this.keySizing = "";
             this.keyObj = "";
@@ -5933,8 +5931,6 @@ namespace CSReportEditor {
                 // this.fmain.cmDialog.InitDir = cGlobals.gWorkFolder;
             }
         }
-
-
 
         public init() {
             this.showingProperties = false;

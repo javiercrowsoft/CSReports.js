@@ -16,6 +16,10 @@ namespace CSReportDll {
         //
         private sectionLine: cReportSectionLine = null;
 
+        constructor() {
+            super(null, false, cReportControl);
+        }
+
         public getTypeSection() {
             return this.typeSection;
         }

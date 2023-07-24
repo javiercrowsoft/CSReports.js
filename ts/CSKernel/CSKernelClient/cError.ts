@@ -4,7 +4,7 @@ namespace CSKernelClient {
 
         private lastErrorDescription = "";
         private lastErrorInfoAdd = "";
-        private silent = false;
+        private static silent = false;
 
         public static mngError(ex: any, infoAdd: string = "") {
             let f: fErrors = new fErrors();
@@ -30,7 +30,7 @@ namespace CSKernelClient {
             return this.lastErrorInfoAdd;
         }
 
-        public setSilent(rhs: boolean) {
+        public static setSilent(rhs: boolean) {
             this.silent = rhs;
         }
     }

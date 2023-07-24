@@ -1095,8 +1095,8 @@ namespace CSReportPaint {
             let bmp: Bitmap = new Bitmap(1, 1);
             let graph: Graphics = Graphics.FromImage(bmp);
             let stringSize: SizeF = graph.MeasureString(text, font, Math.trunc(width * scaleX));
-            graph.Dispose();
-            bmp.Dispose();
+            graph.dispose();
+            bmp.dispose();
             return stringSize.Height * scaleY;
             */
             return 0;
@@ -1520,7 +1520,7 @@ namespace CSReportPaint {
             //If Not this.Report.SaveData(this.rpwPrint.cmFileSaveDialog) Then Exit Sub
         }
 
-        private drawPage(graph: Graphics, isPrinter: boolean) {
+        private drawPage(graph: Graphic, isPrinter: boolean) {
             let i: number = 0;
 
             if (this.rePaintObject) {
@@ -1565,7 +1565,7 @@ namespace CSReportPaint {
             this.report = null;
             this.paint = null;
             if (this.fPreview !== null) {
-                this.fPreview.Dispose();
+                this.fPreview.dispose();
             }
             this.rpwPrint = null;
         }
@@ -1580,7 +1580,7 @@ namespace CSReportPaint {
 				pageIndex = this.currPage + 1;
 
                 let bmp: Bitmap = new Bitmap(this.realWidth, (int)this.realHeight);
-                let bmpGraphics: Graphics = Graphics.FromImage(bmp);
+                let bmpGraphics: Graphic = Graphics.FromImage(bmp);
                 this.drawPage(bmpGraphics, false);
                 let memoryStream: MemoryStream = new MemoryStream();
                 this.paint.getBitmap().Save(memoryStream, ImageFormat.Png);

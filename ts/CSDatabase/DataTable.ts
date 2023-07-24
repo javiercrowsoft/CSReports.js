@@ -20,6 +20,10 @@ namespace CSDatabase {
         getFieldType(i: number): CSDatabase.csDataType {
             return undefined;
         }
+
+        getRows() {
+            return this.rows;
+        }
     }
 
     export enum DataType {

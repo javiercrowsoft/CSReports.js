@@ -51,23 +51,28 @@ namespace CSReportGlobals {
             return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
         }
 
-        public static valVariant(value: object) {
+        public static valVariant<T>(value: object): T {
             if (value === null) {
                 let typeCode = this.toType(value);
                 switch (typeCode) {
                     case "string":
+                        // @ts-ignore
                         return "";
                     case "number":
+                        // @ts-ignore
                         return 0;
                     case "date":
+                        // @ts-ignore
                         return Constants.C_NO_DATE;
                     case "boolean":
+                        // @ts-ignore
                         return false;
                     default:
                         return null;
                 }
             }
             else {
+                // @ts-ignore
                 return value;
             }
         }

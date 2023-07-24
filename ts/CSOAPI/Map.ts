@@ -8,15 +8,17 @@ namespace CSOAPI {
         private values: T[] = [];
         private isReadOnly: boolean = false;
         private length: number = 0;
+        private readonly construct: { new() };
 
-        public constructor(map: Map<T> = null, readOnly: boolean = false) {
+        public constructor(map: Map<T> = null, readOnly: boolean = false, construct: { new() } = null) {
             if(map != null) {
                 for (let i_ = 0; i_ < map.getKeys().length; i_++) {
                     const de = map.item(map.getKeys[i_]);
-                    this.add(de.getKey(), de.getValue());
+                    this.add(de, map.getKeys[i_]);
                 }
             }
             this.isReadOnly = readOnly;
+            this.construct = construct;
         }
 
         public getKeys(): string[] {
@@ -35,6 +37,9 @@ namespace CSOAPI {
         public baseAdd(value: T, key: string): T {
             if(this.keys.indexOf(key) > -1) {
                 throw new KeyAlreadyExistsInCollection("The key " + key + " is already present in this Map.");
+            }
+            if(value === null && this.construct) {
+                value = new this.construct();
             }
             this.keys.push(key);
             this.values.push(value);
@@ -92,19 +97,19 @@ namespace CSOAPI {
         }
 
         public baseItem(indexOrKey: string|number) {
-            return this.item(indexOrKey);
-        }
-
-        public item(indexOrKey: string|number) {
             try {
                 if(typeof indexOrKey === "string")
-                    this.itemByKey(indexOrKey);
+                    return this.itemByKey(indexOrKey);
                 else
-                    this.itemByIndex(indexOrKey);
+                    return this.itemByIndex(indexOrKey);
             }
             catch (ex) {
                 return null;
             }
+        }
+
+        public item(indexOrKey: string|number) {
+            return this.baseItem(indexOrKey);
         }
 
         public containsKey(key: string) {

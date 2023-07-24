@@ -143,20 +143,16 @@ namespace CSReportPaint {
         }
 
         public getNewObject(paintTypeObject: csRptPaintObjType) {
-            let key: string = "";
-            key = this.getKeyPaintObj();
-            let paintObj: cReportPaintObject = null;
-            paintObj = this.paintObjects.add(paintObj, key);
+            const key = this.getKeyPaintObj();
+            const paintObj = this.paintObjects.add(null, key);
             paintObj.setKey(key);
             paintObj.setPaintType(paintTypeObject);
             return paintObj;
         }
 
         public getNewSection(paintTypeObject: csRptPaintObjType) {
-            let key: string = "";
-            key = this.getKeyPaintSec();
-            let paintObj: cReportPaintObject = null;
-            paintObj = this.paintSections.add(paintObj, key);
+            const key = this.getKeyPaintSec();
+            const paintObj = this.paintSections.add(null, key);
             paintObj.setKey(key);
             paintObj.setPaintType(paintTypeObject);
             return paintObj;
@@ -229,7 +225,7 @@ namespace CSReportPaint {
                 top = w_aspect.getTop() - w_aspect.getOffset();
                 height = w_aspect.getHeight();
 
-                if (this.pointIsInRegion(left - C_WIDTH_REGION,
+                if (CSReportPaint.cReportPaint.pointIsInRegion(left - C_WIDTH_REGION,
                                     top - C_WIDTH_REGION,
                                     left + width + C_WIDTH_REGION,
                                     top + height + C_WIDTH_REGION,
@@ -247,7 +243,7 @@ namespace CSReportPaint {
 
                     // body
                     //
-                    if (this.pointIsInRegion(left + C_WIDTH_REGION,
+                    if (CSReportPaint.cReportPaint.pointIsInRegion(left + C_WIDTH_REGION,
                                         top + C_WIDTH_REGION,
                                         left + width - C_WIDTH_REGION,
                                         top + height - C_WIDTH_REGION,
@@ -255,7 +251,7 @@ namespace CSReportPaint {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEBODY);
                     }
                     // Left
-                    else if (this.pointIsInRegion(left - C_WIDTH_REGION * 2,
+                    else if (CSReportPaint.cReportPaint.pointIsInRegion(left - C_WIDTH_REGION * 2,
                                                 yY,
                                                 left + C_WIDTH_REGION * 2,
                                                 yY + C_WIDTH_REGION * 2,
@@ -263,7 +259,7 @@ namespace CSReportPaint {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFT);
                     }
                     // Rigth
-                    else if (this.pointIsInRegion(left + width - C_WIDTH_REGION * 2,
+                    else if (CSReportPaint.cReportPaint.pointIsInRegion(left + width - C_WIDTH_REGION * 2,
                                                 yY,
                                                 left + width + C_WIDTH_REGION * 2,
                                                 yY + C_WIDTH_REGION * 2,
@@ -271,7 +267,7 @@ namespace CSReportPaint {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHT);
                     }
                     // Up
-                    else if (this.pointIsInRegion(xX,
+                    else if (CSReportPaint.cReportPaint.pointIsInRegion(xX,
                                                 top - C_WIDTH_REGION * 2,
                                                 xX + C_WIDTH_REGION * 2,
                                                 top + C_WIDTH_REGION * 2,
@@ -279,7 +275,7 @@ namespace CSReportPaint {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEUP);
                     }
                     // Down
-                    else if (this.pointIsInRegion(xX,
+                    else if (CSReportPaint.cReportPaint.pointIsInRegion(xX,
                                                 top + height - C_WIDTH_REGION * 2,
                                                 xX + C_WIDTH_REGION * 2,
                                                 top + height + C_WIDTH_REGION * 2,
@@ -287,7 +283,7 @@ namespace CSReportPaint {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEDOWN);
                     }
                     // LeftUp
-                    else if (this.pointIsInRegion(left - C_WIDTH_REGION,
+                    else if (CSReportPaint.cReportPaint.pointIsInRegion(left - C_WIDTH_REGION,
                                                 top - C_WIDTH_REGION,
                                                 left + C_WIDTH_REGION,
                                                 top + C_WIDTH_REGION,
@@ -295,7 +291,7 @@ namespace CSReportPaint {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP);
                     }
                     // LeftDown
-                    else if (this.pointIsInRegion(left - C_WIDTH_REGION,
+                    else if (CSReportPaint.cReportPaint.pointIsInRegion(left - C_WIDTH_REGION,
                                                 top + height - C_WIDTH_REGION,
                                                 left + C_WIDTH_REGION,
                                                 top + height + C_WIDTH_REGION,
@@ -303,7 +299,7 @@ namespace CSReportPaint {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN);
                     }
                     // RightUp
-                    else if (this.pointIsInRegion(left + width - C_WIDTH_REGION,
+                    else if (CSReportPaint.cReportPaint.pointIsInRegion(left + width - C_WIDTH_REGION,
                                                 top - C_WIDTH_REGION,
                                                 left + width + C_WIDTH_REGION,
                                                 top + C_WIDTH_REGION,
@@ -311,7 +307,7 @@ namespace CSReportPaint {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP);
                     }
                     // RightDown
-                    else if (this.pointIsInRegion(left + width - C_WIDTH_REGION,
+                    else if (CSReportPaint.cReportPaint.pointIsInRegion(left + width - C_WIDTH_REGION,
                                                 top + height - C_WIDTH_REGION,
                                                 left + width + C_WIDTH_REGION,
                                                 top + height + C_WIDTH_REGION,
@@ -342,14 +338,14 @@ namespace CSReportPaint {
             return "K" + this.nextKey;
         }
 
-        private pointIsInRegion(x1: number, y1: number, x2: number, y2: number, x: number, y: number) {
+        private static pointIsInRegion(x1: number, y1: number, x2: number, y2: number, x: number, y: number) {
             return x >= x1 && x <= x2 && y >= y1 && y <= y2;
         }
 
         // we have four points for every region. we need to know if at least one point
         // of region A is in region B or viceversa
         //
-        private regionIsInRegion3D(
+        private static regionIsInRegion3D(
             x1: number,
             y1: number,
             x2: number,
@@ -392,18 +388,14 @@ namespace CSReportPaint {
         //-----------------------------------------------------------------------------------------------
         // Grid
         //
-        public initGrid(picGrid: Graphics, typeGrid: csETypeGrid) {
-            let x: number = 0;
-            let y: number = 0;
-            let c: cReportPaintObject = null;
+        public initGrid(graphicGrid: Graphic, typeGrid: csETypeGrid) {
             let top: number = 0;
             let left: number = 0;
-            let i: number = 0;
 
-            this.pCreateBrushGrid(picGrid, typeGrid);
+            this.createBrushGrid(typeGrid);
 
-            y = (picGrid.VisibleClipBounds.Height / cReportPaint.C_GRID_AREA_HEIGHT);
-            x = (picGrid.VisibleClipBounds.Width / cReportPaint.C_GRID_AREA_WIDTH);
+            let y = (graphicGrid.getBoundingClientRect().height / cReportPaint.C_GRID_AREA_HEIGHT);
+            let x = (graphicGrid.getBoundingClientRect().width / cReportPaint.C_GRID_AREA_WIDTH);
 
             x = x + 1;
             y = y + 1;
@@ -413,20 +405,18 @@ namespace CSReportPaint {
             let l: number = 0;
             let t: number = 0;
 
-            for (i = 0; i < y * x; i++) {
-                c = this.paintGridAreas.add(c, this.getKey());
+            for (let i = 0; i < y * x; i++) {
+                const c = this.paintGridAreas.add(null, this.getKey());
 
                 left = cReportPaint.C_GRID_AREA_WIDTH * l;
                 top = cReportPaint.C_GRID_AREA_HEIGHT * t;
-                let w_aspect: cReportAspect = c.getAspect();
-                w_aspect.setLeft(left);
-                w_aspect.setTop(top);
-                w_aspect.setWidth(cReportPaint.C_GRID_AREA_WIDTH);
-                w_aspect.setHeight(cReportPaint.C_GRID_AREA_HEIGHT);
+                const aspect: cReportAspect = c.getAspect();
+                aspect.setLeft(left);
+                aspect.setTop(top);
+                aspect.setWidth(cReportPaint.C_GRID_AREA_WIDTH);
+                aspect.setHeight(cReportPaint.C_GRID_AREA_HEIGHT);
 
                 this.vGridObjs[l][t] = c.getKey();
-
-                c = null;
 
                 l = l + 1;
                 if (l >= x) {
@@ -435,7 +425,7 @@ namespace CSReportPaint {
                 }
             }
 
-            this.refreshBackgroundPicture(picGrid, csColors.C_COLOR_WHITE);
+            this.refreshBackgroundPicture(graphicGrid, Color.White.toArgb());
         }
 
         //----------------------------------------------------------------------------------
@@ -498,12 +488,10 @@ namespace CSReportPaint {
             
             let z1: number = 0;
             let q1: number = 0;
-            let maxY: number = 0;
-            let maxX: number = 0;
             let gridObjAspect: cReportAspect = null;
 
-            maxX = this.vGridObjs.length -1;
-            maxY = this.vGridObjs[0].length -1;
+            let maxX = this.vGridObjs.length -1;
+            let maxY = this.vGridObjs[0].length -1;
 
             let top: number = 0;
             let left: number = 0;
@@ -522,13 +510,10 @@ namespace CSReportPaint {
                 paintObjs = this.paintObjects;
             }
 
-            let nLeft: number = 0;
-            let nTop: number = 0;
-
             let item: cReportPaintObject = paintObjs.item(sKey);
             let aspect: cReportAspect = item.getAspect();
-            nLeft = aspect.getLeft() - offSetPointSep;
-            nTop = aspect.getTop() - aspect.getOffset() - offSetPointSep;
+            let nLeft = aspect.getLeft() - offSetPointSep;
+            let nTop = aspect.getTop() - aspect.getOffset() - offSetPointSep;
 
             if (nLeft < 0) { nLeft = 0; }
             if (nTop < 0) { nTop = 0; }
@@ -633,54 +618,53 @@ namespace CSReportPaint {
 
         // Drawing
         public clearPage(graph: object) {
-            this.refreshBackgroundPicture(graph as Graphics, Color.White.ToArgb());
+            this.refreshBackgroundPicture(graph as Graphic, Color.White.toArgb());
         }
 
-        public refreshObject(key: string, graph: Graphics) {
+        public refreshObject(key: string, graph: Graphic) {
             this.pClearObject(key, graph);
             return this.drawObject(key, graph);
         }
 
-        public drawObject(key: string, graph: Graphics) {
+        public drawObject(key: string, graph: Graphic) {
             return this.draw(this.paintObjects, key, graph);
         }
 
-        public drawSection(key: string, graph: Graphics) {
+        public drawSection(key: string, graph: Graphic) {
             // check the width of the paintObject for this section
             // is into the bounds of the page
             //
             let aspect: cReportAspect = this.paintSections.item(key).getAspect();
-            if (aspect.getWidth() > this.bitmap.size.Width-2) {
-                aspect.setWidth(this.bitmap.size.Width-2);
+            if (aspect.getWidth() > this.bitmap.getSize().width-2) {
+                aspect.setWidth(this.bitmap.getSize().width-2);
             }
             return this.draw(this.paintSections, key, graph);
         }
 
-        public drawRule(key: string, graph: Graphics) {
+        public drawRule(key: string, graphic: Graphic) {
             const LINE_COLOR: number = 0xcc6600;
-            let top: number = 0;
-            let heightSec: number = 0;
-            let aspect: cReportAspect = null;
 
-            aspect = new cReportAspect();
+            const aspect = new cReportAspect();
 
-            let w_item: cReportPaintObject = this.paintSections.item(key);
-            heightSec = w_item.getHeightSecLine() * 0.5;
-            let w_aspect: cReportAspect = w_item.getAspect();
-            aspect.setTop(w_aspect.getTop() + 3 - heightSec);
-            aspect.setOffset(w_aspect.getOffset());
+            let secPO: cReportPaintObject = this.paintSections.item(key);
+            let heightSec = secPO.getHeightSecLine() * 0.5;
+            let secAspect: cReportAspect = secPO.getAspect();
+            aspect.setTop(secAspect.getTop() + 3 - heightSec);
+            aspect.setOffset(secAspect.getOffset());
             aspect.setTransparent(true);
             aspect.setLeft(0);
             aspect.setHeight(20);
             aspect.setAlign(HorizontalAlignment.Right);
-            aspect.setWidth(graph.ClipBounds.Width - 1);
+            aspect.setWidth(graphic.getBoundingClientRect().width - 1);
 
-            if (w_item.getTextLine() !== "") {
-                top = - Math.trunc(w_item.getHeightSec());
-                w_aspect = w_item.getAspect();
-                top += Math.trunc(w_aspect.getTop() - w_aspect.getOffset() - 6 + w_aspect.getHeight() * 2);
+            let top: number;
 
-                this.printLine(graph,
+            if (secPO.getTextLine() !== "") {
+                top = - Math.trunc(secPO.getHeightSec());
+                secAspect = secPO.getAspect();
+                top += Math.trunc(secAspect.getTop() - secAspect.getOffset() - 6 + secAspect.getHeight() * 2);
+
+                this.printLine(graphic,
                             true, 
                             0, 
                             top, 
@@ -694,24 +678,24 @@ namespace CSReportPaint {
 
                 // last section line
                 //
-                this.printText(graph, w_item.getTextLine(), aspect, w_item.getImage());
+                this.printText(graphic, secPO.getTextLine(), aspect, secPO.getImage());
 
-                heightSec = w_item.getHeightSec() * 0.5f;
+                heightSec = secPO.getHeightSec() * 0.5;
 
                 // print section's name
                 //
-                w_aspect = this.paintSections.item(key).getAspect();
-                aspect.setTop(w_aspect.getTop() - heightSec);
+                secAspect = this.paintSections.item(key).getAspect();
+                aspect.setTop(secAspect.getTop() - heightSec);
                 aspect.setAlign(HorizontalAlignment.Left);
 
-                this.printText(graph, w_item.getText(), aspect, w_item.getImage());
+                this.printText(graphic, secPO.getText(), aspect, secPO.getImage());
 
             }
             else {
-                top = Math.trunc(aspect.getTop() - aspect.getOffset() - heightSec + w_item.getAspect().getHeight());
+                top = Math.trunc(aspect.getTop() - aspect.getOffset() - heightSec + secPO.getAspect().getHeight());
 
-                if (w_item.getIsSection()) {
-                    this.printLine(graph,
+                if (secPO.getIsSection()) {
+                    this.printLine(graphic,
                                 true,
                                 0, 
                                 top, 
@@ -726,14 +710,14 @@ namespace CSReportPaint {
 
                 // every section line except the last one
                 //
-                this.printText(graph, w_item.getText(), aspect, w_item.getImage());
+                this.printText(graphic, secPO.getText(), aspect, secPO.getImage());
             }
 
-            if (w_item === this.paintSections.item(this.paintSections.count() - 1))  {
-                top = Math.trunc(aspect.getTop() + w_item.getHeightSecLine() - heightSec - aspect.getOffset() + 6);
+            if (secPO === this.paintSections.item(this.paintSections.count() - 1))  {
+                top = Math.trunc(aspect.getTop() + secPO.getHeightSecLine() - heightSec - aspect.getOffset() + 6);
 
-                if (w_item.getIsSection()) {
-                    this.printLine(graph,
+                if (secPO.getIsSection()) {
+                    this.printLine(graphic,
                                 true,
                                 0,
                                 top,
@@ -750,7 +734,7 @@ namespace CSReportPaint {
             return true;
         }
 
-		public moveObjToXY(sKey: string, x: number, y: number, graph: Graphics) {
+		public moveObjToXY(sKey: string, x: number, y: number, graph: Graphic) {
             if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
                 this.move(x, y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
@@ -761,7 +745,7 @@ namespace CSReportPaint {
             }
         }
 
-		public moveObjToXYEx(sKey: string, x: number, y: number, graph: Graphics, clear: boolean) {
+		public moveObjToXYEx(sKey: string, x: number, y: number, graph: Graphic, clear: boolean) {
             if (clear) {
                 this.x1 = this.x1Ex;
                 this.y1 = this.y1Ex;
@@ -788,7 +772,7 @@ namespace CSReportPaint {
             if (this.y2Ex < this.y2 && this.y2 > 0) { this.y2Ex = this.y2; }
         }
 
-		public moveVertical(sKey: string, y: number, graph: Graphics) {
+		public moveVertical(sKey: string, y: number, graph: Graphic) {
             if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
                 this.move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graph);
@@ -799,7 +783,7 @@ namespace CSReportPaint {
             }
         }
 
-		public moveHorizontal(sKey: string, x: number, graph: Graphics) {
+		public moveHorizontal(sKey: string, x: number, graph: Graphic) {
             if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
                 this.move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graph);
@@ -810,7 +794,7 @@ namespace CSReportPaint {
             }
         }
 
-        public endMove(graph: Graphics) {
+        public endMove(graph: Graphic) {
             this.x1 = 0;
             this.x2 = 0;
             this.y1 = 0;
@@ -821,12 +805,12 @@ namespace CSReportPaint {
             this.y1Ex = 0;
             this.y2Ex = 0;
 
-            this.refreshBackgroundPicture(graph, csColors.C_COLOR_WHITE);
+            this.refreshBackgroundPicture(graph, Color.White.toArgb());
             this.beginMoveDone = false;
         }
 
         // Drawing - Primitive
-        private draw(collObjs: cReportPaintObjects, key: string, graph: Graphics) {
+        private draw(collObjs: cReportPaintObjects, key: string, graph: Graphic) {
             try {
                 if (graph === null) {
                     throw new ReportPaintException(
@@ -834,7 +818,6 @@ namespace CSReportPaint {
                                         csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT));
                 }
 
-                let oPaintObj: cReportPaintObject = null;
                 let x1: number = 0;
                 let y1: number = 0;
                 let y2: number = 0;
@@ -843,7 +826,7 @@ namespace CSReportPaint {
                 let colorOut: number = 0;
                 let filled: boolean = false;
 
-                oPaintObj = collObjs.item(key);
+                let oPaintObj = collObjs.item(key);
 
                 if (oPaintObj === null) { return false; }
 
@@ -933,14 +916,16 @@ namespace CSReportPaint {
             }
         }
 
-        private drawBMP(graph: Graphics, image: Image, x: number, y: number, bmpWidth: number, bmpHeight: number, destWidth: number, destHeight: number) {
-            let sourceRect: Rectangle = Rectangle.new4(0, 0, bmpWidth, bmpHeight);
-            let destRect: Rectangle = Rectangle.new4(Math.trunc(x), Math.trunc(y), bmpWidth, bmpHeight);
-
-            graph.DrawImage(image, destRect, sourceRect, GraphicsUnit.Pixel);
+        private drawBMP(graph: Graphic,
+                        image: Image,
+                        x: number, y: number,
+                        bmpWidth: number,
+                        bmpHeight: number,
+                        destWidth: number, destHeight: number) { // TODO: maybe should remove these unused arguments
+            graph.drawImage(image, x, y);
         }
 
-        public setFocus(sKey: string, graph: Graphics, clearSelected: boolean) {
+        public setFocus(sKey: string, graph: Graphic, clearSelected: boolean) {
             if (clearSelected) { this.vSelectedKeys = []; }
 
             if (!this.pAllreadySelected(sKey)) {
@@ -951,7 +936,7 @@ namespace CSReportPaint {
             this.paintPicture(graph, true);
         }
 
-        public removeFromSelected(sKey: string, graph: Graphics) {
+        public removeFromSelected(sKey: string, graph: Graphic) {
             let i: number = 0;
 
             for (i = 0; i < this.vSelectedKeys.length; i++) {
@@ -990,10 +975,10 @@ namespace CSReportPaint {
             return false;
         }
 
-        private setFocusAux(sKey: string, graph: Graphics) {
-            let paintObjAsp: cReportPaintObject = null;
-            let color: number = 0;
-            let bCircle: boolean = false;
+        private setFocusAux(sKey: string, graph: Graphic) {
+            let paintObjAsp: cReportPaintObject;
+            let color;
+            let bCircle: boolean;
 
             this.keyFocus = sKey;
 
@@ -1010,17 +995,17 @@ namespace CSReportPaint {
 
             if (paintObjAsp === null) { return; }
 
-            let w_aspect: cReportAspect = paintObjAsp.getAspect();
+            let aspect: cReportAspect = paintObjAsp.getAspect();
             this.showHandles(graph, 
-                        Math.trunc(w_aspect.getLeft()), 
-                        Math.trunc(w_aspect.getTop() - w_aspect.getOffset()), 
-                        Math.trunc(w_aspect.getLeft() + w_aspect.getWidth()), 
-                        Math.trunc(w_aspect.getTop() - w_aspect.getOffset() + w_aspect.getHeight()), 
+                        Math.trunc(aspect.getLeft()),
+                        Math.trunc(aspect.getTop() - aspect.getOffset()),
+                        Math.trunc(aspect.getLeft() + aspect.getWidth()),
+                        Math.trunc(aspect.getTop() - aspect.getOffset() + aspect.getHeight()),
                         color, 
                         bCircle);
         }
 
-        private move(left: number, top: number, width: number, height: number, graph: Graphics) {
+        private move(left: number, top: number, width: number, height: number, graph: Graphic) {
             if (this.x1 > 0 || this.x2 > 0 || this.y1 > 0 || this.y2 > 0) {
                 this.paintPictureMove(graph, cGlobals.newRectangleF(this.x1, this.y1, this.x2, this.y2));
             }
@@ -1043,11 +1028,11 @@ namespace CSReportPaint {
             this.y2 = this.y2 + 2;
         }
 
-        public resize(graph: Graphics, sKey: string, left: number, top: number, x2: number, y2: number) {
+        public resize(graphic: Graphic, sKey: string, left: number, top: number, x2: number, y2: number) {
             const C_MIN_WIDTH: number = 1;
             const C_MIN_HEIGHT: number = 1;
 
-            let paintObjAsp: cReportAspect = null;
+            let paintObjAsp: cReportAspect;
 
             if (sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
                 paintObjAsp = this.paintObjects.item(sKey).getAspect();
@@ -1096,45 +1081,44 @@ namespace CSReportPaint {
                 this.y2 = paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT;
             }
 
-            this.paintPicture(graph, false);
+            this.paintPicture(graphic, false);
 
             this.printLine(
-                graph, false,
+                graphic, false,
                 this.x1, this.y1, this.x2, this.y2,
                 csColors.C_COLOR_WHITE, 1, true, csColors.C_COLOR_BLACK, false);
 
-            graph.Dispose();
+            graphic.dispose();
         }
 
-        public createPicture(graph: Graphics) {
-            this.refreshBackgroundPicture(graph, 0);
+        public createPicture(graphic: Graphic) {
+            this.refreshBackgroundPicture(graphic, 0);
         }
 
-        public createBackgroundBitmap(graph: Graphics) {
-            this.bitmap = new Bitmap(graph.VisibleClipBounds.Width + 1, (int)graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???
+        public createBackgroundBitmap(graphic: Graphic) {
+            this.bitmap = new Bitmap(graphic.getBoundingClientRect().width + 1, graphic.getBoundingClientRect().height + 3); // TODO check why 56 ???
         }
 
-        private refreshBackgroundPicture(graph: Graphics, color: number) {
+        private refreshBackgroundPicture(graphic: Graphic, rgbColor: string) {
             if (this.bitmap !== null) {
-                this.bitmap.Dispose();
+                this.bitmap.dispose();
             }
 
-            this.createBackgroundBitmap(graph);
+            this.createBackgroundBitmap(graphic);
 
-            let bitmapGraphic: Graphics = Graphics.FromImage(this.bitmap);
+            let bitmapGraphic: Graphic = Graphics.FromImage(this.bitmap);
 
             let rect: Rectangle = cGlobals
                 .newRectangle(0, 0,
-                    graph.VisibleClipBounds.Width, graph.VisibleClipBounds.Height + 3); // TODO check why 56 ???;
+                    graphic.getBoundingClientRect().width, graphic.getBoundingClientRect().height + 3); // TODO check why 56 ???;
 
             if (this.brushGrid !== null) {
-                bitmapGraphic.FillRectangle(this.brushGrid, rect);
+                bitmapGraphic.fillStyle = this.brushGrid;
             }
             else  {
-                let brush: Brush = new SolidBrush(cColor.colorFromRGB(color));
-                bitmapGraphic.FillRectangle(brush, rect);
-                brush.Dispose();            
+                bitmapGraphic.fillStyle = rgbColor;
             }
+            bitmapGraphic.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
 
             for(let i = 0; i < this.getPaintObjects().count(); i++) {
                 this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
@@ -1144,13 +1128,13 @@ namespace CSReportPaint {
                 this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
             }
 
-            this.paintPicture(graph, true);
+            this.paintPicture(graphic, true);
         }
 
         //--------------------------------------------------------------------------------------------------
         // Draw - Low Level
         private printLine(
-            graph: Graphics,
+            graph: Graphic,
             filled: boolean,
             x1: number,
             y1: number,
@@ -1191,7 +1175,7 @@ namespace CSReportPaint {
                         */
                         let brush: Brush = new SolidBrush(cColor.colorFromRGB(colorInside));
                         graph.FillRectangle(brush, rect);
-                        brush.Dispose();
+                        brush.dispose();
                     }
 
                     // the original version didn't put a border when the height is 20 twips
@@ -1209,10 +1193,10 @@ namespace CSReportPaint {
                 }
             }
 
-            pen.Dispose();
+            pen.dispose();
         }
 
-        private printText(graph: Graphics, sText: string, aspect: cReportAspect, image: Image) {
+        private printText(graph: Graphic, sText: string, aspect: cReportAspect, image: Image) {
             // padding
             const c_Margen_Y: number = 1; // 20 twips;
             const c_Margen_X: number = 4; // 80 twips;
@@ -1290,11 +1274,11 @@ namespace CSReportPaint {
 
             graph.DrawString(sText, font, brush, rect, format);
 
-            brush.Dispose();
+            brush.dispose();
         }
 
         private showHandles(
-            graph: Graphics,
+            graph: Graphic,
             x1: number,
             y1: number,
             x2: number,
@@ -1338,10 +1322,10 @@ namespace CSReportPaint {
             rect = cGlobals.newRectangle(x2, y, x2 + iSize, y + iSize);
             this.showHandle(graph, brush, rect, bCircle);
 
-            brush.Dispose();
+            brush.dispose();
         }
 
-        private showHandle(graph: Graphics, brush: Brush, rect: Rectangle, circle: boolean) {
+        private showHandle(graph: Graphic, brush: Brush, rect: Rectangle, circle: boolean) {
             if (circle) {
                 graph.FillEllipse(brush, rect);
             }
@@ -1350,7 +1334,7 @@ namespace CSReportPaint {
             }
         }
 
-        public paintPicture(graph: Graphics, disposeGraphicObject: boolean) {
+        public paintPicture(graph: Graphic, disposeGraphicObject: boolean) {
             let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.Size.Width, this.bitmap.Size.Height);
             if (this.zoom === 100) {
                 //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, this.hMemDC, 0, 0, vbSrcCopy);
@@ -1364,7 +1348,7 @@ namespace CSReportPaint {
             }
 
             if (disposeGraphicObject) {
-                graph.Dispose();
+                graph.dispose();
             }
         }
 
@@ -1373,14 +1357,14 @@ namespace CSReportPaint {
 
             this.beginMoveDone = true;
 
-            let graphic: Graphics = Graphics.FromImage(this.bitmap);
+            let graphic: Graphic = Graphic.FromImage(this.bitmap);
             for(let i = 0; i < this.vSelectedKeys.length; i++) {
                 this.setFocusAux(this.vSelectedKeys[i], graphic);
             }
-            graphic.Dispose();
+            graphic.dispose();
         }
 
-        private paintPictureMove(graph: Graphics, tR: RectangleF) {
+        private paintPictureMove(graph: Graphic, tR: RectangleF) {
             let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.Size.Width, this.bitmap.Size.Height);
             if (this.zoom === 100) {
                 //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, this.hMemDC, 0, 0, vbSrcCopy);
@@ -1390,7 +1374,7 @@ namespace CSReportPaint {
 
         // grid
         //
-        private pCreateBrushGrid(graph: Graphics, typeGrid: csETypeGrid) {
+        private createBrushGrid(typeGrid: csETypeGrid) {
             switch (typeGrid)
             {
                 case csETypeGrid.CSEGRIDLINES:
@@ -1429,20 +1413,20 @@ namespace CSReportPaint {
         //
         //
         private getPlEvaluateTextWidth(text: string, font: Font, scaleX: number) {
-            let graph: Graphics = Graphics.FromImage(this.bitmap);
+            let graph: Graphic = Graphics.FromImage(this.bitmap);
             let stringSize: SizeF = graph.MeasureString(text, font);
-            graph.Dispose();
+            graph.dispose();
             return Math.trunc(stringSize.Width / scaleX); // TODO: check if it is / or *
         }
 
         private getPlEvaluateTextHeight(text: string, font: Font, width: number, format: StringFormat, scaleY: number, scaleX: number) {
-            let graph: Graphics = Graphics.FromImage(this.bitmap);
+            let graph: Graphic = Graphics.FromImage(this.bitmap);
             let stringSize: SizeF = graph.MeasureString(text, font, Math.trunc(width * scaleX), format);
-            graph.Dispose();
+            graph.dispose();
             return Math.trunc(stringSize.Height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
         }
 
-        private pClearObject(key: string, graph: Graphics) {
+        private pClearObject(key: string, graph: Graphic) {
             let oPaintObj: cReportPaintObject = null;
 
             oPaintObj = this.paintObjects.item(key);
@@ -1457,7 +1441,7 @@ namespace CSReportPaint {
         }
 
         private pDrawObjBox(
-            graph: Graphics,
+            graph: Graphic,
             aspect: cReportAspect,
             x1: number,
             y1: number,

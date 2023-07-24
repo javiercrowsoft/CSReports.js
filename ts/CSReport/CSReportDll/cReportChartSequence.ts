@@ -2,6 +2,7 @@ namespace CSReportDll {
 
     import csColors = CSReportGlobals.csColors;
     import eTypes = CSKernelClient.eTypes;
+    import XmlNode = CSXml.XmlNode;
 
     export class cReportChartSequence {
 

@@ -10,6 +10,9 @@ namespace CSReportDll {
     import eTypes = CSKernelClient.eTypes;
     import cWebChart = CSChartServer.cWebChart;
     import DataTable = CSDatabase.DataTable;
+    import cError = CSKernelClient.cError;
+    import Utils = CSOAPI.Utils;
+    import cWebChartItem = CSChartServer.cWebChartItem;
 
     export class cReportChart {
 
@@ -171,7 +174,7 @@ namespace CSReportDll {
 
         public makeChartFromRs(rs: DataTable, fileName: string) {
             cError.setSilent(true);
-            return make(rs.Rows, "###,###,##0.00", true, fileName);
+            return this.make(rs.getRows(), "###,###,##0.00", true, fileName);
         }
 
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
@@ -194,21 +197,21 @@ namespace CSReportDll {
                 this.sort = xDoc.getNodeProperty(nodeObj, "Sort").getValueBool(eTypes.eBoolean);
 
                 let nodeObjAux: XmlNode = null;
-                let nodeObjSerie: XmlNode = null;
+                let nodeObjSeries: XmlNode = null;
                 let index: number = 0;
 
                 nodeObj = xDoc.getNodeFromNode(nodeObj, "Series");
 
                 if (xDoc.nodeHasChild(nodeObj)) {
-                    nodeObjSerie = xDoc.getNodeChild(nodeObj);
+                    nodeObjSeries = xDoc.getNodeChild(nodeObj);
 
-                    while (nodeObjSerie !== null) {
+                    while (nodeObjSeries !== null) {
                         index = index + 1;
-                        nodeObjAux = nodeObjSerie;
+                        nodeObjAux = nodeObjSeries;
                         if (!this.getSeries().add(null, "").load(xDoc, nodeObjAux, index)) {
                             return false;
                         }
-                        nodeObjSerie = xDoc.getNextNode(nodeObjSerie);
+                        nodeObjSeries = xDoc.getNextNode(nodeObjSeries);
                     }
                 }
             }
@@ -217,13 +220,10 @@ namespace CSReportDll {
         }
 
         public save(xDoc: CSXml.cXml, nodeFather: XmlNode) {
-            let xProperty: CSXml.cXmlProperty = null;
-            let nodeObj: XmlNode = null;
-
-            xProperty = new CSXml.cXmlProperty();
-
+            let xProperty = new CSXml.cXmlProperty();
             xProperty.setName("Chart");
-            nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
+
+            let nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("LineStyle");
             xProperty.setValue(eTypes.eInteger, this.chartLineStyle);
@@ -296,7 +296,7 @@ namespace CSReportDll {
             return true;
         }
 
-        public make(rows: DataRowCollection, strFormat: string, bIsForWeb: boolean, fileName: string) {
+        public make(rows: [][], strFormat: string, bIsForWeb: boolean, fileName: string) {
             // we need to delete any previous work image
             //
             this.destroyImage();
@@ -326,7 +326,7 @@ namespace CSReportDll {
             chart.setDiameter(this.pieDiameter);
 
             if (!bIsForWeb) {
-                fileName = cUtil.getValidPath(System.IO.Path.GetTempPath()) + "~ChartImage";
+                fileName = Utils.getValidPath(System.IO.Path.GetTempPath()) + "~ChartImage";
             }
 
             chart.setFormat(this.imageFormat);
@@ -335,19 +335,19 @@ namespace CSReportDll {
             chart.setSaveTo(1);
             chart.setFileName(fileName);
 
-            pKillFile(fileName);
+            this.killFile(fileName);
 
             chart.setCopyRight(this.copyright);
             chart.renderWebChartImage();
 
             if (!bIsForWeb) {
-                loadChart(fileName);
+                this.loadChart(fileName);
             }
 
             this.chartCreated = true;
             return true;
 
-            chart.Dispose();
+            chart.dispose();
         }
 
         private pGetExt() {
@@ -370,7 +370,7 @@ namespace CSReportDll {
             return _rtn;
         }
 
-        private pKillFile(fileName: string) {
+        private killFile(fileName: string) {
             try { File.Delete(fileName); }
             catch  (ex) { }
         }
@@ -378,7 +378,7 @@ namespace CSReportDll {
         private loadChart(fileName: string) {
             // we need to delete any previous work image
             //
-            pDestroyImage();
+            this.pDestroyImage();
 
             if (fileName.length > 0) {
                 let image: Image = Image.FromFile(fileName);
@@ -389,11 +389,11 @@ namespace CSReportDll {
             this.chartCreated = false;
         }
 
-        private pGetSerieValues(
-            rows: DataRowCollection
-            v: t_SerieValue[]
-            valueIndex: number
-            labelIndex: number
+        private getSeriesValues(
+            rows: [][],
+            v: t_SerieValue[],
+            valueIndex: number,
+            labelIndex: number,
             bOthers: boolean) {
             let i: number = 0;
             let j: number = 0;
@@ -405,24 +405,20 @@ namespace CSReportDll {
 
             if (this.groupFieldIndex >= 0) {
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                for (j = 0; j < rows.Count; j++) {
+                for (j = 0; j < rows.length; j++) {
                     if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                         newTop++;
                     }
                 }
 
                 if (newTop > 0) { newTop--; }
-
-                if (v.length > newTop) {
-                    pRedimPreserve(v, newTop);
-                }
             }
 
             if (this.sort) {
 
                 if (this.groupFieldIndex >= 0) {
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                    for (j = 0; j < rows.Count; j++) {
+                    for (j = 0; j < rows.length; j++) {
 
                         if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                             v[0].value = ReportGlobals.valVariant(rows[j][valueIndex]);
@@ -439,7 +435,7 @@ namespace CSReportDll {
                     v[0].idx = 0;
                 }
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                for (j = 0; j < rows.Count; j++) {
+                for (j = 0; j < rows.length; j++) {
 
                     if (this.groupFieldIndex >= 0) {
                         bCompare = ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
@@ -463,7 +459,7 @@ namespace CSReportDll {
 
                     v[i].idx = -1;
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                    for (j = 0; j < rows.Count; j++) {
+                    for (j = 0; j < rows.length; j++) {
 
                         if (this.groupFieldIndex >= 0) {
                             bCompare = ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
@@ -495,12 +491,11 @@ namespace CSReportDll {
                         }
                     }
                 }
-
             }
             else {
                 i = 0;
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                for (j = 0; j < rows.Count; j++) {
+                for (j = 0; j < rows.length; j++) {
                     if (this.groupFieldIndex >= 0) {
                         if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                             if (this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
@@ -513,19 +508,19 @@ namespace CSReportDll {
 
                 if (bOthers) {
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                    if (rows.Count > v.length) {
+                    if (rows.length > v.length) {
                         let n: number = 0;
                         let k: number = 0;
                         let bHaveToRedim: boolean = false;
                         bHaveToRedim = true;
                         n = v.length + 1;
                         // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                        for (j = 0; j < rows.Count; j++) {
+                        for (j = 0; j < rows.length; j++) {
                             if (this.groupFieldIndex >= 0) {
                                 if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                                     if (k >= n) {
                                         if (bHaveToRedim) {
-                                            pRedimPreserve(v, n);
+                                            this.redimPreserve(v, n);
                                             bHaveToRedim = false;
                                         }
                                         this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.length, j, true);
@@ -537,7 +532,7 @@ namespace CSReportDll {
                             }
                             else {
                                 if (bHaveToRedim) {
-                                    pRedimPreserve(v, n);
+                                    this.redimPreserve(v, n);
                                     bHaveToRedim = false;
                                 }
                                 this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, v.length, j, true);
@@ -549,7 +544,7 @@ namespace CSReportDll {
         }
 
         private pGetSerieValuesAux(
-            rows: DataRowCollection,
+            rows: [][],
             v: t_SerieValue[],
             valueIndex: number,
             labelIndex: number,
@@ -557,7 +552,7 @@ namespace CSReportDll {
             j: number,
             bAdd: boolean) {
             if (bAdd) {
-                v[i].value = v[i].value + ReportGlobals.valVariant(rows[j][valueIndex]);
+                v[i].value = v[i].value + ReportGlobals.valVariant<number>(rows[j][valueIndex]);
             }
             else {
                 v[i].value = ReportGlobals.valVariant(rows[j][valueIndex]);
@@ -568,7 +563,7 @@ namespace CSReportDll {
             return i > v.length;
         }
 
-        private fill(chart: cWebChart, rows: DataRowCollection, strFormat: string) {
+        private fill(chart: cWebChart, rows: [][], strFormat: string) {
             let i: number = 0;
             let values: t_SerieValue[] = null;
             let serie: cReportChartSequence = null;
@@ -577,16 +572,7 @@ namespace CSReportDll {
             if (this.top === 0) { this.top = 50; }
 
             // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-            if (rows.Count < 0) { return; }
-
-            // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-            if (rows.Count < this.top) {
-                // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                pRedim(values, rows.Count);
-            } 
-            else {
-                pRedim(values, this.top - 1);
-            }
+            if (rows.length < 0) { return; }
 
             for(let _i = 0; _i < this.series.count(); _i++) {
                 serie = this.series.item(_i);
@@ -596,7 +582,7 @@ namespace CSReportDll {
                 idxSerie = idxSerie + 1;
                 if (idxSerie > 2) { return; }
 
-                this.pGetSerieValues(rows, 
+                this.getSeriesValues(rows,
                                 values, 
                                 serie.getValueIndex(), 
                                 serie.getLabelIndex(), 
@@ -635,7 +621,7 @@ namespace CSReportDll {
             }
         }
 
-        private pRedimPreserve(vSeries: t_SerieValue[], size: number) {
+        private redimPreserve(vSeries: t_SerieValue[], size: number) {
             if (size === 0) {
                 vSeries = null;
             }
@@ -647,14 +633,12 @@ namespace CSReportDll {
                     vSeries = new t_SerieValue[size];
                 }
                 else {
-                    let newArray: t_SerieValue[] = new t_SerieValue[size];
-                    Array.Copy(vSeries, newArray, vSeries.length);
-                    vSeries = newArray;
+                    vSeries.length = size;
                 }
             }
         }
 
-        private pRedim(vSeries: t_SerieValue[], size: number) {
+        private redim(vSeries: t_SerieValue[], size: number) {
             if (size === 0) {
                 vSeries = null;
             }
@@ -662,17 +646,11 @@ namespace CSReportDll {
                 vSeries = new t_SerieValue[size];
             }
         }
+    }
 
-        export class t_SerieValue {
-
-
-        {
-            public label: string = null;
-            public value: number = null;
-            public idx: number = null;
-        }
-
-
-
-    } 
+    class t_SerieValue {
+        public label: string = null;
+        public value: number = null;
+        public idx: number = null;
+    }
 }

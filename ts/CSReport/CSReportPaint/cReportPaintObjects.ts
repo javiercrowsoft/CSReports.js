@@ -6,6 +6,10 @@ namespace CSReportPaint {
 
         private zorder: string[] = null;
 
+        constructor() {
+            super(null, false, cReportPaintObject);
+        }
+
         public remove(indexOrKey: string|number): void {
             this.baseRemove(indexOrKey);
             // @ts-ignore
