@@ -400,7 +400,8 @@ namespace CSReportPaint {
             x = x + 1;
             y = y + 1;
 
-            this.vGridObjs = [[]];
+            // @ts-ignore
+            this.vGridObjs = [];
 
             let l: number = 0;
             let t: number = 0;
@@ -416,6 +417,7 @@ namespace CSReportPaint {
                 aspect.setWidth(cReportPaint.C_GRID_AREA_WIDTH);
                 aspect.setHeight(cReportPaint.C_GRID_AREA_HEIGHT);
 
+                if(this.vGridObjs.length < l+1) this.vGridObjs.push([]);
                 this.vGridObjs[l][t] = c.getKey();
 
                 l = l + 1;
@@ -1106,29 +1108,30 @@ namespace CSReportPaint {
 
             this.createBackgroundBitmap(graphic);
 
-            let bitmapGraphic: Graphic = Graphics.FromImage(this.bitmap);
+            Graphic.fromImage(this.bitmap).then((bitmapGraphic) => {
 
-            let rect: Rectangle = cGlobals
-                .newRectangle(0, 0,
-                    graphic.getBoundingClientRect().width, graphic.getBoundingClientRect().height + 3); // TODO check why 56 ???;
+                let rect: Rectangle = cGlobals
+                    .newRectangle(0, 0,
+                        graphic.getBoundingClientRect().width, graphic.getBoundingClientRect().height + 3); // TODO check why 56 ???;
 
-            if (this.brushGrid !== null) {
-                bitmapGraphic.fillStyle = this.brushGrid;
-            }
-            else  {
-                bitmapGraphic.fillStyle = rgbColor;
-            }
-            bitmapGraphic.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+                if (this.brushGrid !== null) {
+                    bitmapGraphic.setFillStyle(this.brushGrid.foreground.toArgb());
+                }
+                else  {
+                    bitmapGraphic.setFillStyle(rgbColor);
+                }
+                bitmapGraphic.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
 
-            for(let i = 0; i < this.getPaintObjects().count(); i++) {
-                this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
-            }
+                for(let i = 0; i < this.getPaintObjects().count(); i++) {
+                    this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
+                }
 
-            for(let i = 0; i < this.getPaintSections().count(); i++) {
-                this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
-            }
+                for(let i = 0; i < this.getPaintSections().count(); i++) {
+                    this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
+                }
 
-            this.paintPicture(graphic, true);
+                this.paintPicture(graphic, true);
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -7,18 +7,29 @@ namespace CSReportPaint {
 
     export class Bitmap {
         private bitmap: ImageBitmap;
+        private p: Promise<void>;
 
         constructor(width: number, height: number) {
             // only fromImage should call with 0,0
             //
-            if(width > 0 && height > 0) {
-                const canvas = document.createElement("canvas") as HTMLCanvasElement;
-                const ctx = canvas.getContext("2d");
-                const imgData = ctx.createImageData(width, height);
-                createImageBitmap(imgData).then(b => this.bitmap = b);
-            } else {
-                this.bitmap = null;
-            }
+            this.p = new Promise((resolve) => {
+                if(width > 0 && height > 0) {
+                    const canvas = document.createElement("canvas") as HTMLCanvasElement;
+                    const ctx = canvas.getContext("2d");
+                    const imgData = ctx.createImageData(width, height);
+                    createImageBitmap(imgData).then(b => {
+                        this.bitmap = b;
+                        resolve();
+                    });
+                } else {
+                    this.bitmap = null;
+                    resolve();
+                }
+            });
+        }
+
+        getBitmap() {
+            return this.p.then(() => this.bitmap)
         }
 
         getSize() {
@@ -28,6 +39,10 @@ namespace CSReportPaint {
         public static fromImage(image: Image) {
             const bitmap = new Bitmap(0,0);
             createImageBitmap(image.bitmap).then(b => bitmap.bitmap = b);
+        }
+
+        dispose() {
+
         }
     }
 
@@ -74,6 +89,15 @@ namespace CSReportPaint {
 
         getContext() {
             return this.context;
+        }
+
+        static fromImage(bitmap: CSReportPaint.Bitmap) {
+            const canvas = document.createElement('canvas') as HTMLCanvasElement;
+            const ctx = canvas.getContext('2d');
+            return bitmap.getBitmap().then(bmp => {
+                ctx.drawImage(bmp,0,0);
+                return new Graphic(canvas);
+            });
         }
     }
 
@@ -233,6 +257,7 @@ namespace CSReportPaint {
         public static Black = new Color(csColors.BLACK);
         public static Red = new Color(csColors.RED);
         public static White = new Color(csColors.WHITE);
+        public static Blue = new Color(csColors.BLUE);
     }
 
     export class GraphicsPath {}

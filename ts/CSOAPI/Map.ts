@@ -40,6 +40,8 @@ namespace CSOAPI {
             }
             if(value === null && this.construct) {
                 value = new this.construct();
+                // @ts-ignore
+                if(value.setKey !== undefined) value.setKey(key);
             }
             this.keys.push(key);
             this.values.push(value);
@@ -90,6 +92,10 @@ namespace CSOAPI {
 
         public clear(): void {
             this.baseClear();
+        }
+
+        public size() {
+            return this.count();
         }
 
         public count() {

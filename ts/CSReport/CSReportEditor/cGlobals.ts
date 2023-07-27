@@ -257,7 +257,7 @@ namespace CSReportEditor {
         }
 
         public static addCtrls(report: cReport, lv_controls: ListView, C_CTRL_IMAGE: number, C_DB_IMAGE: number) {
-            lv_controls.Items.clear();
+            lv_controls.getItems().clear();
 
             for(let i = 0; i < report.getControls().count(); i++) {
                 let ctrl = report.getControls().item(i);
@@ -285,7 +285,7 @@ namespace CSReportEditor {
                     ctrlName += " (" + ctrlInfo + ")";
                 }
 
-                let item = lv_controls.Items.Add(ctrlName, C_CTRL_IMAGE);
+                let item = lv_controls.getItems().add(ctrlName, C_CTRL_IMAGE);
                 item.Tag = ctrl.getKey();
                 item.SubItems.Add("");
                 item.SubItems.Add("");
@@ -309,33 +309,32 @@ namespace CSReportEditor {
                         C_IMG_FOLDER: number, C_IMG_FORMULA: number,
                         C_IMG_CONTROL: number, C_IMG_DATBASE_FIELD: number) {
 
-            tv_controls.Nodes.clear();
+            tv_controls.getNodes().clear();
 
-            let nodeGroup: object;
-            let nodeRoot: object = tv_controls.Nodes.Add(report.getName());
-            nodeRoot.ImageIndex = C_IMG_FOLDER;
+            let nodeRoot = tv_controls.getNodes().add(report.getName());
+            nodeRoot.imageIndex = C_IMG_FOLDER;
 
-            nodeGroup = nodeRoot.Nodes.Add("Headers");
-            nodeGroup.ImageIndex = C_IMG_FOLDER;
+            let nodeGroup = nodeRoot.getNodes().add("Headers");
+            nodeGroup.imageIndex = C_IMG_FOLDER;
             this.pAddCtrlsAux(report.getHeaders(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
 
-            nodeGroup = nodeRoot.Nodes.Add("Group Header");
-            nodeGroup.ImageIndex = C_IMG_FOLDER;
+            nodeGroup = nodeRoot.getNodes().add("Group Header");
+            nodeGroup.imageIndex = C_IMG_FOLDER;
             this.pAddCtrlsAux(report.getGroupsHeaders(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
 
-            nodeGroup = nodeRoot.Nodes.Add("Details");
-            nodeGroup.ImageIndex = C_IMG_FOLDER;
+            nodeGroup = nodeRoot.getNodes().add("Details");
+            nodeGroup.imageIndex = C_IMG_FOLDER;
             this.pAddCtrlsAux(report.getDetails(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
 
-            nodeGroup = nodeRoot.Nodes.Add("Group Footer");
-            nodeGroup.ImageIndex = C_IMG_FOLDER;
+            nodeGroup = nodeRoot.getNodes().add("Group Footer");
+            nodeGroup.imageIndex = C_IMG_FOLDER;
             this.pAddCtrlsAux(report.getGroupsFooters(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
 
-            nodeGroup = nodeRoot.Nodes.Add("Footers");
-            nodeGroup.ImageIndex = C_IMG_FOLDER;
+            nodeGroup = nodeRoot.getNodes().add("Footers");
+            nodeGroup.imageIndex = C_IMG_FOLDER;
             this.pAddCtrlsAux(report.getFooters(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
 
-            nodeRoot.ExpandAll();
+            nodeRoot.expandAll();
         }
 
         private static pAddCtrlsAux(sections: cIReportGroupSections, father: object,
@@ -354,7 +353,7 @@ namespace CSReportEditor {
 
             for(let i = 0; i < sections.count(); i++) {
                 sec = sections.item(i);
-                nodeSec = father.Nodes.Add(sec.getName());
+                nodeSec = father.getNodes().add(sec.getName());
                 nodeSec.Tag = "S" + sec.getKey();
 
                 if (sec.getFormulaHide().getText() !== "") {
@@ -366,7 +365,7 @@ namespace CSReportEditor {
                         text = "Visibility formula";
                         bComplexF = true;
                     }
-                    item = nodeSec.Nodes.Add(text);
+                    item = nodeSec.getNodes().add(text);
                     item.ImageIndex = C_IMG_FORMULA;
                     item.SelectedImageIndex = C_IMG_FORMULA;
                     if (!sec.getHasFormulaHide()) {
@@ -380,7 +379,7 @@ namespace CSReportEditor {
 
                 for(let j = 0; j < sec.getSectionLines().count(); j++) {
                     secLn = sec.getSectionLines().item(j);
-                    nodeSecLn = nodeSec.Nodes.Add("Line " + secLn.getIndex());
+                    nodeSecLn = nodeSec.getNodes().add("Line " + secLn.getIndex());
                     nodeSecLn.ImageIndex = C_IMG_FOLDER;
                     nodeSecLn.Tag = "L" + secLn.getKey();
 
@@ -393,7 +392,7 @@ namespace CSReportEditor {
                             text = "Visibility formula";
                             bComplexF = true;
                         }
-                        item = nodeSecLn.Nodes.Add(text);
+                        item = nodeSecLn.getNodes().add(text);
                         item.ImageIndex = C_IMG_FORMULA;
                         item.SelectedImageIndex = C_IMG_FORMULA;
                         if (!secLn.getHasFormulaHide()) {
@@ -405,7 +404,7 @@ namespace CSReportEditor {
                     }
                     for(var t = 0; t < secLn.getControls().count(); t++) {
                         ctrl = secLn.getControls().item(t);
-                        nodeCtrl = nodeSecLn.Nodes.Add(
+                        nodeCtrl = nodeSecLn.getNodes().add(
                             ctrl.getName() 
                             + (ctrl.getLabel().getText() !== "" 
                                 ? " - " + ctrl.getLabel().getText() 
@@ -418,7 +417,7 @@ namespace CSReportEditor {
                         nodeCtrl.ForeColor = cColor.colorFromRGB(ctrl.getLabel().getAspect().getFont().getForeColor());
 
                         if (ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
-                            item = nodeCtrl.Nodes.Add(ctrl.getField().getName());
+                            item = nodeCtrl.getNodes().add(ctrl.getField().getName());
                             item.ImageIndex = C_IMG_DATBASE_FIELD;
                             item.SelectedImageIndex = C_IMG_DATBASE_FIELD;
                         }
@@ -433,7 +432,7 @@ namespace CSReportEditor {
                                 bComplexF = true;
                             }
 
-                            item = nodeCtrl.Nodes.Add(text);
+                            item = nodeCtrl.getNodes().add(text);
                             item.ImageIndex = C_IMG_FORMULA;
                             item.SelectedImageIndex = C_IMG_FORMULA;
                             if (!ctrl.getHasFormulaHide()) {
@@ -445,7 +444,7 @@ namespace CSReportEditor {
                         }
 
                         if (ctrl.getFormulaValue().getText() !== "") {
-                            item = nodeCtrl.Nodes.Add("Value formula");
+                            item = nodeCtrl.getNodes().add("Value formula");
                             item.ImageIndex = C_IMG_FORMULA;
                             item.SelectedImageIndex = C_IMG_FORMULA;
                             if (!ctrl.getHasFormulaValue()) {
@@ -456,7 +455,7 @@ namespace CSReportEditor {
                     }
                 }
             }
-            father.ExpandAll();
+            father.expandAll();
         }
 
         public static fillColumns(dataSource: string, columns: CSReportDll.cColumnsInfo, lv_columns: ListView,

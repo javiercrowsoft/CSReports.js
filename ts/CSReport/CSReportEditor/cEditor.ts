@@ -3096,7 +3096,7 @@ namespace CSReportEditor {
             cMainEditor.setDocActive(this);
         }
 
-        public openDocument(fileName: string) {
+        public openDocument(fileName: string = "") {
             let mouse: CMouseWait = new CMouseWait();
             try {
 
