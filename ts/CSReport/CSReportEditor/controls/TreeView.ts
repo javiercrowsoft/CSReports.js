@@ -12,7 +12,7 @@ namespace CSReportEditor {
         }
     }
 
-    class Node {
+    export class Node {
 
         private _items: Nodes = new Nodes(null, false, Node);
         imageIndex: number;

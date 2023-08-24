@@ -14,6 +14,7 @@ namespace CSReportEditor {
     import RectangleF = CSReportPaint.RectangleF;
     import cIReportGroupSections = CSReportDll.cIReportGroupSections;
     import Color = CSReportPaint.Color;
+    import Node = CSReportEditor.Node;
 
     export enum csRptEditorMoveType {
         CSRPTEDMOVTHORIZONTAL,
@@ -286,28 +287,28 @@ namespace CSReportEditor {
                 }
 
                 let item = lv_controls.getItems().add(ctrlName, C_CTRL_IMAGE);
-                item.Tag = ctrl.getKey();
-                item.SubItems.Add("");
-                item.SubItems.Add("");
-                item.SubItems.Add("");
+                item.tag = ctrl.getKey();
+                item.subItems.add("");
+                item.subItems.add("");
+                item.subItems.add("");
 
-                if (ctrl.getHasFormulaValue()) item.SubItems[1].setText("*");
-                if (ctrl.getHasFormulaHide()) item.SubItems[2].setText("*");
+                if (ctrl.getHasFormulaValue()) item.subItems.item(1).text = "*";
+                if (ctrl.getHasFormulaHide()) item.subItems.item(2).text = "*";
 
                 if (ctrlField.length > 0) {
-                    item.SubItems[3].setText(ctrlField);
-                    item.SubItems[3].ForeColor = Color.Blue;
-                    item.ImageIndex = C_DB_IMAGE;
+                    item.subItems.item(3).text = ctrlField;
+                    item.subItems.item(3).foreColor = Color.Blue;
+                    item.imageIndex = C_DB_IMAGE;
                 }
                 if (ctrl.getName().length > 4 && ctrl.getName().substring(0, 4) === "lnk_") {
-                    item.ForeColor = Color.Red;
+                    item.foreColor = Color.Red;
                 }
             }
         }
 
         public static addCtrls2(report: cReport, tv_controls: TreeView,
                         C_IMG_FOLDER: number, C_IMG_FORMULA: number,
-                        C_IMG_CONTROL: number, C_IMG_DATBASE_FIELD: number) {
+                        C_IMG_CONTROL: number, C_IMG_DATABASE_FIELD: number) {
 
             tv_controls.getNodes().clear();
 
@@ -316,28 +317,28 @@ namespace CSReportEditor {
 
             let nodeGroup = nodeRoot.getNodes().add("Headers");
             nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getHeaders(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
+            this.pAddCtrlsAux(report.getHeaders(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
 
             nodeGroup = nodeRoot.getNodes().add("Group Header");
             nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getGroupsHeaders(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
+            this.pAddCtrlsAux(report.getGroupsHeaders(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
 
             nodeGroup = nodeRoot.getNodes().add("Details");
             nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getDetails(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
+            this.pAddCtrlsAux(report.getDetails(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
 
             nodeGroup = nodeRoot.getNodes().add("Group Footer");
             nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getGroupsFooters(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
+            this.pAddCtrlsAux(report.getGroupsFooters(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
 
             nodeGroup = nodeRoot.getNodes().add("Footers");
             nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getFooters(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATBASE_FIELD);
+            this.pAddCtrlsAux(report.getFooters(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
 
             nodeRoot.expandAll();
         }
 
-        private static pAddCtrlsAux(sections: cIReportGroupSections, father: object,
+        private static pAddCtrlsAux(sections: cIReportGroupSections, father: Node,
                              C_IMG_FOLDER: number, C_IMG_FORMULA: number,
                              C_IMG_CONTROL: number, C_IMG_DATBASE_FIELD: number) {
             let nodeSec: object;

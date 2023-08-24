@@ -28,7 +28,7 @@ namespace CSReportEditor {
         private C_IMG_FOLDER: number = 0;
         private C_IMG_FORMULA: number = 3;
         private C_IMG_CONTROL: number = 2;
-        private C_IMG_DATBASE_FIELD: number = 1;
+        private C_IMG_DATABASE_FIELD: number = 1;
 
         private C_FIELDTYPE: string = "t";
         private C_INDEX: string = "i";
@@ -475,7 +475,10 @@ namespace CSReportEditor {
             this.tv_controls.getNodes().clear();
 
             if (editor !== null) {
-                cGlobals.addCtrls2(editor.getReport(), this.tv_controls, this.C_IMG_FOLDER, this.C_IMG_FORMULA, this.C_IMG_CONTROL, this.C_IMG_DATBASE_FIELD);
+                cGlobals.addCtrls2(
+                    editor.getReport(), this.tv_controls,
+                    this.C_IMG_FOLDER, this.C_IMG_FORMULA,
+                    this.C_IMG_CONTROL, this.C_IMG_DATABASE_FIELD);
             }
         }
 
