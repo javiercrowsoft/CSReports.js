@@ -43,5 +43,9 @@ namespace CSReportEditor {
         public pointToScreen(point: Point) {
             return undefined;
         }
+
+        setPaint(paint: (sender: object, e: { graphics: Graphic }) => void) {
+
+        }
     }
 }

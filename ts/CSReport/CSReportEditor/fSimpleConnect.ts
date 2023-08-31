@@ -1,39 +1,40 @@
 namespace CSReportEditor {
 
-    export class FSimpleConnect {
+    export class FSimpleConnect extends Form {
 
         private ok: boolean = false;
 
         public constructor() {
-            InitializeComponent();
+            super();
+            // InitializeComponent();
         }
 
 		public setServer(value: string) {
-            tx_server.setText(value);
+            // tx_server.setText(value);
 		}
 
 		public setDataBase(value: string) {
-            tx_database.setText(value);
+            // tx_database.setText(value);
 		}
 
 		public setUser(value: string) {
-            tx_user.setText(value);
+            // tx_user.setText(value);
 		}
 
 		public setPassword(value: string) {
-            tx_password.setText(value);
+            // tx_password.setText(value);
 		}
 
 		public getUser() {
-            return tx_user.Text;
+            // return tx_user.Text;
 		}
 
 		public setConnectTypeToNT() {
-            op_trustedConnection.setChecked(true);
+            // op_trustedConnection.setChecked(true);
 		}
 
 		public setConnectTypeToSQL() {
-            op_sqlConnection.setChecked(true);
+            // op_sqlConnection.setChecked(true);
 		}
 
 		public getOk() {
@@ -41,7 +42,8 @@ namespace CSReportEditor {
 		}
 
 		public getStrConnect() {
-            string strConnect;
+            let strConnect: string;
+            /*
 			if(op_trustedConnection.Checked) {
                 strConnect = "Provider=SQLOLEDB.1;";
                 strConnect += "Integrated Security=SSPI;";
@@ -57,10 +59,12 @@ namespace CSReportEditor {
                 strConnect += "Password=" + tx_password.Text + ";";
                 strConnect += "Initial Catalog=" + tx_database.Text + ";";
             }
+            */
             return strConnect;
 		}
 
         private cmd_apply_Click(sender: object, e: object) {
+            /*
             if (op_sqlConnection.Checked && tx_user.Text === "") {
                 cWindow.msgWarning("You must indicate a user");
             }
@@ -68,36 +72,31 @@ namespace CSReportEditor {
                 this.ok = true;
                 this.Close();
             }
+            */
         }
 
         private cmd_cancel_Click(sender: object, e: object) {
             this.ok = false;
-            this.Close();
+            // this.Close();
         }
 
         private op_sqlConnection_CheckedChanged(sender: object, e: object) {
-            setEnabledUserAndPassword();
+            this.setEnabledUserAndPassword();
         }
 
         private op_trustedConnection_CheckedChanged(sender: object, e: object) {
-            setEnabledUserAndPassword();
+            this.setEnabledUserAndPassword();
         }
 
         private setEnabledUserAndPassword() {
+            /*
             tx_user.setEnabled(op_sqlConnection.Checked);
             tx_password.setEnabled(op_sqlConnection.Checked);
+            */
         }
 
         private fSimpleConnect_Load(sender: object, e: object) {
-            cWindow.centerForm(this);
+            //cWindow.centerForm(this);
         }
-
-        showDialog() {
-
-        }
-
-        close() {
-
-        }
-    } 
+    }
 }

@@ -44,4 +44,9 @@ namespace CSReportEditor {
             return this._selectedNode;
         }
     }
+
+    export enum TreeViewAction {
+        Collapse,
+        Expand
+    }
 }

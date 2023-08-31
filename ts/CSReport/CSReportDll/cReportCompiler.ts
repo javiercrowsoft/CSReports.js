@@ -1510,7 +1510,7 @@ namespace CSReportDll {
             // the IsGreaterThan function is for numbers
             //
             let value = this.report.getValue(fint.getParameters().item(0).getValue(), true);
-            let constValue: object = fint.getParameters().item(1).getValue();
+            let constValue = fint.getParameters().item(1).getValue();
 
             if (typeof value === "string") {
                 let strValue: string = value.toString();
@@ -1541,9 +1541,8 @@ namespace CSReportDll {
             let item: cReportVariable = fint.getVariables().item(cReportCompiler.C_IS_LESS_THAN);
             // the IsLessThan function is for numbers
             //
-            let value = this.report.getValue(
-                fint.getParameters().item(0).getValue(), true);
-            let constValue: object = fint.getParameters().item(1).getValue();
+            let value = this.report.getValue(fint.getParameters().item(0).getValue(), true);
+            let constValue = fint.getParameters().item(1).getValue();
 
             if (typeof value === "string") {
                 let strValue: string = value.toString();

@@ -27,7 +27,7 @@ namespace CSReportPaint {
             return value;
         }
 
-        public static getBitmapSize(image: Image, imgWidth: number, imgHeight: number, inTwips: boolean) {
+        public static getBitmapSize(image: object, imgWidth: number, imgHeight: number, inTwips: boolean) {
             // TODO: validate if needed
             /*
             imgWidth = image.Width;

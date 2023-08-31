@@ -27,8 +27,8 @@ namespace CSReportPaint {
             return this.image;
         }
 
-        public setImage(rhs: Image) {
-            this.image = rhs;
+        public setImage(rhs: Image|object) {
+            this.image = rhs as Image;
         }
 
         public getAspect() {

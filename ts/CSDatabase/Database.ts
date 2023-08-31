@@ -1,3 +1,5 @@
+///<reference path="../CSOAPI/Utils.ts"/>
+
 namespace CSDatabase {
 
     import RefWrapper = CSKernelClient.RefWrapper;

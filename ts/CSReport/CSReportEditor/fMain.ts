@@ -1063,7 +1063,7 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbCtrlAlignBottothis.Click(sender: object, e: any) {
+        private tsbCtrlAlignBottothis_Click(sender: object, e: any) {
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.controlsAlign(csECtlAlignConst.csECtlAlignBottom);

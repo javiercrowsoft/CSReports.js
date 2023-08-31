@@ -18,6 +18,11 @@ namespace CSReportPaint {
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import PageEventArgs = CSReportPreview.PageEventArgs;
+    import Form = CSReportEditor.Form;
+    import cReportPdf = CSReportExport.cReportPdf;
+    import csEZoom = CSReportGlobals.csEZoom;
+    import cReportPreview = CSReportPreview.cReportPreview;
+    import EventArgs = CSReportPreview.EventArgs;
 
 	export class cReportPrint implements cIReportPrint {
 
@@ -29,7 +34,7 @@ namespace CSReportPaint {
 
         private report: CSReportDll.cReport = null;
         private paint: cReportPaint = null;
-        private rpwPrint: CSReportPreview.cReportPreview = null;
+        private rpwPrint: cReportPreview = null;
         private fPreview: fPreview = null;
 
         private lastIndexField: number = 0;
@@ -146,7 +151,7 @@ namespace CSReportPaint {
         public closePreviewWindow() {
             try {
                 if (this.fPreview !== null) {
-                    this.fPreview.dispose();
+                    this.fPreview.close();
                     this.fPreview = null;
                 }
                 return true;
@@ -1113,16 +1118,8 @@ namespace CSReportPaint {
                 this.rpwPrint = this.fPreview.getRpwReport();
             }
             else {
-                if (this.rpwPrint.Parent !== null) {
-                    if (!(this.rpwPrint.Parent.GetType() === typeof(Form))) {
-                        this.fPreview = new fPreview();
-                        this.rpwPrint = this.fPreview.getRpwReport();
-                    }
-                }
-                else {
-                    this.fPreview = new fPreview();
-                    this.rpwPrint = this.fPreview.getRpwReport();
-                }
+                this.fPreview = new fPreview();
+                this.rpwPrint = this.fPreview.getRpwReport();
             }
 
             let tR: RectangleF;
@@ -1133,15 +1130,15 @@ namespace CSReportPaint {
             this.realWidth = tR.getWidth();
             this.realHeight = tR.getHeight();
 
-            this.rpwPrint.getBody().Width = this.realWidth;
-            this.rpwPrint.getBody().Height = this.realHeight;
+            this.rpwPrint.getBody().setWidth(this.realWidth);
+            this.rpwPrint.getBody().setHeight(this.realHeight);
 
             if (!this.bModal) {
                 if (!this.bHidePreviewWindow) {
                     let obj = this.rpwPrint.getParent();
                     if (obj.GetType() === typeof(Form))  {
                         let f: Form = obj as Form;
-                        f.Show();
+                        f.show();
                     }
                 }
             }
@@ -1350,9 +1347,9 @@ namespace CSReportPaint {
         */
         }
 
-        private rpwPrintBodyPaint(sender: object, e: object) {
+        private rpwPrintBodyPaint(sender: object, e: { graphics: Graphic }) {
             if (this.paint !== null) {
-                this.drawPage(e.Graphics, false);
+                this.drawPage(e.graphics, false);
             }
         }
 
@@ -1387,7 +1384,7 @@ namespace CSReportPaint {
                     break;
             }
 
-            if (nZoom < 0.01) { nZoom = 0.01f; }
+            if (nZoom < 0.01) { nZoom = 0.01; }
 
             let pic: PictureBox = this.rpwPrint.getBody();
             pic.Width = (this.realWidth * nZoom);
@@ -1407,7 +1404,7 @@ namespace CSReportPaint {
         }
 
         private rpwPrint_DoPrint() {
-            cIReportPrint_PrintReport();
+            this.cIReportPrint_PrintReport();
         }
 
         /*TODO: we need to decide if this is useful
@@ -1430,7 +1427,7 @@ namespace CSReportPaint {
             }
         */
         private rpwPrint_ExportPDF() {
-            exportPDF();
+            this.exportPDF();
         }
 
         // Files is a list of file names separated by |
@@ -1444,12 +1441,12 @@ namespace CSReportPaint {
         }
 
         public exportPDFEx(outputFile: string, bShowPDFWindow: boolean) {
-            return pExportPDF(outputFile, bShowPDFWindow);
+            return this.pExportPDF(outputFile, bShowPDFWindow);
         }
 
         public exportPDF() {
             let dummy: string = "";
-            return pExportPDF(dummy, true);
+            return this.pExportPDF(dummy, true);
         }
 
         private pGetExportFileName() {
@@ -1468,7 +1465,7 @@ namespace CSReportPaint {
                 let expPDF: CSReportExport.cReportPdf = null;
                 expPDF = new CSReportExport.cReportPdf();
 
-                expPDF.setFileName(cUtil.getValidPath(System.Environment.GetEnvironmentVariable("TEMP")) + this.pGetExportFileName());
+                expPDF.setFileName(Utils.getValidPath(System.Environment.GetEnvironmentVariable("TEMP")) + this.pGetExportFileName());
                 expPDF.setExportEmailAddress(this.report.getExportEmailAddress());
 
                 return expPDF.exportEx(this.report, this, outputFile, bShowPDFWindow);
@@ -1496,19 +1493,19 @@ namespace CSReportPaint {
                 }
             }
         */
-        private rpwPrintMoveFirst(sender: object, e: object) {
+        private rpwPrintMoveFirst(sender: object, e: EventArgs) {
             this.printPage(csEMoveTo.C_FIRSTPAGE);
         }
 
-        private rpwPrintMoveLast(sender: object, e: object) {
+        private rpwPrintMoveLast(sender: object, e: EventArgs) {
             this.printPage(csEMoveTo.C_LASTPAGE);
         }
 
-        private rpwPrintMoveNext(sender: object, e: object) {
+        private rpwPrintMoveNext(sender: object, e: EventArgs) {
             this.printPage(csEMoveTo.C_NEXTPAGE);
         }
 
-        private rpwPrintMovePrevious(sender: object, e: object) {
+        private rpwPrintMovePrevious(sender: object, e: EventArgs) {
             this.printPage(csEMoveTo.C_PREVIOUSPAGE);
         }
 
@@ -1565,7 +1562,7 @@ namespace CSReportPaint {
             this.report = null;
             this.paint = null;
             if (this.fPreview !== null) {
-                this.fPreview.dispose();
+                this.fPreview.close();
             }
             this.rpwPrint = null;
         }
@@ -1574,22 +1571,26 @@ namespace CSReportPaint {
             return this.pDoPrint(null);
         }
 
-        public getPageImageAsBase64(page: number, pageIndex: number) {
+        public getPageImageAsBase64(page: number, pageIndex: RefWrapper<number>) {
             if (this.paint !== null) {
-                if(this.currPage !== page -1) printPage(page, true);
-				pageIndex = this.currPage + 1;
+                if(this.currPage !== page -1) this.printPage(page, true);
+				pageIndex.set(this.currPage + 1);
 
-                let bmp: Bitmap = new Bitmap(this.realWidth, (int)this.realHeight);
-                let bmpGraphics: Graphic = Graphics.FromImage(bmp);
-                this.drawPage(bmpGraphics, false);
-                let memoryStream: MemoryStream = new MemoryStream();
-                this.paint.getBitmap().Save(memoryStream, ImageFormat.Png);
-                let pngData = memoryStream.ToArray();
-                let image = Convert.ToBase64String(pngData);
-                return "data:image/png;base64," + image;
+                let bmp: Bitmap = new Bitmap(this.realWidth, this.realHeight);
+                Graphic.fromImage(bmp).then((bmpGraphics: Graphic) => {
+                    this.drawPage(bmpGraphics, false);
+                    let image = "";
+                    /* TODO: reimplement
+                    let memoryStream: MemoryStream = new MemoryStream();
+                    this.paint.getBitmap().Save(memoryStream, ImageFormat.Png);
+                    let pngData = memoryStream.ToArray();
+                    let image = Convert.ToBase64String(pngData);
+                    */
+                    return "data:image/png;base64," + image;
+                });
             }
             else {
-				pageIndex = -1;
+				pageIndex.set(-1);
                 return "";
             }            
         }

@@ -85,5 +85,9 @@ namespace CSChartServer {
         public setFormat(imageFormat: csRptChartFormat) {
             throw new NotImplementedException();
         }
+
+        dispose() {
+
+        }
     }
 }

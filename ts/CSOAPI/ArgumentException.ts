@@ -1,3 +1,5 @@
+///<reference path="./Exception.ts"/>
+
 namespace CSOAPI {
 
     export class ArgumentException extends Exception { }

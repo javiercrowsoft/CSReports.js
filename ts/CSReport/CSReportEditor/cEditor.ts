@@ -2039,7 +2039,7 @@ namespace CSReportEditor {
                     } else {
 
                         for (let _i = 0; _i < sec.getSectionLines().count(); _i++) {
-                            secLn = sec.getSectionLines().item(_i);
+                            secLn.set(sec.getSectionLines().item(_i));
                             for (let _j = 0; _j < secLn.get().getControls().count(); _j++) {
                                 ctrl = secLn.get().getControls().item(_j);
                                 for (let i = 0; i < this.paint.getPaintObjects().count(); i++) {
@@ -2075,7 +2075,7 @@ namespace CSReportEditor {
                             }
 
                             for (let _i = 0; _i < secG.getSectionLines().count(); _i++) {
-                                secLn = secG.getSectionLines().item(_i);
+                                secLn.set(secG.getSectionLines().item(_i));
                                 for (let _j = 0; _j < secLn.get().getControls().count(); _j++) {
                                     ctrl = secLn.get().getControls().item(_j);
                                     for (let i = 0; i < this.paint.getPaintObjects().count(); i++) {

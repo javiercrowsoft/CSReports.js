@@ -1,3 +1,5 @@
+///<reference path="../CSOAPI/ArgumentException.ts"/>
+
 namespace CSDatabase
 {
     import ArgumentException = CSOAPI.ArgumentException;

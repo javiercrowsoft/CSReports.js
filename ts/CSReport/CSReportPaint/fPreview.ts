@@ -4,6 +4,10 @@ namespace CSReportPaint {
         getRpwReport() {
             return undefined;
         }
+
+        close() {
+
+        }
     }
 
 }

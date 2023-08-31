@@ -2,6 +2,7 @@ namespace CSReportDll {
 
     import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
+    import PrinterSettings = CSReportDll.PrinterSettings;
 
     export class cPrinter {
 
@@ -125,9 +126,8 @@ namespace CSReportDll {
         }
 
         public starDoc(printDoc: PrintDocument, title: string, paperSize: csReportPaperType, orientation: number) {
-            printDoc.defaultPageSettings.Landscape = (orientation === csRptPageOrientation.LANDSCAPE);
-            printDoc.defaultPageSettings.PaperSize = this.getPaperSize(paperSize);
-
+            printDoc.getDefaultPageSettings().Landscape = (orientation === csRptPageOrientation.LANDSCAPE);
+            printDoc.getDefaultPageSettings().PaperSize = this.getPaperSize(paperSize);
             return true;
         }
     }
@@ -138,7 +138,24 @@ namespace CSReportDll {
     }
 
     export class PrintDocument {
-        public defaultPageSettings = new PageSettings();
+        private defaultPageSettings = new PageSettings();
+        private printerSettings = new PrinterSettings();
+
+        setPrintPage(printPage: (nPage: number, inPrinter?: boolean) => void) {
+
+        }
+
+        getPrinterSettings(): PrinterSettings {
+            return this.printerSettings;
+        }
+
+        getDefaultPageSettings() {
+            return this.defaultPageSettings;
+        }
+
+        print() {
+
+        }
     }
 
     export class PaperSize {

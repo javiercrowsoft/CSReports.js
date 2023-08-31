@@ -1,19 +1,21 @@
 namespace CSReportEditor {
 
-    export class FSecProperties {
+    import RefWrapper = CSKernelClient.RefWrapper;
+
+    export class FSecProperties extends Form {
 
         private editor: cEditor = null;
 
         private ok: boolean = false;
 
         private formulaHideChanged: boolean = null;
-        private setFormulaHideChanged: boolean = null;
         private formulaHide: string = "";
 
         private formulaName: string = "";
 
         public constructor() {
-            InitializeComponent();
+            super();
+            //InitializeComponent();
         }
 
         public setHandler(editor: cEditor) {
@@ -40,14 +42,6 @@ namespace CSReportEditor {
             this.formulaHideChanged = rhs;
         }
 
-        public getSetFormulaHideChanged() {
-            return this.setFormulaHideChanged;
-        }
-
-        public setSetFormulaHideChanged(rhs: boolean) {
-            this.setFormulaHideChanged = rhs;
-        }
-
         //------------------------------------------------------------------------------------------------------------------
 
         // expose controls
@@ -59,25 +53,27 @@ namespace CSReportEditor {
         }
 
         private fSecProperties_Load(sender: object, e: object) {
-            cWindow.centerForm(this);
-            lb_formulaHide.setText(this.formulaHide);
+            //cWindow.centerForm(this);
+            //lb_formulaHide.setText(this.formulaHide);
         }
 
         private cmd_apply_Click(sender: object, e: object) {
             this.ok = true;
-            this.Hide();
+            this.hide();
         }
 
         private cmd_cancel_Click(sender: object, e: object) {
             this.ok = false;
-            this.Hide();
+            this.hide();
         }
 
         private cmd_formulaHide_Click(sender: object, e: object) {
             this.formulaName = "Ocultar";
-            if (this.editor.showEditFormula(this.formulaHide)) {
+            let fh = new RefWrapper(this.formulaHide);
+            if (this.editor.showEditFormula(fh)) {
                 this.formulaHideChanged = true;
-                lb_formulaHide.setText(this.formulaHide);
+                this.formulaHide = fh.get()
+                //lb_formulaHide.setText(this.formulaHide);
             }
         }
 

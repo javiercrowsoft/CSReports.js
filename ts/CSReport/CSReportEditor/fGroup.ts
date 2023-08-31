@@ -1,5 +1,7 @@
 namespace CSReportEditor {
 
+    import NotImplementedException = CSOAPI.NotImplementedException;
+
     export class FGroup extends Form {
 
         private editor: cEditor = null;
@@ -13,63 +15,63 @@ namespace CSReportEditor {
         }
 
         public getAsc() {
-            return op_asc.Checked;
+            //return op_asc.Checked;
         }
 
         public setAsc(value: boolean) {
-            op_asc.setChecked(value);
+            //op_asc.setChecked(value);
         }
 
         public setDesc(value: boolean) {
-            op_desc.setChecked(value);
+            //op_desc.setChecked(value);
         }
 
         public getPrintInNewPage() {
-            return chk_printInNewPage.Checked;
+            //return chk_printInNewPage.Checked;
         }
 
         public setPrintInNewPage(value: boolean) {
-            chk_printInNewPage.setChecked(value);
+            //chk_printInNewPage.setChecked(value);
         }
 
         public getReprintGroup() {
-            return chk_reprintGroup.Checked;
+            //return chk_reprintGroup.Checked;
         }
 
         public setReprintGroup(value: boolean) {
-            chk_reprintGroup.setChecked(value);
+            //chk_reprintGroup.setChecked(value);
         }
 
         public getGrandTotal() {
-            return chk_grandTotal.Checked;
+            //return chk_grandTotal.Checked;
         }
 
         public setGrandTotal(value: boolean) {
-            chk_grandTotal.setChecked(value);
+            //chk_grandTotal.setChecked(value);
         }
 
         public getSortByDate() {
-            return op_date.Checked;
+            //return op_date.Checked;
         }
 
         public setSortByDate(value: boolean) {
-            op_date.setChecked(value);
+            //op_date.setChecked(value);
         }
 
         public getSortByNumber() {
-            return op_number.Checked;
+            //return op_number.Checked;
         }
 
         public setSortByNumber(value: boolean) {
-            op_number.setChecked(value);
+            //op_number.setChecked(value);
         }
 
         public getSortByText() {
-            return op_text.Checked;
+            //return op_text.Checked;
         }
 
         public setSortByText(value: boolean) {
-            op_text.setChecked(value);
+            //op_text.setChecked(value);
         }
 
         public getOk() {
@@ -77,7 +79,7 @@ namespace CSReportEditor {
         }
 
 		public getDbField() {
-			throw new NotImplementedException ();
+			throw new NotImplementedException();
 		}
 
         public getFieldType() {
@@ -98,12 +100,12 @@ namespace CSReportEditor {
 
         private cmdOk_Click(sender: object, e: object) {
             this.ok = true;
-            this.Hide();
+            this.hide();
         }
 
         private cmdCancel_Click(sender: object, e: object) {
             this.ok = false;
-            this.Hide();
+            this.hide();
         }
 
         public setHandler(editor: cEditor) {
@@ -117,7 +119,7 @@ namespace CSReportEditor {
         }
 
         private fGroup_Load(sender: object, e: object) {
-            cWindow.centerForm(this);
+            //cWindow.centerForm(this);
         }
 
         getTxName(): any {

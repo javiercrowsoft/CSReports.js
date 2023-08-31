@@ -34,7 +34,7 @@ namespace CSReportDll {
         private groupValue: string = "";
         private groupFieldIndex: number = 0;
         private sort: boolean = null;
-        private image: Image = null;
+        private image: object = null;
 
         public getSeries() {
             return this.series;
@@ -168,7 +168,7 @@ namespace CSReportDll {
             return this.image;
         }
 
-        public setImage(rhs: Image) {
+        public setImage(rhs: object) {
             this.image = rhs;
         }
 
@@ -326,7 +326,7 @@ namespace CSReportDll {
             chart.setDiameter(this.pieDiameter);
 
             if (!bIsForWeb) {
-                fileName = Utils.getValidPath(System.IO.Path.GetTempPath()) + "~ChartImage";
+                fileName = Utils.getValidPath(""/* TODO: reimplement * System.IO.Path.GetTempPath()*/) + "~ChartImage";
             }
 
             chart.setFormat(this.imageFormat);
@@ -371,17 +371,21 @@ namespace CSReportDll {
         }
 
         private killFile(fileName: string) {
-            try { File.Delete(fileName); }
+            // TODO: reimplement
+            /*
+            try { File.delete(fileName); }
             catch  (ex) { }
+             */
         }
 
         private loadChart(fileName: string) {
             // we need to delete any previous work image
             //
-            this.pDestroyImage();
+            this.destroyImage();
 
             if (fileName.length > 0) {
-                let image: Image = Image.FromFile(fileName);
+                // TODO: reimplement
+                //  let image: Image = Image.FromFile(fileName);
             }
         }
 
