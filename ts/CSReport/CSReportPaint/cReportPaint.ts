@@ -1383,31 +1383,31 @@ namespace CSReportPaint {
                 case csETypeGrid.CSEGRIDLINES:
                     this.brushGrid = new HatchBrush(
                                             HatchStyle.Cross,
-                                            cColor.colorFromRGB(0xC0C0C0),
+                                            Color.colorFromRGB("C0C0C0"),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDPOINTS:
                     this.brushGrid = new HatchBrush(
                                             HatchStyle.DottedGrid,
-                                            cColor.colorFromRGB(0xC0C0C0),
+                                            Color.colorFromRGB("C0C0C0"),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDLINESHORIZONTAL:
                     this.brushGrid = new HatchBrush(
                                             HatchStyle.Horizontal,
-                                            cColor.colorFromRGB(0xC0C0C0),
+                                            Color.colorFromRGB("C0C0C0"),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDLINESVERTICAL:
                     this.brushGrid = new HatchBrush(
                                             HatchStyle.Vertical,
-                                            cColor.colorFromRGB(0xC0C0C0),
+                                            Color.colorFromRGB("C0C0C0"),
                                             Color.White);
                     break;
                 case csETypeGrid.CSEGRIDNONE:
                     this.brushGrid = new HatchBrush(
                                             HatchStyle.DottedGrid,
-                                            cColor.colorFromRGB(0xCCCCCC),
+                                            Color.colorFromRGB("CCCCCC"),
                                             Color.White);
                     break;
             }

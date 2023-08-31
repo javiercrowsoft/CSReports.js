@@ -9,7 +9,7 @@ namespace CSReportEditor {
         private _items: Item[] = [];
 
         // @ts-ignore
-        public add(text: string, imageIndex: number) {
+        public add(text: string, imageIndex: number = 0) {
             let item = new Item();
             item.text = text;
             item.imageIndex = imageIndex;
@@ -19,6 +19,10 @@ namespace CSReportEditor {
 
         public clear() {
             this._items = [];
+        }
+
+        getItems() {
+            return this._items;
         }
     }
 
@@ -59,15 +63,19 @@ namespace CSReportEditor {
 
     export class ListView extends Control {
 
-        private _items: Items = new Items(null, false, Item);
+        private _items: Items = new Items();
         private _selectedItems: Items = new Items();
 
+        public clear() {
+            this._items.clear();
+        }
+
         getItems() {
-            return this._items;
+            return this._items.getItems();
         }
 
         selectedItems() {
-            return this._selectedItems;
+            return this._selectedItems.getItems();
         }
 
         sort() {

@@ -339,14 +339,14 @@ namespace CSReportEditor {
         }
 
         private static pAddCtrlsAux(sections: cIReportGroupSections, father: Node,
-                             C_IMG_FOLDER: number, C_IMG_FORMULA: number,
-                             C_IMG_CONTROL: number, C_IMG_DATBASE_FIELD: number) {
-            let nodeSec: object;
-            let nodeSecLn: object;
-            let nodeCtrl: object;
-            let item: object;
+                                     folderImage: number, formulaImage: number,
+                                     controlImage: number, databaseFieldImage: number) {
+            let nodeSec: Node;
+            let nodeSecLn: Node;
+            let nodeCtrl: Node;
+            let item: Node;
             let text: string;
-            let bComplexF: boolean = false; ;
+            let bComplexF: boolean = false;
 
             let sec: cReportSection;
             let secLn: cReportSectionLine;
@@ -355,7 +355,7 @@ namespace CSReportEditor {
             for(let i = 0; i < sections.count(); i++) {
                 sec = sections.item(i);
                 nodeSec = father.getNodes().add(sec.getName());
-                nodeSec.Tag = "S" + sec.getKey();
+                nodeSec.tag = "S" + sec.getKey();
 
                 if (sec.getFormulaHide().getText() !== "") {
                     if (sec.getFormulaHide().getText() === "0") {
@@ -367,22 +367,22 @@ namespace CSReportEditor {
                         bComplexF = true;
                     }
                     item = nodeSec.getNodes().add(text);
-                    item.ImageIndex = C_IMG_FORMULA;
-                    item.SelectedImageIndex = C_IMG_FORMULA;
+                    item.imageIndex = formulaImage;
+                    item.selectedImageIndex = formulaImage;
                     if (!sec.getHasFormulaHide()) {
-                        item.ForeColor = Color.Red;
+                        item.foreColor = Color.Red;
                     }
 
                     if (bComplexF) {
-                        item.Tag = "@FH=" + sec.getFormulaHide().getText();
+                        item.tag = "@FH=" + sec.getFormulaHide().getText();
                     }
                 }
 
                 for(let j = 0; j < sec.getSectionLines().count(); j++) {
                     secLn = sec.getSectionLines().item(j);
                     nodeSecLn = nodeSec.getNodes().add("Line " + secLn.getIndex());
-                    nodeSecLn.ImageIndex = C_IMG_FOLDER;
-                    nodeSecLn.Tag = "L" + secLn.getKey();
+                    nodeSecLn.imageIndex = folderImage;
+                    nodeSecLn.tag = "L" + secLn.getKey();
 
                     if (secLn.getFormulaHide().getText() !== "") {
                         if (secLn.getFormulaHide().getText() === "0") {
@@ -394,16 +394,16 @@ namespace CSReportEditor {
                             bComplexF = true;
                         }
                         item = nodeSecLn.getNodes().add(text);
-                        item.ImageIndex = C_IMG_FORMULA;
-                        item.SelectedImageIndex = C_IMG_FORMULA;
+                        item.imageIndex = formulaImage;
+                        item.selectedImageIndex = formulaImage;
                         if (!secLn.getHasFormulaHide()) {
-                            item.ForeColor = Color.Red;
+                            item.foreColor = Color.Red;
                         }
                         if (bComplexF) {
-                            item.Tag = "@FH=" + secLn.getFormulaHide().getText();
+                            item.tag = "@FH=" + secLn.getFormulaHide().getText();
                         }
                     }
-                    for(var t = 0; t < secLn.getControls().count(); t++) {
+                    for(let t = 0; t < secLn.getControls().count(); t++) {
                         ctrl = secLn.getControls().item(t);
                         nodeCtrl = nodeSecLn.getNodes().add(
                             ctrl.getName() 
@@ -411,16 +411,16 @@ namespace CSReportEditor {
                                 ? " - " + ctrl.getLabel().getText() 
                                 : "")
                             );
-                        nodeCtrl.ImageIndex = C_IMG_CONTROL;
-                        nodeCtrl.SelectedImageIndex = C_IMG_CONTROL;
-                        nodeCtrl.Tag = ctrl.getKey();
-                        nodeCtrl.setBackColor(cColor.colorFromRGB(ctrl.getLabel().getAspect().getBackColor()));
-                        nodeCtrl.ForeColor = cColor.colorFromRGB(ctrl.getLabel().getAspect().getFont().getForeColor());
+                        nodeCtrl.imageIndex = controlImage;
+                        nodeCtrl.selectedImageIndex = controlImage;
+                        nodeCtrl.tag = ctrl.getKey();
+                        nodeCtrl.backColor = ctrl.getLabel().getAspect().getBackColor();
+                        nodeCtrl.foreColor = ctrl.getLabel().getAspect().getFont().getForeColor();
 
                         if (ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
                             item = nodeCtrl.getNodes().add(ctrl.getField().getName());
-                            item.ImageIndex = C_IMG_DATBASE_FIELD;
-                            item.SelectedImageIndex = C_IMG_DATBASE_FIELD;
+                            item.imageIndex = databaseFieldImage;
+                            item.selectedImageIndex = databaseFieldImage;
                         }
 
                         if (ctrl.getFormulaHide().getText() !== "") {
@@ -434,24 +434,24 @@ namespace CSReportEditor {
                             }
 
                             item = nodeCtrl.getNodes().add(text);
-                            item.ImageIndex = C_IMG_FORMULA;
-                            item.SelectedImageIndex = C_IMG_FORMULA;
+                            item.imageIndex = formulaImage;
+                            item.selectedImageIndex = formulaImage;
                             if (!ctrl.getHasFormulaHide()) {
-                                item.ForeColor = Color.Red;
+                                item.foreColor = Color.Red;
                             }
                             if (bComplexF) {
-                                item.Tag = "@FH=" + ctrl.getFormulaHide().getText();
+                                item.tag = "@FH=" + ctrl.getFormulaHide().getText();
                             }
                         }
 
                         if (ctrl.getFormulaValue().getText() !== "") {
                             item = nodeCtrl.getNodes().add("Value formula");
-                            item.ImageIndex = C_IMG_FORMULA;
-                            item.SelectedImageIndex = C_IMG_FORMULA;
+                            item.imageIndex = formulaImage;
+                            item.selectedImageIndex = formulaImage;
                             if (!ctrl.getHasFormulaValue()) {
-                                item.ForeColor = Color.Red;
+                                item.foreColor = Color.Red;
                             }
-                            item.Tag = "@FV=" + ctrl.getFormulaValue().getText();
+                            item.tag = "@FV=" + ctrl.getFormulaValue().getText();
                         }
                     }
                 }
@@ -459,17 +459,18 @@ namespace CSReportEditor {
             father.expandAll();
         }
 
-        public static fillColumns(dataSource: string, columns: CSReportDll.cColumnsInfo, lv_columns: ListView,
-                           C_INDEX: string, C_FIELDTYPE: string, add: boolean) {
+        public static fillColumns(dataSource: string, columns: CSReportDll.cColumnsInfo, lvColumns: ListView,
+                           index: string, fieldType: string, add: boolean) {
 
-            if (!add) lv_columns.Items.clear();
+            if (!add) lvColumns.getItems().clear();
 
             for(let i_ = 0; i_ < columns.count(); i_++) {
-                let item = lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
-                item.ImageIndex = 0;
-                let info: string = cUtil.setInfoString("", C_INDEX, column.getPosition().toString());
-                info = cUtil.setInfoString(info, C_FIELDTYPE, column.getColumnType().toString());
-                item.Tag = info;
+                let column = columns.item(i_);
+                let item = lvColumns.getItems().add("{{{" + dataSource + "}}}.{" + column.getName() + "}");
+                item.imageIndex = 0;
+                let info: string = cUtil.setInfoString("", index, column.getPosition().toString());
+                info = cUtil.setInfoString(info, fieldType, column.getColumnType().toString());
+                item.tag = info;
             }
         }
     } 
@@ -479,8 +480,8 @@ namespace CSReportEditor {
         public width: number = null;
 
         public constructor(rect: RectangleF) {
-            height = rect.Height;
-            width = rect.Width;
+            this.height = rect.getHeight();
+            this.width = rect.getWidth();
         }
     } 
 

@@ -1,6 +1,8 @@
 namespace CSReportEditor {
 
-    export class FPageSetup {
+    import csReportPaperType = CSReportGlobals.csReportPaperType;
+
+    export class FPageSetup extends Form {
 
         private ok: boolean = false;
         private customHeight: number = null;
@@ -9,7 +11,8 @@ namespace CSReportEditor {
         private paperSize: csReportPaperType = csReportPaperType.CS_RPT_PAPER_TYPE_A4;
 
         public constructor() {
-            InitializeComponent();
+            super();
+            // InitializeComponent();
         }
 
         public initDialog(paperSize: csReportPaperType, customHeight: number, customWidth: number, orientation: number) {
@@ -52,30 +55,43 @@ namespace CSReportEditor {
         }
 
         private op_portrait_CheckedChanged(sender: object, e: object) {
+            /*
             pic_landscape.Visible = false;
             pic_portrait.Visible = true;
+
+             */
         }
 
         private op_landscape_CheckedChanged(sender: object, e: object) {
+            /*
             pic_portrait.Visible = false;
             pic_landscape.Visible = true;
+
+             */
         }
 
         private cmd_cancel_Click(sender: object, e: object) {
+            /*
             this.ok = false;
             this.Hide();
+
+             */
         }
 
         private cmd_apply_Click(sender: object, e: object) {
+            /*
             this.ok = true;
             this.customHeight = Utils.val(tx_height.Text);
             this.customWidth = Utils.val(tx_width.Text);
             this.paperSize = cUtil.listID(cb_paperSize);
             this.orientation = op_landscape.Checked ? csRptPageOrientation.LANDSCAPE : csRptPageOrientation.PORTRAIT;
             this.Hide();
+
+             */
         }
 
         private fPageSetup_Load(sender: object, e: object) {
+            /*
             cUtil.listAdd(cb_paperSize, "Letter", (int)csReportPaperType.CS_RPT_PAPER_TYPE_LETTER);
             cUtil.listAdd(cb_paperSize, "A4", (int)csReportPaperType.CS_RPT_PAPER_TYPE_A4);
             cUtil.listAdd(cb_paperSize, "Legal", (int)csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL);
@@ -91,12 +107,17 @@ namespace CSReportEditor {
                 op_portrait.setChecked(true);
             }
             cWindow.centerForm(this);
+
+             */
         }
 
         private cb_paperSize_SelectedIndexChanged(sender: object, e: object) {
+            /*
             let enabled = cUtil.listID(cb_paperSize) === csReportPaperType.CS_RPT_PAPER_USER;
             tx_height.setEnabled(enabled);
             tx_width.setEnabled(enabled);
+
+             */
         }
     }
 }

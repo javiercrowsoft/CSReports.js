@@ -213,15 +213,20 @@ namespace CSReportPaint {
         Horizontal,
         Vertical
     }
+
     export class Color {
 
         private readonly _color: csColors;
 
         public toArgb() {
-            return this.hexToRgb(this._color);
+            return Color.hexToRgb(this._color);
         }
 
-        private hexToRgb(hex) {
+        public static colorFromRGB(rgb: string) {
+            return new Color(rgb);
+        }
+
+        private static hexToRgb(hex) {
             // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
             const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
             hex = hex.replace(shorthandRegex, function(m, r, g, b) {
@@ -236,16 +241,17 @@ namespace CSReportPaint {
                 : null;
         }
 
-        private componentToHex(c: number) {
+        private static componentToHex(c: number) {
             const hex = c.toString(16);
             return hex.length == 1 ? "0" + hex : hex;
         }
 
         public rgbToHex(r: number, g: number, b: number) {
-            return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
+            return "#" + Color.componentToHex(r) + Color.componentToHex(g) + Color.componentToHex(b);
         }
 
-        constructor(color: csColors) {
+        constructor(color: csColors|string|number) {
+            // @ts-ignore
             this._color = color;
         }
 

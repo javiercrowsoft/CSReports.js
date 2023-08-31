@@ -3,6 +3,7 @@
 namespace CSReportEditor {
 
     import Map = CSOAPI.Map;
+    import Color = CSReportPaint.Color;
 
     class Nodes extends Map<Node> {
 
@@ -16,7 +17,10 @@ namespace CSReportEditor {
 
         private _items: Nodes = new Nodes(null, false, Node);
         imageIndex: number;
+        selectedImageIndex: number;
         tag: any;
+        foreColor: Color;
+        backColor: Color;
 
         getNodes() {
             return this._items;

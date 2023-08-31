@@ -5,4 +5,8 @@ namespace CSReportDll {
         public height: number;
         public width: number;
     }
+
+    export class Point {
+
+    }
 }

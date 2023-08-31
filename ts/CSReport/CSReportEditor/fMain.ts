@@ -5,6 +5,10 @@ namespace CSReportEditor {
     import cPrintAPI = CSReportDll.cPrintAPI;
     import PrintDialog = CSReportDll.PrintDialog;
     import cPrinter = CSReportDll.cPrinter;
+    import Point = CSReportDll.Point;
+    import csRptSectionType = CSReportGlobals.csRptSectionType;
+    import cWindow = CSKernelClient.cWindow;
+    import csECtlAlignConst = CSReportGlobals.csECtlAlignConst;
 
     export class FMain {
 
@@ -335,6 +339,7 @@ namespace CSReportEditor {
         }
 
         public showPopMenuSection(editor: cEditor, noDelete: boolean, showGroups: boolean, p: Point) {
+            /*
             cmSectionDeleteSection.setEnabled(!noDelete);
             cmSectionGroupProperties.Visible = showGroups;
             cmSectionMoveGroup.Visible = showGroups;
@@ -343,9 +348,12 @@ namespace CSReportEditor {
             this.contextMenuEditor = editor;
 
             cmnSection.Show(p);
+
+             */
         }
 
         public showPopMenuControl(editor: cEditor, clickInCtrl: boolean, pasteEnabled: boolean, p: Point) {
+            /*
             cmCtrlCopy.setEnabled(clickInCtrl);
             cmCtrlDelete.setEnabled(clickInCtrl);
             cmCtrlEditText.setEnabled(clickInCtrl);
@@ -359,6 +367,8 @@ namespace CSReportEditor {
             this.contextMenuEditor = editor;
 
             cmnControl.Show(p);
+
+             */
         }
 
         private cmSectionSectionProperties_Click(sender: object, e: any) {
@@ -463,7 +473,7 @@ namespace CSReportEditor {
         }
 
         public showControls(editor: cEditor) {
-            this.lv_controls.getItems().clear();
+            this.lv_controls.clear();
 
             if (editor !== null) {
                 cGlobals.addCtrls(editor.getReport(), this.lv_controls, this.C_CTRL_IMAGE, this.C_DB_IMAGE);
@@ -483,7 +493,7 @@ namespace CSReportEditor {
         }
 
         public showProperties(editor?: cEditor, key?: string) {
-            this.lv_properties.Items.clear();
+            this.lv_properties.clear();
             if (editor !== null) {
                 this.setObjectDescription(this.getControlOrSection(editor, key));
             }
@@ -504,6 +514,7 @@ namespace CSReportEditor {
         }
 
         private setObjectDescription(anObject: object, n?: number) {
+            /*
             if (anObject === null) return;
 
             let tabs = new String(' ', n*2);
@@ -522,9 +533,12 @@ namespace CSReportEditor {
                     if (item.SubItems[1].Text === "...") item.ImageIndex = C_IMG_FOLDER;
                 }
             }
+
+             */
         }
 
         private getValue(value: object, n: number) {
+            /*
             if (n > 10) return "";
 
             if (value === null) {
@@ -540,24 +554,30 @@ namespace CSReportEditor {
                     return "...";
                 }
             }
+
+             */
         }
 
         private getMethods(obj: object) {
+            /*
             return obj.GetType().GetMethods();
+
+             */
         }
 
         public showFields(editor: cEditor) {
-            lv_fields.Items.clear();
+            /*lv_fields.Items.clear();
 
             if (editor !== null) {
                 let connect = editor.getReport().getConnect();
                 cGlobals.fillColumns(
                     connect.getDataSource(),
                     connect.getColumns(), lv_fields, C_INDEX, C_FIELDTYPE, false);
-            }
+            }*/
         }
 
         private lv_controls_ColumnClick(sender: object, e: any) {
+            /*
             // Determine if clicked column is already the column that is being sorted.
             if (e.Column === lvwColumnSorter.SortColumn) {
                 // Reverse the current sort direction for this column.
@@ -576,6 +596,8 @@ namespace CSReportEditor {
 
             // Perform the sort with these new sort options.
             this.lv_controls.sort();
+
+             */
         }
 
         private lv_controls_MouseClick(sender: object, e: any) {
@@ -589,7 +611,7 @@ namespace CSReportEditor {
         private selectControl() {
             let editor: cEditor = cMainEditor.getDocActive();
 
-            if (this.lv_controls.selectedItems().size() > 0 && editor !== null) {
+            if (this.lv_controls.selectedItems().length > 0 && editor !== null) {
                 let info = this.lv_controls.selectedItems()[0].tag.toString();
                 editor.selectCtrl(info);
             }
@@ -599,7 +621,7 @@ namespace CSReportEditor {
             this.selectControl2(e.Node);
         }
 
-        private selectControl2(node: object) {
+        private selectControl2(node: Node) {
             let editor: cEditor = cMainEditor.getDocActive();
 
             if (node !== null && node.tag !== null && editor !== null) {
@@ -653,7 +675,7 @@ namespace CSReportEditor {
         private lv_controls_MouseDoubleClick(sender: object, e: any) {
             let editor: cEditor = cMainEditor.getDocActive();
 
-            if (this.lv_controls.selectedItems().size() > 0 && editor !== null) {
+            if (this.lv_controls.selectedItems().length > 0 && editor !== null) {
                 let info = this.lv_controls.selectedItems[0].tag.toString();
                 editor.showProperties(info);
             }
@@ -676,6 +698,7 @@ namespace CSReportEditor {
 
 
         private tabReports_MouseClick(sender: object, e: any) {
+            /*
             for(let i = 0; i < this.tabReports.TabCount; ++i) {
                 let rect = this.tabReports.GetTabRect(i);
                 let xRect = new System.Drawing.Rectangle(rect.Left + rect.Width - 18, rect.Top, 18, rect.Height);
@@ -689,6 +712,8 @@ namespace CSReportEditor {
                     }
                 }
             }
+
+             */
         }
 
         private mnuEditAddHeader_Click(sender: object, e: any) {
@@ -844,13 +869,13 @@ namespace CSReportEditor {
         }
 
         private mnuPageSetup_Click(sender: object, e: any) {
-            let pageSetup: fPageSetup = new fPageSetup();
+            let pageSetup: FPageSetup = new FPageSetup();
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 pageSetup.initDialog(editor.getPaperSize(), editor.getCustomHeight(), editor.getCustomWidth(), editor.getOrientation());
             }
 
-            pageSetup.ShowDialog();
+            pageSetup.showDialog();
 
             if (pageSetup.getOk()) {
                 this.paperSize = pageSetup.getPaperSize();
@@ -865,7 +890,7 @@ namespace CSReportEditor {
                     editor.refreshReport();
                 }
             }
-            pageSetup.Close();
+            pageSetup.close();
         }
 
         private mnuPrinterSettings_Click(sender: object, e: any) {
@@ -962,7 +987,8 @@ namespace CSReportEditor {
             }
         }
 
-        private lockToolStripMenuItethis.Click(sender: object, e: any) {
+        private lockToolStripMenuItem_click(sender: object, e: any) {
+            /*
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveNoMove();
@@ -974,9 +1000,11 @@ namespace CSReportEditor {
                     lockToolStripMenuItem.setText("Unlock");
                 }
             }
+            */
         }
 
-        private verticalToolStripMenuItethis.Click(sender: object, e: any) {
+        private verticalToolStripMenuItem_click(sender: object, e: any) {
+            /*
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveVertical();
@@ -984,9 +1012,12 @@ namespace CSReportEditor {
                 verticalToolStripMenuItem.setChecked(true);
                 allDirectionsToolStripMenuItem.setChecked(false);
             }
+            
+             */
         }
 
-        private horizontalToolStripMenuItethis.Click(sender: object, e: any) {
+        private horizontalToolStripMenuItem_click(sender: object, e: any) {
+            /*
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveHorizontal();
@@ -994,9 +1025,12 @@ namespace CSReportEditor {
                 verticalToolStripMenuItem.setChecked(false);
                 allDirectionsToolStripMenuItem.setChecked(false);
             }
+
+             */
         }
 
-        private allDirectionsToolStripMenuItethis.Click(sender: object, e: any) {
+        private allDirectionsToolStripMenuItem_click(sender: object, e: any) {
+            /*
             let editor: cEditor = cMainEditor.getDocActive();
             if (editor !== null) {
                 editor.moveAll();
@@ -1004,6 +1038,8 @@ namespace CSReportEditor {
                 verticalToolStripMenuItem.setChecked(false);
                 allDirectionsToolStripMenuItem.setChecked(true);
             }
+
+             */
         }
 
         private tsbCtrlAlignLeft_Click(sender: object, e: any) {
