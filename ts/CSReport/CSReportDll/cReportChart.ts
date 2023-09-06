@@ -16,8 +16,6 @@ namespace CSReportDll {
 
     export class cReportChart {
 
-        private C_MODULE: string = "cReportChart";
-
         private series: cReportChartSeries = new cReportChartSeries();
         private chartLineStyle: csRptChartLineStyle = null;
         private chartBarOutline: boolean = null;
@@ -296,7 +294,7 @@ namespace CSReportDll {
             return true;
         }
 
-        public make(rows: [][], strFormat: string, bIsForWeb: boolean, fileName: string) {
+        public make(rows: any[][], strFormat: string, bIsForWeb: boolean, fileName: string) {
             // we need to delete any previous work image
             //
             this.destroyImage();
@@ -394,7 +392,7 @@ namespace CSReportDll {
         }
 
         private getSeriesValues(
-            rows: [][],
+            rows: any[][],
             v: t_SerieValue[],
             valueIndex: number,
             labelIndex: number,
@@ -548,7 +546,7 @@ namespace CSReportDll {
         }
 
         private pGetSerieValuesAux(
-            rows: [][],
+            rows: any[][],
             v: t_SerieValue[],
             valueIndex: number,
             labelIndex: number,
@@ -567,7 +565,7 @@ namespace CSReportDll {
             return i > v.length;
         }
 
-        private fill(chart: cWebChart, rows: [][], strFormat: string) {
+        private fill(chart: cWebChart, rows: any[][], strFormat: string) {
             let i: number = 0;
             let values: t_SerieValue[] = null;
             let serie: cReportChartSequence = null;

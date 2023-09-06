@@ -1,5 +1,13 @@
 namespace CSXml {
 
+    import cWindow = CSKernelClient.cWindow;
+    import MessageBoxDefaultButton = CSKernelClient.MessageBoxDefaultButton;
+    import cError = CSKernelClient.cError;
+    import eFileMode = CSKernelClient.eFileMode;
+    import eFileAccess = CSKernelClient.eFileAccess;
+    import eTypes = CSKernelClient.eTypes;
+    import cFile = CSKernelFile.cFile;
+
     export class cXml {
 
         private name: string = "";
@@ -18,11 +26,11 @@ namespace CSXml {
 
         public getPath() {
             let _rtn: string = "";
-            if (this.path.substring(this.path.length - 1) === Path.DirectorySeparatorChar.toString()) {
+            if (this.path.substring(this.path.length - 1) === cFile.directorySeparatorChar()) {
                 _rtn = this.path;
             }
             else {
-                _rtn = this.path + Path.DirectorySeparatorChar;
+                _rtn = this.path + cFile.directorySeparatorChar();
             }
             return _rtn;
         }
@@ -47,7 +55,7 @@ namespace CSXml {
             try {
                 let file: CSKernelFile.cFile = new CSKernelFile.cFile();
                 file.setFilter(this.filter);
-                file.init("OpenXmlWithDialog", C_MODULE, this.commDialog);
+                file.init("OpenXmlWithDialog", this.commDialog);
 
                 if (!file.open(this.name,
                                 eFileMode.eRead, 
@@ -66,8 +74,7 @@ namespace CSXml {
 
                 file = null;
 
-                return openXml();
-
+                return this.openXml();
             }
             catch (ex) {
                 cError.mngError(ex);
@@ -79,16 +86,16 @@ namespace CSXml {
             try {
                 let file: string = "";
                 this.domDoc = new XmlDocument();
-                file = getPath() + this.name;
+                file = this.getPath() + this.name;
 
-                let fileEx: CSKernelFile.cFileEx = new CSKernelFile.cFileEx();
+                let fileEx = new CSKernelFile.cFile();
                 if (fileEx.fileExists(file)) {
-                    if (!loadXml(file)) {
+                    if (!this.loadXml(file)) {
                         return false;
                     }
                 }
                 else {
-                    cWindow.msgWarning("The file;;" + file + ";;doesnt exists.");
+                    cWindow.msgWarning("The file;;" + file + ";;doesn't exists.");
                     return false;
                 }
 
@@ -105,7 +112,7 @@ namespace CSXml {
                 let msg: string = "";
                 let file: CSKernelFile.cFile = new CSKernelFile.cFile();
 
-                file.init("NewXmlWithDialog", C_MODULE, this.commDialog);
+                file.init("NewXmlWithDialog", this.commDialog);
                 file.setFilter(this.filter);
 
                 let bExists: boolean = false;
@@ -125,7 +132,7 @@ namespace CSXml {
                 }
 
                 if (msg !== "") {
-                    if (!cWindow.ask(msg, MessageBoxDefaultButton.Button2, "Saving"))  {
+                    if (!cWindow.ask(msg, MessageBoxDefaultButton.Button2))  {
                         return false; 
                     }
                 }
@@ -135,7 +142,7 @@ namespace CSXml {
 
                 file = null;
 
-                return newXml();
+                return this.newXml();
             }
             catch (ex) {
                 cError.mngError(ex);
@@ -146,8 +153,8 @@ namespace CSXml {
         public newXml() {
             try {
                 this.domDoc = new XmlDocument();
-                let node: XmlNode = this.domDoc.CreateNode(XmlNodeType.Element, "Root", "");
-                this.domDoc.AppendChild(node);
+                let node: XmlNode = this.domDoc.createNode("Root", "");
+                this.domDoc.appendChild(node);
 
                 return true;
             }
@@ -170,7 +177,7 @@ namespace CSXml {
 
                 file = null;
 
-                return save();
+                return this.save();
             }
             catch (ex) {
                 cError.mngError(ex);
@@ -179,12 +186,12 @@ namespace CSXml {
         }
 
         public setNodeText(node: XmlNode, text: string) {
-            node.Value = text;
+            node.value = text;
         }
 
         public save() {
             try {
-                this.domDoc.Save(getPath() + this.name);
+                this.domDoc.save(this.getPath() + this.name);
                 return true;
             }
             catch (ex) {
@@ -194,25 +201,25 @@ namespace CSXml {
         }
 
         public addProperty(xProperty: cXmlProperty) {
-            return addPropertyToNodeByTag("Root", xProperty);
+            return this.addPropertyToNodeByTag("Root", xProperty);
         }
 
         public addPropertyToNodeByTag(nodeTag: string, xProperty: cXmlProperty) {
-            let w_element: XmlNodeList = this.domDoc.GetElementsByTagName(nodeTag);
-            return addPropertyToNode(w_element.Item(0), xProperty);
+            let element = this.domDoc.getElementsByTagName(nodeTag);
+            return this.addPropertyToNode(element[0], xProperty);
         }
 
         public addPropertyToNode(node: XmlNode, xProperty: cXmlProperty) {
-            let attr: XmlAttribute = this.domDoc.CreateAttribute(xProperty.getName());
-            attr.Value = xProperty.getValueString(eTypes.eVariant);
-            node.Attributes.Append(attr);
+            let attr = this.domDoc.createAttribute(xProperty.getName());
+            attr.value = xProperty.getValueString(eTypes.eVariant);
+            node.addAttribute(attr);
             return true;
         }
 
         public addBinaryPropertyToNode(node: XmlNode, xProperty: cXmlProperty) {
-            let attr: XmlAttribute = this.domDoc.CreateAttribute(xProperty.getName());
-            attr.Value = Convert.ToBase64String(xProperty.getBinaryValue());
-            node.Attributes.Append(attr);
+            let attr: XmlAttribute = this.domDoc.createAttribute(xProperty.getName());
+            attr.value = btoa(xProperty.getBinaryValue());
+            node.addAttribute(attr);
             return true;
         }
 
@@ -221,19 +228,19 @@ namespace CSXml {
         }
 
         public addNodeToNodeByTag(nodeTag: string, xProperty: cXmlProperty) {
-            let w_element: XmlNodeList = this.domDoc.GetElementsByTagName(nodeTag);
-            return this.addNodeToNode(w_element[0], xProperty);
+            let element = this.domDoc.getElementsByTagName(nodeTag);
+            return this.addNodeToNode(element[0], xProperty);
         }
 
         public addNodeToNode(nodeFather: XmlNode, xProperty: cXmlProperty) {
-            let node: XmlNode = this.domDoc.CreateNode(XmlNodeType.Element, xProperty.getName(), "");
-            nodeFather.AppendChild(node);
+            let node: XmlNode = this.domDoc.createNode(xProperty.getName(), "");
+            nodeFather.appendChild(node);
             return node;
         }
 
         public getRootNode() {
-            if (this.domDoc.GetElementsByTagName("Root").Count > 0) {
-                return this.domDoc.GetElementsByTagName("Root")[0];
+            if (this.domDoc.getElementsByTagName("Root").length > 0) {
+                return this.domDoc.getElementsByTagName("Root")[0];
             }
             else {
                 return null;
@@ -241,8 +248,8 @@ namespace CSXml {
         }
 
         public getNode(nodeTag: string) {
-            if (this.domDoc.GetElementsByTagName(nodeTag).Count > 0) {
-                return this.domDoc.GetElementsByTagName(nodeTag)[0];
+            if (this.domDoc.getElementsByTagName(nodeTag).length > 0) {
+                return this.domDoc.getElementsByTagName(nodeTag)[0];
             }
             else {
                 return null;
@@ -250,12 +257,12 @@ namespace CSXml {
         }
 
         public getNodeFromNode(node: XmlNode, nodeTag: string) {
-            return node.SelectSingleNode(nodeTag);
+            return node.selectSingleNode(nodeTag);
         }
 
         public getNodeChild(node: XmlNode) {
-            if (nodeHasChild(node)) {
-                return node.ChildNodes[0];
+            if (this.nodeHasChild(node)) {
+                return node.childNodes[0];
             }
             else {
                 return null;
@@ -263,13 +270,12 @@ namespace CSXml {
         }
 
         public getNextNode(node: XmlNode) {
-            return node.NextSibling;
+            return node.nextSibling;
         }
 
         public getNodeValue(node: XmlNode) {
-            let o: cXmlProperty = null;
-            o = new cXmlProperty();
-            o.setValue(eTypes.eText, node.Name);
+            let o = new cXmlProperty();
+            o.setValue(eTypes.eText, node.name);
             return o;
         }
 
@@ -277,8 +283,8 @@ namespace CSXml {
             let o: cXmlProperty = new cXmlProperty();
             let txt: string = "";
 
-            if (node.Attributes[propertyName] !== null) {
-                txt = node.Attributes[propertyName].Value;
+            if (node.attributeByName(propertyName) !== null) {
+                txt = node.attributeByName(propertyName).value;
             }
 
             // TODO: remove after testing
@@ -288,14 +294,12 @@ namespace CSXml {
         }
 
         public getBinaryNodeProperty(node: XmlNode, propertyName: string) {
-            let attr: XmlAttribute = null;
             let o: cXmlProperty = new cXmlProperty();
-            let vBuffer: byte[] = null;
+            let vBuffer;
 
-            let element: XmlElement = node;
-            attr = element.GetAttributeNode(propertyName);
+            let attr = node.attributeByName(propertyName);
             if (attr !== null) {
-                vBuffer = System.Convert.FromBase64String(attr.Value);
+                vBuffer = cXml.base64ToArrayBuffer(attr.value);
             }
             else {
                 vBuffer = [];
@@ -305,13 +309,22 @@ namespace CSXml {
             return o;
         }
 
+        private static base64ToArrayBuffer(base64) {
+            let binaryString = atob(base64);
+            let bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
         public nodeHasChild(node: XmlNode) {
-            return node.ChildNodes.Count > 0;
+            return node.childNodes.length > 0;
         }
 
         private loadXml(file: string) {
             try {
-                this.domDoc.Load(file);
+                this.domDoc.load(file);
                 return true;
             }
             catch (ex) {

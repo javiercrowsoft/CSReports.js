@@ -4,8 +4,6 @@ namespace CSReportDll {
 
     export class cReportFormulaInt {
 
-        private C_MODULE: string = "cReportFormulaInt";
-
         private variables: cReportVariables = new cReportVariables();
         private parameters: cReportFormulaParameters = new cReportFormulaParameters();
         private formulaType: csRptFormulaType = 0;

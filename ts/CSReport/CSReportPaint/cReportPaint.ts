@@ -644,7 +644,7 @@ namespace CSReportPaint {
         }
 
         public drawRule(key: string, graphic: Graphic) {
-            const LINE_COLOR: number = 0xcc6600;
+            const LINE_COLOR = "#cc6600";
 
             const aspect = new cReportAspect();
 
@@ -813,44 +813,44 @@ namespace CSReportPaint {
 
         // Drawing - Primitive
         private draw(collObjs: cReportPaintObjects, key: string, graph: Graphic) {
-            try {
-                if (graph === null) {
-                    throw new ReportPaintException(
-                        cReportPaintError.errGetDescription(
-                                        csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT));
-                }
+            if (graph === null) {
+                throw new ReportPaintException(
+                    cReportPaintError.errGetDescription(
+                        csRptPaintErrors.CSRPT_PAINT_ERR_OBJ_CLIENT));
+            }
 
+            try {
                 let x1: number = 0;
                 let y1: number = 0;
                 let y2: number = 0;
                 let x2: number = 0;
-                let colorIn: number = 0;
-                let colorOut: number = 0;
+                let colorIn: string;
+                let colorOut: string;
                 let filled: boolean = false;
 
                 let oPaintObj = collObjs.item(key);
 
                 if (oPaintObj === null) { return false; }
 
-                let w_aspect: cReportAspect = oPaintObj.getAspect();
+                let aspect: cReportAspect = oPaintObj.getAspect();
 
-                x1 = w_aspect.getLeft();
-                x2 = x1 + w_aspect.getWidth();
-                y1 = w_aspect.getTop() - w_aspect.getOffset();
-                y2 = y1 + w_aspect.getHeight();
+                x1 = aspect.getLeft();
+                x2 = x1 + aspect.getWidth();
+                y1 = aspect.getTop() - aspect.getOffset();
+                y2 = y1 + aspect.getHeight();
 
-                if (!w_aspect.getTransparent()) {
-                    colorIn = w_aspect.getBackColor();
+                if (!aspect.getTransparent()) {
+                    colorIn = aspect.getBackColor();
                     filled = true;
                 }
 
-                colorOut = w_aspect.getBorderColor();
+                colorOut = aspect.getBorderColor();
 
                 switch (oPaintObj.getPaintType())
                 {
                     case csRptPaintObjType.CSRPTPAINTOBJBOX:
 
-                        this.pDrawObjBox(graph,
+                        this.drawObjBox(graph,
                                     oPaintObj.getAspect(),
                                     x1, y1, x2, y2,
                                     filled,
@@ -868,12 +868,12 @@ namespace CSReportPaint {
 
                     case csRptPaintObjType.CSRPTPAINTOBJIMAGE:
 
-                        this.pDrawObjBox(graph,
+                        this.drawObjBox(graph,
                                     oPaintObj.getAspect(),
                                     x1 - 1, y1 - 1, x2 + 1, y2 + 1,
                                     filled,
                                     colorIn,
-                                    0xC0C000);
+                                    "#C0C000");
 
                         let bmpWidth: number = 0;
                         let bmpHeight: number = 0;
@@ -881,11 +881,11 @@ namespace CSReportPaint {
                         if (oPaintObj.getImage() !== null) {
                             cGlobals.getBitmapSize(oPaintObj.getImage(), bmpWidth, bmpHeight, true);
 
-                            if (bmpWidth > w_aspect.getWidth()) {
-                                bmpWidth = w_aspect.getWidth();
+                            if (bmpWidth > aspect.getWidth()) {
+                                bmpWidth = aspect.getWidth();
                             }
-                            if (bmpHeight > w_aspect.getHeight()) {
-                                bmpHeight = w_aspect.getHeight();
+                            if (bmpHeight > aspect.getHeight()) {
+                                bmpHeight = aspect.getHeight();
                             }
 
                             this.drawBMP(graph,
@@ -1020,8 +1020,8 @@ namespace CSReportPaint {
             this.printLine(
                 graph, false,
                 this.x1, this.y1, this.x2, this.y2,
-                0, 1, true,
-                csColors.C_COLOR_BLACK, false);
+                "#000000", 1, true,
+                csColors.BLACK, false);
 
             if (this.x1 > 1) { this.x1 = this.x1 - 2; }
             if (this.y1 > 1) { this.y1 = this.y1 - 2; }
@@ -1088,17 +1088,19 @@ namespace CSReportPaint {
             this.printLine(
                 graphic, false,
                 this.x1, this.y1, this.x2, this.y2,
-                csColors.C_COLOR_WHITE, 1, true, csColors.C_COLOR_BLACK, false);
+                csColors.WHITE, 1, true, csColors.BLACK, false);
 
             graphic.dispose();
         }
 
         public createPicture(graphic: Graphic) {
-            this.refreshBackgroundPicture(graphic, 0);
+            this.refreshBackgroundPicture(graphic, "#000000");
         }
 
         public createBackgroundBitmap(graphic: Graphic) {
-            this.bitmap = new Bitmap(graphic.getBoundingClientRect().width + 1, graphic.getBoundingClientRect().height + 3); // TODO check why 56 ???
+            this.bitmap = new Bitmap(
+                graphic.getBoundingClientRect().width + 1,
+                graphic.getBoundingClientRect().height + 3); // TODO check why 56 ???
         }
 
         private refreshBackgroundPicture(graphic: Graphic, rgbColor: string) {
@@ -1143,16 +1145,16 @@ namespace CSReportPaint {
             y1: number,
             x2: number,
             y2: number,
-            colorInside: number,
+            colorInside: string,
             width: number,
             dash: boolean,
-            colorOut: number,
+            colorOut: string,
             rounded: boolean) {
 
-            let pen = new Pen(cColor.colorFromRGB(colorOut), width);
+            let pen = new Pen(colorOut, width);
 
             if (dash) {
-                pen.DashStyle = DashStyle.Dot;
+                pen.dashStyle = DashStyle.Dot;
             }
 
             if (rounded) {
@@ -1162,7 +1164,7 @@ namespace CSReportPaint {
                 x2 = x2 * this.scaleX;
 
                 let extGraph: cGraphics = new cGraphics(graph);
-                extGraph.DrawRoundRectangle(pen, x1, y1, x2-x1, y2-y1, 8);
+                extGraph.drawRoundRectangle(pen, x1, y1, x2-x1, y2-y1, 8);
             }
             else {
                 let rect: Rectangle = cGlobals.newRectangle(Math.trunc(x1), Math.trunc(y1), Math.trunc(x2), Math.trunc(y2));
@@ -1176,8 +1178,8 @@ namespace CSReportPaint {
                             rect.Inflate(-1, -1);
                         }
                         */
-                        let brush: Brush = new SolidBrush(cColor.colorFromRGB(colorInside));
-                        graph.FillRectangle(brush, rect);
+                        let brush: Brush = new SolidBrush(colorInside);
+                        graph.fillRectangle(brush, rect);
                         brush.dispose();
                     }
 
@@ -1185,14 +1187,14 @@ namespace CSReportPaint {
                     // we want to preserve that behaviour
                     //
                     if (!(rect.getHeight() === 1 && filled)) {
-                        graph.DrawRectangle(pen, rect);
+                        graph.drawRectangle(pen, rect);
                     }
                 }
                 else {
                     if (rect.getHeight() === 0 || rect.getBottom() === rect.getTop()) { rect.setHeight(1); }
                     if (rect.getWidth() === 0 || rect.getLeft() === rect.getRight()) { rect.setWidth(1); }
 
-                    graph.DrawRectangle(pen, rect);
+                    graph.drawRectangle(pen, rect);
                 }
             }
 
@@ -1211,11 +1213,11 @@ namespace CSReportPaint {
 
             let format: StringFormat = new StringFormat();
 
-            format.Trimming = StringTrimming.EllipsisWord;
-            format.Alignment = StringAlignment.Near;
+            format.trimming = StringTrimming.EllipsisWord;
+            format.alignment = StringAlignment.Near;
 
             if (!aspect.getWordWrap()) {
-                format.FormatFlags = StringFormatFlags.NoWrap;
+                format.formatFlags = StringFormatFlags.NoWrap;
             }
 
             let stringWidth: number = this.getPlEvaluateTextWidth(sText, font, this.scaleX);
@@ -1236,8 +1238,8 @@ namespace CSReportPaint {
             let marginY: number = c_Margen_Y;
 
             if (image !== null) {
-                marginX += image.Size.Width;
-                marginY = image.Size.Height - stringHeight - c_Margen_Bottom;
+                marginX += image.getSize().width;
+                marginY = image.getSize().height - stringHeight - c_Margen_Bottom;
 
                 if (marginY + stringHeight > aspect.getHeight())  {
                     marginY = Math.trunc(aspect.getHeight() - stringHeight - c_Margen_Bottom);
@@ -1273,9 +1275,9 @@ namespace CSReportPaint {
 
             let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - marginX), y + stringHeight);
 
-            let brush: SolidBrush = new SolidBrush(cColor.colorFromRGB(aspect.getFont().getForeColor()));
+            let brush: SolidBrush = new SolidBrush(aspect.getFont().getForeColor());
 
-            graph.DrawString(sText, font, brush, rect, format);
+            graph.drawString(sText, font, brush, rect, format);
 
             brush.dispose();
         }
@@ -1286,7 +1288,7 @@ namespace CSReportPaint {
             y1: number,
             x2: number,
             y2: number,
-            color: number,
+            color: string,
             bCircle: boolean) {
 
             const iSize: number = 7;
@@ -1297,7 +1299,7 @@ namespace CSReportPaint {
             if (x1 - iSize < 0) { x1 = iSize; }
             if (y1 - iSize < 0) { y1 = iSize; }            
 
-            let brush: Brush = new SolidBrush(cColor.colorFromRGB(color));
+            let brush: Brush = new SolidBrush(color);
 
             let rect: Rectangle = cGlobals.newRectangle(x1 - iSize, y1 - iSize - 1, x1, y1);
             this.showHandle(graph, brush, rect, bCircle);
@@ -1330,29 +1332,27 @@ namespace CSReportPaint {
 
         private showHandle(graph: Graphic, brush: Brush, rect: Rectangle, circle: boolean) {
             if (circle) {
-                graph.FillEllipse(brush, rect);
+                graph.fillEllipse(brush, rect);
             }
             else {
-                graph.FillRectangle(brush, rect);
+                graph.fillRectangle(brush, rect);
             }
         }
 
         public paintPicture(graph: Graphic, disposeGraphicObject: boolean) {
-            let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.Size.Width, this.bitmap.Size.Height);
-            if (this.zoom === 100) {
-                //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, this.hMemDC, 0, 0, vbSrcCopy);
-                graph.DrawImage(this.bitmap, rect, rect, GraphicsUnit.Pixel);
-            }
-            else {
+            let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.getSize().width, this.bitmap.getSize().height);
+            this.bitmap.getBitmap().then((bitmap) => {
+                if (this.zoom === 100) {
+                    graph.drawImage(bitmap, rect, rect);
+                }
+                for(let i = 0; i < this.vSelectedKeys.length; i++) {
+                    this.setFocusAux(this.vSelectedKeys[i], graph);
+                }
 
-            }
-            for(let i = 0; i < this.vSelectedKeys.length; i++) {
-                this.setFocusAux(this.vSelectedKeys[i], graph);
-            }
-
-            if (disposeGraphicObject) {
-                graph.dispose();
-            }
+                if (disposeGraphicObject) {
+                    graph.dispose();
+                }
+            });
         }
 
         public beginMove() {
@@ -1443,7 +1443,7 @@ namespace CSReportPaint {
             if (tR.Bottom > graph.ClipBounds.Height) { tR.Height = cGlobals.setRectangleHeight(graph.ClipBounds.Height - tR.Top); }
         }
 
-        private pDrawObjBox(
+        private drawObjBox(
             graph: Graphic,
             aspect: cReportAspect,
             x1: number,
@@ -1451,8 +1451,8 @@ namespace CSReportPaint {
             x2: number,
             y2: number,
             filled: boolean,
-            colorIn: number,
-            colorOut: number) {
+            colorIn: string,
+            colorOut: string) {
 
             // this.notBorder is used by preview and printing to indicate the controls must be print a border only
             // when BorderType !== NONE

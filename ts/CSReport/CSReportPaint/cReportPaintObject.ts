@@ -5,8 +5,6 @@ namespace CSReportPaint {
 
     export class cReportPaintObject {
 
-        private C_MODULE: string = "cReportPaintObject";
-
         private aspect: cReportAspect = new cReportAspect();
         private key: string = "";
         private text: string = "";

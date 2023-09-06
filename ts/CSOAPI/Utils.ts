@@ -116,7 +116,7 @@ namespace CSOAPI {
         public static listAdd(list: ComboBox, value: string, id: number = 0) {
             this.listAdd_(list, value, id);
         }
-        public static listID(list: ComboBox) {
+        public static listID(list: ComboBox): any {
             return this.listID_(list);
         }
         public static listItemData(list: ComboBox, index: number) {
@@ -141,17 +141,17 @@ namespace CSOAPI {
             return this.listGetIndexFromItemData_(list, valueItemData);
         }
 
-        private static listAdd_(list: ComboBox, value: string, id: number) {
+        private static listAdd_(list: ComboBox, value: string, id: string|number) {
             // TODO: implement
             // list.Items.Add(new ListValueWithId(value, id));
         }
-        private static listID_(list: ComboBox): number {
+        private static listID_(list: ComboBox): string {
             // TODO: implement
             /*
             if (list.SelectedIndex === -1) { return 0; }
             return (list.SelectedItem).Id;
             */
-            return 0;
+            return "0";
         }
         private static listItemData_(list: ComboBox, index: number) {
             // TODO: implement

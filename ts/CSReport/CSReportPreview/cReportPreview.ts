@@ -12,6 +12,12 @@ namespace CSReportPreview {
     import Panel = CSReportEditor.Panel;
 
     export class cReportPreview {
+        getWidth(): number {
+            throw new Error("Method not implemented.");
+        }
+        getHeight(): number {
+            throw new Error("Method not implemented.");
+        }
 //         public event FirstPage FirstPage;
 //         public event PreviousPage PreviousPage;
 //         public event MoveToPage MoveToPage;

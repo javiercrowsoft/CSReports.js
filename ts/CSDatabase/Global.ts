@@ -68,8 +68,6 @@ namespace CSDatabase {
                     cWindow.msgWarning("The data type [" + dataType + "] is not matched in CSDatabase.DatabaseGlobals.getDataTypeFromString");
                     return csDataType.CS_TD_VARCHAR;
             }
-
-            throw new Exception("The data type [" + dataType + "] is not matched in CSDatabase.DatabaseGlobals.getDataTypeFromString");
         }
 
         public static getDataTypeFromAdo(adoDBType: number) {

@@ -6,8 +6,6 @@ namespace CSReportDll {
 
     export class cReportChartSequence {
 
-        private C_MODULE: string = "cReportChartSequence";
-
         private valueFieldName: string = "";
         private labelFieldName: string = "";
         private color: csColors = csColors.ALICEBLUE;
@@ -36,7 +34,8 @@ namespace CSReportDll {
             return this.color;
         }
 
-        public setColor(value: csColors) {
+        public setColor(value: csColors|string) {
+            // @ts-ignore
             this.color = value;
         }
 
@@ -61,7 +60,7 @@ namespace CSReportDll {
             catch  (ex) { }
             try { this.labelFieldName = xDoc.getNodeProperty(nodeObj, "LabelFieldName").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { this.color = xDoc.getNodeProperty(nodeObj, "Color").getValueInt(eTypes.eLong); }
+            try { this.color = xDoc.getNodeProperty(nodeObj, "Color").getValueString(eTypes.eLong); }
             catch  (ex) { }
 
             return true;

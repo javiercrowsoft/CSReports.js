@@ -55,8 +55,10 @@ namespace CSReportEditor {
     import Color = CSReportPaint.Color;
     import csRptLaunchAction = CSReportGlobals.csRptLaunchAction;
     import cColor = CSKernelClient.cColor;
+    import csColors = CSReportGlobals.csColors;
     import Bitmap = CSReportPaint.Bitmap;
     import Point = CSReportPaint.Point;
+    import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
 
     export class cEditor {
 
@@ -1380,7 +1382,7 @@ namespace CSReportEditor {
             this.refreshAll();
         }
 
-        public textAlign(align: CSReportGlobals.HorizontalAlignment) {
+        public textAlign(align: HorizontalAlignment) {
             let paintObject: cReportPaintObject = null;
             let rptCtrl: cReportControl = null;
 
@@ -2466,7 +2468,7 @@ namespace CSReportEditor {
                 let sequence: cReportChartSequence = toChart.getSeries().add(new cReportChartSequence());
                 sequence.setColor(fromSequence.getColor());
                 sequence.setLabelFieldName(fromSequence.getLabelFieldName());
-                sequence.setColor(fromSequence.getLabelIndex());
+                sequence.setLabelIndex(fromSequence.getLabelIndex());
                 sequence.setValueFieldName(fromSequence.getValueFieldName());
                 sequence.setValueIndex(fromSequence.getValueIndex());
             }
@@ -2570,7 +2572,7 @@ namespace CSReportEditor {
             let ctrlHeight: number = CTRL_HEIGHT;
             let transparent: boolean = true;
 
-            ctrl.getLabel().getAspect().setAlign(CSReportGlobals.HorizontalAlignment.Left);
+            ctrl.getLabel().getAspect().setAlign(HorizontalAlignment.Left);
 
             switch (this.controlType) {
                 case csRptEditCtrlType.field:
@@ -2583,7 +2585,7 @@ namespace CSReportEditor {
 
                     if (DatabaseGlobals.isNumberField(this.fieldType)) {
                         aspect = ctrl.getLabel().getAspect();
-                        aspect.setAlign(CSReportGlobals.HorizontalAlignment.Right);
+                        aspect.setAlign(HorizontalAlignment.Right);
                         aspect.setFormat("#0.00;-#0.00");
                     }
                     break;
@@ -2597,7 +2599,7 @@ namespace CSReportEditor {
                     aspect.setFormat("0.00;-0.00");
                     aspect.getFont().setBold(true);
                     label.setText(ctrl.getFormulaValue().getText());
-                    aspect.setAlign(CSReportGlobals.HorizontalAlignment.Right);
+                    aspect.setAlign(HorizontalAlignment.Right);
                     break;
 
                 case csRptEditCtrlType.label:
@@ -3369,7 +3371,7 @@ namespace CSReportEditor {
                 this.fSecProperties.showDialog();
 
                 if (this.fSecProperties.getOk()) {
-                    if (this.fSecProperties.getSetFormulaHideChanged()) { sec.setHasFormulaHide(this.fSecProperties.getChkFormulaHide().getChecked()); }
+                    if (this.fSecProperties.getHasFormulaHideChanged()) { sec.setHasFormulaHide(this.fSecProperties.getChkFormulaHide().getChecked()); }
                     if (this.fSecProperties.getFormulaHideChanged()) { sec.getFormulaHide().setText(this.fSecProperties.getFormulaHide()); }
                     if (sec instanceof cReportSection) { sec.setName(this.fSecProperties.getTxName().getText()); }
                 }
@@ -3657,7 +3659,7 @@ namespace CSReportEditor {
                 font = aspect.getFont();
                 this.fProperties.getTxFont().setText(font.getName());
                 this.fProperties.getTxForeColor().setText(font.getForeColor().toString());
-                this.fProperties.getShForeColor().setBackColor(cColor.colorFromRGB(font.getForeColor()));
+                this.fProperties.getShForeColor().setBackColor(font.getForeColor());
                 this.fProperties.getTxFontSize().setText(font.getSize().toString());
                 this.fProperties.getChkFontBold().setChecked(font.getBold());
                 this.fProperties.getChkFontItalic().setChecked(font.getItalic());
@@ -3670,7 +3672,7 @@ namespace CSReportEditor {
                 this.fProperties.getTxWidth().setText(aspect.getWidth().toString());
                 this.fProperties.getTxHeight().setText(aspect.getHeight().toString());
                 this.fProperties.getTxBackColor().setText(aspect.getBackColor().toString());
-                this.fProperties.getShBackColor().setBackColor(cColor.colorFromRGB(aspect.getBackColor()));
+                this.fProperties.getShBackColor().setBackColor(aspect.getBackColor());
                 this.fProperties.getChkTransparent().setChecked(aspect.getTransparent());
 
                 bMultiSelect = this.vSelectedKeys.length > 1;
@@ -3720,7 +3722,7 @@ namespace CSReportEditor {
                     }
 
                     if (this.fProperties.getPictureChanged()) {
-                        rptCtrl.getImage().setImage(new Bitmap(this.fProperties.getPicImage().Image));
+                        rptCtrl.getImage().setImage(this.fProperties.getPicImage().Image);
                     }
 
                     if (rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_CHART) {
@@ -3820,7 +3822,7 @@ namespace CSReportEditor {
                     if (this.fProperties.getTopChanged()) { aspect.setTop(Utils.val(this.fProperties.getTxTop().getText())); }
                     if (this.fProperties.getWidthChanged()) { aspect.setWidth(Utils.val(this.fProperties.getTxWidth().getText())); }
                     if (this.fProperties.getHeightChanged()) { aspect.setHeight(Utils.val(this.fProperties.getTxHeight().getText())); }
-                    if (this.fProperties.getBackColorChanged()) { aspect.setBackColor(Utils.valInt(this.fProperties.getTxBackColor().getText())); }
+                    if (this.fProperties.getBackColorChanged()) { aspect.setBackColor(this.fProperties.getTxBackColor().getText()); }
                     if (this.fProperties.getTransparentChanged()) { aspect.setTransparent(this.fProperties.getChkTransparent().getChecked()); }
                     if (this.fProperties.getAlignChanged()) { aspect.setAlign(Utils.listID(this.fProperties.getCbAlign())); }
                     if (this.fProperties.getFormatChanged()) { aspect.setFormat(this.fProperties.getTxFormat().getText()); }
@@ -3831,16 +3833,16 @@ namespace CSReportEditor {
                     if (this.fProperties.getWordWrapChanged()) { aspect.setWordWrap(this.fProperties.getChkWordWrap().getChecked()); }
                     if (this.fProperties.getCanGrowChanged()) { aspect.setCanGrow(this.fProperties.getChkCanGrow().getChecked()); }
 
-                    if (this.fProperties.getBorderColorChanged()) { aspect.setBorderColor(Utils.valInt(this.fProperties.getTxBorderColor().getText())); }
-                    if (this.fProperties.getBorder3DChanged()) { aspect.setBorderColor3d(Utils.valInt(this.fProperties.getTxBorder3D().getText())); }
-                    if (this.fProperties.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(Utils.valInt(this.fProperties.getTxBorderShadow().getText())); }
+                    if (this.fProperties.getBorderColorChanged()) { aspect.setBorderColor(this.fProperties.getTxBorderColor().getText()); }
+                    if (this.fProperties.getBorder3DChanged()) { aspect.setBorderColor3d(this.fProperties.getTxBorder3D().getText()); }
+                    if (this.fProperties.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(this.fProperties.getTxBorderShadow().getText()); }
                     if (this.fProperties.getBorderRoundedChanged()) { aspect.setBorderRounded(this.fProperties.getChkBorderRounded().getChecked()); }
                     if (this.fProperties.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(this.fProperties.getTxBorderWidth().getText())); }
                     if (this.fProperties.getBorderTypeChanged()) { aspect.setBorderType(Utils.listID(this.fProperties.getCbBorderType())); }
 
                     font = aspect.getFont();
                     if (this.fProperties.getFontChanged()) { font.setName(this.fProperties.getTxFont().getText()); }
-                    if (this.fProperties.getForeColorChanged()) { font.setForeColor(Utils.valInt(this.fProperties.getTxForeColor().getText())); }
+                    if (this.fProperties.getForeColorChanged()) { font.setForeColor(this.fProperties.getTxForeColor().getText()); }
                     if (this.fProperties.getFontSizeChanged()) { font.setSize(Utils.val(this.fProperties.getTxFontSize().getText())); }
                     if (this.fProperties.getBoldChanged()) { font.setBold(this.fProperties.getChkFontBold().getChecked()); }
                     if (this.fProperties.getItalicChanged()) { font.setItalic(this.fProperties.getChkFontItalic().getChecked()); }
@@ -3860,7 +3862,7 @@ namespace CSReportEditor {
                     if (this.fProperties.getTopChanged()) { aspect.setTop(Utils.val(this.fProperties.getTxTop().getText())); }
                     if (this.fProperties.getWidthChanged()) { aspect.setWidth(Utils.val(this.fProperties.getTxWidth().getText())); }
                     if (this.fProperties.getHeightChanged()) { aspect.setHeight(Utils.val(this.fProperties.getTxHeight().getText())); }
-                    if (this.fProperties.getBackColorChanged()) { aspect.setBackColor(Utils.valInt(this.fProperties.getTxBackColor().getText())); }
+                    if (this.fProperties.getBackColorChanged()) { aspect.setBackColor(this.fProperties.getTxBackColor().getText()); }
                     if (this.fProperties.getTransparentChanged()) { aspect.setTransparent(this.fProperties.getChkTransparent().getChecked()); }
                     if (this.fProperties.getAlignChanged()) { aspect.setAlign(Utils.listID(this.fProperties.getCbAlign())); }
                     if (this.fProperties.getFormatChanged()) { aspect.setFormat(this.fProperties.getTxFormat().getText()); }
@@ -3876,16 +3878,16 @@ namespace CSReportEditor {
                         aspect.setBorderType(csReportBorderType.CS_RPT_BS_FIXED);
                     }
                     else {
-                        if (this.fProperties.getBorderColorChanged()) { aspect.setBorderColor(Utils.valInt(this.fProperties.getTxBorderColor().getText())); }
-                        if (this.fProperties.getBorder3DChanged()) { aspect.setBorderColor3d(Utils.valInt(this.fProperties.getTxBorder3D().getText())); }
-                        if (this.fProperties.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(Utils.valInt(this.fProperties.getTxBorderShadow().getText())); }
+                        if (this.fProperties.getBorderColorChanged()) { aspect.setBorderColor(this.fProperties.getTxBorderColor().getText()); }
+                        if (this.fProperties.getBorder3DChanged()) { aspect.setBorderColor3d(this.fProperties.getTxBorder3D().getText()); }
+                        if (this.fProperties.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(this.fProperties.getTxBorderShadow().getText()); }
                         if (this.fProperties.getBorderRoundedChanged()) { aspect.setBorderRounded(this.fProperties.getChkBorderRounded().getChecked()); }
                         if (this.fProperties.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(this.fProperties.getTxBorderWidth().getText())); }
                     }
 
                     font = aspect.getFont();
                     if (this.fProperties.getFontChanged()) { font.setName(this.fProperties.getTxFont().getText()); }
-                    if (this.fProperties.getForeColorChanged()) { font.setForeColor(Utils.valInt(this.fProperties.getTxForeColor().getText())); }
+                    if (this.fProperties.getForeColorChanged()) { font.setForeColor(this.fProperties.getTxForeColor().getText()); }
                     if (this.fProperties.getFontSizeChanged()) { font.setSize(Utils.val(this.fProperties.getTxFontSize().getText())); }
                     if (this.fProperties.getBoldChanged()) { font.setBold(this.fProperties.getChkFontBold().getChecked()); }
                     if (this.fProperties.getItalicChanged()) { font.setItalic(this.fProperties.getChkFontItalic().getChecked()); }
@@ -3953,7 +3955,7 @@ namespace CSReportEditor {
 
         public addColumnsToToolbox(dataSource: string, columns: cColumnsInfo, f: FToolbox) {
             for(let _i = 0; _i < columns.count(); _i++) {
-                let col: cColumnInfo = columns.item(_i);
+                let col = columns.item(_i);
                 f.addField(
                     cGlobals.getDataSourceStr(dataSource) + col.getName(),
                     col.getColumnType(),
@@ -4052,20 +4054,20 @@ namespace CSReportEditor {
             paintAspect.setBorderWidth(1);
 
             if (isSecLn) {
-                paintAspect.setBackColor(0xffcc99);
+                paintAspect.setBackColor("#ffcc99");
                 paintAspect.setBorderColor(Color.Red.toArgb());
             }
             else {
-                const INNER_COLOR: number = 0x99ccff;
+                const INNER_COLOR = "x99ccff";
 
                 if (rptType === csRptSectionType.GROUP_FOOTER
                     || rptType === csRptSectionType.GROUP_HEADER) {
                     paintAspect.setBackColor(INNER_COLOR);
-                    paintAspect.setBorderColor(0xC0C000);
+                    paintAspect.setBorderColor("#C0C000");
                 }
                 else {
                     paintAspect.setBackColor(INNER_COLOR);
-                    paintAspect.setBorderColor(0x0066cc);
+                    paintAspect.setBorderColor("#0066cc");
                 }
             }
 

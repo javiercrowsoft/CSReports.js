@@ -25,7 +25,8 @@ namespace CSReportEditor {
             // tx_password.setText(value);
 		}
 
-		public getUser() {
+		public getUser(): string {
+            return "";
             // return tx_user.Text;
 		}
 

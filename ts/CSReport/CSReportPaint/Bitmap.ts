@@ -56,6 +56,10 @@ namespace CSReportPaint {
         get bitmap(): ImageBitmap {
             return this._bitmap;
         }
+
+        getSize(): SizeF {
+            return null;
+        }
     }
 
     export class Graphic {
@@ -83,8 +87,8 @@ namespace CSReportPaint {
 
         }
 
-        drawImage(image: CSReportPaint.Image, x: number, y: number) {
-            this.context.drawImage(image.bitmap, x, y);
+        drawImage(bitmap: ImageBitmap, x: number, y: number) {
+            this.context.drawImage(bitmap, x, y);
         }
 
         getContext() {
@@ -98,6 +102,40 @@ namespace CSReportPaint {
                 ctx.drawImage(bmp,0,0);
                 return new Graphic(canvas);
             });
+        }
+
+        fillPath(brush: CSReportPaint.Brush, path: any) {
+            this.context.fill(path);
+        }
+
+        drawPath(pen: CSReportPaint.Pen, path: any) {
+            this.context.fill(path);
+        }
+
+        fillRectangle(brush: CSReportPaint.Brush, rect: CSReportPaint.Rectangle) {
+
+        }
+
+        drawRectangle(pen: CSReportPaint.Pen, rect: CSReportPaint.Rectangle) {
+
+        }
+
+        drawString(text: string, font: CSReportPaint.Font, brush: CSReportPaint.SolidBrush, rect: CSReportPaint.RectangleF, format: CSReportPaint.StringFormat) {
+
+        }
+
+        fillEllipse(brush: CSReportPaint.Brush, rect: CSReportPaint.Rectangle) {
+
+        }
+    }
+
+    export class Location {
+        left: number;
+        top: number;
+
+        constructor(left: number, top: number) {
+            this.left = left;
+            this.top = top;
         }
     }
 
@@ -123,6 +161,14 @@ namespace CSReportPaint {
 
         setWidth(w: number) {
             this.width = w;
+        }
+
+        setX(x: number) {
+            this.left = x;
+        }
+
+        setY(y: number) {
+            this.top = y;
         }
 
         static new4(left: number, top: number, right: number, bottom: number) {
@@ -167,20 +213,61 @@ namespace CSReportPaint {
         getRight() {
             return this.right;
         }
+
+        static new2(location: any, sizeF: CSReportPaint.SizeF) {
+            const r = new RectangleF();
+            r.setLeft(location.left);
+            r.setTop(location.top);
+            r.setRight(location.left + sizeF.width);
+            r.setBottom(location.top + sizeF.height);
+            r.setHeight(sizeF.height);
+            r.setWidth(sizeF.width);
+            return r;
+
+        }
+
+        getLocation(): Location {
+            return new Location(this.left, this.top);
+        }
     }
 
     export class Rectangle extends  RectangleF {
 
     }
+
     export class Point {
         constructor(x: number, y: number) {
 
         }
 
     }
-    export class Pen {}
-    export class Brush {}
-    export class SolidBrush {}
+
+    export enum DashStyle {
+        Dot
+    }
+
+    export class Pen {
+        dashStyle: DashStyle;
+        constructor(colorOut: string, width: number) {
+
+        }
+
+        dispose() {
+
+        }
+    }
+
+    export class Brush {
+        dispose() {
+
+        }
+    }
+
+    export class SolidBrush extends Brush{
+        constructor(colorInside: string) {
+            super();
+        }
+    }
 
     export class HatchBrush {
         private _hatchStyle: CSReportPaint.HatchStyle;
@@ -266,16 +353,39 @@ namespace CSReportPaint {
         public static Blue = new Color(csColors.BLUE);
     }
 
-    export class GraphicsPath {}
-    export class SizeF {
-        private x: number;
-        private y: number;
-        constructor(x: number, y: number) {
-            this.x = x;
-            this.y = y;
+    export class GraphicsPath {
+
+        addRectangle(baseRect: CSReportPaint.RectangleF) {
+
+        }
+
+        closeFigure() {
+
+        }
+
+        addArc(arc: CSReportPaint.RectangleF, number: number, number2: number) {
+
+        }
+
+        addEllipse(baseRect: CSReportPaint.RectangleF) {
+
         }
     }
-    export class StringFormat {}
+
+    export class SizeF {
+        width: number;
+        height: number;
+        constructor(x: number, y: number) {
+            this.width = x;
+            this.height = y;
+        }
+    }
+    export class StringFormat {
+        trimming: CSReportPaint.StringTrimming;
+        alignment: CSReportPaint.StringAlignment;
+        formatFlags: CSReportPaint.StringFormatFlags;
+
+    }
     export enum StringTrimming {
         EllipsisWord
     }

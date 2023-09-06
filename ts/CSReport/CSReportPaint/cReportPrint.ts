@@ -1,3 +1,6 @@
+///<reference path="../CSReportEditor/controls/Form.ts"/>
+///<reference path="../../CSReportExport/cReportPdf.ts"/>
+
 namespace CSReportPaint {
 
     import cError = CSKernelClient.cError;
@@ -24,9 +27,9 @@ namespace CSReportPaint {
     import cReportPreview = CSReportPreview.cReportPreview;
     import EventArgs = CSReportPreview.EventArgs;
 
-	export class cReportPrint implements cIReportPrint {
+    import PictureBox = CSReportEditor.PictureBox;
 
-        private C_MODULE: string = "cReportPrint";
+	export class cReportPrint implements cIReportPrint {
 
         private static C_OFFSETHEADER: number = 0;
         private static C_OFFSETDETAIL: number = 100000;
@@ -1362,14 +1365,14 @@ namespace CSReportPaint {
             {
                 case csEZoom.csEZoomAllPage:
 
-                    width = this.rpwPrint.Width / this.realWidth;
-                    height = this.rpwPrint.Height / this.realHeight;
+                    width = this.rpwPrint.getWidth() / this.realWidth;
+                    height = this.rpwPrint.getHeight() / this.realHeight;
 
                     if (width < height) {
-                        nZoom = this.rpwPrint.Width / this.realWidth;
+                        nZoom = this.rpwPrint.getWidth() / this.realWidth;
                     }
                     else {
-                        nZoom = this.rpwPrint.Height / this.realHeight;
+                        nZoom = this.rpwPrint.getHeight() / this.realHeight;
                     }
 
                     break;
@@ -1377,7 +1380,7 @@ namespace CSReportPaint {
                     nZoom = 1;
                     break;
                 case csEZoom.csEZoomWidth:
-                    nZoom = this.rpwPrint.Width / this.realWidth;
+                    nZoom = this.rpwPrint.getWidth() / this.realWidth;
                     break;
                 default:
                     nZoom = zoom / 100;

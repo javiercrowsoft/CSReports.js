@@ -13,13 +13,13 @@ namespace CSReportDll {
         private top: number = 0;
         private height: number = 0;
         private width: number = 0;
-        private backColor: number = csColors.C_COLOR_WHITE;
+        private backColor: string = csColors.WHITE;
         private borderWidth: number = 0;
         private borderType: csReportBorderType = null;
-        private borderColor: number = csColors.C_COLOR_BLACK;
-        private borderColor3d: number = 0;
-        private borderColor3dShadow: number = 0;
-        private selectColor: number = 0;
+        private borderColor: string = csColors.BLACK;
+        private borderColor3d: string = csColors.BLACK;
+        private borderColor3dShadow: string = csColors.BLACK;
+        private selectColor: string = csColors.BLACK;
         private font: cReportFont = new cReportFont();
         private canGrow: boolean = null;
         private nZOrder: number = 0;
@@ -77,7 +77,7 @@ namespace CSReportDll {
             return this.backColor;
         }
 
-        public setBackColor(rhs: number) {
+        public setBackColor(rhs: string) {
             this.backColor = rhs;
         }
 
@@ -101,7 +101,7 @@ namespace CSReportDll {
             return this.borderColor;
         }
 
-        public setBorderColor(rhs: number) {
+        public setBorderColor(rhs: string) {
             this.borderColor = rhs;
         }
 
@@ -109,7 +109,7 @@ namespace CSReportDll {
             return this.borderColor3d;
         }
 
-        public setBorderColor3d(rhs: number) {
+        public setBorderColor3d(rhs: string) {
             this.borderColor3d = rhs;
         }
 
@@ -117,7 +117,7 @@ namespace CSReportDll {
             return this.borderColor3dShadow;
         }
 
-        public setBorderColor3dShadow(rhs: number) {
+        public setBorderColor3dShadow(rhs: string) {
             this.borderColor3dShadow = rhs;
         }
 
@@ -125,7 +125,7 @@ namespace CSReportDll {
             return this.selectColor;
         }
 
-        public setSelectColor(rhs: number) {
+        public setSelectColor(rhs: string) {
             this.selectColor = rhs;
         }
 
@@ -216,13 +216,13 @@ namespace CSReportDll {
 
             try { this.align = xDoc.getNodeProperty(nodeObj, "Align").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
-            try { this.backColor = xDoc.getNodeProperty(nodeObj, "BackColor").getValueInt(eTypes.eLong); }
+            try { this.backColor = xDoc.getNodeProperty(nodeObj, "BackColor").getValueString(eTypes.eLong); }
             catch  (ex) { }
-            try { this.borderColor = xDoc.getNodeProperty(nodeObj, "BorderColor").getValueInt(eTypes.eLong); }
+            try { this.borderColor = xDoc.getNodeProperty(nodeObj, "BorderColor").getValueString(eTypes.eLong); }
             catch  (ex) { }
-            try { this.borderColor3d = xDoc.getNodeProperty(nodeObj, "BorderColor3D").getValueInt(eTypes.eLong); }
+            try { this.borderColor3d = xDoc.getNodeProperty(nodeObj, "BorderColor3D").getValueString(eTypes.eLong); }
             catch  (ex) { }
-            try { this.borderColor3dShadow = xDoc.getNodeProperty(nodeObj, "BorderColor3DShadow").getValueInt(eTypes.eLong); }
+            try { this.borderColor3dShadow = xDoc.getNodeProperty(nodeObj, "BorderColor3DShadow").getValueString(eTypes.eLong); }
             catch  (ex) { }
             try { this.borderType = xDoc.getNodeProperty(nodeObj, "BorderType").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
@@ -236,7 +236,7 @@ namespace CSReportDll {
             catch  (ex) { }
             try { this.nZOrder = xDoc.getNodeProperty(nodeObj, "nZOrder").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
-            try { this.selectColor = xDoc.getNodeProperty(nodeObj, "SelectColor").getValueInt(eTypes.eLong); }
+            try { this.selectColor = xDoc.getNodeProperty(nodeObj, "SelectColor").getValueString(eTypes.eLong); }
             catch  (ex) { }
             try { this.top = xDoc.getNodeProperty(nodeObj, "Top").getValueInt(eTypes.eLong); }
             catch  (ex) { }

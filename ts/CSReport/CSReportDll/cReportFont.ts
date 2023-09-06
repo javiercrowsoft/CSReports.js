@@ -4,7 +4,7 @@ namespace CSReportDll {
 
     export class cReportFont {
 
-        private foreColor: number = csColors.C_COLOR_BLACK;
+        private foreColor: string = csColors.BLACK;
         private size: number = 8;
         private name: string = "Tahoma";
         private underline: boolean = null;
@@ -16,7 +16,7 @@ namespace CSReportDll {
             return this.foreColor;
         }
 
-        public setForeColor(rhs: number) {
+        public setForeColor(rhs: string) {
             this.foreColor = rhs;
         }
 

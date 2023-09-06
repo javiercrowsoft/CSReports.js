@@ -8,7 +8,7 @@ namespace CSXml {
         private name: string = "";
         private value: string = "";
         private parent: string = "";
-        private binaryValue: object = null;
+        private binaryValue: any = null;
 
         public getBinaryValue() {
             return this.binaryValue;
@@ -80,8 +80,8 @@ namespace CSXml {
                 case eTypes.eId:
                 case eTypes.eSingle:
                 case eTypes.eCurrency:
-                    if (! Number.isNaN(this.value) && Number.isSafeInteger(this.value)) {
-                        return this.value;
+                    if (! Number.isNaN(this.value as any) ) {
+                        return  Number(this.value);
                     }
                     else {
                         return 0;
@@ -100,7 +100,7 @@ namespace CSXml {
                 this.value = value ? "-1" : "0";
             }
             else if (type === eTypes.eInteger) {
-                this.value = Convert.ToInt64(value).toString();
+                this.value = parseInt(value).toString();
             }
             else {
                 this.value = value.toString();

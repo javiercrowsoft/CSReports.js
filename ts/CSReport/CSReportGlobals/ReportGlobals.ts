@@ -358,10 +358,7 @@ namespace CSReportGlobals {
         WHITE = "#FFFFFF",
         WHITESMOKE = "#F5F5F5",
         YELLOW = "#FFFF00",
-        YELLOWGREEN = "#9ACD32",
-
-        C_COLOR_BLACK = 0,
-        C_COLOR_WHITE = 255
+        YELLOWGREEN = "#9ACD32"
     } 
 
     export enum csRptFormulaType
