@@ -343,9 +343,9 @@ namespace CSReportDll {
             }
 
             this.chartCreated = true;
-            return true;
-
             chart.dispose();
+            
+            return true;            
         }
 
         private pGetExt() {

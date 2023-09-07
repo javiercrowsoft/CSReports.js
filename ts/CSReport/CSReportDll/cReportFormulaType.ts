@@ -1,10 +1,12 @@
 namespace CSReportDll {
 
+    import csRptFormulaType = CSReportGlobals.csRptFormulaType;
+
     export class cReportFormulaType {
 
         private name: string = "";
         private nameUser: string = "";
-        private id: csRptFormulaType = 0;
+        private id: csRptFormulaType = csRptFormulaType.CSRPTF_NONE;
         private decrip: string = "";
         private helpContextId: number = 0;
 
@@ -45,10 +47,6 @@ namespace CSReportDll {
         }
 
         public setHelpContextId(rhs: csRptFormulaType) {
-            this.helpContextId = rhs;
-        }
-
-        public setHelpContextId(rhs: number) {
             this.helpContextId = rhs;
         }
     }

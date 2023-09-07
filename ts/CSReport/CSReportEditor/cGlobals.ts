@@ -258,7 +258,7 @@ namespace CSReportEditor {
         }
 
         public static addCtrls(report: cReport, lv_controls: ListView, C_CTRL_IMAGE: number, C_DB_IMAGE: number) {
-            lv_controls.getItems().clear();
+            lv_controls.clear();
 
             for(let i = 0; i < report.getControls().count(); i++) {
                 let ctrl = report.getControls().item(i);
@@ -286,7 +286,7 @@ namespace CSReportEditor {
                     ctrlName += " (" + ctrlInfo + ")";
                 }
 
-                let item = lv_controls.getItems().add(ctrlName, C_CTRL_IMAGE);
+                let item = lv_controls.add(ctrlName, C_CTRL_IMAGE);
                 item.tag = ctrl.getKey();
                 item.subItems.add("");
                 item.subItems.add("");
@@ -370,7 +370,7 @@ namespace CSReportEditor {
                     item.imageIndex = formulaImage;
                     item.selectedImageIndex = formulaImage;
                     if (!sec.getHasFormulaHide()) {
-                        item.foreColor = Color.Red;
+                        item.foreColor = Color.Red.toString();
                     }
 
                     if (bComplexF) {
@@ -397,7 +397,7 @@ namespace CSReportEditor {
                         item.imageIndex = formulaImage;
                         item.selectedImageIndex = formulaImage;
                         if (!secLn.getHasFormulaHide()) {
-                            item.foreColor = Color.Red;
+                            item.foreColor = Color.Red.toString();
                         }
                         if (bComplexF) {
                             item.tag = "@FH=" + secLn.getFormulaHide().getText();
@@ -437,7 +437,7 @@ namespace CSReportEditor {
                             item.imageIndex = formulaImage;
                             item.selectedImageIndex = formulaImage;
                             if (!ctrl.getHasFormulaHide()) {
-                                item.foreColor = Color.Red;
+                                item.foreColor = Color.Red.toString();
                             }
                             if (bComplexF) {
                                 item.tag = "@FH=" + ctrl.getFormulaHide().getText();
@@ -449,7 +449,7 @@ namespace CSReportEditor {
                             item.imageIndex = formulaImage;
                             item.selectedImageIndex = formulaImage;
                             if (!ctrl.getHasFormulaValue()) {
-                                item.foreColor = Color.Red;
+                                item.foreColor = Color.Red.toString();
                             }
                             item.tag = "@FV=" + ctrl.getFormulaValue().getText();
                         }
@@ -462,15 +462,15 @@ namespace CSReportEditor {
         public static fillColumns(dataSource: string, columns: CSReportDll.cColumnsInfo, lvColumns: ListView,
                            index: string, fieldType: string, add: boolean) {
 
-            if (!add) lvColumns.getItems().clear();
+            if (!add) lvColumns.clear();
 
             for(let i_ = 0; i_ < columns.count(); i_++) {
                 let column = columns.item(i_);
-                let item = lvColumns.getItems().add("{{{" + dataSource + "}}}.{" + column.getName() + "}");
+                let item = lvColumns.add("{{{" + dataSource + "}}}.{" + column.getName() + "}");
                 item.imageIndex = 0;
-                let info: string = cUtil.setInfoString("", index, column.getPosition().toString());
-                info = cUtil.setInfoString(info, fieldType, column.getColumnType().toString());
-                item.tag = info;
+                // let info: string = cUtil.setInfoString("", index, column.getPosition().toString());
+                // info = cUtil.setInfoString(info, fieldType, column.getColumnType().toString());
+                // item.tag = info;
             }
         }
     } 

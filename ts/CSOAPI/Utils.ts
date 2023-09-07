@@ -125,7 +125,7 @@ namespace CSOAPI {
         public static listSetListIndex(list: ComboBox, idx: number) {
             this.listSetListIndex_(list, idx);
         }
-        public static listSetListIndexForId(list: ComboBox, id: number) {
+        public static listSetListIndexForId(list: ComboBox, id: any) {
             this.listSetListIndexForId_(list, id);
         }
         public static listSetListIndexForText(list: ComboBox, text: string) {

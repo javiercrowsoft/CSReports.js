@@ -389,7 +389,7 @@ namespace CSReportPaint {
                 //
                 this.rpwPrint.setCurrPage(this.currPage);
 
-                this.rpwPrint.getBody().Refresh();
+                this.rpwPrint.getBody().refresh();
             }
         }
 
@@ -492,7 +492,7 @@ namespace CSReportPaint {
             {
                 if (this.rpwPrint !== null) {
                     this.printPage(this.currPage, false);
-                    this.rpwPrint.getBody().Refresh();
+                    this.rpwPrint.getBody().refresh();
                 }
             }
         }
@@ -1139,7 +1139,7 @@ namespace CSReportPaint {
             if (!this.bModal) {
                 if (!this.bHidePreviewWindow) {
                     let obj = this.rpwPrint.getParent();
-                    if (obj.GetType() === typeof(Form))  {
+                    if (obj instanceof Form)  {
                         let f: Form = obj as Form;
                         f.show();
                     }
@@ -1390,19 +1390,19 @@ namespace CSReportPaint {
             if (nZoom < 0.01) { nZoom = 0.01; }
 
             let pic: PictureBox = this.rpwPrint.getBody();
-            pic.Width = (this.realWidth * nZoom);
-            pic.Height = (this.realHeight * nZoom);
+            pic.setWidth(this.realWidth * nZoom);
+            pic.setHeight(this.realHeight * nZoom);
 
             if (nZoom > 0.5) {
                 this.paint.setZoom(100);
                 this.paint.setScaleX(nZoom);
                 this.paint.setScaleY(nZoom);
                 this.scaleFont = nZoom;
-                printPage(this.currPage);
+                this.printPage(this.currPage);
             }
             else {
                 this.paint.setZoom(zoom);
-                this.rpwPrint.getBody().Refresh();
+                this.rpwPrint.getBody().refresh();
             }
         }
 
@@ -1468,7 +1468,7 @@ namespace CSReportPaint {
                 let expPDF: CSReportExport.cReportPdf = null;
                 expPDF = new CSReportExport.cReportPdf();
 
-                expPDF.setFileName(Utils.getValidPath(System.Environment.GetEnvironmentVariable("TEMP")) + this.pGetExportFileName());
+                expPDF.setFileName(Utils.getValidPath(""/* TODO: reimplement * System.Environment.GetEnvironmentVariable("TEMP")*/) + this.pGetExportFileName());
                 expPDF.setExportEmailAddress(this.report.getExportEmailAddress());
 
                 return expPDF.exportEx(this.report, this, outputFile, bShowPDFWindow);
@@ -1536,7 +1536,7 @@ namespace CSReportPaint {
                     }
                 }
                 else {
-                    this.paint.clearPage(this.rpwPrint.getBody().CreateGraphics());
+                    this.paint.clearPage(this.rpwPrint.getBody().createGraphics());
 
                     this.rePaintObject = false;
 

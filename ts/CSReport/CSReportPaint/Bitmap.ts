@@ -72,6 +72,7 @@ namespace CSReportPaint {
         }
 
         getBoundingClientRect(): DOMRect {
+            // @ts-ignore;
             return this.canvas.getBoundingClientRect();
         }
 
@@ -126,6 +127,10 @@ namespace CSReportPaint {
 
         fillEllipse(brush: CSReportPaint.Brush, rect: CSReportPaint.Rectangle) {
 
+        }
+
+        measureString(text: string, font: Font, width = -1, format?: StringFormat): SizeF {
+            throw new Error("Method not implemented.");
         }
     }
 

@@ -1,5 +1,8 @@
 namespace CSReportDll {
 
+    import XmlNode = CSXml.XmlNode;
+    import eTypes = CSKernelClient.eTypes;
+    
     export class cReportPageID {
 
         private value: string = "";

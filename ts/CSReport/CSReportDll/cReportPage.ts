@@ -1,7 +1,8 @@
 namespace CSReportDll {
 
     import eTypes = CSKernelClient.eTypes;
-
+    import XmlNode = CSXml.XmlNode;
+    
     export class cReportPage {
 
         private C_NODERPTHEADER: string = "Header";

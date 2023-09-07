@@ -3,6 +3,7 @@ namespace CSReportDll {
     import RptGrpOrderType = CSReportGlobals.RptGrpOrderType;
     import RptGrpComparisonType = CSReportGlobals.RptGrpComparisonType;
     import eTypes = CSKernelClient.eTypes;
+    import XmlNode = CSXml.XmlNode;
 
     export class cReportGroup {
 
@@ -136,7 +137,7 @@ namespace CSReportDll {
             let nodeObjAux: XmlNode = null;
 
             nodeObjAux = nodeObj;
-            nodeObjAux = xDoc.getNodeFromNode(nodeObj, C_HEADER);
+            nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.C_HEADER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
             if (!this.header.load(xDoc, nodeObjAux))  {
                 return false; 

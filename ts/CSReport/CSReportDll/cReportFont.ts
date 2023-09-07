@@ -1,6 +1,8 @@
 namespace CSReportDll {
 
     import csColors = CSReportGlobals.csColors;
+    import eTypes = CSKernelClient.eTypes;
+    import XmlNode = CSXml.XmlNode;
 
     export class cReportFont {
 
@@ -71,7 +73,7 @@ namespace CSReportDll {
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Font");
             this.bold = xDoc.getNodeProperty(nodeObj, "Bold").getValueBool(eTypes.eBoolean);
-            this.foreColor = xDoc.getNodeProperty(nodeObj, "ForeColor").getValueInt(eTypes.eLong);
+            this.foreColor = xDoc.getNodeProperty(nodeObj, "ForeColor").getValueString(eTypes.eLong);
             this.italic = xDoc.getNodeProperty(nodeObj, "Italic").getValueBool(eTypes.eBoolean);
             this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
             this.size = xDoc.getNodeProperty(nodeObj, "Size").getValueInt(eTypes.eInteger);

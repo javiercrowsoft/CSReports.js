@@ -1,5 +1,7 @@
 namespace CSReportDll {
 
+    import XmlNode = CSXml.XmlNode;
+    
     export class cReportLine {
 
         private aspect: cReportAspect = new cReportAspect();

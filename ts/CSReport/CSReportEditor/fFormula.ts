@@ -70,6 +70,7 @@ namespace CSReportEditor {
 		}
 
 		public getFormula(): string {
+            return "";
 			// return tx_formula.Text;
 		}
 

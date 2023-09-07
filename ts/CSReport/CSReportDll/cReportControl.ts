@@ -1,5 +1,10 @@
 namespace CSReportDll {
 
+    import eTypes = CSKernelClient.eTypes;
+    import csRptSectionType = CSReportGlobals.csRptSectionType;
+    import csRptControlType = CSReportGlobals.csRptControlType;
+    import XmlNode = CSXml.XmlNode;
+    
     export class cReportControl {
 
         private label: cReportLabel = new cReportLabel();

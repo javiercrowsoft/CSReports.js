@@ -8,7 +8,10 @@ namespace CSReportEditor {
 
         private ok: boolean = false;
 
-        private formulaHideChanged: boolean = null;
+        private hasFormulaHideChanged: boolean = false;
+        private hasFormulaHide: boolean = false;
+
+        private formulaHideChanged: boolean = false;
         private formulaHide: string = "";
 
         private formulaName: string = "";
@@ -40,6 +43,10 @@ namespace CSReportEditor {
 
         public setFormulaHideChanged(rhs: boolean) {
             this.formulaHideChanged = rhs;
+        }
+
+        public getHasFormulaHideChanged() {
+            return this.hasFormulaHideChanged;
         }
 
         //------------------------------------------------------------------------------------------------------------------

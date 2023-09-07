@@ -77,10 +77,10 @@ namespace CSReportDll {
                 }
 
                 key = ReportGlobals.getKey(key);
-                Add(key, c);
+                this.baseAdd(c, key);
 
                 c.setKey(key);
-                c.setIndex(this.Count);
+                c.setIndex(this.count());
 
                 this.groupsHeaders.add(c.getHeader(), "", -1);
                 this.groupsFooters.add(c.getFooter(), "", 0);

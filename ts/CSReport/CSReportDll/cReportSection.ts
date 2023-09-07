@@ -1,8 +1,12 @@
 namespace CSReportDll {
 
     import csRptSectionType = CSReportGlobals.csRptSectionType;
+    import XmlNode = CSXml.XmlNode;
+    import eTypes = CSKernelClient.eTypes;
 
     export class cReportSection {
+
+        private C_NODERPTSECTIONLINES: string = "RptSectionLines";
 
         private sectionLines: cReportSectionLines = new cReportSectionLines();
         private aspect: cReportAspect = new cReportAspect();
@@ -116,7 +120,7 @@ namespace CSReportDll {
             //
             this.index = xDoc.getNodeProperty(nodeObj, "Indice").getValueInt(eTypes.eInteger);
 
-            setTypeSection(xDoc.getNodeProperty(nodeObj, "TypeSection").getValueInt(eTypes.eInteger));
+            this.setTypeSection(xDoc.getNodeProperty(nodeObj, "TypeSection").getValueInt(eTypes.eInteger));
             this.hasFormulaHide = xDoc.getNodeProperty(nodeObj, "HasFormulaHide").getValueBool(eTypes.eBoolean);
 
             nodeObjAspect = nodeObj;
@@ -131,7 +135,7 @@ namespace CSReportDll {
 
             this.sectionLines.clear();
 
-            nodeObj = xDoc.getNodeFromNode(nodeObj, C_NODERPTSECTIONLINES);
+            nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTSECTIONLINES);
             if (xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
@@ -172,7 +176,7 @@ namespace CSReportDll {
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("TypeSection");
-            xProperty.setValue(eTypes.eInteger, getTypeSection());
+            xProperty.setValue(eTypes.eInteger, this.getTypeSection());
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("HasFormulaHide");
@@ -186,7 +190,7 @@ namespace CSReportDll {
                 return false; 
             }
 
-            xProperty.setName(C_NODERPTSECTIONLINES);
+            xProperty.setName(this.C_NODERPTSECTIONLINES);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 

@@ -1524,7 +1524,7 @@ namespace CSReportDll {
                 }
             }
             else {
-                if (value > constValue) {
+                if (value.toString() > constValue) {
                     item.setValue(true);
                 }
                 else  {
@@ -1556,7 +1556,7 @@ namespace CSReportDll {
                 }
             }
             else {
-                if (value < constValue) {
+                if (value.toString() < constValue) {
                     item.setValue(true);
                 }
                 else {

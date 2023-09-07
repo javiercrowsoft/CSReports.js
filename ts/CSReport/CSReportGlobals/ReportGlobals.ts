@@ -363,6 +363,7 @@ namespace CSReportGlobals {
 
     export enum csRptFormulaType
     {
+        CSRPTF_NONE = 0,
         CSRPTF_PAGE_NUMBER = 10001,
         CSRPTF_TOTAL_PAGES = 10002,
         CSRPTF_AVERAGE = 10003,

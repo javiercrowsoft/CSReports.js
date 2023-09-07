@@ -1,6 +1,7 @@
 namespace CSReportDll {
 
     import Image = CSReportPaint.Image;
+    import XmlNode = CSXml.XmlNode;
 
     export class cReportImage {
 
@@ -29,7 +30,7 @@ namespace CSReportDll {
 
         public load(xDoc: CSXml.cXml, nodeObj: CSXml.XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Image");
-            let vBytes: byte[] = null;
+            let vBytes = null;
             vBytes = xDoc.getBinaryNodeProperty(nodeObj, "Data").getBinaryValue();
             //
             // an empty image is serialized as AA== which is vBytes === [0] ( yes the number zero ) and vBytes.length === 1
@@ -50,9 +51,9 @@ namespace CSReportDll {
             xProperty.setName("Image");
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
-            let vBytes: byte[] = null;
-            if (getImage() !== null) {
-                cImage.serialiseBitmap(getImage(), vBytes);
+            let vBytes = null;
+            if (this.getImage() !== null) {
+                cImage.serialiseBitmap(this.getImage(), vBytes);
             }
             else {
                 vBytes = [];

@@ -86,6 +86,7 @@ namespace CSReportEditor {
         private chartGroupFieldType: number = 0;
 
         public constructor() {
+            super();
             // InitializeComponent();
             //
             // cb_align.Items.clear();

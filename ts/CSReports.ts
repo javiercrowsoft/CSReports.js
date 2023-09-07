@@ -14,4 +14,5 @@ String.prototype.format = function(format: string): string {
     return String(this);
 }
 
+// @ts-ignore;
 export {};

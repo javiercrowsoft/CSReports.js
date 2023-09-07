@@ -236,7 +236,7 @@ namespace CSReportEditor {
              */
         }
 
-        private loadRecentList(recentList: []) {
+        private loadRecentList(recentList: string[]) {
             // TODO: implement
             /*
             let i: number = 0;

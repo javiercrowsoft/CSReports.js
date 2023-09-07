@@ -78,6 +78,10 @@ namespace CSReportEditor {
             return this._selectedItems.getItems();
         }
 
+        add(text: string, imageIndex?: number) {
+            return this._items.add(text, imageIndex)
+        }
+
         sort() {
 
         }

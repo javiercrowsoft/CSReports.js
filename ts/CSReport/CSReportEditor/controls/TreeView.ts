@@ -19,8 +19,8 @@ namespace CSReportEditor {
         imageIndex: number;
         selectedImageIndex: number;
         tag: any;
-        foreColor: Color;
-        backColor: Color;
+        foreColor: string;
+        backColor: string;
 
         getNodes() {
             return this._items;

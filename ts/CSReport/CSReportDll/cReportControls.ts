@@ -44,7 +44,7 @@ namespace CSReportDll {
             this.sectionLine = rhs;
 
             let ctrl: cReportControl = null;
-            for(let _i = 0; _i < this.Count; _i++) {
+            for(let _i = 0; _i < this.count(); _i++) {
                 ctrl = this.item(_i);
                 ctrl.setSectionLine(rhs);
             }

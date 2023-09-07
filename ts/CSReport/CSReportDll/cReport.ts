@@ -2188,8 +2188,8 @@ namespace CSReportDll {
                                           );
             }
 
-            switch (ctrl.getControlType())
-            {
+            switch (ctrl.getControlType()) {
+                
                 case csRptControlType.CS_RPT_CT_FIELD:
 
                     // this indexes 
