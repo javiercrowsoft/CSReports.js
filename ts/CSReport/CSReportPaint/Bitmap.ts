@@ -8,8 +8,11 @@ namespace CSReportPaint {
     export class Bitmap {
         private bitmap: ImageBitmap;
         private p: Promise<void>;
+        public readonly name;
 
-        constructor(width: number, height: number) {
+        constructor(width: number, height: number, name: string) {
+            this.name = name;
+
             // only fromImage should call with 0,0
             //
             this.p = new Promise((resolve) => {
@@ -36,8 +39,8 @@ namespace CSReportPaint {
             return { height: this.bitmap.height, width: this.bitmap.width };
         }
 
-        public static fromImage(image: Image) {
-            const bitmap = new Bitmap(0,0);
+        public static fromImage(image: Image, name: string) {
+            const bitmap = new Bitmap(0,0, name);
             createImageBitmap(image.bitmap).then(b => bitmap.bitmap = b);
         }
 
@@ -63,12 +66,17 @@ namespace CSReportPaint {
     }
 
     export class Graphic {
+
         private readonly canvas: HTMLCanvasElement;
         private readonly context: CanvasRenderingContext2D;
+        public readonly name: string;
 
-        constructor(canvas: HTMLCanvasElement) {
+        constructor(canvas: HTMLCanvasElement, name: string) {
+            this.name = name;
             this.canvas = canvas;
             this.context = canvas.getContext("2d");
+            // @ts-ignore
+            this.canvas.name = name
         }
 
         getBoundingClientRect(): DOMRect {
@@ -96,41 +104,147 @@ namespace CSReportPaint {
             return this.context;
         }
 
-        static fromImage(bitmap: CSReportPaint.Bitmap) {
+        static fromImage(bitmap: Bitmap): Promise<Graphic> {
             const canvas = document.createElement('canvas') as HTMLCanvasElement;
+            // @ts-ignore
+            canvas.name = name;            
             const ctx = canvas.getContext('2d');
             return bitmap.getBitmap().then(bmp => {
                 ctx.drawImage(bmp,0,0);
-                return new Graphic(canvas);
+                return new Graphic(canvas, bitmap.name);
             });
         }
 
-        fillPath(brush: CSReportPaint.Brush, path: any) {
+        fillPath(brush: Brush, path: any) {
             this.context.fill(path);
         }
 
-        drawPath(pen: CSReportPaint.Pen, path: any) {
+        drawPath(pen: Pen, path: any) {
             this.context.fill(path);
         }
 
-        fillRectangle(brush: CSReportPaint.Brush, rect: CSReportPaint.Rectangle) {
+        fillRectangle(brush: Brush, rect: Rectangle) {
 
         }
 
-        drawRectangle(pen: CSReportPaint.Pen, rect: CSReportPaint.Rectangle) {
+        drawRectangle(pen: Pen, rect: Rectangle) {
 
         }
 
-        drawString(text: string, font: CSReportPaint.Font, brush: CSReportPaint.SolidBrush, rect: CSReportPaint.RectangleF, format: CSReportPaint.StringFormat) {
+        drawString(text: string, 
+                   font: Font, 
+                   brush: SolidBrush, 
+                   rect: RectangleF, 
+                   format: StringFormat) {
 
+            this.context.fillStyle = brush.foreground.color;
+            this.context.font = font.toStringFont();
+            if(format && format.formatFlags == StringFormatFlags.Wrap) {
+                this.drawWrappedString(text, rect.getLeft(), rect.getBottom(), rect.getWidth())
+            }
+            else {
+                this.drawStringIntoRect(text, rect);
+            }
         }
 
-        fillEllipse(brush: CSReportPaint.Brush, rect: CSReportPaint.Rectangle) {
+        private drawStringIntoRect(text: string, rect: RectangleF) {
+            this.context.save();
+            this.context.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+            this.context.clip();
+            this.context.fillText(text, 0, rect.getHeight());
+            this.context.restore();
+        }
+
+        private drawWrappedString(text: string, 
+                                  x: number, 
+                                  y: number, 
+                                  maxWidth: number) {
+            let words = text.split(' ');
+            let line = '';
+            const lineHeight = this.lineHeight();
+
+            for (let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = this.context.measureText(testLine);
+                let testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    this.context.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                }
+                else {
+                    line = testLine;
+                }
+            }
+            this.context.fillText(line, x, y);
+        }
+
+        // this function uses the current font applied to the context
+        //
+        private lineHeight() {
+            const m = this.context.measureText("ABCDEFGHYJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@\"\\/#$%^*()_+=?><");
+            // @ts-ignore
+            return Math.floor(m.fontBoundingBoxAscent + m.fontBoundingBoxDescent);
+        }
+
+        private measureWrappedString(text: string, maxWidth: number) {
+            let words = text.split(' ');
+            let line = '';
+            let width = 0;
+            let wrapped = false;            
+            const lineHeight = this.lineHeight();
+            let y = lineHeight;            
+
+            for (let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = this.context.measureText(testLine);
+                let testWidth = metrics.width;                
+                if (testWidth > maxWidth && n > 0) {
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                    wrapped = true;
+                }
+                else {
+                    line = testLine;
+                    width = testWidth;
+                }
+            }
+            if(wrapped) width = maxWidth;
+            return new SizeF(Math.floor(width), Math.floor(y));
+        }
+
+        fillEllipse(brush: Brush, rect: Rectangle) {
 
         }
 
         measureString(text: string, font: Font, width = -1, format?: StringFormat): SizeF {
-            throw new Error("Method not implemented.");
+            let size: SizeF;
+
+            this.context.save();
+            
+            this.context.font = font.toStringFont();                        
+            if(format && format.formatFlags == StringFormatFlags.Wrap) {
+                size = this.measureWrappedString(text, width);
+            }
+            else {                
+                const m = this.context.measureText(text);
+                size = new SizeF(
+                    Math.floor(m.width), 
+                    // @ts-ignore
+                    Math.floor(m.fontBoundingBoxAscent + m.fontBoundingBoxDescent));
+            }
+
+            this.context.restore();
+
+            return size;
+        }
+
+        getHeight() {
+            return this.canvas.height;
+        }
+        
+        getWidth(): number {
+            return this.canvas.width;
         }
     }
 
@@ -182,8 +296,8 @@ namespace CSReportPaint {
             r.setLeft(left);
             r.setRight(right);
             r.setBottom(bottom);
-            r.setHeight(top - bottom);
-            r.setWidth(left - right);
+            r.setHeight(bottom - top);
+            r.setWidth(right - left);
             return r;
         }
 
@@ -219,7 +333,7 @@ namespace CSReportPaint {
             return this.right;
         }
 
-        static new2(location: any, sizeF: CSReportPaint.SizeF) {
+        static new2(location: any, sizeF: SizeF) {
             const r = new RectangleF();
             r.setLeft(location.left);
             r.setTop(location.top);
@@ -268,33 +382,42 @@ namespace CSReportPaint {
         }
     }
 
-    export class SolidBrush extends Brush{
-        constructor(colorInside: string) {
+    export class SolidBrush extends Brush {
+        private _foreground: Color;
+        
+        constructor(foreground: string) {
             super();
+            // @ts-ignore
+            this._foreground = foreground;
+        }
+
+        get foreground(): Color {
+            return this._foreground;
         }
     }
 
-    export class HatchBrush {
-        private _hatchStyle: CSReportPaint.HatchStyle;
-        private _foreground: CSReportPaint.Color;
-        private _background: CSReportPaint.Color;
+    export class HatchBrush extends Brush {
+        private _hatchStyle: HatchStyle;
+        private _foreground: Color;
+        private _background: Color;
 
-        constructor(hatchStyle: CSReportPaint.HatchStyle, foreground: CSReportPaint.Color, background: CSReportPaint.Color) {
+        constructor(hatchStyle: HatchStyle, foreground: Color, background: Color) {
+            super();
             this._hatchStyle = hatchStyle;
             this._foreground = foreground;
             this._background = background;
         }
 
 
-        get hatchStyle(): CSReportPaint.HatchStyle {
+        get hatchStyle(): HatchStyle {
             return this._hatchStyle;
         }
 
-        get foreground(): CSReportPaint.Color {
+        get foreground(): Color {
             return this._foreground;
         }
 
-        get background(): CSReportPaint.Color {
+        get background(): Color {
             return this._background;
         }
     }
@@ -338,7 +461,7 @@ namespace CSReportPaint {
             return hex.length == 1 ? "0" + hex : hex;
         }
 
-        public rgbToHex(r: number, g: number, b: number) {
+        public static rgbToHex(r: number, g: number, b: number) {
             return "#" + Color.componentToHex(r) + Color.componentToHex(g) + Color.componentToHex(b);
         }
 
@@ -360,7 +483,7 @@ namespace CSReportPaint {
 
     export class GraphicsPath {
 
-        addRectangle(baseRect: CSReportPaint.RectangleF) {
+        addRectangle(baseRect: RectangleF) {
 
         }
 
@@ -368,11 +491,11 @@ namespace CSReportPaint {
 
         }
 
-        addArc(arc: CSReportPaint.RectangleF, number: number, number2: number) {
+        addArc(arc: RectangleF, number: number, number2: number) {
 
         }
 
-        addEllipse(baseRect: CSReportPaint.RectangleF) {
+        addEllipse(baseRect: RectangleF) {
 
         }
     }
@@ -380,17 +503,12 @@ namespace CSReportPaint {
     export class SizeF {
         width: number;
         height: number;
-        constructor(x: number, y: number) {
-            this.width = x;
-            this.height = y;
+        constructor(width: number, height: number) {
+            this.width = width;
+            this.height = height;
         }
     }
-    export class StringFormat {
-        trimming: CSReportPaint.StringTrimming;
-        alignment: CSReportPaint.StringAlignment;
-        formatFlags: CSReportPaint.StringFormatFlags;
 
-    }
     export enum StringTrimming {
         EllipsisWord
     }
@@ -398,6 +516,13 @@ namespace CSReportPaint {
         Near
     }
     export enum StringFormatFlags {
+        Wrap,
         NoWrap
     }
+    export class StringFormat {
+        trimming = StringTrimming.EllipsisWord;
+        alignment = StringAlignment.Near;
+        formatFlags = StringFormatFlags.Wrap;
+    }
+
 }

@@ -1,3 +1,5 @@
+///<reference path="../../CSKernel/CSKernelClient/Promise.ts"/>
+
 namespace CSReportPaint {
 
     import cError = CSKernelClient.cError;
@@ -7,6 +9,7 @@ namespace CSReportPaint {
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import csReportBorderType = CSReportGlobals.csReportBorderType;
     import RefWrapper = CSKernelClient.RefWrapper;
+    import P = CSKernelClient.Callable;
 
     export class cReportPaint {
 
@@ -1100,7 +1103,8 @@ namespace CSReportPaint {
         public createBackgroundBitmap(graphic: Graphic) {
             this.bitmap = new Bitmap(
                 graphic.getBoundingClientRect().width + 1,
-                graphic.getBoundingClientRect().height + 3); // TODO check why 56 ???
+                graphic.getBoundingClientRect().height + 3,
+                "backgroundBitmap"); // TODO check why 56 ???
         }
 
         private refreshBackgroundPicture(graphic: Graphic, rgbColor: string) {
@@ -1110,30 +1114,31 @@ namespace CSReportPaint {
 
             this.createBackgroundBitmap(graphic);
 
-            Graphic.fromImage(this.bitmap).then((bitmapGraphic) => {
+            Graphic.fromImage(this.bitmap).then(P.call(this, (graphic: Graphic) => {
 
                 let rect: Rectangle = cGlobals
                     .newRectangle(0, 0,
-                        graphic.getBoundingClientRect().width, graphic.getBoundingClientRect().height + 3); // TODO check why 56 ???;
+                        graphic.getWidth(), 
+                        graphic.getHeight() + 3); // TODO check why 56 ???;
 
                 if (this.brushGrid !== null) {
-                    bitmapGraphic.setFillStyle(this.brushGrid.foreground.toArgb());
+                    graphic.setFillStyle(this.brushGrid.foreground.toArgb());
                 }
                 else  {
-                    bitmapGraphic.setFillStyle(rgbColor);
+                    graphic.setFillStyle(rgbColor);
                 }
-                bitmapGraphic.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+                graphic.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
 
                 for(let i = 0; i < this.getPaintObjects().count(); i++) {
-                    this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
+                    this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), graphic);
                 }
 
                 for(let i = 0; i < this.getPaintSections().count(); i++) {
-                    this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
+                    this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), graphic);
                 }
 
                 this.paintPicture(graphic, true);
-            });
+            }));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -1201,7 +1206,7 @@ namespace CSReportPaint {
             pen.dispose();
         }
 
-        private printText(graph: Graphic, sText: string, aspect: cReportAspect, image: Image) {
+        private printText(graph: Graphic, text: string, aspect: cReportAspect, image: Image) {
             // padding
             const c_Margen_Y: number = 1; // 20 twips;
             const c_Margen_X: number = 4; // 80 twips;
@@ -1221,9 +1226,9 @@ namespace CSReportPaint {
             }
 
             Promise.all([
-                this.getPlEvaluateTextWidth(sText, font, this.scaleX),
-                this.getPlEvaluateTextHeight(sText, font, aspect.getWidth(), format, this.scaleY, this.scaleX)
-            ]).then(value => {
+                this.getPlEvaluateTextWidth(text, font, this.scaleX),
+                this.getPlEvaluateTextHeight(text, font, aspect.getWidth(), format, this.scaleY, this.scaleX)
+            ]).then(P.call(this, (value: number[]) => {
                 let stringWidth: number = value[0];
                 let stringHeight: number = value[1];
     
@@ -1281,10 +1286,10 @@ namespace CSReportPaint {
     
                 let brush: SolidBrush = new SolidBrush(aspect.getFont().getForeColor());
     
-                graph.drawString(sText, font, brush, rect, format);
+                graph.drawString(text, font, brush, rect, format);
     
                 brush.dispose();    
-            });
+            }));
         }
 
         private showHandles(
@@ -1346,7 +1351,7 @@ namespace CSReportPaint {
 
         public paintPicture(graph: Graphic, disposeGraphicObject: boolean) {
             let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.getSize().width, this.bitmap.getSize().height);
-            this.bitmap.getBitmap().then((bitmap) => {
+            this.bitmap.getBitmap().then(P.call(this, (bitmap: ImageBitmap) => {
                 if (this.zoom === 100) {
                     graph.drawImage(bitmap, rect.getLeft(), rect.getTop());
                 }
@@ -1357,7 +1362,7 @@ namespace CSReportPaint {
                 if (disposeGraphicObject) {
                     graph.dispose();
                 }
-            });
+            }));
         }
 
         public beginMove() {
@@ -1365,21 +1370,21 @@ namespace CSReportPaint {
 
             this.beginMoveDone = true;
 
-            Graphic.fromImage(this.bitmap).then((graphic) => {
+            Graphic.fromImage(this.bitmap).then(P.call(this, (graphic: Graphic) => {
                 for(let i = 0; i < this.vSelectedKeys.length; i++) {
                     this.setFocusAux(this.vSelectedKeys[i], graphic);
                 }
                 graphic.dispose();    
-            });
+            }));
         }
 
         private paintPictureMove(graph: Graphic, tR: RectangleF) {
             let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.getSize().width, this.bitmap.getSize().height);
             if (this.zoom === 100) {
-                this.bitmap.getBitmap().then((bitmap) => {
+                this.bitmap.getBitmap().then(P.call(this, (bitmap: ImageBitmap) => {
                     //BitBlt(graph.hDC, 0, 0, tR.right, tR.bottom, this.hMemDC, 0, 0, vbSrcCopy);
                     graph.drawImage(bitmap, rect.getLeft(), rect.getRight());
-                });
+                }));
             }
         }
 
@@ -1424,19 +1429,19 @@ namespace CSReportPaint {
         //
         //
         private getPlEvaluateTextWidth(text: string, font: Font, scaleX: number) {
-            return Graphic.fromImage(this.bitmap).then((graph) => {
-                let stringSize: SizeF = graph.measureString(text, font);
-                graph.dispose();
+            return Graphic.fromImage(this.bitmap).then(P.call(this, (graphic: Graphic) => {
+                let stringSize: SizeF = graphic.measureString(text, font);
+                graphic.dispose();
                 return Math.trunc(stringSize.width / scaleX); // TODO: check if it is / or *    
-            });
+            }));
         }
 
         private getPlEvaluateTextHeight(text: string, font: Font, width: number, format: StringFormat, scaleY: number, scaleX: number) {
-            return Graphic.fromImage(this.bitmap).then((graph) => {
-                let stringSize: SizeF = graph.measureString(text, font, Math.trunc(width * scaleX), format);
-                graph.dispose();
+            return Graphic.fromImage(this.bitmap).then(P.call(this, (graphic: Graphic) => {
+                let stringSize: SizeF = graphic.measureString(text, font, Math.trunc(width * scaleX), format);
+                graphic.dispose();
                 return Math.trunc(stringSize.height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
-            });
+            }));
         }
 
         private pClearObject(key: string, graph: Graphic) {

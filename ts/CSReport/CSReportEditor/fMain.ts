@@ -76,8 +76,8 @@ namespace CSReportEditor {
             this.loadRecentListFromUserSettings();
 
             this.pnEditor = new Panel(this.el('pnEditor'));
-            this.pnRule = new PictureBox(this.el('pnRule'));
-            this.pnReport = new PictureBox(this.el('pnReport'));
+            this.pnRule = new PictureBox("picRule", this.el('pnRule'));
+            this.pnReport = new PictureBox("picReport", this.el('pnReport'));
             this.tbpEditor = new TabPage(this.el('tbpReport'));
 
             this.lv_controls = new ListView();
@@ -98,8 +98,8 @@ namespace CSReportEditor {
         private createEditor() {
             let tab: TabPage = new TabPage();
             let pnEditor: Panel = new Panel();
-            let pnRule: PictureBox = new PictureBox();
-            let pnReport: PictureBox = new PictureBox();
+            let pnRule: PictureBox = new PictureBox("pnRule");
+            let pnReport: PictureBox = new PictureBox("pnReport");
 
             pnEditor.getControls().add(pnRule);
             pnEditor.getControls().add(pnReport);

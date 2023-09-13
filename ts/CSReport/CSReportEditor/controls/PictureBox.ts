@@ -12,16 +12,23 @@ namespace CSReportEditor {
 
         private readonly canvas: HTMLCanvasElement;
         private readonly graphic: Graphic;
+        public readonly name: string;
 
-        public constructor(el: HTMLElement = null) {
+        public constructor(name: string, el: HTMLElement = null) {
             super(el);
-
+            
+            this.name = name;
+            
             this.canvas = document.createElement('canvas') as HTMLCanvasElement;
-
-            this.canvas.id = "CursorLayer";
+            this.canvas.style.left = "0px";
+            this.canvas.style.top = "0px";
             this.canvas.width = 1224;
             this.canvas.height = 768;
-            this.graphic = new Graphic(this.canvas);
+            this.graphic = new Graphic(this.canvas, name);
+
+            // @ts-ignore
+            this.canvas.name = name;
+
             // TODO: implement
             /*
             this.canvas.style.zIndex = 8;

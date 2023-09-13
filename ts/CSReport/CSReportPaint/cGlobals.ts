@@ -118,34 +118,29 @@ namespace CSReportPaint {
 
         // fonts
         public static addFontIfRequired(font: cReportFont, fnt: Font[]): number {
-            return 0;
-            // TODO: maybe is not needed
-            /*
-            for(let i = 0; i < this.fnt.length; i++) {
-                if(font.getName() === this.fnt[i].Name 
-                    && font.getBold() === this.fnt[i].Bold 
-                    && font.getItalic() === this.fnt[i].Italic 
-                    && font.getUnderline() === this.fnt[i].Underline 
-                    && font.getSize() === this.fnt[i].Size 
-                    && font.getStrike() === this.fnt[i].Strikeout) {
+            for(let i = 0; i < fnt.length; i++) {
+                if(font.getName() === fnt[i].name 
+                    && font.getBold() === fnt[i].bold 
+                    && font.getItalic() === fnt[i].italic 
+                    && font.getUnderline() === fnt[i]._underline 
+                    && font.getSize() === fnt[i].size 
+                    && font.getStrike() === fnt[i].strike) {
                     return i;
                 }
             }
 
-            redimPreserve(this.fnt, this.fnt.length + 1);
+            let afont: Font = new Font(
+                    font.getName(), 
+                    ((font.getSize() > 0) ? font.getSize() : 3), 
+                    font.getBold(),
+                    font.getItalic(),                    
+                    font.getStrike(),
+                    font.getUnderline()   
+                );
 
-            let fontStyle: FontStyle = FontStyle.Regular;
-            if (font.getBold()) fontStyle = fontStyle + FontStyle.Bold;
-            if (font.getItalic()) fontStyle = fontStyle + FontStyle.Italic;
-            if (font.getUnderline()) fontStyle = fontStyle + FontStyle.Underline;
-            if (font.getStrike()) fontStyle = fontStyle + FontStyle.Strikeout;
+            fnt[fnt.length] = afont;
 
-            let afont: Font = new Font(font.getName(), ((font.getSize() > 0) ? font.getSize() : 3), fontStyle);
-
-            this.fnt[this.fnt.length - 1] = afont;
-
-            return this.fnt.length - 1;
-             */
+            return fnt.length-1;
         }
     }
 

@@ -4,7 +4,7 @@ namespace CSReportPaint {
 
     export class cReportPaintObjects extends Map<cReportPaintObject> {
 
-        private zorder: string[] = null;
+        private zorder: string[] = [];
 
         constructor() {
             super(null, false, cReportPaintObject);
@@ -20,7 +20,25 @@ namespace CSReportPaint {
         // Clears all the elements in the collection.
         public clear() {
             this.baseClear();
-            this.zorder = null;
+            this.zorder = [];
+        }
+
+        public add(c: cReportPaintObject, key: string): cReportPaintObject {
+            try {
+                if (c == null) { c = new cReportPaintObject(); }
+                if (key == "") { key = cGlobals.getNextKey().toString(); }
+            
+                key = cGlobals.getKey(key);
+                this.baseAdd(c, key);
+            
+                c.setKey(key);                
+                this.zorder[this.count()-1] = key;
+
+                return c;
+            } 
+            catch (ex) {
+                return null;
+            }
         }
 
         public bringToFront(key: string) {

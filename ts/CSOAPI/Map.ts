@@ -47,6 +47,7 @@ namespace CSOAPI {
             }
             this.keys.push(key);
             this.values.push(value);
+            this.length++;
             return value;
         }
 

@@ -1857,15 +1857,6 @@ namespace CSReportEditor {
             }
         }
 
-        private picRule_Paint(sender: object, e: any) {
-            if (this.paint !== null) {
-                let ps: cReportPaintObjects = this.paint.getPaintSections();
-                for(let i = 0; i < ps.count(); i++) {
-                    this.paint.drawRule(ps.getNextKeyForZOrder(i), e.Graphics);
-                }
-            }
-        }
-
         public setParameters() {
             let connect: CSConnect.cConnect = new CSConnect.cConnect();
             let param: CSReportDll.cParameter = null;
@@ -4758,7 +4749,7 @@ namespace CSReportEditor {
 
             this.paint.createPicture(this.picReport.getGraphics());
 
-            this.picRule.refresh();
+            this.refreshRule();
         }
 
         private addPaintSectionForSecLn(sec: cReportSection, typeSecLn: csRptSectionType) {
@@ -4897,7 +4888,12 @@ namespace CSReportEditor {
         }
 
         private refreshRule() {
-            this.picRule.refresh();
+            if (this.paint !== null) {
+                let ps: cReportPaintObjects = this.paint.getPaintSections();
+                for(let i = 0; i < ps.count(); i++) {
+                    this.paint.drawRule(ps.getNextKeyForZOrder(i), this.picRule.getGraphics());
+                }
+            }
         }
 
         public refreshReport() {

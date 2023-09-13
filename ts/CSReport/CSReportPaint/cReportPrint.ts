@@ -1579,7 +1579,7 @@ namespace CSReportPaint {
                 if(this.currPage !== page -1) this.printPage(page, true);
 				pageIndex.set(this.currPage + 1);
 
-                let bmp: Bitmap = new Bitmap(this.realWidth, this.realHeight);
+                let bmp: Bitmap = new Bitmap(this.realWidth, this.realHeight, "pageImageAsBase64");
                 Graphic.fromImage(bmp).then((bmpGraphics: Graphic) => {
                     this.drawPage(bmpGraphics, false);
                     let image = "";

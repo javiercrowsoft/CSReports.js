@@ -9,10 +9,10 @@ namespace CSReportDll {
         private foreColor: string = csColors.BLACK;
         private size: number = 8;
         private name: string = "Tahoma";
-        private underline: boolean = null;
-        private bold: boolean = null;
-        private italic: boolean = null;
-        private strike: boolean = null;
+        private underline: boolean = false;
+        private bold: boolean = false;
+        private italic: boolean = false;
+        private strike: boolean = false;
 
         public getForeColor() {
             return this.foreColor;
