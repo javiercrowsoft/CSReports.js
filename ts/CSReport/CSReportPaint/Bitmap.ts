@@ -148,10 +148,12 @@ namespace CSReportPaint {
         }
 
         private drawStringIntoRect(text: string, rect: RectangleF) {
-            this.context.save();
+            this.context.save();            
+            this.context.beginPath();
             this.context.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
             this.context.clip();
-            this.context.fillText(text, 0, rect.getHeight());
+            this.context.fillText(text, rect.getLeft(), rect.getTop() + rect.getHeight());
+            this.context.closePath();
             this.context.restore();
         }
 
@@ -348,6 +350,13 @@ namespace CSReportPaint {
         getLocation(): Location {
             return new Location(this.left, this.top);
         }
+
+        toString(): string {
+            return "x0: " + this.getLeft() 
+                + "\n y0: " + this.getTop() 
+                + "\n x1: " + this.getWidth() 
+                + "\n y1: " + this.getBottom();
+        }
     }
 
     export class Rectangle extends  RectangleF {
@@ -387,8 +396,7 @@ namespace CSReportPaint {
         
         constructor(foreground: string) {
             super();
-            // @ts-ignore
-            this._foreground = foreground;
+            this._foreground = new Color(foreground);
         }
 
         get foreground(): Color {
@@ -479,6 +487,8 @@ namespace CSReportPaint {
         public static Red = new Color(csColors.RED);
         public static White = new Color(csColors.WHITE);
         public static Blue = new Color(csColors.BLUE);
+        public static AliceBlue = new Color(csColors.ALICEBLUE);
+        public static HoneyDew = new Color(csColors.HONEYDEW);
     }
 
     export class GraphicsPath {

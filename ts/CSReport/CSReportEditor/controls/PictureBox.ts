@@ -4,26 +4,30 @@ namespace CSReportEditor {
 
     import Point = CSReportPaint.Point;
     import Graphic = CSReportPaint.Graphic;
+    import Color = CSReportPaint.Color;
 
     export class PictureBox extends Control {
         createGraphics(): object {
             throw new Error("Method not implemented.");
         }
 
+        private readonly div: HTMLDivElement;
         private readonly canvas: HTMLCanvasElement;
         private readonly graphic: Graphic;
         public readonly name: string;
+        private bacgroundColor: Color;
 
         public constructor(name: string, el: HTMLElement = null) {
             super(el);
             
             this.name = name;
             
+            this.div = el as HTMLDivElement;
             this.canvas = document.createElement('canvas') as HTMLCanvasElement;
             this.canvas.style.left = "0px";
             this.canvas.style.top = "0px";
-            this.canvas.width = 1224;
-            this.canvas.height = 768;
+            this.canvas.width = 1;
+            this.canvas.height = 1;
             this.graphic = new Graphic(this.canvas, name);
 
             // @ts-ignore
@@ -57,5 +61,23 @@ namespace CSReportEditor {
         setPaint(paint: (sender: object, e: { graphics: Graphic }) => void) {
 
         }
+
+        setWidth(value: number) {
+            super.setWidth(value);
+            this.canvas.width = value;
+            this.div.style.width = value.toString() + "px";
+        }
+
+        setHeight(value: number) {
+            super.setHeight(value);
+            this.canvas.height = value;
+            this.div.style.height = value.toString() + "px";
+        }
+
+        setBacgroundColor(color: Color) {
+            this.bacgroundColor = color;
+            this.canvas.style.backgroundColor = color.color;
+        }
+
     }
 }

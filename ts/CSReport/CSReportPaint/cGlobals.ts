@@ -11,7 +11,7 @@ namespace CSReportPaint {
 
         // TODO: validate if needed
         private _flag = {}; // new Bitmap(1, 1);
-        private static _g = {DpiX: 1, DpiY: 1};// Graphics.FromImage(_flag);
+        private static _g = {DpiX: 96, DpiY: 96};// Graphics.FromImage(_flag);
 
         public static getNextKey() {
             this.nextKey++;
@@ -51,7 +51,7 @@ namespace CSReportPaint {
             if (right < left) right = left;
             if (bottom < top) bottom = top;
 
-            return RectangleF.new4(left, top, right-left, bottom-top);
+            return RectangleF.new4(left, top, right, bottom);
         }
 
         public static newRectangle(left: number, top: number, right: number, bottom: number) {
@@ -60,7 +60,7 @@ namespace CSReportPaint {
             if (right < left) right = left;
             if (bottom < top) bottom = top;
 
-            return RectangleF.new4(left, top, right-left, bottom-top);
+            return RectangleF.new4(left, top, right, bottom);
         }
 
         private static getPixelsFromCmX(cm: number) {

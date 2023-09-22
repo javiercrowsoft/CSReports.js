@@ -9,6 +9,7 @@ namespace CSReportEditor {
     import csRptSectionType = CSReportGlobals.csRptSectionType;
     import cWindow = CSKernelClient.cWindow;
     import csECtlAlignConst = CSReportGlobals.csECtlAlignConst;
+    import Color = CSReportPaint.Color;
 
     export class FMain {
 
@@ -83,6 +84,10 @@ namespace CSReportEditor {
             this.lv_controls = new ListView();
             this.tv_controls = new TreeView();
             this.lv_properties = new ListView();
+
+            this.pnRule.setWidth(250);
+            this.pnRule.setBacgroundColor(Color.AliceBlue);
+            this.pnReport.setBacgroundColor(Color.HoneyDew);
         }
 
         public init() {
@@ -100,6 +105,10 @@ namespace CSReportEditor {
             let pnEditor: Panel = new Panel();
             let pnRule: PictureBox = new PictureBox("pnRule");
             let pnReport: PictureBox = new PictureBox("pnReport");
+
+            pnRule.setWidth(250);
+            pnRule.setBacgroundColor(Color.AliceBlue);
+            pnReport.setBacgroundColor(Color.HoneyDew);
 
             pnEditor.getControls().add(pnRule);
             pnEditor.getControls().add(pnReport);
