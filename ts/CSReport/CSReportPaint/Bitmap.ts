@@ -158,11 +158,15 @@ namespace CSReportPaint {
         }
 
         drawRectangle(pen: Pen, rect: Rectangle) {
+            this.drawRectangle4(pen, rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+        }
+
+        drawRectangle4(pen: Pen, x: number, y: number, w: number, h: number) {
             this.context.save();
             if(pen.dashStyle == DashStyle.Dot) this.context.setLineDash([3, 2]);
             this.context.lineWidth = pen.width();
             this.context.strokeStyle = pen.color();
-            this.context.strokeRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+            this.context.strokeRect(x, y, w, h);
             this.context.restore();
         }
 

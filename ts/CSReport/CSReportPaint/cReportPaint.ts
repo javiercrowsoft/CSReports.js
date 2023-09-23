@@ -1124,13 +1124,22 @@ namespace CSReportPaint {
                     bitmapGraphic.getWidth(), 
                     bitmapGraphic.getHeight() + 3); // TODO check why 56 ???;
 
+            let pen: Pen;
             if (this.brushGrid !== null) {
-                bitmapGraphic.setFillStyle(this.brushGrid.foreground.toArgb());
+                pen = new Pen(this.brushGrid.foreground.toArgb(), 0.2);
             }
-            else  {
-                bitmapGraphic.setFillStyle(rgbColor);
+            else {
+                pen = new Pen(rgbColor, 0.2);
             }
-            bitmapGraphic.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+
+            const gridSize = 10;
+            const w = Math.floor(rect.getWidth() / gridSize);
+            const h = Math.floor(rect.getHeight() / gridSize);
+            for(let x = 0; x < w; x++) {
+                for(let y = 0; y < h; y++) {
+                    bitmapGraphic.drawRectangle4(pen, x*gridSize, y*gridSize, gridSize, gridSize);
+                }
+            }
 
             for(let i = 0; i < this.getPaintObjects().count(); i++) {
                 this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
