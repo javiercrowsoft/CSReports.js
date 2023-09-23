@@ -54,6 +54,7 @@ namespace CSReportPaint {
         private scaleY: number = 0;
 
         private bitmap: Bitmap = null;
+        private textEvalGraphic: Graphic = Graphic.createGraphic("textEvalGraphic");
 
         public constructor() {
             try  {
@@ -430,7 +431,7 @@ namespace CSReportPaint {
                 }
             }
 
-            this.refreshBackgroundPicture(graphicGrid, Color.White.toArgb());
+            return this.refreshBackgroundPicture(graphicGrid, Color.White.toArgb());
         }
 
         //----------------------------------------------------------------------------------
@@ -623,7 +624,7 @@ namespace CSReportPaint {
 
         // Drawing
         public clearPage(graph: object) {
-            this.refreshBackgroundPicture(graph as Graphic, Color.White.toArgb());
+            return this.refreshBackgroundPicture(graph as Graphic, Color.White.toArgb());
         }
 
         public refreshObject(key: string, graph: Graphic) {
@@ -810,8 +811,8 @@ namespace CSReportPaint {
             this.y1Ex = 0;
             this.y2Ex = 0;
 
-            this.refreshBackgroundPicture(graph, Color.White.toArgb());
-            this.beginMoveDone = false;
+            return this.refreshBackgroundPicture(graph, Color.White.toArgb())
+                .then(P.call(this, () => this.beginMoveDone = false));
         }
 
         // Drawing - Primitive
@@ -1097,7 +1098,7 @@ namespace CSReportPaint {
         }
 
         public createPicture(graphic: Graphic) {
-            this.refreshBackgroundPicture(graphic, "#000000");
+            return this.refreshBackgroundPicture(graphic, "#000000");
         }
 
         public createBackgroundBitmap(graphic: Graphic) {
@@ -1112,33 +1113,42 @@ namespace CSReportPaint {
                 this.bitmap.dispose();
             }
 
-            this.createBackgroundBitmap(graphic);
+            const bitmapGraphic: Graphic = Graphic.createGraphic(
+                "backgroundGraphic", 
+                graphic.getContext().canvas.width,
+                graphic.getContext().canvas.height);
 
-            Graphic.fromImage(this.bitmap).then(P.call(this, (graphic: Graphic) => {
 
-                let rect: Rectangle = cGlobals
-                    .newRectangle(0, 0,
-                        graphic.getWidth(), 
-                        graphic.getHeight() + 3); // TODO check why 56 ???;
+            const rect: Rectangle = cGlobals
+                .newRectangle(0, 0,
+                    bitmapGraphic.getWidth(), 
+                    bitmapGraphic.getHeight() + 3); // TODO check why 56 ???;
 
-                if (this.brushGrid !== null) {
-                    graphic.setFillStyle(this.brushGrid.foreground.toArgb());
-                }
-                else  {
-                    graphic.setFillStyle(rgbColor);
-                }
-                graphic.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+            if (this.brushGrid !== null) {
+                bitmapGraphic.setFillStyle(this.brushGrid.foreground.toArgb());
+            }
+            else  {
+                bitmapGraphic.setFillStyle(rgbColor);
+            }
+            bitmapGraphic.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
 
-                for(let i = 0; i < this.getPaintObjects().count(); i++) {
-                    this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), graphic);
-                }
+            for(let i = 0; i < this.getPaintObjects().count(); i++) {
+                this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
+            }
 
-                for(let i = 0; i < this.getPaintSections().count(); i++) {
-                    this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), graphic);
-                }
+            for(let i = 0; i < this.getPaintSections().count(); i++) {
+                this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
+            }
 
-                this.paintPicture(graphic, true);
-            }));
+            this.bitmap = Bitmap.fromContext2d(bitmapGraphic.getContext(), bitmapGraphic.name);
+
+            return this.bitmap.whenLoaded()
+                .then(P.call(this, () => { 
+
+                    return this.paintPicture(graphic, true);
+
+                }));
+
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -1196,8 +1206,8 @@ namespace CSReportPaint {
                     }
                 }
                 else {
-                    if (rect.getHeight() === 0 || rect.getBottom() === rect.getTop()) { rect.setHeight(1); }
-                    if (rect.getWidth() === 0 || rect.getLeft() === rect.getRight()) { rect.setWidth(1); }
+                    if (rect.getHeight() === 0 || rect.getBottom() === rect.getTop()) { rect.setHeight(0.1); }
+                    if (rect.getWidth() === 0 || rect.getLeft() === rect.getRight()) { rect.setWidth(0.1); }
 
                     graph.drawRectangle(pen, rect);
                 }
@@ -1225,71 +1235,66 @@ namespace CSReportPaint {
                 format.formatFlags = StringFormatFlags.NoWrap;
             }
 
-            Promise.all([
-                this.getPlEvaluateTextWidth(text, font, this.scaleX),
-                this.getPlEvaluateTextHeight(text, font, aspect.getWidth(), format, this.scaleY, this.scaleX)
-            ]).then(P.call(this, (value: number[]) => {
-                let stringWidth: number = value[0];
-                let stringHeight: number = value[1];
-    
-                // TODO: translate this to English if it is really needed
-                //
-                // this is for security, because
-                // when we print to the printer (on screen this doesn't happen)
-                // for small differences in the
-                // process of scaling up to the printer resolution
-                // in some cases part of the text is lost if the
-                // rectangle that requested is too small
-                //
-                stringHeight += 25; //+ 400 the original code was in twips;
-    
-                let marginX: number = c_Margen_X;
-                let marginY: number = c_Margen_Y;
-    
-                if (image !== null) {
-                    marginX += image.getSize().width;
-                    marginY = image.getSize().height - stringHeight - c_Margen_Bottom;
-    
-                    if (marginY + stringHeight > aspect.getHeight())  {
-                        marginY = Math.trunc(aspect.getHeight() - stringHeight - c_Margen_Bottom);
-                    }                
-                    if (marginY < c_Margen_Y)  {
-                        marginY = c_Margen_Y;
-                    }
+            let stringWidth: number = this.getPlEvaluateTextWidth(text, font, this.scaleX);
+            let stringHeight: number = this.getPlEvaluateTextHeight(text, font, aspect.getWidth(), format, this.scaleY, this.scaleX);
+
+            // TODO: translate this to English if it is really needed
+            //
+            // this is for security, because
+            // when we print to the printer (on screen this doesn't happen)
+            // for small differences in the
+            // process of scaling up to the printer resolution
+            // in some cases part of the text is lost if the
+            // rectangle that requested is too small
+            //
+            stringHeight += 25; //+ 400 the original code was in twips;
+
+            let marginX: number = c_Margen_X;
+            let marginY: number = c_Margen_Y;
+
+            if (image !== null) {
+                marginX += image.getSize().width;
+                marginY = image.getSize().height - stringHeight - c_Margen_Bottom;
+
+                if (marginY + stringHeight > aspect.getHeight())  {
+                    marginY = Math.trunc(aspect.getHeight() - stringHeight - c_Margen_Bottom);
+                }                
+                if (marginY < c_Margen_Y)  {
+                    marginY = c_Margen_Y;
                 }
-    
-                let nWidth: number = Math.trunc(aspect.getWidth() - marginX * 2);
-    
-                if (stringWidth > nWidth)  {
-                    stringWidth = nWidth;
-                }
-    
-                let x: number = 0;
-                let y: number = 0;
-    
-                switch (aspect.getAlign())
-                {
-                    case HorizontalAlignment.Right:
-                        x = Math.trunc(aspect.getLeft() + aspect.getWidth() - stringWidth - marginX);
-                        break;
-                    case HorizontalAlignment.Center:
-                        x = Math.trunc(aspect.getLeft() + (aspect.getWidth() - stringWidth) * 0.5);
-                        break;
-                    case HorizontalAlignment.Left:
-                        x = Math.trunc(aspect.getLeft() + marginX);
-                        break;
-                }
-    
-                y = Math.trunc(aspect.getTop() - aspect.getOffset() + marginY);
-    
-                let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - marginX), y + stringHeight);
-    
-                let brush: SolidBrush = new SolidBrush(aspect.getFont().getForeColor());
-    
-                graph.drawString(text, font, brush, rect, format);
-    
-                brush.dispose();    
-            }));
+            }
+
+            let nWidth: number = Math.trunc(aspect.getWidth() - marginX * 2);
+
+            if (stringWidth > nWidth)  {
+                stringWidth = nWidth;
+            }
+
+            let x: number = 0;
+            let y: number = 0;
+
+            switch (aspect.getAlign())
+            {
+                case HorizontalAlignment.Right:
+                    x = Math.trunc(aspect.getLeft() + aspect.getWidth() - stringWidth - marginX);
+                    break;
+                case HorizontalAlignment.Center:
+                    x = Math.trunc(aspect.getLeft() + (aspect.getWidth() - stringWidth) * 0.5);
+                    break;
+                case HorizontalAlignment.Left:
+                    x = Math.trunc(aspect.getLeft() + marginX);
+                    break;
+            }
+
+            y = Math.trunc(aspect.getTop() - aspect.getOffset() + marginY);
+
+            let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - marginX), y + stringHeight);
+
+            let brush: SolidBrush = new SolidBrush(aspect.getFont().getForeColor());
+
+            graph.drawString(text, font, brush, rect, format);
+
+            brush.dispose();
         }
 
         private showHandles(
@@ -1349,18 +1354,18 @@ namespace CSReportPaint {
             }
         }
 
-        public paintPicture(graph: Graphic, disposeGraphicObject: boolean) {
-            let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.getSize().width, this.bitmap.getSize().height);
-            this.bitmap.getBitmap().then(P.call(this, (bitmap: ImageBitmap) => {
+        public paintPicture(graphic: Graphic, disposeGraphicObject: boolean) {
+            return this.bitmap.getBitmap().then(P.call(this, (bitmap: ImageBitmap) => {
+                let rect: Rectangle = cGlobals.newRectangle(0, 0, this.bitmap.getSize().width, this.bitmap.getSize().height);
                 if (this.zoom === 100) {
-                    graph.drawImage(bitmap, rect.getLeft(), rect.getTop());
+                    graphic.drawImage(bitmap, rect.getLeft(), rect.getTop());
                 }
                 for(let i = 0; i < this.vSelectedKeys.length; i++) {
-                    this.setFocusAux(this.vSelectedKeys[i], graph);
+                    this.setFocusAux(this.vSelectedKeys[i], graphic);
                 }
 
                 if (disposeGraphicObject) {
-                    graph.dispose();
+                    graphic.dispose();
                 }
             }));
         }
@@ -1426,22 +1431,14 @@ namespace CSReportPaint {
             }
         }
 
-        //
-        //
         private getPlEvaluateTextWidth(text: string, font: Font, scaleX: number) {
-            return Graphic.fromImage(this.bitmap).then(P.call(this, (graphic: Graphic) => {
-                let stringSize: SizeF = graphic.measureString(text, font);
-                graphic.dispose();
-                return Math.trunc(stringSize.width / scaleX); // TODO: check if it is / or *    
-            }));
+            let stringSize: SizeF = this.textEvalGraphic.measureString(text, font);
+            return Math.trunc(stringSize.width / scaleX); // TODO: check if it is / or *    
         }
 
         private getPlEvaluateTextHeight(text: string, font: Font, width: number, format: StringFormat, scaleY: number, scaleX: number) {
-            return Graphic.fromImage(this.bitmap).then(P.call(this, (graphic: Graphic) => {
-                let stringSize: SizeF = graphic.measureString(text, font, Math.trunc(width * scaleX), format);
-                graphic.dispose();
-                return Math.trunc(stringSize.height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
-            }));
+            let stringSize: SizeF = this.textEvalGraphic.measureString(text, font, Math.trunc(width * scaleX), format);
+            return Math.trunc(stringSize.height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
         }
 
         private pClearObject(key: string, graph: Graphic) {

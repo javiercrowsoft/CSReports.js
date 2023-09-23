@@ -92,8 +92,7 @@ namespace CSReportEditor {
 
         public init() {
             let editor: cEditor = new cEditor(this, this.pnEditor, this.pnRule, this.pnReport, this.tbpEditor);
-            editor.init();
-            editor.newReport(null);        
+            editor.init().then(()=> editor.newReport(null));        
         }
 
         public getReportCopySource() {
@@ -121,8 +120,7 @@ namespace CSReportEditor {
 
         private newReportClick() {
             let editor: cEditor = this.createEditor();
-            editor.init();
-            editor.newReport(null);
+            editor.init().then(()=> editor.newReport(null));            
         }
 
         public setEditAlignTextState(status: boolean) {

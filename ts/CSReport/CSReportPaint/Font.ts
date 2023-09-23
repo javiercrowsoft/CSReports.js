@@ -19,14 +19,14 @@ namespace CSReportPaint {
 
             this._name = name;
             this._size = size;
-            if(bold) this._bold = ' bold';
-            if(italic) this._italic = ' italic';
+            if(bold) this._bold = 'bold ';
+            if(italic) this._italic = 'italic ';
             this._strike = strike;
             this._underline = underline;
         }
 
         toStringFont(): string {
-            return this._name + this._bold + this._italic + ' ' + this._size + 'px';
+            return this._bold + this._italic + this._size + 'px ' + this._name;
         }
 
         get name() {

@@ -62,10 +62,6 @@ namespace CSChartServer {
             throw new NotImplementedException();
         }
 
-        public Dispose() {
-            throw new NotImplementedException();
-        }
-
         public renderWebChartImage() {
             throw new NotImplementedException();
         }
@@ -87,7 +83,7 @@ namespace CSChartServer {
         }
 
         dispose() {
-
+            console.log("dispose was called in object " + this.constructor.name);
         }
     }
 }

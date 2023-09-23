@@ -31,8 +31,23 @@ namespace CSReportPaint {
             });
         }
 
+        static fromContext2d(ctx: CanvasRenderingContext2D, name: string) {
+            const bitmap = new Bitmap(0,0, name);
+            bitmap.p = new Promise((resolve) => {
+                createImageBitmap(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height)).then(b => {
+                    bitmap.bitmap = b;
+                    resolve();
+                });
+            });
+            return bitmap;
+        }
+
         getBitmap() {
             return this.p.then(() => this.bitmap)
+        }
+
+        whenLoaded() {
+            return this.p;
         }
 
         getSize() {
@@ -45,7 +60,7 @@ namespace CSReportPaint {
         }
 
         dispose() {
-
+            console.log("dispose was called in object " + this.constructor.name);
         }
     }
 
@@ -93,7 +108,7 @@ namespace CSReportPaint {
         }
 
         dispose() {
-
+            console.log("dispose was called in object " + this.constructor.name);
         }
 
         drawImage(bitmap: ImageBitmap, x: number, y: number) {
@@ -110,9 +125,21 @@ namespace CSReportPaint {
             canvas.name = name;            
             const ctx = canvas.getContext('2d');
             return bitmap.getBitmap().then(bmp => {
+                ctx.canvas.width = bmp.width;
+                ctx.canvas.height = bmp.height;
                 ctx.drawImage(bmp,0,0);
                 return new Graphic(canvas, bitmap.name);
             });
+        }
+
+        static createGraphic(name: string, width?: number, height?: number) {
+            const canvas = document.createElement('canvas') as HTMLCanvasElement;
+            // @ts-ignore
+            canvas.name = name;            
+            const ctx = canvas.getContext('2d');
+            if(width) ctx.canvas.width = width;
+            if(height) ctx.canvas.height = height;
+            return new Graphic(canvas, name);
         }
 
         fillPath(brush: Brush, path: any) {
@@ -124,11 +151,19 @@ namespace CSReportPaint {
         }
 
         fillRectangle(brush: Brush, rect: Rectangle) {
-
+            this.context.save();
+            this.context.fillStyle = brush.toString();
+            this.context.fillRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+            this.context.restore();
         }
 
         drawRectangle(pen: Pen, rect: Rectangle) {
-
+            this.context.save();
+            if(pen.dashStyle == DashStyle.Dot) this.context.setLineDash([3, 2]);
+            this.context.lineWidth = pen.width();
+            this.context.strokeStyle = pen.color();
+            this.context.strokeRect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+            this.context.restore();
         }
 
         drawString(text: string, 
@@ -148,7 +183,7 @@ namespace CSReportPaint {
         }
 
         private drawStringIntoRect(text: string, rect: RectangleF) {
-            this.context.save();            
+            this.context.save();
             this.context.beginPath();
             this.context.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
             this.context.clip();
@@ -371,24 +406,38 @@ namespace CSReportPaint {
     }
 
     export enum DashStyle {
-        Dot
+        Dot = 1
     }
 
     export class Pen {
         dashStyle: DashStyle;
-        constructor(colorOut: string, width: number) {
-
+        private _color: string;
+        private _width: number;
+        
+        constructor(color: string, width: number) {
+            this._color = color;
+            this._width = width;
         }
 
         dispose() {
+            console.log("dispose was called in object " + this.constructor.name);
+        }
 
+        color() {
+            return this._color;
+        }
+
+        width() {
+            return this._width;
         }
     }
 
-    export class Brush {
+    export abstract class Brush {
         dispose() {
-
-        }
+            console.log("dispose was called in object " + this.constructor.name);
+        };
+        
+        toString() { return csColors.WHITE};
     }
 
     export class SolidBrush extends Brush {
@@ -401,6 +450,10 @@ namespace CSReportPaint {
 
         get foreground(): Color {
             return this._foreground;
+        }
+
+        toString() {
+            return this._foreground.color;
         }
     }
 
@@ -416,7 +469,6 @@ namespace CSReportPaint {
             this._background = background;
         }
 
-
         get hatchStyle(): HatchStyle {
             return this._hatchStyle;
         }
@@ -427,6 +479,10 @@ namespace CSReportPaint {
 
         get background(): Color {
             return this._background;
+        }
+
+        toString() {
+            return this._foreground.color;
         }
     }
 

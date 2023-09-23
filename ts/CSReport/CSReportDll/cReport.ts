@@ -4428,7 +4428,9 @@ namespace CSReportDll {
             }
         }
         // public functions
-        public Dispose() {
+        public dispose() {
+            console.log("dispose was called in object " + this.constructor.name);
+            
             this.table = null;
             this.tables = null;
             this.vRowsIndexAux = null;

@@ -1549,19 +1549,9 @@ namespace CSReportPaint {
             return true;
         }
 
-        private pDestroyFonts() {
-            /*
-            int iFnt = 0;
-            for (iFnt = 1; iFnt <= this.iFontCount; iFnt++)
-            {
-                DeleteObject(this.hFnt[iFnt]);
-            }
-            this.fnt = [];
-            this.hFnt = [];
-             */
-        }
+        public dispose() {
+            console.log("dispose was called in object " + this.constructor.name);
 
-        public Dispose() {
             this.report = null;
             this.paint = null;
             if (this.fPreview !== null) {

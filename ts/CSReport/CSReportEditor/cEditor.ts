@@ -59,6 +59,7 @@ namespace CSReportEditor {
     import Bitmap = CSReportPaint.Bitmap;
     import Point = CSReportPaint.Point;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
+    import P = CSKernelClient.Callable;    
 
     export class cEditor {
 
@@ -338,7 +339,7 @@ namespace CSReportEditor {
 
         public showGrid(typeGrid: csETypeGrid) {
             this.typeGrid = typeGrid;
-            this.paint.initGrid(this.picReport.getGraphics(), typeGrid);
+            return this.paint.initGrid(this.picReport.getGraphics(), typeGrid);
         }
 
         public showConnectsAux() {
@@ -4606,150 +4607,151 @@ namespace CSReportEditor {
                                                                 paperInfo.getPaperSize(),
                                                                 paperInfo.getOrientation()).getHeight()));
 
-            this.paint.initGrid(this.picReport.getGraphics(), this.typeGrid);
+            return this.paint.initGrid(this.picReport.getGraphics(), this.typeGrid).then(P.call(this, () => {
 
-            if (this.report.getName() !== "") {
-                this.editorTab.setText(this.report.getName() + "   [X]");
-            }
-
-            let sec: cReportSection = null;
-
-            for(let _i = 0; _i < this.report.getHeaders().count(); _i++) {
-                sec = this.report.getHeaders().item(_i);
-                sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                sec.getKey(),
-                                                sec.getTypeSection(),
-                                                sec.getName(),
-                                                false));
-                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                paintSec.setHeightSec(sec.getAspect().getHeight());
-                this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_HEADER);
-            }
-
-            for(let _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
-                sec = this.report.getGroupsHeaders().item(_i);
-                sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                sec.getKey(),
-                                                sec.getTypeSection(),
-                                                sec.getName(),
-                                                false));
-                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                paintSec.setHeightSec(sec.getAspect().getHeight());
-                this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_GROUPH);
-            }
-
-            for(let _i = 0; _i < this.report.getDetails().count(); _i++) {
-                sec = this.report.getDetails().item(_i);
-                sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                sec.getKey(),
-                                                sec.getTypeSection(),
-                                                sec.getName(),
-                                                false));
-                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                paintSec.setHeightSec(sec.getAspect().getHeight());
-                this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_DETAIL);
-            }
-
-            for(let _i = 0; _i < this.report.getGroupsFooters().count(); _i++) {
-                sec = this.report.getGroupsFooters().item(_i);
-                sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                sec.getKey(),
-                                                sec.getTypeSection(),
-                                                sec.getName(),
-                                                false));
-                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                paintSec.setHeightSec(sec.getAspect().getHeight());
-                this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_GROUPF);
-            }
-
-            for(let _i = 0; _i < this.report.getFooters().count(); _i++) {
-                sec = this.report.getFooters().item(_i);
-                sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                sec.getKey(),
-                                                sec.getTypeSection(),
-                                                sec.getName(),
-                                                false));
-                paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                paintSec.setHeightSec(sec.getAspect().getHeight());
-                this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_FOOTER);
-            }
-
-            let paintType: csRptPaintObjType;
-
-            for(let _i = 0; _i < this.report.getControls().count(); _i++) {
-
-                let rptCtrl: cReportControl = this.report.getControls().item(_i);
-                this.refreshNextNameCtrl(rptCtrl.getName());
-                let ctrlAspect: cReportAspect = rptCtrl.getLabel().getAspect();
-
-                if (rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_IMAGE
-                    || rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_CHART) {
-                    paintType = csRptPaintObjType.CSRPTPAINTOBJIMAGE;
-                }
-                else {
-                    paintType = csRptPaintObjType.CSRPTPAINTOBJBOX;
+                if (this.report.getName() !== "") {
+                    this.editorTab.setText(this.report.getName() + "   [X]");
                 }
 
-               let paintObj: cReportPaintObject = this.paint.getNewObject(paintType);
+                let sec: cReportSection = null;
 
-                // for old reports
-                //
-                ctrlAspect.setTransparent(ctrlAspect.getBackColor() === Color.White.toArgb());
-
-                paintObj.setImage(rptCtrl.getImage().getImage());
-
-                let aspect: cReportAspect = paintObj.getAspect();
-                aspect.setLeft(ctrlAspect.getLeft());
-                aspect.setTop(ctrlAspect.getTop());
-                aspect.setWidth(ctrlAspect.getWidth());
-                aspect.setHeight(ctrlAspect.getHeight());
-                aspect.setBackColor(ctrlAspect.getBackColor());
-                aspect.setTransparent(ctrlAspect.getTransparent());
-                aspect.setAlign(ctrlAspect.getAlign());
-                aspect.setWordWrap(ctrlAspect.getWordWrap());
-
-                if (ctrlAspect.getBorderType() === csReportBorderType.CS_RPT_BS_NONE) {
-                    aspect.setBorderColor(Color.Black.toArgb());
-                    aspect.setBorderWidth(0);
-                    aspect.setBorderRounded(false);
-                    aspect.setBorderType(csReportBorderType.CS_RPT_BS_FIXED);
-                }
-                else {
-                    aspect.setBorderType(ctrlAspect.getBorderType());
-                    aspect.setBorderColor(ctrlAspect.getBorderColor());
-                    aspect.setBorderColor3d(ctrlAspect.getBorderColor3d());
-                    aspect.setBorderColor3dShadow(ctrlAspect.getBorderColor3dShadow());
-                    aspect.setBorderRounded(ctrlAspect.getBorderRounded());
-                    aspect.setBorderWidth(ctrlAspect.getBorderWidth());
+                for(let _i = 0; _i < this.report.getHeaders().count(); _i++) {
+                    sec = this.report.getHeaders().item(_i);
+                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
+                                                    sec.getKey(),
+                                                    sec.getTypeSection(),
+                                                    sec.getName(),
+                                                    false));
+                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
+                    paintSec.setHeightSec(sec.getAspect().getHeight());
+                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_HEADER);
                 }
 
-                switch (rptCtrl.getSectionLine().getTypeSection()) {
-                    case csRptSectionType.FOOTER:
-                    case csRptSectionType.MAIN_FOOTER:
-                        aspect.setOffset(this.offSet);
-                        break;
+                for(let _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
+                    sec = this.report.getGroupsHeaders().item(_i);
+                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
+                                                    sec.getKey(),
+                                                    sec.getTypeSection(),
+                                                    sec.getName(),
+                                                    false));
+                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
+                    paintSec.setHeightSec(sec.getAspect().getHeight());
+                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_GROUPH);
                 }
 
-                let font: cReportFont = aspect.getFont();
-                font.setName(ctrlAspect.getFont().getName());
-                font.setForeColor(ctrlAspect.getFont().getForeColor());
-                font.setSize(ctrlAspect.getFont().getSize());
-                font.setBold(ctrlAspect.getFont().getBold());
-                font.setItalic(ctrlAspect.getFont().getItalic());
-                font.setUnderline(ctrlAspect.getFont().getUnderline());
-                font.setStrike(ctrlAspect.getFont().getStrike());
+                for(let _i = 0; _i < this.report.getDetails().count(); _i++) {
+                    sec = this.report.getDetails().item(_i);
+                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
+                                                    sec.getKey(),
+                                                    sec.getTypeSection(),
+                                                    sec.getName(),
+                                                    false));
+                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
+                    paintSec.setHeightSec(sec.getAspect().getHeight());
+                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_DETAIL);
+                }
 
-                paintObj.setText(rptCtrl.getLabel().getText());
-                paintObj.setRptType(csRptSectionType.CONTROL);
-                paintObj.setTag(rptCtrl.getKey());
-                rptCtrl.setKeyPaint(paintObj.getKey());
-            }
+                for(let _i = 0; _i < this.report.getGroupsFooters().count(); _i++) {
+                    sec = this.report.getGroupsFooters().item(_i);
+                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
+                                                    sec.getKey(),
+                                                    sec.getTypeSection(),
+                                                    sec.getName(),
+                                                    false));
+                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
+                    paintSec.setHeightSec(sec.getAspect().getHeight());
+                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_GROUPF);
+                }
 
-            this.dataHasChanged = false;
+                for(let _i = 0; _i < this.report.getFooters().count(); _i++) {
+                    sec = this.report.getFooters().item(_i);
+                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
+                                                    sec.getKey(),
+                                                    sec.getTypeSection(),
+                                                    sec.getName(),
+                                                    false));
+                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
+                    paintSec.setHeightSec(sec.getAspect().getHeight());
+                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_FOOTER);
+                }
 
-            this.paint.createPicture(this.picReport.getGraphics());
+                let paintType: csRptPaintObjType;
 
-            this.refreshRule();
+                for(let _i = 0; _i < this.report.getControls().count(); _i++) {
+
+                    let rptCtrl: cReportControl = this.report.getControls().item(_i);
+                    this.refreshNextNameCtrl(rptCtrl.getName());
+                    let ctrlAspect: cReportAspect = rptCtrl.getLabel().getAspect();
+
+                    if (rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_IMAGE
+                        || rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_CHART) {
+                        paintType = csRptPaintObjType.CSRPTPAINTOBJIMAGE;
+                    }
+                    else {
+                        paintType = csRptPaintObjType.CSRPTPAINTOBJBOX;
+                    }
+
+                let paintObj: cReportPaintObject = this.paint.getNewObject(paintType);
+
+                    // for old reports
+                    //
+                    ctrlAspect.setTransparent(ctrlAspect.getBackColor() === Color.White.toArgb());
+
+                    paintObj.setImage(rptCtrl.getImage().getImage());
+
+                    let aspect: cReportAspect = paintObj.getAspect();
+                    aspect.setLeft(ctrlAspect.getLeft());
+                    aspect.setTop(ctrlAspect.getTop());
+                    aspect.setWidth(ctrlAspect.getWidth());
+                    aspect.setHeight(ctrlAspect.getHeight());
+                    aspect.setBackColor(ctrlAspect.getBackColor());
+                    aspect.setTransparent(ctrlAspect.getTransparent());
+                    aspect.setAlign(ctrlAspect.getAlign());
+                    aspect.setWordWrap(ctrlAspect.getWordWrap());
+
+                    if (ctrlAspect.getBorderType() === csReportBorderType.CS_RPT_BS_NONE) {
+                        aspect.setBorderColor(Color.Black.toArgb());
+                        aspect.setBorderWidth(0);
+                        aspect.setBorderRounded(false);
+                        aspect.setBorderType(csReportBorderType.CS_RPT_BS_FIXED);
+                    }
+                    else {
+                        aspect.setBorderType(ctrlAspect.getBorderType());
+                        aspect.setBorderColor(ctrlAspect.getBorderColor());
+                        aspect.setBorderColor3d(ctrlAspect.getBorderColor3d());
+                        aspect.setBorderColor3dShadow(ctrlAspect.getBorderColor3dShadow());
+                        aspect.setBorderRounded(ctrlAspect.getBorderRounded());
+                        aspect.setBorderWidth(ctrlAspect.getBorderWidth());
+                    }
+
+                    switch (rptCtrl.getSectionLine().getTypeSection()) {
+                        case csRptSectionType.FOOTER:
+                        case csRptSectionType.MAIN_FOOTER:
+                            aspect.setOffset(this.offSet);
+                            break;
+                    }
+
+                    let font: cReportFont = aspect.getFont();
+                    font.setName(ctrlAspect.getFont().getName());
+                    font.setForeColor(ctrlAspect.getFont().getForeColor());
+                    font.setSize(ctrlAspect.getFont().getSize());
+                    font.setBold(ctrlAspect.getFont().getBold());
+                    font.setItalic(ctrlAspect.getFont().getItalic());
+                    font.setUnderline(ctrlAspect.getFont().getUnderline());
+                    font.setStrike(ctrlAspect.getFont().getStrike());
+
+                    paintObj.setText(rptCtrl.getLabel().getText());
+                    paintObj.setRptType(csRptSectionType.CONTROL);
+                    paintObj.setTag(rptCtrl.getKey());
+                    rptCtrl.setKeyPaint(paintObj.getKey());
+                }
+
+                this.dataHasChanged = false;
+
+                this.paint.createPicture(this.picReport.getGraphics());
+
+                this.refreshRule();
+            }));                
         }
 
         private addPaintSectionForSecLn(sec: cReportSection, typeSecLn: csRptSectionType) {
@@ -4906,7 +4908,7 @@ namespace CSReportEditor {
                                                                     paperInfo.getOrientation())
                                            .getHeight()));
             this.validateSectionAspect();
-            this.reLoadReport();
+            return this.reLoadReport();
         }
 
         public refreshAll() {
@@ -5969,7 +5971,7 @@ namespace CSReportEditor {
 
             cGlobals.createStandardSections(this.report, tR);
 
-            this.reLoadReport();
+            return this.reLoadReport();
         }
 
         private updateFormulas(currentName: string, newName: string) {
