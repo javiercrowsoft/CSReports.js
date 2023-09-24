@@ -95,7 +95,7 @@ namespace CSReportPaint {
         }
 
         getBoundingClientRect(): DOMRect {
-            // @ts-ignore;
+            // @ts-ignore
             return this.canvas.getBoundingClientRect();
         }
 

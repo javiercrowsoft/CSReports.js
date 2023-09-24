@@ -37,7 +37,7 @@ namespace CSReportDll {
                 if (xDoc.nodeHasChild(nodeFather)) {
                     nodeObj = xDoc.getNodeChild(nodeFather);
                     while (nodeObj !== null) {
-                        if (! this.add(null, "").load(xDoc, nodeObj))  {
+                        if (! this.add(null).load(xDoc, nodeObj))  {
                             return false;
                         }
                         nodeObj = xDoc.getNextNode(nodeObj);

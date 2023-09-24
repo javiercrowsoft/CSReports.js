@@ -1,5 +1,6 @@
 namespace CSXml {
 
+    import NotImplementedException = CSOAPI.NotImplementedException;
     import cWindow = CSKernelClient.cWindow;
     import MessageBoxDefaultButton = CSKernelClient.MessageBoxDefaultButton;
     import cError = CSKernelClient.cError;
@@ -7,13 +8,13 @@ namespace CSXml {
     import eFileAccess = CSKernelClient.eFileAccess;
     import eTypes = CSKernelClient.eTypes;
     import cFile = CSKernelFile.cFile;
+    import FileContent = CSKernelFile.FileContent;
 
     export class cXml {
 
         private name: string = "";
         private path: string = "";
         private domDoc: XmlDocument = new XmlDocument();
-        private commDialog: object = null;
         private filter: string = "";
 
         public getName() {
@@ -47,64 +48,25 @@ namespace CSXml {
             this.filter = rhs;
         }
 
-        public init(commDialog: object) {
-            this.commDialog = commDialog;
+        public init() {
+
         }
 
         public openXmlWithDialog() {
-            try {
-                let file: CSKernelFile.cFile = new CSKernelFile.cFile();
-                file.setFilter(this.filter);
-                file.init("OpenXmlWithDialog", this.commDialog);
+            let file: CSKernelFile.cFile = new CSKernelFile.cFile();
+            file.setFilter(this.filter);
+            file.init("OpenXmlWithDialog");
 
-                if (!file.open(this.name,
-                                eFileMode.eRead, 
-                                false, 
-                                false, 
-                                eFileAccess.eLockReadWrite, 
-                                true, 
-                                true))  {
-                    return false; 
-                }
-
-                this.name = file.getName();
-                this.path = file.getPath();
-
-                file.close();
-
-                file = null;
-
-                return this.openXml();
-            }
-            catch (ex) {
-                cError.mngError(ex);
-                return false;
-            }
+            return file.userOpenFile().then((fc: FileContent) => {
+                this.path = "{{unknown: running in browser}}"
+                this.name = fc.name;
+                this.domDoc.load(fc.content);
+                return true;
+            });
         }
 
-        public openXml() {
-            try {
-                let file: string = "";
-                this.domDoc = new XmlDocument();
-                file = this.getPath() + this.name;
-
-                let fileEx = new CSKernelFile.cFile();
-                if (fileEx.fileExists(file)) {
-                    if (!this.loadXml(file)) {
-                        return false;
-                    }
-                }
-                else {
-                    cWindow.msgWarning("The file;;" + file + ";;doesn't exists.");
-                    return false;
-                }
-
-                return true;
-            }
-            catch (ex) {
-                cError.mngError(ex);
-                return false;
-            }
+        public openXml(): boolean {
+            throw new NotImplementedException();
         }
 
         public newXmlWithDialog() {
@@ -112,7 +74,7 @@ namespace CSXml {
                 let msg: string = "";
                 let file: CSKernelFile.cFile = new CSKernelFile.cFile();
 
-                file.init("NewXmlWithDialog", this.commDialog);
+                file.init("NewXmlWithDialog");
                 file.setFilter(this.filter);
 
                 let bExists: boolean = false;
@@ -262,7 +224,7 @@ namespace CSXml {
 
         public getNodeChild(node: XmlNode) {
             if (this.nodeHasChild(node)) {
-                return node.childNodes[0];
+                return node.getChildNodes()[0];
             }
             else {
                 return null;
@@ -270,7 +232,7 @@ namespace CSXml {
         }
 
         public getNextNode(node: XmlNode) {
-            return node.nextSibling;
+            return node.getNextSibling();
         }
 
         public getNodeValue(node: XmlNode) {
@@ -280,17 +242,19 @@ namespace CSXml {
         }
 
         public getNodeProperty(node: XmlNode, propertyName: string) {
-            let o: cXmlProperty = new cXmlProperty();
-            let txt: string = "";
-
-            if (node.attributeByName(propertyName) !== null) {
-                txt = node.attributeByName(propertyName).value;
+            try {
+                let o: cXmlProperty = new cXmlProperty();
+                let txt: string = "";
+                if (node.attributeByName(propertyName) !== null) {
+                    txt = node.attributeByName(propertyName).value;
+                }
+                o.setValue(eTypes.eVariant, txt);
+                return o;
             }
-
-            // TODO: remove after testing
-            //txt = txt.replace("\n", "\\n");
-            o.setValue(eTypes.eVariant, txt);
-            return o;
+            catch(ex) {
+                console.log(ex);
+                throw ex;
+            }
         }
 
         public getBinaryNodeProperty(node: XmlNode, propertyName: string) {
@@ -319,12 +283,12 @@ namespace CSXml {
         }
 
         public nodeHasChild(node: XmlNode) {
-            return node.childNodes.length > 0;
+            return node.getChildNodes().length > 0;
         }
 
         private loadXml(file: string) {
             try {
-                this.domDoc.load(file);
+                
                 return true;
             }
             catch (ex) {

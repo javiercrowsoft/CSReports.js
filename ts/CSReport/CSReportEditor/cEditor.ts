@@ -59,7 +59,7 @@ namespace CSReportEditor {
     import Bitmap = CSReportPaint.Bitmap;
     import Point = CSReportPaint.Point;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
-    import P = CSKernelClient.Callable;    
+    import P = CSKernelClient.Callable;
 
     export class cEditor {
 
@@ -3090,33 +3090,42 @@ namespace CSReportEditor {
             cMainEditor.setDocActive(this);
         }
 
-        public openDocument(fileName: string = "") {
+        public openDocument(fileName: string = ""): Promise<boolean> {
             let mouse: CMouseWait = new CMouseWait();
             try {
 
                 // to avoid reentrancy
                 this.opening = true;
+                let p: Promise<boolean>;
 
                 if (fileName === "") {
                     CSReportEditor.cEditor.setInitDir();
-                    if (! this.report.load(this.fMain.openFileDialog)) {
-                        if (this.report.getName() === "") return false;
-                    }
+                    p = this.report.load();
+                    // TODO: remove after debug
+                    // if (! this.report.load()) {
+                    //    if (this.report.getName() === "") return false;
+                    // }
                 }
                 else {
-                    if (!this.report.loadSilent(fileName)) return false;
+                    p = this.report.loadSilent(fileName);
                 }
-
-                this.reLoadReport();
-                cMainEditor.setDocActive(this);
-                this.opening = false;
-                return true;
+                
+                return p.then(P.call(this, (loadSuccess: boolean) => {
+                    if(! loadSuccess) {
+                        mouse.dispose();
+                        return false;
+                    }
+                    else {
+                        this.reLoadReport();
+                        cMainEditor.setDocActive(this);
+                        this.opening = false;
+                        return true;
+                    }
+                }));
             }
             catch (ex) {
-                return false;
-            }
-            finally {
                 mouse.dispose();
+                return P.resolvedPromise(false);
             }
         }
 
@@ -4050,7 +4059,7 @@ namespace CSReportEditor {
                 paintAspect.setBorderColor(Color.Red.toArgb());
             }
             else {
-                const INNER_COLOR = "x99ccff";
+                const INNER_COLOR = "#99ccff";
 
                 if (rptType === csRptSectionType.GROUP_FOOTER
                     || rptType === csRptSectionType.GROUP_HEADER) {

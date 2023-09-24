@@ -10,6 +10,7 @@ namespace CSReportEditor {
     import cWindow = CSKernelClient.cWindow;
     import csECtlAlignConst = CSReportGlobals.csECtlAlignConst;
     import Color = CSReportPaint.Color;
+    import P = CSKernelClient.Callable;
 
     export class FMain {
 
@@ -40,11 +41,14 @@ namespace CSReportEditor {
 
         private contextMenuEditor: cEditor = null;
 
+        private mainView;
         private tabReports: TabBar;
+        private tbpEditor: TabPage;
         private pnEditor: Panel;
         private pnRule: PictureBox;
         private pnReport: PictureBox;
-        private tbpEditor;
+
+        private editorIndex = 0;
 
         // TODO: implement
         //
@@ -76,10 +80,14 @@ namespace CSReportEditor {
 
             this.loadRecentListFromUserSettings();
 
-            this.pnEditor = new Panel(this.el('pnEditor'));
-            this.pnRule = new PictureBox("picRule", this.el('pnRule'));
-            this.pnReport = new PictureBox("picReport", this.el('pnReport'));
-            this.tbpEditor = new TabPage(this.el('tbpReport'));
+            this.mainView = this.el("main-view");
+
+            this.tabReports = new TabBar("tabReports", this.el("tabReports"));
+
+            this.tbpEditor = new TabPage("tbpEditor", this.el("tbpReport"));
+            this.pnEditor = new Panel("pnEditor", this.el("pnEditor"));
+            this.pnRule = new PictureBox("picRule", this.el("picRule"));
+            this.pnReport = new PictureBox("picReport", this.el("picReport"));            
 
             this.lv_controls = new ListView();
             this.tv_controls = new TreeView();
@@ -100,22 +108,33 @@ namespace CSReportEditor {
         }
 
         private createEditor() {
-            let tab: TabPage = new TabPage();
-            let pnEditor: Panel = new Panel();
-            let pnRule: PictureBox = new PictureBox("pnRule");
-            let pnReport: PictureBox = new PictureBox("pnReport");
+            const tabPageNode = document.createElement('div');
+            this.mainView.appendChild(tabPageNode);
+            const pnEditorNode = document.createElement('div');
+            tabPageNode.appendChild(pnEditorNode);
+            const picRuleNode = document.createElement('div');
+            pnEditorNode.appendChild(picRuleNode);
+            const picReportNode = document.createElement('div');
+            pnEditorNode.appendChild(picReportNode);
 
-            pnRule.setWidth(250);
-            pnRule.setBacgroundColor(Color.AliceBlue);
-            pnReport.setBacgroundColor(Color.HoneyDew);
+            let tab: TabPage = new TabPage("tabPage" + this.editorIndex, tabPageNode);
+            let pnEditor: Panel = new Panel("pnEditor" + this.editorIndex, pnEditorNode);
+            let picRule: PictureBox = new PictureBox("pnRule" + this.editorIndex, picRuleNode);
+            let picReport: PictureBox = new PictureBox("pnReport" + this.editorIndex, picReportNode);
 
-            pnEditor.getControls().add(pnRule);
-            pnEditor.getControls().add(pnReport);
+            this.editorIndex++;
+
+            picRule.setWidth(250);
+            picRule.setBacgroundColor(Color.AliceBlue);
+            picReport.setBacgroundColor(Color.HoneyDew);
+
+            pnEditor.getControls().add(picRule);
+            pnEditor.getControls().add(picReport);
             tab.getControls().add(pnEditor);
             this.tabReports.getPages().add(tab);
             tab.setText("New Report [X]");
 
-            return new cEditor(this, pnEditor, pnRule, pnReport, tab);
+            return new cEditor(this, pnEditor, picRule, picReport, tab);
         }
 
         private newReportClick() {
@@ -317,16 +336,17 @@ namespace CSReportEditor {
             return this.orientation;
         }
 
-        private openReportClick() {
+        public openReportClick() {
             try {
 
                 let editor: cEditor = this.createEditor();
 
                 editor.init();
 
-                if (editor.openDocument()) {
-                    this.addToRecentList(editor.getFileName());
-                }
+                editor.openDocument().then(P.call(this, (success)=> {
+                    if(success) this.addToRecentList(editor.getFileName());
+                }));
+                    
 
             } catch (ex) {
                 cError.mngError(ex);
@@ -524,7 +544,7 @@ namespace CSReportEditor {
             /*
             if (anObject === null) return;
 
-            let tabs = new String(' ', n*2);
+            let tabs = new String(" ", n*2);
             let methods = this.getMethods(anObject);
             for(let i_ = 0; i_ < methods.length; i_++) {
                 if (m.IsPublic

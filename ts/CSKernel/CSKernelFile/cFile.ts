@@ -16,7 +16,7 @@ namespace CSKernelFile  {
             throw new NotImplementedException();
         }
 
-        init(title: string, commDialog: object) {
+        init(title: string) {
 
         }
 
@@ -41,6 +41,12 @@ namespace CSKernelFile  {
             return false;
         }
 
+        userOpenFile() {
+            return new Promise<FileContent>((resolve, reject) => {
+                this.openFile(resolve, reject);
+            });
+        }
+
         close() {
 
         }
@@ -52,5 +58,44 @@ namespace CSKernelFile  {
         static directorySeparatorChar() {
             return "";
         }
+
+        private clickElem(elem) {
+            // Thx user1601638 on Stack Overflow (6/6/2018 - https://stackoverflow.com/questions/13405129/javascript-create-and-save-file )
+            var eventMouse = document.createEvent("MouseEvents")
+            eventMouse.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+            elem.dispatchEvent(eventMouse)
+        }
+
+        private openFile(resolve: (fc: FileContent) => void, reject: () => void) {
+            const readFile = (e: any) => {
+                const file = e.target.files[0];
+                if (!file) {
+                    reject();
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e: any) {
+                    document.body.removeChild(fileInput);                    
+                    const fc = new FileContent();
+                    fc.name = file.name;
+                    fc.content = e.target.result;
+                    resolve(fc);
+                }
+                reader.readAsText(file)
+            }
+
+            const fileInput = document.createElement("input")
+            fileInput.type = 'file'
+            fileInput.style.display = 'none'
+            fileInput.onchange = readFile
+            document.body.appendChild(fileInput)
+
+            this.clickElem(fileInput)
+        }
+    }
+
+    export class FileContent {
+        name: string;
+        content: string;
     }
 }

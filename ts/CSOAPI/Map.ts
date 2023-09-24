@@ -11,6 +11,7 @@ namespace CSOAPI {
         private isReadOnly: boolean = false;
         private length: number = 0;
         private readonly construct: { new() };
+        private keyIndex = 1;
 
         public constructor(map: Map<T> = null, readOnly: boolean = false, construct: { new() } = null) {
             if(map != null) {
@@ -44,6 +45,9 @@ namespace CSOAPI {
                 value = new this.construct();
                 // @ts-ignore
                 if(value.setKey !== undefined) value.setKey(key);
+            }
+            if(key === undefined || key === null) {
+                key = "___k" + this.keyIndex++;
             }
             this.keys.push(key);
             this.values.push(value);

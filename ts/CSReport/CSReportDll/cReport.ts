@@ -33,6 +33,7 @@ namespace CSReportDll {
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import cWindow = CSKernelClient.cWindow;
     import csDataSourceType = CSReportGlobals.csDataSourceType;
+    import P = CSKernelClient.Callable;
 
     export class T_Group {
         public first: number = null;
@@ -1831,13 +1832,16 @@ namespace CSReportDll {
 
         public loadSilent(fileName: string) {
 
+            return P.resolvedPromise(false);
+
+            /* TODO: when working in node backend version or Electron desktop app
             try {
                 let docXml: cXml = new cXml();
 
                 this.path = cFile.getPath(fileName);
                 this.name = cFile.getFileName(fileName);
 
-                docXml.init(null);
+                docXml.init();
                 docXml.setFilter(this.C_FILE_EX);
                 docXml.setName(this.name);
                 docXml.setPath(this.path);
@@ -1858,14 +1862,14 @@ namespace CSReportDll {
             catch (ex) {
                 cError.mngError(ex);
                 return false;
-            }
+            }*/
         }
 
-        public load(commDialog: object) {
+        public load() {
             try {
                 let docXml: cXml = new cXml();
 
-                docXml.init(commDialog);
+                docXml.init();
                 docXml.setFilter(this.C_FILE_EX);
 
                 if (this.name !== "") {
@@ -1877,29 +1881,28 @@ namespace CSReportDll {
 
                 docXml.setPath(this.path);
 
-                if (!docXml.openXmlWithDialog()) {
-                    return false;
-                }
+                return docXml.openXmlWithDialog().then(P.call(this, () => {
 
-                let property: cXmlProperty = docXml.getNodeProperty(
-                    docXml.getRootNode(), "ReportDisconnected");
+                    let property: cXmlProperty = docXml.getNodeProperty(
+                        docXml.getRootNode(), "ReportDisconnected");
 
-                this.path = docXml.getPath();
-                this.name = docXml.getName();
-                this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
+                    this.path = docXml.getPath();
+                    this.name = docXml.getName();
+                    this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
-                return this.nLoad(docXml);
+                    return this.nLoad(docXml);
+                }));
             }
             catch (ex) {
                 cError.mngError(ex);
-                return false;
+                return P.resolvedPromise(false);
             }
         }
 
         public save(commDialog: object, withDialog: boolean) {
             let docXml: cXml = new cXml();
 
-            docXml.init(commDialog);
+            docXml.init();
             docXml.setFilter(this.C_FILE_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
@@ -2019,7 +2022,7 @@ namespace CSReportDll {
             this.path = cFile.getPath(fileName);
             this.name = cFile.getFileName(fileName);
 
-            docXml.init(null);
+            docXml.init();
             docXml.setFilter(this.C_FILE_DATA_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
@@ -2040,7 +2043,7 @@ namespace CSReportDll {
         public loadData(commDialog: object) {
             let docXml: cXml = new cXml();
 
-            docXml.init(commDialog);
+            docXml.init();
             docXml.setFilter(this.C_FILE_DATA_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
@@ -2060,7 +2063,7 @@ namespace CSReportDll {
         public saveData(commDialog: object, withDialog: boolean) {
             let docXml: cXml = new cXml();
 
-            docXml.init(commDialog);
+            docXml.init();
             docXml.setFilter(this.C_FILE_DATA_EX);
             docXml.setName(this.getFileName(this.name) + "-data.csd");
             docXml.setPath(this.path);
@@ -2122,7 +2125,7 @@ namespace CSReportDll {
         private saveDataForWeb(page: cReportPage, dataName: string, dataPath: string) {
             let docXml: cXml = new cXml();
 
-            docXml.init(null);
+            docXml.init();
             docXml.setFilter("xml");
             docXml.setName(this.getFileName(dataName) + "-1.xml");
             docXml.setPath(dataPath);

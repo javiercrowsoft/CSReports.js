@@ -24,6 +24,9 @@ namespace CSXml {
                     let newArray = [...valueArray];
                     this.binaryValue = newArray;
                 }
+                else if(value instanceof ArrayBuffer) {
+                    this.binaryValue = new Uint8Array(value);
+                }
                 else {
                     this.binaryValue = null;
                 }

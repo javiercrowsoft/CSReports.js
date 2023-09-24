@@ -17,7 +17,7 @@ namespace CSReportEditor {
         public readonly name: string;
         private bacgroundColor: Color;
 
-        public constructor(name: string, el: HTMLElement = null) {
+        public constructor(name: string, el: HTMLElement) {
             super(el);
             
             this.name = name;

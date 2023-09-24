@@ -12,6 +12,7 @@ namespace CSKernelClient {
             f.setDetails(ex.getMessage ? ex.getMessage() : ex.toString());
             f.setInfoAdd(infoAdd);
             f.showDialog();
+            console.log(ex);
         }
 
         public static mngWarning(msg: string, title: string = "") {

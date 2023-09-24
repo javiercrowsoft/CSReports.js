@@ -2,6 +2,8 @@ namespace CSXml {
 
     export class XmlDocument {
 
+        private xmlDoc: Document;
+
         appendChild(node: CSXml.XmlNode) {
 
         }
@@ -15,15 +17,18 @@ namespace CSXml {
         }
 
         getElementsByTagName(nodeTag: string): XmlNode[] {
-            return [];
+            // @ts-ignore
+            return Array.from(this.xmlDoc.getElementsByTagName(nodeTag))
+                .map(node => new XmlNode(node));
         }
 
         createAttribute(name: string): XmlAttribute {
             return new XmlAttribute(name);
         }
 
-        load(file: string) {
-
+        load(xmlText: string) {
+            const parser = new DOMParser();
+            this.xmlDoc = parser.parseFromString(xmlText, "application/xml");
         }
     }
 }

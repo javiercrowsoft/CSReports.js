@@ -16,7 +16,7 @@
                 <li><a>File</a>
                     <ul>
                         <li><a id="mnuFileNew">New</a></li>
-                        <li><a id="mnuFileOpen">Open</a></li>
+                        <li><a id="mnuFileOpen" onclick="CSReportEditor.cMainEditor.fMain.openReportClick()">Open</a></li>
                         <li><a id="mnuFileOpenRecent">Open Recent Files ...</a></li>
                         <li><a id="mnuFileSave">Save</a></li>
                         <li><a id="mnuFileSaveAs">Save As</a></li>
@@ -118,9 +118,9 @@
 
         <div id="tbpEditor" class="editor">
             <div id="pnEditor" class="editor-container">
-                <div id="pnRule" class="rule">
+                <div id="picRule" class="rule">
                 </div>
-                <div id="pnReport" class="report">
+                <div id="picReport" class="report">
                 </div>
             </div>
         </div>
