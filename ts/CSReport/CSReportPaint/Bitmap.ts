@@ -183,7 +183,7 @@ namespace CSReportPaint {
                    brush: SolidBrush, 
                    rect: RectangleF, 
                    format: StringFormat) {
-
+            this.context.save();
             this.context.fillStyle = brush.foreground.color;
             this.context.font = font.toStringFont();
             if(format && format.formatFlags == StringFormatFlags.Wrap) {
@@ -192,16 +192,15 @@ namespace CSReportPaint {
             else {
                 this.drawStringIntoRect(text, rect);
             }
+            this.context.restore();
         }
 
-        private drawStringIntoRect(text: string, rect: RectangleF) {
-            this.context.save();
+        private drawStringIntoRect(text: string, rect: RectangleF) {            
             this.context.beginPath();
-            this.context.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+            this.context.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight() + 20);
             this.context.clip();
             this.context.fillText(text, rect.getLeft(), rect.getTop() + rect.getHeight());
-            this.context.closePath();
-            this.context.restore();
+            this.context.closePath();            
         }
 
         private drawWrappedString(text: string, 

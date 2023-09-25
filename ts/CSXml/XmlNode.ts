@@ -21,10 +21,13 @@ namespace CSXml {
         }
 
         getNextSibling() {
-            const nextNode = this.node.nextSibling;
-            if(nextNode === null) return null;
-            // @ts-ignore
-            return new XmlNode(nextNode);
+            let nextNode = this.node.nextSibling;
+            while(true) {
+                if(nextNode === null) return null;
+                // @ts-ignore
+                if(nextNode.nodeName !== "#text") return new XmlNode(nextNode);
+                nextNode = nextNode.nextSibling;
+            }
         }
 
         addAttribute(attr: CSXml.XmlAttribute) {
