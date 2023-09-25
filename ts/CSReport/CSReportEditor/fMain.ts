@@ -84,7 +84,8 @@ namespace CSReportEditor {
 
             this.tabReports = new TabBar("tabReports", this.el("tabReports"));
 
-            this.tbpEditor = new TabPage("tbpEditor", this.el("tbpReport"));
+            const tabPageNode = this.el("tbpEditor");
+            this.tbpEditor = new TabPage("tbpEditor", tabPageNode);
             this.pnEditor = new Panel("pnEditor", this.el("pnEditor"));
             this.pnRule = new PictureBox("picRule", this.el("picRule"));
             this.pnReport = new PictureBox("picReport", this.el("picReport"));            
@@ -96,6 +97,11 @@ namespace CSReportEditor {
             this.pnRule.setWidth(250);
             this.pnRule.setBacgroundColor(Color.AliceBlue);
             this.pnReport.setBacgroundColor(Color.HoneyDew);
+
+            let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);            
+            tab.getControls().add(this.pnEditor);
+            tab.setText("New Report");
+            this.tabReports.getPages().add(tab);
         }
 
         public init() {
@@ -109,15 +115,21 @@ namespace CSReportEditor {
 
         private createEditor() {
             const tabPageNode = document.createElement('div');
+            tabPageNode.className = "editor";
             this.mainView.appendChild(tabPageNode);
+
             const pnEditorNode = document.createElement('div');
+            pnEditorNode.className = "editor-container";
             tabPageNode.appendChild(pnEditorNode);
+
             const picRuleNode = document.createElement('div');
+            picRuleNode.className = "rule";
             pnEditorNode.appendChild(picRuleNode);
+            
             const picReportNode = document.createElement('div');
+            picReportNode.className = "report";
             pnEditorNode.appendChild(picReportNode);
 
-            let tab: TabPage = new TabPage("tabPage" + this.editorIndex, tabPageNode);
             let pnEditor: Panel = new Panel("pnEditor" + this.editorIndex, pnEditorNode);
             let picRule: PictureBox = new PictureBox("pnRule" + this.editorIndex, picRuleNode);
             let picReport: PictureBox = new PictureBox("pnReport" + this.editorIndex, picReportNode);
@@ -130,9 +142,11 @@ namespace CSReportEditor {
 
             pnEditor.getControls().add(picRule);
             pnEditor.getControls().add(picReport);
+
+            let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);            
             tab.getControls().add(pnEditor);
-            this.tabReports.getPages().add(tab);
-            tab.setText("New Report [X]");
+            tab.setText("New Report");
+            this.tabReports.getPages().add(tab);            
 
             return new cEditor(this, pnEditor, picRule, picReport, tab);
         }

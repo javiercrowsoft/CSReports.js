@@ -1297,7 +1297,7 @@ namespace CSReportPaint {
 
             y = Math.trunc(aspect.getTop() - aspect.getOffset() + marginY);
 
-            let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - marginX), y + stringHeight);
+            let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - marginX), y + stringHeight -25);
 
             let brush: SolidBrush = new SolidBrush(aspect.getFont().getForeColor());
 

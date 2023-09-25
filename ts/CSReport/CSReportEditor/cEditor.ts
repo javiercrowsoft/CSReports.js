@@ -4619,7 +4619,7 @@ namespace CSReportEditor {
             return this.paint.initGrid(this.picReport.getGraphics(), this.typeGrid).then(P.call(this, () => {
 
                 if (this.report.getName() !== "") {
-                    this.editorTab.setText(this.report.getName() + "   [X]");
+                    this.editorTab.setText(this.report.getName());
                 }
 
                 let sec: cReportSection = null;

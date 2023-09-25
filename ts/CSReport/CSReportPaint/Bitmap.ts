@@ -147,7 +147,15 @@ namespace CSReportPaint {
         }
 
         drawPath(pen: Pen, path: any) {
-            this.context.fill(path);
+            try {
+                // TODO: implement
+                // this.context.fill(path);
+            }
+            catch(ex) {
+                console.log(ex);
+                throw ex;
+            }
+            
         }
 
         fillRectangle(brush: Brush, rect: Rectangle) {
@@ -447,8 +455,12 @@ namespace CSReportPaint {
     export class SolidBrush extends Brush {
         private _foreground: Color;
         
-        constructor(foreground: string) {
+        constructor(foreground: string|number) {
             super();
+            if(typeof foreground === 'number') {
+                const hex = foreground.toString(16);
+                foreground = "#" + "000000".substring(0, 6-hex.length) + hex;
+            }
             this._foreground = new Color(foreground);
         }
 

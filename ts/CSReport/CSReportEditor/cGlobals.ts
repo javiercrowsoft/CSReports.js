@@ -260,6 +260,9 @@ namespace CSReportEditor {
         public static addCtrls(report: cReport, lv_controls: ListView, C_CTRL_IMAGE: number, C_DB_IMAGE: number) {
             lv_controls.clear();
 
+            // TODO: implement
+            /*
+
             for(let i = 0; i < report.getControls().count(); i++) {
                 let ctrl = report.getControls().item(i);
                 let ctrlName = ctrl.getName();
@@ -303,7 +306,7 @@ namespace CSReportEditor {
                 if (ctrl.getName().length > 4 && ctrl.getName().substring(0, 4) === "lnk_") {
                     item.foreColor = Color.Red;
                 }
-            }
+            }*/
         }
 
         public static addCtrls2(report: cReport, tv_controls: TreeView,

@@ -14,12 +14,16 @@ namespace CSReportEditor {
             this.el = el;
         }
 
+        public getElement() {
+            return this.el;
+        }
+
         setText(text: string) {
             this.text = text;
         }
 
         getText() {
-            return "";
+            return this.text;
         }
 
         getCursor(): Cursors {
