@@ -167,7 +167,7 @@ namespace CSReportPaint {
         }
 
 		public pointIsInObject(
-		    x: number, y: number, sKey: string,
+		    x: number, y: number, sKey: RefWrapper<string>,
             regionType: RefWrapper<csRptPaintRegionType> = new RefWrapper(csRptPaintRegionType.CRPTPNTRGNTYPEBODY)) {
             if (this.pointIsInObjectAux(this.paintSections, x, y, sKey, regionType)) {
                 return true;
@@ -178,11 +178,11 @@ namespace CSReportPaint {
             return false;
         }
 
-        public pointIsInThisObject(x: number, y: number, sKey: string, regionType: RefWrapper<csRptPaintRegionType>) {
-            if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
+        public pointIsInThisObject(x: number, y: number, sKey: RefWrapper<string>, regionType: RefWrapper<csRptPaintRegionType>) {
+            if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey.get()), x, y, sKey, regionType)) {
                 return true;
             }
-            else if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey), x, y, sKey, regionType)) {
+            else if (this.pointIsInThisObjectAux(this.paintObjects.item(sKey.get()), x, y, sKey, regionType)) {
                 return true;
             }
             return false;
@@ -192,7 +192,7 @@ namespace CSReportPaint {
             paintObjs: cReportPaintObjects,
             x: number,
             y: number,
-            sKey: string,
+            sKey: RefWrapper<string>,
             regionType: RefWrapper<csRptPaintRegionType>) {
             for(let i = paintObjs.count()-1; i > -1; i--) {
                 if (this.pointIsInThisObjectAux(paintObjs.getNextPaintObjForZOrder(i), x, y, sKey, regionType)) {
@@ -206,7 +206,7 @@ namespace CSReportPaint {
             paintObj: cReportPaintObject,
             x: number,
             y: number,
-            sKey: string,
+            sKey: RefWrapper<string>,
             regionType: RefWrapper<csRptPaintRegionType>) {
 
             const C_WIDTH_REGION: number = 3;
@@ -234,7 +234,7 @@ namespace CSReportPaint {
                                     left + width + C_WIDTH_REGION,
                                     top + height + C_WIDTH_REGION,
                                     x, y)) {
-                    sKey = paintObj.getKey();
+                    sKey.set(paintObj.getKey());
 
                     yY = top + height / 2;
                     yY = yY - C_WIDTH_REGION;
@@ -645,6 +645,10 @@ namespace CSReportPaint {
                 aspect.setWidth(this.bitmap.getSize().width-2);
             }
             return this.draw(this.paintSections, key, graph);
+        }
+
+        public clearRule(graphic: Graphic) {
+            graphic.getContext().clearRect(0, 0, graphic.getContext().canvas.width, graphic.getContext().canvas.height);
         }
 
         public drawRule(key: string, graphic: Graphic) {

@@ -112,6 +112,7 @@ namespace CSReportPaint {
         }
 
         drawImage(bitmap: ImageBitmap, x: number, y: number) {
+            this.context.clearRect(x, y, bitmap.width, bitmap.height);
             this.context.drawImage(bitmap, x, y);
         }
 
@@ -410,10 +411,13 @@ namespace CSReportPaint {
     }
 
     export class Point {
+        x: number;
+        y: number;
+        
         constructor(x: number, y: number) {
-
+            this.x = x;
+            this.y = y;
         }
-
     }
 
     export enum DashStyle {

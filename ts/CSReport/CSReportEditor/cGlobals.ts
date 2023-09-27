@@ -383,7 +383,7 @@ namespace CSReportEditor {
 
                 for(let j = 0; j < sec.getSectionLines().count(); j++) {
                     secLn = sec.getSectionLines().item(j);
-                    nodeSecLn = nodeSec.getNodes().add("Line " + secLn.getIndex());
+                    nodeSecLn = nodeSec.getNodes().add("Line " + secLn.getRealIndex());
                     nodeSecLn.imageIndex = folderImage;
                     nodeSecLn.tag = "L" + secLn.getKey();
 

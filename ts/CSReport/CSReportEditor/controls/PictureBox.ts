@@ -79,5 +79,37 @@ namespace CSReportEditor {
             this.canvas.style.backgroundColor = color.color;
         }
 
+        setMouseDownEventListner(f: (event, rect)=>void) {
+            let canvas = this.canvas;
+            this.canvas.onmousedown = (event) => {
+                var rect = canvas.getBoundingClientRect();
+                f(event, {
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top
+                });
+            };
+        }
+
+        setMouseUpEventListner(f: (event, rect)=>void) {
+            let canvas = this.canvas;
+            this.canvas.onmouseup = (event) => {
+                var rect = canvas.getBoundingClientRect();
+                f(event, {
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top
+                });
+            };
+        }
+
+        setMouseEventListner(f: (event, rect)=>void) {
+            let canvas = this.canvas;
+            this.canvas.onmousemove = (event) => {
+                var rect = canvas.getBoundingClientRect();
+                f(event, {
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top
+                });
+            };
+        }
     }
 }
