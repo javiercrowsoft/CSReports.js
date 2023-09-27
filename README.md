@@ -69,5 +69,5 @@ javier at crowsoft.com.ar
 
 https://codeburst.io/creating-and-drawing-on-an-html5-canvas-using-javascript-93da75f001c1
 
-### Bush
+### Brush
 https://library.superhi.com/posts/how-to-paint-with-code-creating-paintbrushes
