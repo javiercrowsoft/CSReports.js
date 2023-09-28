@@ -885,7 +885,7 @@ namespace CSReportEditor {
                         y += Math.trunc(aspect.getHeight());
                         x += Math.trunc(aspect.getWidth());
 
-                        this.pSetMovingFromKeyboard(x, y);
+                        this.setMovingFromKeyboard(x, y);
 
                         if (this.keySizing === "") {
                             this.keySizing = this.paint.getPaintObject(this.vSelectedKeys[0]).getKey();
@@ -927,7 +927,7 @@ namespace CSReportEditor {
                 else {
 
                     if (!this.keyboardMove) {
-                        this.pSetMovingFromKeyboard(x, y);
+                        this.setMovingFromKeyboard(x, y);
                     }
 
                     if (this.keyMoving === "") {
@@ -963,7 +963,7 @@ namespace CSReportEditor {
             }
         }
 
-        private pSetMovingFromKeyboard(x: number, y: number) {
+        private setMovingFromKeyboard(x: number, y: number) {
 
             this.keyMoving = this.keyFocus;
 
@@ -1015,7 +1015,7 @@ namespace CSReportEditor {
         }
 
         private picReportMouseDown(event, insidePos: Point) {
-            console.log("picReportMouseDown " + insidePos);
+            //console.log("picReportMouseDown " + insidePos);
 
             if (this.paint === null) return;
 
@@ -1046,7 +1046,7 @@ namespace CSReportEditor {
 
                 if (button === MouseButtons.Left) {
 
-                    console.log("picReportMouseDown button left");
+                    //console.log("picReportMouseDown button left");
 
                     lastKeyObj = this.keyObj;
                     this.keyObj = "";
@@ -1056,7 +1056,7 @@ namespace CSReportEditor {
                     // to force focus in the header
                     if (sKey === "") {
                         
-                        console.log("picReportMouseDown sKey is empty");
+                        //console.log("picReportMouseDown sKey is empty");
 
                         const rsKey = new RefWrapper(sKey);
                         this.paint.pointIsInObject(x, y, rsKey);
@@ -1064,7 +1064,7 @@ namespace CSReportEditor {
                         
                         if (sKey !== "") {
 
-                            console.log("picReportMouseDown sKey " + sKey);
+                            //console.log("picReportMouseDown sKey " + sKey);
 
                             let po: cReportPaintObject = this.paint.getPaintObject(sKey);
                             lastKeyMoving = this.keyMoving;
@@ -1075,7 +1075,7 @@ namespace CSReportEditor {
                                 case cGlobals.C_KEY_FOOTER:
                                 case cGlobals.C_KEY_HEADER:
 
-                                    console.log("picReportMouseDown click was over a section catch by Tag");
+                                    //console.log("picReportMouseDown click was over a section catch by Tag");
 
                                     // only if no controls are selected
                                     //
@@ -1100,13 +1100,13 @@ namespace CSReportEditor {
                                         || po.getRptType() === csRptSectionType.GROUP_FOOTER
                                         || po.getRptType() === csRptSectionType.FOOTER) {
 
-                                        console.log("picReportMouseDown click was over a section catch by rptType");
+                                        //console.log("picReportMouseDown click was over a section catch by rptType");
 
                                         // only if no controls are selected
                                         //
                                         if (ctrlKey) {
 
-                                            console.log("picReportMouseDown CTRL key is pressed");
+                                            //console.log("picReportMouseDown CTRL key is pressed");
 
                                             if (this.vSelectedKeys.length > 0) return;
                                             if (this.vSelectedKeys[0].length > 0) return;
@@ -1125,13 +1125,13 @@ namespace CSReportEditor {
                                         || po.getRptType() === csRptSectionType.SECLN_GROUPH
                                         || po.getRptType() === csRptSectionType.SECLN_GROUPF) {
 
-                                        console.log("picReportMouseDown click was over a section line catch by rptType");
+                                        //console.log("picReportMouseDown click was over a section line catch by rptType");
 
                                         // only if no controls are selected
                                         //
                                         if (ctrlKey) {
 
-                                            console.log("picReportMouseDown CTRL key is pressed");
+                                            //console.log("picReportMouseDown CTRL key is pressed");
 
                                             if (this.vSelectedKeys.length > 0) return;
                                             if (this.vSelectedKeys[0].length > 0) return;
@@ -1146,7 +1146,7 @@ namespace CSReportEditor {
                                     }
                                     else {
 
-                                        console.log("picReportMouseDown click was over a control");
+                                        //console.log("picReportMouseDown click was over a control");
 
                                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
                                         this.picReport.setCursor(Cursors.SizeAll);
@@ -1155,7 +1155,7 @@ namespace CSReportEditor {
                             }
                         }
                         else {
-                            console.log("picReportMouseDown click was over report grid");
+                            //console.log("picReportMouseDown click was over report grid");
                         }
                     }
 
@@ -1522,7 +1522,7 @@ namespace CSReportEditor {
             return false;
         }
 
-        private pShowMoveAll(x: number, y: number) {
+        private showMoveAll(x: number, y: number) {
             let i: number = 0;
             let offsetTop: number = 0;
             let offsetLeft: number = 0;
@@ -1573,13 +1573,13 @@ namespace CSReportEditor {
         }
 
         private picReportMouseMove(event, insidePos: Point) {
-            console.log("picReportMouseMove " + insidePos);
+            //console.log("picReportMouseMove " + insidePos);
 
             if (this.paint === null) return;
 
             let button: MouseButtons = event.buttons !== 0 ? event.button : -1;
-            let x: number = event.X;
-            let y: number = event.Y;
+            let x: number = insidePos.x;
+            let y: number = insidePos.y;
 
             let sKey: string = "";
             let rgnTp = new RefWrapper(csRptPaintRegionType.CRPTPNTRGNTYPEBODY);
@@ -1588,7 +1588,7 @@ namespace CSReportEditor {
 
             if (this.inMouseDown) return;
 
-            console.log("picReportMouseMove button: " + button);
+            //console.log("picReportMouseMove button: " + button);
 
             if (button === MouseButtons.Left) {
 
@@ -1598,7 +1598,7 @@ namespace CSReportEditor {
 
                     switch (this.moveType) {
                         case csRptEditorMoveType.CSRPTEDMOVTALL:
-                            this.pShowMoveAll(x, y);
+                            this.showMoveAll(x, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVTHORIZONTAL:
                             this.paint.moveHorizontal(this.keyMoving, x, this.picReport.getGraphics());
@@ -1842,7 +1842,7 @@ namespace CSReportEditor {
         }
 
         private picReportMouseUp(event, insidePos: Point) {
-            console.log("picReportMouseUp " + insidePos);
+            //console.log("picReportMouseUp " + insidePos);
 
             if (this.paint === null) return;
 

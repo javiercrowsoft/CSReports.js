@@ -4432,7 +4432,7 @@ namespace CSReportDll {
         }
         // public functions
         public dispose() {
-            console.log("dispose was called in object " + this.constructor.name);
+            //console.log("dispose was called in object " + this.constructor.name);
             
             this.table = null;
             this.tables = null;

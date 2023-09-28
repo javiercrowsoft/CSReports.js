@@ -565,9 +565,9 @@ namespace CSReportPaint {
                 this.oldScaleFont = this.scaleFont;
                 this.oldZoom = this.paint.getZoom();
 
-                let graph = e.Graphics;
-                dpiX = graph.DpiX;
-                dpiY = graph.DpiY;
+                let graphic = e.Graphics;
+                dpiX = graphic.DpiX;
+                dpiY = graphic.DpiY;
 
                 this.scaleX = dpiX / 100;
                 this.scaleY = dpiY / 100;
@@ -597,9 +597,9 @@ namespace CSReportPaint {
             while (this.pageToPrint < this.report.getPages().count()) {
                 if (this.haveToPrintThisPage(this.pageToPrint+1, this.pagesToPrint)) {
                     this.printPage(this.pageToPrint+1, true);
-                    let graph = e.Graphics;
+                    let graphic = e.Graphics;
 
-                    if (!this.drawPage(graph, true)) {
+                    if (!this.drawPage(graphic, true)) {
                         throw new ReportPaintException("There was an error when printing the report.");
                     }
 
@@ -1101,9 +1101,9 @@ namespace CSReportPaint {
             // TODO: implement
             /*
             let bmp: Bitmap = new Bitmap(1, 1);
-            let graph: Graphics = Graphics.FromImage(bmp);
-            let stringSize: SizeF = graph.MeasureString(text, font, Math.trunc(width * scaleX));
-            graph.dispose();
+            let graphic: Graphics = Graphics.FromImage(bmp);
+            let stringSize: SizeF = graphic.MeasureString(text, font, Math.trunc(width * scaleX));
+            graphic.dispose();
             bmp.dispose();
             return stringSize.Height * scaleY;
             */
@@ -1520,37 +1520,37 @@ namespace CSReportPaint {
             //If Not this.Report.SaveData(this.rpwPrint.cmFileSaveDialog) Then Exit Sub
         }
 
-        private drawPage(graph: Graphic, isPrinter: boolean) {
+        private drawPage(graphic: Graphic, isPrinter: boolean) {
             let i: number = 0;
 
             if (this.rePaintObject) {
                 if (isPrinter) {
-                    this.paint.createBackgroundBitmap(graph);
+                    this.paint.createBackgroundBitmap(graphic);
 
                     for (i = 0; i < this.paint.getPaintObjects().count(); i++) {
-                        if (!this.paint.drawObject(this.paint.getPaintObjects().getNextKeyForZOrder(i), graph)) { return false; }
+                        if (!this.paint.drawObject(this.paint.getPaintObjects().getNextKeyForZOrder(i), graphic)) { return false; }
                     }
 
                     for (i = 0; i < this.paint.getPaintSections().count(); i++) {
-                        if (!this.paint.drawSection(this.paint.getPaintSections().getNextKeyForZOrder(i), graph)) { return false; }
+                        if (!this.paint.drawSection(this.paint.getPaintSections().getNextKeyForZOrder(i), graphic)) { return false; }
                     }
                 }
                 else {
-                    this.paint.clearPage(this.rpwPrint.getBody().createGraphics());
+                    this.paint.clearPage(this.rpwPrint.getBody().getGraphics());
 
                     this.rePaintObject = false;
 
-                    this.paint.paintPicture(graph, false);
+                    this.paint.paintPicture(graphic, false);
                 }
             }
             else {
-                this.paint.paintPicture(graph, false);
+                this.paint.paintPicture(graphic, false);
             }
             return true;
         }
 
         public dispose() {
-            console.log("dispose was called in object " + this.constructor.name);
+            //console.log("dispose was called in object " + this.constructor.name);
 
             this.report = null;
             this.paint = null;

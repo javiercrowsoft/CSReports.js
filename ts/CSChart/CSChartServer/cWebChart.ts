@@ -83,7 +83,7 @@ namespace CSChartServer {
         }
 
         dispose() {
-            console.log("dispose was called in object " + this.constructor.name);
+            //console.log("dispose was called in object " + this.constructor.name);
         }
     }
 }

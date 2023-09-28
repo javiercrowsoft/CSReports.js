@@ -22,6 +22,8 @@ namespace CSReportPaint {
                     const imgData = ctx.createImageData(width, height);
                     createImageBitmap(imgData).then(b => {
                         this.bitmap = b;
+                        // @ts-ignore
+                        this.bitmap.name = this.name;
                         resolve();
                     });
                 } else {
@@ -36,6 +38,8 @@ namespace CSReportPaint {
             bitmap.p = new Promise((resolve) => {
                 createImageBitmap(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height)).then(b => {
                     bitmap.bitmap = b;
+                    // @ts-ignore
+                    bitmap.bitmap.name = name;
                     resolve();
                 });
             });
@@ -56,11 +60,19 @@ namespace CSReportPaint {
 
         public static fromImage(image: Image, name: string) {
             const bitmap = new Bitmap(0,0, name);
-            createImageBitmap(image.bitmap).then(b => bitmap.bitmap = b);
+            bitmap.p = new Promise((resolve) => {
+                createImageBitmap(image.bitmap).then(b => {
+                    bitmap.bitmap = b;
+                    // @ts-ignore
+                    bitmap.bitmap.name = name;
+                    resolve();
+                });
+            });
+            return bitmap;
         }
 
         dispose() {
-            console.log("dispose was called in object " + this.constructor.name);
+            //console.log("dispose was called in object " + this.constructor.name);
         }
     }
 
@@ -108,12 +120,13 @@ namespace CSReportPaint {
         }
 
         dispose() {
-            console.log("dispose was called in object " + this.constructor.name);
+            //console.log("dispose was called in object " + this.constructor.name);
         }
 
         drawImage(bitmap: ImageBitmap, x: number, y: number) {
             this.context.clearRect(x, y, bitmap.width, bitmap.height);
             this.context.drawImage(bitmap, x, y);
+            //console.log("drawImage");
         }
 
         getContext() {
@@ -435,7 +448,7 @@ namespace CSReportPaint {
         }
 
         dispose() {
-            console.log("dispose was called in object " + this.constructor.name);
+            //console.log("dispose was called in object " + this.constructor.name);
         }
 
         color() {
@@ -449,7 +462,7 @@ namespace CSReportPaint {
 
     export abstract class Brush {
         dispose() {
-            console.log("dispose was called in object " + this.constructor.name);
+            //console.log("dispose was called in object " + this.constructor.name);
         };
         
         toString() { return csColors.WHITE};

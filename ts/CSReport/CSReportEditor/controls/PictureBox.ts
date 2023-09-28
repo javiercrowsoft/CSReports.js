@@ -7,9 +7,6 @@ namespace CSReportEditor {
     import Color = CSReportPaint.Color;
 
     export class PictureBox extends Control {
-        createGraphics(): object {
-            throw new Error("Method not implemented.");
-        }
 
         private readonly div: HTMLDivElement;
         private readonly canvas: HTMLCanvasElement;

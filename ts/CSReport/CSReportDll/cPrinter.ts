@@ -13,7 +13,7 @@ namespace CSReportDll {
 
         private copies: number = 0;
 
-        private graph: Graphics = null;
+        private graphic: Graphics = null;
 
         private readonly printDialog: PrintDialog = null;
 
@@ -30,11 +30,11 @@ namespace CSReportDll {
         }
 
         public getGraph() {
-            return this.graph;
+            return this.graphic;
         }
 
         public setGraph(rhs: Graphics) {
-            this.graph = rhs;
+            this.graphic = rhs;
         }
 
         public getDeviceName() {
