@@ -32,9 +32,9 @@ namespace CSReportEditor {
         private C_DB_IMAGE: number = 0;
 
         private C_IMG_FOLDER: number = 0;
-        private C_IMG_FORMULA: number = 3;
-        private C_IMG_CONTROL: number = 2;
-        private C_IMG_DATABASE_FIELD: number = 1;
+        private C_IMG_CONTROL: number = 1;        
+        private C_IMG_FORMULA: number = 2;
+        private C_IMG_DATABASE_FIELD: number = 3;
 
         private C_FIELDTYPE: string = "t";
         private C_INDEX: string = "i";
@@ -57,7 +57,7 @@ namespace CSReportEditor {
 
         private lv_controls: ListView = new ListView();
         private lv_properties: ListView = new ListView();
-        private tv_controls: TreeView = new TreeView();
+        private tv_controls: TreeView = null;
 
 
         private el(id: string) {
@@ -91,7 +91,7 @@ namespace CSReportEditor {
             this.pnReport = new PictureBox("picReport", this.el("picReport"));            
 
             this.lv_controls = new ListView();
-            this.tv_controls = new TreeView();
+            this.tv_controls = new TreeView("tvControls", this.el("sidebar"), "Report");
             this.lv_properties = new ListView();
 
             this.pnRule.setWidth(250);
@@ -523,7 +523,7 @@ namespace CSReportEditor {
 
         public showControlsTree(editor: cEditor) {
             this.wasDoubleClick = false;
-            this.tv_controls.getNodes().clear();
+            this.tv_controls.clear();
 
             if (editor !== null) {
                 cGlobals.addCtrls2(

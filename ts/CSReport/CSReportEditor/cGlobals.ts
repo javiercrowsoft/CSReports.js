@@ -310,33 +310,27 @@ namespace CSReportEditor {
         }
 
         public static addCtrls2(report: cReport, tv_controls: TreeView,
-                        C_IMG_FOLDER: number, C_IMG_FORMULA: number,
-                        C_IMG_CONTROL: number, C_IMG_DATABASE_FIELD: number) {
+                        folderImage: number, formulaImage: number,
+                        controlImage: number, databaseFieldImage: number) {
 
-            tv_controls.getNodes().clear();
+            tv_controls.clear();
 
-            let nodeRoot = tv_controls.getNodes().add(report.getName());
-            nodeRoot.imageIndex = C_IMG_FOLDER;
+            let nodeRoot = tv_controls.getNodes().add(report.getName(), folderImage);
+            let nodeGroup = nodeRoot.getNodes().add("Headers", folderImage);
 
-            let nodeGroup = nodeRoot.getNodes().add("Headers");
-            nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getHeaders(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
+            this.pAddCtrlsAux(report.getHeaders(), nodeGroup, folderImage, formulaImage, controlImage, databaseFieldImage);
 
-            nodeGroup = nodeRoot.getNodes().add("Group Header");
-            nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getGroupsHeaders(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
+            nodeGroup = nodeRoot.getNodes().add("Group Header", folderImage);
+            this.pAddCtrlsAux(report.getGroupsHeaders(), nodeGroup, folderImage, formulaImage, controlImage, databaseFieldImage);
 
-            nodeGroup = nodeRoot.getNodes().add("Details");
-            nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getDetails(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
+            nodeGroup = nodeRoot.getNodes().add("Details", folderImage);
+            this.pAddCtrlsAux(report.getDetails(), nodeGroup, folderImage, formulaImage, controlImage, databaseFieldImage);
 
-            nodeGroup = nodeRoot.getNodes().add("Group Footer");
-            nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getGroupsFooters(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
+            nodeGroup = nodeRoot.getNodes().add("Group Footer", folderImage);
+            this.pAddCtrlsAux(report.getGroupsFooters(), nodeGroup, folderImage, formulaImage, controlImage, databaseFieldImage);
 
-            nodeGroup = nodeRoot.getNodes().add("Footers");
-            nodeGroup.imageIndex = C_IMG_FOLDER;
-            this.pAddCtrlsAux(report.getFooters(), nodeGroup, C_IMG_FOLDER, C_IMG_FORMULA, C_IMG_CONTROL, C_IMG_DATABASE_FIELD);
+            nodeGroup = nodeRoot.getNodes().add("Footers", folderImage);
+            this.pAddCtrlsAux(report.getFooters(), nodeGroup, folderImage, formulaImage, controlImage, databaseFieldImage);
 
             nodeRoot.expandAll();
         }
@@ -350,14 +344,13 @@ namespace CSReportEditor {
             let item: Node;
             let text: string;
             let bComplexF: boolean = false;
-
             let sec: cReportSection;
             let secLn: cReportSectionLine;
             let ctrl: cReportControl;
 
             for(let i = 0; i < sections.count(); i++) {
                 sec = sections.item(i);
-                nodeSec = father.getNodes().add(sec.getName());
+                nodeSec = father.getNodes().add(sec.getName(), folderImage);
                 nodeSec.tag = "S" + sec.getKey();
 
                 if (sec.getFormulaHide().getText() !== "") {
@@ -369,8 +362,7 @@ namespace CSReportEditor {
                         text = "Visibility formula";
                         bComplexF = true;
                     }
-                    item = nodeSec.getNodes().add(text);
-                    item.imageIndex = formulaImage;
+                    item = nodeSec.getNodes().add(text, formulaImage);
                     item.selectedImageIndex = formulaImage;
                     if (!sec.getHasFormulaHide()) {
                         item.foreColor = Color.Red.toString();
@@ -383,8 +375,7 @@ namespace CSReportEditor {
 
                 for(let j = 0; j < sec.getSectionLines().count(); j++) {
                     secLn = sec.getSectionLines().item(j);
-                    nodeSecLn = nodeSec.getNodes().add("Line " + secLn.getRealIndex());
-                    nodeSecLn.imageIndex = folderImage;
+                    nodeSecLn = nodeSec.getNodes().add("Line " + secLn.getRealIndex(), folderImage);
                     nodeSecLn.tag = "L" + secLn.getKey();
 
                     if (secLn.getFormulaHide().getText() !== "") {
@@ -396,8 +387,7 @@ namespace CSReportEditor {
                             text = "Visibility formula";
                             bComplexF = true;
                         }
-                        item = nodeSecLn.getNodes().add(text);
-                        item.imageIndex = formulaImage;
+                        item = nodeSecLn.getNodes().add(text, formulaImage);
                         item.selectedImageIndex = formulaImage;
                         if (!secLn.getHasFormulaHide()) {
                             item.foreColor = Color.Red.toString();
@@ -412,17 +402,16 @@ namespace CSReportEditor {
                             ctrl.getName() 
                             + (ctrl.getLabel().getText() !== "" 
                                 ? " - " + ctrl.getLabel().getText() 
-                                : "")
+                                : ""), 
+                            controlImage
                             );
-                        nodeCtrl.imageIndex = controlImage;
                         nodeCtrl.selectedImageIndex = controlImage;
                         nodeCtrl.tag = ctrl.getKey();
                         nodeCtrl.backColor = ctrl.getLabel().getAspect().getBackColor();
                         nodeCtrl.foreColor = ctrl.getLabel().getAspect().getFont().getForeColor();
 
                         if (ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
-                            item = nodeCtrl.getNodes().add(ctrl.getField().getName());
-                            item.imageIndex = databaseFieldImage;
+                            item = nodeCtrl.getNodes().add(ctrl.getField().getName(), databaseFieldImage);
                             item.selectedImageIndex = databaseFieldImage;
                         }
 
@@ -436,8 +425,7 @@ namespace CSReportEditor {
                                 bComplexF = true;
                             }
 
-                            item = nodeCtrl.getNodes().add(text);
-                            item.imageIndex = formulaImage;
+                            item = nodeCtrl.getNodes().add(text, formulaImage);
                             item.selectedImageIndex = formulaImage;
                             if (!ctrl.getHasFormulaHide()) {
                                 item.foreColor = Color.Red.toString();
@@ -448,8 +436,7 @@ namespace CSReportEditor {
                         }
 
                         if (ctrl.getFormulaValue().getText() !== "") {
-                            item = nodeCtrl.getNodes().add("Value formula");
-                            item.imageIndex = formulaImage;
+                            item = nodeCtrl.getNodes().add("Value formula", formulaImage);
                             item.selectedImageIndex = formulaImage;
                             if (!ctrl.getHasFormulaValue()) {
                                 item.foreColor = Color.Red.toString();
@@ -462,8 +449,12 @@ namespace CSReportEditor {
             father.expandAll();
         }
 
-        public static fillColumns(dataSource: string, columns: CSReportDll.cColumnsInfo, lvColumns: ListView,
-                           index: string, fieldType: string, add: boolean) {
+        public static fillColumns(dataSource: string, 
+                                  columns: CSReportDll.cColumnsInfo, 
+                                  lvColumns: ListView,
+                                  index: string, 
+                                  fieldType: string, 
+                                  add: boolean) {
 
             if (!add) lvColumns.clear();
 

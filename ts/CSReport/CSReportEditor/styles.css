@@ -1,3 +1,7 @@
+html * {
+    font-family: Arial;
+}
+
 .nav {
     margin: 0px;
     padding: 0px;
@@ -96,13 +100,16 @@ header nav ul li {
 }
 
 #sidebar {
-    background-color: #6f6f6f;
+    background-color: #f4f2d3;
     width: 250px;
+    height: calc(100%-320px);
+    bottom: 30px;
     padding: 25px 30px 25px 30px;
     position: absolute;
     bottom: 30px;
     top: 89px;
-    color: white;
+    color: #373636;
+    overflow: auto;
 }
 
 .editor {
@@ -204,3 +211,44 @@ footer p {
 }
 
 .close:hover {background: #bbb;}
+
+/* tree */
+ul.tree,
+ul.tree ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 500px;
+}
+
+ul.tree ul {
+    margin-left: 10px;
+}
+
+ul.tree li {
+    margin: 0;
+    padding: 0 7px;
+    line-height: 20px;
+    color: #373636;
+    border-left: 1px solid rgb(211, 207, 207);
+}
+
+ul.tree li:last-child {
+    border-left: none;
+}
+
+ul.tree li:before {
+    position: relative;
+    top: -0.3em;
+    height: 1em;
+    width: 12px;
+    color: #373636;
+    border-bottom: 1px solid rgb(211, 207, 207);
+    content: "";
+    display: inline-block;
+    left: -7px;
+}
+
+ul.tree li:last-child:before {
+    border-left: 1px solid rgb(211, 207, 207);
+}
