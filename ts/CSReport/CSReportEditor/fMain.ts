@@ -84,33 +84,12 @@ namespace CSReportEditor {
 
             this.tabReports = new TabBar("tabReports", this.el("tabReports"));
 
-            const tabPageNode = this.el("tbpEditor");
-            /*this.tbpEditor = new TabPage("tbpEditor", tabPageNode);
-            this.pnEditor = new Panel("pnEditor", this.el("pnEditor"));
-            this.pnRule = new PictureBox("picRule", this.el("picRule"));
-            this.pnReport = new PictureBox("picReport", this.el("picReport"));            */
-
             this.lv_controls = new ListView();
             this.tv_controls = new TreeView("tvControls", this.el("sidebar"), "*");
             this.lv_properties = new ListView();
-
-            /*this.pnRule.setWidth(250);
-            this.pnRule.setBacgroundColor(Color.AliceBlue);
-            this.pnReport.setBacgroundColor(Color.HoneyDew);
-
-            let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);            
-            tab.getControls().add(this.pnEditor);
-            tab.setText("New Report");
-            this.tabReports.getPages().add(tab);            */
         }
 
         public init() {
-            /*let editor: cEditor = new cEditor(this, this.pnEditor, this.pnRule, this.pnReport, this.tbpEditor);
-            editor.init().then(()=> editor.newReport(null));
-            const tab = this.tabReports.getControls().item(0) as TabPage;
-            tab.onActive = () => {
-                cMainEditor.setDocActive(editor);
-            };*/
             this.newReportClick();      
         }
 
