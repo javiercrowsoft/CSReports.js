@@ -58,7 +58,7 @@ ul, ol {
 }
 
 .topbar > li {
-    padding: 3px;
+    padding: 5px;
     z-index: 1;
 }
 
@@ -103,12 +103,11 @@ header nav ul li {
 #sidebar {
     background-color: #f4f2d3;
     width: 250px;
-    height: calc(100%-320px);
-    bottom: 30px;
+    height: calc(100% - 220px);
     padding: 25px 30px 25px 30px;
     position: absolute;
     bottom: 30px;
-    top: 89px;
+    top: 135px;
     color: #373636;
     overflow: auto;
 }
@@ -116,7 +115,7 @@ header nav ul li {
 .editor {
     /*background-color: yellow;*/
     width: calc(100% - 320px);
-    height: calc(100%);
+    height: calc(100% - 48px);
     bottom: 30px;
     color: black;
     margin-left: 315px;
@@ -146,13 +145,14 @@ header nav ul li {
 footer {
     width: 100%;
     height: 30px;
-    background-color: #0f0f0f;
-    color: white;
+    background-color: #5f5656;
+    color: white;    
 }
 
 footer p {
     padding-top: 7px;
     margin: 0 0 0 10px;
+    z-index: 99999;
 }
 
 .footer-content {
@@ -195,7 +195,9 @@ footer p {
 }
 
 .sidebar-tab {
-    width: 290px;
+    width: 310px;
+    padding: 1px !important;
+    background-color: #bcb8b8 !important;
 }
 
 /* Style the close button (span) */
@@ -262,4 +264,28 @@ ul.tree a.nostyle:link {
 ul.tree a.nostyle:visited {
     text-decoration: inherit;
     color: inherit;
+}
+
+ul.toolbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #676464;
+}
+
+ul.toolbar li {
+    float: left;
+}
+
+ul.toolbar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+ul.toolbar a:hover {
+    background-color: #111;
 }

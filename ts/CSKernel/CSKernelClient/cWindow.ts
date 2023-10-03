@@ -42,9 +42,11 @@ namespace CSKernelClient {
 
         static clickElem(elem) {
             // Thx user1601638 on Stack Overflow (6/6/2018 - https://stackoverflow.com/questions/13405129/javascript-create-and-save-file )
-            let eventMouse = document.createEvent("MouseEvents")
-            eventMouse.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-            elem.dispatchEvent(eventMouse)
+            let eventMouse = document.createEvent("MouseEvents");
+            eventMouse.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            // @ts-ignore
+            eventMouse.raisedByCode = true;
+            elem.dispatchEvent(eventMouse);
         }
     }
 

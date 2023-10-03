@@ -39,7 +39,8 @@ namespace CSReportEditor {
                 console.log("open " + tabPage.getText()); 
                 tabPage.getElement().style.display = 'block';
                 event.stopPropagation();
-                tabPage.showTab();
+                // @ts-ignore
+                if(event.raisedByCode === undefined) tabPage.showTab();
             };
             tabSelectorNode.innerText = tabPage.getText();
             const tabCloseNode = document.createElement('span');
