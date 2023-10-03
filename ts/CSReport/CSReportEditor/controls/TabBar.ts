@@ -39,6 +39,7 @@ namespace CSReportEditor {
                 console.log("open " + tabPage.getText()); 
                 tabPage.getElement().style.display = 'block';
                 event.stopPropagation();
+                tabPage.showTab();
             };
             tabSelectorNode.innerText = tabPage.getText();
             const tabCloseNode = document.createElement('span');
@@ -46,7 +47,17 @@ namespace CSReportEditor {
             tabCloseNode.onclick = (event) => { 
                 console.log("close " + tabPage.getText()); 
                 tabPage.getElement().style.display = 'none';
+                tabSelectorNode.parentNode.removeChild(tabSelectorNode);
                 event.stopPropagation();
+                if(tabPage.onClose) tabPage.onClose();
+                this.tabBar.getControls().removeByObject(tabPage);
+                if(this.tabBar.getControls().size() > 0) {
+                    const nextTab = this.tabBar.getControls().item(0) as TabPage;
+                    nextTab.showTab();
+                } 
+                else {
+                    cMainEditor.setDocActive(null);
+                }
             };
             tabCloseNode.innerText = "x";
             tabSelectorNode.appendChild(tabCloseNode);

@@ -79,6 +79,15 @@ namespace CSOAPI {
             this.baseRemove(indexOrKey);
         }
 
+        public removeByObject(obj: T): void {
+            for(let i = 0; i < this.length; i++) {
+                if(obj === this.values[i]) {
+                    this.removeByIndex(i);
+                    break;
+                }
+            }
+        }
+
         private removeByKey(key: string): void {
             this.removeByIndex(this.keys.indexOf(key));
         }

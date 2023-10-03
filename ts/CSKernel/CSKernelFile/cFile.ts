@@ -1,6 +1,7 @@
 namespace CSKernelFile  {
 
     import NotImplementedException = CSOAPI.NotImplementedException;
+    import cWindow = CSKernelClient.cWindow;
 
     export class cFile {
 
@@ -59,13 +60,6 @@ namespace CSKernelFile  {
             return "";
         }
 
-        private clickElem(elem) {
-            // Thx user1601638 on Stack Overflow (6/6/2018 - https://stackoverflow.com/questions/13405129/javascript-create-and-save-file )
-            var eventMouse = document.createEvent("MouseEvents")
-            eventMouse.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-            elem.dispatchEvent(eventMouse)
-        }
-
         private openFile(resolve: (fc: FileContent) => void, reject: () => void) {
             const readFile = (e: any) => {
                 const file = e.target.files[0];
@@ -90,7 +84,7 @@ namespace CSKernelFile  {
             fileInput.onchange = readFile
             document.body.appendChild(fileInput)
 
-            this.clickElem(fileInput)
+            cWindow.clickElem(fileInput)
         }
     }
 

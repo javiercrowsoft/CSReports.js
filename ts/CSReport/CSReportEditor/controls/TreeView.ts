@@ -20,8 +20,8 @@ namespace CSReportEditor {
         // @ts-ignore
         public add(text: string, imageIndex: number) {
             const li = document.createElement('li');
-            this.addLabel(text, li, imageIndex);
-            const node = new Node(li, imageIndex);
+            const a = this.addLabel(text, li, imageIndex);
+            const node = new Node(li, imageIndex, a);
             return this.baseAdd(node, null);
         }
 
@@ -33,6 +33,7 @@ namespace CSReportEditor {
             a.innerText = text;
             li.appendChild(a);
             this.folder.appendChild(li);
+            return a;
         }
 
         public clear(): void {
@@ -56,11 +57,16 @@ namespace CSReportEditor {
         foreColor: string;
         backColor: string;
 
-        public constructor(li: HTMLLIElement, imageIndex: number) {
+        public constructor(li: HTMLLIElement, imageIndex: number, a: HTMLAnchorElement) {
             this.li = li;
             const ul = document.createElement('ul') as HTMLUListElement;
             this.li.appendChild(ul);
             this._items = new Nodes(ul);
+            a.href = "#";
+            a.className = 'nostyle';
+            a.onclick = ()=> {
+                ul.style.display = ul.style.display === 'none' ? 'block' : 'none';
+            };
         }
 
         getNodes() {

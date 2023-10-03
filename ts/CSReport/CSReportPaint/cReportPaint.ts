@@ -1143,7 +1143,7 @@ namespace CSReportPaint {
                 pen = new Pen(rgbColor, 0.2);
             }
 
-            const gridSize = 10;
+            const gridSize = 15;
             const w = Math.floor(rect.getWidth() / gridSize);
             const h = Math.floor(rect.getHeight() / gridSize);
             for(let x = 0; x < w; x++) {

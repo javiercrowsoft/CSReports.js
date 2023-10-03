@@ -69,5 +69,15 @@ namespace CSReportEditor {
         focus() {
 
         }
+
+        dispose() {
+            if(this.el) {
+                try {
+                    this.el.parentNode.removeChild(this.el);
+                } catch(ex) {
+                    console.log(ex);
+                }
+            }
+        }
     }
 }

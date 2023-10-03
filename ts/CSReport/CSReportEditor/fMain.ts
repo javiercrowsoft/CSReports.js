@@ -91,7 +91,7 @@ namespace CSReportEditor {
             this.pnReport = new PictureBox("picReport", this.el("picReport"));            
 
             this.lv_controls = new ListView();
-            this.tv_controls = new TreeView("tvControls", this.el("sidebar"), "Report");
+            this.tv_controls = new TreeView("tvControls", this.el("sidebar"), "*");
             this.lv_properties = new ListView();
 
             this.pnRule.setWidth(250);
@@ -101,12 +101,16 @@ namespace CSReportEditor {
             let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);            
             tab.getControls().add(this.pnEditor);
             tab.setText("New Report");
-            this.tabReports.getPages().add(tab);
+            this.tabReports.getPages().add(tab);            
         }
 
         public init() {
             let editor: cEditor = new cEditor(this, this.pnEditor, this.pnRule, this.pnReport, this.tbpEditor);
-            editor.init().then(()=> editor.newReport(null));        
+            editor.init().then(()=> editor.newReport(null));
+            const tab = this.tabReports.getControls().item(0) as TabPage;
+            tab.onActive = () => {
+                cMainEditor.setDocActive(editor);
+            };      
         }
 
         public getReportCopySource() {
@@ -146,9 +150,30 @@ namespace CSReportEditor {
             let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);            
             tab.getControls().add(pnEditor);
             tab.setText("New Report");
-            this.tabReports.getPages().add(tab);            
+            this.tabReports.getPages().add(tab);    
 
-            return new cEditor(this, pnEditor, picRule, picReport, tab);
+            const editor = new cEditor(this, pnEditor, picRule, picReport, tab);
+
+            tab.onClose = () => {
+                editor.close().then((canClose) => {
+                    if(canClose) {
+                        pnEditor.dispose();
+                        picRule.dispose();
+                        picReport.dispose();
+                        try {    
+                            tabPageNode.parentNode.removeChild(tabPageNode);
+                        } catch(ex) {
+                            console.log(ex);
+                        }
+                    }
+                });                
+            };
+
+            tab.onActive = () => {
+                cMainEditor.setDocActive(editor);
+            };
+
+            return editor;
         }
 
         private newReportClick() {
@@ -735,26 +760,6 @@ namespace CSReportEditor {
             if (editor !== null) {
                 editor.preview();
             }
-        }
-
-
-        private tabReports_MouseClick(sender: object, e: any) {
-            /*
-            for(let i = 0; i < this.tabReports.TabCount; ++i) {
-                let rect = this.tabReports.GetTabRect(i);
-                let xRect = new System.Drawing.Rectangle(rect.Left + rect.Width - 18, rect.Top, 18, rect.Height);
-                if (xRect.contains(e.Location)) {
-                    let editor: cEditor = this.tabReports.TabPages[i].tag;
-                    if (editor.close()) {
-                        this.tabReports.TabPages.RemoveAt(i);
-                        if (this.tabReports.TabPages.Count === 0) {
-                            cMainEditor.setDocActive(null);
-                        }
-                    }
-                }
-            }
-
-             */
         }
 
         private mnuEditAddHeader_Click(sender: object, e: any) {

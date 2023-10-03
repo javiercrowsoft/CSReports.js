@@ -1,5 +1,6 @@
 html * {
     font-family: Arial;
+    font-size: 14px;
 }
 
 .nav {
@@ -9,7 +10,7 @@ html * {
 
 #header {
     overflow: hidden;
-    background-color: #000;
+    background-color: #5f5656;
     font-family: Arial;
 }
 
@@ -24,7 +25,7 @@ ul, ol {
 }
 
 .nav li a {
-    background-color: #000;
+    background-color: #5f5656;
     color: #fff;
     text-decoration: none;
     padding: 10px 18px;
@@ -251,4 +252,14 @@ ul.tree li:before {
 
 ul.tree li:last-child:before {
     border-left: 1px solid rgb(211, 207, 207);
+}
+
+ul.tree a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+ul.tree a.nostyle:visited {
+    text-decoration: inherit;
+    color: inherit;
 }

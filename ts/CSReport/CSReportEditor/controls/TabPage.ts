@@ -2,9 +2,13 @@
 
 namespace CSReportEditor {
 
+    import cWindow = CSKernelClient.cWindow;
+
     export class TabPage extends Container<Control> {
 
         private tabSelector: HTMLElement;
+        public onClose: ()=> void;
+        public onActive: ()=> void;
 
         public constructor(name: string, el: HTMLElement) {
             super(el);
@@ -22,6 +26,13 @@ namespace CSReportEditor {
 
         public setTag(tag: object) {
             this.tag = tag;
+        }
+
+        showTab() {
+            cWindow.clickElem(this.tabSelector);
+            if(this.onActive != null) {
+                this.onActive();
+            }
         }
 
         setText(text: string) {

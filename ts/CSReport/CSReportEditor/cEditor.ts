@@ -3190,7 +3190,7 @@ namespace CSReportEditor {
                 });
             }
             this.dataHasChanged = false;
-            return true;
+            return P.resolvedPromise(true);
         }
 
         private askEdit(msg: string, title: string) {
