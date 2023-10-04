@@ -102,8 +102,8 @@ header nav ul li {
 
 #sidebar {
     background-color: #f4f2d3;
-    width: 250px;
-    height: calc(100% - 220px);
+    width: 254px;
+    height: calc(100% - 218px);
     padding: 25px 30px 25px 30px;
     position: absolute;
     bottom: 30px;
@@ -112,9 +112,20 @@ header nav ul li {
     overflow: auto;
 }
 
+#right-sidebar {
+    background-color: #f4f2d3;
+    width: 445px;
+    height: calc(100% - 98px);
+    padding: 25px 30px 25px 30px;
+    bottom: 30px;
+    top: 135px;
+    color: #373636;
+    float: right;
+}
+
 .editor {
     /*background-color: yellow;*/
-    width: calc(100% - 320px);
+    width: calc(100% - 820px);
     height: calc(100% - 48px);
     bottom: 30px;
     color: black;
@@ -123,7 +134,7 @@ header nav ul li {
 }
 
 .editor-container {
-    width: 3310px;
+    width: 2000px;
 }
 
 .rule {
