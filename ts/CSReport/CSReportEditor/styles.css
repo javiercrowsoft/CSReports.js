@@ -101,7 +101,7 @@ header nav ul li {
 }
 
 #sidebar {
-    background-color: #f4f2d3;
+    background-color: #f7f8f9;
     width: 254px;
     height: calc(100% - 218px);
     padding: 25px 30px 25px 30px;
@@ -113,7 +113,7 @@ header nav ul li {
 }
 
 #right-sidebar {
-    background-color: #f4f2d3;
+    background-color: #feffef;
     width: 445px;
     height: calc(100% - 98px);
     padding: 25px 30px 25px 30px;
@@ -121,6 +121,31 @@ header nav ul li {
     top: 135px;
     color: #373636;
     float: right;
+}
+
+#right-sidebar h1 {
+    font-size: 24px;
+}
+
+#right-sidebar .toolbar {
+    background-color: #494947;
+}
+
+.property-tab {
+    margin-top: 20px;
+    width: 100%;
+    height: calc(100% - 170px);
+    overflow: auto;
+}
+
+input[type=text] {
+    display: block;
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    transition: .3s border-color;
 }
 
 .editor {

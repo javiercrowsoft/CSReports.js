@@ -27,7 +27,7 @@ namespace CSReportEditor {
 
         private addLabel(text: string, li: HTMLLIElement, imageIndex: number) {
             const img = document.createElement('img') as HTMLImageElement;
-            img.src = './images/' + this.images[imageIndex];
+            img.src = './images/tree/' + this.images[imageIndex];
             li.appendChild(img)
             const a = document.createElement('a') as HTMLAnchorElement;
             a.innerText = text;
@@ -103,7 +103,7 @@ namespace CSReportEditor {
 
         private addLabel(text: string) {
             const img = document.createElement('img') as HTMLImageElement;
-            img.src = './images/folder.png';
+            img.src = './images/tree/folder.png';
             this.rootUl.appendChild(img)
             const a = document.createElement('a') as HTMLAnchorElement;
             a.innerText = text;
