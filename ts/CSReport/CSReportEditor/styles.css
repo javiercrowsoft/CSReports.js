@@ -144,8 +144,10 @@ header nav ul li {
 }
 
 .multiline-label {
-    text-wrap: wrap;
+    padding: 15px;
+    white-space: pre-wrap;
     height: 80px;
+    overflow: auto;
 }
 
 .boxed {
