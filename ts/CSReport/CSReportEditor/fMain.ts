@@ -1,3 +1,5 @@
+///<reference path="../CSReportPaint/Font.ts"/>
+
 namespace CSReportEditor {
 
     import cError = CSKernelClient.cError;
@@ -10,6 +12,7 @@ namespace CSReportEditor {
     import cWindow = CSKernelClient.cWindow;
     import csECtlAlignConst = CSReportGlobals.csECtlAlignConst;
     import Color = CSReportPaint.Color;
+    import Font = CSReportPaint.Font;
     import P = CSKernelClient.Callable;
 
     export class FMain {
@@ -87,6 +90,9 @@ namespace CSReportEditor {
             this.lv_controls = new ListView();
             this.tv_controls = new TreeView("tvControls", this.el("sidebar"), "*");
             this.lv_properties = new ListView();
+
+            const fontsNode = this.el('property-fonts') as HTMLSelectElement;
+            Font.availableFonts().then((fonts) => fonts.forEach((font)=> fontsNode.add(new Option(font))));
         }
 
         public init() {

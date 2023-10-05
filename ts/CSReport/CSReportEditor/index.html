@@ -137,12 +137,15 @@
         <div id="right-sidebar">
             <h1><img src="images/properties/config_page.jpg"> Control 147</h1>
             <ul class="toolbar">
-                <li><a href="#" onclick="">Format</a></li>
-                <li><a href="#" onclick="">Formulas</a></li>
-                <li><a href="#">Database</a></li>
-                <li><a href="#">Borders</a></li>
+                <li><a href="#" onclick="showPropertyTab('property-format-tab')">Format</a></li>
+                <li><a href="#" onclick="showPropertyTab('property-formulas-tab')">Formulas</a></li>
+                <li><a href="#" onclick="showPropertyTab('property-database-tab')">Database</a></li>
+                <li><a href="#" onclick="showPropertyTab('property-borders-tab')">Borders</a></li>
             </ul>
-            <div class="property-tab">
+            <div class="property-tab" id="property-borders-tab" style="display: none;"></div>
+            <div class="property-tab" id="property-formulas-tab" style="display: none;"></div>
+            <div class="property-tab" id="property-database-tab" style="display: none;"></div>
+            <div class="property-tab" id="property-format-tab">
                 <div>
                     <label>Name:</label>
                     <input type="text"/>
@@ -150,22 +153,113 @@
                     <input type="text"/>
                     <label>Tag:</label>
                     <input type="text"/>
-                    <label>Font:</label>
-                    <input type="text"/>
-                    <label>Size:</label>
-                    <input type="text"/>
-                    <label>Align:</label>
-                    <input type="text"/>
-                    <label>Text color:</label>
-                    <input type="text"/>
-                    <label>Back color:</label>
-                    <input type="text"/>
+                    <div class="row">
+                        <div>
+                            <label>Font:</label>
+                            <select id="property-fonts"></select>
+                        </div>
+                        <div>
+                            <label>Size:</label>
+                            <input type="number"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Align:</label>
+                            <select id="property-align">
+                                <option>Left</option>
+                                <option>Center</option>
+                                <option>Right</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="inner-row">
+                                <div class="col2">
+                                    <label>Bold
+                                        <input type="checkbox" />
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="col2">
+                                    <label>Underline
+                                        <input type="checkbox" />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="inner-row">
+                                <div class="col2">
+                                    <label>Italic
+                                        <input type="checkbox" />
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="col2">
+                                    <label>Strike
+                                        <input type="checkbox" />
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label>Text color:</label>
+                            <div class="inner-row">
+                                <input type="text" style="width: 150px;"/>
+                                <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                            </div>
+                        </div>
+                        <div class="inner-row second-line">
+                            <label>Transparent
+                                <input type="checkbox" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Back color:</label>
+                            <div class="inner-row">
+                                <input type="text" style="width: 150px;"/>
+                                <div id="backColor" class="color-sample" style="margin-left: 10px; margin-top: 15px; margin-right: 30px;"></div>
+                            </div>                            
+                        </div>
+                        <div>
+                            <label>Symbol:</label>
+                            <input type="text"/>
+                        </div>
+                    </div>
                     <label>Format:</label>
                     <input type="text"/>
-                    <label>Symbol:</label>
-                    <input type="text"/>
+                    <div class="property-section">
+                        <span>Position</span>
+                    </div>
+                    <div class="row">
+                        <div class="number7">
+                            <label>Left:</label>
+                            <input type="number"/>
+                        </div>
+                        <div class="number7">
+                            <label>Right:</label>
+                            <input type="number"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="number7">
+                            <label>Height:</label>
+                            <input type="number"/>
+                        </div>
+                        <div class="number7">
+                            <label>Width:</label>
+                            <input type="number"/>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <button>Apply</button>
         </div>
     </div>
     
@@ -197,5 +291,12 @@
     (function() {
         CSReportEditor.cMainEditor.initEditor();
     }())
+
+    function showPropertyTab(tab) {
+        document.getElementById('property-format-tab').style.display = tab === 'property-format-tab' ? 'block' : 'none';
+        document.getElementById('property-formulas-tab').style.display = tab === 'property-formulas-tab' ? 'block' : 'none';
+        document.getElementById('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
+        document.getElementById('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
+    }
 </script>
 </html>
