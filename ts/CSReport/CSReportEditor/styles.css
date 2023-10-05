@@ -134,8 +134,22 @@ header nav ul li {
 .property-tab {
     margin-top: 20px;
     width: 100%;
-    height: calc(100% - 170px);
+    height: calc(100% - 190px);
     overflow: auto;
+}
+
+.footer-bar {
+    top: calc(100% - 40px);
+    position: sticky;
+}
+
+.multiline-label {
+    text-wrap: wrap;
+    height: 80px;
+}
+
+.boxed {
+    border: 1px solid #c8d2d5;
 }
 
 .row {
@@ -186,6 +200,10 @@ input[type=text], input[type=number], select {
     background-color: red;
     width: 20px;
     height: 20px;
+}
+
+.expand-width {
+    width: 100%;
 }
 
 .second-line {

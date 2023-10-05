@@ -143,12 +143,39 @@
                 <li><a href="#" onclick="showPropertyTab('property-borders-tab')">Borders</a></li>
             </ul>
             <div class="property-tab" id="property-borders-tab" style="display: none;"></div>
-            <div class="property-tab" id="property-formulas-tab" style="display: none;"></div>
+            
+            <div class="property-tab" id="property-formulas-tab" style="display: none;">
+                <div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">The control has a formula to determine if it is visible
+                                <input type="checkbox" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div> 
+                    <label style="margin-bottom: 10px;">The formula must return a non zero value to set the control to be visible</label> 
+                    <div class="boxed">
+                        <div class="multiline-label">
+Function x ()
+
+ x =  _value( Control92 )  = 0
+
+End Function 
+                        </div>
+                        <button>Edit</button>
+                    </div>
+                </div>
+            </div> <!-- property-formulas-tab -->
+
             <div class="property-tab" id="property-database-tab" style="display: none;"></div>
+            
             <div class="property-tab" id="property-format-tab">
                 <div>
                     <label>Name:</label>
                     <input type="text"/>
+                    <div class="property-section">
+                    </div>
                     <label>Text:</label>
                     <input type="text"/>
                     <label>Tag:</label>
@@ -234,7 +261,8 @@
                     </div>
                     <label>Format:</label>
                     <input type="text"/>
-                    <div class="property-section">
+
+                    <div class="property-section" style="padding-top: 20px;">
                         <span>Position</span>
                     </div>
                     <div class="row">
@@ -257,9 +285,43 @@
                             <input type="number"/>
                         </div>
                     </div>
+                    <div class="property-section">
+                    </div>
+                    <div class="row">
+                        <div class="inner-row expand-width">
+                            <div class="col2">
+                                <label>The control can grow
+                                    <input type="checkbox" />
+                                    <span></span>
+                                </label>
+                            </div>
+                            <div class="col2">
+                                <label>Wrap text
+                                    <input type="checkbox" />
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-section">
+                    </div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label>The control is in the back of the page (the limit of the section doesn't apply to it)
+                                <input type="checkbox" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>                    
+                    <div class="property-section">
+                    </div>
+                    <label>Column export ID for this control:</label>
+                    <input type="text"/>
                 </div>
+            </div><!-- property-format-tab -->
+            <div class="footer-bar">
+                <button>Apply</button>
             </div>
-            <button>Apply</button>
         </div>
     </div>
     
