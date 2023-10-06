@@ -212,17 +212,18 @@ input[type=text], input[type=number], select {
     margin-top: 35px;
 }
 
+/*----------------------------------*/
 /* container */
 .inner-row label {
   position: relative; /* to contain absolute elements */
-  padding-left:30px; /* free space for custom checkbox */
+  padding-left: 30px; /* free space for custom checkbox */
   cursor: pointer;
 }
 /* hide default checkbox  */
 .inner-row label input[type=checkbox] {
   position: absolute; /* prevent taking any space */
-  /* cross-browser hidingg */
-  opactiy: 0;
+  /* cross-browser hiding */
+  opacity: 0;
   width:0; 
   height:0;
 }
@@ -265,6 +266,63 @@ input[type=text], input[type=number], select {
 .inner-row label input:checked ~ span:after {
   display:block;
 }
+
+/*----------------------------------*/
+/* container */
+.inner-row-radio label {
+  display:block;
+  margin-bottom:4px;
+  position: relative; /* to contain absolute elements */
+  padding-left:30px; /* free space for custom radio button */
+  cursor: pointer;
+}
+/* hide default radio button  */
+.inner-row-radio label input[type=radio] {
+  position: absolute; /* prevent taking any space */
+  /* cross-browser hidingg */
+  opactiy: 0;
+  width:0; 
+  height:0;
+}
+/* custom radio button */
+.inner-row-radio label span {
+  position: absolute;
+  /* position to the free space in <label> */
+  top:0;
+  left:0;
+  width:20px; 
+  height:20px;
+  background-color: #ddd;
+  border-radius: 50%;
+  transition: .3s background-color; /* slight transition */
+}
+/* the check icon */
+.inner-row-radio label span:after {
+  content: "";
+  position: absolute;
+  display: none;
+  
+  /* middle */
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  background-color:#fff;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+}
+.inner-row-radio label:hover span {
+  background-color: #ccc;
+}
+
+/**** Here's the trick ***/
+.inner-row-radio label input:checked ~ span {
+  background-color: #2eaadc;
+}
+.inner-row-radio label input:checked ~ span:after {
+  display:block;
+}
+/*----------------------------------*/
 
 .property-section {
     border-top: 1px solid #cdcdcd;

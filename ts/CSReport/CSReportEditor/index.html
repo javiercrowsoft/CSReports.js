@@ -142,10 +142,59 @@
                 <li><a href="#" onclick="showPropertyTab('property-database-tab')">Database</a></li>
                 <li><a href="#" onclick="showPropertyTab('property-borders-tab')">Borders</a></li>
             </ul>
-            <div class="property-tab" id="property-borders-tab" style="display: none;"></div>
-            
-            <div class="property-tab" id="property-formulas-tab" style="display: none;">
+            <div class="property-tab" id="property-borders-tab" style="display: none;">
                 <div>
+                    <div>
+                        <label>Type</label>
+                        <select id="property-align">
+                            <option>None</option>
+                            <option>Flat</option>
+                            <option>3D</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Color</label>
+                            <div class="inner-row">
+                                <input type="text" style="width: 150px;"/>
+                                <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Color 3D</label>
+                            <div class="inner-row">
+                                <input type="text" style="width: 150px;"/>
+                                <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Color 3D shadow</label>
+                            <div class="inner-row">
+                                <input type="text" style="width: 150px;"/>
+                                <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="number7">
+                        <label>width</label>
+                        <input type="number"/>
+                    </div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">The control can grow
+                                <input type="checkbox" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div class="property-tab" id="property-formulas-tab" style="display: none;">
+                <div style="width: 95%;">
                     <div class="row">
                         <div class="inner-row">
                             <label style="margin-top: 10px;">The control has a formula to determine if it is visible
@@ -164,36 +213,96 @@
 
 End Function 
                         </div>
-                        <button style="float: right; margin-top: 10px;">Edit</button>
+                    </div>
+                    <div style="text-align: right;">
+                        <button style="margin-top: 10px;">Edit</button>
+                    </div>
+                    <div class="property-section">
+                    </div>
+
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Use a formula to calculate the control's value
+                                <input type="checkbox" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div> 
+                    <div>
+                        <p>
+                            The value of the field "Execute only on this group" mus follow this rules:<br/>
+                            <table>
+                                <tr><td>-2000</td><td>for a formula which is located in header asections and must be evaluted before printing the first line of the detail section</td></tr>
+                                <tr><td>+index</td><td>for a formula which is located in group headers</td></tr>
+                                <tr><td>-index</td><td>for a formula which is located in group footers</td></tr>
+                                <tr><td>0</td><td>for every formula which is located in detail section</td></tr>
+                                <tr><td>-2001</td><td>for a formula which is located in footer sections</td></tr>
+                            </table>
+                        </p>
+                        <label>Execute only on this group</label>
+                        <input type="number" value="0">
+                    </div>
+                    <label>Execute</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">before or
+                                <input type="radio" name="whenExecute"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">after printing the line
+                                <input type="radio" name="whenExecute"/>
+                                <span></span>
+                            </label>
+                        </div>                        
+                    </div>
+                    <div class="boxed" style="margin-top: 10px;">
+                        <div class="multiline-label">Function x ()
+
+ x =  _value( Control92 )  = 0
+
+End Function 
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <button style="margin-top: 10px;">Edit</button>
                     </div>
                 </div>
+
             </div> <!-- property-formulas-tab -->
 
-            <div class="property-tab" id="property-database-tab" style="display: none;"></div>
+            <div class="property-tab" id="property-database-tab" style="display: none;">
+                <div>
+                    <label>Field</label>
+                    <div class="inner-row">
+                        <input type="text"/>
+                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>    
+                    </div>
+                </div>
+            </div>
             
             <div class="property-tab" id="property-format-tab">
                 <div>
-                    <label>Name:</label>
+                    <label>Name</label>
                     <input type="text"/>
                     <div class="property-section">
                     </div>
-                    <label>Text:</label>
+                    <label>Text</label>
                     <input type="text"/>
-                    <label>Tag:</label>
+                    <label>Tag</label>
                     <input type="text"/>
                     <div class="row">
                         <div>
-                            <label>Font:</label>
+                            <label>Font</label>
                             <select id="property-fonts"></select>
                         </div>
                         <div>
-                            <label>Size:</label>
+                            <label>Size</label>
                             <input type="number"/>
                         </div>
                     </div>
                     <div class="row">
                         <div>
-                            <label>Align:</label>
+                            <label>Align</label>
                             <select id="property-align">
                                 <option>Left</option>
                                 <option>Center</option>
@@ -234,7 +343,7 @@ End Function
 
                     <div class="row">
                         <div>
-                            <label>Text color:</label>
+                            <label>Text color</label>
                             <div class="inner-row">
                                 <input type="text" style="width: 150px;"/>
                                 <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
@@ -249,18 +358,18 @@ End Function
                     </div>
                     <div class="row">
                         <div>
-                            <label>Back color:</label>
+                            <label>Back color</label>
                             <div class="inner-row">
                                 <input type="text" style="width: 150px;"/>
                                 <div id="backColor" class="color-sample" style="margin-left: 10px; margin-top: 15px; margin-right: 30px;"></div>
                             </div>                            
                         </div>
                         <div>
-                            <label>Symbol:</label>
+                            <label>Symbol</label>
                             <input type="text"/>
                         </div>
                     </div>
-                    <label>Format:</label>
+                    <label>Format</label>
                     <input type="text"/>
 
                     <div class="property-section" style="padding-top: 20px;">
@@ -268,21 +377,21 @@ End Function
                     </div>
                     <div class="row">
                         <div class="number7">
-                            <label>Left:</label>
+                            <label>Left</label>
                             <input type="number"/>
                         </div>
                         <div class="number7">
-                            <label>Right:</label>
+                            <label>Right</label>
                             <input type="number"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="number7">
-                            <label>Height:</label>
+                            <label>Height</label>
                             <input type="number"/>
                         </div>
                         <div class="number7">
-                            <label>Width:</label>
+                            <label>Width</label>
                             <input type="number"/>
                         </div>
                     </div>
@@ -316,7 +425,7 @@ End Function
                     </div>                    
                     <div class="property-section">
                     </div>
-                    <label>Column export ID for this control:</label>
+                    <label>Column export ID for this control</label>
                     <input type="text"/>
                 </div>
             </div><!-- property-format-tab -->
