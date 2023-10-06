@@ -85,7 +85,7 @@ namespace CSReportEditor {
         private _items: Nodes = null;
         private _selectedNode: Node;
         private _text: string;
-        public readonly name: string;        
+        public readonly name: string;
 
         public constructor(name: string, el: HTMLElement, text: string) {
             super(el);

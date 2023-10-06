@@ -257,11 +257,10 @@ namespace CSReportEditor {
             //Console.WriteLine(String.Format("Implement this: public static void {0} {1}", functionName, moduleName));
         }
 
-        public static addCtrls(report: cReport, lv_controls: ListView, C_CTRL_IMAGE: number, C_DB_IMAGE: number) {
-            lv_controls.clear();
+        public static addCtrls(report: cReport, lvControls: ListView, ctrlImage: number, dbImage: number) {
+            lvControls.clear();
 
-            // TODO: implement
-            /*
+            lvControls.createHeaders(['Name', 'F hide', 'F value', 'Db field']);
 
             for(let i = 0; i < report.getControls().count(); i++) {
                 let ctrl = report.getControls().item(i);
@@ -289,24 +288,24 @@ namespace CSReportEditor {
                     ctrlName += " (" + ctrlInfo + ")";
                 }
 
-                let item = lv_controls.add(ctrlName, C_CTRL_IMAGE);
+                let item = lvControls.add(ctrlName, ctrlImage);
                 item.tag = ctrl.getKey();
                 item.subItems.add("");
                 item.subItems.add("");
                 item.subItems.add("");
 
-                if (ctrl.getHasFormulaValue()) item.subItems.item(1).text = "*";
-                if (ctrl.getHasFormulaHide()) item.subItems.item(2).text = "*";
+                if (ctrl.getHasFormulaValue()) item.subItems.item(1).setText("*");
+                if (ctrl.getHasFormulaHide()) item.subItems.item(2).setText("*");
 
                 if (ctrlField.length > 0) {
-                    item.subItems.item(3).text = ctrlField;
-                    item.subItems.item(3).foreColor = Color.Blue;
-                    item.imageIndex = C_DB_IMAGE;
+                    item.subItems.item(3).setText(ctrlField);
+                    item.subItems.item(3).setForeColor(Color.Blue);
+                    item.setImageIndex(dbImage);
                 }
                 if (ctrl.getName().length > 4 && ctrl.getName().substring(0, 4) === "lnk_") {
-                    item.foreColor = Color.Red;
+                    item.setForeColor(Color.Red);
                 }
-            }*/
+            }            
         }
 
         public static addCtrls2(report: cReport, tv_controls: TreeView,
@@ -461,7 +460,7 @@ namespace CSReportEditor {
             for(let i_ = 0; i_ < columns.count(); i_++) {
                 let column = columns.item(i_);
                 let item = lvColumns.add("{{{" + dataSource + "}}}.{" + column.getName() + "}");
-                item.imageIndex = 0;
+                item.setImageIndex(0);
                 // let info: string = cUtil.setInfoString("", index, column.getPosition().toString());
                 // info = cUtil.setInfoString(info, fieldType, column.getColumnType().toString());
                 // item.tag = info;

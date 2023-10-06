@@ -110,10 +110,10 @@
         <!-- Tab links -->
         <div class="tab" id="tabReports">
             <div class="tablinks sidebar-tab">
-                <button class="tablinks">Report</button>
-                <button class="tablinks">Ctrls</button>
-                <button class="tablinks">DB</button>
-                <button class="tablinks">Properties</button>
+                <button class="tablinks" onclick="showSideBarTab('sidebar-tv-controls')">Report</button>
+                <button class="tablinks" onclick="showSideBarTab('sidebar-lv-controls')">Ctrls</button>
+                <button class="tablinks" onclick="showSideBarTab('sidebar-lv-database')">DB</button>
+                <button class="tablinks" onclick="showSideBarTab('sidebar-lv-properties')">Properties</button>
             </div>
             <!-- this added by code. I let it here just as an example
             <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1 
@@ -122,6 +122,10 @@
             -->
         </div>
         <div id="sidebar">
+            <div id="sidebar-tv-controls"></div>
+            <div id="sidebar-lv-controls" style="display: none;"></div>
+            <div id="sidebar-lv-properties" style="display: none;"></div>
+            <div id="sidebar-lv-database" style="display: none;"></div>
         </div>
 
         <!-- this added by code. I let it here just as an example
@@ -146,7 +150,7 @@
                 <div>
                     <div>
                         <label>Type</label>
-                        <select id="property-align">
+                        <select id="ctl-border-type">
                             <option>None</option>
                             <option>Flat</option>
                             <option>3D</option>
@@ -156,8 +160,8 @@
                         <div>
                             <label>Color</label>
                             <div class="inner-row">
-                                <input type="text" style="width: 150px;"/>
-                                <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                                <input type="text" id="ctrl-border-color" style="width: 150px;"/>
+                                <div id="ctrl-border-color-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
                             </div>
                         </div>
                     </div>
@@ -165,8 +169,8 @@
                         <div>
                             <label>Color 3D</label>
                             <div class="inner-row">
-                                <input type="text" style="width: 150px;"/>
-                                <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                                <input type="text" id="ctrl-border-color-3d" style="width: 150px;"/>
+                                <div id="ctrl-border-color-3d-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
                             </div>
                         </div>
                     </div>
@@ -174,31 +178,32 @@
                         <div>
                             <label>Color 3D shadow</label>
                             <div class="inner-row">
-                                <input type="text" style="width: 150px;"/>
-                                <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                                <input type="text" id="ctrl-border-color-shadow" style="width: 150px;"/>
+                                <div id="ctrl-border-color-shadow-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
                             </div>
                         </div>
                     </div>
                     <div class="number7">
                         <label>width</label>
-                        <input type="number"/>
+                        <input type="number" id="ctrl-border-width"/>
                     </div>
                     <div class="row">
                         <div class="inner-row">
                             <label style="margin-top: 10px;">The control can grow
-                                <input type="checkbox" />
+                                <input type="checkbox" id="ctrl-border-can-grow"/>
                                 <span></span>
                             </label>
                         </div>
                     </div> 
                 </div>
             </div>
+
             <div class="property-tab" id="property-formulas-tab" style="display: none;">
                 <div style="width: 95%;">
                     <div class="row">
                         <div class="inner-row">
                             <label style="margin-top: 10px;">The control has a formula to determine if it is visible
-                                <input type="checkbox" />
+                                <input type="checkbox" id="ctrl-has-visible-formula"/>
                                 <span></span>
                             </label>
                         </div>
@@ -207,7 +212,7 @@
                         <label>The formula must return a non zero value to set the control to be visible</label> 
                     </div>
                     <div class="boxed">
-                        <div class="multiline-label">Function x ()
+                        <div class="multiline-label" id="ctrl-visible-formula">Function x ()
 
  x =  _value( Control92 )  = 0
 
@@ -240,23 +245,23 @@ End Function
                             </table>
                         </p>
                         <label>Execute only on this group</label>
-                        <input type="number" value="0">
+                        <input type="number" value="0" id="ctrl-formula-group">
                     </div>
                     <label>Execute</label>
                     <div class="row">
                         <div class="inner-row-radio">
                             <label style="margin-top: 10px;">before or
-                                <input type="radio" name="whenExecute"/>
+                                <input type="radio" name="whenExecute" id="ctrl-formula-run-before"/>
                                 <span></span>
                             </label>
                             <label style="margin-top: 10px;">after printing the line
-                                <input type="radio" name="whenExecute"/>
+                                <input type="radio" name="whenExecute" id="ctrl-formula-run-after"/>
                                 <span></span>
                             </label>
                         </div>                        
                     </div>
                     <div class="boxed" style="margin-top: 10px;">
-                        <div class="multiline-label">Function x ()
+                        <div class="multiline-label" id="ctrl-value-formula">Function x ()
 
  x =  _value( Control92 )  = 0
 
@@ -274,7 +279,7 @@ End Function
                 <div>
                     <label>Field</label>
                     <div class="inner-row">
-                        <input type="text"/>
+                        <input type="text" id="ctrl-db-field"/>
                         <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>    
                     </div>
                 </div>
@@ -283,27 +288,27 @@ End Function
             <div class="property-tab" id="property-format-tab">
                 <div>
                     <label>Name</label>
-                    <input type="text"/>
+                    <input type="text" id="ctrl-name"/>
                     <div class="property-section">
                     </div>
                     <label>Text</label>
-                    <input type="text"/>
+                    <input type="text" id="ctrl-text"/>
                     <label>Tag</label>
-                    <input type="text"/>
+                    <input type="text" id="ctrl-tag"/>
                     <div class="row">
                         <div>
                             <label>Font</label>
-                            <select id="property-fonts"></select>
+                            <select id="ctrl-fonts"></select>
                         </div>
                         <div>
                             <label>Size</label>
-                            <input type="number"/>
+                            <input type="number" id="ctrl-size"/>
                         </div>
                     </div>
                     <div class="row">
                         <div>
                             <label>Align</label>
-                            <select id="property-align">
+                            <select id="ctrl-align">
                                 <option>Left</option>
                                 <option>Center</option>
                                 <option>Right</option>
@@ -313,13 +318,13 @@ End Function
                             <div class="inner-row">
                                 <div class="col2">
                                     <label>Bold
-                                        <input type="checkbox" />
+                                        <input type="checkbox" id="ctrl-bold" />
                                         <span></span>
                                     </label>
                                 </div>
                                 <div class="col2">
                                     <label>Underline
-                                        <input type="checkbox" />
+                                        <input type="checkbox" id="ctrl-underline" />
                                         <span></span>
                                     </label>
                                 </div>
@@ -327,13 +332,13 @@ End Function
                             <div class="inner-row">
                                 <div class="col2">
                                     <label>Italic
-                                        <input type="checkbox" />
+                                        <input type="checkbox" id="ctrl-italic" />
                                         <span></span>
                                     </label>
                                 </div>
                                 <div class="col2">
                                     <label>Strike
-                                        <input type="checkbox" />
+                                        <input type="checkbox" id="ctrl-strike" />
                                         <span></span>
                                     </label>
                                 </div>
@@ -345,13 +350,13 @@ End Function
                         <div>
                             <label>Text color</label>
                             <div class="inner-row">
-                                <input type="text" style="width: 150px;"/>
-                                <div id="textColor" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                                <input type="text" style="width: 150px;" id="ctrl-text-color"/>
+                                <div id="ctrl-text-color-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
                             </div>
                         </div>
                         <div class="inner-row second-line">
                             <label>Transparent
-                                <input type="checkbox" />
+                                <input type="checkbox" id="ctrl-transparent"/>
                                 <span></span>
                             </label>
                         </div>
@@ -360,17 +365,17 @@ End Function
                         <div>
                             <label>Back color</label>
                             <div class="inner-row">
-                                <input type="text" style="width: 150px;"/>
-                                <div id="backColor" class="color-sample" style="margin-left: 10px; margin-top: 15px; margin-right: 30px;"></div>
+                                <input type="text" style="width: 150px;" id="ctrl-back-color"/>
+                                <div  id="ctrl-back-color-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px; margin-right: 30px;"></div>
                             </div>                            
                         </div>
                         <div>
                             <label>Symbol</label>
-                            <input type="text"/>
+                            <input type="text" id="ctrl-symbol"/>
                         </div>
                     </div>
                     <label>Format</label>
-                    <input type="text"/>
+                    <input type="text" id="ctrl-format"/>
 
                     <div class="property-section" style="padding-top: 20px;">
                         <span>Position</span>
@@ -378,21 +383,21 @@ End Function
                     <div class="row">
                         <div class="number7">
                             <label>Left</label>
-                            <input type="number"/>
+                            <input type="number" id="ctrl-left"/>
                         </div>
                         <div class="number7">
                             <label>Right</label>
-                            <input type="number"/>
+                            <input type="number" id="ctrl-right"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="number7">
                             <label>Height</label>
-                            <input type="number"/>
+                            <input type="number" id="ctrl-height"/>
                         </div>
                         <div class="number7">
                             <label>Width</label>
-                            <input type="number"/>
+                            <input type="number" id="ctrl-width"/>
                         </div>
                     </div>
                     <div class="property-section">
@@ -401,13 +406,13 @@ End Function
                         <div class="inner-row expand-width">
                             <div class="col2">
                                 <label>The control can grow
-                                    <input type="checkbox" />
+                                    <input type="checkbox" id="ctrl-can-grow"/>
                                     <span></span>
                                 </label>
                             </div>
                             <div class="col2">
                                 <label>Wrap text
-                                    <input type="checkbox" />
+                                    <input type="checkbox" id="ctrl-wrap-text"/>
                                     <span></span>
                                 </label>
                             </div>
@@ -418,7 +423,7 @@ End Function
                     <div class="row">
                         <div class="inner-row">
                             <label>The control is in the back of the page (the limit of the section doesn't apply to it)
-                                <input type="checkbox" />
+                                <input type="checkbox" id="ctrl-is-in-background"/>
                                 <span></span>
                             </label>
                         </div>
@@ -426,7 +431,7 @@ End Function
                     <div class="property-section">
                     </div>
                     <label>Column export ID for this control</label>
-                    <input type="text"/>
+                    <input type="text" id="ctrl-export-id"/>
                 </div>
             </div><!-- property-format-tab -->
             <div class="footer-bar">
@@ -470,5 +475,13 @@ End Function
         document.getElementById('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
         document.getElementById('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
     }
+
+    function showSideBarTab(tab) {
+        document.getElementById('sidebar-tv-controls').style.display = tab === 'sidebar-tv-controls' ? 'block' : 'none';
+        document.getElementById('sidebar-lv-controls').style.display = tab === 'sidebar-lv-controls' ? 'block' : 'none';
+        document.getElementById('sidebar-lv-properties').style.display = tab === 'sidebar-lv-properties' ? 'block' : 'none';
+        document.getElementById('sidebar-lv-database').style.display = tab === 'sidebar-lv-database' ? 'block' : 'none';
+    }
+
 </script>
 </html>

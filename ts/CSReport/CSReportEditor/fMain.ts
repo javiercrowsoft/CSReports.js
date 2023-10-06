@@ -58,8 +58,8 @@ namespace CSReportEditor {
         saveFileDialog: object;
         openFileDialog: object;
 
-        private lv_controls: ListView = new ListView();
-        private lv_properties: ListView = new ListView();
+        private lv_controls: ListView = null;
+        private lv_properties: ListView = null;
         private tv_controls: TreeView = null;
 
 
@@ -87,11 +87,11 @@ namespace CSReportEditor {
 
             this.tabReports = new TabBar("tabReports", this.el("tabReports"));
 
-            this.lv_controls = new ListView();
-            this.tv_controls = new TreeView("tvControls", this.el("sidebar"), "*");
-            this.lv_properties = new ListView();
+            this.lv_controls = new ListView("lvControls", this.el("sidebar-lv-controls"));
+            this.tv_controls = new TreeView("tvControls", this.el("sidebar-tv-controls"), "*");
+            this.lv_properties = new ListView("lvControls", this.el("sidebar-lv-properties"));
 
-            const fontsNode = this.el('property-fonts') as HTMLSelectElement;
+            const fontsNode = this.el('ctrl-fonts') as HTMLSelectElement;
             Font.availableFonts().then((fonts) => fonts.forEach((font)=> fontsNode.add(new Option(font))));
         }
 

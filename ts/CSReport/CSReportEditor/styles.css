@@ -112,6 +112,54 @@ header nav ul li {
     overflow: auto;
 }
 
+/*
+.table th {
+    text-align: left;
+    background-color: lightgrey;
+}*/
+
+
+/*------------------------------------------------------------*/
+  
+.fl-table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.fl-table td, .fl-table th {
+    text-align: left;
+    padding: 8px;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+.fl-table thead th {
+    color: #ffffff;
+    background: #92969b;
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #92969b;
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+
+/*------------------------------------------------------------*/
+
 #right-sidebar {
     background-color: #feffef;
     width: 445px;
