@@ -139,8 +139,10 @@
         </div>
         -->
         <div id="right-sidebar">
-            <img src="images/properties/config_page.jpg">
-            <h1 id="ctrl-lb-name"></h1>
+            <div class="inner-row-left">
+                <img src="images/properties/config_page.jpg">
+                <h1 id="ctrl-lb-name" style="margin-left: 15px;"></h1>
+            </div>
             <ul class="toolbar">
                 <li><a href="#" onclick="showPropertyTab('property-format-tab')">Format</a></li>
                 <li><a href="#" onclick="showPropertyTab('property-formulas-tab')">Formulas</a></li>
@@ -296,7 +298,7 @@ End Function
 
             <div class="property-tab" id="property-image-tab" style="display: none;">
                 <div>
-                    <label>Field</label>
+                    <label>Image</label>
                     <div class="inner-row">
                         <input type="text" id="ctrl-image-file"/>
                         <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>    

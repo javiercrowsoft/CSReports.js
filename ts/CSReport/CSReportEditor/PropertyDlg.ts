@@ -128,8 +128,11 @@ namespace CSReportEditor {
 
         private cbBorderType: ComboBox;
         private txBorderColor: TextBox;
+        private shBorderColor: Label;
         private txBorder3D: TextBox;
+        private shBorder3D: Label;
         private txBorderShadow: TextBox;
+        private shBorderShadow: Label;
         private txBorderWidth: TextBox;
         private chkBorderRounded: CheckBox;
         
@@ -141,6 +144,10 @@ namespace CSReportEditor {
 
         private labelEl(id: string) {
             return this.el(id) as HTMLLabelElement;
+        }
+
+        private selectEl(id: string) {
+            return this.el(id) as HTMLSelectElement;
         }
 
         private el(id: string) {
@@ -155,9 +162,9 @@ namespace CSReportEditor {
             this.txName = new TextBox(this.inputEl('ctrl-name'));
             this.txText = new TextBox(this.inputEl('ctrl-text'));
             this.txTag = new TextBox(this.inputEl('ctrl-tag'));
-            this.cbFont = new ComboBox(this.el('ctrl-font'));
+            this.cbFont = new ComboBox(this.selectEl('ctrl-font'));
             this.txFontSize = new TextBox(this.inputEl('ctrl-font-size'));        
-            this.cbAlign = new ComboBox(this.el('ctrl-align'));
+            this.cbAlign = new ComboBox(this.selectEl('ctrl-align'));
             this.chkFontBold = new CheckBox(this.inputEl('ctrl-bold'));
             this.chkFontUnderline = new CheckBox(this.inputEl('ctrl-underline'));
             this.chkFontItalic = new CheckBox(this.inputEl('ctrl-italic'));
@@ -193,10 +200,13 @@ namespace CSReportEditor {
             
             this.txDbField = new TextBox(this.inputEl('ctrl-db-field'));
     
-            this.cbBorderType = new ComboBox(this.el('ctl-border-type'));
+            this.cbBorderType = new ComboBox(this.selectEl('ctl-border-type'));
             this.txBorderColor = new TextBox(this.inputEl('ctrl-border-color'));
+            this.shBorderColor = new Label(this.labelEl('ctrl-border-color-sample'));
             this.txBorder3D = new TextBox(this.inputEl('ctrl-border-color-3d'));
+            this.shBorder3D = new Label(this.labelEl('ctrl-border-color-3d-sample'));
             this.txBorderShadow = new TextBox(this.inputEl('ctrl-border-color-shadow'));
+            this.shBorderShadow = new Label(this.labelEl('ctrl-border-color-shadow-sample'));
             this.txBorderWidth = new TextBox(this.inputEl('ctrl-border-width'));
             this.chkBorderRounded = new CheckBox(this.inputEl('ctrl-border-rounded'));
 
@@ -229,16 +239,18 @@ namespace CSReportEditor {
             return this.formulaHide;
         }
 
-        public setFormulaHide(rhs: string) {
-            this.formulaHide = rhs;
+        public setFormulaHide(formula: string) {
+            this.formulaHide = formula;
+            this.lbFormulaHide.setText(formula);
         }
 
         public getFormulaValue() {
             return this.formulaValue;
         }
 
-        public setFormulaValue(rhs: string) {
-            this.formulaValue = rhs;
+        public setFormulaValue(formula: string) {
+            this.formulaValue = formula;
+            this.lbFormulaValue.setText(formula);
         }
 
         public getFormulaName() {
@@ -1595,13 +1607,22 @@ namespace CSReportEditor {
         getTxBorderColor(): TextBox {
             return this.txBorderColor;
         }
+        getShBorderColor(): Label {
+            return this.shBorderColor;
+        }
 
         getTxBorder3D(): TextBox {
             return this.txBorder3D;
         }
+        getShBorder3D(): Label {
+            return this.shBorder3D;
+        }
 
         getTxBorderShadow(): TextBox {
             return this.txBorderShadow;
+        }
+        getShBorderShadow(): Label {
+            return this.shBorderShadow;
         }
 
         getChkBorderRounded(): CheckBox {

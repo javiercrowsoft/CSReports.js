@@ -3690,8 +3690,11 @@ namespace CSReportEditor {
                 Utils.listSetListIndexForId(propertyDlg.getCbAlign(), aspect.getAlign());
 
                 propertyDlg.getTxBorderColor().setText(aspect.getBorderColor().toString());
+                propertyDlg.getShBorderColor().setBackColor(aspect.getBorderColor());
                 propertyDlg.getTxBorder3D().setText(aspect.getBorderColor3d().toString());
+                propertyDlg.getShBorder3D().setBackColor(aspect.getBorderColor3d());
                 propertyDlg.getTxBorderShadow().setText(aspect.getBorderColor3dShadow().toString());
+                propertyDlg.getShBorderShadow().setBackColor(aspect.getBorderColor3dShadow());
                 propertyDlg.getChkBorderRounded().setChecked(aspect.getBorderRounded());
                 propertyDlg.getTxBorderWidth().setText(aspect.getBorderWidth().toString());
 

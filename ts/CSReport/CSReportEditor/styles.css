@@ -246,6 +246,12 @@ input[type=text], input[type=number], select {
     margin: 0 0 20px 0;
 }
 
+.inner-row-left {
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+}
+
 .color-sample {
     width: 20px;
     height: 20px;
