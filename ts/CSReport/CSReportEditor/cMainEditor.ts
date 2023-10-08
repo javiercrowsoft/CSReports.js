@@ -192,6 +192,11 @@ namespace CSReportEditor {
 
         public static showProperties(key?: string) {
             cMainEditor.fMain.showProperties(cMainEditor.editor, key);
+            cMainEditor.editor.showCtrlProperties2();
+        }
+
+        static getPropertyDlg(): PropertyDlg {
+            return cMainEditor.fMain.getPropertyDlg();
         }
     }
 

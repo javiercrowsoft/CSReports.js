@@ -70,6 +70,13 @@ namespace CSReportEditor {
 
         }
 
+        setEnabled(enabled: boolean) {
+            if(this.el.hasOwnProperty('disabled')) {
+                //@ts-ignore
+                this.el.disabled = ! enabled;
+            }
+        }
+
         dispose() {
             if(this.el) {
                 try {

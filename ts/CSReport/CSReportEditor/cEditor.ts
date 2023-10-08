@@ -3586,6 +3586,143 @@ namespace CSReportEditor {
             mouse.dispose();
         }
 
+        public showCtrlProperties2() {
+            try {
+
+                let rptCtrl: cReportControl = null;
+                let aspect: cReportAspect = null;
+                let font: cReportFont = null;
+
+                const propertyDlg = cMainEditor.getPropertyDlg();
+
+                propertyDlg.setHandler(this);
+
+                let paintObject = this.paint.getPaintObject(this.keyObj);
+                if (paintObject === null) return;
+
+                propertyDlg.getTxText().setText(paintObject.getText());
+                rptCtrl = this.report.getControls().item(paintObject.getTag());
+
+                if (rptCtrl.getControlType() !== csRptControlType.CS_RPT_CT_IMAGE) {
+                    propertyDlg.hideTabImage();
+                }
+                else {
+                    propertyDlg.getPicImage().setImage(rptCtrl.getImage().getImage());
+                }
+
+                if (rptCtrl.getControlType() !== csRptControlType.CS_RPT_CT_CHART) {
+                    propertyDlg.hideTabChart();
+                }
+                else {
+
+                    Utils.listSetListIndexForId(propertyDlg.getCbType(), rptCtrl.getChart().getChartType());
+                    Utils.listSetListIndexForId(propertyDlg.getCbFormatType(), rptCtrl.getChart().getFormat());
+                    Utils.listSetListIndexForId(propertyDlg.getCbChartSize(), rptCtrl.getChart().getDiameter());
+                    Utils.listSetListIndexForId(propertyDlg.getCbChartThickness(), rptCtrl.getChart().getThickness());
+                    Utils.listSetListIndexForId(propertyDlg.getCbLinesType(), rptCtrl.getChart().getGridLines());
+
+                    propertyDlg.getTxChartTop().setText(rptCtrl.getChart().getTop().toString());
+                    propertyDlg.getTxDbFieldGroupValue().setText(rptCtrl.getChart().getGroupFieldName());
+                    propertyDlg.setChartGroupIndex(rptCtrl.getChart().getGroupFieldIndex());
+                    propertyDlg.getTxChartGroupValue().setText(rptCtrl.getChart().getGroupValue());
+                    propertyDlg.getChkShowOutlines().setChecked(rptCtrl.getChart().getOutlineBars());
+                    propertyDlg.getChkShowBarValues().setChecked(rptCtrl.getChart().getShowValues());
+                    propertyDlg.getChkSort().setChecked(rptCtrl.getChart().getSort());
+                    propertyDlg.getTxText().setText(rptCtrl.getChart().getChartTitle());
+
+                    if (rptCtrl.getChart().getSeries().count() > 0) {
+                        propertyDlg.getTxDbFieldLbl1().setText(rptCtrl.getChart().getSeries().item(0).getLabelFieldName());
+                        propertyDlg.getTxDbFieldVal1().setText(rptCtrl.getChart().getSeries().item(0).getValueFieldName());
+
+                        propertyDlg.setChartIndex(0, rptCtrl.getChart().getSeries().item(0).getLabelIndex());
+                        propertyDlg.setChartIndex(1, rptCtrl.getChart().getSeries().item(0).getValueIndex());
+
+                        Utils.listSetListIndexForId(propertyDlg.getCbColorSerie1(), rptCtrl.getChart().getSeries().item(0).getColor());
+
+                        if (rptCtrl.getChart().getSeries().count() > 1) {
+                            propertyDlg.getTxDbFieldLbl1().setText(rptCtrl.getChart().getSeries().item(1).getLabelFieldName());
+                            propertyDlg.getTxDbFieldVal2().setText(rptCtrl.getChart().getSeries().item(1).getValueFieldName());
+
+                            propertyDlg.setChartIndex(2, rptCtrl.getChart().getSeries().item(1).getLabelIndex());
+                            propertyDlg.setChartIndex(3, rptCtrl.getChart().getSeries().item(1).getValueIndex());
+
+                            Utils.listSetListIndexForId(propertyDlg.getCbColorSerie2(), rptCtrl.getChart().getSeries().item(1).getColor());
+                        }
+                    }
+                }
+
+                if (rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD
+                    || rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
+                    propertyDlg.getTxText().setEnabled(false);
+                    let field: cReportField = rptCtrl.getField();
+                    propertyDlg.getTxText().setText(field.getName());
+                    propertyDlg.getTxDbField().setText(field.getName());
+                    propertyDlg.setFieldType(field.getFieldType());
+                    propertyDlg.setIndex(field.getIndex());
+                }
+                else {
+                    propertyDlg.hideTabField();
+                    propertyDlg.getTxText().setEnabled(true);
+                }
+
+                propertyDlg.getTxName().setText(rptCtrl.getName());
+                propertyDlg.getLbControl().setText(rptCtrl.getName());
+                propertyDlg.getChkFormulaHide().setChecked(rptCtrl.getHasFormulaHide());
+                propertyDlg.getChkFormulaValue().setChecked(rptCtrl.getHasFormulaValue());
+
+                propertyDlg.getTxExportColIdx().setText(rptCtrl.getExportColIdx().toString());
+                propertyDlg.getChkIsFreeCtrl().setChecked(rptCtrl.getIsFreeCtrl());
+
+                propertyDlg.getTxTag().setText(rptCtrl.getTag());
+                propertyDlg.setFormulaHide(rptCtrl.getFormulaHide().getText());
+                propertyDlg.setFormulaValue(rptCtrl.getFormulaValue().getText());
+                propertyDlg.getTxIdxGroup().setText(rptCtrl.getFormulaValue().getIdxGroup().toString());
+                propertyDlg.getOpBeforePrint().setChecked(rptCtrl.getFormulaValue().getWhenEval() === csRptWhenEval.CS_RPT_EVAL_PRE);
+                propertyDlg.getOpAfterPrint().setChecked(rptCtrl.getFormulaValue().getWhenEval() === csRptWhenEval.CS_RPT_EVAL_POST);
+
+                aspect = rptCtrl.getLabel().getAspect();
+                propertyDlg.getChkCanGrow().setChecked(aspect.getCanGrow());
+                propertyDlg.getTxFormat().setText(aspect.getFormat());
+                propertyDlg.getTxSymbol().setText(aspect.getSymbol());
+                propertyDlg.setIsAccounting(aspect.getIsAccounting());
+                propertyDlg.getChkWordWrap().setChecked(aspect.getWordWrap());
+
+                Utils.listSetListIndexForId(propertyDlg.getCbAlign(), aspect.getAlign());
+
+                propertyDlg.getTxBorderColor().setText(aspect.getBorderColor().toString());
+                propertyDlg.getTxBorder3D().setText(aspect.getBorderColor3d().toString());
+                propertyDlg.getTxBorderShadow().setText(aspect.getBorderColor3dShadow().toString());
+                propertyDlg.getChkBorderRounded().setChecked(aspect.getBorderRounded());
+                propertyDlg.getTxBorderWidth().setText(aspect.getBorderWidth().toString());
+
+                Utils.listSetListIndexForId(propertyDlg.getCbBorderType(), aspect.getBorderType());
+
+                font = aspect.getFont();
+                propertyDlg.getCbFont().setText(font.getName());
+                propertyDlg.getTxForeColor().setText(font.getForeColor().toString());
+                propertyDlg.getShForeColor().setBackColor(font.getForeColor());
+                propertyDlg.getTxFontSize().setText(font.getSize().toString());
+                propertyDlg.getChkFontBold().setChecked(font.getBold());
+                propertyDlg.getChkFontItalic().setChecked(font.getItalic());
+                propertyDlg.getChkFontUnderline().setChecked(font.getUnderline());
+                propertyDlg.getChkFontStrike().setChecked(font.getStrike());
+
+                aspect = paintObject.getAspect();
+                propertyDlg.getTxLeft().setText(aspect.getLeft().toString());
+                propertyDlg.getTxTop().setText(aspect.getTop().toString());
+                propertyDlg.getTxWidth().setText(aspect.getWidth().toString());
+                propertyDlg.getTxHeight().setText(aspect.getHeight().toString());
+                propertyDlg.getTxBackColor().setText(aspect.getBackColor().toString());
+                propertyDlg.getShBackColor().setBackColor(aspect.getBackColor());
+                propertyDlg.getChkTransparent().setChecked(aspect.getTransparent());
+
+                propertyDlg.resetChangedFlags();
+
+            } catch (ex) {
+                cError.mngError(ex);
+            }
+        }
+
         private showCtrlProperties() {
             try {
 

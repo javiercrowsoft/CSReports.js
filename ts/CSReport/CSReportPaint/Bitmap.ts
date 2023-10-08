@@ -570,6 +570,18 @@ namespace CSReportPaint {
             return this._color;
         }
 
+        public static colorFromNumber(color: string|number) {
+            //@ts-ignore
+            if(typeof color === 'string' && Number.isInteger(color)) {
+                color = parseInt(color);
+            }
+            if(typeof color === 'number') {
+                const hex = color.toString(16);
+                color = "#" + "000000".substring(0, 6-hex.length) + hex;
+            }
+            return color;
+        }
+
         public static Gray = new Color(csColors.GRAY);
         public static Black = new Color(csColors.BLACK);
         public static Red = new Color(csColors.RED);

@@ -61,7 +61,7 @@ namespace CSReportEditor {
         private lv_controls: ListView = null;
         private lv_properties: ListView = null;
         private tv_controls: TreeView = null;
-
+        private propertyDlg: PropertyDlg = null;
 
         private el(id: string) {
             return document.getElementById(id);
@@ -91,7 +91,9 @@ namespace CSReportEditor {
             this.tv_controls = new TreeView("tvControls", this.el("sidebar-tv-controls"), "*");
             this.lv_properties = new ListView("lvControls", this.el("sidebar-lv-properties"));
 
-            const fontsNode = this.el('ctrl-fonts') as HTMLSelectElement;
+            this.propertyDlg = new PropertyDlg();
+
+            const fontsNode = this.el('ctrl-font') as HTMLSelectElement;
             Font.availableFonts().then((fonts) => fonts.forEach((font)=> fontsNode.add(new Option(font))));
         }
 
@@ -555,6 +557,10 @@ namespace CSReportEditor {
             if (editor !== null) {
                 this.setObjectDescription(this.getControlOrSection(editor, key));
             }
+        }
+
+        public getPropertyDlg(): PropertyDlg {
+            return this.propertyDlg;
         }
 
         private getControlOrSection(editor: cEditor, key?: string) {

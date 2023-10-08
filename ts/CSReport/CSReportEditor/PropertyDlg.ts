@@ -1,14 +1,12 @@
 namespace CSReportEditor {
 
-    import CMouseWait = CSKernelClient.CMouseWait;
     import NotImplementedException = CSOAPI.NotImplementedException;
 
-    export class FProperties extends Form {
+    export class PropertyDlg {
 
-        private editor: cEditor = null;
-
-        private ok: boolean = null;
-        private done: boolean = null;
+        // fields
+        //#region
+        private editor: cEditor;
 
         private index: number = 0;
         private fieldType: number = 0;
@@ -19,8 +17,6 @@ namespace CSReportEditor {
         private formulaName: string = "";
 
         private isAccounting: boolean = null;
-
-        private mouse: CMouseWait = null;
 
         private textChanged: boolean = null;
         private tagChanged: boolean = null;
@@ -85,86 +81,148 @@ namespace CSReportEditor {
         private chartGroupIndex: number = 0;
         private chartGroupFieldType: number = 0;
 
+        //#endregion
+
+        // fields - ctrls
+        //#region
+        private lbControl: Label;
+        private txName: TextBox;
+        private txText: TextBox;
+        private txTag: TextBox;
+        private cbFont: ComboBox;
+        private txFontSize: TextBox;        
+        private cbAlign: ComboBox;
+        private chkFontBold: CheckBox;
+        private chkFontUnderline: CheckBox;
+        private chkFontItalic: CheckBox;
+        private chkFontStrike: CheckBox;
+        private txForeColor: TextBox;
+        private shForeColor: Label;
+        private chkTransparent: CheckBox;
+        private txBackColor: TextBox;
+        private shBackColor: Label;
+        private txSymbol: TextBox;
+        private txFormat: TextBox;
+        private txLeft: TextBox;
+        private txTop: TextBox;
+        private txWidth: TextBox;
+        private txHeight: TextBox;
+        private chkCanGrow: CheckBox;
+        private chkWordWrap: CheckBox;
+        private chkIsFreeCtrl: CheckBox;
+        private txExportColIdx: TextBox;
+
+        private chkFormulaHide: CheckBox;
+        private lbFormulaHide: Label;
+        private cmdFormulaHide: Button;
+        private chkFormulaValue: CheckBox;        
+        private lbFormulaValue: Label;        
+        private cmdFormulaValue: Button; 
+        private txIdxGroup: TextBox;
+        private opBeforePrint: OptionButton;
+        private opAfterPrint: OptionButton;
+
+        private txImageFile: TextBox;
+        private picImage: PictureBox;
+        private txDbField: TextBox;
+
+        private cbBorderType: ComboBox;
+        private txBorderColor: TextBox;
+        private txBorder3D: TextBox;
+        private txBorderShadow: TextBox;
+        private txBorderWidth: TextBox;
+        private chkBorderRounded: CheckBox;
+        
+        //#endregion      
+
+        private inputEl(id: string) {
+            return this.el(id) as HTMLInputElement;
+        }
+
+        private labelEl(id: string) {
+            return this.el(id) as HTMLLabelElement;
+        }
+
+        private el(id: string) {
+            const el = document.getElementById(id);
+            if(el === null || el === undefined) console.log(id + ' was not found');
+            //console.log(el);
+            return el;
+        }
+
         public constructor() {
-            super();
-            // InitializeComponent();
-            //
-            // cb_align.Items.clear();
-            // cUtil.listAdd(cb_align, "Left", (int)CSReportGlobals.HorizontalAlignment.Left);
-            // cUtil.listAdd(cb_align, "Right", (int)CSReportGlobals.HorizontalAlignment.Right);
-            // cUtil.listAdd(cb_align, "Center", (int)CSReportGlobals.HorizontalAlignment.Center);
-            //
-            // cb_borderType.Items.clear();
-            // cUtil.listAdd(cb_borderType, "Flat", (int)csReportBorderType.CS_RPT_BS_FIXED);
-            // cUtil.listAdd(cb_borderType, "3D", (int)csReportBorderType.CS_RPT_BS_3D);
-            // cUtil.listAdd(cb_borderType, "(Ninguno)", (int)csReportBorderType.CS_RPT_BS_NONE);
-            //
-            // G.redim(this.chartFieldType, 3);
-            // G.redim(this.chartIndex, 3);
-            //
+            this.lbControl = new Label(this.labelEl('ctrl-lb-name'));
+            this.txName = new TextBox(this.inputEl('ctrl-name'));
+            this.txText = new TextBox(this.inputEl('ctrl-text'));
+            this.txTag = new TextBox(this.inputEl('ctrl-tag'));
+            this.cbFont = new ComboBox(this.el('ctrl-font'));
+            this.txFontSize = new TextBox(this.inputEl('ctrl-font-size'));        
+            this.cbAlign = new ComboBox(this.el('ctrl-align'));
+            this.chkFontBold = new CheckBox(this.inputEl('ctrl-bold'));
+            this.chkFontUnderline = new CheckBox(this.inputEl('ctrl-underline'));
+            this.chkFontItalic = new CheckBox(this.inputEl('ctrl-italic'));
+            this.chkFontStrike = new CheckBox(this.inputEl('ctrl-strike'));
+            this.txForeColor = new TextBox(this.inputEl('ctrl-text-color'));
+            this.shForeColor = new Label(this.labelEl('ctrl-text-color-sample'));
+            this.chkTransparent = new CheckBox(this.inputEl('ctrl-transparent'));
+            this.txBackColor = new TextBox(this.inputEl('ctrl-back-color'));
+            this.shBackColor = new Label(this.labelEl('ctrl-back-color-sample'));
+            this.txSymbol = new TextBox(this.inputEl('ctrl-symbol'));
+            this.txFormat = new TextBox(this.inputEl('ctrl-format'));
+            this.txLeft = new TextBox(this.inputEl('ctrl-left'));
+            this.txTop = new TextBox(this.inputEl('ctrl-top'));
+            this.txWidth = new TextBox(this.inputEl('ctrl-width'));
+            this.txHeight = new TextBox(this.inputEl('ctrl-height'));
+            this.chkCanGrow = new CheckBox(this.inputEl('ctrl-can-grow'));
+            this.chkWordWrap = new CheckBox(this.inputEl('ctrl-wrap-text'));
+            this.chkIsFreeCtrl = new CheckBox(this.inputEl('ctrl-is-in-background'));
+            this.txExportColIdx = new TextBox(this.inputEl('ctrl-export-id'));
+    
+            this.chkFormulaHide = new CheckBox(this.inputEl('ctrl-has-visible-formula'));
+            this.lbFormulaHide = new Label(this.labelEl('ctrl-visible-formula'));
+            this.cmdFormulaHide = new Button(this.el('ctrl-hide-formula-edit'));
+            this.chkFormulaValue = new CheckBox(this.inputEl('ctrl-has-value-formula'));        
+            this.lbFormulaValue = new Label(this.labelEl('ctrl-value-formula'));        
+            this.cmdFormulaValue = new Button(this.el('ctrl-value-formula-edit')); 
+            this.txIdxGroup = new TextBox(this.inputEl('ctrl-formula-group'));
+            this.opBeforePrint = new OptionButton(this.inputEl('ctrl-formula-run-before'));
+            this.opAfterPrint = new OptionButton(this.inputEl('ctrl-formula-run-after'));
+    
+            this.txImageFile = new TextBox(this.inputEl('ctrl-image-file'));
+            this.picImage = new PictureBox("ctrl-image-preview", this.el('ctrl-image-preview'));
+            
+            this.txDbField = new TextBox(this.inputEl('ctrl-db-field'));
+    
+            this.cbBorderType = new ComboBox(this.el('ctl-border-type'));
+            this.txBorderColor = new TextBox(this.inputEl('ctrl-border-color'));
+            this.txBorder3D = new TextBox(this.inputEl('ctrl-border-color-3d'));
+            this.txBorderShadow = new TextBox(this.inputEl('ctrl-border-color-shadow'));
+            this.txBorderWidth = new TextBox(this.inputEl('ctrl-border-width'));
+            this.chkBorderRounded = new CheckBox(this.inputEl('ctrl-border-rounded'));
+
+            // TODO: implement chart
             // initChart();
         }
 
+        public setHandler(editor: cEditor) {
+            this.editor = editor;
+        }
+
         // properties
-
-        public getPictureChanged() {
-            return this.pictureChanged;
-        }
-
-        public setPictureChanged(rhs: boolean) {
-            this.pictureChanged = rhs;
-        }
-
-        public getOk() {
-            return this.ok;
-        }
+        //#region
 
         public getIndex() {
             return this.index;
-        }
-
-        public getChartGroupIndex() {
-            return this.chartGroupIndex;
-        }
-
-        public getChartIndex(idx: number) {
-            return this.chartIndex[idx];
+        }        
+        public setIndex(rhs: number) {
+            this.index = rhs;
         }
 
         public getFieldType() {
             return this.fieldType;
         }
-
-        public getChartFieldType(idx: number) {
-            return this.chartFieldType[idx];
-        }
-
-        public getChartGroupFieldType() {
-            return this.chartGroupFieldType;
-        }
-
-        public setIndex(rhs: number) {
-            this.index = rhs;
-        }
-
-        public setChartGroupIndex(rhs: number) {
-            this.chartGroupIndex = rhs;
-        }
-
-        public setChartIndex(idx: number, rhs: number) {
-            this.chartIndex[idx] = rhs;
-        }
-
         public setFieldType(rhs: number) {
             this.fieldType = rhs;
-        }
-
-        public setChartGroupFieldType(rhs: number) {
-            this.chartGroupFieldType = rhs;
-        }
-
-        public setChartFieldType(idx: number, rhs: number) {
-            this.chartFieldType[idx] = rhs;
         }
 
         public getFormulaHide() {
@@ -198,6 +256,10 @@ namespace CSReportEditor {
         public setIsAccounting(rhs: boolean) {
             this.isAccounting = rhs;
         }
+        //#endregion
+
+        // has changed getters and setters
+        //#region
 
         public getTextChanged() {
             return this.textChanged;
@@ -463,6 +525,68 @@ namespace CSReportEditor {
             this.borderColorChanged = rhs;
         }
 
+        public getPictureChanged() {
+            return this.pictureChanged;
+        }
+
+        public setPictureChanged(rhs: boolean) {
+            this.pictureChanged = rhs;
+        }
+
+        public getIsFreeCtrlChanged() {
+            return this.isFreeCtrlChanged;
+        }
+
+        public setIsFreeCtrlChanged(rhs: boolean) {
+            this.isFreeCtrlChanged = rhs;
+        }
+
+        public getExportColIdxChanged() {
+            return this.exportColIdxChanged;
+        }
+
+        public setExportColIdxChanged(rhs: boolean) {
+            this.exportColIdxChanged = rhs;
+        }        
+        //#endregion
+
+        // chart getters and setters
+        //#region
+
+        public getChartGroupIndex() {
+            return this.chartGroupIndex;
+        }
+
+        public getChartIndex(idx: number) {
+            return this.chartIndex[idx];
+        }
+
+        public getChartFieldType(idx: number) {
+            return this.chartFieldType[idx];
+        }
+
+        public getChartGroupFieldType() {
+            return this.chartGroupFieldType;
+        }
+
+        public setChartGroupIndex(rhs: number) {
+            this.chartGroupIndex = rhs;
+        }
+
+        public setChartIndex(idx: number, rhs: number) {
+            this.chartIndex[idx] = rhs;
+        }
+
+        public setChartGroupFieldType(rhs: number) {
+            this.chartGroupFieldType = rhs;
+        }
+
+        public setChartFieldType(idx: number, rhs: number) {
+            this.chartFieldType[idx] = rhs;
+        }
+
+        // char has changed getters and setters
+
         public getChartFieldVal1Changed() {
             return this.chartFieldVal1Changed;
         }
@@ -598,28 +722,10 @@ namespace CSReportEditor {
         public setChartSortChanged(rhs: boolean) {
             this.chartSortChanged = rhs;
         }
-
-        public getIsFreeCtrlChanged() {
-            return this.isFreeCtrlChanged;
-        }
-
-        public setIsFreeCtrlChanged(rhs: boolean) {
-            this.isFreeCtrlChanged = rhs;
-        }
-
-        public getExportColIdxChanged() {
-            return this.exportColIdxChanged;
-        }
-
-        public setExportColIdxChanged(rhs: boolean) {
-            this.exportColIdxChanged = rhs;
-        }        
-
-        //------------------------------------------------------------------------------------------------------------------
+        //#endregion
 
         // change events
-
-        //------------------------------------------------------------------------------------------------------------------
+        //#region
 
         private cb_align_Click(sender: object, e: object) {
             this.alignChanged = true;
@@ -830,107 +936,7 @@ namespace CSReportEditor {
             // }
             // catch (ignore) { }
         }
-
-        //------------------------------------------------------------------------------------------------------------------
-
-        // initializers
-
-        //------------------------------------------------------------------------------------------------------------------
-
-        public resetChangedFlags() {
-            this.textChanged = false;
-            this.tagChanged = false;
-            this.fontChanged = false;
-            this.foreColorChanged = false;
-            this.backColorChanged = false;
-            this.formatChanged = false;
-            this.leftChanged = false;
-            this.topChanged = false;
-            this.heightChanged = false;
-            this.widthChanged = false;
-            this.symbolChanged = false;
-            this.transparentChanged = false;
-            this.strikeChanged = false;
-            this.underlineChanged = false;
-            this.wordWrapChanged = false;
-            this.italicChanged = false;
-            this.boldChanged = false;
-            this.alignChanged = false;
-            this.fontSizeChanged = false;
-            this.canGrowChanged = false;
-            this.formulaHideChanged = false;
-            this.formulaValueChanged = false;
-            this.idxGroupChanged = false;
-            this.whenEvalChanged = false;
-            this.dbFieldChanged = false;
-            this.bSetFormulaHideChanged = false;
-            this.bSetFormulaValueChanged = false;
-            this.pictureChanged = false;
-            this.borderTypeChanged = false;
-            this.border3DChanged = false;
-            this.border3DShadowChanged = false;
-            this.borderRoundedChanged = false;
-            this.borderWidthChanged = false;
-            this.borderColorChanged = false;
-
-            this.chartFieldGroupChanged = false;
-            this.chartFieldLbl1Changed = false;
-            this.chartFieldLbl2Changed = false;
-            this.chartFieldVal1Changed = false;
-            this.chartFieldVal2Changed = false;
-
-            this.chartSizeChanged = false;
-            this.chartThicknessChanged = false;
-            this.chartColorSerie1Changed = false;
-            this.chartColorSerie2Changed = false;
-            this.chartFormatTypeChanged = false;
-            this.chartLinesTypeChanged = false;
-            this.chartTypeChanged = false;
-            this.chartShowLinesChanged = false;
-            this.chartShowValuesChanged = false;
-            this.chartTopChanged = false;
-            this.chartTopChanged = false;
-
-            this.chartFieldGroupChanged = false;
-            this.chartGroupValueChanged = false;
-
-            this.isFreeCtrlChanged = false;
-            this.exportColIdxChanged = false;
-
-        }
-
-        public hideTabField() {
-            // tab_main.TabPages.Remove(tbpDatabase);
-        }
-
-        public hideTabImage() {
-            // tab_main.TabPages.Remove(tbpImage);
-        }
-
-        public hideTabChart() {
-            // tab_main.TabPages.Remove(tbpChart);
-        }
-
-        //------------------------------------------------------------------------------------------------------------------
-
-        // setters and getters for no control properties
-
-        //------------------------------------------------------------------------------------------------------------------
-
-		public getDbFieldGroupValue(): string {
-			throw new NotImplementedException ();
-		}
         
-		public setDbFieldGroupValue(sField: string) {
-			// throw new NotImplementedException ();
-		}
-
-        //------------------------------------------------------------------------------------------------------------------
-
-        // expose controls
-
-        //------------------------------------------------------------------------------------------------------------------
-
         private fProperties_Load(sender: object, e: object) {
             // this.done = false;
             // tab_main.SelectedTab = tbpFormat;
@@ -1196,10 +1202,6 @@ namespace CSReportEditor {
             // picColor(tx_borderShadow, sh_borderShadow);
         }
 
-        public setHandler(editor: cEditor) {
-            this.editor = editor;
-        }
-
         private cmd_dbField_Click(sender: object, e: object) {
             if (this.editor.showHelpDbField()) {
                 this.dbFieldChanged = true;
@@ -1390,15 +1392,265 @@ namespace CSReportEditor {
         private cb_colorSerie2_SelectedIndexChanged(sender: object, e: object) {
             this.chartColorSerie2Changed = true;
         }
+        //#endregion
 
+        // initializers
+        //#region
 
-        getTxText(): any {
+        public resetChangedFlags() {
+            this.textChanged = false;
+            this.tagChanged = false;
+            this.fontChanged = false;
+            this.foreColorChanged = false;
+            this.backColorChanged = false;
+            this.formatChanged = false;
+            this.leftChanged = false;
+            this.topChanged = false;
+            this.heightChanged = false;
+            this.widthChanged = false;
+            this.symbolChanged = false;
+            this.transparentChanged = false;
+            this.strikeChanged = false;
+            this.underlineChanged = false;
+            this.wordWrapChanged = false;
+            this.italicChanged = false;
+            this.boldChanged = false;
+            this.alignChanged = false;
+            this.fontSizeChanged = false;
+            this.canGrowChanged = false;
+            this.formulaHideChanged = false;
+            this.formulaValueChanged = false;
+            this.idxGroupChanged = false;
+            this.whenEvalChanged = false;
+            this.dbFieldChanged = false;
+            this.bSetFormulaHideChanged = false;
+            this.bSetFormulaValueChanged = false;
+            this.pictureChanged = false;
+            this.borderTypeChanged = false;
+            this.border3DChanged = false;
+            this.border3DShadowChanged = false;
+            this.borderRoundedChanged = false;
+            this.borderWidthChanged = false;
+            this.borderColorChanged = false;
 
+            // TODO: implement chart
+            this.chartFieldGroupChanged = false;
+            this.chartFieldLbl1Changed = false;
+            this.chartFieldLbl2Changed = false;
+            this.chartFieldVal1Changed = false;
+            this.chartFieldVal2Changed = false;
+
+            this.chartSizeChanged = false;
+            this.chartThicknessChanged = false;
+            this.chartColorSerie1Changed = false;
+            this.chartColorSerie2Changed = false;
+            this.chartFormatTypeChanged = false;
+            this.chartLinesTypeChanged = false;
+            this.chartTypeChanged = false;
+            this.chartShowLinesChanged = false;
+            this.chartShowValuesChanged = false;
+            this.chartTopChanged = false;
+            this.chartTopChanged = false;
+
+            this.chartFieldGroupChanged = false;
+            this.chartGroupValueChanged = false;
+
+            this.isFreeCtrlChanged = false;
+            this.exportColIdxChanged = false;
         }
 
-        getPicImage(): any {
+        //#endregion
 
+        public hideTabField() {
+            // tab_main.TabPages.Remove(tbpDatabase);
         }
+
+        public hideTabImage() {
+            // tab_main.TabPages.Remove(tbpImage);
+        }
+
+        public hideTabChart() {
+            // tab_main.TabPages.Remove(tbpChart);
+        }
+
+        // setters and getters for no control properties
+        //#region
+
+        public getDbFieldGroupValue(): string {
+			throw new NotImplementedException ();
+		}
+
+        public setDbFieldGroupValue(sField: string) {
+			throw new NotImplementedException ();
+		}
+        //#endregion
+
+        // expose controls
+        //#region
+
+        getTxName(): TextBox {
+            return this.txName;
+        }
+
+        getTxText(): TextBox {
+            return this.txText;
+        }
+
+        getTxTag(): TextBox {
+            return this.txTag;
+        }
+
+        getCbFont(): ComboBox {
+            return this.cbFont;
+        }
+
+        getShForeColor(): Label {
+            return this.shForeColor;
+        }
+
+        getTxForeColor(): TextBox {
+            return this.txForeColor;
+        }
+
+        getChkFontBold(): CheckBox {
+            return this.chkFontBold;
+        }
+
+        getChkFontItalic(): CheckBox {
+            return this.chkFontItalic;
+        }
+
+        getTxFontSize(): TextBox {
+            return this.txFontSize;
+        }
+
+        getChkFontUnderline(): CheckBox {
+            return this.chkFontUnderline;
+        }
+
+        getChkFontStrike(): CheckBox {
+            return this.chkFontStrike;
+        }
+
+        getTxImageFile(): TextBox {
+            return this.txImageFile;
+        }
+
+        getPicImage(): PictureBox {
+            return this.picImage;
+        }
+
+        getTxDbField(): TextBox {
+            return this.txDbField;
+        }
+
+        getLbControl(): Label {
+            return this.lbControl;
+        }
+
+        getChkFormulaHide(): CheckBox {
+            return this.chkFormulaHide;
+        }
+
+        getChkFormulaValue(): CheckBox {
+            return this.chkFormulaValue;
+        }
+
+        getTxExportColIdx(): TextBox {
+            return this.txExportColIdx;
+        }
+
+        getChkIsFreeCtrl(): CheckBox {
+            return this.chkIsFreeCtrl;
+        }        
+
+        getTxIdxGroup(): TextBox {
+            return this.txIdxGroup;
+        }
+
+        getOpBeforePrint(): OptionButton {
+            return this.opBeforePrint;
+        }
+
+        getOpAfterPrint(): OptionButton {
+            return this.opAfterPrint;
+        }
+
+        getChkCanGrow(): CheckBox {
+            return this.chkCanGrow;
+        }
+
+        getTxFormat(): TextBox {
+            return this.txFormat;
+        }
+
+        getTxSymbol(): TextBox {
+            return this.txSymbol;
+        }
+
+        getChkWordWrap(): CheckBox {
+            return this.chkWordWrap;
+        }
+
+        getTxBorderColor(): TextBox {
+            return this.txBorderColor;
+        }
+
+        getTxBorder3D(): TextBox {
+            return this.txBorder3D;
+        }
+
+        getTxBorderShadow(): TextBox {
+            return this.txBorderShadow;
+        }
+
+        getChkBorderRounded(): CheckBox {
+            return this.chkBorderRounded;
+        }
+
+        getTxBorderWidth(): TextBox {
+            return this.txBorderWidth;
+        }
+
+        getCbBorderType(): ComboBox {
+            return this.cbBorderType;
+        }
+
+        getTxLeft(): TextBox {
+            return this.txLeft;
+        }
+
+        getTxTop(): TextBox {
+            return this.txTop;
+        }
+
+        getTxWidth(): TextBox {
+            return this.txWidth;
+        }
+
+        getTxHeight(): TextBox {
+            return this.txHeight;
+        }
+
+        getTxBackColor(): TextBox {
+            return this.txBackColor;
+        }
+
+        getShBackColor(): Label {
+            return this.shBackColor;
+        }
+
+        getChkTransparent(): CheckBox {
+            return this.chkTransparent;
+        }
+
+        getCbAlign(): ComboBox {
+            return this.cbAlign;
+        }
+        //#endregion
+
+        // chart properties
+        //#region
 
         getCbType() {
             return undefined;
@@ -1456,6 +1708,10 @@ namespace CSReportEditor {
             return undefined;
         }
 
+        getTxDbFieldLbl2(): any {
+
+        }
+
         getTxDbFieldVal2(): any {
 
         }
@@ -1464,156 +1720,6 @@ namespace CSReportEditor {
             return undefined;
         }
 
-        getTxDbField(): any {
-
-        }
-
-        getTxName(): any {
-
-        }
-
-        getLbControl(): any {
-
-        }
-
-        getChkFormulaHide(): any {
-
-        }
-
-        getChkFormulaValue(): any {
-
-        }
-
-        getTxExportColIdx(): any {
-
-        }
-
-        getChkIsFreeCtrl(): any {
-
-        }
-
-        getTxTag(): any {
-
-        }
-
-        getTxIdxGroup(): any {
-
-        }
-
-        getOpBeforePrint(): any {
-
-        }
-
-        getOpAfterPrint(): any {
-
-        }
-
-        getChkCanGrow(): any {
-
-        }
-
-        getTxFormat(): any {
-
-        }
-
-        getTxSymbol(): any {
-
-        }
-
-        getChkWordWrap(): any {
-
-        }
-
-        getTxBorderColor(): any {
-
-        }
-
-        getTxBorder3D(): any {
-
-        }
-
-        getTxBorderShadow(): any {
-
-        }
-
-        getChkBorderRounded(): any {
-
-        }
-
-        getTxBorderWidth(): any {
-
-        }
-
-        getCbBorderType(): any {
-            return undefined;
-        }
-
-        getTxFont(): any {
-
-        }
-
-        getShForeColor(): any {
-
-        }
-
-        getTxForeColor(): any {
-
-        }
-
-        getChkFontBold(): any {
-
-        }
-
-        getChkFontItalic(): any {
-
-        }
-
-        getTxFontSize(): any {
-
-        }
-
-        getChkFontUnderline(): any {
-
-        }
-
-        getChkFontStrike(): any {
-
-        }
-
-        getTxLeft(): any {
-
-        }
-
-        getTxTop(): any {
-
-        }
-
-        getTxWidth(): any {
-
-        }
-
-        getTxHeight(): any {
-
-        }
-
-        getTxBackColor(): any {
-
-        }
-
-        getShBackColor(): any {
-
-        }
-
-        getChkTransparent(): any {
-
-        }
-
-        getTxDbFieldLbl2(): any {
-
-        }
-
-        getCbAlign(): any {
-            return undefined;
-        }
+        //#endregion
     }
 }

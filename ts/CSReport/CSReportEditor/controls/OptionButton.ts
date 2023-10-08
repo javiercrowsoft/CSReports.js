@@ -2,7 +2,7 @@
 
 namespace CSReportEditor {
 
-    export class TextBox extends Control {
+    export class OptionButton extends Control {
         
         private elInput: HTMLInputElement;
 
@@ -11,9 +11,8 @@ namespace CSReportEditor {
             this.elInput = el;
         }
 
-        setText(text: string) {
-            this.elInput.value = text;
-            super.setText(text);
+        setChecked(checked: boolean) {
+            this.elInput.checked = checked;
         }
     }
 }

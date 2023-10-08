@@ -139,13 +139,16 @@
         </div>
         -->
         <div id="right-sidebar">
-            <h1><img src="images/properties/config_page.jpg"> Control 147</h1>
+            <img src="images/properties/config_page.jpg">
+            <h1 id="ctrl-lb-name"></h1>
             <ul class="toolbar">
                 <li><a href="#" onclick="showPropertyTab('property-format-tab')">Format</a></li>
                 <li><a href="#" onclick="showPropertyTab('property-formulas-tab')">Formulas</a></li>
                 <li><a href="#" onclick="showPropertyTab('property-database-tab')">Database</a></li>
                 <li><a href="#" onclick="showPropertyTab('property-borders-tab')">Borders</a></li>
+                <li><a href="#" onclick="showPropertyTab('property-image-tab')">Image</a></li>
             </ul>
+            
             <div class="property-tab" id="property-borders-tab" style="display: none;">
                 <div>
                     <div>
@@ -161,7 +164,9 @@
                             <label>Color</label>
                             <div class="inner-row">
                                 <input type="text" id="ctrl-border-color" style="width: 150px;"/>
-                                <div id="ctrl-border-color-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                                <div style="margin-left: 10px; margin-top: 15px;">
+                                    <label id="ctrl-border-color-sample" class="color-sample"></label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -170,7 +175,9 @@
                             <label>Color 3D</label>
                             <div class="inner-row">
                                 <input type="text" id="ctrl-border-color-3d" style="width: 150px;"/>
-                                <div id="ctrl-border-color-3d-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                                <div style="margin-left: 10px; margin-top: 15px;">
+                                    <label id="ctrl-border-color-3d-sample" class="color-sample"></label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -179,7 +186,9 @@
                             <label>Color 3D shadow</label>
                             <div class="inner-row">
                                 <input type="text" id="ctrl-border-color-shadow" style="width: 150px;"/>
-                                <div id="ctrl-border-color-shadow-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                                <div style="margin-left: 10px; margin-top: 15px;">
+                                    <label id="ctrl-border-color-shadow-sample" class="color-sample"></label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,8 +198,8 @@
                     </div>
                     <div class="row">
                         <div class="inner-row">
-                            <label style="margin-top: 10px;">The control can grow
-                                <input type="checkbox" id="ctrl-border-can-grow"/>
+                            <label style="margin-top: 10px;">Rounded borders
+                                <input type="checkbox" id="ctrl-border-rounded"/>
                                 <span></span>
                             </label>
                         </div>
@@ -220,7 +229,7 @@ End Function
                         </div>
                     </div>
                     <div style="text-align: right;">
-                        <button style="margin-top: 10px;">Edit</button>
+                        <button style="margin-top: 10px;" id="ctrl-hide-formula-edit">Edit</button>
                     </div>
                     <div class="property-section">
                     </div>
@@ -228,7 +237,7 @@ End Function
                     <div class="row">
                         <div class="inner-row">
                             <label style="margin-top: 10px;">Use a formula to calculate the control's value
-                                <input type="checkbox" />
+                                <input type="checkbox" id="ctrl-has-value-formula"/>
                                 <span></span>
                             </label>
                         </div>
@@ -269,7 +278,7 @@ End Function
                         </div>
                     </div>
                     <div style="text-align: right;">
-                        <button style="margin-top: 10px;">Edit</button>
+                        <button style="margin-top: 10px;" id="ctrl-value-formula-edit">Edit</button>
                     </div>
                 </div>
 
@@ -281,7 +290,18 @@ End Function
                     <div class="inner-row">
                         <input type="text" id="ctrl-db-field"/>
                         <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>    
+                    </div>                    
+                </div>
+            </div>
+
+            <div class="property-tab" id="property-image-tab" style="display: none;">
+                <div>
+                    <label>Field</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-image-file"/>
+                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>    
                     </div>
+                    <div id="ctrl-image-preview"></div>
                 </div>
             </div>
             
@@ -298,11 +318,11 @@ End Function
                     <div class="row">
                         <div>
                             <label>Font</label>
-                            <select id="ctrl-fonts"></select>
+                            <select id="ctrl-font"></select>
                         </div>
                         <div>
                             <label>Size</label>
-                            <input type="number" id="ctrl-size"/>
+                            <input type="number" id="ctrl-font-size"/>
                         </div>
                     </div>
                     <div class="row">
@@ -351,7 +371,8 @@ End Function
                             <label>Text color</label>
                             <div class="inner-row">
                                 <input type="text" style="width: 150px;" id="ctrl-text-color"/>
-                                <div id="ctrl-text-color-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px;"></div>
+                                <div style="margin-left: 10px; margin-top: 15px;">
+                                    <label id="ctrl-text-color-sample" class="color-sample"></label></div>
                             </div>
                         </div>
                         <div class="inner-row second-line">
@@ -366,7 +387,9 @@ End Function
                             <label>Back color</label>
                             <div class="inner-row">
                                 <input type="text" style="width: 150px;" id="ctrl-back-color"/>
-                                <div  id="ctrl-back-color-sample" class="color-sample" style="margin-left: 10px; margin-top: 15px; margin-right: 30px;"></div>
+                                <div style="margin-left: 10px; margin-top: 15px; margin-right: 30px;">
+                                    <label id="ctrl-back-color-sample" class="color-sample"></label>
+                                </div>
                             </div>                            
                         </div>
                         <div>
@@ -386,8 +409,8 @@ End Function
                             <input type="number" id="ctrl-left"/>
                         </div>
                         <div class="number7">
-                            <label>Right</label>
-                            <input type="number" id="ctrl-right"/>
+                            <label>Top</label>
+                            <input type="number" id="ctrl-top"/>
                         </div>
                     </div>
                     <div class="row">
@@ -474,6 +497,7 @@ End Function
         document.getElementById('property-formulas-tab').style.display = tab === 'property-formulas-tab' ? 'block' : 'none';
         document.getElementById('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
         document.getElementById('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
+        document.getElementById('property-image-tab').style.display = tab === 'property-image-tab' ? 'block' : 'none';
     }
 
     function showSideBarTab(tab) {

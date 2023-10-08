@@ -247,9 +247,11 @@ input[type=text], input[type=number], select {
 }
 
 .color-sample {
-    background-color: red;
     width: 20px;
     height: 20px;
+    display: block;
+    padding: 0 !important;
+    border: solid 1px rgb(21, 20, 20);
 }
 
 .expand-width {
