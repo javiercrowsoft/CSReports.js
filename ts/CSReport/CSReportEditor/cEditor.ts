@@ -122,7 +122,7 @@ namespace CSReportEditor {
         private C_TOP_BODY: number = 10;
         private C_LEFT_BODY: number = 0;
         private C_MIN_HEIGHT_SECTION: number = 3;
-        private C_SECTION_LINE: string = "Line ";
+        private C_SECTION_LINE: string = "L ";
 
         private C_NO_MOVE: number = -1111111;
 
@@ -4814,6 +4814,25 @@ namespace CSReportEditor {
             this.pChangeTopSection(sec, 0, false, true);
         }
 
+        private getSectionRuleName(sec: cReportSection) {
+            switch(sec.getTypeSection()) {
+                case csRptSectionType.HEADER: return "H " + sec.getRealIndex();
+                case csRptSectionType.DETAIL: return "D " + sec.getRealIndex();
+                case csRptSectionType.FOOTER: return "F " + sec.getRealIndex();
+                case csRptSectionType.GROUP_HEADER: return "GH " + sec.getRealIndex();
+                case csRptSectionType.GROUP_FOOTER: return "GF " + sec.getRealIndex();
+                case csRptSectionType.MAIN_HEADER: return "MH";
+                case csRptSectionType.MAIN_DETAIL: return "MD";
+                case csRptSectionType.MAIN_FOOTER: return "MF";
+                case csRptSectionType.CONTROL: return "C";
+                case csRptSectionType.SECLN_HEADER: return "LH";
+                case csRptSectionType.SECLN_DETAIL: return "LD";
+                case csRptSectionType.SECLN_FOOTER: return "F " + sec.getRealIndex();
+                case csRptSectionType.SECLN_GROUPH: return "GH " + sec.getRealIndex();
+                case csRptSectionType.SECLN_GROUPF: return "GF " + sec.getRealIndex();
+            }
+        }
+
         private reLoadReport() {
 
             let paintSec: cReportPaintObject = null;
@@ -4843,10 +4862,11 @@ namespace CSReportEditor {
 
                 for(let _i = 0; _i < this.report.getHeaders().count(); _i++) {
                     sec = this.report.getHeaders().item(_i);
+                    const secName = this.getSectionRuleName(sec);
                     sec.setKeyPaint(this.paintSection(sec.getAspect(),
                                                     sec.getKey(),
                                                     sec.getTypeSection(),
-                                                    sec.getName(),
+                                                    secName,
                                                     false));
                     paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                     paintSec.setHeightSec(sec.getAspect().getHeight());
@@ -4855,10 +4875,11 @@ namespace CSReportEditor {
 
                 for(let _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
                     sec = this.report.getGroupsHeaders().item(_i);
+                    const secName = this.getSectionRuleName(sec);
                     sec.setKeyPaint(this.paintSection(sec.getAspect(),
                                                     sec.getKey(),
                                                     sec.getTypeSection(),
-                                                    sec.getName(),
+                                                    secName,
                                                     false));
                     paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                     paintSec.setHeightSec(sec.getAspect().getHeight());
@@ -4867,10 +4888,11 @@ namespace CSReportEditor {
 
                 for(let _i = 0; _i < this.report.getDetails().count(); _i++) {
                     sec = this.report.getDetails().item(_i);
+                    const secName = this.getSectionRuleName(sec);
                     sec.setKeyPaint(this.paintSection(sec.getAspect(),
                                                     sec.getKey(),
                                                     sec.getTypeSection(),
-                                                    sec.getName(),
+                                                    secName,
                                                     false));
                     paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                     paintSec.setHeightSec(sec.getAspect().getHeight());
@@ -4879,10 +4901,11 @@ namespace CSReportEditor {
 
                 for(let _i = 0; _i < this.report.getGroupsFooters().count(); _i++) {
                     sec = this.report.getGroupsFooters().item(_i);
+                    const secName = this.getSectionRuleName(sec);
                     sec.setKeyPaint(this.paintSection(sec.getAspect(),
                                                     sec.getKey(),
                                                     sec.getTypeSection(),
-                                                    sec.getName(),
+                                                    secName,
                                                     false));
                     paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                     paintSec.setHeightSec(sec.getAspect().getHeight());
@@ -4891,10 +4914,11 @@ namespace CSReportEditor {
 
                 for(let _i = 0; _i < this.report.getFooters().count(); _i++) {
                     sec = this.report.getFooters().item(_i);
+                    const secName = this.getSectionRuleName(sec);
                     sec.setKeyPaint(this.paintSection(sec.getAspect(),
                                                     sec.getKey(),
                                                     sec.getTypeSection(),
-                                                    sec.getName(),
+                                                    secName,
                                                     false));
                     paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
                     paintSec.setHeightSec(sec.getAspect().getHeight());
