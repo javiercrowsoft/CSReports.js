@@ -128,9 +128,9 @@ namespace CSReportEditor {
 
             this.editorIndex++;
 
-            picRule.setWidth(250);
-            picRule.setBacgroundColor(Color.AliceBlue);
-            picReport.setBacgroundColor(Color.HoneyDew);
+            picRule.setWidth(170);
+            picRule.setBacgroundColor(new Color("#f7f8f9"));
+            picReport.setBacgroundColor(Color.White);
 
             pnEditor.getControls().add(picRule);
             pnEditor.getControls().add(picReport);

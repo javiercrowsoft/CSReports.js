@@ -13,11 +13,15 @@ namespace CSReportPaint {
 
     export class cReportPaint {
 
-        private static C_GRID_AREA_WIDTH: number = 200;
-        private static C_GRID_AREA_HEIGHT: number = 67;
+        private static readonly C_GRID_AREA_WIDTH: number = 200;
+        private static readonly C_GRID_AREA_HEIGHT: number = 67;
 
-        private static C_KEY_PAINT_OBJ: string = "P";
-        private static C_KEY_PAINT_SEC: string = "S";
+        private static readonly C_KEY_PAINT_OBJ: string = "P";
+        private static readonly C_KEY_PAINT_SEC: string = "S";
+
+        private static readonly LINE_WIDTH = 0.2;
+        private static readonly LINE_WIDTH_FAT = 0.7;
+        private static readonly LINE_WIDTH_THIN = 0.1;
 
         private paintObjects: cReportPaintObjects = new cReportPaintObjects();
         private paintSections: cReportPaintObjects = new cReportPaintObjects();
@@ -675,14 +679,14 @@ namespace CSReportPaint {
                 secAspect = secPO.getAspect();
                 top += Math.trunc(secAspect.getTop() - secAspect.getOffset() - 6 + secAspect.getHeight() * 2);
 
-                this.printLine(graphic,
+                this.printRectangle(graphic,
                             true, 
                             0, 
                             top, 
                             aspect.getWidth(), 
                             top,
                             LINE_COLOR, 
-                            1, 
+                            cReportPaint.LINE_WIDTH,
                             true,
                             LINE_COLOR, 
                             false);
@@ -706,14 +710,14 @@ namespace CSReportPaint {
                 top = Math.trunc(aspect.getTop() - aspect.getOffset() - heightSec + secPO.getAspect().getHeight());
 
                 if (secPO.getIsSection()) {
-                    this.printLine(graphic,
+                    this.printRectangle(graphic,
                                 true,
                                 0, 
                                 top, 
                                 aspect.getWidth(), 
                                 top,
                                 LINE_COLOR, 
-                                1, 
+                                cReportPaint.LINE_WIDTH,
                                 true,
                                 LINE_COLOR, 
                                 false);
@@ -728,14 +732,14 @@ namespace CSReportPaint {
                 top = Math.trunc(aspect.getTop() + secPO.getHeightSecLine() - heightSec - aspect.getOffset() + 6);
 
                 if (secPO.getIsSection()) {
-                    this.printLine(graphic,
+                    this.printRectangle(graphic,
                                 true,
                                 0,
                                 top,
                                 aspect.getWidth(),
                                 top,
                                 LINE_COLOR,
-                                1,
+                                cReportPaint.LINE_WIDTH,
                                 true,
                                 LINE_COLOR,
                                 false);
@@ -869,7 +873,7 @@ namespace CSReportPaint {
 
                     case csRptPaintObjType.CSRPTPAINTOBJLINE:
 
-                        this.printLine(graphic, filled, x1, y1, x2, y2, colorIn, 1, false, colorOut, false);
+                        this.printRectangle(graphic, filled, x1, y1, x2, y2, colorIn, cReportPaint.LINE_WIDTH, false, colorOut, false);
                         break;
 
                     case csRptPaintObjType.CSRPTPAINTOBJCIRCLE:
@@ -1031,10 +1035,10 @@ namespace CSReportPaint {
 
             p.then(P.call(this, ()=> {
 
-                this.printLine(
+                this.printRectangle(
                     graphic, false,
                     this.x1, this.y1, this.x2, this.y2,
-                    "#000000", 1, true,
+                    "#000000", cReportPaint.LINE_WIDTH_FAT, true,
                     csColors.BLACK, false);
     
                 if (this.x1 > 1) { this.x1 = this.x1 - 2; }
@@ -1100,10 +1104,10 @@ namespace CSReportPaint {
 
             this.paintPicture(graphic, false);
 
-            this.printLine(
+            this.printRectangle(
                 graphic, false,
                 this.x1, this.y1, this.x2, this.y2,
-                csColors.WHITE, 1, true, csColors.BLACK, false);
+                csColors.WHITE, cReportPaint.LINE_WIDTH, true, csColors.BLACK, false);
 
             graphic.dispose();
         }
@@ -1174,7 +1178,7 @@ namespace CSReportPaint {
 
         //--------------------------------------------------------------------------------------------------
         // Draw - Low Level
-        private printLine(
+        private printRectangle(
             graphic: Graphic,
             filled: boolean,
             x1: number,
@@ -1518,23 +1522,25 @@ namespace CSReportPaint {
             if (this.notBorder == false || filled || aspect.getBorderType() !== csReportBorderType.CS_RPT_BS_NONE) {
                 if (aspect.getBorderType() === csReportBorderType.CS_RPT_BS_3D) {
 
-                    this.printLine(graphic, filled, x1, y1, x2, y2, colorIn, 0, false, csColors.WHITE, false);
+                    // this will clear the complete rectangle printing white including the border
+                    //
+                    this.printRectangle(graphic, filled, x1, y1, x2, y2, colorIn, 0, false, csColors.WHITE, false);
 
                     // top
                     //
-                    this.printLine(graphic, false, x1, y1, x2, y1, csColors.WHITE, 1, false, aspect.getBorderColor3d(), false);
+                    this.printRectangle(graphic, false, x1, y1, x2, y1, csColors.WHITE, cReportPaint.LINE_WIDTH, false, aspect.getBorderColor3d(), false);
                     // down
                     //
-                    this.printLine(graphic, false, x1, y2 - 1, x2, y2 - 1, csColors.WHITE, 1, false, aspect.getBorderColor3dShadow(), false);
+                    this.printRectangle(graphic, false, x1, y2 - 1, x2, y2 - 1, csColors.WHITE, cReportPaint.LINE_WIDTH, false, aspect.getBorderColor3dShadow(), false);
                     // left
                     //
-                    this.printLine(graphic, false, x1 + 1, y1, x1 + 1, y2, csColors.WHITE, 1, false, aspect.getBorderColor3d(), false);
+                    this.printRectangle(graphic, false, x1 + 1, y1, x1 + 1, y2, csColors.WHITE, cReportPaint.LINE_WIDTH, false, aspect.getBorderColor3d(), false);
                     // right
                     //
-                    this.printLine(graphic, false, x2 - 1, y1, x2 - 1, y2, csColors.WHITE, 1, false, aspect.getBorderColor3dShadow(), false);
+                    this.printRectangle(graphic, false, x2 - 1, y1, x2 - 1, y2, csColors.WHITE, cReportPaint.LINE_WIDTH, false, aspect.getBorderColor3dShadow(), false);
                 }
                 else if (aspect.getBorderRounded()) {
-                    this.printLine(graphic, filled, x1, y1, x2, y2, colorIn, aspect.getBorderWidth(), false, colorOut, true);
+                    this.printRectangle(graphic, filled, x1, y1, x2, y2, colorIn, aspect.getBorderWidth(), false, colorOut, true);
                 }
                 else {
                     //
@@ -1549,7 +1555,7 @@ namespace CSReportPaint {
                     //       those reports to set the BorderType to CS_RPT_BS_NONE
                     //
                     let dash: boolean = false;
-                    let borderWidth: number = 1;
+                    let borderWidth: number = cReportPaint.LINE_WIDTH_THIN;
 
                     if (this.notBorder === false 
                             && (
@@ -1567,12 +1573,12 @@ namespace CSReportPaint {
 
                     // TODO: clean this. we have many issues with this code. the value 16777215 is white
                     //       it is used in cairo reports. when a control has a background (colorIn) === white
-                    //       we must not call printLine
+                    //       we must not call printRectangle
                     //
                     if (!this.notBorder 
                         || (filled && colorIn !== Color.White.toString()) // this is the value of white controls in cairo reports.
                         || (aspect.getBorderType() === csReportBorderType.CS_RPT_BS_FIXED && aspect.getBorderWidth() > 0)) {
-                        this.printLine(graphic, filled, x1, y1, x2, y2, colorIn, borderWidth, dash, colorOut, false);
+                        this.printRectangle(graphic, filled, x1, y1, x2, y2, colorIn, borderWidth, dash, colorOut, false);
                     }
                 }
             }

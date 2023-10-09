@@ -141,13 +141,13 @@ namespace CSReportEditor {
 
         // the first SectionLine from where we need
         // to modify the top after moving sections.
-        // It instanceof used only in footers.
+        // It is used only in footers.
         private indexSecLnMoved: number = 0;
 
-        // it instanceof used in MoveSection to calculate
+        // it is used in MoveSection to calculate
         // the positions after adding new SectionLines.
         //
-        // good explanation instanceof found in addSectionLine
+        // good explanation is found in addSectionLine
         //
         private newSecLineOffSet: number = 0;
 
@@ -624,7 +624,7 @@ namespace CSReportEditor {
                 this.keyFocus = sKey;
                 this.keyObj = sKey;
                 this.paint.setFocus(this.keyFocus, this.picReport.getGraphics(), true);
-                cMainEditor.showProperties("S" + secKey);
+                cMainEditor.showProperties("S" + secKey, true);
             } catch (ex) {
                 cError.mngError(ex);
             }
@@ -1015,7 +1015,6 @@ namespace CSReportEditor {
         }
 
         private picReportMouseDown(event, insidePos: Point) {
-            //console.log("picReportMouseDown " + insidePos);
 
             if (this.paint === null) return;
 
@@ -1046,8 +1045,6 @@ namespace CSReportEditor {
 
                 if (button === MouseButtons.Left) {
 
-                    //console.log("picReportMouseDown button left");
-
                     lastKeyObj = this.keyObj;
                     this.keyObj = "";
 
@@ -1056,15 +1053,11 @@ namespace CSReportEditor {
                     // to force focus in the header
                     if (sKey === "") {
                         
-                        //console.log("picReportMouseDown sKey is empty");
-
                         const rsKey = new RefWrapper(sKey);
                         this.paint.pointIsInObject(x, y, rsKey);
                         sKey = rsKey.get();
                         
                         if (sKey !== "") {
-
-                            //console.log("picReportMouseDown sKey " + sKey);
 
                             let po: cReportPaintObject = this.paint.getPaintObject(sKey);
                             lastKeyMoving = this.keyMoving;
@@ -1074,8 +1067,6 @@ namespace CSReportEditor {
                                 case cGlobals.C_KEY_DETAIL:
                                 case cGlobals.C_KEY_FOOTER:
                                 case cGlobals.C_KEY_HEADER:
-
-                                    //console.log("picReportMouseDown click was over a section catch by Tag");
 
                                     // only if no controls are selected
                                     //
@@ -1100,13 +1091,9 @@ namespace CSReportEditor {
                                         || po.getRptType() === csRptSectionType.GROUP_FOOTER
                                         || po.getRptType() === csRptSectionType.FOOTER) {
 
-                                        //console.log("picReportMouseDown click was over a section catch by rptType");
-
                                         // only if no controls are selected
                                         //
                                         if (ctrlKey) {
-
-                                            //console.log("picReportMouseDown CTRL key is pressed");
 
                                             if (this.vSelectedKeys.length > 0) return;
                                             if (this.vSelectedKeys[0].length > 0) return;
@@ -1125,13 +1112,9 @@ namespace CSReportEditor {
                                         || po.getRptType() === csRptSectionType.SECLN_GROUPH
                                         || po.getRptType() === csRptSectionType.SECLN_GROUPF) {
 
-                                        //console.log("picReportMouseDown click was over a section line catch by rptType");
-
                                         // only if no controls are selected
                                         //
                                         if (ctrlKey) {
-
-                                            //console.log("picReportMouseDown CTRL key is pressed");
 
                                             if (this.vSelectedKeys.length > 0) return;
                                             if (this.vSelectedKeys[0].length > 0) return;
@@ -1145,9 +1128,6 @@ namespace CSReportEditor {
                                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     }
                                     else {
-
-                                        //console.log("picReportMouseDown click was over a control");
-
                                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
                                         this.picReport.setCursor(Cursors.SizeAll);
                                     }
@@ -1155,7 +1135,7 @@ namespace CSReportEditor {
                             }
                         }
                         else {
-                            //console.log("picReportMouseDown click was over report grid");
+                            cMainEditor.clearProperties();
                         }
                     }
 
@@ -1176,10 +1156,8 @@ namespace CSReportEditor {
 
                     let poSelected: cReportPaintObject = this.paint.getPaintObject(sKey);
                     if (poSelected !== null) {
-                        cMainEditor.showProperties(
-                            poSelected.getIsSection()
-                            ? "S" + poSelected.getTag()
-                            : poSelected.getTag());
+                        const propertyKey = poSelected.getIsSection() ? "S" + poSelected.getTag() : poSelected.getTag();
+                        cMainEditor.showProperties(propertyKey, poSelected.getIsSection());
                     }
                 }
                 else if (button === MouseButtons.Right) {
@@ -1226,7 +1204,7 @@ namespace CSReportEditor {
                             if (isSecLn.get()) { noDelete = true; }
 
                             this.showPopMenuSection(noDelete, isGroup.get(), x, y);
-                            cMainEditor.showProperties("S" + po.getTag());
+                            cMainEditor.showProperties("S" + po.getTag(), true);
                         }
                         else {
                             this.showPopMenuControl(true, x, y);
@@ -2027,16 +2005,16 @@ namespace CSReportEditor {
 
                 let po: cReportPaintObject = this.paint.getPaintSections().item(this.keyFocus);
 
-                // first we check it instanceof not a section line
+                // first we check it is not a section line
                 //
-                sec = this.getSection(null, isSecLn, secLn, false, isGroupHeader, isGroupFooter);
+                sec = this.getSection2(isSecLn, secLn, false, isGroupHeader, isGroupFooter);
                 if (!isSecLn.get()) {
 
-                    // check it instanceof not the last section line in this section
+                    // check it is not the last section line in this section
                     //
                     if (bDelSectionLine) {
 
-                        sec = this.getSection(null, isSecLn, secLn, true, isGroupHeader, isGroupFooter);
+                        sec = this.getSection2(isSecLn, secLn, true, isGroupHeader, isGroupFooter);
                     }
                     if (!this.canDeleteSection(secs, sec, po.getTag())) return;
                 }
@@ -2091,7 +2069,7 @@ namespace CSReportEditor {
                             }
                         }
 
-                        // if this instanceof a group section we need to delete the header and the footer
+                        // if this is a group section we need to delete the header and the footer
                         //
 
                         if (isGroupFooter || isGroupHeader) {
@@ -2737,7 +2715,7 @@ namespace CSReportEditor {
             switch (sec.getTypeSection()) {
 
                 // in footers we add from top
-                // it means that the first section line instanceof the last one
+                // it means that the first section line is the last one
                 //
                 case csRptSectionType.FOOTER:
                 case csRptSectionType.MAIN_FOOTER:
@@ -2746,7 +2724,7 @@ namespace CSReportEditor {
                     aspect.setHeight(cGlobals.C_HEIGHT_NEW_SECTION);
                     aspect.setWidth(sec.getAspect().getWidth());
 
-                    // for new sections the top instanceof the top of the previous section
+                    // for new sections the top is the top of the previous section
                     // plus cGlobals.C_HEIGHT_NEW_SECTION
                     //
                     aspect.setTop(sec.getSectionLines().item(0).getAspect().getTop() - cGlobals.C_HEIGHT_NEW_SECTION);
@@ -2754,15 +2732,15 @@ namespace CSReportEditor {
 
                 default:
 
-                    // because the height of the sections instanceof calculated
-                    // in pChangeHeightSection which instanceof called by moveSection
-                    // which instanceof called by pAddSectionLinesAux, and on this
-                    // function, the height of the section line instanceof set with
+                    // because the height of the sections is calculated
+                    // in pChangeHeightSection which is called by moveSection
+                    // which is called by pAddSectionLinesAux, and on this
+                    // function, the height of the section line is set with
                     // the result of subtract to the height of the section
                     // the sum of every section line except the height of the
                     // last one section line, if we don't modify the height
                     // of the section the new section line will have an height
-                    // of zero (actually the minimum height instanceof 1 pixel).
+                    // of zero (actually the minimum height is 1 pixel).
                     //
                     // for this reason we change the height of the section
                     // but this will fail because the moveSection function
@@ -2771,7 +2749,7 @@ namespace CSReportEditor {
                     // which results of moving the section.
                     //
                     // To solve the problem we have this member variable
-                    // which instanceof used to instruct moveSection to add
+                    // which is used to instruct moveSection to add
                     // to the section height the size of the new section line
                     //
                     this.newSecLineOffSet = cGlobals.C_HEIGHT_NEW_SECTION;
@@ -2927,7 +2905,7 @@ namespace CSReportEditor {
                     rptSection = groupsHeaders.item(groupsHeaders.count() - 1);
                     rptSection.setName("G_" + rptSection.getIndex().toString());
 
-                    // the first group instanceof next to the last header
+                    // the first group is next to the last header
                     //
                     if (groupsHeaders.count() === 1) {
                         topSec = this.report.getHeaders().item(this.report.getHeaders().count() - 1);
@@ -3377,11 +3355,50 @@ namespace CSReportEditor {
             this.refreshAll();
         }
 
+        public showSelectedSectionProperties() {
+            let secLn = new RefWrapper<cReportSectionLine>(null);
+            let isGroup = new RefWrapper(false);
+            let isSecLn = new RefWrapper(false);
+
+            let sec = this.getSection(isGroup, isSecLn, secLn, true);
+
+            if (sec === null) return;
+            if (secLn.get() === null) return;
+            if (! isSecLn.get()) return;
+
+            try {
+
+                const propertyDlg = cMainEditor.getPropertyDlg();
+
+                propertyDlg.setHandler(this);
+
+                propertyDlg.getChkSectionFormulaHide().setChecked(sec.getHasFormulaHide());
+                propertyDlg.setSectionFormulaHide(sec.getFormulaHide().getText());
+                propertyDlg.getChkSectionLineFormulaHide().setChecked(secLn.get().getHasFormulaHide());                
+                propertyDlg.setSectionLineFormulaHide(secLn.get().getFormulaHide().getText());
+
+                if (sec instanceof cReportSectionLine) {
+                    propertyDlg.getTxSectionName().setEnabled(false);
+                }
+
+                const secLnName = sec.getName() + " - line " + secLn.get().getIndex().toString()
+
+                propertyDlg.getLbControl().setText(sec.getName());
+                propertyDlg.getTxSectionName().setText(sec.getName());
+                propertyDlg.getLbSectionLineName().setText("Section: " + secLnName);
+
+                propertyDlg.showSectionPropertyTabs();
+
+            } catch (ex) {
+                cError.mngError(ex);
+            }
+        }
+
         public showSecLnProperties() {
             let secLn = new RefWrapper<cReportSectionLine>(null);
             let isSecLn = new RefWrapper(false);
 
-            let sec = this.getSection(null, isSecLn, secLn, true);
+            let sec = this.getSection2(isSecLn, secLn, true);
 
             if (sec === null) return;
             if (secLn.get() === null) return;
@@ -3432,22 +3449,29 @@ namespace CSReportEditor {
             }
         }
 
-        // ReturnSecLn instanceof flag to state that the caller wants to get
+        // returnSecLn is flag to state that the caller wants to get
         // the section line associated with the separator of the section
-        // remember that the last section line don't have a separator
+        // remember that the last section line doesn't have a separator
         // but share it with the section.
         //
-        private getSection( isGroup: RefWrapper<boolean>,
-                            isSecLn: RefWrapper<boolean> = null,
-                            secLn: RefWrapper<cReportSectionLine> = null,
+        private getSection2(isSecLn: RefWrapper<boolean> = new RefWrapper(false),
+                            secLn: RefWrapper<cReportSectionLine> = new RefWrapper(null),
                             returnSecLn: boolean = false,
-                            isGroupHeader: RefWrapper<boolean> = null,
-                            isGroupFooter: RefWrapper<boolean> = null) {
+                            isGroupHeader: RefWrapper<boolean> = new RefWrapper(false),
+                            isGroupFooter: RefWrapper<boolean> = new RefWrapper(false)) {
+            const isGroup = new RefWrapper(false);
+            return this.getSection(isGroup, isSecLn, secLn, returnSecLn, isGroupHeader, isGroupFooter);
+        }
+
+        private getSection( isGroup: RefWrapper<boolean>,
+                            isSecLn: RefWrapper<boolean> = new RefWrapper(false),
+                            secLn: RefWrapper<cReportSectionLine> = new RefWrapper(null),
+                            returnSecLn: boolean = false,
+                            isGroupHeader: RefWrapper<boolean> = new RefWrapper(false),
+                            isGroupFooter: RefWrapper<boolean> = new RefWrapper(false)) {
 
             let sec: cReportSection = null;
-
-            if(isGroup === null) isGroup = new RefWrapper(false);
-            if(isSecLn === null) isSecLn = new RefWrapper(false);
+            
             isGroup.set(false);
             isSecLn.set(false);
             secLn.set(null);
@@ -3479,7 +3503,7 @@ namespace CSReportEditor {
                 }
                 else {
 
-                    // check if it instanceof a group
+                    // check if it is a group
                     //
                     sec = this.report.getGroupsHeaders().item(paintObj.getTag());
                     if (sec !== null) {
@@ -3501,7 +3525,7 @@ namespace CSReportEditor {
 
                         }
                         else {
-                            // check if it instanceof a detail
+                            // check if it is a detail
                             //
                             sec = this.report.getDetails().item(paintObj.getTag());
                             if (sec !== null) {
@@ -3539,10 +3563,10 @@ namespace CSReportEditor {
             }
 
             // if the caller wants a section line and the separator
-            // instanceof owned by a section (isSecLn === false) we return
+            // is owned by a section (isSecLn === false) we return
             // the last section line of the section asociated to the separator
             //
-            if (returnSecLn && !isSecLn) {
+            if (returnSecLn && !isSecLn.get()) {
                 secLn.set(sec.getSectionLines().item(sec.getSectionLines().count()-1));
                 isSecLn.set(true);
             }
@@ -3586,7 +3610,7 @@ namespace CSReportEditor {
             mouse.dispose();
         }
 
-        public showCtrlProperties2() {
+        public showSelectedCtrlProperties() {
             try {
 
                 let rptCtrl: cReportControl = null;
@@ -3603,18 +3627,24 @@ namespace CSReportEditor {
                 propertyDlg.getTxText().setText(paintObject.getText());
                 rptCtrl = this.report.getControls().item(paintObject.getTag());
 
+                if (rptCtrl === null) return;
+
+                propertyDlg.showCtrlPropertyTabs();
+
+                propertyDlg.enable();
+
                 if (rptCtrl.getControlType() !== csRptControlType.CS_RPT_CT_IMAGE) {
                     propertyDlg.hideTabImage();
                 }
                 else {
                     propertyDlg.getPicImage().setImage(rptCtrl.getImage().getImage());
+                    propertyDlg.showTabImage();
                 }
 
                 if (rptCtrl.getControlType() !== csRptControlType.CS_RPT_CT_CHART) {
                     propertyDlg.hideTabChart();
                 }
                 else {
-
                     Utils.listSetListIndexForId(propertyDlg.getCbType(), rptCtrl.getChart().getChartType());
                     Utils.listSetListIndexForId(propertyDlg.getCbFormatType(), rptCtrl.getChart().getFormat());
                     Utils.listSetListIndexForId(propertyDlg.getCbChartSize(), rptCtrl.getChart().getDiameter());
@@ -3649,6 +3679,7 @@ namespace CSReportEditor {
                             Utils.listSetListIndexForId(propertyDlg.getCbColorSerie2(), rptCtrl.getChart().getSeries().item(1).getColor());
                         }
                     }
+                    propertyDlg.showTabChart();
                 }
 
                 if (rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD
@@ -3659,6 +3690,7 @@ namespace CSReportEditor {
                     propertyDlg.getTxDbField().setText(field.getName());
                     propertyDlg.setFieldType(field.getFieldType());
                     propertyDlg.setIndex(field.getIndex());
+                    propertyDlg.showTabField();
                 }
                 else {
                     propertyDlg.hideTabField();
@@ -4304,7 +4336,7 @@ namespace CSReportEditor {
                 w2 = aspect.getTop() + aspect.getHeight();
                 if (isFreeCtrl) {
                     //
-                    // if the control instanceof a free control
+                    // if the control is a free control
                     // this function will return the last sectionLine which
                     // has a bottom bigger than the top of the control
                     //
@@ -4314,7 +4346,7 @@ namespace CSReportEditor {
                 }
                 else {
                     //
-                    // if the control instanceof not a free control
+                    // if the control is not a free control
                     // this function will return the section line
                     // which contains the control
                     //
@@ -4326,7 +4358,7 @@ namespace CSReportEditor {
             }
 
             //
-            // if the control instanceof not a free control and there wasn't a
+            // if the control is not a free control and there wasn't a
             // section line which contained the top of the control
             // (I think that can't be possible but anyways)
             // this function will return false and rptSecLine will be null
@@ -4533,7 +4565,7 @@ namespace CSReportEditor {
                 }
             }
 
-            // when a group instanceof added the first to get here instanceof the header
+            // when a group instanceof added the first to get here is the header
             // and the footer hasn't contain a section yet
             //
             if (rptSec.getKeyPaint() === "") return;
@@ -4568,7 +4600,7 @@ namespace CSReportEditor {
 
             let aspect: cReportAspect = paintObj.getAspect();
 
-            // if Y instanceof contained by the allowed range everything instanceof ok
+            // if Y instanceof contained by the allowed range everything is ok
             //
             if (y >= minBottom && y <= maxBottom) {
                 aspect.setTop(y - this.offY);
@@ -4596,7 +4628,7 @@ namespace CSReportEditor {
                 }
             }
 
-            // TODO: remove after more testing - aligning the sections has an undesired result: the last section line instanceof shrinked after five resize actions
+            // TODO: remove after more testing - aligning the sections has an undesired result: the last section line is shrinked after five resize actions
             //
             // this.paint.alignToGrid(paintObj.getKey());
 
@@ -4607,7 +4639,7 @@ namespace CSReportEditor {
                 oldHeight = secToMove.getAspect().getHeight();
             }
 
-            // for the detail section and every other section which instanceof over the detail
+            // for the detail section and every other section which is over the detail
             // we only change the height, for all sections bellow the detail we need to
             // change the height and top because wen we stretch a section it needs to move
             // to the bottom of the report
@@ -4626,7 +4658,7 @@ namespace CSReportEditor {
 
             switch (secToMove.getTypeSection()) {
 
-                    // if the section instanceof a footer we move to bottom
+                    // if the section is a footer we move to bottom
                     // (OJO: footer sections, no group footers)
                     //
                 case csRptSectionType.FOOTER:
@@ -4773,7 +4805,7 @@ namespace CSReportEditor {
                 heightLines = heightLines + aspect.getHeight();
             }
 
-            // for the last section line the height instanceof the rest
+            // for the last section line the height is the rest
             //
             let sectionLines: cReportSectionLines = sec.getSectionLines();
             aspect = sectionLines.item(sectionLines.count()-1).getAspect();
@@ -4945,6 +4977,8 @@ namespace CSReportEditor {
                 this.paint.createPicture(this.picReport.getGraphics());
 
                 this.refreshRule();
+
+                cMainEditor.clearProperties();
             }));                
         }
 
@@ -4971,7 +5005,7 @@ namespace CSReportEditor {
                     paintSec.setRptKeySec(sec.getKey());
                 }
 
-                // if there instanceof more than one section we use
+                // if there is more than one section we use
                 // textLine to show the name of the last line
                 //
                let po: cReportPaintObject = this.paint.getPaintSections().item(sec.getKeyPaint());
@@ -5021,8 +5055,8 @@ namespace CSReportEditor {
                     rptSecLine.get().getControls().add(rptCtrl, rptCtrl.getKey());
                 }
 
-                // we need to check the control instanceof between the limits of the section
-                // in which it instanceof contained
+                // we need to check the control is between the limits of the section
+                // in which it is contained
                 //
                 rptSecLineAspect = rptCtrl.getSectionLine().getAspect();
 
@@ -5292,7 +5326,7 @@ namespace CSReportEditor {
             sKeySection = paintObj.getTag();
 
             // sections can only be move vertically
-            // always instanceof the bottom of the section which instanceof moved
+            // always instanceof the bottom of the section which is moved
             // every time we move a section the height change
             //
             let rptType = paintObj.getRptType();
@@ -5432,7 +5466,7 @@ namespace CSReportEditor {
                                   secLn: cReportSectionLine) {
             let aspect: cReportAspect = paintObj.getAspect();
 
-            // if Y instanceof contained between the range allowed everything instanceof ok
+            // if Y instanceof contained between the range allowed everything is ok
             //
             if (y >= minBottom && y <= maxBottom) {
                 aspect.setTop(y - this.offY);
@@ -5458,7 +5492,7 @@ namespace CSReportEditor {
             aspect.setTop(aspect.getTop() + aspect.getOffset());
 
             // TODO: remove after more testing - aligning the sections has an undesired result:
-            //  the last section line instanceof shrinked after five resize actions
+            //  the last section line is shrinked after five resize actions
             //
             // this.paint.alignToGrid(paintObj.getKey());
 
@@ -5985,7 +6019,7 @@ namespace CSReportEditor {
                 }
         }
 
-        // if the click was over a control which instanceof not part of the
+        // if the click was over a control which is not part of the
         // selected controls collection we clear the selected collection
         // and add the control which was clicked to the selected collection
         //

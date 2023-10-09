@@ -19,7 +19,15 @@ namespace CSReportEditor {
         changeSelected(text: string) {
             const options = Array.from(this.elSelect.options);
             const optionToSelect = options.find(item => item.text === text);
-            optionToSelect.selected = true;
+            if(optionToSelect) {
+                optionToSelect.selected = true;
+            }
+            else {
+                const optionSelected = options.find(item => item.selected === true);
+                if(optionSelected) {
+                    optionSelected.selected = false;
+                }
+            }            
         }
     }
 }

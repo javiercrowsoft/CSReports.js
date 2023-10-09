@@ -8,7 +8,7 @@ namespace CSReportDll {
 
         private foreColor: string = csColors.BLACK;
         private size: number = 14;
-        private name: string = "Mono";
+        private name: string = "Arial";
         private underline: boolean = false;
         private bold: boolean = false;
         private italic: boolean = false;

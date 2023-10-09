@@ -71,7 +71,8 @@ namespace CSReportEditor {
         }
 
         setEnabled(enabled: boolean) {
-            if(this.el.hasOwnProperty('disabled')) {
+            //@ts-ignore
+            if(this.el.disabled !== undefined) {
                 //@ts-ignore
                 this.el.disabled = ! enabled;
             }
@@ -86,5 +87,10 @@ namespace CSReportEditor {
                 }
             }
         }
+
+        disable() {
+            this.setEnabled(false);
+        }
+
     }
 }

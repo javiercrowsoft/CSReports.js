@@ -109,8 +109,8 @@ namespace CSReportEditor {
             };
         }
 
-        setImage(arg0: CSReportPaint.Image) {
-            throw new Error("Method not implemented.");
+        setImage(image: CSReportPaint.Image) {
+            // TODO: implements
         }
 
     }

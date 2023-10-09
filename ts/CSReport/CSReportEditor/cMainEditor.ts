@@ -27,63 +27,65 @@ namespace CSReportEditor {
 
         public static initEditor() {
             if(this.fMain === null) {
-                cMainEditor.fMain = new FMain();
+                this.fMain = new FMain();
                 this.fMain.init();
             }
         }
 
         public static getEditor() {
-            return cMainEditor.fMain;
+            return this.fMain;
         }
 
 	    public static getDocActive() {
-	        return cMainEditor.editor;
+	        return this.editor;
 	    }
 
 	    public static setDocActive(editor: cEditor) {
-	        cMainEditor.editor = editor;
+	        this.editor = editor;
 	        this.setMenu();
             if (editor !== null) {
                 let editorTab: TabPage = editor.getEditorTab();
                 // TODO: implement
                 //  this.selectedTab = editorTab;
 
-                if (cMainEditor.fToolbox !== null && Utils.isVisible(cMainEditor.fToolbox)) {
+                if (this.fToolbox !== null && Utils.isVisible(this.fToolbox)) {
                     if (this.getToolbox(editor) !== null) { editor.showToolbox(); }
                 }
-                if (cMainEditor.fControls !== null && Utils.isVisible(cMainEditor.fControls)) {
+                if (this.fControls !== null && Utils.isVisible(this.fControls)) {
                     if (this.getCtrlBox(editor) !== null) { editor.showControls(); }
                 }
-                if (cMainEditor.fTreeViewCtrls !== null && Utils.isVisible(cMainEditor.fTreeViewCtrls)) {
+                if (this.fTreeViewCtrls !== null && Utils.isVisible(this.fTreeViewCtrls)) {
                     if (this.getCtrlTreeBox(editor) !== null) { editor.showControlsTree(); }
                 }
             }
             else {
-                if (cMainEditor.fToolbox !== null && Utils.isVisible(cMainEditor.fToolbox)) {
-                    cMainEditor.fToolbox.clear();
+                if (this.fToolbox !== null && Utils.isVisible(this.fToolbox)) {
+                    this.fToolbox.clear();
                 }
-                if (cMainEditor.fControls !== null && Utils.isVisible(cMainEditor.fControls)) {
-                    cMainEditor.fControls.clear();
+                if (this.fControls !== null && Utils.isVisible(this.fControls)) {
+                    this.fControls.clear();
                 }
-                if (cMainEditor.fTreeViewCtrls !== null && Utils.isVisible(cMainEditor.fTreeViewCtrls)) {
-                    cMainEditor.fTreeViewCtrls.clear();
+                if (this.fTreeViewCtrls !== null && Utils.isVisible(this.fTreeViewCtrls)) {
+                    this.fTreeViewCtrls.clear();
                 }
             }
-            cMainEditor.fMain.showControls(editor);
-            cMainEditor.fMain.showControlsTree(editor);
-            cMainEditor.fMain.showFields(editor);
+            this.fMain.showControls(editor);
+            this.fMain.showControlsTree(editor);
+            this.fMain.showFields(editor);
+            this.clearProperties();
+            this.showProperties();
         }
 
 	    public static setDocInacActive(editor: cEditor) {
-	        if (cMainEditor.editor !== editor) { return; }
-	        cMainEditor.editor = null;
+	        if (this.editor !== editor) { return; }
+	        this.editor = null;
 	        this.setMenu();
             this.setEditAlignTextState(false);
 	    }
 
 	    public static setStatus() {
 	        try {
-	            if (cMainEditor.editor === null) {
+	            if (this.editor === null) {
 	                this.setStatusAux("");
 	            } 
 	            else {
@@ -108,19 +110,19 @@ namespace CSReportEditor {
         }
 
         public static setEditAlignTextState(status: boolean) {
-            cMainEditor.fMain.setEditAlignTextState(status);
+            this.fMain.setEditAlignTextState(status);
         }
 
         public static setEditAlignCtlState(status: boolean) {
-            cMainEditor.fMain.setEditAlignCtlState(status);
+            this.fMain.setEditAlignCtlState(status);
         }
 
         public static setMenuAux(enabled: boolean) {
-            cMainEditor.fMain.setMenuAux(enabled);
+            this.fMain.setMenuAux(enabled);
         }
 
         public static addToRecentList(fileName: string) {
-            cMainEditor.fMain.addToRecentList(fileName);
+            this.fMain.addToRecentList(fileName);
         }
 
 	    public static setEditFontBoldValue(bBold: number) {
@@ -130,16 +132,16 @@ namespace CSReportEditor {
 	    private static setMenu() {
 	        try {
 
-                if (cMainEditor.editor === null || cMainEditor.editor.getReport() === null) {
-                    cMainEditor.fMain.setMenuAux(false);
-                    cMainEditor.fMain.setBarText("");
-                    cMainEditor.fMain.setStatus("");
+                if (this.editor === null || this.editor.getReport() === null) {
+                    this.fMain.setMenuAux(false);
+                    this.fMain.setBarText("");
+                    this.fMain.setStatus("");
 	            } 
 	            else {
-                    cMainEditor.fMain.setMenuAux(true);
-                    cMainEditor.fMain.setDisconnectedReport(cMainEditor.editor.getReport().getReportDisconnected());
-                    cMainEditor.fMain.setBarText(cMainEditor.editor.getReport().getName());
-                    cMainEditor.fMain.setStatus(this.pGetStatus());
+                    this.fMain.setMenuAux(true);
+                    this.fMain.setDisconnectedReport(this.editor.getReport().getReportDisconnected());
+                    this.fMain.setBarText(this.editor.getReport().getName());
+                    this.fMain.setStatus(this.pGetStatus());
 	            }
 	        } catch (ex) {
 	            cError.mngError(ex);
@@ -151,52 +153,81 @@ namespace CSReportEditor {
         }
 
         public static getSearch(editor?: cEditor) {
-            if (cMainEditor.fSearch === null) {
-                cMainEditor.fSearch = new FSearch();
+            if (this.fSearch === null) {
+                this.fSearch = new FSearch();
             }
-            if(editor) cMainEditor.fSearch.setHandler(editor);
-            return cMainEditor.fSearch;
+            if(editor) this.fSearch.setHandler(editor);
+            return this.fSearch;
         }
 
         public static getToolbox(editor?: cEditor) {
-            if (cMainEditor.fToolbox === null) {
-                cMainEditor.fToolbox = new FToolbox();
+            if (this.fToolbox === null) {
+                this.fToolbox = new FToolbox();
             }
-            if(editor) cMainEditor.fToolbox.setHandler(editor);
-            return cMainEditor.fToolbox;
+            if(editor) this.fToolbox.setHandler(editor);
+            return this.fToolbox;
         }
 
         public static getCtrlBox(editor?: cEditor) {
-            if (cMainEditor.fControls === null) {
-                cMainEditor.fControls = new FControls();
+            if (this.fControls === null) {
+                this.fControls = new FControls();
             }
-            if(editor) cMainEditor.fControls.setHandler(editor);
-            return cMainEditor.fControls;
+            if(editor) this.fControls.setHandler(editor);
+            return this.fControls;
         }
 
         public static getCtrlTreeBox(editor?: cEditor) {
-            if (cMainEditor.fTreeViewCtrls === null) {
-                cMainEditor.fTreeViewCtrls = new FTreeViewCtrls();
+            if (this.fTreeViewCtrls === null) {
+                this.fTreeViewCtrls = new FTreeViewCtrls();
             }
-            if(editor) cMainEditor.fTreeViewCtrls.setHandler(editor);
-            return cMainEditor.fTreeViewCtrls;
+            if(editor) this.fTreeViewCtrls.setHandler(editor);
+            return this.fTreeViewCtrls;
         }
 
         public static clearToolbox(editor: cEditor) {
-            if (cMainEditor.editor === editor) {
-                if (cMainEditor.fToolbox !== null && Utils.isVisible(cMainEditor.fToolbox)) {
-                    cMainEditor.fToolbox.clear();
+            if (this.editor === editor) {
+                if (this.fToolbox !== null && Utils.isVisible(this.fToolbox)) {
+                    this.fToolbox.clear();
                 }
             }
         }
 
-        public static showProperties(key?: string) {
-            cMainEditor.fMain.showProperties(cMainEditor.editor, key);
-            cMainEditor.editor.showCtrlProperties2();
+        public static clearProperties() {
+            this.getPropertyDlg().clear();
+            this.getPropertyDlg().disable();
+            this.getPropertyDlg().showCtrlPropertyTabs();
         }
 
-        static getPropertyDlg(): PropertyDlg {
-            return cMainEditor.fMain.getPropertyDlg();
+        public static showProperties(key?: string, isSection: boolean = false) {
+            if(isSection) {
+                this.clearProperties();
+                this.editor.showSelectedSectionProperties();
+            }
+            else {
+                this.fMain.showProperties(this.editor, key);
+                this.editor.showSelectedCtrlProperties();
+            }
+        }
+
+        public static getPropertyDlg(): PropertyDlg {
+            return this.fMain.getPropertyDlg();
+        }
+
+        public static showPropertyTab(tab: string) {
+            document.getElementById('property-format-tab').style.display = tab === 'property-format-tab' ? 'block' : 'none';
+            document.getElementById('property-formulas-tab').style.display = tab === 'property-formulas-tab' ? 'block' : 'none';
+            document.getElementById('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
+            document.getElementById('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
+            document.getElementById('property-image-tab').style.display = tab === 'property-image-tab' ? 'block' : 'none';
+            document.getElementById('property-chart-tab').style.display = tab === 'property-chart-tab' ? 'block' : 'none';
+            document.getElementById('property-section-tab').style.display = tab === 'property-section-tab' ? 'block' : 'none';
+        }
+    
+        public static showSideBarTab(tab: string) {
+            document.getElementById('sidebar-tv-controls').style.display = tab === 'sidebar-tv-controls' ? 'block' : 'none';
+            document.getElementById('sidebar-lv-controls').style.display = tab === 'sidebar-lv-controls' ? 'block' : 'none';
+            document.getElementById('sidebar-lv-properties').style.display = tab === 'sidebar-lv-properties' ? 'block' : 'none';
+            document.getElementById('sidebar-lv-database').style.display = tab === 'sidebar-lv-database' ? 'block' : 'none';
         }
     }
 

@@ -161,10 +161,10 @@ header nav ul li {
 /*------------------------------------------------------------*/
 
 #right-sidebar {
-    background-color: #feffef;
+    background-color: #f7f8f9;
     width: 445px;
     height: calc(100% - 98px);
-    padding: 25px 30px 25px 30px;
+    padding: 10px 30px 25px 30px;
     bottom: 30px;
     top: 135px;
     color: #373636;

@@ -110,10 +110,10 @@
         <!-- Tab links -->
         <div class="tab" id="tabReports">
             <div class="tablinks sidebar-tab">
-                <button class="tablinks" onclick="showSideBarTab('sidebar-tv-controls')">Report</button>
-                <button class="tablinks" onclick="showSideBarTab('sidebar-lv-controls')">Ctrls</button>
-                <button class="tablinks" onclick="showSideBarTab('sidebar-lv-database')">DB</button>
-                <button class="tablinks" onclick="showSideBarTab('sidebar-lv-properties')">Properties</button>
+                <button class="tablinks" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-tv-controls')">Report</button>
+                <button class="tablinks" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-controls')">Ctrls</button>
+                <button class="tablinks" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-database')">DB</button>
+                <button class="tablinks" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-properties')">Properties</button>
             </div>
             <!-- this added by code. I let it here just as an example
             <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1 
@@ -139,16 +139,18 @@
         </div>
         -->
         <div id="right-sidebar">
-            <div class="inner-row-left">
+            <div class="inner-row-left" style="height: 60px;">
                 <img src="images/properties/config_page.jpg">
                 <h1 id="ctrl-lb-name" style="margin-left: 15px;"></h1>
             </div>
             <ul class="toolbar">
-                <li><a href="#" onclick="showPropertyTab('property-format-tab')">Format</a></li>
-                <li><a href="#" onclick="showPropertyTab('property-formulas-tab')">Formulas</a></li>
-                <li><a href="#" onclick="showPropertyTab('property-database-tab')">Database</a></li>
-                <li><a href="#" onclick="showPropertyTab('property-borders-tab')">Borders</a></li>
-                <li><a href="#" onclick="showPropertyTab('property-image-tab')">Image</a></li>
+                <li><a href="#" id="property-format-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-format-tab')">Format</a></li>
+                <li><a href="#" id="property-formulas-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-formulas-tab')">Formulas</a></li>
+                <li><a href="#" id="property-borders-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-borders-tab')">Borders</a></li>                
+                <li><a href="#" id="property-database-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-database-tab')">Database</a></li>
+                <li><a href="#" id="property-image-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-image-tab')">Image</a></li>
+                <li><a href="#" id="property-chart-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-chart-tab')">Chart</a></li>
+                <li><a href="#" id="property-section-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')">Section</a></li>
             </ul>
             
             <div class="property-tab" id="property-borders-tab" style="display: none;">
@@ -208,6 +210,8 @@
                     </div> 
                 </div>
             </div>
+
+            <div class="property-tab" id="property-chart-tab" style="display: none;"></div>
 
             <div class="property-tab" id="property-formulas-tab" style="display: none;">
                 <div style="width: 95%;">
@@ -283,7 +287,6 @@ End Function
                         <button style="margin-top: 10px;" id="ctrl-value-formula-edit">Edit</button>
                     </div>
                 </div>
-
             </div> <!-- property-formulas-tab -->
 
             <div class="property-tab" id="property-database-tab" style="display: none;">
@@ -459,6 +462,64 @@ End Function
                     <input type="text" id="ctrl-export-id"/>
                 </div>
             </div><!-- property-format-tab -->
+
+            <div class="property-tab" id="property-section-tab" style="display: none;">
+                <label>Name</label>
+                <input type="text" id="section-name"/>
+                <div class="property-section">
+                </div>
+                <div style="width: 95%;">
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">The section has a formula to determine if it is visible
+                                <input type="checkbox" id="section-has-visible-formula"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div> 
+                    <div style="margin-bottom: 10px;">
+                        <label>The formula must return a non zero value to set the section to be visible</label> 
+                    </div>
+                    <div class="boxed">
+                        <div class="multiline-label" id="section-visible-formula">Function x ()
+
+ x =  _value( Control92 )  = 0
+
+End Function 
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <button style="margin-top: 10px;" id="section-hide-formula-edit">Edit</button>
+                    </div>                    
+                    <div class="property-section">
+                    </div>
+                    <label>Section Line Name</label>
+                    <label id="section-line-name"></label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">The section line has a formula to determine if it is visible
+                                <input type="checkbox" id="section-line-has-visible-formula"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div> 
+                    <div style="margin-bottom: 10px;">
+                        <label>The formula must return a non zero value to set the section line to be visible</label> 
+                    </div>
+                    <div class="boxed">
+                        <div class="multiline-label" id="section-line-visible-formula">Function x ()
+
+ x =  _value( Control92 )  = 0
+
+End Function 
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <button style="margin-top: 10px;" id="section-hide-formula-edit">Edit</button>
+                    </div>                    
+                </div>
+            </div> <!-- property-section-tab -->
+
             <div class="footer-bar">
                 <button>Apply</button>
             </div>
@@ -493,21 +554,6 @@ End Function
     (function() {
         CSReportEditor.cMainEditor.initEditor();
     }())
-
-    function showPropertyTab(tab) {
-        document.getElementById('property-format-tab').style.display = tab === 'property-format-tab' ? 'block' : 'none';
-        document.getElementById('property-formulas-tab').style.display = tab === 'property-formulas-tab' ? 'block' : 'none';
-        document.getElementById('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
-        document.getElementById('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
-        document.getElementById('property-image-tab').style.display = tab === 'property-image-tab' ? 'block' : 'none';
-    }
-
-    function showSideBarTab(tab) {
-        document.getElementById('sidebar-tv-controls').style.display = tab === 'sidebar-tv-controls' ? 'block' : 'none';
-        document.getElementById('sidebar-lv-controls').style.display = tab === 'sidebar-lv-controls' ? 'block' : 'none';
-        document.getElementById('sidebar-lv-properties').style.display = tab === 'sidebar-lv-properties' ? 'block' : 'none';
-        document.getElementById('sidebar-lv-database').style.display = tab === 'sidebar-lv-database' ? 'block' : 'none';
-    }
 
 </script>
 </html>
