@@ -1038,7 +1038,8 @@ namespace CSReportPaint {
                 this.printRectangle(
                     graphic, false,
                     this.x1, this.y1, this.x2, this.y2,
-                    "#000000", cReportPaint.LINE_WIDTH_FAT, true,
+                    csColors.WHITE, 
+                    cReportPaint.LINE_WIDTH_FAT, true,
                     csColors.BLACK, false);
     
                 if (this.x1 > 1) { this.x1 = this.x1 - 2; }
@@ -1102,14 +1103,16 @@ namespace CSReportPaint {
                 this.y2 = paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT;
             }
 
-            this.paintPicture(graphic, false);
-
-            this.printRectangle(
-                graphic, false,
-                this.x1, this.y1, this.x2, this.y2,
-                csColors.WHITE, cReportPaint.LINE_WIDTH, true, csColors.BLACK, false);
-
-            graphic.dispose();
+            this.paintPicture(graphic, false).then(P.call(this, ()=> {
+                this.printRectangle(
+                    graphic, false,
+                    this.x1, this.y1, this.x2, this.y2,
+                    csColors.WHITE, 
+                    cReportPaint.LINE_WIDTH_FAT, true, 
+                    csColors.BLACK, false);
+    
+                graphic.dispose();    
+            }));
         }
 
         public createPicture(graphic: Graphic) {

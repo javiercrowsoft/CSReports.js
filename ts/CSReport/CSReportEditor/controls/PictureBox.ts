@@ -59,6 +59,15 @@ namespace CSReportEditor {
 
         }
 
+        getCursor(): Cursor {
+            return new Cursor(this.canvas.style.cursor);
+        }
+
+        setCursor(cursor: Cursor) {
+            super.setCursor(cursor);
+            this.canvas.style.cursor = cursor.toString();
+        }
+
         setWidth(value: number) {
             super.setWidth(value);
             this.canvas.width = value;

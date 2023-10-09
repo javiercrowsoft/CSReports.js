@@ -3,7 +3,7 @@ namespace CSReportEditor {
     export class Control {
 
         private el: HTMLElement;
-        private cursor = Cursors.Default;
+        private cursor = Cursor.Default;
         private text = "";
         private width = 0;
         private height = 0;
@@ -26,11 +26,11 @@ namespace CSReportEditor {
             return this.text;
         }
 
-        getCursor(): Cursors {
+        getCursor(): Cursor {
             return this.cursor;
         }
 
-        setCursor(value: Cursors) {
+        setCursor(value: Cursor) {
             this.cursor = value;
         }
 

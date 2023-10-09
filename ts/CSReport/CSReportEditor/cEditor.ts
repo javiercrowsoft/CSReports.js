@@ -974,7 +974,7 @@ namespace CSReportEditor {
                 case cGlobals.C_KEY_FOOTER:
                 case cGlobals.C_KEY_HEADER:
                     this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
-                    this.picReport.setCursor(Cursors.SizeNS);
+                    this.picReport.setCursor(Cursor.SizeNS);
                     break;
                 default:
                     if (po.getRptType() === csRptSectionType.DETAIL
@@ -983,7 +983,7 @@ namespace CSReportEditor {
                         || po.getRptType() === csRptSectionType.GROUP_FOOTER
                         || po.getRptType() === csRptSectionType.FOOTER) {
 
-                        this.picReport.setCursor(Cursors.SizeNS);
+                        this.picReport.setCursor(Cursor.SizeNS);
                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                     }
                     else if (po.getRptType() === csRptSectionType.SECLN_HEADER
@@ -992,12 +992,12 @@ namespace CSReportEditor {
                         || po.getRptType() === csRptSectionType.SECLN_GROUPH
                         || po.getRptType() === csRptSectionType.SECLN_GROUPF) {
 
-                        this.picReport.setCursor(Cursors.SizeNS);
+                        this.picReport.setCursor(Cursor.SizeNS);
                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                     }
                     else {
                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
-                        this.picReport.setCursor(Cursors.SizeNS);
+                        this.picReport.setCursor(Cursor.SizeNS);
                     }
                     break;
             }
@@ -1081,7 +1081,7 @@ namespace CSReportEditor {
                                     }
 
                                     this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
-                                    this.picReport.setCursor(Cursors.SizeNS);
+                                    this.picReport.setCursor(Cursor.SizeNS);
                                     break;
 
                                 default:
@@ -1103,7 +1103,7 @@ namespace CSReportEditor {
                                             return;
                                         }
 
-                                        this.picReport.setCursor(Cursors.SizeNS);
+                                        this.picReport.setCursor(Cursor.SizeNS);
                                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     }
                                     else if (po.getRptType() === csRptSectionType.SECLN_HEADER
@@ -1124,12 +1124,12 @@ namespace CSReportEditor {
                                             return;
                                         }
 
-                                        this.picReport.setCursor(Cursors.SizeNS);
+                                        this.picReport.setCursor(Cursor.SizeNS);
                                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     }
                                     else {
                                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
-                                        this.picReport.setCursor(Cursors.SizeAll);
+                                        this.picReport.setCursor(Cursor.MoveAll);
                                     }
                                     break;
                             }
@@ -1644,7 +1644,7 @@ namespace CSReportEditor {
                         if (po.getPaintType() === csRptPaintObjType.CSRPTPAINTOBJLINE) {
                             this.keyMoving = sKey;
                             this.keySizing = "";
-                            this.picReport.setCursor(Cursors.SizeNS);
+                            this.picReport.setCursor(Cursor.SizeNS);
                         }
                         else {
                             switch (po.getTag()) {
@@ -1653,7 +1653,7 @@ namespace CSReportEditor {
                                 case cGlobals.C_KEY_HEADER:
                                     this.keyMoving = sKey;
                                     this.keySizing = "";
-                                    this.picReport.setCursor(Cursors.SizeNS);
+                                    this.picReport.setCursor(Cursor.SizeNS);
                                     this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     break;
 
@@ -1667,70 +1667,70 @@ namespace CSReportEditor {
 
                                         this.keyMoving = sKey;
                                         this.keySizing = "";
-                                        this.picReport.setCursor(Cursors.SizeNS);
+                                        this.picReport.setCursor(Cursor.SizeNS);
                                         this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                                     }
                                     else {
 
                                         switch (rgnTp.get()) {
                                             case csRptPaintRegionType.CRPTPNTRGNTYPEBODY:
-                                                this.picReport.setCursor(Cursors.SizeAll);
+                                                this.picReport.setCursor(Cursor.MoveAll);
                                                 this.keyMoving = sKey;
                                                 this.keySizing = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPEDOWN:
-                                                this.picReport.setCursor(Cursors.SizeNS);
+                                                this.picReport.setCursor(Cursor.SizeNS);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPEUP:
-                                                this.picReport.setCursor(Cursors.SizeNS);
+                                                this.picReport.setCursor(Cursor.SizeNS);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVUP;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFT:
-                                                this.picReport.setCursor(Cursors.SizeWE);
+                                                this.picReport.setCursor(Cursor.SizeEW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFT;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHT:
-                                                this.picReport.setCursor(Cursors.SizeWE);
+                                                this.picReport.setCursor(Cursor.SizeEW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHT;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN:
-                                                this.picReport.setCursor(Cursors.SizeNESW);
+                                                this.picReport.setCursor(Cursor.SizeNESW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFTDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP:
-                                                this.picReport.setCursor(Cursors.SizeNESW);
+                                                this.picReport.setCursor(Cursor.SizeNESW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTUP;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPERIGHTDOWN:
-                                                this.picReport.setCursor(Cursors.SizeNWSE);
+                                                this.picReport.setCursor(Cursor.SizeNWSE);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN;
                                                 break;
 
                                             case csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP:
-                                                this.picReport.setCursor(Cursors.SizeNWSE);
+                                                this.picReport.setCursor(Cursor.SizeNWSE);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFTUP;
@@ -1748,7 +1748,7 @@ namespace CSReportEditor {
                     }
                     else {
                         this.setStatusBarText("");
-                        this.picReport.setCursor(Cursors.Default);
+                        this.picReport.setCursor(Cursor.Default);
                         this.keySizing = "";
                         this.keyMoving = "";
                     }
@@ -2259,7 +2259,7 @@ namespace CSReportEditor {
             this.keyFocus = "";
             this.keyMoving = "";
             this.keySizing = "";
-            this.picReport.setCursor(Cursors.Default);
+            this.picReport.setCursor(Cursor.Default);
         }
 
         public addDBField() {
@@ -4129,13 +4129,13 @@ namespace CSReportEditor {
         private beginDragging() {
             this.picReport.focus();
             this.dragging = true;
-            this.picReport.setCursor(Cursors.Move); // new Cursor("Resources" + Path.DirectorySeparatorChar + "move32x32.cur");
+            this.picReport.setCursor(Cursor.Move); // new Cursor("Resources" + Path.DirectorySeparatorChar + "move32x32.cur");
         }
 
         private endDragging() {
             this.dragging = false;
             this.controlType = csRptEditCtrlType.none;
-            this.picReport.setCursor(Cursors.Default);
+            this.picReport.setCursor(Cursor.Default);
         }
 
         public showToolbox() {
