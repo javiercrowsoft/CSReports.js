@@ -1157,7 +1157,7 @@ namespace CSReportEditor {
                     let poSelected: cReportPaintObject = this.paint.getPaintObject(sKey);
                     if (poSelected !== null) {
                         const propertyKey = poSelected.getIsSection() ? "S" + poSelected.getTag() : poSelected.getTag();
-                        cMainEditor.showProperties(propertyKey, poSelected.getIsSection());
+                        cMainEditor.showProperties(propertyKey, poSelected.getIsSection() || poSelected.getIsSectionLine());
                     }
                 }
                 else if (button === MouseButtons.Right) {
@@ -4295,6 +4295,7 @@ namespace CSReportEditor {
             }
 
             paintObj.setIsSection(!isSecLn);
+            paintObj.setIsSectionLine(isSecLn);
 
             paintObj.setRptType(rptType);
             paintObj.setTag(sKey);
@@ -4941,7 +4942,7 @@ namespace CSReportEditor {
                         paintType = csRptPaintObjType.CSRPTPAINTOBJBOX;
                     }
 
-                let paintObj: cReportPaintObject = this.paint.getNewObject(paintType);
+                    let paintObj: cReportPaintObject = this.paint.getNewObject(paintType);
 
                     // for old reports
                     //

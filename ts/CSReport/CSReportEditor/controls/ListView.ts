@@ -104,6 +104,10 @@ namespace CSReportEditor {
             this.td = td;
         }
 
+        getText() {
+            return this.text;
+        }
+
         setText(text: string) {
             this.text = text;
             this.td.textContent = text;

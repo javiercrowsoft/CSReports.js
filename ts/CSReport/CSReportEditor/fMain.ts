@@ -578,27 +578,23 @@ namespace CSReportEditor {
         }
 
         private setObjectDescription(anObject: object, n?: number) {
-            /*
             if (anObject === null) return;
 
-            let tabs = new String(" ", n*2);
-            let methods = this.getMethods(anObject);
-            for(let i_ = 0; i_ < methods.length; i_++) {
-                if (m.IsPublic
-                    && m.Name.length > 3
-                    && m.Name.substring(0, 3) === "get"
-                    && m.Name.substring(0, 4) !== "get_"
-                    && m.GetParameters().length === 0
-                    && m.Name !== "getSectionLine"
+            let tabs = " ".repeat(n*2);
+            const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(anObject));
+            methods.forEach( methodName => {
+                if (   methodName.length > 3
+                    && methodName.substring(0, 3) === "get"
+                    && methodName.substring(0, 4) !== "get_"
+                    && anObject[methodName].length === 0
+                    && methodName !== "getSectionLine"
                     ) {
-                    let item = lv_properties.Items.Add(tabs + m.Name.substring(3));
-                    item.ImageIndex = C_IMG_CONTROL;
-                    item.SubItems.Add(getValue(m.Invoke(anObject, null), n));
-                    if (item.SubItems[1].Text === "...") item.ImageIndex = C_IMG_FOLDER;
+                    
+                    let item = this.lv_properties.add(tabs + methodName.substring(3), this.C_IMG_CONTROL);
+                    item.subItems.add(anObject[methodName].call(anObject));
+                    if (item.subItems.item(1).getText() === "...") item.setImageIndex(this.C_IMG_FOLDER);
                 }
-            }
-
-             */
+            });                
         }
 
         private getValue(value: object, n: number) {

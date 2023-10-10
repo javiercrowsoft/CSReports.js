@@ -61,5 +61,9 @@ namespace CSReportDll {
 
             return this.aspect.save(xDoc, nodeObj);
         }
+
+        toString() {
+            return "text: " + this.text + ", foreColor: " + this.aspect.getFont().getForeColor();
+        }
     }
 }

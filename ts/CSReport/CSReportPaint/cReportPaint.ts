@@ -671,6 +671,7 @@ namespace CSReportPaint {
             aspect.setHeight(20);
             aspect.setAlign(HorizontalAlignment.Right);
             aspect.setWidth(graphic.getBoundingClientRect().width - 1);
+            aspect.getFont().setForeColor("#736e6e");
 
             let top: number;
 

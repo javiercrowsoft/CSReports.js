@@ -16,6 +16,7 @@ namespace CSReportPaint {
         private indexField: number = 0;
 
         private isSection: boolean = null;
+        private isSectionLine: boolean = null;
 
         private heightSec: number = 0;
         private heightSecLine: number = 0;
@@ -124,5 +125,14 @@ namespace CSReportPaint {
         public setIsSection(rhs: boolean) {
             this.isSection = rhs;
         }
+
+        public getIsSectionLine() {
+            return this.isSectionLine;
+        }
+
+        public setIsSectionLine(rhs: boolean) {
+            this.isSectionLine = rhs;
+        }
+
     }
 }
