@@ -1,4 +1,4 @@
-tsc
+./node_modules/typescript/bin/tsc
 rm dist/index.html
 rm dist/styles.css
 rm -r dist/images
