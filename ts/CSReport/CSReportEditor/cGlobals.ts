@@ -455,11 +455,14 @@ namespace CSReportEditor {
                                   fieldType: string, 
                                   add: boolean) {
 
-            if (!add) lvColumns.clear();
+            if (!add) {
+                lvColumns.clear();
+                lvColumns.createHeaders(['Name']);
+            }
 
             for(let i_ = 0; i_ < columns.count(); i_++) {
                 let column = columns.item(i_);
-                let item = lvColumns.add("{{{" + dataSource + "}}}.{" + column.getName() + "}");
+                let item = lvColumns.add("{" + dataSource + "}." + column.getName());
                 item.setImageIndex(0);
                 // let info: string = cUtil.setInfoString("", index, column.getPosition().toString());
                 // info = cUtil.setInfoString(info, fieldType, column.getColumnType().toString());

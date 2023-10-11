@@ -39,7 +39,7 @@ namespace CSReportEditor {
         private C_IMG_FORMULA: number = 2;
         private C_IMG_DATABASE_FIELD: number = 3;
 
-        private C_FIELDTYPE: string = "t";
+        private C_FIELD_TYPE: string = "t";
         private C_INDEX: string = "i";
 
         private contextMenuEditor: cEditor = null;
@@ -60,6 +60,7 @@ namespace CSReportEditor {
 
         private lv_controls: ListView = null;
         private lv_properties: ListView = null;
+        private lv_fields: ListView = null;
         private tv_controls: TreeView = null;
         private propertyDlg: PropertyDlg = null;
 
@@ -88,8 +89,9 @@ namespace CSReportEditor {
             this.tabReports = new TabBar("tabReports", this.el("tabReports"));
 
             this.lv_controls = new ListView("lvControls", this.el("sidebar-lv-controls"));
-            this.tv_controls = new TreeView("tvControls", this.el("sidebar-tv-controls"), "*");
             this.lv_properties = new ListView("lvControls", this.el("sidebar-lv-properties"));
+            this.lv_fields = new ListView("lvFields", this.el("sidebar-lv-database"));
+            this.tv_controls = new TreeView("tvControls", this.el("sidebar-tv-controls"), "*");
 
             this.propertyDlg = new PropertyDlg();
 
@@ -558,6 +560,7 @@ namespace CSReportEditor {
 
         public showProperties(editor?: cEditor, key?: string) {
             this.lv_properties.clear();
+            this.lv_properties.createHeaders(['Property', 'Value']);
             if (editor !== null) {
                 this.setObjectDescription(this.getControlOrSection(editor, key));
             }
@@ -630,14 +633,15 @@ namespace CSReportEditor {
         }
 
         public showFields(editor: cEditor) {
-            /*lv_fields.Items.clear();
+            this.lv_fields.clear();
 
             if (editor !== null) {
                 let connect = editor.getReport().getConnect();
                 cGlobals.fillColumns(
                     connect.getDataSource(),
-                    connect.getColumns(), lv_fields, C_INDEX, C_FIELDTYPE, false);
-            }*/
+                    connect.getColumns(), this.lv_fields, this.C_INDEX, this.C_FIELD_TYPE, 
+                    false);
+            }
         }
 
         private lv_controls_ColumnClick(sender: object, e: any) {
