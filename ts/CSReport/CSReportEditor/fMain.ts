@@ -552,6 +552,10 @@ namespace CSReportEditor {
             }
         }
 
+        public clearProperties() {
+            this.lv_properties.clear();
+        }
+
         public showProperties(editor?: cEditor, key?: string) {
             this.lv_properties.clear();
             if (editor !== null) {

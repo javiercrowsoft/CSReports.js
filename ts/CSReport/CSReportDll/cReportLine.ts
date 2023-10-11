@@ -30,5 +30,9 @@ namespace CSReportDll {
 
             return this.aspect.save(xDoc, nodeObj);
         }
+
+        toString() {
+            return "height: " + this.getAspect().getHeight() + ", width: " + this.getAspect().getWidth();
+        }
     }
 }

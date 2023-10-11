@@ -64,5 +64,10 @@ namespace CSReportDll {
 
             return true;
         }
+
+        toString() {
+            return "name: " + this.name + ", index: " + this.index;
+        }
+
     }
 }

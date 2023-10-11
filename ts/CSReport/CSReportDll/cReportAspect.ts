@@ -369,5 +369,9 @@ namespace CSReportDll {
             this.top = Utils.pt(Math.trunc(this.top));
             this.width = Utils.pt(Math.trunc(this.width));
         }
+
+        toString() {
+            return "height: " + this.height + ", width: " + this.width + ", foreColor: " + this.getFont().getForeColor();
+        }
     }
 }

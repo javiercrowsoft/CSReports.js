@@ -148,5 +148,9 @@ namespace CSReportDll {
                 return null;
             }
         }
+
+        toString() {
+            return "lines count: " + this.count();
+        }
     }
 }

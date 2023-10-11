@@ -648,6 +648,10 @@ namespace CSReportDll {
                 vSeries = new t_SerieValue[size];
             }
         }
+
+        toString() {
+            return "type: " + this.chartType;
+        }
     }
 
     class t_SerieValue {

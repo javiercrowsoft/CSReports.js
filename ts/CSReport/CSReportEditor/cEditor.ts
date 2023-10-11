@@ -76,42 +76,12 @@ namespace CSReportEditor {
         public constructor(fMain: FMain, editor: Panel, rule: PictureBox, report: PictureBox, editorTab: TabPage) {
             this.fMain = fMain;
             this.editor = editor;
-
-            // TODO: remove this.editor.AutoScroll = true;
-
             this.picRule = rule;
-            // TODO: remove
-            /*
-            this.picRule.SetBounds(Utils.mp(1), Utils.mp(1), Utils.mp(50), Utils.mp(297));
-            this.picRule.setBackColor(Color.PeachPuff);
-            */
-
             this.picReport = report;
-            // TODO: remove
-            /*
-            this.picReport.SetBounds(Utils.mp(50) + Utils.mp(1), Utils.mp(1), Utils.mp(210), Utils.mp(297));
-            this.picReport.setBackColor(Color.Beige);
-            */
-
-            // TODO: reimplement
-            /*
-            this.picReport.Paint += new PaintEventHandler(this.picReport_Paint);
-            this.picRule.Paint += new PaintEventHandler(this.picRule_Paint);
-
-            // mouse events
-            //
-            this.picReport.MouseDown += new MouseEventHandler(this.picReport_MouseDown);
-            this.picReport.MouseUp += new MouseEventHandler(this.picReport_MouseUp);
-            this.picReport.MouseMove += new MouseEventHandler(this.picReport_MouseMove);
-            */
 
             // tab
             //
             this.editorTab = editorTab;
-
-            // TODO: reimplement
-            // this.editorTab.Enter += (s, e) => { cMainEditor.setDocActive(this); };
-
             this.editorTab.setTag(this);
         }
 
@@ -3608,6 +3578,20 @@ namespace CSReportEditor {
             this.refreshAll();
 
             mouse.dispose();
+        }
+
+        public getSelectedKey() {
+            if(this.keyObj) {
+                let poSelected = this.paint.getPaintObject(this.keyObj);
+                if (poSelected !== null) {
+                    return poSelected.getIsSection() ? "S" + poSelected.getTag() : poSelected.getTag();
+                }            
+            }
+            return null;
+        }
+
+        public getSelectedKeyIsSection() {
+            return this.keyObj?.substring(0,1) === 'S';
         }
 
         public showSelectedCtrlProperties() {

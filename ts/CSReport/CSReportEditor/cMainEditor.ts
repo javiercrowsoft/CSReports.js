@@ -196,17 +196,22 @@ namespace CSReportEditor {
             this.getPropertyDlg().clear();
             this.getPropertyDlg().disable();
             this.getPropertyDlg().showCtrlPropertyTabs();
+            this.fMain.clearProperties();
         }
 
         public static showProperties(key?: string, isSection: boolean = false) {
+            if(key === undefined) {
+                key = this.editor.getSelectedKey();
+                isSection = this.editor.getSelectedKeyIsSection();
+            }
             if(isSection) {
                 this.clearProperties();
                 this.editor.showSelectedSectionProperties();
             }
-            else {
-                this.fMain.showProperties(this.editor, key);
+            else {                
                 this.editor.showSelectedCtrlProperties();
             }
+            this.fMain.showProperties(this.editor, key);
         }
 
         public static getPropertyDlg(): PropertyDlg {
