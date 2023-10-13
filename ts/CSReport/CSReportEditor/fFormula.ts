@@ -27,6 +27,19 @@ namespace CSReportEditor {
 
         private editor: cEditor = null;
 
+        private el: HTMLElement;
+        private dialog: Dialog;
+
+        public constructor() {
+            super();
+            this.el = document.getElementById('formula-dlg');
+            this.dialog = new Dialog(this.el);
+        }
+
+        show(owner = null) {
+            this.dialog.show();
+        }
+
 		public createTree() {
             // tv_formulas.Nodes.Add(C_KEY_SYSFUNCTIONS, "Internal functions", C_FOLDER_INDEX);
             // let item = tv_formulas.Nodes.Add(C_KEY_SYSVARS, "Internal variables", C_FOLDER_INDEX);

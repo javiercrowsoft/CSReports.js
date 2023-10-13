@@ -1,6 +1,7 @@
 namespace CSReportEditor {
 
     import NotImplementedException = CSOAPI.NotImplementedException;
+    import P = CSKernelClient.Callable;
 
     export class PropertyDlg {
 
@@ -92,7 +93,7 @@ namespace CSReportEditor {
         private txText: TextBox;
         private txTag: TextBox;
         private cbFont: ComboBox;
-        private txFontSize: TextBox;        
+        private txFontSize: TextBox;
         private cbAlign: ComboBox;
         private chkFontBold: CheckBox;
         private chkFontUnderline: CheckBox;
@@ -117,9 +118,9 @@ namespace CSReportEditor {
         private chkFormulaHide: CheckBox;
         private lbFormulaHide: Label;
         private cmdFormulaHide: Button;
-        private chkFormulaValue: CheckBox;        
-        private lbFormulaValue: Label;        
-        private cmdFormulaValue: Button; 
+        private chkFormulaValue: CheckBox;
+        private lbFormulaValue: Label;
+        private cmdFormulaValue: Button;
         private txIdxGroup: TextBox;
         private opBeforePrint: OptionButton;
         private opAfterPrint: OptionButton;
@@ -156,7 +157,10 @@ namespace CSReportEditor {
         private tabChart: HTMLElement;
         private tabSection: HTMLElement;
 
-        //#endregion      
+        //#endregion
+
+        // dialogs
+        private formulaDlg: FFormula;
 
         private inputEl(id: string) {
             return this.el(id) as HTMLInputElement;
@@ -183,7 +187,7 @@ namespace CSReportEditor {
             this.txText = new TextBox(this.inputEl('ctrl-text'));
             this.txTag = new TextBox(this.inputEl('ctrl-tag'));
             this.cbFont = new ComboBox(this.selectEl('ctrl-font'));
-            this.txFontSize = new TextBox(this.inputEl('ctrl-font-size'));        
+            this.txFontSize = new TextBox(this.inputEl('ctrl-font-size'));
             this.cbAlign = new ComboBox(this.selectEl('ctrl-align'));
             this.chkFontBold = new CheckBox(this.inputEl('ctrl-bold'));
             this.chkFontUnderline = new CheckBox(this.inputEl('ctrl-underline'));
@@ -204,22 +208,22 @@ namespace CSReportEditor {
             this.chkWordWrap = new CheckBox(this.inputEl('ctrl-wrap-text'));
             this.chkIsFreeCtrl = new CheckBox(this.inputEl('ctrl-is-in-background'));
             this.txExportColIdx = new TextBox(this.inputEl('ctrl-export-id'));
-    
+
             this.chkFormulaHide = new CheckBox(this.inputEl('ctrl-has-visible-formula'));
             this.lbFormulaHide = new Label(this.labelEl('ctrl-visible-formula'));
             this.cmdFormulaHide = new Button(this.el('ctrl-hide-formula-edit'));
-            this.chkFormulaValue = new CheckBox(this.inputEl('ctrl-has-value-formula'));        
-            this.lbFormulaValue = new Label(this.labelEl('ctrl-value-formula'));        
-            this.cmdFormulaValue = new Button(this.el('ctrl-value-formula-edit')); 
+            this.chkFormulaValue = new CheckBox(this.inputEl('ctrl-has-value-formula'));
+            this.lbFormulaValue = new Label(this.labelEl('ctrl-value-formula'));
+            this.cmdFormulaValue = new Button(this.el('ctrl-value-formula-edit'));
             this.txIdxGroup = new TextBox(this.inputEl('ctrl-formula-group'));
             this.opBeforePrint = new OptionButton(this.inputEl('ctrl-formula-run-before'));
             this.opAfterPrint = new OptionButton(this.inputEl('ctrl-formula-run-after'));
-    
+
             this.txImageFile = new TextBox(this.inputEl('ctrl-image-file'));
             this.picImage = new PictureBox("ctrl-image-preview", this.el('ctrl-image-preview'));
-            
+
             this.txDbField = new TextBox(this.inputEl('ctrl-db-field'));
-    
+
             this.cbBorderType = new ComboBox(this.selectEl('ctl-border-type'));
             this.txBorderColor = new TextBox(this.inputEl('ctrl-border-color'));
             this.shBorderColor = new Label(this.labelEl('ctrl-border-color-sample'));
@@ -235,7 +239,7 @@ namespace CSReportEditor {
             this.lbSectionFormulaHide = new Label(this.labelEl('section-visible-formula'));
             this.lbSectionLineFormulaHide = new Label(this.labelEl('section-line-visible-formula'));
             this.txSectionName = new TextBox(this.inputEl('section-name'));
-            this.lbSectionLineName = new Label(this.labelEl('section-line-name'));            
+            this.lbSectionLineName = new Label(this.labelEl('section-line-name'));
 
             this.tabFormat = this.el('property-format-tab-selector');
             this.tabBorders = this.el('property-borders-tab-selector');
@@ -250,8 +254,15 @@ namespace CSReportEditor {
             this.hideTabChart();
             this.hideTabSection();
 
+            this.formulaDlg = new FFormula();
+            this.cmdFormulaHide.setOnClick(P.call(this, this.editFormulaHideClick));
+
             // TODO: implement chart
             // initChart();
+        }
+
+        private editFormulaHideClick() {
+            this.formulaDlg.show();
         }
 
         public setHandler(editor: cEditor) {
@@ -263,7 +274,7 @@ namespace CSReportEditor {
 
         public getIndex() {
             return this.index;
-        }        
+        }
         public setIndex(rhs: number) {
             this.index = rhs;
         }
@@ -618,7 +629,7 @@ namespace CSReportEditor {
 
         public setExportColIdxChanged(rhs: boolean) {
             this.exportColIdxChanged = rhs;
-        }        
+        }
         //#endregion
 
         // chart getters and setters
@@ -1007,7 +1018,7 @@ namespace CSReportEditor {
             // }
             // catch (ignore) { }
         }
-        
+
         private fProperties_Load(sender: object, e: object) {
             // this.done = false;
             // tab_main.SelectedTab = tbpFormat;
@@ -1677,7 +1688,7 @@ namespace CSReportEditor {
 
         getChkIsFreeCtrl(): CheckBox {
             return this.chkIsFreeCtrl;
-        }        
+        }
 
         getTxIdxGroup(): TextBox {
             return this.txIdxGroup;
@@ -1893,7 +1904,7 @@ namespace CSReportEditor {
             this.txText.setEnabled(enable);
             this.txTag.setEnabled(enable);
             this.cbFont.setEnabled(enable);
-            this.txFontSize.setEnabled(enable);        
+            this.txFontSize.setEnabled(enable);
             this.cbAlign.setEnabled(enable);
             this.chkFontBold.setEnabled(enable);
             this.chkFontUnderline.setEnabled(enable);
@@ -1914,21 +1925,21 @@ namespace CSReportEditor {
             this.chkWordWrap.setEnabled(enable);
             this.chkIsFreeCtrl.setEnabled(enable);
             this.txExportColIdx.setEnabled(enable);
-    
+
             this.chkFormulaHide.setEnabled(enable);
             this.lbFormulaHide.setEnabled(enable);
             this.cmdFormulaHide.setEnabled(enable);
-            this.chkFormulaValue.setEnabled(enable);        
-            this.lbFormulaValue.setEnabled(enable);        
-            this.cmdFormulaValue.setEnabled(enable); 
+            this.chkFormulaValue.setEnabled(enable);
+            this.lbFormulaValue.setEnabled(enable);
+            this.cmdFormulaValue.setEnabled(enable);
             this.txIdxGroup.setEnabled(enable);
             this.opBeforePrint.setEnabled(enable);
             this.opAfterPrint.setEnabled(enable);
-    
+
             this.txImageFile.setEnabled(enable);
             this.picImage.setEnabled(enable);
             this.txDbField.setEnabled(enable);
-    
+
             this.cbBorderType.setEnabled(enable);
             this.txBorderColor.setEnabled(enable);
             this.shBorderColor.setEnabled(enable);
@@ -1937,16 +1948,16 @@ namespace CSReportEditor {
             this.txBorderShadow.setEnabled(enable);
             this.shBorderShadow.setEnabled(enable);
             this.txBorderWidth.setEnabled(enable);
-            this.chkBorderRounded.setEnabled(enable);    
+            this.chkBorderRounded.setEnabled(enable);
         }
-        
+
         clear() {
             this.lbControl.setText("");
             this.txName.setText("");
             this.txText.setText("");
             this.txTag.setText("");
             this.cbFont.setText("");
-            this.txFontSize.setText("");        
+            this.txFontSize.setText("");
             this.cbAlign.setText("");
             this.chkFontBold.setChecked(false);
             this.chkFontUnderline.setChecked(false);
@@ -1967,20 +1978,20 @@ namespace CSReportEditor {
             this.chkWordWrap.setText("");
             this.chkIsFreeCtrl.setChecked(false);
             this.txExportColIdx.setText("");
-    
+
             this.chkFormulaHide.setChecked(false);
             this.lbFormulaHide.setText("");
             this.chkFormulaValue.setChecked(false);
-            this.lbFormulaValue.setText("");        
-            this.cmdFormulaValue.setText(""); 
+            this.lbFormulaValue.setText("");
+            this.cmdFormulaValue.setText("");
             this.txIdxGroup.setText("");
             this.opBeforePrint.setText("");
             this.opAfterPrint.setText("");
-    
+
             this.txImageFile.setText("");
             this.picImage.setImage(null);
             this.txDbField.setText("");
-    
+
             this.cbBorderType.setText("");
             this.txBorderColor.setText("");
             this.shBorderColor.setBackColor(null);
