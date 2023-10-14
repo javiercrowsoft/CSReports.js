@@ -3,13 +3,15 @@
 namespace CSReportEditor {
 
     import Map = CSOAPI.Map;
+    import P = CSKernelClient.Callable;
     import Color = CSReportPaint.Color;
 
     class Nodes extends Map<Node> {
 
         private folder: HTMLUListElement;
-
         private images = ['folder.png', 'property.png', 'formula.png', 'database.png']
+
+        public onclick: (node: Node) => void;
 
         public constructor(folder: HTMLUListElement) {
             super(null, false);
@@ -17,11 +19,19 @@ namespace CSReportEditor {
             this.folder = folder;
         }
 
+        private nodeClick(node: Node) {
+            if(this.onclick) {
+                this.onclick.call(null, node);
+            }
+        }
+
         // @ts-ignore
         public add(text: string, imageIndex: number = null, key = null) {
             const li = document.createElement('li');
             const a = this.addLabel(text, li, imageIndex);
+            this.folder.parentElement.classList.add('expanded');
             const node = new Node(li, imageIndex, a);
+            node.setOnClick(P.call(this, this.nodeClick));
             return this.baseAdd(node, key);
         }
 
@@ -38,10 +48,11 @@ namespace CSReportEditor {
 
         public clear(): void {
             this.removeAllChildNodes(this.folder);
+            this.folder.parentElement.classList.remove('expanded', 'collapsed');
             super.baseClear();
         }
 
-        private removeAllChildNodes(parent) {
+        private removeAllChildNodes(parent: HTMLUListElement) {
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
             }
@@ -58,6 +69,8 @@ namespace CSReportEditor {
         foreColor: string;
         backColor: string;
 
+        private onclick: (node: Node) => void;
+
         public constructor(li: HTMLLIElement, imageIndex: number, a: HTMLAnchorElement) {
             this.li = li;
             this.imageIndex = imageIndex;
@@ -66,9 +79,24 @@ namespace CSReportEditor {
             this._items = new Nodes(ul);
             a.href = "#";
             a.className = 'nostyle';
-            a.onclick = ()=> {
-                ul.style.display = ul.style.display === 'none' ? 'block' : 'none';
+            a.onclick = P.call(this, (ev: MouseEvent) => {
+                ev.stopPropagation();
+                if(this.onclick) {
+                    this.onclick.call(null, this);
+                }
+            });
+            li.onclick = (ev: MouseEvent)=> {
+                if(ev.target === li && ul.childNodes.length > 0) {
+                    ul.style.display = ul.style.display === 'none' ? 'block' : 'none';
+                    li.classList.toggle("collapsed");
+                    ev.stopPropagation();
+                }
             };
+        }
+
+        setOnClick(f: (node: Node) => void) {
+            this.onclick = f;
+            this._items.onclick = f;
         }
 
         getNodes() {
@@ -93,6 +121,8 @@ namespace CSReportEditor {
         private _text: string;
         public readonly name: string;
 
+        public onclick: (node: Node) => void;
+
         public constructor(name: string, el: HTMLElement, text: string) {
             super(el);
 
@@ -105,6 +135,13 @@ namespace CSReportEditor {
             this.addLabel(text);
             this.div.appendChild(this.rootUl);
             this._items = new Nodes(this.rootUl);
+            this._items.onclick = P.call(this, this.nodeClick);
+        }
+
+        private nodeClick(node: Node) {
+            if(this.onclick) {
+                this.onclick.call(null, node);
+            }
         }
 
         private addLabel(text: string) {

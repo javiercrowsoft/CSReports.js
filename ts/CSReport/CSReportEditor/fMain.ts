@@ -88,6 +88,7 @@ namespace CSReportEditor {
             this.lv_properties = new ListView("lvControls", U.el("sidebar-lv-properties"));
             this.lv_fields = new ListView("lvFields", U.el("sidebar-lv-database"));
             this.tv_controls = new TreeView("tvControls", U.el("sidebar-tv-controls"), "*");
+            this.tv_controls.onclick = P.call(this, this.tvControlsNodeClick);
 
             this.propertyDlg = new PropertyDlg();
 
@@ -681,8 +682,8 @@ namespace CSReportEditor {
             }
         }
 
-        private tv_controls_NodeMouseClick(sender: object, e: any) {
-            this.selectControl2(e.Node);
+        private tvControlsNodeClick(node: Node) {
+            this.selectControl2(node);
         }
 
         private selectControl2(node: Node) {

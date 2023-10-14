@@ -17,7 +17,7 @@ namespace CSReportDll {
     export class cReportCompiler {
 
         // all the functions (c# code or internal functions) use colons as
-        // a separator for parameters. The Spanish and other configurations 
+        // a separator for parameters. The Spanish and other configurations
         // use the colon as the decimal separator.
         //
         // because of that we need to replace every colon by a pipe
@@ -104,11 +104,11 @@ namespace CSReportDll {
         }
 
         // it compiles the code of every formula
-        // first it replaces every internal function by 
+        // first it replaces every internal function by
         // dummy return values (of the type of the internal function)
         // if after the replace there is code it call cReportScriptEngine.compileCode
         // if there are no errors it returns true
-        // 
+        //
         public checkSyntax(formula: cReportFormula) {
             try {
                 this.formula = formula;
@@ -215,7 +215,7 @@ namespace CSReportDll {
                 vResult[i] = this.pResultFunctionInt(fint);
             }
 
-            // we check if the code has scripting or is only 
+            // we check if the code has scripting or is only
             // calls to internal functions
             //
             let code = formula.getTextC().replace(cReportCompiler.C_KEY_FUNC_INT, "");
@@ -245,7 +245,7 @@ namespace CSReportDll {
                     // so we don't need to compile the code
                     //
                     if (vResult[i] === null)  {
-                        return null; 
+                        return null;
                     }
 
                     let parameter = "p__" + i + "__";
@@ -367,7 +367,7 @@ namespace CSReportDll {
         }
 
         private pAddFormulaInt(functionName: string, code: string) {
-            // the firs thing we need to do is add this internal formula 
+            // the firs thing we need to do is add this internal formula
             // to the internal formula collection of this formula
             //
             this.fint = this.formula.getFormulasInt().add();
@@ -421,7 +421,7 @@ namespace CSReportDll {
                     this.evalIsLessThan(fint);
                     break;
 
-                case csRptFormulaType.CSRPTF_CALCULO:
+                case csRptFormulaType.CSRPTF_CALCULATE:
                     // nothing to do
                     break;
 
@@ -517,8 +517,8 @@ namespace CSReportDll {
                 case csRptFormulaType.CSRPTF_TEXT_REPLACE:
                     return this.resultTextReplace(fint);
 
-                case csRptFormulaType.CSRPTF_CALCULO:
-                    return this.resultCalculo(fint);
+                case csRptFormulaType.CSRPTF_CALCULATE:
+                    return this.resultCalculate(fint);
 
                 case csRptFormulaType.CSRPTF_DECLARE_VAR:
                     // nothing to do
@@ -647,12 +647,12 @@ namespace CSReportDll {
         private pIsTime(code: string) {
             code = code.trim();
             if (code.indexOf(":", 0) === 0)  {
-                return false; 
+                return false;
             }
 
             let vTime = code.split(':');
             if (vTime.length !== 1)  {
-                return false; 
+                return false;
             }
 
             return Utils.isNumber(vTime[0]) && Utils.isNumber(vTime[1]);
@@ -742,7 +742,7 @@ namespace CSReportDll {
             }
 
             // we need to replace in this.formula.getTextC() the function name by its key
-            // 
+            //
             let tc = this.formula.getTextC();
             let r = tc.toLowerCase().indexOf(name.toLowerCase(), 0);
             let q = tc.toLowerCase().indexOf(")".toLowerCase(), r) + 1;
@@ -868,7 +868,7 @@ namespace CSReportDll {
 
                 // all this functions have the same amount of parameters
                 //
-                case csRptFormulaType.CSRPTF_CALCULO:
+                case csRptFormulaType.CSRPTF_CALCULATE:
                 case csRptFormulaType.CSRPTF_GET_DATA_FROM_RS_AD:
                 case csRptFormulaType.CSRPTF_GET_DATA_FROM_RS:
                     // in this evaluation we load the parameters of the function
@@ -948,7 +948,7 @@ namespace CSReportDll {
 
         private resultSumTime(fint: cReportFormulaInt) {
             if (fint.getVariables().count() === 0)  {
-                return ""; 
+                return "";
             }
             let st = fint.getVariables().item(cReportCompiler.C_SUM_TIME).getValue();
             if (Utils.val(fint.getParameters().item(1).getValue()) !== 0) {
@@ -1082,14 +1082,14 @@ namespace CSReportDll {
 
         private resultAverage(fint: cReportFormulaInt) {
             if (fint.getVariables().count() === 0)  {
-                return 0; 
+                return 0;
             }
             let sum: number = fint.getVariables().item(cReportCompiler.C_AVERAGE_SUM).getValue();
             let count: number = fint.getVariables().item(cReportCompiler.C_AVERAGE_COUNT).getValue();
             return sum / count;
         }
 
-        private resultCalculo(fint: cReportFormulaInt) {
+        private resultCalculate(fint: cReportFormulaInt) {
 
             let control = fint.getParameters().item(1).getValue();
 
@@ -1127,7 +1127,7 @@ namespace CSReportDll {
                     return Math.pow(value1, value2);
 
                 default:
-                    return 0;                    
+                    return 0;
             }
         }
 
@@ -1365,7 +1365,7 @@ namespace CSReportDll {
             let item: cReportVariable = this.variables.item(varName);
             // the EvalAddToVar function is for numbers
             //
-            item.setValue(item.getValue() 
+            item.setValue(item.getValue()
                                 + this.pGetNumber(
                                     fint.getParameters().item(1).getValue()));
         }
@@ -1576,7 +1576,7 @@ namespace CSReportDll {
             // if param1 doesn't contain an index column is because we haven't
             // process the formulas yet. It happens because compilereport
             // is called before the InitColIndex in cReport's Launch function
-            // and the order can not be changed because the function GetData 
+            // and the order can not be changed because the function GetData
             // is executed after the CompileReport function, and we don't want
             // to change this order because we are afraid of the collateral damage
             // it could produce :(
@@ -1606,7 +1606,7 @@ namespace CSReportDll {
             // if param1 doesn't contain an index column is because we haven't
             // process the formulas yet. It happens because compilereport
             // is called before the InitColIndex in cReport's Launch function
-            // and the order can not be changed because the function GetData 
+            // and the order can not be changed because the function GetData
             // is executed after the CompileReport function, and we don't want
             // to change this order because we are afraid of the collateral damage
             // it could produce :(
@@ -1636,7 +1636,7 @@ namespace CSReportDll {
             // if param1 doesn't contain an index column is because we haven't
             // process the formulas yet. It happens because compileReport
             // is called before the InitColIndex in cReport's Launch function
-            // and the order can not be changed because the function GetData 
+            // and the order can not be changed because the function GetData
             // is executed after the CompileReport function, and we don't want
             // to change this order because we are afraid of the collateral damage
             // it could produce :(
@@ -1666,7 +1666,7 @@ namespace CSReportDll {
             // if param1 doesn't contain an index column is because we haven't
             // process the formulas yet. It happens because compileReport
             // is called before the InitColIndex in cReport's Launch function
-            // and the order can not be changed because the function GetData 
+            // and the order can not be changed because the function GetData
             // is executed after the CompileReport function, and we don't want
             // to change this order because we are afraid of the collateral damage
             // it could produce :(
@@ -1703,7 +1703,7 @@ namespace CSReportDll {
             // if param1 doesn't contain an index column is because we haven't
             // process the formulas yet. It happens because compileReport
             // is called before the InitColIndex in cReport's Launch function
-            // and the order can not be changed because the function GetData 
+            // and the order can not be changed because the function GetData
             // is executed after the CompileReport function, and we don't want
             // to change this order because we are afraid of the collateral damage
             // it could produce :(
@@ -1734,7 +1734,7 @@ namespace CSReportDll {
             // if param1 doesn't contain an index column is because we haven't
             // process the formulas yet. It happens because compileReport
             // is called before the InitColIndex in cReport's Launch function
-            // and the order can not be changed because the function GetData 
+            // and the order can not be changed because the function GetData
             // is executed after the CompileReport function, and we don't want
             // to change this order because we are afraid of the collateral damage
             // it could produce :(
@@ -1834,7 +1834,7 @@ namespace CSReportDll {
                 c = code.substring(i, 1);
                 if (c !== " " && c !== "\r" && c !== "\n") {
                     code = code.substring(i);
-                    break; 
+                    break;
                 }
             }
 

@@ -63,12 +63,12 @@ namespace CSReportDll {
             //----------------
             // C
 
-            fi = this.add2(null, csRptFormulaType.CSRPTF_CALCULO);
-            fi.setName("_calculo");
-            fi.setNameUser("Calculo");
+            fi = this.add2(null, csRptFormulaType.CSRPTF_CALCULATE);
+            fi.setName("_calculate");
+            fi.setNameUser("Calculate");
             fi.setDecrip("It returns a double after applying an aritmetical operation to ther first two arguments.\r\n\r\nSyntax: _calc(control_1, control_2, value, operator)\n1 addition, 2 substraction, 3 multiplication, 4 division, 5 power");
-            fi.setId(csRptFormulaType.CSRPTF_CALCULO);
-            fi.setHelpContextId(csRptFormulaType.CSRPTF_CALCULO);
+            fi.setId(csRptFormulaType.CSRPTF_CALCULATE);
+            fi.setHelpContextId(csRptFormulaType.CSRPTF_CALCULATE);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_TOTAL_PAGES);
             fi.setName("_totalPages");
@@ -362,7 +362,7 @@ namespace CSReportDll {
             fi.setName("_textReplace");
             fi.setNameUser("Replace a control name by its value in a string");
             fi.setDecrip("It replace every occurrence of a control name in the text property of another control. "
-                        + "\r\n\r\nThis is the only function which is used in the text property of a control. " 
+                        + "\r\n\r\nThis is the only function which is used in the text property of a control. "
                         + "the syntax is very weird because you don't call this function using its name "
                         + "but you put in the text property of a control the name of other control "
                         + "surrounded by two ats (@@control_name@@)\r\n\r\nSyntax: @@control_name@@\r\n\r\n" + C_CONTROL_NAME_DESCRIPT);

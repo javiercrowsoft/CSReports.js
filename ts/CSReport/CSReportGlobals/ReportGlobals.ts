@@ -118,7 +118,7 @@ namespace CSReportGlobals {
                     }
                     else {
                         return Utils.val(expression).toString().format(strFormat);
-                    }                    
+                    }
                 }
             }
         }
@@ -128,19 +128,19 @@ namespace CSReportGlobals {
             n = (n > -1) ? n + 2 : 0;
             return name.substring(n);
         }
-    } 
+    }
 
-    export enum csRptControlType 
+    export enum csRptControlType
     {
         CS_RPT_CT_LABEL = 1,
         CS_RPT_CT_FIELD = 2,
         CS_RPT_CT_IMAGE = 3,
         CS_RPT_CT_DB_IMAGE = 4,
         CS_RPT_CT_CHART = 5
-    } 
+    }
 
-    export enum csRptSectionType 
-    { 
+    export enum csRptSectionType
+    {
         HEADER = 0,
         DETAIL = 1,
         FOOTER = 2,
@@ -155,20 +155,20 @@ namespace CSReportGlobals {
 		SECLN_FOOTER = 1002,
 		SECLN_GROUPH = 1003,
 		SECLN_GROUPF = 1004
-    } 
+    }
 
     export enum csRptLaunchAction
     {
         CS_RPT_LAUNCH_PRINTER = 0,
         CS_RPT_LAUNCH_FILE = 1,
         CS_RPT_LAUNCH_PREVIEW = 2
-    } 
+    }
 
     export enum csRptWhenEval
     {
         CS_RPT_EVAL_PRE = 0,
         CS_RPT_EVAL_POST = 1
-    } 
+    }
 
     export enum csDataSourceType
     {
@@ -191,7 +191,7 @@ namespace CSReportGlobals {
         CS_RPT_ERR_PARAM_NOT_DEFINED,
         ERROR_IN_SCRIPT,
         ERROR_WHEN_RUNNING_REPORT
-    } 
+    }
 
     export enum csReportPaperType
     {
@@ -214,7 +214,7 @@ namespace CSReportGlobals {
         CS_RPT_GRP_TEXT = 1,
         CS_RPT_GRP_NUMBER = 2,
         CS_RPT_GRP_DATE = 3
-    } 
+    }
 
     export enum csColors
     {
@@ -359,7 +359,7 @@ namespace CSReportGlobals {
         WHITESMOKE = "#F5F5F5",
         YELLOW = "#FFFF00",
         YELLOWGREEN = "#9ACD32"
-    } 
+    }
 
     export enum csRptFormulaType
     {
@@ -372,7 +372,7 @@ namespace CSReportGlobals {
         CSRPTF_MIN = 10006,
         CSRPTF_COUNT = 10007,
         CSRPTF_LENGTH = 10008,
-        CSRPTF_CALCULO = 10009,
+        CSRPTF_CALCULATE = 10009,
         CSRPTF_SUM_TIME = 10010,
         CSRPTF_GET_STRING = 10011,
         CSRPTF_NUMBER_TO_STRING = 10012,
@@ -398,7 +398,7 @@ namespace CSReportGlobals {
         CSRPTF_IS_IN_RS = 10031,
         CSRPTF_TEXT_REPLACE = 10032,
         CSRPTF_GET_BARCODE = 10033
-    } 
+    }
 
     export enum csRptFileFormat
     {
@@ -408,21 +408,21 @@ namespace CSReportGlobals {
         CS_RPT_EXPORT_TXT = 3,
         CS_RPT_EXPORT_TXT_TAB = 4,
         CS_RPT_EXPORT_XML = 5
-    } 
+    }
 
     export enum HorizontalAlignment
     {
         Left = 0,
         Right = 1,
         Center = 2
-    } 
+    }
 
     export enum csReportBorderType
     {
         CS_RPT_BS_NONE = 0,
         CS_RPT_BS_FIXED = 1,
         CS_RPT_BS_3D = 2
-    } 
+    }
 
     export enum csRptGetLineResult
     {
@@ -434,20 +434,20 @@ namespace CSReportGlobals {
         CS_RPT_GL_NEW_PAGE = 5,
         CS_RPT_GL_VIRTUAL_H = 6,
         CS_RPT_GL_VIRTUAL_F = 7
-    } 
+    }
 
     export enum csRptNewPageResult
     {
         CS_RPT_NP_ERROR = 1,
         CS_RPT_NP_SUCCESS = 2,
         CS_RPT_NP_END = 3
-    } 
+    }
 
     export enum csRptEndPageResult
     {
         CS_RPT_EP_ERROR = csRptNewPageResult.CS_RPT_NP_ERROR,
         CS_RPT_EP_SUCCESS = csRptNewPageResult.CS_RPT_NP_SUCCESS
-    } 
+    }
 
     export enum csRptChartLineStyle
     {
@@ -455,7 +455,7 @@ namespace CSReportGlobals {
         HORIZONTAL,
         NUMBERED,
         BOTH
-    } 
+    }
 
     export enum csRptChartPieThickness
     {
@@ -465,7 +465,7 @@ namespace CSReportGlobals {
         MEDIUM = 8,
         THICK = 16,
         THICKEST = 32
-    } 
+    }
 
     export enum csRptChartPieDiameter
     {
@@ -476,7 +476,7 @@ namespace CSReportGlobals {
         LARGE = 250,
         LARGER = 350,
         LARGEST = 450
-    } 
+    }
 
     export enum csRptChartFormat
     {
@@ -484,20 +484,20 @@ namespace CSReportGlobals {
         JPEG,
         PNG,
         BMP
-    } 
+    }
 
     export enum csRptChartType
     {
         PIE,
         BAR
-    } 
+    }
 
     export enum csEZoom
     {
         csEZoomCustom = -1,
         csEZoomAllPage = -2,
         csEZoomWidth = -3
-    } 
+    }
 
 	export enum csEAlignConst
     {
@@ -514,7 +514,7 @@ namespace CSReportGlobals {
 
         csEAlignCtlWidth,
         csEAlignCtlHeight
-    } 
+    }
 
 	export enum csECtlAlignConst
     {
@@ -526,7 +526,7 @@ namespace CSReportGlobals {
         csECtlAlignBottom = csEAlignConst.csEAlignCtlBottom,
         csECtlAlignWidth = csEAlignConst.csEAlignCtlWidth,
         csECtlAlignHeight = csEAlignConst.csEAlignCtlHeight
-    } 
+    }
 
     export enum csRptPageOrientation
     {

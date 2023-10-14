@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+        ul, #myUL
+        {
+            list-style-type: none;
+        }
+
+        #myUL
+        {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box
+        {
+            cursor: pointer;
+            -webkit-user-select: none; /* Safari 3.1+ */
+            -moz-user-select: none; /* Firefox 2+ */
+            -ms-user-select: none; /* IE 10+ */
+            user-select: none;
+        }
+
+        .box::before
+        {
+            content: "+";
+            color: black;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .check-box::before
+        {
+            content: "-";
+        }
+
+        .nested
+        {
+            display: none;
+        }
+
+        .active
+        {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tree View</h2>
+    <p>A tree view represents a hierarchical view of information, where each item can have a number of subitems.</p>
+    <p>Click on the +/- symbol to open or close the tree branches.</p>
+    <ul id="myUL">
+        <li><span class="box">Beverages</span>
+            <ul class="nested">
+                <li><span>Cold beverages</span></li>
+                <li><span>Hot Beverages</span></li>
+            </ul>
+        </li>
+        <li><span class="box">Tea</span>
+            <ul class="nested">
+                <li><span>Black Tea</span></li>
+                <li><span>White Tea</span></li>
+            </ul>
+        </li>
+        <li><span class="box">Green Tea</span>
+            <ul class="nested">
+                <li><span>Sencha</span></li>
+                <li><span>Gyokuro</span></li>
+            </ul>
+        </li>
+    </ul>
+    <script type="text/javascript">
+        var toggler = document.getElementsByClassName("box");
+        for (var i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function () {
+                if (this.parentElement.querySelector(".nested") != null) {
+                    this.parentElement.querySelector(".nested").classList.toggle("active");
+                    this.classList.toggle("check-box");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
