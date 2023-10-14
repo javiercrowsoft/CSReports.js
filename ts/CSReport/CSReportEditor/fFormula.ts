@@ -4,6 +4,7 @@ namespace CSReportEditor {
 
     import U = CSOAPI.Utils;
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
+    import csRptControlType = CSReportGlobals.csRptControlType;
 
     export class FFormula extends Form {
 
@@ -23,8 +24,6 @@ namespace CSReportEditor {
         private LABEL_INDEX: number = 2;
         private FORMULA_INDEX: number = 3;
 
-        private ok: boolean = false;
-
         private editor: cEditor = null;
 
         private el: HTMLElement;
@@ -35,21 +34,41 @@ namespace CSReportEditor {
         public constructor() {
             super();
             this.el = U.el('formula-dlg');
-            this.dialog = new Dialog(this.el);
+            this.dialog = new Dialog(this.el, 'formula-dlg-apply', 'formula-dlg-cancel');
 
             this.tv_formulas = new TreeView("tvFormulas", U.el("formula-dlg-tree"), "*");
             this.tx_formula = new TextBox(U.inputEl("formula-dlg-tree"));
         }
 
-        show(owner = null) {
-            this.dialog.show({title: 'Formulas', height: 500, width: 800});
+        showModal() {
+            return this.dialog.show({title: 'Formulas', height: 500, width: 800, overlay: true});
         }
 
 		public createTree() {
+            this.tv_formulas.clear();
             this.tv_formulas.getNodes().add("Internal functions", this.FOLDER_INDEX, this.KEY_SYS_FUNCTIONS);
             const item = this.tv_formulas.getNodes().add("Internal variables", this.FOLDER_INDEX, this.KEY_SYS_VARS);
             item.getNodes().add("Database fields", 0, this.KEY_SYS_DB_FIELDS);
             item.getNodes().add("Labels", 0, this.KEY_SYS_LABELS);
+
+            const report = this.editor.getReport();
+
+            for(let _i = 0; _i < report.getFormulaTypes().count(); _i++) {
+                let f = report.getFormulaTypes().item(_i);
+                this.addFormula(
+                    f.getId(), f.getName(), f.getNameUser(),
+                    f.getDecrip(), f.getHelpContextId());
+            }
+
+            for(let _i = 0; _i < report.getControls().count(); _i++) {
+                let c = report.getControls().item(_i);
+                if (c.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
+                    this.addDBField(c.getName(), c.getField().getName());
+                }
+                else if (c.getControlType() === csRptControlType.CS_RPT_CT_LABEL) {
+                    this.addLabel(c.getName());
+                }
+            }
 		}
 
 		public addFormula(formulaType: csRptFormulaType, name: string, nameUser: string, descrip: string, helpContextId: number) {
@@ -80,10 +99,6 @@ namespace CSReportEditor {
 		public expandTree() {
             this.tv_formulas.getNodes().item(0).expandAll();
             this.tv_formulas.getNodes().item(1).expandAll();
-		}
-
-		public getOk() {
-            return this.ok;
 		}
 
 		public getFormula(): string {

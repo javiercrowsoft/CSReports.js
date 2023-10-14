@@ -148,6 +148,8 @@ namespace CSReportEditor {
         private txSectionName: TextBox;
         private lbSectionLineName: Label;
 
+        private formulaDlg = new FFormula();
+
         // tabs
 
         private tabFormat: HTMLElement;
@@ -159,9 +161,6 @@ namespace CSReportEditor {
         private tabSection: HTMLElement;
 
         //#endregion
-
-        // dialogs
-        private formulaDlg: FFormula;
 
         public constructor() {
             this.lbControl = new Label(U.labelEl('ctrl-lb-name'));
@@ -236,7 +235,6 @@ namespace CSReportEditor {
             this.hideTabChart();
             this.hideTabSection();
 
-            this.formulaDlg = new FFormula();
             this.cmdFormulaHide.setOnClick(P.call(this, this.editFormulaHideClick));
 
             // TODO: implement chart
@@ -244,7 +242,20 @@ namespace CSReportEditor {
         }
 
         private editFormulaHideClick() {
-            this.formulaDlg.show();
+            this.formulaName = "Hide";
+
+            this.formulaDlg.setFormula(this.formulaHide);
+            this.formulaDlg.setHandler(this.editor);
+            this.formulaDlg.createTree();
+            this.formulaDlg.expandTree();
+
+            return this.formulaDlg.showModal().then(P.call(this, (result) => {
+                if (result) {
+                    this.formulaHide = this.formulaDlg.getFormula();
+                    this.formulaHideChanged = true;
+                    this.lbFormulaHide.setText(this.formulaHide);
+                }
+            }));
         }
 
         public setHandler(editor: cEditor) {

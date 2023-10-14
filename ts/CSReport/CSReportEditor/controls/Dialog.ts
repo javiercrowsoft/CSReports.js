@@ -17,10 +17,6 @@ namespace CSReportEditor {
 
     export class Dialog {
 
-        // html elements
-        //
-        private el: HTMLElement;
-
         private maximize = false;
         private dialog: HTMLDivElement;
         private dialogTitle: HTMLElement;
@@ -55,8 +51,7 @@ namespace CSReportEditor {
 
         private settings: DialogSettings;
 
-        public constructor(el: HTMLElement = null) {
-            this.el = el;
+        public constructor(el: HTMLElement = null, applyAndCloseButtonId?: string, cancelButtonId?: string) {
 
             this.dialog = document.createElement('div');
             this.dialog.className = 'dialog-box';
@@ -99,54 +94,72 @@ namespace CSReportEditor {
             document.body.appendChild(this.dialogOverlay);
 
             // bind the draggable function here...
+            //
             this.dialogTitle.onmousedown = P.call(this, this.initDrag);
-            this.dialogClose.onclick = P.call(this, this.close);
+
+            this.dialogClose.onclick = P.call(this, () => this.close(false));
+
+            if(applyAndCloseButtonId) {
+                const applyButton = U.el(applyAndCloseButtonId);
+                applyButton.onclick = P.call(this, () => this.close(true));
+            }
+            if(cancelButtonId) {
+                const cancelButton = U.el(cancelButtonId);
+                cancelButton.onclick = P.call(this, () => this.close(false));
+            }
         }
 
         // will be called when user starts dragging an element
         //
-        initDrag() {
+        private initDrag() {
             this.selected = this.dialog; // store the object of the element which needs to be moved
             this.x_elem = this.x_pos - this.selected.offsetLeft;
             this.y_elem = this.y_pos - this.selected.offsetTop;
             return false;
         }
 
-        close() {
+        public close(result: boolean) {
             this.dialog.style.visibility = "hidden";
             this.dialog.style.opacity = '0';
             this.dialogOverlay.style.display = "none";
             this.maximize =  false;
+            this.resolve(result);
         }
 
-        show(settings?: DialogSettings) {
-            this.settings = {...this.defaults, ...settings};
+        private resolve: (value: boolean | PromiseLike<boolean>) => void;
 
-            this.dialog.className =  "dialog-box " + (this.settings.fixed ? 'fixed-dialog-box ' : '') + this.settings.specialClass;
-            this.dialog.style.visibility = "visible";
-            this.dialog.style.opacity = '1';
-            this.dialog.style.width = this.settings.width + 'px';
-            this.dialog.style.height = this.settings.height + 'px';
-            this.dialog.style.top = (!this.settings.top) ? "50%" : '0px';
-            this.dialog.style.left = (!this.settings.left) ? "50%" : '0px';
-            this.dialog.style.marginTop = (!this.settings.top) ? '-' + this.settings.height/2 + 'px' : this.settings.top + 'px';
-            this.dialog.style.marginLeft = (!this.settings.left) ? '-' + this.settings.width/2 + 'px' : this.settings.left + 'px';
-            this.dialogTitle.textContent = this.settings.title;
-            this.dialogOverlay.style.display = (this.settings.overlay) ? "block" : "none";
+        public show(settings?: DialogSettings) {
+            return new Promise<boolean>(P.call(this, (resolve) => {
+                this.settings = {...this.defaults, ...settings};
 
-            this.dialogMinmax.innerHTML = '&ndash;';
-            this.dialogMinmax.title = 'Minimize';
-            this.dialogMinmax.onclick = P.call(this, this.dialogMinMax);
+                this.dialog.className =  "dialog-box " + (this.settings.fixed ? 'fixed-dialog-box ' : '') + this.settings.specialClass;
+                this.dialog.style.visibility = "visible";
+                this.dialog.style.opacity = '1';
+                this.dialog.style.width = this.settings.width + 'px';
+                this.dialog.style.height = this.settings.height + 'px';
+                this.dialog.style.top = (!this.settings.top) ? "50%" : '0px';
+                this.dialog.style.left = (!this.settings.left) ? "50%" : '0px';
+                this.dialog.style.marginTop = (!this.settings.top) ? '-' + this.settings.height/2 + 'px' : this.settings.top + 'px';
+                this.dialog.style.marginLeft = (!this.settings.left) ? '-' + this.settings.width/2 + 'px' : this.settings.left + 'px';
+                this.dialogTitle.textContent = this.settings.title;
+                this.dialogOverlay.style.display = (this.settings.overlay) ? "block" : "none";
 
-            document.onmousemove = P.call(this, this.moveElement);
-            document.onmouseup = P.call(this, this.destroy);
+                this.dialogMinmax.innerHTML = '&ndash;';
+                this.dialogMinmax.title = 'Minimize';
+                this.dialogMinmax.onclick = P.call(this, this.dialogMinMax);
 
-            this.maximize = true;
+                document.onmousemove = P.call(this, this.moveElement);
+                document.onmouseup = P.call(this, this.destroy);
+
+                this.maximize = true;
+
+                this.resolve = resolve;
+            }));
         }
 
         // will be called when user dragging an element
         //
-        moveElement(event: MouseEvent) {
+        private moveElement(event: MouseEvent) {
             // @ts-ignore
             this.x_pos = document.all ? window.event.clientX : event.pageX;
             // @ts-ignore
@@ -162,12 +175,12 @@ namespace CSReportEditor {
         }
 
         // destroy the object when we are done
-        destroy() {
+        private destroy() {
             this.selected = null;
         }
 
         // Maximized or minimized dialog box
-        dialogMinMax() {
+        private dialogMinMax() {
             if (this.maximize) {
                 this.dialog.className += ' minimize';
                 this.dialogMinmax.innerHTML = '+';

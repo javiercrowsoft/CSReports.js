@@ -77,11 +77,11 @@ namespace CSReportEditor {
         private cmd_formulaHide_Click(sender: object, e: object) {
             this.formulaName = "Ocultar";
             let fh = new RefWrapper(this.formulaHide);
-            if (this.editor.showEditFormula(fh)) {
+            /*if (this.editor.showEditFormula(fh)) {
                 this.formulaHideChanged = true;
                 this.formulaHide = fh.get()
                 //lb_formulaHide.setText(this.formulaHide);
-            }
+            }*/
         }
 
         showDialog() {

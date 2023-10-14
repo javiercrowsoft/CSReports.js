@@ -135,7 +135,6 @@ namespace CSReportEditor {
 
         private fProperties: FProperties = null;
         private fSecProperties: FSecProperties = null;
-        private fFormula: FFormula = null;
         private fGroup: FGroup = null;
         private fConnectsAux: FConnectsAux = null;
 
@@ -664,65 +663,6 @@ namespace CSReportEditor {
             }
             else {
                 return false;
-            }
-        }
-
-        public showEditFormula(formula: RefWrapper<string>) {
-
-            try {
-                if (this.fFormula === null) {
-                    this.fFormula = new FFormula();
-                    // TODO: set event handlers for fFormula
-                }
-
-                // TODO: this functionality must be moved to fFormula
-                //
-
-                // Load formulas in the tree
-                this.fFormula.createTree();
-
-                for(let _i = 0; _i < this.report.getFormulaTypes().count(); _i++) {
-                    let f = this.report.getFormulaTypes().item(_i);
-                    this.fFormula.addFormula(f.getId(), f.getName(), f.getNameUser(), f.getDecrip(), f.getHelpContextId());
-                }
-
-                for(let _i = 0; _i < this.report.getControls().count(); _i++) {
-                    let c = this.report.getControls().item(_i);
-                    if (c.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
-                        this.fFormula.addDBField(c.getName(), c.getField().getName());
-                    }
-                    else if (c.getControlType() === csRptControlType.CS_RPT_CT_LABEL) {
-                        this.fFormula.addLabel(c.getName());
-                    }
-                }
-
-                this.fFormula.setFormula(formula.get());
-
-                this.fFormula.setHandler(this);
-
-                this.fFormula.expandTree();
-
-                //
-                // TODO: end functionality to move
-
-                this.fFormula.showDialog();
-
-                if (this.fFormula.getOk()) {
-                    formula.set(this.fFormula.getFormula());
-                    return true;
-                }
-                else {
-                    return false;
-                }
-
-            }
-            catch (ex) {
-                cError.mngError(ex);
-                return false;
-            }
-            finally {
-                this.fFormula.close();
-                this.fFormula = null;
             }
         }
 
