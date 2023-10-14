@@ -14,15 +14,15 @@ namespace CSReportEditor {
         public constructor(folder: HTMLUListElement) {
             super(null, false);
 
-            this.folder = folder;            
+            this.folder = folder;
         }
 
         // @ts-ignore
-        public add(text: string, imageIndex: number) {
+        public add(text: string, imageIndex: number = null, key = null) {
             const li = document.createElement('li');
             const a = this.addLabel(text, li, imageIndex);
             const node = new Node(li, imageIndex, a);
-            return this.baseAdd(node, null);
+            return this.baseAdd(node, key);
         }
 
         private addLabel(text: string, li: HTMLLIElement, imageIndex: number) {
@@ -51,14 +51,16 @@ namespace CSReportEditor {
     export class Node {
 
         private li: HTMLLIElement;
-        private _items: Nodes = null;        
+        private _items: Nodes = null;
         selectedImageIndex: number;
+        imageIndex: number;
         tag: any;
         foreColor: string;
         backColor: string;
 
         public constructor(li: HTMLLIElement, imageIndex: number, a: HTMLAnchorElement) {
             this.li = li;
+            this.imageIndex = imageIndex;
             const ul = document.createElement('ul') as HTMLUListElement;
             this.li.appendChild(ul);
             this._items = new Nodes(ul);
@@ -76,6 +78,10 @@ namespace CSReportEditor {
         expandAll() {
 
         }
+
+        setText(text: string) {
+            this.li.childNodes[1].textContent = text;
+        }
     }
 
     export class TreeView extends Control {
@@ -89,9 +95,9 @@ namespace CSReportEditor {
 
         public constructor(name: string, el: HTMLElement, text: string) {
             super(el);
-            
+
             this.name = name;
-            
+
             this.div = el as HTMLDivElement;
             this.rootUl = document.createElement('ul') as HTMLUListElement;
             this.rootUl.className = "tree";

@@ -116,7 +116,7 @@
                 <button class="tablinks" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-properties')">Properties</button>
             </div>
             <!-- this added by code. I let it here just as an example
-            <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1 
+            <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1
                 <span class="close" onclick="closeTab(event, 'Tab1')">x</span>
             </button>
             -->
@@ -146,13 +146,13 @@
             <ul class="toolbar">
                 <li><a href="#" id="property-format-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-format-tab')">Format</a></li>
                 <li><a href="#" id="property-formulas-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-formulas-tab')">Formulas</a></li>
-                <li><a href="#" id="property-borders-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-borders-tab')">Borders</a></li>                
+                <li><a href="#" id="property-borders-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-borders-tab')">Borders</a></li>
                 <li><a href="#" id="property-database-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-database-tab')">Database</a></li>
                 <li><a href="#" id="property-image-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-image-tab')">Image</a></li>
                 <li><a href="#" id="property-chart-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-chart-tab')">Chart</a></li>
                 <li><a href="#" id="property-section-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')">Section</a></li>
             </ul>
-            
+
             <div class="property-tab" id="property-borders-tab" style="display: none;">
                 <div>
                     <div>
@@ -207,7 +207,7 @@
                                 <span></span>
                             </label>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
 
@@ -222,16 +222,16 @@
                                 <span></span>
                             </label>
                         </div>
-                    </div> 
+                    </div>
                     <div style="margin-bottom: 10px;">
-                        <label>The formula must return a non zero value to set the control to be visible</label> 
+                        <label>The formula must return a non zero value to set the control to be visible</label>
                     </div>
                     <div class="boxed">
                         <div class="multiline-label" id="ctrl-visible-formula">Function x ()
 
  x =  _value( Control92 )  = 0
 
-End Function 
+End Function
                         </div>
                     </div>
                     <div style="text-align: right;">
@@ -247,7 +247,7 @@ End Function
                                 <span></span>
                             </label>
                         </div>
-                    </div> 
+                    </div>
                     <div>
                         <p>
                             The value of the field "Execute only on this group" mus follow this rules:<br/>
@@ -273,14 +273,14 @@ End Function
                                 <input type="radio" name="whenExecute" id="ctrl-formula-run-after"/>
                                 <span></span>
                             </label>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="boxed" style="margin-top: 10px;">
                         <div class="multiline-label" id="ctrl-value-formula">Function x ()
 
  x =  _value( Control92 )  = 0
 
-End Function 
+End Function
                         </div>
                     </div>
                     <div style="text-align: right;">
@@ -294,8 +294,8 @@ End Function
                     <label>Field</label>
                     <div class="inner-row">
                         <input type="text" id="ctrl-db-field"/>
-                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>    
-                    </div>                    
+                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>
+                    </div>
                 </div>
             </div>
 
@@ -304,12 +304,12 @@ End Function
                     <label>Image</label>
                     <div class="inner-row">
                         <input type="text" id="ctrl-image-file"/>
-                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>    
+                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>
                     </div>
                     <div id="ctrl-image-preview"></div>
                 </div>
             </div>
-            
+
             <div class="property-tab" id="property-format-tab">
                 <div>
                     <label>Name</label>
@@ -395,7 +395,7 @@ End Function
                                 <div style="margin-left: 10px; margin-top: 15px; margin-right: 30px;">
                                     <label id="ctrl-back-color-sample" class="color-sample"></label>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                         <div>
                             <label>Symbol</label>
@@ -455,7 +455,7 @@ End Function
                                 <span></span>
                             </label>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="property-section">
                     </div>
                     <label>Column export ID for this control</label>
@@ -476,21 +476,21 @@ End Function
                                 <span></span>
                             </label>
                         </div>
-                    </div> 
+                    </div>
                     <div style="margin-bottom: 10px;">
-                        <label>The formula must return a non zero value to set the section to be visible</label> 
+                        <label>The formula must return a non zero value to set the section to be visible</label>
                     </div>
                     <div class="boxed">
                         <div class="multiline-label" id="section-visible-formula">Function x ()
 
  x =  _value( Control92 )  = 0
 
-End Function 
+End Function
                         </div>
                     </div>
                     <div style="text-align: right;">
                         <button style="margin-top: 10px;" id="section-hide-formula-edit">Edit</button>
-                    </div>                    
+                    </div>
                     <div class="property-section">
                     </div>
                     <label>Section Line Name</label>
@@ -502,21 +502,21 @@ End Function
                                 <span></span>
                             </label>
                         </div>
-                    </div> 
+                    </div>
                     <div style="margin-bottom: 10px;">
-                        <label>The formula must return a non zero value to set the section line to be visible</label> 
+                        <label>The formula must return a non zero value to set the section line to be visible</label>
                     </div>
                     <div class="boxed">
                         <div class="multiline-label" id="section-line-visible-formula">Function x ()
 
  x =  _value( Control92 )  = 0
 
-End Function 
+End Function
                         </div>
                     </div>
                     <div style="text-align: right;">
                         <button style="margin-top: 10px;" id="section-hide-formula-edit">Edit</button>
-                    </div>                    
+                    </div>
                 </div>
             </div> <!-- property-section-tab -->
 
@@ -525,7 +525,7 @@ End Function
             </div>
         </div>
     </div>
-    
+
 </div>
 
 <footer>
@@ -534,9 +534,14 @@ End Function
 
 <!-- popup dialogs -->
 <div id="formula-dlg">
-    <div class="dlg-header"></div>
+    <div class="dlg-header">
+        <div class="inner-row-left" style="height: 60px;">
+            <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+            <h1 style="margin-left: 15px;">Formula Editor</h1>
+        </div>
+    </div>
     <div class="dlg-body">
-        <div class="formula-dlg-tree"></div>
+        <div id="formula-dlg-tree"></div>
         <div class="dlg-right-panel">
             <div class="formula-dlg-formula-overview"></div>
             <div class="formula-dlg-formula-code"></div>
@@ -554,7 +559,7 @@ End Function
     <div class="dlg-footer">
         <button>Apply</button>
         <button>Cancel</button>
-    </div>    
+    </div>
 </div>
 <div id="seach-dlg"></div>
 <div id="page-setup-dlg">

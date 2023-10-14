@@ -238,6 +238,107 @@ namespace CSOAPI {
         static getValidPath(path: string) {
             return "";
         }
+
+        static inputEl(id: string) {
+            return this.el(id) as HTMLInputElement;
+        }
+
+        static labelEl(id: string) {
+            return this.el(id) as HTMLLabelElement;
+        }
+
+        static selectEl(id: string) {
+            return this.el(id) as HTMLSelectElement;
+        }
+
+        static el(id: string) {
+            const el = document.getElementById(id);
+            if(el === null || el === undefined) console.log(id + ' was not found');
+            //console.log(el);
+            return el;
+        }
+
+        public static setInfoString(source: string, key: string, value: string) {
+            key = "#" + key;
+
+            let i = source.toLowerCase().indexOf(key.toLowerCase(), 0);
+
+            // the key can't apears more than one
+            //
+            if (source.toLowerCase().indexOf(key.toLowerCase(), i + 1) != -1) {
+                throw (new Exception("cUtil.getInfoString: the key can't apears more than one."));
+            }
+
+            // if the key is not present we add it to the end of the string
+            //
+            if (i == -1) {
+                return source + key + "=" + value + ";";
+            }
+            else {
+                const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
+
+                let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
+                if (j == -1) {
+                    throw (new Exception(this.format(c_errorstr, ";")));
+                }
+
+                let k = source.substring(i, j-i).toLowerCase().indexOf("=".toLowerCase(), 0);
+                if (k == -1)
+                {
+                    throw (new Exception(this.format(c_errorstr, "=")));
+                }
+                k = k + i;
+                return source.substring(0, k) + value + source.substring(j);
+            }
+        }
+
+        static format(text: string, ...args: string[]): string {
+            return text.replace(/{(\d+)}/g, (match, num) => {
+                return typeof args[num] !== 'undefined' ? args[num] : match;
+            });
+        }
+
+        public static isNullOrEmpty(value: string) {
+            return value === null || value === undefined || value.toString().trim().length === 0;
+        }
+
+        public static getInfoString(source: string, key: string, defaultValue: string) {
+
+            if (this.isNullOrEmpty(source)) {
+                return defaultValue;
+            }
+
+            key = "#"+ key;
+
+            let i = source.toLowerCase().indexOf(key.toLowerCase(), 0);
+
+            // the key can't apears more than one
+            //
+            if (source.toLowerCase().indexOf(key.toLowerCase(), i + 1) != -1) {
+                throw(new Exception("cUtil.getInfoString: the key can't apears more than one."));
+            }
+
+            // if the key is not present return default
+            //
+            if (i == -1) {
+                return defaultValue;
+            }
+            else {
+                const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
+
+                let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
+                if (j == -1) {
+                    throw(new Exception(this.format(c_errorstr, ";")));
+                }
+
+                let k = source.substring(i, j-i).toLowerCase().indexOf("=".toLowerCase(), 0);
+                if (k == -1) {
+                    throw(new Exception(this.format(c_errorstr, "=")));
+                }
+                k = k + i;
+                return source.substring(k + 1, j - k - 1);
+            }
+        }
     }
 
     export class Maths {

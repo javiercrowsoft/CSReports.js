@@ -1,5 +1,6 @@
 namespace CSReportEditor {
 
+    import U = CSOAPI.Utils;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import P = CSKernelClient.Callable;
 
@@ -162,92 +163,73 @@ namespace CSReportEditor {
         // dialogs
         private formulaDlg: FFormula;
 
-        private inputEl(id: string) {
-            return this.el(id) as HTMLInputElement;
-        }
-
-        private labelEl(id: string) {
-            return this.el(id) as HTMLLabelElement;
-        }
-
-        private selectEl(id: string) {
-            return this.el(id) as HTMLSelectElement;
-        }
-
-        private el(id: string) {
-            const el = document.getElementById(id);
-            if(el === null || el === undefined) console.log(id + ' was not found');
-            //console.log(el);
-            return el;
-        }
-
         public constructor() {
-            this.lbControl = new Label(this.labelEl('ctrl-lb-name'));
-            this.txName = new TextBox(this.inputEl('ctrl-name'));
-            this.txText = new TextBox(this.inputEl('ctrl-text'));
-            this.txTag = new TextBox(this.inputEl('ctrl-tag'));
-            this.cbFont = new ComboBox(this.selectEl('ctrl-font'));
-            this.txFontSize = new TextBox(this.inputEl('ctrl-font-size'));
-            this.cbAlign = new ComboBox(this.selectEl('ctrl-align'));
-            this.chkFontBold = new CheckBox(this.inputEl('ctrl-bold'));
-            this.chkFontUnderline = new CheckBox(this.inputEl('ctrl-underline'));
-            this.chkFontItalic = new CheckBox(this.inputEl('ctrl-italic'));
-            this.chkFontStrike = new CheckBox(this.inputEl('ctrl-strike'));
-            this.txForeColor = new TextBox(this.inputEl('ctrl-text-color'));
-            this.shForeColor = new Label(this.labelEl('ctrl-text-color-sample'));
-            this.chkTransparent = new CheckBox(this.inputEl('ctrl-transparent'));
-            this.txBackColor = new TextBox(this.inputEl('ctrl-back-color'));
-            this.shBackColor = new Label(this.labelEl('ctrl-back-color-sample'));
-            this.txSymbol = new TextBox(this.inputEl('ctrl-symbol'));
-            this.txFormat = new TextBox(this.inputEl('ctrl-format'));
-            this.txLeft = new TextBox(this.inputEl('ctrl-left'));
-            this.txTop = new TextBox(this.inputEl('ctrl-top'));
-            this.txWidth = new TextBox(this.inputEl('ctrl-width'));
-            this.txHeight = new TextBox(this.inputEl('ctrl-height'));
-            this.chkCanGrow = new CheckBox(this.inputEl('ctrl-can-grow'));
-            this.chkWordWrap = new CheckBox(this.inputEl('ctrl-wrap-text'));
-            this.chkIsFreeCtrl = new CheckBox(this.inputEl('ctrl-is-in-background'));
-            this.txExportColIdx = new TextBox(this.inputEl('ctrl-export-id'));
+            this.lbControl = new Label(U.labelEl('ctrl-lb-name'));
+            this.txName = new TextBox(U.inputEl('ctrl-name'));
+            this.txText = new TextBox(U.inputEl('ctrl-text'));
+            this.txTag = new TextBox(U.inputEl('ctrl-tag'));
+            this.cbFont = new ComboBox(U.selectEl('ctrl-font'));
+            this.txFontSize = new TextBox(U.inputEl('ctrl-font-size'));
+            this.cbAlign = new ComboBox(U.selectEl('ctrl-align'));
+            this.chkFontBold = new CheckBox(U.inputEl('ctrl-bold'));
+            this.chkFontUnderline = new CheckBox(U.inputEl('ctrl-underline'));
+            this.chkFontItalic = new CheckBox(U.inputEl('ctrl-italic'));
+            this.chkFontStrike = new CheckBox(U.inputEl('ctrl-strike'));
+            this.txForeColor = new TextBox(U.inputEl('ctrl-text-color'));
+            this.shForeColor = new Label(U.labelEl('ctrl-text-color-sample'));
+            this.chkTransparent = new CheckBox(U.inputEl('ctrl-transparent'));
+            this.txBackColor = new TextBox(U.inputEl('ctrl-back-color'));
+            this.shBackColor = new Label(U.labelEl('ctrl-back-color-sample'));
+            this.txSymbol = new TextBox(U.inputEl('ctrl-symbol'));
+            this.txFormat = new TextBox(U.inputEl('ctrl-format'));
+            this.txLeft = new TextBox(U.inputEl('ctrl-left'));
+            this.txTop = new TextBox(U.inputEl('ctrl-top'));
+            this.txWidth = new TextBox(U.inputEl('ctrl-width'));
+            this.txHeight = new TextBox(U.inputEl('ctrl-height'));
+            this.chkCanGrow = new CheckBox(U.inputEl('ctrl-can-grow'));
+            this.chkWordWrap = new CheckBox(U.inputEl('ctrl-wrap-text'));
+            this.chkIsFreeCtrl = new CheckBox(U.inputEl('ctrl-is-in-background'));
+            this.txExportColIdx = new TextBox(U.inputEl('ctrl-export-id'));
 
-            this.chkFormulaHide = new CheckBox(this.inputEl('ctrl-has-visible-formula'));
-            this.lbFormulaHide = new Label(this.labelEl('ctrl-visible-formula'));
-            this.cmdFormulaHide = new Button(this.el('ctrl-hide-formula-edit'));
-            this.chkFormulaValue = new CheckBox(this.inputEl('ctrl-has-value-formula'));
-            this.lbFormulaValue = new Label(this.labelEl('ctrl-value-formula'));
-            this.cmdFormulaValue = new Button(this.el('ctrl-value-formula-edit'));
-            this.txIdxGroup = new TextBox(this.inputEl('ctrl-formula-group'));
-            this.opBeforePrint = new OptionButton(this.inputEl('ctrl-formula-run-before'));
-            this.opAfterPrint = new OptionButton(this.inputEl('ctrl-formula-run-after'));
+            this.chkFormulaHide = new CheckBox(U.inputEl('ctrl-has-visible-formula'));
+            this.lbFormulaHide = new Label(U.labelEl('ctrl-visible-formula'));
+            this.cmdFormulaHide = new Button(U.el('ctrl-hide-formula-edit'));
+            this.chkFormulaValue = new CheckBox(U.inputEl('ctrl-has-value-formula'));
+            this.lbFormulaValue = new Label(U.labelEl('ctrl-value-formula'));
+            this.cmdFormulaValue = new Button(U.el('ctrl-value-formula-edit'));
+            this.txIdxGroup = new TextBox(U.inputEl('ctrl-formula-group'));
+            this.opBeforePrint = new OptionButton(U.inputEl('ctrl-formula-run-before'));
+            this.opAfterPrint = new OptionButton(U.inputEl('ctrl-formula-run-after'));
 
-            this.txImageFile = new TextBox(this.inputEl('ctrl-image-file'));
-            this.picImage = new PictureBox("ctrl-image-preview", this.el('ctrl-image-preview'));
+            this.txImageFile = new TextBox(U.inputEl('ctrl-image-file'));
+            this.picImage = new PictureBox("ctrl-image-preview", U.el('ctrl-image-preview'));
 
-            this.txDbField = new TextBox(this.inputEl('ctrl-db-field'));
+            this.txDbField = new TextBox(U.inputEl('ctrl-db-field'));
 
-            this.cbBorderType = new ComboBox(this.selectEl('ctl-border-type'));
-            this.txBorderColor = new TextBox(this.inputEl('ctrl-border-color'));
-            this.shBorderColor = new Label(this.labelEl('ctrl-border-color-sample'));
-            this.txBorder3D = new TextBox(this.inputEl('ctrl-border-color-3d'));
-            this.shBorder3D = new Label(this.labelEl('ctrl-border-color-3d-sample'));
-            this.txBorderShadow = new TextBox(this.inputEl('ctrl-border-color-shadow'));
-            this.shBorderShadow = new Label(this.labelEl('ctrl-border-color-shadow-sample'));
-            this.txBorderWidth = new TextBox(this.inputEl('ctrl-border-width'));
-            this.chkBorderRounded = new CheckBox(this.inputEl('ctrl-border-rounded'));
+            this.cbBorderType = new ComboBox(U.selectEl('ctl-border-type'));
+            this.txBorderColor = new TextBox(U.inputEl('ctrl-border-color'));
+            this.shBorderColor = new Label(U.labelEl('ctrl-border-color-sample'));
+            this.txBorder3D = new TextBox(U.inputEl('ctrl-border-color-3d'));
+            this.shBorder3D = new Label(U.labelEl('ctrl-border-color-3d-sample'));
+            this.txBorderShadow = new TextBox(U.inputEl('ctrl-border-color-shadow'));
+            this.shBorderShadow = new Label(U.labelEl('ctrl-border-color-shadow-sample'));
+            this.txBorderWidth = new TextBox(U.inputEl('ctrl-border-width'));
+            this.chkBorderRounded = new CheckBox(U.inputEl('ctrl-border-rounded'));
 
-            this.chkSectionFormulaHide = new CheckBox(this.inputEl('section-has-visible-formula'));
-            this.chkSectionLineFormulaHide = new CheckBox(this.inputEl('section-line-has-visible-formula'));
-            this.lbSectionFormulaHide = new Label(this.labelEl('section-visible-formula'));
-            this.lbSectionLineFormulaHide = new Label(this.labelEl('section-line-visible-formula'));
-            this.txSectionName = new TextBox(this.inputEl('section-name'));
-            this.lbSectionLineName = new Label(this.labelEl('section-line-name'));
+            this.chkSectionFormulaHide = new CheckBox(U.inputEl('section-has-visible-formula'));
+            this.chkSectionLineFormulaHide = new CheckBox(U.inputEl('section-line-has-visible-formula'));
+            this.lbSectionFormulaHide = new Label(U.labelEl('section-visible-formula'));
+            this.lbSectionLineFormulaHide = new Label(U.labelEl('section-line-visible-formula'));
+            this.txSectionName = new TextBox(U.inputEl('section-name'));
+            this.lbSectionLineName = new Label(U.labelEl('section-line-name'));
 
-            this.tabFormat = this.el('property-format-tab-selector');
-            this.tabBorders = this.el('property-borders-tab-selector');
-            this.tabFormulas = this.el('property-formulas-tab-selector');
-            this.tabImage = this.el('property-image-tab-selector');
-            this.tabField = this.el('property-database-tab-selector');
-            this.tabChart = this.el('property-chart-tab-selector');
-            this.tabSection = this.el('property-section-tab-selector');
+            this.tabFormat = U.el('property-format-tab-selector');
+            this.tabBorders = U.el('property-borders-tab-selector');
+            this.tabFormulas = U.el('property-formulas-tab-selector');
+            this.tabImage = U.el('property-image-tab-selector');
+            this.tabField = U.el('property-database-tab-selector');
+            this.tabChart = U.el('property-chart-tab-selector');
+            this.tabSection = U.el('property-section-tab-selector');
 
             this.hideTabField();
             this.hideTabImage();

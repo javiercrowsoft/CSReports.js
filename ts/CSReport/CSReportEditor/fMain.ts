@@ -3,7 +3,7 @@
 namespace CSReportEditor {
 
     import cError = CSKernelClient.cError;
-    import Utils = CSOAPI.Utils;
+    import U = CSOAPI.Utils;
     import cPrintAPI = CSReportDll.cPrintAPI;
     import PrintDialog = CSReportDll.PrintDialog;
     import cPrinter = CSReportDll.cPrinter;
@@ -35,7 +35,7 @@ namespace CSReportEditor {
         private C_DB_IMAGE: number = 0;
 
         private C_IMG_FOLDER: number = 0;
-        private C_IMG_CONTROL: number = 1;        
+        private C_IMG_CONTROL: number = 1;
         private C_IMG_FORMULA: number = 2;
         private C_IMG_DATABASE_FIELD: number = 3;
 
@@ -64,14 +64,10 @@ namespace CSReportEditor {
         private tv_controls: TreeView = null;
         private propertyDlg: PropertyDlg = null;
 
-        private el(id: string) {
-            return document.getElementById(id);
-        }
-
         public constructor() {
             // it is the first thing we need to do
             //
-            Utils.setSepDecimal();
+            U.setSepDecimal();
 
             let printer: cPrinter = cPrintAPI.getcPrinterFromDefaultPrinter(this.printDlg);
             this.printerName = printer.getDeviceName();
@@ -84,23 +80,23 @@ namespace CSReportEditor {
 
             this.loadRecentListFromUserSettings();
 
-            this.mainView = this.el("main-view");
+            this.mainView = U.el("main-view");
 
-            this.tabReports = new TabBar("tabReports", this.el("tabReports"));
+            this.tabReports = new TabBar("tabReports", U.el("tabReports"));
 
-            this.lv_controls = new ListView("lvControls", this.el("sidebar-lv-controls"));
-            this.lv_properties = new ListView("lvControls", this.el("sidebar-lv-properties"));
-            this.lv_fields = new ListView("lvFields", this.el("sidebar-lv-database"));
-            this.tv_controls = new TreeView("tvControls", this.el("sidebar-tv-controls"), "*");
+            this.lv_controls = new ListView("lvControls", U.el("sidebar-lv-controls"));
+            this.lv_properties = new ListView("lvControls", U.el("sidebar-lv-properties"));
+            this.lv_fields = new ListView("lvFields", U.el("sidebar-lv-database"));
+            this.tv_controls = new TreeView("tvControls", U.el("sidebar-tv-controls"), "*");
 
             this.propertyDlg = new PropertyDlg();
 
-            const fontsNode = this.el('ctrl-font') as HTMLSelectElement;
+            const fontsNode = U.el('ctrl-font') as HTMLSelectElement;
             Font.availableFonts().then((fonts) => fonts.forEach((font)=> fontsNode.add(new Option(font))));
         }
 
         public init() {
-            this.newReportClick();      
+            this.newReportClick();
         }
 
         public getReportCopySource() {
@@ -119,7 +115,7 @@ namespace CSReportEditor {
             const picRuleNode = document.createElement('div');
             picRuleNode.className = "rule";
             pnEditorNode.appendChild(picRuleNode);
-            
+
             const picReportNode = document.createElement('div');
             picReportNode.className = "report";
             pnEditorNode.appendChild(picReportNode);
@@ -137,10 +133,10 @@ namespace CSReportEditor {
             pnEditor.getControls().add(picRule);
             pnEditor.getControls().add(picReport);
 
-            let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);            
+            let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);
             tab.getControls().add(pnEditor);
             tab.setText("New Report");
-            this.tabReports.getPages().add(tab);    
+            this.tabReports.getPages().add(tab);
 
             const editor = new cEditor(this, pnEditor, picRule, picReport, tab);
 
@@ -150,13 +146,13 @@ namespace CSReportEditor {
                         pnEditor.dispose();
                         picRule.dispose();
                         picReport.dispose();
-                        try {    
+                        try {
                             tabPageNode.parentNode.removeChild(tabPageNode);
                         } catch(ex) {
                             console.log(ex);
                         }
                     }
-                });                
+                });
             };
 
             tab.onActive = () => {
@@ -368,7 +364,7 @@ namespace CSReportEditor {
 
         public newReportClick() {
             let editor: cEditor = this.createEditor();
-            editor.init().then(()=> editor.newReport(null));            
+            editor.init().then(()=> editor.newReport(null));
         }
 
         public openReportClick() {
@@ -381,7 +377,7 @@ namespace CSReportEditor {
                 editor.openDocument().then(P.call(this, (success)=> {
                     if(success) this.addToRecentList(editor.getFileName());
                 }));
-                    
+
 
             } catch (ex) {
                 cError.mngError(ex);
@@ -596,12 +592,12 @@ namespace CSReportEditor {
                     && anObject[methodName].length === 0
                     && methodName !== "getSectionLine"
                     ) {
-                    
+
                     let item = this.lv_properties.add(tabs + methodName.substring(3), this.C_IMG_CONTROL);
                     item.subItems.add(anObject[methodName].call(anObject));
                     if (item.subItems.item(1).getText() === "...") item.setImageIndex(this.C_IMG_FOLDER);
                 }
-            });                
+            });
         }
 
         private getValue(value: object, n: number) {
@@ -639,7 +635,7 @@ namespace CSReportEditor {
                 let connect = editor.getReport().getConnect();
                 cGlobals.fillColumns(
                     connect.getDataSource(),
-                    connect.getColumns(), this.lv_fields, this.C_INDEX, this.C_FIELD_TYPE, 
+                    connect.getColumns(), this.lv_fields, this.C_INDEX, this.C_FIELD_TYPE,
                     false);
             }
         }
@@ -1060,7 +1056,7 @@ namespace CSReportEditor {
                 verticalToolStripMenuItem.setChecked(true);
                 allDirectionsToolStripMenuItem.setChecked(false);
             }
-            
+
              */
         }
 

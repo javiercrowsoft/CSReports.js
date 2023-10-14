@@ -1,7 +1,7 @@
 namespace CSReportEditor {
 
     import cError = CSKernelClient.cError;
-    import Utils = CSOAPI.Utils;
+    import U = CSOAPI.Utils;
 
 	export class cMainEditor {
 
@@ -48,24 +48,24 @@ namespace CSReportEditor {
                 // TODO: implement
                 //  this.selectedTab = editorTab;
 
-                if (this.fToolbox !== null && Utils.isVisible(this.fToolbox)) {
+                if (this.fToolbox !== null && U.isVisible(this.fToolbox)) {
                     if (this.getToolbox(editor) !== null) { editor.showToolbox(); }
                 }
-                if (this.fControls !== null && Utils.isVisible(this.fControls)) {
+                if (this.fControls !== null && U.isVisible(this.fControls)) {
                     if (this.getCtrlBox(editor) !== null) { editor.showControls(); }
                 }
-                if (this.fTreeViewCtrls !== null && Utils.isVisible(this.fTreeViewCtrls)) {
+                if (this.fTreeViewCtrls !== null && U.isVisible(this.fTreeViewCtrls)) {
                     if (this.getCtrlTreeBox(editor) !== null) { editor.showControlsTree(); }
                 }
             }
             else {
-                if (this.fToolbox !== null && Utils.isVisible(this.fToolbox)) {
+                if (this.fToolbox !== null && U.isVisible(this.fToolbox)) {
                     this.fToolbox.clear();
                 }
-                if (this.fControls !== null && Utils.isVisible(this.fControls)) {
+                if (this.fControls !== null && U.isVisible(this.fControls)) {
                     this.fControls.clear();
                 }
-                if (this.fTreeViewCtrls !== null && Utils.isVisible(this.fTreeViewCtrls)) {
+                if (this.fTreeViewCtrls !== null && U.isVisible(this.fTreeViewCtrls)) {
                     this.fTreeViewCtrls.clear();
                 }
             }
@@ -87,7 +87,7 @@ namespace CSReportEditor {
 	        try {
 	            if (this.editor === null) {
 	                this.setStatusAux("");
-	            } 
+	            }
 	            else {
                     this.setStatusAux(this.pGetStatus());
 	            }
@@ -96,7 +96,7 @@ namespace CSReportEditor {
 	            cError.mngError(ex);
 	        }
 	    }
-	    
+
 	    private static setStatusAux(status: string) {
             // TODO: implement
         }
@@ -136,7 +136,7 @@ namespace CSReportEditor {
                     this.fMain.setMenuAux(false);
                     this.fMain.setBarText("");
                     this.fMain.setStatus("");
-	            } 
+	            }
 	            else {
                     this.fMain.setMenuAux(true);
                     this.fMain.setDisconnectedReport(this.editor.getReport().getReportDisconnected());
@@ -186,7 +186,7 @@ namespace CSReportEditor {
 
         public static clearToolbox(editor: cEditor) {
             if (this.editor === editor) {
-                if (this.fToolbox !== null && Utils.isVisible(this.fToolbox)) {
+                if (this.fToolbox !== null && U.isVisible(this.fToolbox)) {
                     this.fToolbox.clear();
                 }
             }
@@ -208,7 +208,7 @@ namespace CSReportEditor {
                 this.clearProperties();
                 this.editor.showSelectedSectionProperties();
             }
-            else {                
+            else {
                 this.editor.showSelectedCtrlProperties();
             }
             this.fMain.showProperties(this.editor, key);
@@ -219,20 +219,20 @@ namespace CSReportEditor {
         }
 
         public static showPropertyTab(tab: string) {
-            document.getElementById('property-format-tab').style.display = tab === 'property-format-tab' ? 'block' : 'none';
-            document.getElementById('property-formulas-tab').style.display = tab === 'property-formulas-tab' ? 'block' : 'none';
-            document.getElementById('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
-            document.getElementById('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
-            document.getElementById('property-image-tab').style.display = tab === 'property-image-tab' ? 'block' : 'none';
-            document.getElementById('property-chart-tab').style.display = tab === 'property-chart-tab' ? 'block' : 'none';
-            document.getElementById('property-section-tab').style.display = tab === 'property-section-tab' ? 'block' : 'none';
+            U.el('property-format-tab').style.display = tab === 'property-format-tab' ? 'block' : 'none';
+            U.el('property-formulas-tab').style.display = tab === 'property-formulas-tab' ? 'block' : 'none';
+            U.el('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
+            U.el('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
+            U.el('property-image-tab').style.display = tab === 'property-image-tab' ? 'block' : 'none';
+            U.el('property-chart-tab').style.display = tab === 'property-chart-tab' ? 'block' : 'none';
+            U.el('property-section-tab').style.display = tab === 'property-section-tab' ? 'block' : 'none';
         }
-    
+
         public static showSideBarTab(tab: string) {
-            document.getElementById('sidebar-tv-controls').style.display = tab === 'sidebar-tv-controls' ? 'block' : 'none';
-            document.getElementById('sidebar-lv-controls').style.display = tab === 'sidebar-lv-controls' ? 'block' : 'none';
-            document.getElementById('sidebar-lv-properties').style.display = tab === 'sidebar-lv-properties' ? 'block' : 'none';
-            document.getElementById('sidebar-lv-database').style.display = tab === 'sidebar-lv-database' ? 'block' : 'none';
+            U.el('sidebar-tv-controls').style.display = tab === 'sidebar-tv-controls' ? 'block' : 'none';
+            U.el('sidebar-lv-controls').style.display = tab === 'sidebar-lv-controls' ? 'block' : 'none';
+            U.el('sidebar-lv-properties').style.display = tab === 'sidebar-lv-properties' ? 'block' : 'none';
+            U.el('sidebar-lv-database').style.display = tab === 'sidebar-lv-database' ? 'block' : 'none';
         }
     }
 

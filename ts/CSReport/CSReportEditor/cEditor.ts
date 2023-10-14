@@ -338,7 +338,7 @@ namespace CSReportEditor {
             if (this.keyboardMove) {
                 this.keyboardMove = false;
                 this.picReportMouseUp(
-                    new MouseEventArgs(MouseButtons.Left, 0, this.x, this.y, 0), 
+                    new MouseEventArgs(MouseButtons.Left, 0, this.x, this.y, 0),
                     new Point(this.x, this.y));
                 e.Handled = true;
             }
@@ -696,7 +696,7 @@ namespace CSReportEditor {
                     }
                 }
 
-                this.fFormula.setFormula(formula);
+                this.fFormula.setFormula(formula.get());
 
                 this.fFormula.setHandler(this);
 
@@ -921,7 +921,7 @@ namespace CSReportEditor {
                 }
 
                 this.picReportMouseMove(
-                    new MouseEventArgs(MouseButtons.Left, 0, x, y, 0), 
+                    new MouseEventArgs(MouseButtons.Left, 0, x, y, 0),
                     new Point(this.x, this.y));
                 this.x = x;
                 this.y = y;
@@ -1022,11 +1022,11 @@ namespace CSReportEditor {
 
                     // to force focus in the header
                     if (sKey === "") {
-                        
+
                         const rsKey = new RefWrapper(sKey);
                         this.paint.pointIsInObject(x, y, rsKey);
                         sKey = rsKey.get();
-                        
+
                         if (sKey !== "") {
 
                             let po: cReportPaintObject = this.paint.getPaintObject(sKey);
@@ -2160,7 +2160,7 @@ namespace CSReportEditor {
                 if (paintObj !== null) {
                     paintObj.setText(sec.getName());
                 }
-            }            
+            }
         }
 
         private canDeleteSection(secs: RefWrapper<cReportSections>,
@@ -3102,7 +3102,7 @@ namespace CSReportEditor {
                 else {
                     p = this.report.loadSilent(fileName);
                 }
-                
+
                 return p.then(P.call(this, (loadSuccess: boolean) => {
                     if(! loadSuccess) {
                         mouse.dispose();
@@ -3344,7 +3344,7 @@ namespace CSReportEditor {
 
                 propertyDlg.getChkSectionFormulaHide().setChecked(sec.getHasFormulaHide());
                 propertyDlg.setSectionFormulaHide(sec.getFormulaHide().getText());
-                propertyDlg.getChkSectionLineFormulaHide().setChecked(secLn.get().getHasFormulaHide());                
+                propertyDlg.getChkSectionLineFormulaHide().setChecked(secLn.get().getHasFormulaHide());
                 propertyDlg.setSectionLineFormulaHide(secLn.get().getFormulaHide().getText());
 
                 if (sec instanceof cReportSectionLine) {
@@ -3441,7 +3441,7 @@ namespace CSReportEditor {
                             isGroupFooter: RefWrapper<boolean> = new RefWrapper(false)) {
 
             let sec: cReportSection = null;
-            
+
             isGroup.set(false);
             isSecLn.set(false);
             secLn.set(null);
@@ -3585,7 +3585,7 @@ namespace CSReportEditor {
                 let poSelected = this.paint.getPaintObject(this.keyObj);
                 if (poSelected !== null) {
                     return poSelected.getIsSection() ? "S" + poSelected.getTag() : poSelected.getTag();
-                }            
+                }
             }
             return null;
         }
@@ -4988,7 +4988,7 @@ namespace CSReportEditor {
                 this.refreshRule();
 
                 cMainEditor.clearProperties();
-            }));                
+            }));
         }
 
         private addPaintSectionForSecLn(sec: cReportSection, typeSecLn: csRptSectionType) {
@@ -6280,7 +6280,7 @@ namespace CSReportEditor {
                 this.report.getConnect().setDataSource(dataSource.get());
             });
         }
-    } 
+    }
 
     enum Keys {
         F11,

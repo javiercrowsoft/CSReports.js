@@ -1,5 +1,6 @@
 namespace CSReportEditor {
 
+    import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;
 
     export type DialogSettings = {
@@ -22,11 +23,12 @@ namespace CSReportEditor {
 
         private maximize = false;
         private dialog: HTMLDivElement;
-        private dialog_title: HTMLElement;
-        private dialog_minmax: HTMLAnchorElement;
-        private dialog_close: HTMLAnchorElement;
-        private dialog_content: HTMLElement;
-        private dialog_overlay: HTMLElement;
+        private dialogTitle: HTMLElement;
+        private dialogMinmax: HTMLAnchorElement;
+        private dialogClose: HTMLAnchorElement;
+        private dialogContent: HTMLElement;
+        private dialogAction: HTMLElement;
+        private dialogOverlay: HTMLElement;
 
         // state
         //
@@ -59,38 +61,46 @@ namespace CSReportEditor {
             this.dialog = document.createElement('div');
             this.dialog.className = 'dialog-box';
 
-            this.dialog_title = document.createElement('h3');
-            this.dialog_title.className = 'dialog-title';
-            this.dialog.appendChild(this.dialog_title);
+            this.dialogTitle = document.createElement('h3');
+            this.dialogTitle.className = 'dialog-title';
+            this.dialog.appendChild(this.dialogTitle);
 
-            this.dialog_minmax = document.createElement('a');
-            this.dialog_minmax.className = 'dialog-minmax';
-            this.dialog_minmax.title = 'Minimize';
-            this.dialog_minmax.innerHTML = '&ndash;';
-            this.dialog_minmax.href = 'javascript:;';
-            this.dialog.appendChild(this.dialog_minmax);
+            this.dialogMinmax = document.createElement('a');
+            this.dialogMinmax.className = 'dialog-minmax';
+            this.dialogMinmax.title = 'Minimize';
+            this.dialogMinmax.innerHTML = '&ndash;';
+            this.dialogMinmax.href = 'javascript:;';
+            this.dialog.appendChild(this.dialogMinmax);
 
-            this.dialog_close = document.createElement('a');
-            this.dialog_close.className = 'dialog-close';
-            this.dialog_close.title = 'Close';
-            this.dialog_close.innerHTML = '&times;';
-            this.dialog_close.href = 'javascript:;';
-            this.dialog.appendChild(this.dialog_close);
+            this.dialogClose = document.createElement('a');
+            this.dialogClose.className = 'dialog-close';
+            this.dialogClose.title = 'Close';
+            this.dialogClose.innerHTML = '&times;';
+            this.dialogClose.href = 'javascript:;';
+            this.dialog.appendChild(this.dialogClose);
 
-            this.dialog_content = document.createElement('div');
-            this.dialog_content.className = 'dialog-content';
-            this.dialog_content.appendChild(el);
-            this.dialog.appendChild(this.dialog_content);
+            this.dialogContent = document.createElement('div');
+            this.dialogContent.className = 'dialog-content';
+            this.dialogContent.appendChild(el);
+            this.dialog.appendChild(this.dialogContent);
 
-            this.dialog_overlay = document.createElement('div');
-            this.dialog_overlay.className = 'dialog-box-overlay';
+            const footer = Array.from(el.children)
+                                .filter(child => child.className === 'dlg-footer')[0];
+
+            this.dialogAction = document.createElement('div');
+            this.dialogAction.className = 'dialog-action';
+            this.dialogAction.appendChild(footer);
+            this.dialog.appendChild(this.dialogAction);
+
+            this.dialogOverlay = document.createElement('div');
+            this.dialogOverlay.className = 'dialog-box-overlay';
 
             document.body.appendChild(this.dialog);
-            document.body.appendChild(this.dialog_overlay);
+            document.body.appendChild(this.dialogOverlay);
 
             // bind the draggable function here...
-            this.dialog_title.onmousedown = P.call(this, this.initDrag);
-            this.dialog_close.onclick = P.call(this, this.close);
+            this.dialogTitle.onmousedown = P.call(this, this.initDrag);
+            this.dialogClose.onclick = P.call(this, this.close);
         }
 
         // will be called when user starts dragging an element
@@ -105,7 +115,7 @@ namespace CSReportEditor {
         close() {
             this.dialog.style.visibility = "hidden";
             this.dialog.style.opacity = '0';
-            this.dialog_overlay.style.display = "none";
+            this.dialogOverlay.style.display = "none";
             this.maximize =  false;
         }
 
@@ -121,12 +131,12 @@ namespace CSReportEditor {
             this.dialog.style.left = (!this.settings.left) ? "50%" : '0px';
             this.dialog.style.marginTop = (!this.settings.top) ? '-' + this.settings.height/2 + 'px' : this.settings.top + 'px';
             this.dialog.style.marginLeft = (!this.settings.left) ? '-' + this.settings.width/2 + 'px' : this.settings.left + 'px';
-            this.dialog_title.textContent = this.settings.title;
-            this.dialog_overlay.style.display = (this.settings.overlay) ? "block" : "none";
+            this.dialogTitle.textContent = this.settings.title;
+            this.dialogOverlay.style.display = (this.settings.overlay) ? "block" : "none";
 
-            this.dialog_minmax.innerHTML = '&ndash;';
-            this.dialog_minmax.title = 'Minimize';
-            this.dialog_minmax.onclick = P.call(this, this.dialogMinMax);
+            this.dialogMinmax.innerHTML = '&ndash;';
+            this.dialogMinmax.title = 'Minimize';
+            this.dialogMinmax.onclick = P.call(this, this.dialogMinMax);
 
             document.onmousemove = P.call(this, this.moveElement);
             document.onmouseup = P.call(this, this.destroy);
@@ -160,13 +170,13 @@ namespace CSReportEditor {
         dialogMinMax() {
             if (this.maximize) {
                 this.dialog.className += ' minimize';
-                this.dialog_minmax.innerHTML = '+';
-                this.dialog_minmax.title = this.dialog_title.innerHTML.replace(/<.*?>/g,"");
+                this.dialogMinmax.innerHTML = '+';
+                this.dialogMinmax.title = this.dialogTitle.innerHTML.replace(/<.*?>/g,"");
                 this.maximize = false;
             } else {
                 this.dialog.className = this.dialog.className.replace(/(^| )minimize($| )/g, "");
-                this.dialog_minmax.innerHTML = '&ndash;';
-                this.dialog_minmax.title = 'Minimize';
+                this.dialogMinmax.innerHTML = '&ndash;';
+                this.dialogMinmax.title = 'Minimize';
                 this.maximize = true;
             }
         }

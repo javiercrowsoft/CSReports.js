@@ -2,26 +2,26 @@
 
 namespace CSReportEditor {
 
+    import U = CSOAPI.Utils;
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
-    import RefWrapper = CSKernelClient.RefWrapper;
 
     export class FFormula extends Form {
 
-        private C_KEY_SYSFUNCTIONS: string = "FS";
-        private C_KEY_SYSVARS: string = "VS";
-        private C_KEY_SYSLABELS: string = "VL";
-        private C_KEY_SYSDBFIELDS: string = "VC";
+        private KEY_SYS_FUNCTIONS: string = "FS";
+        private KEY_SYS_VARS: string = "VS";
+        private KEY_SYS_LABELS: string = "VL";
+        private KEY_SYS_DB_FIELDS: string = "VC";
 
-        private C_FUNID: string = "I";
-        private C_FUNDESCRIP: string = "D";
-        private C_FUNNAME: string = "N";
-        private C_HELPCONTEXTID: string = "H";
-        private C_ISDBFIELDORLABEL: string = "FL";
+        private FUN_ID: string = "I";
+        private FUN_DESCRIP: string = "D";
+        private FUN_NAME: string = "N";
+        private HELP_CONTEXT_ID: string = "H";
+        private IS_DB_FIELD_OR_LABEL: string = "FL";
 
-        private C_FOLDER_INDEX: number = 0;
-        private C_DATABSE_INDEX: number = 1;
-        private C_LABEL_INDEX: number = 2;
-        private C_FORMULA_INDEX: number = 3;
+        private FOLDER_INDEX: number = 0;
+        private DATABSE_INDEX: number = 1;
+        private LABEL_INDEX: number = 2;
+        private FORMULA_INDEX: number = 3;
 
         private ok: boolean = false;
 
@@ -29,53 +29,57 @@ namespace CSReportEditor {
 
         private el: HTMLElement;
         private dialog: Dialog;
+        private tv_formulas: TreeView = null;
+        private tx_formula: TextBox =  null;
 
         public constructor() {
             super();
-            this.el = document.getElementById('formula-dlg');
+            this.el = U.el('formula-dlg');
             this.dialog = new Dialog(this.el);
+
+            this.tv_formulas = new TreeView("tvFormulas", U.el("formula-dlg-tree"), "*");
+            this.tx_formula = new TextBox(U.inputEl("formula-dlg-tree"));
         }
 
         show(owner = null) {
-            this.dialog.show();
+            this.dialog.show({title: 'Formulas', height: 500, width: 800});
         }
 
 		public createTree() {
-            // tv_formulas.Nodes.Add(C_KEY_SYSFUNCTIONS, "Internal functions", C_FOLDER_INDEX);
-            // let item = tv_formulas.Nodes.Add(C_KEY_SYSVARS, "Internal variables", C_FOLDER_INDEX);
-            // item.Nodes.Add(C_KEY_SYSDBFIELDS, "Database fields");
-            // item.Nodes.Add(C_KEY_SYSLABELS, "Labels");
+            this.tv_formulas.getNodes().add("Internal functions", this.FOLDER_INDEX, this.KEY_SYS_FUNCTIONS);
+            const item = this.tv_formulas.getNodes().add("Internal variables", this.FOLDER_INDEX, this.KEY_SYS_VARS);
+            item.getNodes().add("Database fields", 0, this.KEY_SYS_DB_FIELDS);
+            item.getNodes().add("Labels", 0, this.KEY_SYS_LABELS);
 		}
 
 		public addFormula(formulaType: csRptFormulaType, name: string, nameUser: string, descrip: string, helpContextId: number) {
-            // let item = tv_formulas.Nodes[C_KEY_SYSFUNCTIONS].Nodes.Add(nameUser);
-            // item.ImageIndex = C_FORMULA_INDEX;
-            // item.SelectedImageIndex = item.ImageIndex;
-            //
-            // let info: string = "";
-            // info = cUtil.setInfoString(info, C_FUNID, formulaType.toString());
-            // info = cUtil.setInfoString(info, C_FUNDESCRIP, descrip);
-            // info = cUtil.setInfoString(info, C_FUNNAME, name);
-            // info = cUtil.setInfoString(info, C_HELPCONTEXTID, helpContextId.toString());
-            //
-            // item.Tag = info;
+            const item = this.tv_formulas.getNodes().item(this.KEY_SYS_FUNCTIONS).getNodes().add(nameUser, this.FORMULA_INDEX);
+            item.selectedImageIndex = item.imageIndex;
+
+            let info: string = "";
+            info = U.setInfoString(info, this.FUN_ID, formulaType.toString());
+            info = U.setInfoString(info, this.FUN_DESCRIP, descrip);
+            info = U.setInfoString(info, this.FUN_NAME, name);
+            info = U.setInfoString(info, this.HELP_CONTEXT_ID, helpContextId.toString());
+
+            item.tag = info;
 		}
 
 		public addDBField(name: string, descrip: string) {
-            // addAux(name, descrip, C_KEY_SYSDBFIELDS, C_DATABSE_INDEX);
+            this.addAux(name, descrip, this.KEY_SYS_DB_FIELDS, this.DATABSE_INDEX);
 		}
 
 		public addLabel(name: string) {
-            // addAux(name, "", C_KEY_SYSLABELS, C_LABEL_INDEX);
+            this.addAux(name, "", this.KEY_SYS_LABELS, this.LABEL_INDEX);
 		}
 
-		public setFormula(formula: RefWrapper<string>) {
-			// tx_formula.setText(formula);
+		public setFormula(formula: string) {
+			this.tx_formula.setText(formula);
 		}
 
 		public expandTree() {
-            // tv_formulas.Nodes[0].ExpandAll();
-            // tv_formulas.Nodes[1].ExpandAll();
+            this.tv_formulas.getNodes().item(0).expandAll();
+            this.tv_formulas.getNodes().item(1).expandAll();
 		}
 
 		public getOk() {
@@ -83,44 +87,38 @@ namespace CSReportEditor {
 		}
 
 		public getFormula(): string {
-            return "";
-			// return tx_formula.Text;
+			return this.tx_formula.getText();
 		}
 
-        private addAux(name: string, descrip: string, key: string, image: number) {
-            // let father = tv_formulas.Nodes[C_KEY_SYSVARS].Nodes[key];
-            // let item = father.Nodes.Add(name);
-            // item.ImageIndex = image;
-            // item.SelectedImageIndex = item.ImageIndex;
-            //
-            // if (descrip !== "")  {
-            //     item.setText(descrip + " ( "+ name + " )");
-            // }
-            //
-            // let info = "";
-            // info = cUtil.setInfoString(info, C_FUNDESCRIP, descrip);
-            // info = cUtil.setInfoString(info, C_FUNNAME, name);
-            // info = cUtil.setInfoString(info, C_ISDBFIELDORLABEL, "1");
-            //
-            // item.Tag = info;
-        }
+        private addAux(name: string, descrip: string, key: string, imageIndex: number) {
+            let father = this.tv_formulas.getNodes().item(this.KEY_SYS_VARS).getNodes().item(key);
+            let item = father.getNodes().add(name, imageIndex);
+            item.selectedImageIndex = item.imageIndex;
 
-        private fFormula_Load(sender: object, e: object) {
-            // cWindow.centerForm(this);
+            if (descrip !== "")  {
+                item.setText(descrip + " ( "+ name + " )");
+            }
+
+            let info = "";
+            info = U.setInfoString(info, this.FUN_DESCRIP, descrip);
+            info = U.setInfoString(info, this.FUN_NAME, name);
+            info = U.setInfoString(info, this.IS_DB_FIELD_OR_LABEL, "1");
+
+            item.tag = info;
         }
 
         private tv_formulas_NodeMouseClick(sender: object, e: object) {
             // let info = e.Node.Tag as string;
-            // tx_descrip.setText(cUtil.getInfoString(info, C_FUNDESCRIP, ""));
+            // tx_descrip.setText(U.getInfoString(info, C_FUNDESCRIP, ""));
         }
 
         private isDbOrLabel(info: string) {
-            // return Utils.valInt(cUtil.getInfoString(info, C_ISDBFIELDORLABEL, "")) === 1;
+            // return Utils.valInt(U.getInfoString(info, C_ISDBFIELDORLABEL, "")) === 1;
         }
 
         private tv_formulas_NodeMouseDoubleClick(sender: object, e: object) {
             // let info = e.Node.Tag as string;
-            // let name = cUtil.getInfoString(info, C_FUNNAME, "");
+            // let name = U.getInfoString(info, C_FUNNAME, "");
             // if (! isDbOrLabel(info)) {
             //     name += "()";
             // }
@@ -147,7 +145,7 @@ namespace CSReportEditor {
         private tv_formulas_KeyUp(sender: object, e: object) {
             // if (tv_formulas.SelectedNode !== null) {
             //     let info = tv_formulas.SelectedNode.Tag as string;
-            //     tx_descrip.setText(cUtil.getInfoString(info, C_FUNDESCRIP, ""));
+            //     tx_descrip.setText(U.getInfoString(info, C_FUNDESCRIP, ""));
             // }
         }
     }
