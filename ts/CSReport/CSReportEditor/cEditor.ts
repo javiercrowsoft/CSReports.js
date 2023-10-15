@@ -1720,9 +1720,9 @@ namespace CSReportEditor {
             if (ctrlName !== "") {
                 msg = "Ctl:[" + ctrlName
                     + "]Tipo:[" + strCtlType
-                    + "]F.Hide:[" + formulaHide.substring(1, 100)
+                    + "]F.Hide:[" + formulaHide.substring(0, 100)
                     + "]Activa[" + ( hasFormulaHide).toString()
-                    + "]F.Value:[" + formulaValue.substring(1, 100)
+                    + "]F.Value:[" + formulaValue.substring(0, 100)
                     + "]Activa[" + ( hasFormulaValue).toString()
                     + "]Field:[" + fieldName + "]";
             }

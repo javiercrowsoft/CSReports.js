@@ -146,6 +146,7 @@ namespace CSReportDll {
             }
 
             if (s.length > 0 &&  s.substring(s.length - 1) === ",") {
+                debugger; // seguro que este substring esta mal
                 s = s.substring(0, s.length - 1);
             }
 
@@ -241,6 +242,7 @@ namespace CSReportDll {
                     p = strConnect.length + 1;
                 }
                 i = i + x.length;
+                debugger; // seguro que este substring esta mal
                 return strConnect.substring(i, p - i);
             }
             else {

@@ -88,7 +88,7 @@ namespace CSReportEditor {
             this.lv_properties = new ListView("lvControls", U.el("sidebar-lv-properties"));
             this.lv_fields = new ListView("lvFields", U.el("sidebar-lv-database"));
             this.tv_controls = new TreeView("tvControls", U.el("sidebar-tv-controls"), "*");
-            this.tv_controls.onclick = P.call(this, this.tvControlsNodeClick);
+            this.tv_controls.state.onclick = P.call(this, this.tvControlsNodeClick);
 
             this.propertyDlg = new PropertyDlg();
 
@@ -689,7 +689,11 @@ namespace CSReportEditor {
         private selectControl2(node: Node) {
             let editor: cEditor = cMainEditor.getDocActive();
 
-            if (node !== null && node.tag !== null && editor !== null) {
+            if (node !== null
+                && node.tag !== undefined
+                && node.tag !== null
+                && editor !== null) {
+
                 let info = node.tag.toString();
                 if (info.length > 0) {
                     let infoType = info.substring(0, 1);

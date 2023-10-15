@@ -94,7 +94,7 @@ namespace CSOAPI {
         public static getToken(token: string, source: string) {
             let i: number = 0;
             let s: string = "";
-
+            debugger; // seguro que este substring esta mal
             if (token.substring(token.length - 1, 1) !== "=") token += "=";
             let l = source.length;
             i = source.indexOf(token);
@@ -104,6 +104,7 @@ namespace CSOAPI {
             while (true) {
                 i++;
                 if (i > l) break;
+                debugger; // seguro que este substring esta mal
                 let c = source.substring(i, 1);
                 if (c !== ";") s += c;
                 else break;
@@ -281,13 +282,14 @@ namespace CSOAPI {
                 if (j == -1) {
                     throw (new Exception(this.format(c_errorstr, ";")));
                 }
-
+                debugger; // seguro que este substring esta mal
                 let k = source.substring(i, j-i).toLowerCase().indexOf("=".toLowerCase(), 0);
                 if (k == -1)
                 {
                     throw (new Exception(this.format(c_errorstr, "=")));
                 }
                 k = k + i;
+                debugger; // seguro que este substring esta mal
                 return source.substring(0, k) + value + source.substring(j);
             }
         }
@@ -330,13 +332,12 @@ namespace CSOAPI {
                 if (j == -1) {
                     throw(new Exception(this.format(c_errorstr, ";")));
                 }
-
-                let k = source.substring(i, j-i).toLowerCase().indexOf("=".toLowerCase(), 0);
+                let k = source.substring(i, j).toLowerCase().indexOf("=".toLowerCase(), 0);
                 if (k == -1) {
                     throw(new Exception(this.format(c_errorstr, "=")));
                 }
                 k = k + i;
-                return source.substring(k + 1, j - k - 1);
+                return source.substring(k + 1, j);
             }
         }
     }

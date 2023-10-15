@@ -260,6 +260,7 @@ namespace CSReportDll {
                 }
 
                 if (parameters.length > 0) {
+                    debugger; // seguro que este substring esta mal: no hay que restar el 1
                     parameters = parameters.substring(0, parameters.length - 1);
                     code = this.insertParametersIntoFunction(code, parameters);
                 }
@@ -272,6 +273,7 @@ namespace CSReportDll {
 
         private insertParametersIntoFunction(code: string, parameters: string) {
             let n: number = code.indexOf("(") + 1;
+            debugger; // seguro que este substring esta mal
             return code.substring(0, n) + parameters + code.substring(n);
         }
 
@@ -607,6 +609,7 @@ namespace CSReportDll {
                 let vParams: string[] = null;
                 let parameters = code.trim();
                 if (parameters.length > 2) {
+                    debugger; // seguro que este substring esta mal
                     parameters = parameters.substring(2, parameters.length - 2);
                     parameters = parameters.trim();
                     vParams = parameters.split('|');
@@ -712,6 +715,7 @@ namespace CSReportDll {
                 }
                 i++;
             }
+            debugger; // seguro que este substring esta mal
             return code.substring(pos, i - pos);
         }
 
@@ -738,6 +742,7 @@ namespace CSReportDll {
             let name = functionName;
             let parameters = code.trim();
             if (parameters.length > 2) {
+                debugger; // seguro que este substring esta mal
                 parameters = parameters.substring(1, parameters.length - 2);
             }
 
@@ -747,6 +752,7 @@ namespace CSReportDll {
             let r = tc.toLowerCase().indexOf(name.toLowerCase(), 0);
             let q = tc.toLowerCase().indexOf(")".toLowerCase(), r) + 1;
 
+            debugger; // seguro que este substring esta mal
             this.formula.setTextC((tc.substring(0, r)).toString()
                                 + cReportCompiler.C_KEY_FUNC_INT
                                 + ReportGlobals.format(this.formula.getFormulasInt().count(), "000")
@@ -1164,6 +1170,7 @@ namespace CSReportDll {
                         endPos = text.indexOf(cReportCompiler.C_MACRO_CTRL, pos + 1);
 
                         if (endPos > 0) {
+                            debugger; // seguro que este substring esta mal
                             collCtrlsToReplace.push(text.substring(pos + 2, endPos - pos - 2));
                         }
                         i = endPos + 1;
@@ -1831,6 +1838,7 @@ namespace CSReportDll {
         private removeReturns(code: string) {
             let c: string = "";
             for(let i = 0; i < code.length; i++) {
+                debugger; // seguro que este substring esta mal
                 c = code.substring(i, 1);
                 if (c !== " " && c !== "\r" && c !== "\n") {
                     code = code.substring(i);
@@ -1902,13 +1910,14 @@ namespace CSReportDll {
 
         private pGetWord(code: string, nStart: number) {
             let nLenCode = code.length;
-
+            debugger; // seguro que este substring esta mal
             let c = code.substring(nStart, 1);
             let word = "";
             do {
                 word += c;
                 nStart += 1;
                 if (this.pIsSeparator(c)) break;
+                debugger; // seguro que este substring esta mal
                 c = code.substring(nStart, 1);
             } while (!this.pIsSeparator(c) && nStart < nLenCode);
 
@@ -1928,6 +1937,7 @@ namespace CSReportDll {
             let nLenCode = code.length;
             let nInner = new RefWrapper(-1);
             do {
+                debugger; // seguro que este substring esta mal
                 c = code.substring(nStart, 1);
                 word = word + c;
                 nStart = nStart + 1;
@@ -1977,6 +1987,7 @@ namespace CSReportDll {
 
             parameters = parameters.trim();
             if (parameters.length > 2) {
+                debugger; // seguro que este substring esta mal
                 parameters = parameters.substring(1, parameters.length - 2);
                 parameters = parameters.trim();
                 vParams = parameters.split('|');

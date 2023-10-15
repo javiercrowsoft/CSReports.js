@@ -64,7 +64,7 @@ namespace CSReportDll {
 
     export class cReport {
 
-        // remember mark any change that could bring errors 
+        // remember mark any change that could bring errors
         // with the label WARNING and the date
         //
         // 2008-02-18 WARNING
@@ -80,10 +80,10 @@ namespace CSReportDll {
         //
         // they bring a source of data related or not with the main recordset
         //
-        // a common use is for getting the logo of company reports 
+        // a common use is for getting the logo of company reports
         //
-        // other use is to attach to a number of rows in the main recordset 
-        // some heavy data without repeat it in each row. It's very usefull 
+        // other use is to attach to a number of rows in the main recordset
+        // some heavy data without repeat it in each row. It's very usefull
         // with images.
         //
         // the formula getDataFromRSAd is used to access data in additional recordSets
@@ -98,7 +98,7 @@ namespace CSReportDll {
         //
         // Nota: in this example we have a relation between two columns but the filter could contain
         //       multiples columns.
-        //       the first column is for the main recordset, the second columns is for the 
+        //       the first column is for the main recordset, the second columns is for the
         //       additional recordset
 
         //--------------------------------------------------------------------------------
@@ -981,7 +981,7 @@ namespace CSReportDll {
             //
             if (this.table === null || this.iRow > this.recordCount -1) {
                 // if there are not pending footers we have finished
-                // 
+                //
                 if (!this.bPrintFooter) {
                     return true;
                 }
@@ -1003,7 +1003,7 @@ namespace CSReportDll {
                     // if we need to eval functions before print
                     //
                     if (this.bEvalPreGroups) {
-                        // set this flag off to allow the next call to 
+                        // set this flag off to allow the next call to
                         // getLine() -> this.pGetLineWork() -> this.pGetLineWorkAuxReportEnd()
                         // to print the footer
                         //
@@ -1032,7 +1032,7 @@ namespace CSReportDll {
                     }
                 }
                 // if there are no more footers to be closed we have finished
-                // 
+                //
                 else {
                     this.reportDone();
                     return csRptGetLineResult.CS_RPT_GL_END;
@@ -1182,17 +1182,17 @@ namespace CSReportDll {
                     let date2: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row2][orderBy]));
                     if (date1 > date2) {
                         if (!this.progress("", 0, q, t))  {
-                            return false; 
+                            return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
                 if (!this.progress("", 0, q, t))  {
-                    return false; 
+                    return false;
                 }
                 if (!bChanged)  {
-                    break; 
+                    break;
                 }
             }
             return true;
@@ -1207,7 +1207,7 @@ namespace CSReportDll {
                 //
                 // we only get into here where
                 //
-                //  - a group has changed in the previous call to 
+                //  - a group has changed in the previous call to
                 //    GetLine, and we have closed every GroupsFooter
                 //    in previous calls to GetLine or
                 //
@@ -1248,7 +1248,7 @@ namespace CSReportDll {
             this.idxGroupFooter = this.groupCount;
 
             // when a group changes we need to close from the
-            // most inner group to the most outer group 
+            // most inner group to the most outer group
             // which is changing (this.GroupIndexChange)
             //
             for(let j = this.groupIndexChange - 1; j < this.idxGroupFooter; j++) {
@@ -1390,7 +1390,7 @@ namespace CSReportDll {
                 // group we are closing
                 //
                 // NOTE: whe we have done whit printing the footers
-                // we need to set this.iRowFormula and this.iRow2 to their 
+                // we need to set this.iRowFormula and this.iRow2 to their
                 // original values
                 //
                 this.iRowFormula = this.iRow - 1;
@@ -1812,7 +1812,7 @@ namespace CSReportDll {
                 this.compiler.setReport(null);
 
                 // if we haven't printed to preview
-                // we need to clear the references 
+                // we need to clear the references
                 // between cReport and cReportLaunchInfo
                 //
                 if (this.launchInfo.getAction() !== csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW) {
@@ -2192,10 +2192,10 @@ namespace CSReportDll {
             }
 
             switch (ctrl.getControlType()) {
-                
+
                 case csRptControlType.CS_RPT_CT_FIELD:
 
-                    // this indexes 
+                    // this indexes
                     // current datasource
                     //
                     let indexRows: number = 0;
@@ -2221,7 +2221,7 @@ namespace CSReportDll {
                         //
                         // maybe this help a litle:
                         //
-                        //    this.vCollRows(IndexRows)    a matrix with the data 
+                        //    this.vCollRows(IndexRows)    a matrix with the data
                         //                              contained in the datasource
                         //                              referd by this control
                         //
@@ -2388,6 +2388,7 @@ namespace CSReportDll {
             }
             else {
                 n = n - 1;
+                debugger; // seguro que este substring esta mal: no hay que restar el 1
                 return name.substring(1, n);
             }
         }
@@ -2421,8 +2422,8 @@ namespace CSReportDll {
             }
         }
 
-        // the params are used to create a key 
-        // to use as an id for every image contained 
+        // the params are used to create a key
+        // to use as an id for every image contained
         // in the report
         //
         private pGetImage(indexRows: number, indexField: number, indexRow: number) {
@@ -3121,7 +3122,7 @@ namespace CSReportDll {
                 if (i < this.groupCount - 1) {
                     for (k = 0; k < this.vGroups[i].groups.length; k++) {
                         // if it is a total group the next group
-                        // is from the first to the last row in 
+                        // is from the first to the last row in
                         // the main recordset
                         //
                         // first (position: 0)
@@ -3215,17 +3216,17 @@ namespace CSReportDll {
                     let value2: number = Utils.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
                     if (value1 < value2) {
                         if (!this.progress("", 0, q, t))  {
-                            return false; 
+                            return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
                 if (!this.progress("", 0, q, t))  {
-                    return false; 
+                    return false;
                 }
                 if (!bChanged)  {
-                    break; 
+                    break;
                 }
             }
             return true;
@@ -3277,17 +3278,17 @@ namespace CSReportDll {
                     let text2: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j - 1]][orderBy]).toString();
                     if (text1.toLowerCase().localeCompare(text2.toLowerCase()) < 0) {
                         if (! this.progress("", 0, q, t))  {
-                            return false; 
+                            return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
                 if (! this.progress("", 0, q, t))  {
-                    return false; 
+                    return false;
                 }
                 if (! bChanged)  {
-                    break; 
+                    break;
                 }
             }
             return true;
@@ -3555,7 +3556,7 @@ namespace CSReportDll {
                 ctrl = this.controls.item(_i);
                 if (ctrl.getHasFormulaHide()) {
                     if (!this.compiler.checkSyntax(ctrl.getFormulaHide()))  {
-                        return false; 
+                        return false;
                     }
 
                     // to have debug info
@@ -3570,7 +3571,7 @@ namespace CSReportDll {
                 }
                 if (ctrl.getHasFormulaValue()) {
                     if (!this.compiler.checkSyntax(ctrl.getFormulaValue()))  {
-                        return false; 
+                        return false;
                     }
 
                     // to have debug info
@@ -3710,7 +3711,7 @@ namespace CSReportDll {
                 sec = sections.item(_i);
                 if (sec.getHasFormulaHide()) {
                     if (!this.compiler.checkSyntax(sec.getFormulaHide()))  {
-                        return false; 
+                        return false;
                     }
                     // to have debug info
                     //
@@ -3724,7 +3725,7 @@ namespace CSReportDll {
                     secLn = sec.getSectionLines().item(_j);
                     if (secLn.getHasFormulaHide()) {
                         if (!this.compiler.checkSyntax(secLn.getFormulaHide()))  {
-                            return false; 
+                            return false;
                         }
                         // to have debug info
                         //
@@ -3841,7 +3842,7 @@ namespace CSReportDll {
                                 if (ctrl.getHasFormulaValue()) {
                                     field.setValue(
                                         ReportGlobals.format(
-                                            this.compiler.resultFunction(ctrl.getFormulaValue()), 
+                                            this.compiler.resultFunction(ctrl.getFormulaValue()),
                                             ctrl.getLabel().getAspect().getFormat()));
                                 }
                                 else {
@@ -3873,14 +3874,14 @@ namespace CSReportDll {
                                         case csRptControlType.CS_RPT_CT_LABEL:
                                             field.setValue(
                                                 ReportGlobals.format(
-                                                    ctrl.getLabel().getText(), 
+                                                    ctrl.getLabel().getText(),
                                                     ctrl.getLabel().getAspect().getFormat()));
                                             break;
 
                                         case csRptControlType.CS_RPT_CT_IMAGE:
                                             field.setValue(
                                                 ReportGlobals.format(
-                                                    ctrl.getLabel().getText(), 
+                                                    ctrl.getLabel().getText(),
                                                     ctrl.getLabel().getAspect().getFormat()));
                                             field.setImage(ctrl.getImage().getImage());
                                             break;
@@ -4060,7 +4061,7 @@ namespace CSReportDll {
             }
             // if this.launchInfo.getStrConnect() is empty we will use
             // the connection of the connect object
-            // 
+            //
             else {
                 strConnect = connect.getStrConnect();
                 saveInReport = true;
@@ -4298,7 +4299,7 @@ namespace CSReportDll {
                     let key: string = docXml.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
                     let sec: cReportSection = sections.add(null, key);
                     if (!sec.load(docXml, nodeObjAux))  {
-                        return false; 
+                        return false;
                     }
                     nodeObjSec = docXml.getNextNode(nodeObjSec);
                 }
@@ -4321,7 +4322,7 @@ namespace CSReportDll {
                     let name: string = docXml.getNodeProperty(nodeObjAux, "Name").getValueString(eTypes.eText);
                     let formula: cReportFormula = this.formulas.add(name);
                     if (!formula.load(docXml, nodeObjAux))  {
-                        return false; 
+                        return false;
                     }
                     nodeObjSec = docXml.getNextNode(nodeObjSec);
                 }
@@ -4352,7 +4353,7 @@ namespace CSReportDll {
                     let key: string = docXml.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
                     let group: cReportGroup = this.getGroups().add(null, key);
                     if (!group.load(docXml, nodeObjAux))  {
-                        return false; 
+                        return false;
                     }
                     nodeObjGroup = docXml.getNextNode(nodeObjGroup);
                 }
@@ -4381,7 +4382,7 @@ namespace CSReportDll {
                     let nodeObjAux = nodeObjSec;
                     let page: cReportPage = this.pages.add(null);
                     if (!page.load(docXml, nodeObjAux))  {
-                        return false; 
+                        return false;
                     }
                     nodeObjSec = docXml.getNextNode(nodeObjSec);
                 }
@@ -4433,7 +4434,7 @@ namespace CSReportDll {
         // public functions
         public dispose() {
             //console.log("dispose was called in object " + this.constructor.name);
-            
+
             this.table = null;
             this.tables = null;
             this.vRowsIndexAux = null;

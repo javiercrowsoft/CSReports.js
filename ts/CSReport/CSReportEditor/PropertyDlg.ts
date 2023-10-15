@@ -236,6 +236,7 @@ namespace CSReportEditor {
             this.hideTabSection();
 
             this.cmdFormulaHide.setOnClick(P.call(this, this.editFormulaHideClick));
+            this.cmdFormulaValue.setOnClick(P.call(this, this.editFormulaValueClick));
 
             // TODO: implement chart
             // initChart();
@@ -254,6 +255,23 @@ namespace CSReportEditor {
                     this.formulaHide = this.formulaDlg.getFormula();
                     this.formulaHideChanged = true;
                     this.lbFormulaHide.setText(this.formulaHide);
+                }
+            }));
+        }
+
+        private editFormulaValueClick() {
+            this.formulaName = "Value";
+
+            this.formulaDlg.setFormula(this.formulaValue);
+            this.formulaDlg.setHandler(this.editor);
+            this.formulaDlg.createTree();
+            this.formulaDlg.expandTree();
+
+            return this.formulaDlg.showModal().then(P.call(this, (result) => {
+                if (result) {
+                    this.formulaValue = this.formulaDlg.getFormula();
+                    this.formulaValueChanged = true;
+                    this.lbFormulaValue.setText(this.formulaValue);
                 }
             }));
         }

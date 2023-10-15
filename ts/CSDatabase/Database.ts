@@ -106,6 +106,7 @@ namespace CSDatabase {
             else {
                 let s = Utils.val(number).toString();
                 s = s.replace(",", ".");
+                debugger; // seguro que este substring esta mal
                 if (s.substring(s.length - 1, 0) == ".") {
                     s = s.substring(0, s.length - 1);
                 }
@@ -141,7 +142,7 @@ namespace CSDatabase {
     }
 
     export enum DatabaseEngine
-    { 
+    {
         SQL_SERVER = 1,
         POSTGRESQL = 2,
         ORACLE = 3,

@@ -39,7 +39,7 @@ namespace CSReportEditor {
             this.dialog = new Dialog(this.el, 'formula-dlg-apply', 'formula-dlg-cancel');
 
             this.tv_formulas = new TreeView("tvFormulas", U.el("formula-dlg-tree"), "*");
-            this.tv_formulas.onclick = P.call(this, this.tvFormulasNodeClick);
+            this.tv_formulas.state.onclick = P.call(this, this.tvFormulasNodeClick);
 
             this.tx_formula = new TextBox(U.inputEl("formula-dlg-code"));
             this.lb_description = new Label(U.labelEl("formula-dlg-description"));

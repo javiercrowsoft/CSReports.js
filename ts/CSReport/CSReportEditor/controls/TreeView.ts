@@ -6,23 +6,22 @@ namespace CSReportEditor {
     import P = CSKernelClient.Callable;
     import Color = CSReportPaint.Color;
 
+    class TreeState {
+        onclick: (node: Node) => void;
+        activeNode: Node;
+    }
+
     class Nodes extends Map<Node> {
 
         private folder: HTMLUListElement;
         private images = ['folder.png', 'property.png', 'formula.png', 'database.png']
 
-        public onclick: (node: Node) => void;
+        public state: TreeState;
 
-        public constructor(folder: HTMLUListElement) {
+        public constructor(folder: HTMLUListElement, state: TreeState) {
             super(null, false);
-
             this.folder = folder;
-        }
-
-        private nodeClick(node: Node) {
-            if(this.onclick) {
-                this.onclick.call(null, node);
-            }
+            this.state = state;
         }
 
         // @ts-ignore
@@ -30,8 +29,7 @@ namespace CSReportEditor {
             const li = document.createElement('li');
             const a = this.addLabel(text, li, imageIndex);
             this.folder.parentElement.classList.add('expanded');
-            const node = new Node(li, imageIndex, a);
-            node.setOnClick(P.call(this, this.nodeClick));
+            const node = new Node(li, imageIndex, a, this.state);
             return this.baseAdd(node, key);
         }
 
@@ -62,6 +60,7 @@ namespace CSReportEditor {
     export class Node {
 
         private li: HTMLLIElement;
+        private a: HTMLAnchorElement;
         private _items: Nodes = null;
         selectedImageIndex: number;
         imageIndex: number;
@@ -69,21 +68,22 @@ namespace CSReportEditor {
         foreColor: string;
         backColor: string;
 
-        private onclick: (node: Node) => void;
+        private state: TreeState;
 
-        public constructor(li: HTMLLIElement, imageIndex: number, a: HTMLAnchorElement) {
+        public constructor(li: HTMLLIElement, imageIndex: number, a: HTMLAnchorElement, state: TreeState) {
+            this.state = state;
             this.li = li;
             this.imageIndex = imageIndex;
             const ul = document.createElement('ul') as HTMLUListElement;
+            ul.style.display = 'block';
             this.li.appendChild(ul);
-            this._items = new Nodes(ul);
+            this._items = new Nodes(ul, state);
+            this.a = a;
             a.href = "#";
             a.className = 'nostyle';
             a.onclick = P.call(this, (ev: MouseEvent) => {
                 ev.stopPropagation();
-                if(this.onclick) {
-                    this.onclick.call(null, this);
-                }
+                this.focus();
             });
             li.onclick = (ev: MouseEvent)=> {
                 if(ev.target === li && ul.childNodes.length > 0) {
@@ -94,9 +94,8 @@ namespace CSReportEditor {
             };
         }
 
-        setOnClick(f: (node: Node) => void) {
-            this.onclick = f;
-            this._items.onclick = f;
+        private deactivate() {
+            this.a.classList.remove('active');
         }
 
         getNodes() {
@@ -110,6 +109,38 @@ namespace CSReportEditor {
         setText(text: string) {
             this.li.childNodes[1].textContent = text;
         }
+
+        focus() {
+            if(this.state.activeNode) {
+                this.state.activeNode.deactivate();
+            }
+            this.state.activeNode = this;
+            this.a.classList.add('active');
+            if(this.state.onclick) {
+                this.state.onclick.call(null, this);
+            }
+        }
+
+        getPrevious() {
+            let prev = this.li.previousElementSibling;
+            if(prev === null) prev = this.li.parentElement.parentElement;
+            return prev;
+        }
+
+        getNext() {
+            let next: HTMLLIElement;
+            // is expanded select first child
+            //
+            let ul = this.li.children.item(2) as HTMLUListElement;
+            if(ul.style.display === 'block' && ul.childElementCount > 0) {
+                next = ul.children.item(0) as HTMLLIElement;
+            }
+            else {
+                next = this.li.nextElementSibling as HTMLLIElement;
+            }
+            return next;
+        }
+
     }
 
     export class TreeView extends Control {
@@ -121,12 +152,18 @@ namespace CSReportEditor {
         private _text: string;
         public readonly name: string;
 
-        public onclick: (node: Node) => void;
+        public state: TreeState;
 
         public constructor(name: string, el: HTMLElement, text: string) {
             super(el);
 
+            el.tabIndex = 0;
+            el.onkeydown = P.call(this, this.onKeyDown)
+            el.onkeyup = P.call(this, this.onKeyUp)
+
             this.name = name;
+
+            this.state = new TreeState();
 
             this.div = el as HTMLDivElement;
             this.rootUl = document.createElement('ul') as HTMLUListElement;
@@ -134,13 +171,33 @@ namespace CSReportEditor {
             this._text = text;
             this.addLabel(text);
             this.div.appendChild(this.rootUl);
-            this._items = new Nodes(this.rootUl);
-            this._items.onclick = P.call(this, this.nodeClick);
+            this._items = new Nodes(this.rootUl, this.state);
         }
 
-        private nodeClick(node: Node) {
-            if(this.onclick) {
-                this.onclick.call(null, node);
+        private onKeyDown(event: KeyboardEvent) {
+            switch(true) {
+                case event.key === 'ArrowUp':
+                case event.key === 'ArrowDown':
+                    event.stopPropagation();
+                    event.preventDefault();
+                    break;
+            }
+        }
+
+        private onKeyUp(event: KeyboardEvent) {
+            let el: Element;
+            switch(true) {
+                case event.key === 'ArrowUp':
+                    el = this.state.activeNode.getPrevious();
+                    event.stopPropagation();
+                    break;
+                case event.key === 'ArrowDown':
+                    el = this.state.activeNode.getNext();
+                    event.stopPropagation();
+                    break;
+            }
+            if(el instanceof HTMLLIElement) {
+                ((el as HTMLLIElement).children.item(1) as HTMLLIElement).click();
             }
         }
 

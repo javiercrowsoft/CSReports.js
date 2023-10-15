@@ -6,6 +6,7 @@ namespace CSReportDll {
 
         private getFunctionCall(code: string, formula: cReportFormula) {
             let n: number = code.indexOf("(");
+            debugger; // seguro que este substring esta mal
             let functionName = code.substring(8, n-8);
             let parameters = "";
             for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
@@ -32,7 +33,7 @@ namespace CSReportDll {
                      + "  Dim var__\r\nFor Each var__ In globals\r\n System.Console.WriteLine(var__.toString() + \" : \" + globals.getVar(var__).getValue().toString())\r\nNext\r\n"
                      + "  System.Console.WriteLine(value__.toString())\r\n"
                      + "  System.Console.WriteLine(\"---------------\")\r\n"
-                      */ 
+                      */
                      // end debug info
 
                      + "  Select Case Microsoft.VisualBasic.Information.VarType(value__)\r\n"
@@ -77,5 +78,5 @@ namespace CSReportDll {
         public static eval(script: object, globals: cReportCompilerGlobals): any {
             return "";
         }
-    } 
+    }
 }
