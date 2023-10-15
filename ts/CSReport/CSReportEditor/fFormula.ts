@@ -5,6 +5,7 @@ namespace CSReportEditor {
     import U = CSOAPI.Utils;
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
     import csRptControlType = CSReportGlobals.csRptControlType;
+    import P = CSKernelClient.Callable;
 
     export class FFormula extends Form {
 
@@ -30,6 +31,7 @@ namespace CSReportEditor {
         private dialog: Dialog;
         private tv_formulas: TreeView = null;
         private tx_formula: TextBox =  null;
+        private lb_description: Label = null;
 
         public constructor() {
             super();
@@ -37,7 +39,10 @@ namespace CSReportEditor {
             this.dialog = new Dialog(this.el, 'formula-dlg-apply', 'formula-dlg-cancel');
 
             this.tv_formulas = new TreeView("tvFormulas", U.el("formula-dlg-tree"), "*");
-            this.tx_formula = new TextBox(U.inputEl("formula-dlg-tree"));
+            this.tv_formulas.onclick = P.call(this, this.tvFormulasNodeClick);
+
+            this.tx_formula = new TextBox(U.inputEl("formula-dlg-code"));
+            this.lb_description = new Label(U.labelEl("formula-dlg-description"));
         }
 
         showModal() {
@@ -122,9 +127,9 @@ namespace CSReportEditor {
             item.tag = info;
         }
 
-        private tv_formulas_NodeMouseClick(sender: object, e: object) {
-            // let info = e.Node.Tag as string;
-            // tx_descrip.setText(U.getInfoString(info, C_FUNDESCRIP, ""));
+        private tvFormulasNodeClick(node: Node) {
+            let info = node.tag;
+            this.lb_description.setText(U.getInfoString(info, this.FUN_DESCRIP, ""));
         }
 
         private isDbOrLabel(info: string) {

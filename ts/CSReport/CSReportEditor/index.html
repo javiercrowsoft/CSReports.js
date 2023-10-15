@@ -533,44 +533,48 @@ End Function
 </footer>
 
 <!-- popup dialogs -->
-<div id="formula-dlg">
-    <div class="dlg-header">
-        <div class="inner-row-left" style="height: 60px;">
-            <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
-            <h1 style="margin-left: 15px;">Formula Editor</h1>
-        </div>
-    </div>
-    <div class="dlg-body">
-        <div id="formula-dlg-tree"></div>
-        <div class="dlg-right-panel">
-            <div class="formula-dlg-formula-overview"></div>
-            <div class="formula-dlg-formula-code">
-                <textarea id="formula-dlg-code"></textarea>
+<div style="display: none;">
+    <div id="formula-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Formula Editor</h1>
             </div>
         </div>
+        <div class="dlg-body">
+            <div id="formula-dlg-tree"></div>
+            <div class="dlg-right-panel">
+                <div class="formula-dlg-formula-overview">
+                    <label id="formula-dlg-description"></label>
+                </div>
+                <div class="formula-dlg-formula-code">
+                    <textarea id="formula-dlg-code"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="formula-dlg-apply">Apply</button>
+            <button id="formula-dlg-cancel">Cancel</button>
+        </div>
     </div>
-    <div class="dlg-footer">
-        <button id="formula-dlg-apply">Apply</button>
-        <button id="formula-dlg-cancel">Cancel</button>
+    <div id="db-connect-dlg">
+        <div class="dlg-header"></div>
+        <div class="dlg-body">
+        </div>
+        <div class="dlg-footer">
+            <button>Apply</button>
+            <button>Cancel</button>
+        </div>
     </div>
-</div>
-<div id="db-connect-dlg">
-    <div class="dlg-header"></div>
-    <div class="dlg-body">
-    </div>
-    <div class="dlg-footer">
-        <button>Apply</button>
-        <button>Cancel</button>
-    </div>
-</div>
-<div id="seach-dlg"></div>
-<div id="page-setup-dlg">
-    <div class="dlg-header"></div>
-    <div class="dlg-body">
-    </div>
-    <div class="dlg-footer">
-        <button>Apply</button>
-        <button>Cancel</button>
+    <div id="seach-dlg"></div>
+    <div id="page-setup-dlg">
+        <div class="dlg-header"></div>
+        <div class="dlg-body">
+        </div>
+        <div class="dlg-footer">
+            <button>Apply</button>
+            <button>Cancel</button>
+        </div>
     </div>
 </div>
 

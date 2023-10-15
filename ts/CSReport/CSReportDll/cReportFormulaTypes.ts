@@ -90,7 +90,7 @@ namespace CSReportDll {
             fi = this.add2(null, csRptFormulaType.CSRPTF_DECLARE_VAR);
             fi.setName("_declareVar");
             fi.setNameUser("Declare a variable");
-            fi.setDecrip("It declars a variable.\r\n\r\nSyntax: _declareVar(variable_name)");
+            fi.setDecrip("It declares a variable.\r\n\r\nSyntax: _declareVar(variable_name)");
             fi.setId(csRptFormulaType.CSRPTF_DECLARE_VAR);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_DECLARE_VAR);
 
