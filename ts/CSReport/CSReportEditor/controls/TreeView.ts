@@ -8,6 +8,7 @@ namespace CSReportEditor {
 
     class TreeState {
         onclick: (node: Node) => void;
+        onDblclick: (node: Node) => void;
         activeNode: Node;
     }
 
@@ -83,13 +84,14 @@ namespace CSReportEditor {
             a.className = 'nostyle';
             a.onclick = P.call(this, (ev: MouseEvent) => {
                 ev.stopPropagation();
-                this.focus();
+                this.focus(ev);
             });
             li.onclick = (ev: MouseEvent)=> {
                 if(ev.target === li && ul.childNodes.length > 0) {
                     ul.style.display = ul.style.display === 'none' ? 'block' : 'none';
                     li.classList.toggle("collapsed");
                     ev.stopPropagation();
+                    this.focus(ev);
                 }
             };
         }
@@ -110,14 +112,24 @@ namespace CSReportEditor {
             this.li.childNodes[1].textContent = text;
         }
 
-        focus() {
+        focus(event: MouseEvent) {
             if(this.state.activeNode) {
                 this.state.activeNode.deactivate();
             }
             this.state.activeNode = this;
             this.a.classList.add('active');
-            if(this.state.onclick) {
-                this.state.onclick.call(null, this);
+            switch(true) {
+                case event.detail === 0:
+                case event.detail === 1:
+                    if(this.state.onclick) {
+                        this.state.onclick.call(null, this);
+                    }
+                    break;
+                case event.detail === 2:
+                    if(this.state.onDblclick) {
+                        this.state.onDblclick.call(null, this);
+                    }
+                    break;
             }
         }
 

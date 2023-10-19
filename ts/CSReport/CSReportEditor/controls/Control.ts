@@ -92,5 +92,13 @@ namespace CSReportEditor {
             this.setEnabled(false);
         }
 
+        setOnClick(f: ()=> void) {
+            this.el.onclick = f;
+        }
+
+        setOnChanve(f: ()=> void) {
+            this.el.onchange = f;
+        }
+
     }
 }

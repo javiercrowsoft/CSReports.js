@@ -27,7 +27,7 @@ namespace CSReportEditor {
                 if(optionSelected) {
                     optionSelected.selected = false;
                 }
-            }            
+            }
         }
     }
 }

@@ -60,45 +60,27 @@ namespace CSDatabase {
             return "'" + new Intl.DateTimeFormat('ja-JP', Database.SQL_DATE_FORMAT).format(date)  + "'";
         }
 
-    /* TODO: remove me
-    private string getNumberSql(string number)
-    {
-        if (! G.isNumeric(number))
+        /* TODO: remove me
+        private string getNumberSql(string number)
         {
-            return "0";
-        }
-        else
-        {
-            var s = cUtil.val(number).ToString(new String('#', 27) + "0." + new String('#', 28), CultureInfo.InvariantCulture);
-            s = s.Replace(",", ".");
-            if (s.Substring(s.Length - 1, 0) == ".")
+            if (! G.isNumeric(number))
             {
-                s = s.Substring(0, s.Length - 1);
+                return "0";
             }
-            return s;
-        }
-
-    }
-    private string getNumberSql(string number)
-    {
-        if (!G.isNumeric(number))
-        {
-            return "0";
-        }
-        else
-        {
-            var s = cUtil.val(number).ToString(new String('#', 27) + "0." + new String('#', 28), CultureInfo.InvariantCulture);
-            s = s.Replace(",", ".");
-            if (s.Substring(s.Length - 1, 0) == ".")
+            else
             {
-                s = s.Substring(0, s.Length - 1);
+                var s = cUtil.val(number).ToString(new String('#', 27) + "0." + new String('#', 28), CultureInfo.InvariantCulture);
+                s = s.Replace(",", ".");
+                if (s.Substring(s.Length - 1, 0) == ".")
+                {
+                    s = s.Substring(0, s.Length - 1);
+                }
+                return s;
             }
-            return s;
+
         }
+        */
 
-    }
-
-     */
         public static sqlNumber(number: string): string {
             if (! Utils.isNumber(number)) {
                 return "0";
@@ -141,8 +123,7 @@ namespace CSDatabase {
         public CS_REPORT_WEB: string = "CSREPORT_WEB";
     }
 
-    export enum DatabaseEngine
-    {
+    export enum DatabaseEngine {
         SQL_SERVER = 1,
         POSTGRESQL = 2,
         ORACLE = 3,

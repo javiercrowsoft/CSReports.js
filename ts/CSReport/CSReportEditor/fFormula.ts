@@ -40,9 +40,11 @@ namespace CSReportEditor {
 
             this.tv_formulas = new TreeView("tvFormulas", U.el("formula-dlg-tree"), "*");
             this.tv_formulas.state.onclick = P.call(this, this.tvFormulasNodeClick);
+            this.tv_formulas.state.onDblclick = P.call(this, this.tvFormulasDoubleClick);
 
             this.tx_formula = new TextBox(U.inputEl("formula-dlg-code"));
             this.lb_description = new Label(U.labelEl("formula-dlg-description"));
+            this.dialog.onApply = P.call(this, this.cmdApplyClick);
         }
 
         showModal() {
@@ -133,40 +135,28 @@ namespace CSReportEditor {
         }
 
         private isDbOrLabel(info: string) {
-            // return Utils.valInt(U.getInfoString(info, C_ISDBFIELDORLABEL, "")) === 1;
+            return U.valInt(U.getInfoString(info, this.IS_DB_FIELD_OR_LABEL, "")) === 1;
         }
 
-        private tv_formulas_NodeMouseDoubleClick(sender: object, e: object) {
-            // let info = e.Node.Tag as string;
-            // let name = U.getInfoString(info, C_FUNNAME, "");
-            // if (! isDbOrLabel(info)) {
-            //     name += "()";
-            // }
-            // let i: number = tx_formula.SelectionStart;
-            // tx_formula.setText(tx_formula.Text.substring(0, i) + name + tx_formula.Text.substring(i));
+        private tvFormulasDoubleClick(node: Node) {
+            let info = node.tag as string;
+            let name = U.getInfoString(info, this.FUN_NAME, "");
+            if (! this.isDbOrLabel(info)) {
+                 name += "()";
+            }
+            let i: number = this.tx_formula.getSelectionStart();
+            this.tx_formula.setText(
+                      this.tx_formula.getText().substring(0, i)
+                    + name
+                    + this.tx_formula.getText().substring(i));
         }
 
-        private cmd_apply_Click(sender: object, e: object) {
-            // if (this.editor.checkSyntax(tx_formula.Text))  {
-            //     this.ok = true;
-            //     this.Hide();
-            // }
+        private cmdApplyClick() {
+            return this.editor.checkSyntax(this.tx_formula.getText());
         }
 
         public setHandler(editor: cEditor) {
             this.editor = editor;
-        }
-
-        private cmd_cancel_Click(sender: object, e: object) {
-            // this.ok = false;
-            // this.Hide();
-        }
-
-        private tv_formulas_KeyUp(sender: object, e: object) {
-            // if (tv_formulas.SelectedNode !== null) {
-            //     let info = tv_formulas.SelectedNode.Tag as string;
-            //     tx_descrip.setText(U.getInfoString(info, C_FUNDESCRIP, ""));
-            // }
         }
     }
 }

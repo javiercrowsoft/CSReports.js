@@ -1,8 +1,11 @@
+///<reference path="../CSReportPaint/Bitmap.ts"/>
+
 namespace CSReportEditor {
 
     import U = CSOAPI.Utils;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import P = CSKernelClient.Callable;
+    import Color = CSReportPaint.Color;
 
     export class PropertyDlg {
 
@@ -148,6 +151,8 @@ namespace CSReportEditor {
         private txSectionName: TextBox;
         private lbSectionLineName: Label;
 
+        private bSetSectionFormulaHideChanged: boolean = null;
+
         private formulaDlg = new FFormula();
 
         // tabs
@@ -170,6 +175,8 @@ namespace CSReportEditor {
             this.cbFont = new ComboBox(U.selectEl('ctrl-font'));
             this.txFontSize = new TextBox(U.inputEl('ctrl-font-size'));
             this.cbAlign = new ComboBox(U.selectEl('ctrl-align'));
+            this.cbAlign.setOnClick(P.call(this, this.cbAlignClick));
+
             this.chkFontBold = new CheckBox(U.inputEl('ctrl-bold'));
             this.chkFontUnderline = new CheckBox(U.inputEl('ctrl-underline'));
             this.chkFontItalic = new CheckBox(U.inputEl('ctrl-italic'));
@@ -191,14 +198,22 @@ namespace CSReportEditor {
             this.txExportColIdx = new TextBox(U.inputEl('ctrl-export-id'));
 
             this.chkFormulaHide = new CheckBox(U.inputEl('ctrl-has-visible-formula'));
+            this.chkFormulaHide.setOnClick(P.call(this, this.chkFormulaHideClick));
+
             this.lbFormulaHide = new Label(U.labelEl('ctrl-visible-formula'));
             this.cmdFormulaHide = new Button(U.el('ctrl-hide-formula-edit'));
+
             this.chkFormulaValue = new CheckBox(U.inputEl('ctrl-has-value-formula'));
+            this.chkFormulaValue.setOnClick(P.call(this, this.chkFormulaValueClick));
+
             this.lbFormulaValue = new Label(U.labelEl('ctrl-value-formula'));
             this.cmdFormulaValue = new Button(U.el('ctrl-value-formula-edit'));
             this.txIdxGroup = new TextBox(U.inputEl('ctrl-formula-group'));
             this.opBeforePrint = new OptionButton(U.inputEl('ctrl-formula-run-before'));
+            this.opBeforePrint.setOnClick(P.call(this, this.opAfterPrintClick));
+
             this.opAfterPrint = new OptionButton(U.inputEl('ctrl-formula-run-after'));
+            this.opAfterPrint.setOnClick(P.call(this, this.opBeforePrintClick));
 
             this.txImageFile = new TextBox(U.inputEl('ctrl-image-file'));
             this.picImage = new PictureBox("ctrl-image-preview", U.el('ctrl-image-preview'));
@@ -206,6 +221,8 @@ namespace CSReportEditor {
             this.txDbField = new TextBox(U.inputEl('ctrl-db-field'));
 
             this.cbBorderType = new ComboBox(U.selectEl('ctl-border-type'));
+            this.cbBorderType.setOnClick(P.call(this, this.cbBorderTypeClick));
+
             this.txBorderColor = new TextBox(U.inputEl('ctrl-border-color'));
             this.shBorderColor = new Label(U.labelEl('ctrl-border-color-sample'));
             this.txBorder3D = new TextBox(U.inputEl('ctrl-border-color-3d'));
@@ -213,9 +230,13 @@ namespace CSReportEditor {
             this.txBorderShadow = new TextBox(U.inputEl('ctrl-border-color-shadow'));
             this.shBorderShadow = new Label(U.labelEl('ctrl-border-color-shadow-sample'));
             this.txBorderWidth = new TextBox(U.inputEl('ctrl-border-width'));
+
             this.chkBorderRounded = new CheckBox(U.inputEl('ctrl-border-rounded'));
+            this.chkBorderRounded.setOnClick(P.call(this, this.chkBorderRoundedClick));
 
             this.chkSectionFormulaHide = new CheckBox(U.inputEl('section-has-visible-formula'));
+            this.chkSectionFormulaHide.setOnClick(P.call(this, this.chkSectionFormulaHideClick));
+
             this.chkSectionLineFormulaHide = new CheckBox(U.inputEl('section-line-has-visible-formula'));
             this.lbSectionFormulaHide = new Label(U.labelEl('section-visible-formula'));
             this.lbSectionLineFormulaHide = new Label(U.labelEl('section-line-visible-formula'));
@@ -815,73 +836,60 @@ namespace CSReportEditor {
         public setChartSortChanged(rhs: boolean) {
             this.chartSortChanged = rhs;
         }
+
+        public getSetSectionFormulaHideChanged() {
+            return this.bSetSectionFormulaHideChanged;
+        }
+
+        public setSetSectionFormulaHideChanged(rhs: boolean) {
+            this.bSetSectionFormulaHideChanged = rhs;
+        }
+
         //#endregion
 
         // change events
         //#region
 
-        private cb_align_Click(sender: object, e: object) {
+        private cbAlignClick() {
             this.alignChanged = true;
         }
 
-        private cb_borderType_Click(sender: object, e: object) {
+        private cbBorderTypeClick() {
             this.borderTypeChanged = true;
         }
 
-        private chk_borderRounded_Click(sender: object, e: object) {
+        private chkBorderRoundedClick() {
             this.borderRoundedChanged = true;
         }
 
-        private chk_formulaHide_Click(sender: object, e: object) {
+        private chkFormulaHideClick() {
             this.bSetFormulaHideChanged = true;
         }
 
-        private chk_formulaValue_Click(sender: object, e: object) {
+        private chkFormulaValueClick() {
             this.bSetFormulaValueChanged = true;
         }
 
-        private cmd_formulaHide_Click(sender: object, e: object) {
-            // this.formulaName = "Hide";
-            // if (this.editor.showEditFormula(this.formulaHide)) {
-            //     this.formulaHideChanged = true;
-            //     lb_formulaHide.setText(this.formulaHide);
-            // }
+        private chkSectionFormulaHideClick() {
+            this.bSetSectionFormulaHideChanged = true;
         }
 
-        private cmd_formulaValue_Click(sender: object, e: object) {
-            // this.formulaName = "Value";
-            // if (this.editor.showEditFormula(this.formulaValue)) {
-            //     this.formulaValueChanged = true;
-            //     lbFormulaValue.setText(this.formulaValue);
-            // }
-        }
-
-        private op_afterPrint_Click(sender: object, e: object) {
+        private opAfterPrintClick() {
             this.whenEvalChanged = true;
         }
 
-        private op_beforePrint_Click(sender: object, e: object) {
+        private opBeforePrintClick() {
             this.whenEvalChanged = true;
         }
 
-        private tx_border3D_LostFocus(sender: object, e: object) {
-            // try {
-            //     shBorder3D.setBackColor(Color.FromArgb(Int32.Parse(txBorder3D.Text)));
-            // }
-            // catch (ignore) { }
+        private txBorder3DLostFocus() {
+            this.shBorder3D.setBackColor(new Color(this.txBorder3D.getText()).color);
         }
 
-        private cmd_border3D_click(sender: object, e: object) {
+        private cmdBorder3DClick() {
             try {
-                // TODO: fix me
+                // TODO implement color picker
                 /*
-                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = CommDialog;
-                w___TYPE_NOT_FOUND.CancelError = true;
-                w___TYPE_NOT_FOUND.Color = txBorder3D.csValue;
-                w___TYPE_NOT_FOUND.Flags = cdlCCRGBInit;
-                VBA.ex.clear();
-                w___TYPE_NOT_FOUND.ShowColor;
-                if (VBA.ex.Number !== 0) { return; }
                 txBorder3D.cReportPaintObject.setText(w___TYPE_NOT_FOUND.Color);
                 shBorder3D.cReportAspect.setBackColor(txBorder3D.csValue);
                  */
@@ -889,14 +897,14 @@ namespace CSReportEditor {
             catch (ignore) { }
         }
 
-        private tx_borderColor_LostFocus(sender: object, e: object) {
+        private txBorderColorLostFocus() {
             // try {
             //     shBorderColor.setBackColor(Color.FromArgb(Int32.Parse(txBorderColor.Text)));
             // }
             // catch (ignore) { }
         }
 
-        private cmd_borderColor_Click(sender: object, e: object) {
+        private cmdBorderColorClick() {
             try {
                 // TODO: fix me
                 /*
@@ -914,14 +922,14 @@ namespace CSReportEditor {
             catch (ignore) { }
         }
 
-        private tx_borderShadow_LostFocus(sender: object, e: object) {
+        private txBorderShadowLostFocus() {
             // try {
             //     shBorderShadow.setBackColor(Color.FromArgb(Int32.Parse(txBorderShadow.Text)));
             // }
             // catch (ignore) { }
         }
 
-        private cmd_borderShadow_Click(sender: object, e: object) {
+        private cmdBorderShadowClick() {
             try {
                 // TODO: fix me
                 /*
@@ -939,19 +947,19 @@ namespace CSReportEditor {
             catch (ignore) { }
         }
 
-        private tx_BorderWidth_TextChanged(sender: object, e: object) {
+        private txBorderWidthTextChanged() {
             this.borderWidthChanged = true;
         }
 
-        private tx_ChartGroupValue_TextChanged(sender: object, e: object) {
+        private txChartGroupValueTextChanged() {
             this.chartGroupValueChanged = true;
         }
 
-        private tx_ChartTop_TextChanged(sender: object, e: object) {
+        private txChartTopTextChanged() {
             this.chartTopChanged = true;
         }
 
-        private cmd_dbFieldGroupValue_Click(sender: object, e: object) {
+        private cmdDbFieldGroupValueClick() {
             /* TODO: fix me
             bool cancel = false;
             Iterator listeners = this.listeners.iterator();
@@ -964,7 +972,7 @@ namespace CSReportEditor {
              * */
         }
 
-        private cmd_dbFieldLbl1_Click(sender: object, e: object) {
+        private cmdDbFieldLbl1Click() {
             /* TODO: fix me
             bool cancel = false;
             Iterator listeners = this.listeners.iterator();
@@ -977,7 +985,7 @@ namespace CSReportEditor {
              * */
         }
 
-        private cmd_dbFieldLbl2_Click(sender: object, e: object) {
+        private cmdDbFieldLbl2Click() {
             /* TODO: fix me
             bool cancel = false;
             Iterator listeners = this.listeners.iterator();
@@ -990,7 +998,7 @@ namespace CSReportEditor {
              * */
         }
 
-        private cmd_dbFieldVal1_Click(sender: object, e: object) {
+        private cmdDbFieldVal1Click() {
             /* TODO: fix me
             bool cancel = false;
             Iterator listeners = this.listeners.iterator();
@@ -1003,7 +1011,7 @@ namespace CSReportEditor {
              * */
         }
 
-        private cmd_dbFieldVal2_Click(sender: object, e: object) {
+        private cmdDbFieldVal2Click() {
             /* TODO: fix me
             bool cancel = false;
             Iterator listeners = this.listeners.iterator();
@@ -1016,21 +1024,21 @@ namespace CSReportEditor {
              * */
         }
 
-        private tx_foreColor_LostFocus(sender: object, e: object) {
+        private txForeColorLostFocus() {
             // try {
             //     shForeColor.setBackColor(Color.FromArgb(Int32.Parse(tx_foreColor.Text)));
             // }
             // catch (ignore) { }
         }
 
-        private tx_backColor_LostFocus(sender: object, e: object) {
+        private txBackColorLostFocus() {
             // try {
             //     shBackColor.setBackColor(Color.FromArgb(Int32.Parse(tx_backColor.Text)));
             // }
             // catch (ignore) { }
         }
 
-        private fProperties_Load(sender: object, e: object) {
+        private fProperties_Load() {
             // this.done = false;
             // tab_main.SelectedTab = tbpFormat;
             // cWindow.centerForm(this);
@@ -1084,159 +1092,19 @@ namespace CSReportEditor {
           }
 
         private pFillColors(cb_list: ComboBox) {
-            // cUtil.listAdd(cb_list, "AliceBlue", (int)0xF0F8FF);
-            // cUtil.listAdd(cb_list, "AntiqueWhite ", (int)0xFAEBD7);
-            // cUtil.listAdd(cb_list, "Aqua ", (int)0x00FFFF);
-            // cUtil.listAdd(cb_list, "Aquamarine ", (int)0x7FFFD4);
-            // cUtil.listAdd(cb_list, "Azure ", (int)0xF0FFFF);
-            // cUtil.listAdd(cb_list, "Beige ", (int)0xF5F5DC);
-            // cUtil.listAdd(cb_list, "Bisque ", (int)0xFFE4C4);
-            // cUtil.listAdd(cb_list, "Black ", (int)0x000000);
-            // cUtil.listAdd(cb_list, "BlanchedAlmond ", (int)0xFFEBCD);
-            // cUtil.listAdd(cb_list, "Blue ", (int)0x0000FF);
-            // cUtil.listAdd(cb_list, "BlueViolet ", (int)0x8A2BE2);
-            // cUtil.listAdd(cb_list, "Brown ", (int)0xA52A2A);
-            // cUtil.listAdd(cb_list, "BurlyWood ", (int)0xDEB887);
-            // cUtil.listAdd(cb_list, "CadetBlue ", (int)0x5F9EA0);
-            // cUtil.listAdd(cb_list, "Chartreuse ", (int)0x7FFF00);
-            // cUtil.listAdd(cb_list, "Chocolate ", (int)0xD2691E);
-            // cUtil.listAdd(cb_list, "Coral ", (int)0xFF7F50);
-            // cUtil.listAdd(cb_list, "CornflowerBlue ", (int)0x6495ED);
-            // cUtil.listAdd(cb_list, "Cornsilk ", (int)0xFFF8DC);
-            // cUtil.listAdd(cb_list, "Crimson ", (int)0xDC143C);
-            // cUtil.listAdd(cb_list, "Cyan ", (int)0x00FFFF);
-            // cUtil.listAdd(cb_list, "DarkBlue ", (int)0x00008B);
-            // cUtil.listAdd(cb_list, "DarkCyan ", (int)0x008B8B);
-            // cUtil.listAdd(cb_list, "DarkGoldenrod ", (int)0xB8860B);
-            // cUtil.listAdd(cb_list, "DarkGray ", (int)0xA9A9A9);
-            // cUtil.listAdd(cb_list, "DarkGreen ", (int)0x006400);
-            // cUtil.listAdd(cb_list, "DarkKhaki ", (int)0xBDB76B);
-            // cUtil.listAdd(cb_list, "DarkMagenta ", (int)0x8B008B);
-            // cUtil.listAdd(cb_list, "DarkOliveGreen ", (int)0x556B2F);
-            // cUtil.listAdd(cb_list, "DarkOrange ", (int)0xFF8C00);
-            // cUtil.listAdd(cb_list, "DarkOrchid ", (int)0x9932CC);
-            // cUtil.listAdd(cb_list, "DarkRed ", (int)0x8B0000);
-            // cUtil.listAdd(cb_list, "DarkSalmon ", (int)0xE9967A);
-            // cUtil.listAdd(cb_list, "DarkSeaGreen ", (int)0x8FBC8B);
-            // cUtil.listAdd(cb_list, "DarkSlateBlue ", (int)0x483D8B);
-            // cUtil.listAdd(cb_list, "DarkSlateGray ", (int)0x2F4F4F);
-            // cUtil.listAdd(cb_list, "DarkTurquoise ", (int)0x00CED1);
-            // cUtil.listAdd(cb_list, "DarkViolet ", (int)0x9400D3);
-            // cUtil.listAdd(cb_list, "DeepPink ", (int)0xFF1493);
-            // cUtil.listAdd(cb_list, "DeepSkyBlue ", (int)0x00BFFF);
-            // cUtil.listAdd(cb_list, "DimGray ", (int)0x696969);
-            // cUtil.listAdd(cb_list, "DodgerBlue ", (int)0x1E90FF);
-            // cUtil.listAdd(cb_list, "Firebrick ", (int)0xB22222);
-            // cUtil.listAdd(cb_list, "FloralWhite ", (int)0xFFFAF0);
-            // cUtil.listAdd(cb_list, "ForestGreen ", (int)0x228B22);
-            // cUtil.listAdd(cb_list, "Fuchsia ", (int)0xFF00FF);
-            // cUtil.listAdd(cb_list, "Gainsboro ", (int)0xDCDCDC);
-            // cUtil.listAdd(cb_list, "GhostWhite ", (int)0xF8F8FF);
-            // cUtil.listAdd(cb_list, "Gold ", (int)0xFFD700);
-            // cUtil.listAdd(cb_list, "Goldenrod ", (int)0xDAA520);
-            // cUtil.listAdd(cb_list, "Gray ", (int)0x808080);
-            // cUtil.listAdd(cb_list, "Green ", (int)0x008000);
-            // cUtil.listAdd(cb_list, "GreenYellow ", (int)0xADFF2F);
-            // cUtil.listAdd(cb_list, "Honeydew ", (int)0xF0FFF0);
-            // cUtil.listAdd(cb_list, "HotPink ", (int)0xFF69B4);
-            // cUtil.listAdd(cb_list, "IndianRed ", (int)0xCD5C5C);
-            // cUtil.listAdd(cb_list, "Indigo ", (int)0x4B0082);
-            // cUtil.listAdd(cb_list, "Ivory ", (int)0xFFFFF0);
-            // cUtil.listAdd(cb_list, "Khaki ", (int)0xF0E68C);
-            // cUtil.listAdd(cb_list, "Lavender ", (int)0xE6E6FA);
-            // cUtil.listAdd(cb_list, "LavenderBlush ", (int)0xFFF0F5);
-            // cUtil.listAdd(cb_list, "LawnGreen ", (int)0x7CFC00);
-            // cUtil.listAdd(cb_list, "LemonChiffon ", (int)0xFFFACD);
-            // cUtil.listAdd(cb_list, "LightBlue ", (int)0xADD8E6);
-            // cUtil.listAdd(cb_list, "LightCoral ", (int)0xF08080);
-            // cUtil.listAdd(cb_list, "LightCyan ", (int)0xE0FFFF);
-            // cUtil.listAdd(cb_list, "LightGoldenrodYellow ", (int)0xFAFAD2);
-            // cUtil.listAdd(cb_list, "LightGray ", (int)0xD3D3D3);
-            // cUtil.listAdd(cb_list, "LightGreen ", (int)0x90EE90);
-            // cUtil.listAdd(cb_list, "LightPink ", (int)0xFFB6C1);
-            // cUtil.listAdd(cb_list, "LightSalmon ", (int)0xFFA07A);
-            // cUtil.listAdd(cb_list, "LightSeaGreen ", (int)0x20B2AA);
-            // cUtil.listAdd(cb_list, "LightSkyBlue ", (int)0x87CEFA);
-            // cUtil.listAdd(cb_list, "LightSlateGray ", (int)0x778899);
-            // cUtil.listAdd(cb_list, "LightSteelBlue ", (int)0xB0C4DE);
-            // cUtil.listAdd(cb_list, "LightYellow ", (int)0xFFFFE0);
-            // cUtil.listAdd(cb_list, "Lime ", (int)0x00FF00);
-            // cUtil.listAdd(cb_list, "LimeGreen ", (int)0x32CD32);
-            // cUtil.listAdd(cb_list, "Linen ", (int)0xFAF0E6);
-            // cUtil.listAdd(cb_list, "Magenta ", (int)0xFF00FF);
-            // cUtil.listAdd(cb_list, "Maroon ", (int)0x800000);
-            // cUtil.listAdd(cb_list, "MediumAquamarine ", (int)0x66CDAA);
-            // cUtil.listAdd(cb_list, "MediumBlue ", (int)0x0000CD);
-            // cUtil.listAdd(cb_list, "MediumOrchid ", (int)0xBA55D3);
-            // cUtil.listAdd(cb_list, "MediumPurple ", (int)0x9370DB);
-            // cUtil.listAdd(cb_list, "MediumSeaGreen ", (int)0x3CB371);
-            // cUtil.listAdd(cb_list, "MediumSlateBlue ", (int)0x7B68EE);
-            // cUtil.listAdd(cb_list, "MediumSpringGreen ", (int)0x00FA9A);
-            // cUtil.listAdd(cb_list, "MediumTurquoise ", (int)0x48D1CC);
-            // cUtil.listAdd(cb_list, "MediumVioletRed ", (int)0xC71585);
-            // cUtil.listAdd(cb_list, "MidnightBlue ", (int)0x191970);
-            // cUtil.listAdd(cb_list, "MintCream ", (int)0xF5FFFA);
-            // cUtil.listAdd(cb_list, "MistyRose ", (int)0xFFE4E1);
-            // cUtil.listAdd(cb_list, "Moccasin ", (int)0xFFE4B5);
-            // cUtil.listAdd(cb_list, "NavajoWhite ", (int)0xFFDEAD);
-            // cUtil.listAdd(cb_list, "Navy ", (int)0x000080);
-            // cUtil.listAdd(cb_list, "OldLace ", (int)0xFDF5E6);
-            // cUtil.listAdd(cb_list, "Olive ", (int)0x808000);
-            // cUtil.listAdd(cb_list, "OliveDrab ", (int)0x6B8E23);
-            // cUtil.listAdd(cb_list, "Orange ", (int)0xFFA500);
-            // cUtil.listAdd(cb_list, "OrangeRed ", (int)0xFF4500);
-            // cUtil.listAdd(cb_list, "Orchid ", (int)0xDA70D6);
-            // cUtil.listAdd(cb_list, "PaleGoldenrod ", (int)0xEEE8AA);
-            // cUtil.listAdd(cb_list, "PaleGreen ", (int)0x98FB98);
-            // cUtil.listAdd(cb_list, "PaleTurquoise ", (int)0xAFEEEE);
-            // cUtil.listAdd(cb_list, "PaleVioletRed ", (int)0xDB7093);
-            // cUtil.listAdd(cb_list, "PapayaWhip ", (int)0xFFEFD5);
-            // cUtil.listAdd(cb_list, "PeachPuff ", (int)0xFFDAB9);
-            // cUtil.listAdd(cb_list, "Peru ", (int)0xCD853F);
-            // cUtil.listAdd(cb_list, "Pink ", (int)0xFFC0CB);
-            // cUtil.listAdd(cb_list, "Plum ", (int)0xDDA0DD);
-            // cUtil.listAdd(cb_list, "PowderBlue ", (int)0xB0E0E6);
-            // cUtil.listAdd(cb_list, "Purple ", (int)0x800080);
-            // cUtil.listAdd(cb_list, "Red ", (int)0xFF0000);
-            // cUtil.listAdd(cb_list, "RosyBrown ", (int)0xBC8F8F);
-            // cUtil.listAdd(cb_list, "RoyalBlue ", (int)0x4169E1);
-            // cUtil.listAdd(cb_list, "SaddleBrown ", (int)0x8B4513);
-            // cUtil.listAdd(cb_list, "Salmon ", (int)0xFA8072);
-            // cUtil.listAdd(cb_list, "SandyBrown ", (int)0xF4A460);
-            // cUtil.listAdd(cb_list, "SeaGreen ", (int)0x2E8B57);
-            // cUtil.listAdd(cb_list, "SeaShell ", (int)0xFFF5EE);
-            // cUtil.listAdd(cb_list, "Sienna ", (int)0xA0522D);
-            // cUtil.listAdd(cb_list, "Silver ", (int)0xC0C0C0);
-            // cUtil.listAdd(cb_list, "SkyBlue ", (int)0x87CEEB);
-            // cUtil.listAdd(cb_list, "SlateBlue ", (int)0x6A5ACD);
-            // cUtil.listAdd(cb_list, "SlateGray ", (int)0x708090);
-            // cUtil.listAdd(cb_list, "Snow ", (int)0xFFFAFA);
-            // cUtil.listAdd(cb_list, "SpringGreen ", (int)0x00FF7F);
-            // cUtil.listAdd(cb_list, "SteelBlue ", (int)0x4682B4);
-            // cUtil.listAdd(cb_list, "Tan ", (int)0xD2B48C);
-            // cUtil.listAdd(cb_list, "Teal ", (int)0x008080);
-            // cUtil.listAdd(cb_list, "Thistle ", (int)0xD8BFD8);
-            // cUtil.listAdd(cb_list, "Tomato ", (int)0xFF6347);
-            // cUtil.listAdd(cb_list, "Transparent ", (int)0xFFFF);
-            // cUtil.listAdd(cb_list, "Turquoise ", (int)0x40E0D0);
-            // cUtil.listAdd(cb_list, "Violet ", (int)0xEE82EE);
-            // cUtil.listAdd(cb_list, "Wheat ", (int)0xF5DEB3);
-            // cUtil.listAdd(cb_list, "White ", (int)0xFFFFFF);
-            // cUtil.listAdd(cb_list, "WhiteSmoke ", (int)0xF5F5F5);
-            // cUtil.listAdd(cb_list, "Yellow ", (int)0xFFFF00);
-            // cUtil.listAdd(cb_list, "YellowGreen ", (int)0x9ACD32);
+            // TODO: implement
         }
 
-        private cmd_cancel_Click(sender: object, e: object) {
+        private cmdCancelClick() {
             // this.ok = false;
             // this.Hide();
         }
 
-        private cmd_foreColor_Click(sender: object, e: object) {
+        private cmdForeColorClick() {
             // picColor(tx_foreColor, sh_foreColor);
         }
 
-        private cmd_backColor_Click(sender: object, e: object) {
+        private cmdBackColorClick() {
             // picColor(tx_backColor, sh_backColor);
         }
 
@@ -1251,7 +1119,7 @@ namespace CSReportEditor {
             // }
         }
 
-        private cmd_font_Click(sender: object, e: object) {
+        private cmdFontClick() {
             //
             // fontDialog.ShowEffects = true;
             //
@@ -1283,206 +1151,202 @@ namespace CSReportEditor {
             // }
         }
 
-        private cmd_borderColor_Click_1(sender: object, e: object) {
+        private cmdBorderColorClick_1() {
             // picColor(tx_borderColor, sh_borderColor);
         }
 
-        private cmd_borderColor3d_Click(sender: object, e: object) {
+        private cmdBorderColor3dClick() {
             // picColor(tx_border3D, sh_border3D);
         }
 
-        private cmd_borderShadowColor_Click(sender: object, e: object) {
+        private cmdBorderShadowColorClick() {
             // picColor(tx_borderShadow, sh_borderShadow);
         }
 
-        private cmd_dbField_Click(sender: object, e: object) {
+        private cmdDbFieldClick() {
             if (this.editor.showHelpDbField()) {
                 this.dbFieldChanged = true;
             }
         }
 
-        private cmd_apply_Click(sender: object, e: object) {
+        private cmdApplyClick() {
             // this.ok = true;
             // this.Hide();
         }
 
-        private tx_name_TextChanged(sender: object, e: object) {
+        private txNameTextChanged() {
 
         }
 
-        private tx_text_TextChanged(sender: object, e: object) {
+        private txTextTextChanged() {
             this.textChanged = true;
         }
 
-        private tx_tag_TextChanged(sender: object, e: object) {
+        private txTagTextChanged() {
             this.tagChanged = true;
         }
 
-        private tx_font_TextChanged(sender: object, e: object) {
+        private txFontTextChanged() {
             this.fontChanged = true;
         }
 
-        private tx_fontSize_TextChanged(sender: object, e: object) {
+        private txFontSizeTextChanged() {
             this.fontSizeChanged = true;
         }
 
-        private cb_align_SelectedIndexChanged(sender: object, e: object) {
+        private cbAlignSelectedIndexChanged() {
             this.alignChanged = true;
         }
 
-        private tx_foreColor_TextChanged(sender: object, e: object) {
+        private txForeColorTextChanged() {
             this.foreColorChanged = true;
         }
 
-        private tx_backColor_TextChanged(sender: object, e: object) {
+        private txBackColorTextChanged() {
             this.backColorChanged = true;
         }
 
-        private tx_format_TextChanged(sender: object, e: object) {
+        private txFormatTextChanged() {
             this.formatChanged = true;
         }
 
-        private tx_symbol_TextChanged(sender: object, e: object) {
+        private txSymbolTextChanged() {
             this.symbolChanged = true;
         }
 
-        private chk_fontBold_CheckedChanged(sender: object, e: object) {
+        private chkFontBoldCheckedChanged() {
             this.boldChanged = true;
         }
 
-        private chk_fontUnderline_CheckedChanged(sender: object, e: object) {
+        private chkFontUnderlineCheckedChanged() {
             this.underlineChanged = true;
         }
 
-        private chk_fontItalic_CheckedChanged(sender: object, e: object) {
+        private chkFontItalicCheckedChanged() {
             this.italicChanged = true;
         }
 
-        private chk_fontStrike_CheckedChanged(sender: object, e: object) {
+        private chkFontStrikeCheckedChanged() {
             this.strikeChanged = true;
         }
 
-        private tx_left_TextChanged(sender: object, e: object) {
+        private txLeftTextChanged() {
             this.leftChanged = true;
         }
 
-        private tx_top_TextChanged(sender: object, e: object) {
+        private txTopTextChanged() {
             this.topChanged = true;
         }
 
-        private tx_height_TextChanged(sender: object, e: object) {
+        private txHeightTextChanged() {
             this.heightChanged = true;
         }
 
-        private tx_width_TextChanged(sender: object, e: object) {
+        private txWidthTextChanged() {
             this.widthChanged = true;
         }
 
-        private chk_canGrow_CheckedChanged(sender: object, e: object) {
+        private chkCanGrowCheckedChanged() {
             this.canGrowChanged = true;
         }
 
-        private chk_wordWrap_CheckedChanged(sender: object, e: object) {
+        private chkWordWrapCheckedChanged() {
             this.wordWrapChanged = true;
         }
 
-        private chk_isFreeCtrl_CheckedChanged(sender: object, e: object) {
+        private chkIsFreeCtrlCheckedChanged() {
             this.isFreeCtrlChanged = true;
         }
 
-        private tx_exportColIdx_TextChanged(sender: object, e: object) {
+        private txExportColIdxTextChanged() {
             this.exportColIdxChanged = true;
         }
 
-        private cb_borderType_SelectedIndexChanged(sender: object, e: object) {
+        private cbBorderTypeSelectedIndexChanged() {
             this.borderTypeChanged = true;
         }
 
-        private tx_borderColor_TextChanged(sender: object, e: object) {
+        private txBorderColorTextChanged() {
             this.borderColorChanged = true;
         }
 
-        private tx_border3D_TextChanged(sender: object, e: object) {
+        private txBorder3DTextChanged() {
             this.border3DChanged = true;
         }
 
-        private tx_borderShadow_TextChanged(sender: object, e: object) {
+        private txBorderShadowTextChanged() {
             this.border3DShadowChanged = true;
         }
 
-        private tx_borderWidth_TextChanged_1(sender: object, e: object) {
+        private txBorderWidthTextChanged_1() {
             this.borderWidthChanged = true;
         }
 
-        private chk_borderRounded_CheckedChanged(sender: object, e: object) {
+        private chkBorderRoundedCheckedChanged() {
             this.borderRoundedChanged = true;
         }
 
-        private cb_type_SelectedIndexChanged(sender: object, e: object) {
+        private cbTypeSelectedIndexChanged() {
             this.chartTypeChanged = true;
         }
 
-        private cb_formatType_SelectedIndexChanged(sender: object, e: object) {
+        private cbFormatTypeSelectedIndexChanged() {
             this.chartFormatTypeChanged = true;
         }
 
-        private cb_linesType_SelectedIndexChanged(sender: object, e: object) {
+        private cbLinesTypeSelectedIndexChanged() {
             this.chartLinesTypeChanged = true;
         }
 
-        private cb_chartSize_SelectedIndexChanged(sender: object, e: object) {
+        private cbChartSizeSelectedIndexChanged() {
             this.chartSizeChanged = true;
         }
 
-        private tx_chartTop_TextChanged_1(sender: object, e: object) {
+        private txChartTopTextChanged_1() {
             this.chartTopChanged = true;
         }
 
-        private cb_chartThickness_SelectedIndexChanged(sender: object, e: object) {
+        private cbChartThicknessSelectedIndexChanged() {
             this.chartThicknessChanged = true;
         }
 
-        private chk_showBarValues_CheckedChanged(sender: object, e: object) {
+        private chkShowBarValuesCheckedChanged() {
             this.chartShowValuesChanged = true;
         }
 
-        private chk_showOutlines_CheckedChanged(sender: object, e: object) {
+        private chkShowOutlinesCheckedChanged() {
             this.chartShowLinesChanged = true;
         }
 
-        private chk_sort_CheckedChanged(sender: object, e: object) {
+        private chkSortCheckedChanged() {
             this.chartSortChanged = true;
         }
 
-        private tx_dbFieldGroupValue_TextChanged(sender: object, e: object) {
+        private txDbFieldGroupValueTextChanged() {
             this.chartFieldGroupChanged = true;
         }
 
-        private tx_chartGroupValue_TextChanged_1(sender: object, e: object) {
-            this.chartGroupValueChanged = true;
-        }
-
-        private tx_dbFieldVal1_TextChanged(sender: object, e: object) {
+        private txDbFieldVal1TextChanged() {
             this.chartFieldVal1Changed = true;
         }
 
-        private tx_dbFieldLbl1_TextChanged(sender: object, e: object) {
+        private txDbFieldLbl1TextChanged() {
             this.chartFieldLbl1Changed = true;
         }
 
-        private cb_colorSerie1_SelectedIndexChanged(sender: object, e: object) {
+        private cbColorSerie1SelectedIndexChanged() {
             this.chartColorSerie1Changed = true;
         }
 
-        private tx_dbFieldVal2_TextChanged(sender: object, e: object) {
+        private txDbFieldVal2TextChanged() {
             this.chartFieldVal2Changed = true;
         }
 
-        private tx_dbFieldLbl2_TextChanged(sender: object, e: object) {
+        private txDbFieldLbl2TextChanged() {
             this.chartFieldLbl2Changed = true;
         }
 
-        private cb_colorSerie2_SelectedIndexChanged(sender: object, e: object) {
+        private cbColorSerie2SelectedIndexChanged() {
             this.chartColorSerie2Changed = true;
         }
         //#endregion
@@ -1550,6 +1414,8 @@ namespace CSReportEditor {
 
             this.isFreeCtrlChanged = false;
             this.exportColIdxChanged = false;
+
+            this.bSetSectionFormulaHideChanged = false;
         }
 
         //#endregion

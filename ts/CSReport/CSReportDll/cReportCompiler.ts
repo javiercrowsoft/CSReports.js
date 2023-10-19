@@ -345,7 +345,7 @@ namespace CSReportDll {
 
             code = this.pColonToPipe(code);
 
-            return this.pCompileAux(code, codeC);
+            return this.pCompileAux(code, new RefWrapper(codeC));
         }
 
         private pColonToPipe(code: string) {
@@ -742,17 +742,17 @@ namespace CSReportDll {
             let name = functionName;
             let parameters = code.trim();
             if (parameters.length > 2) {
-                debugger; // seguro que este substring esta mal
-                parameters = parameters.substring(1, parameters.length - 2);
+                // remove ( and ) at begining and end of sentence
+                //
+                parameters = parameters.substring(1, parameters.length - 1);
             }
 
             // we need to replace in this.formula.getTextC() the function name by its key
             //
             let tc = this.formula.getTextC();
             let r = tc.toLowerCase().indexOf(name.toLowerCase(), 0);
-            let q = tc.toLowerCase().indexOf(")".toLowerCase(), r) + 1;
+            let q = tc.toLowerCase().indexOf(")", r) + 1;
 
-            debugger; // seguro que este substring esta mal
             this.formula.setTextC((tc.substring(0, r)).toString()
                                 + cReportCompiler.C_KEY_FUNC_INT
                                 + ReportGlobals.format(this.formula.getFormulasInt().count(), "000")
@@ -1838,8 +1838,7 @@ namespace CSReportDll {
         private removeReturns(code: string) {
             let c: string = "";
             for(let i = 0; i < code.length; i++) {
-                debugger; // seguro que este substring esta mal
-                c = code.substring(i, 1);
+                c = code.charAt(i);
                 if (c !== " " && c !== "\r" && c !== "\n") {
                     code = code.substring(i);
                     break;
@@ -1875,52 +1874,51 @@ namespace CSReportDll {
             st.setHour(h);
         }
 
-        private pCompileAux(code: string, codeC: string) {
+        private pCompileAux(code: string, codeC: RefWrapper<string>) {
             let codeCallFunction: string = "";
-            let codeCallFunctionC: string = "";
+            let codeCallFunctionC = new RefWrapper("");
             let functionName: string = "";
             let word: string = "";
 
-            let nStart: number = 0;
+            let start = new RefWrapper(0);
             let nLenCode: number = code.length;
 
-            codeC = "";
+            codeC.set("");
 
             do {
-                word = this.pGetWord(code, nStart);
+                word = this.pGetWord(code, start);
                 let refFunctionName = new RefWrapper(functionName);
                 if (this.pIsFunctionAux(word, refFunctionName)) {
                     functionName = refFunctionName.get();
 
-                    codeCallFunction = this.pGetCallFunction(code, nStart);
+                    codeCallFunction = this.pGetCallFunction(code, start);
 
-                    if (!this.pCompileAux(codeCallFunction, codeCallFunctionC)) {
+                    if (! this.pCompileAux(codeCallFunction, codeCallFunctionC)) {
                         return false;
                     }
 
-                    codeC = codeC + this.pExecFunction(functionName, codeCallFunctionC);
+                    codeC.set(codeC.get() + this.pExecFunction(functionName, codeCallFunctionC.get()));
                 }
                 else {
-                    codeC = codeC + word;
+                    codeC.set(codeC.get() + word);
                 }
-            } while (nStart < nLenCode);
+            } while (start.get() < nLenCode);
 
             return true;
         }
 
-        private pGetWord(code: string, nStart: number) {
+        private pGetWord(code: string, start: RefWrapper<number>) {
             let nLenCode = code.length;
-            debugger; // seguro que este substring esta mal
-            let c = code.substring(nStart, 1);
+            let n = start.get();
+            let c = code.charAt(n);
             let word = "";
             do {
                 word += c;
-                nStart += 1;
+                n += 1;
                 if (this.pIsSeparator(c)) break;
-                debugger; // seguro que este substring esta mal
-                c = code.substring(nStart, 1);
-            } while (!this.pIsSeparator(c) && nStart < nLenCode);
-
+                c = code.charAt(n);
+            } while (!this.pIsSeparator(c) && n < nLenCode);
+            start.set(n);
             return word;
         }
 
@@ -1930,19 +1928,18 @@ namespace CSReportDll {
             return true;
         }
 
-        private pGetCallFunction(code: string, nStart: number) {
+        private pGetCallFunction(code: string, start: RefWrapper<number>) {
             let c: string;
             let word: string = "";
-
+            let n = start.get();
             let nLenCode = code.length;
             let nInner = new RefWrapper(-1);
             do {
-                debugger; // seguro que este substring esta mal
-                c = code.substring(nStart, 1);
+                c = code.charAt(n);
                 word = word + c;
-                nStart = nStart + 1;
-            } while (!this.pIsEndCallFunction(c, nInner) && nStart < nLenCode);
-
+                n = n + 1;
+            } while (!this.pIsEndCallFunction(c, nInner) && n < nLenCode);
+            start.set(n);
             return word;
         }
 

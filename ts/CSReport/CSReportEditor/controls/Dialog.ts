@@ -51,6 +51,8 @@ namespace CSReportEditor {
 
         private settings: DialogSettings;
 
+        public onApply: () => boolean;
+
         public constructor(el: HTMLElement = null, applyAndCloseButtonId?: string, cancelButtonId?: string) {
 
             this.dialog = document.createElement('div');
@@ -101,12 +103,21 @@ namespace CSReportEditor {
 
             if(applyAndCloseButtonId) {
                 const applyButton = U.el(applyAndCloseButtonId);
-                applyButton.onclick = P.call(this, () => this.close(true));
+                applyButton.onclick = P.call(this, () => this.onApplyClick());
             }
             if(cancelButtonId) {
                 const cancelButton = U.el(cancelButtonId);
                 cancelButton.onclick = P.call(this, () => this.close(false));
             }
+        }
+
+        private onApplyClick() {
+            if(this.onApply) {
+                if(! this.onApply.call(null)) {
+                    return;
+                }
+            }
+            this.close(true);
         }
 
         // will be called when user starts dragging an element
