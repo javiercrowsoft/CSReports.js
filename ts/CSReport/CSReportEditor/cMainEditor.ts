@@ -10,7 +10,7 @@ namespace CSReportEditor {
 	    public C_HEIGHT_BAR_SECTION: number = 120;
 	    public C_HEIGHT_NEW_SECTION: number = 350;
 
-	    private static editor: cEditor;
+	    private static editor: cEditor = null;
 
         private static fToolbox: FToolbox = null;
         private static fControls: FControls = null;

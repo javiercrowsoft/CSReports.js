@@ -60,27 +60,6 @@ namespace CSDatabase {
             return "'" + new Intl.DateTimeFormat('ja-JP', Database.SQL_DATE_FORMAT).format(date)  + "'";
         }
 
-        /* TODO: remove me
-        private string getNumberSql(string number)
-        {
-            if (! G.isNumeric(number))
-            {
-                return "0";
-            }
-            else
-            {
-                var s = cUtil.val(number).ToString(new String('#', 27) + "0." + new String('#', 28), CultureInfo.InvariantCulture);
-                s = s.Replace(",", ".");
-                if (s.Substring(s.Length - 1, 0) == ".")
-                {
-                    s = s.Substring(0, s.Length - 1);
-                }
-                return s;
-            }
-
-        }
-        */
-
         public static sqlNumber(number: string): string {
             if (! Utils.isNumber(number)) {
                 return "0";

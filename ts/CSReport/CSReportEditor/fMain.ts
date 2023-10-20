@@ -14,6 +14,8 @@ namespace CSReportEditor {
     import Color = CSReportPaint.Color;
     import Font = CSReportPaint.Font;
     import P = CSKernelClient.Callable;
+    import FileContent = CSKernelFile.FileContent;
+    import Map = CSOAPI.Map;
 
     export class FMain {
 
@@ -63,6 +65,8 @@ namespace CSReportEditor {
         private lv_fields: ListView = null;
         private tv_controls: TreeView = null;
         private propertyDlg: PropertyDlg = null;
+
+        private debugData = new Map<FileContent>();
 
         public constructor() {
             // it is the first thing we need to do
@@ -383,6 +387,22 @@ namespace CSReportEditor {
             } catch (ex) {
                 cError.mngError(ex);
             }
+        }
+
+        public loadDataClick() {
+            let editor: cEditor = cMainEditor.getDocActive();
+            if (editor !== null) {
+                this.openFileWithDialog().then(P.call(this, (fc: FileContent) => {
+                    this.debugData.add(fc, editor.getFileName());
+                }));
+            }
+        }
+
+        private openFileWithDialog() {
+            let file: CSKernelFile.cFile = new CSKernelFile.cFile();
+            file.init("OpenFileWithDialog");
+
+            return file.userOpenFile();
         }
 
         //------------------------------------------------------------------------------------------------------------------

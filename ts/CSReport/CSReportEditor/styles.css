@@ -579,6 +579,11 @@ ul.toolbar li {
     float: left;
 }
 
+ul.toolbar img {
+    vertical-align: text-top;
+    margin-right: 10px;
+}
+
 ul.toolbar a {
     display: block;
     color: white;
