@@ -1,3 +1,11 @@
+///<reference path="../CSReportEngine/cReport.ts"/>
+///<reference path="../CSReportEngine/cReportConnect.ts"/>
+///<reference path="../CSReportEngine/cReportSectionLine.ts"/>
+///<reference path="../CSReportEngine/cReportSection.ts"/>
+///<reference path="../CSReportEngine/cReportFormula.ts"/>
+///<reference path="../CSReportEngine/cReportChartSequence.ts"/>
+///<reference path="../CSReportEngine/cPrintAPI.ts"/>
+///<reference path="../CSReportEngine/cReportLaunchInfo.ts"/>
 ///<reference path="../CSReportPaint/cReportPaint.ts"/>
 ///<reference path="../CSReportPaint/cReportPrint.ts"/>
 ///<reference path="../../CSDrawing/Bitmap.ts"/>
@@ -11,41 +19,41 @@
 
 namespace CSReportEditor {
 
-    import cReport = CSReportDll.cReport;
+    import cReport = CSReportEngine.cReport;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import cError = CSKernelClient.cError;
-    import cReportConnect = CSReportDll.cReportConnect;
+    import cReportConnect = CSReportEngine.cReportConnect;
     import RefWrapper = CSKernelClient.RefWrapper;
-    import cIReportGroupSections = CSReportDll.cIReportGroupSections;
-    import cReportSectionLine = CSReportDll.cReportSectionLine;
-    import cReportSection = CSReportDll.cReportSection;
-    import cReportFormula = CSReportDll.cReportFormula;
+    import cIReportGroupSections = CSReportEngine.cIReportGroupSections;
+    import cReportSectionLine = CSReportEngine.cReportSectionLine;
+    import cReportSection = CSReportEngine.cReportSection;
+    import cReportFormula = CSReportEngine.cReportFormula;
     import csRptSectionType = CSReportGlobals.csRptSectionType;
-    import cReportControl = CSReportDll.cReportControl;
+    import cReportControl = CSReportEngine.cReportControl;
     import csRptControlType = CSReportGlobals.csRptControlType;
-    import cReportAspect = CSReportDll.cReportAspect;
-    import cReportFont = CSReportDll.cReportFont;
+    import cReportAspect = CSReportEngine.cReportAspect;
+    import cReportFont = CSReportEngine.cReportFont;
     import csECtlAlignConst = CSReportGlobals.csECtlAlignConst;
     import Utils = CSOAPI.Utils;
-    import cReportSections = CSReportDll.cReportSections;
-    import cReportGroup = CSReportDll.cReportGroup;
-    import cReportSectionLines = CSReportDll.cReportSectionLines;
-    import cReportChart = CSReportDll.cReportChart;
-    import cReportChartSequence = CSReportDll.cReportChartSequence;
-    import cReportField = CSReportDll.cReportField;
-    import cReportLabel = CSReportDll.cReportLabel;
+    import cReportSections = CSReportEngine.cReportSections;
+    import cReportGroup = CSReportEngine.cReportGroup;
+    import cReportSectionLines = CSReportEngine.cReportSectionLines;
+    import cReportChart = CSReportEngine.cReportChart;
+    import cReportChartSequence = CSReportEngine.cReportChartSequence;
+    import cReportField = CSReportEngine.cReportField;
+    import cReportLabel = CSReportEngine.cReportLabel;
     import RptGrpComparisonType = CSReportGlobals.RptGrpComparisonType;
     import RptGrpOrderType = CSReportGlobals.RptGrpOrderType;
     import CMouseWait = CSKernelClient.CMouseWait;
     import DatabaseGlobals = CSDatabase.DatabaseGlobals;
     import cColumnInfo = CSConnect.cColumnInfo;
-    import cIReportSection = CSReportDll.cIReportSection;
+    import cIReportSection = CSReportEngine.cIReportSection;
     import csRptWhenEval = CSReportGlobals.csRptWhenEval;
     import csReportBorderType = CSReportGlobals.csReportBorderType;
-    import cReportPaperInfo = CSReportDll.cReportPaperInfo;
-    import cColumnsInfo = CSReportDll.cColumnsInfo;
-    import cPrintAPI = CSReportDll.cPrintAPI;
-    import cReportLaunchInfo = CSReportDll.cReportLaunchInfo;
+    import cReportPaperInfo = CSReportEngine.cReportPaperInfo;
+    import cColumnsInfo = CSReportEngine.cColumnsInfo;
+    import cPrintAPI = CSReportEngine.cPrintAPI;
+    import cReportLaunchInfo = CSReportEngine.cReportLaunchInfo;
     import csETypeGrid = CSReportPaint.csETypeGrid;
     import csRptPaintObjType = CSReportPaint.csRptPaintObjType;
     import cReportPaintObjects = CSReportPaint.cReportPaintObjects;
@@ -1814,7 +1822,7 @@ namespace CSReportEditor {
 
         public setParameters() {
             let connect: CSConnect.cConnect = new CSConnect.cConnect();
-            let param: CSReportDll.cParameter = null;
+            let param: CSReportEngine.cParameter = null;
 
             for(let _i = 0; _i < this.report.getConnect().getParameters().count(); _i++) {
                 param = this.report.getConnect().getParameters().item(_i);

@@ -1,6 +1,6 @@
 namespace CSReportPaint {
 
-    import cReportAspect = CSReportDll.cReportAspect;
+    import cReportAspect = CSReportEngine.cReportAspect;
     import csRptSectionType = CSReportGlobals.csRptSectionType;
     import Image = CSDrawing.Image;
 

@@ -1,6 +1,6 @@
 namespace CSReportEditor {
 
-    import cColumnsInfo = CSReportDll.cColumnsInfo;
+    import cColumnsInfo = CSReportEngine.cColumnsInfo;
 
     export class FColumns {
 

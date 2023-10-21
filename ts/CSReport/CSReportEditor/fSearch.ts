@@ -1,7 +1,7 @@
 namespace CSReportEditor {
 
     import Form = CSForms.Form;
-    import cIReportGroupSections = CSReportDll.cIReportGroupSections;
+    import cIReportGroupSections = CSReportEngine.cIReportGroupSections;
 
     enum csObjType {
         iTypeFormulaH = 1,

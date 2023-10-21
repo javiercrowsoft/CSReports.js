@@ -3,7 +3,7 @@
 namespace CSReportEditor {
 
     import Form = CSForms.Form;
-    import cReport = CSReportDll.cReport;
+    import cReport = CSReportEngine.cReport;
 
     export class FControls extends Form {
 

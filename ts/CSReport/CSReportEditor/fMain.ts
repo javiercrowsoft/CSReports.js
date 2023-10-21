@@ -10,10 +10,10 @@ namespace CSReportEditor {
 
     import cError = CSKernelClient.cError;
     import U = CSOAPI.Utils;
-    import cPrintAPI = CSReportDll.cPrintAPI;
-    import PrintDialog = CSReportDll.PrintDialog;
-    import cPrinter = CSReportDll.cPrinter;
-    import Point = CSReportDll.Point;
+    import cPrintAPI = CSReportEngine.cPrintAPI;
+    import PrintDialog = CSReportEngine.PrintDialog;
+    import cPrinter = CSReportEngine.cPrinter;
+    import Point = CSReportEngine.Point;
     import csRptSectionType = CSReportGlobals.csRptSectionType;
     import cWindow = CSKernelClient.cWindow;
     import csECtlAlignConst = CSReportGlobals.csECtlAlignConst;

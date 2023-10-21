@@ -1,6 +1,6 @@
 namespace CSIReportPrint {
 
-    import cReport = CSReportDll.cReport;
+    import cReport = CSReportEngine.cReport;
 
     export interface cIReportPrint {
         setReport(report: cReport): void;

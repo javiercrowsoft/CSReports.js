@@ -12,7 +12,7 @@ namespace CSReportExport {
         public setFileName(fileName: string) {
         }
 
-        public exportEx(report: CSReportDll.cReport, caller: object, outputFile: string, showPDFWindow: boolean) {
+        public exportEx(report: CSReportEngine.cReport, caller: object, outputFile: string, showPDFWindow: boolean) {
             return false;
         }
     }

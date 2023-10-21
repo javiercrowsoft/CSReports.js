@@ -1,10 +1,11 @@
 ///<reference path="../../CSKernel/CSKernelClient/Promise.ts"/>
 ///<reference path="../../CSDrawing/cGraphics.ts"/>
+///<reference path="../CSReportEngine/cReportAspect.ts"/>
 
 namespace CSReportPaint {
 
     import cError = CSKernelClient.cError;
-    import cReportAspect = CSReportDll.cReportAspect;
+    import cReportAspect = CSReportEngine.cReportAspect;
     import csColors = CSDrawing.csColors;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import csReportBorderType = CSReportGlobals.csReportBorderType;

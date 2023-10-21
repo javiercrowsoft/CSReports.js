@@ -1,13 +1,13 @@
 namespace CSReportWebServer {
 
     import U = CSOAPI.Utils;
-    import cReport = CSReportDll.cReport;
-    import cReportLaunchInfo = CSReportDll.cReportLaunchInfo;
-    import ProgressEventArgs = CSReportDll.ProgressEventArgs;
+    import cReport = CSReportEngine.cReport;
+    import cReportLaunchInfo = CSReportEngine.cReportLaunchInfo;
+    import ProgressEventArgs = CSReportEngine.ProgressEventArgs;
     import DatabaseEngine = CSDatabase.DatabaseEngine;
     import JSONDataSource = CSDatabase.JSONDataSource;
     import JSONServer = CSDatabase.JSONServer;
-    import cPrintAPI = CSReportDll.cPrintAPI;
+    import cPrintAPI = CSReportEngine.cPrintAPI;
     import csRptLaunchAction = CSReportGlobals.csRptLaunchAction;
     import CMouseWait = CSKernelClient.CMouseWait;
     import cWindow = CSKernelClient.cWindow;

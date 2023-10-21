@@ -2,9 +2,9 @@
 
 namespace CSReportPaint {
 
-    import cReportPaperInfo = CSReportDll.cReportPaperInfo;
+    import cReportPaperInfo = CSReportEngine.cReportPaperInfo;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
-    import cReportFont = CSReportDll.cReportFont;
+    import cReportFont = CSReportEngine.cReportFont;
     import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
 
     import RectangleF = CSDrawing.RectangleF;

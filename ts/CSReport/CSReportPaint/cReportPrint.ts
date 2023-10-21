@@ -1,5 +1,6 @@
 ///<reference path="../../CSForms/Form.ts"/>
 ///<reference path="../../CSReportExport/cReportPdf.ts"/>
+///<reference path="../CSReportEngine/cPrinter.ts"/>
 
 namespace CSReportPaint {
 
@@ -7,17 +8,17 @@ namespace CSReportPaint {
     import Utils = CSOAPI.Utils;
     import cIPrintClient = CSIReportPrint.cIPrintClient;
     import CMouseWait = CSKernelClient.CMouseWait;
-    import cPrinter = CSReportDll.cPrinter;
-    import cPrintAPI = CSReportDll.cPrintAPI;
-    import cReportLaunchInfo = CSReportDll.cReportLaunchInfo;
+    import cPrinter = CSReportEngine.cPrinter;
+    import cPrintAPI = CSReportEngine.cPrintAPI;
+    import cReportLaunchInfo = CSReportEngine.cReportLaunchInfo;
     import csRptGetLineResult = CSReportGlobals.csRptGetLineResult;
     import csRptNewPageResult = CSReportGlobals.csRptNewPageResult;
     import csRptEndPageResult = CSReportGlobals.csRptEndPageResult;
     import cIReportPrint = CSIReportPrint.cIReportPrint;
     import RefWrapper = CSKernelClient.RefWrapper;
-    import cReportPaperInfo = CSReportDll.cReportPaperInfo;
-    import PrintDocument = CSReportDll.PrintDocument;
-    import cReportPageFields = CSReportDll.cReportPageFields;
+    import cReportPaperInfo = CSReportEngine.cReportPaperInfo;
+    import PrintDocument = CSReportEngine.PrintDocument;
+    import cReportPageFields = CSReportEngine.cReportPageFields;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import PageEventArgs = CSReportPreview.PageEventArgs;
@@ -39,7 +40,7 @@ namespace CSReportPaint {
         private static C_OFFSETDETAIL: number = 100000;
         private static C_OFFSETFOOTER: number = 1000000;
 
-        private report: CSReportDll.cReport = null;
+        private report: CSReportEngine.cReport = null;
         private paint: cReportPaint = null;
         private rpwPrint: cReportPreview = null;
         private fPreview: fPreview = null;
@@ -151,7 +152,7 @@ namespace CSReportPaint {
             this.bHidePreviewWindow = rhs;
         }
 
-        public setReport(rhs: CSReportDll.cReport) {
+        public setReport(rhs: CSReportEngine.cReport) {
             this.report = rhs;
         }
 
@@ -177,7 +178,7 @@ namespace CSReportPaint {
                 return null;
             }
             else {
-                let item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
+                let item: CSReportEngine.cReportPage = this.report.getPages().item(this.currPage);
                 if(indexField < cReportPrint.C_OFFSETDETAIL) {
                     return this.getLineAux(fld.get().getIndexLine(), item.getHeader());
                 }
@@ -200,8 +201,8 @@ namespace CSReportPaint {
 
         public refreshCtrl(indexField: number) {
             let paintObj: cReportPaintObject = null;
-            let fld = new RefWrapper<CSReportDll.cReportPageField>(null);
-            let page: CSReportDll.cReportPage;
+            let fld = new RefWrapper<CSReportEngine.cReportPageField>(null);
+            let page: CSReportEngine.cReportPage;
 
             page = this.report.getPages().item(this.currPage);
 
@@ -225,8 +226,8 @@ namespace CSReportPaint {
 
             let ctrlFont = fld.get().getInfo().getAspect().getFont();
 
-            let aspect: CSReportDll.cReportAspect = paintObj.getAspect();
-            let font: CSReportDll.cReportFont = aspect.getFont();
+            let aspect: CSReportEngine.cReportAspect = paintObj.getAspect();
+            let font: CSReportEngine.cReportFont = aspect.getFont();
             font.setForeColor(ctrlFont.getForeColor());
             font.setBold(ctrlFont.getBold());
             font.setItalic(ctrlFont.getItalic());
@@ -247,8 +248,8 @@ namespace CSReportPaint {
             this.paint.refreshObject(paintObj.getKey(), this.rpwPrint.getGraph());
         }
 
-        public getFieldByCtrlName(ctrlName: string, fields: CSReportDll.cReportPageFields, indexField: number = 0) {
-            let fld: CSReportDll.cReportPageField = null;
+        public getFieldByCtrlName(ctrlName: string, fields: CSReportEngine.cReportPageFields, indexField: number = 0) {
+            let fld: CSReportEngine.cReportPageField = null;
 
             for(let _i = 0; _i < fields.count(); _i++) {
                 fld = fields.item(_i);
@@ -263,7 +264,7 @@ namespace CSReportPaint {
 
         public getPaintObjByCtrlNameEx(ctrlName: string, indexField: number) {
             let offset: number;
-            let item: CSReportDll.cReportPage = this.report.getPages().item(this.currPage);
+            let item: CSReportEngine.cReportPage = this.report.getPages().item(this.currPage);
             let fields = item.getHeader();
             offset = cReportPrint.C_OFFSETHEADER;
             let fld = this.getFieldByCtrlName(ctrlName, fields, indexField);
@@ -293,9 +294,9 @@ namespace CSReportPaint {
             return null;
         }
 
-        public isInThisLine(ctrlName: string, indexField: number, testFld: CSReportDll.cReportPageField) {
-            let fields: CSReportDll.cReportPageFields = null;
-            let fld: CSReportDll.cReportPageField = null;
+        public isInThisLine(ctrlName: string, indexField: number, testFld: CSReportEngine.cReportPageField) {
+            let fields: CSReportEngine.cReportPageFields = null;
+            let fld: CSReportEngine.cReportPageField = null;
 
             if(indexField === 0) {
                 return true;
@@ -314,7 +315,7 @@ namespace CSReportPaint {
         }
 
         public getField(indexField: number) {
-            let rtn = new RefWrapper<CSReportDll.cReportPageField>(null);
+            let rtn = new RefWrapper<CSReportEngine.cReportPageField>(null);
             let page = this.report.getPages().item(this.currPage);
 
             if(indexField < cReportPrint.C_OFFSETDETAIL) {
@@ -340,7 +341,7 @@ namespace CSReportPaint {
         }
 
         public printPage(nPage: number, inPrinter: boolean = false) {
-            let page: CSReportDll.cReportPage = null;
+            let page: CSReportEngine.cReportPage = null;
 
             let mouse: CMouseWait = new CMouseWait();
 
@@ -511,8 +512,8 @@ namespace CSReportPaint {
             return null;
         }
 
-        private pGetPaintObjByCtrlName(ctrlName: string, fields: CSReportDll.cReportPageFields, offset: number) {
-            let fld: CSReportDll.cReportPageField = this.getFieldByCtrlName(ctrlName, fields);
+        private pGetPaintObjByCtrlName(ctrlName: string, fields: CSReportEngine.cReportPageFields, offset: number) {
+            let fld: CSReportEngine.cReportPageField = this.getFieldByCtrlName(ctrlName, fields);
 
             for(let _i = 0; _i < this.paint.getPaintObjects().count(); _i++) {
                 let rtn: cReportPaintObject = this.paint.getPaintObjects().item(_i);
@@ -687,8 +688,8 @@ namespace CSReportPaint {
             return n;
         }
 
-        private getLineAux(indexLine: number, fields: CSReportDll.cReportPageFields) {
-            let newFields = new CSReportDll.cReportPageFields();
+        private getLineAux(indexLine: number, fields: CSReportEngine.cReportPageFields) {
+            let newFields = new CSReportEngine.cReportPageFields();
 
             for(let _i = 0; _i < fields.count(); _i++) {
                 let fld = fields.item(_i);
@@ -704,8 +705,8 @@ namespace CSReportPaint {
             let lineHeight: number = 0;
 
             let fields = new RefWrapper<cReportPageFields>(null);
-            let field: CSReportDll.cReportPageField = null;
-            let detail: CSReportDll.cReportPageFields = null;
+            let field: CSReportEngine.cReportPageField = null;
+            let detail: CSReportEngine.cReportPageFields = null;
 
             let rslt: csRptGetLineResult ;
             let rsltNewPage: csRptNewPageResult ;
@@ -828,13 +829,13 @@ namespace CSReportPaint {
 
                             // get the field's top
                             //
-                            let sectionLine: CSReportDll.cReportSectionLine = field.getInfo().getSectionLine();
+                            let sectionLine: CSReportEngine.cReportSectionLine = field.getInfo().getSectionLine();
 
                             // one time for section
                             //
                             if(secLnIndex !== sectionLine.getIndex()) {
                                 secLnIndex = sectionLine.getIndex();
-                                let w_aspect: CSReportDll.cReportAspect = sectionLine.getAspect();
+                                let w_aspect: CSReportEngine.cReportAspect = sectionLine.getAspect();
                                 topSection = topSection + (w_aspect.getTop() - (topSection + heightSection));
                                 heightSection = heightSection + w_aspect.getHeight();
                             }
@@ -918,21 +919,21 @@ namespace CSReportPaint {
 
         // returns details' height of this page
         //
-        private getDetailHeight(page: CSReportDll.cReportPage, top: number) {
+        private getDetailHeight(page: CSReportEngine.cReportPage, top: number) {
             top = page.getHeaderBottom();
             return page.getFooterTop() - top;
         }
 
         // returns the bigger control's height and set the height of every control
         //
-        private getLineHeight(fields: CSReportDll.cReportPageFields, offsetTop: number[]) {
-            let field: CSReportDll.cReportPageField = null;
+        private getLineHeight(fields: CSReportEngine.cReportPageFields, offsetTop: number[]) {
+            let field: CSReportEngine.cReportPageField = null;
             let offBottom: number = 0;
             let aspectHeight: number = 0;
             let aspectWidth: number = 0;
 
-            let aspect: CSReportDll.cReportAspect = null;
-            let aspectLn: CSReportDll.cReportAspect = null;
+            let aspect: CSReportEngine.cReportAspect = null;
+            let aspectLn: CSReportEngine.cReportAspect = null;
 
             // used to get the offset to top
             //
@@ -1158,11 +1159,11 @@ namespace CSReportPaint {
             this.rpwPrint.setLastPage(this.rpwPrintMoveLast);
         }
 
-        private createPaintObjects(fields: CSReportDll.cReportPageFields, offset: number) {
-            let field: CSReportDll.cReportPageField = null;
+        private createPaintObjects(fields: CSReportEngine.cReportPageFields, offset: number) {
+            let field: CSReportEngine.cReportPageField = null;
 
-            let rptAspect: CSReportDll.cReportAspect = null;
-            let rptFont: CSReportDll.cReportFont = null;
+            let rptAspect: CSReportEngine.cReportAspect = null;
+            let rptFont: CSReportEngine.cReportFont = null;
 
             let index: number = 0;
 
@@ -1175,7 +1176,7 @@ namespace CSReportPaint {
                     rptAspect = field.getInfo().getAspect();
 
                     let po: cReportPaintObject = this.paint.getPaintObjects().add(null, "");
-                    let aspect: CSReportDll.cReportAspect = po.getAspect();
+                    let aspect: CSReportEngine.cReportAspect = po.getAspect();
                     if(field.getTop() > 0) {
                         aspect.setTop(field.getTop());
                     }
@@ -1208,7 +1209,7 @@ namespace CSReportPaint {
                     aspect.setBorderWidth(rptAspect.getBorderWidth());
 
                     rptFont = rptAspect.getFont();
-                    let font: CSReportDll.cReportFont = aspect.getFont();
+                    let font: CSReportEngine.cReportFont = aspect.getFont();
                     font.setBold(rptFont.getBold());
                     font.setForeColor(rptFont.getForeColor());
                     font.setItalic(rptFont.getItalic());
@@ -1266,7 +1267,7 @@ namespace CSReportPaint {
         */
         }
 
-        private getFieldFromIndexAux(fields: CSReportDll.cReportPageFields, index: number, rtn: RefWrapper<CSReportDll.cReportPageField>) {
+        private getFieldFromIndexAux(fields: CSReportEngine.cReportPageFields, index: number, rtn: RefWrapper<CSReportEngine.cReportPageField>) {
             try {
                 rtn.set(fields.item(index));
                 return true;

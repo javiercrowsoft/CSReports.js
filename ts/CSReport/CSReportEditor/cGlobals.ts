@@ -4,15 +4,15 @@ namespace CSReportEditor {
     import NotImplementedException = CSOAPI.NotImplementedException;
     import cConnect = CSConnect.cConnect;
     import csRptControlType = CSReportGlobals.csRptControlType;
-    import cReport = CSReportDll.cReport;
-    import cReportConnect = CSReportDll.cReportConnect;
-    import cReportGroup = CSReportDll.cReportGroup;
-    import cReportSection = CSReportDll.cReportSection;
-    import cReportControl = CSReportDll.cReportControl;
-    import cReportAspect = CSReportDll.cReportAspect;
-    import cReportSectionLine = CSReportDll.cReportSectionLine;
+    import cReport = CSReportEngine.cReport;
+    import cReportConnect = CSReportEngine.cReportConnect;
+    import cReportGroup = CSReportEngine.cReportGroup;
+    import cReportSection = CSReportEngine.cReportSection;
+    import cReportControl = CSReportEngine.cReportControl;
+    import cReportAspect = CSReportEngine.cReportAspect;
+    import cReportSectionLine = CSReportEngine.cReportSectionLine;
     import RectangleF = CSDrawing.RectangleF;
-    import cIReportGroupSections = CSReportDll.cIReportGroupSections;
+    import cIReportGroupSections = CSReportEngine.cIReportGroupSections;
     import Color = CSDrawing.Color;
 
     import Node = CSForms.Node;
@@ -167,7 +167,7 @@ namespace CSReportEditor {
 
             for(let i = 0; i < connect.getColumnsInfo().count(); i++) {
                 let colInfo: CSConnect.cColumnInfo = connect.getColumnsInfo().item(i);
-                let rptColInfo: CSReportDll.cColumnInfo = new CSReportDll.cColumnInfo();
+                let rptColInfo: CSReportEngine.cColumnInfo = new CSReportEngine.cColumnInfo();
 
                 rptColInfo.setName(colInfo.getName());
                 rptColInfo.setPosition(colInfo.getPosition());
@@ -177,7 +177,7 @@ namespace CSReportEditor {
 
             for(let i = 0; i < connect.getParameters().count(); i++) {
                 let parameter: CSConnect.cParameter = connect.getParameters().item(i);
-                let rptParameter: CSReportDll.cParameter = new CSReportDll.cParameter();
+                let rptParameter: CSReportEngine.cParameter = new CSReportEngine.cParameter();
 
                 rptParameter.setName(parameter.getName());
                 rptParameter.setPosition(parameter.getPosition());
@@ -452,7 +452,7 @@ namespace CSReportEditor {
         }
 
         public static fillColumns(dataSource: string,
-                                  columns: CSReportDll.cColumnsInfo,
+                                  columns: CSReportEngine.cColumnsInfo,
                                   lvColumns: ListView,
                                   index: string,
                                   fieldType: string,
