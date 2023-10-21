@@ -1,7 +1,6 @@
-///<reference path="controls/Form.ts"/>
-
 namespace CSReportEditor {
 
+    import Form = CSForms.Form;
     import NotImplementedException = CSOAPI.NotImplementedException;
 
     export class FConnectsAux extends Form {

@@ -3,12 +3,12 @@ namespace CSKernelClient {
     export class cDateUtils {
 
         public static isDate(value: any) {
-            if (this.isValidDate(value)) {
+            if(this.isValidDate(value)) {
                 return true;
             }
             else {
                 let t: string = typeof value;
-                if (t === "string") {
+                if(t === "string") {
                     return this.isValidDate(Date.parse(value));
                 }
                 else {

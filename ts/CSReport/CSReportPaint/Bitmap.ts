@@ -136,7 +136,7 @@ namespace CSReportPaint {
         static fromImage(bitmap: Bitmap): Promise<Graphic> {
             const canvas = document.createElement('canvas') as HTMLCanvasElement;
             // @ts-ignore
-            canvas.name = name;            
+            canvas.name = name;
             const ctx = canvas.getContext('2d');
             return bitmap.getBitmap().then(bmp => {
                 ctx.canvas.width = bmp.width;
@@ -149,7 +149,7 @@ namespace CSReportPaint {
         static createGraphic(name: string, width?: number, height?: number) {
             const canvas = document.createElement('canvas') as HTMLCanvasElement;
             // @ts-ignore
-            canvas.name = name;            
+            canvas.name = name;
             const ctx = canvas.getContext('2d');
             if(width) ctx.canvas.width = width;
             if(height) ctx.canvas.height = height;
@@ -169,7 +169,7 @@ namespace CSReportPaint {
                 console.log(ex);
                 throw ex;
             }
-            
+
         }
 
         fillRectangle(brush: Brush, rect: Rectangle) {
@@ -192,10 +192,10 @@ namespace CSReportPaint {
             this.context.restore();
         }
 
-        drawString(text: string, 
-                   font: Font, 
-                   brush: SolidBrush, 
-                   rect: RectangleF, 
+        drawString(text: string,
+                   font: Font,
+                   brush: SolidBrush,
+                   rect: RectangleF,
                    format: StringFormat) {
             this.context.save();
             this.context.fillStyle = brush.foreground.color;
@@ -209,27 +209,27 @@ namespace CSReportPaint {
             this.context.restore();
         }
 
-        private drawStringIntoRect(text: string, rect: RectangleF) {            
+        private drawStringIntoRect(text: string, rect: RectangleF) {
             this.context.beginPath();
             this.context.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight() + 20);
             this.context.clip();
             this.context.fillText(text, rect.getLeft(), rect.getTop() + rect.getHeight());
-            this.context.closePath();            
+            this.context.closePath();
         }
 
-        private drawWrappedString(text: string, 
-                                  x: number, 
-                                  y: number, 
+        private drawWrappedString(text: string,
+                                  x: number,
+                                  y: number,
                                   maxWidth: number) {
             let words = text.split(' ');
             let line = '';
             const lineHeight = this.lineHeight();
 
-            for (let n = 0; n < words.length; n++) {
+            for(let n = 0; n < words.length; n++) {
                 let testLine = line + words[n] + ' ';
                 let metrics = this.context.measureText(testLine);
                 let testWidth = metrics.width;
-                if (testWidth > maxWidth && n > 0) {
+                if(testWidth > maxWidth && n > 0) {
                     this.context.fillText(line, x, y);
                     line = words[n] + ' ';
                     y += lineHeight;
@@ -253,15 +253,15 @@ namespace CSReportPaint {
             let words = text.split(' ');
             let line = '';
             let width = 0;
-            let wrapped = false;            
+            let wrapped = false;
             const lineHeight = this.lineHeight();
-            let y = lineHeight;            
+            let y = lineHeight;
 
-            for (let n = 0; n < words.length; n++) {
+            for(let n = 0; n < words.length; n++) {
                 let testLine = line + words[n] + ' ';
                 let metrics = this.context.measureText(testLine);
-                let testWidth = metrics.width;                
-                if (testWidth > maxWidth && n > 0) {
+                let testWidth = metrics.width;
+                if(testWidth > maxWidth && n > 0) {
                     line = words[n] + ' ';
                     y += lineHeight;
                     wrapped = true;
@@ -283,15 +283,15 @@ namespace CSReportPaint {
             let size: SizeF;
 
             this.context.save();
-            
-            this.context.font = font.toStringFont();                        
+
+            this.context.font = font.toStringFont();
             if(format && format.formatFlags == StringFormatFlags.Wrap) {
                 size = this.measureWrappedString(text, width);
             }
-            else {                
+            else {
                 const m = this.context.measureText(text);
                 size = new SizeF(
-                    Math.floor(m.width), 
+                    Math.floor(m.width),
                     // @ts-ignore
                     Math.floor(m.fontBoundingBoxAscent + m.fontBoundingBoxDescent));
             }
@@ -304,7 +304,7 @@ namespace CSReportPaint {
         getHeight() {
             return this.canvas.height;
         }
-        
+
         getWidth(): number {
             return this.canvas.width;
         }
@@ -412,9 +412,9 @@ namespace CSReportPaint {
         }
 
         toString(): string {
-            return "x0: " + this.getLeft() 
-                + "\n y0: " + this.getTop() 
-                + "\n x1: " + this.getWidth() 
+            return "x0: " + this.getLeft()
+                + "\n y0: " + this.getTop()
+                + "\n x1: " + this.getWidth()
                 + "\n y1: " + this.getBottom();
         }
     }
@@ -426,7 +426,7 @@ namespace CSReportPaint {
     export class Point {
         x: number;
         y: number;
-        
+
         constructor(x: number, y: number) {
             this.x = x;
             this.y = y;
@@ -441,7 +441,7 @@ namespace CSReportPaint {
         dashStyle: DashStyle;
         private _color: string;
         private _width: number;
-        
+
         constructor(color: string, width: number) {
             this._color = color;
             this._width = width;
@@ -464,13 +464,13 @@ namespace CSReportPaint {
         dispose() {
             //console.log("dispose was called in object " + this.constructor.name);
         };
-        
+
         toString() { return csColors.WHITE};
     }
 
     export class SolidBrush extends Brush {
         private _foreground: Color;
-        
+
         constructor(foreground: string|number) {
             super();
             if(typeof foreground === 'number') {

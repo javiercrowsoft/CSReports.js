@@ -14,13 +14,13 @@ namespace CSReportDll {
         // when we compile a function we parse the text and extract
         // from the script all internal functions
         // every internal function is added to the collection this.FormulasInt
-        // and replaced in the script by an String $$$n  
+        // and replaced in the script by an String $$$n
         // n is the index of the function in this.FormulasInt
         // when we run the script every occurrence of $$$n is replaced for
         // the value of their corresponding function
         // finally if the text contains an script we evaluate this with the
         // ScriptControl
-        // 
+        //
         // compiled text of the function
         //
         private textC: string = "";
@@ -151,7 +151,7 @@ namespace CSReportDll {
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, this.name);
 
-            if (nodeObj !== null) {
+            if(nodeObj !== null) {
                 this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
                 this.text = xDoc.getNodeProperty(nodeObj, "Text").getValueString(eTypes.eText);
                 this.idxGroup = xDoc.getNodeProperty(nodeObj, "idxGroup").getValueInt(eTypes.eLong);

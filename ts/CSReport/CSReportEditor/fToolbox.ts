@@ -1,5 +1,7 @@
 namespace CSReportEditor {
 
+    import Form = CSForms.Form;
+
     export class FToolbox extends Form {
 
         private editor: cEditor = null;

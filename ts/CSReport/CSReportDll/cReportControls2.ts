@@ -7,11 +7,11 @@ namespace CSReportDll {
 
         public add2(c: cReportControl, key: string) {
             try {
-                if (c === null)  {
+                if(c === null)  {
                     c = new cReportControl();
                 }
 
-                if (key === "") {
+                if(key === "") {
                     this.baseAdd(c, this.getDummyKey());
                 }
                 else {

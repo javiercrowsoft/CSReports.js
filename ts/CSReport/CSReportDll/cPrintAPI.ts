@@ -26,7 +26,7 @@ namespace CSReportDll {
             settings.setToPage(toPage);
             settings.setCopies(copies);
 
-            if (printDialog.showDialog() === DialogResult.OK) {
+            if(printDialog.showDialog() === DialogResult.OK) {
                 deviceName = settings.getPrinterName();
                 fromPage = settings.getFromPage();
                 toPage = settings.getToPage();
@@ -68,7 +68,7 @@ namespace CSReportDll {
             paperInfo.setOrientation(orientation);
             paperInfo.setPaperSize(paperSize);
 
-            if (width.get() === 0 || height.get() === 0) {
+            if(width.get() === 0 || height.get() === 0) {
                 this.getSizeFromPaperSize(paperSize, orientation, width, height);
             }
 
@@ -105,7 +105,7 @@ namespace CSReportDll {
 
             this.getDefaultPrinter(deviceName, driverName, port, paperSize, orientation, width, height);
 
-            if (deviceName.get() !== "") {
+            if(deviceName.get() !== "") {
                 return this.getcPrint(printDialog, deviceName.get(), driverName.get(), port.get(),
                     orientation.get(), paperSize.get(), width, height);
             }
@@ -147,8 +147,8 @@ namespace CSReportDll {
             height.set(Utils.valInt(cPrintWMI.getPrinterConfigInfoValueFromWMI(
                                 "PaperLength", printerConfigInfo, 297)));
 
-            if (width.get() === 0 || height.get()  === 0 || paperSize.get()  === 99) {
-                if (paperSize.get()  === 99 /*UNKNOWN*/) paperSize.set(1); /*LETTER*/
+            if(width.get() === 0 || height.get()  === 0 || paperSize.get()  === 99) {
+                if(paperSize.get()  === 99 /*UNKNOWN*/) paperSize.set(1); /*LETTER*/
 
                 this.getSizeFromPaperSize(paperSize.get(), orientation.get(), width, height);
             }
@@ -186,7 +186,7 @@ namespace CSReportDll {
                     break;
             }
 
-            if (orientation === csRptPageOrientation.LANDSCAPE) {
+            if(orientation === csRptPageOrientation.LANDSCAPE) {
                 const tmp = height.get();
                 height.set(width.get());
                 width.set(tmp);

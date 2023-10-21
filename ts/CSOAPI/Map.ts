@@ -15,7 +15,7 @@ namespace CSOAPI {
 
         public constructor(map: Map<T> = null, readOnly: boolean = false, construct: { new() } = null) {
             if(map != null) {
-                for (let i_ = 0; i_ < map.getKeys().length; i_++) {
+                for(let i_ = 0; i_ < map.getKeys().length; i_++) {
                     const de = map.item(map.getKeys[i_]);
                     this.add(de, map.getKeys[i_]);
                 }
@@ -93,7 +93,7 @@ namespace CSOAPI {
         }
 
         private removeByIndex(index: number): void {
-            if (index > -1) {
+            if(index > -1) {
                 this.keys.splice(index,1);
                 this.values.splice(index,1);
                 this.length -= 1;
@@ -151,7 +151,7 @@ namespace CSOAPI {
         }
 
         private itemByIndex(index: number): T {
-            if (index > -1)
+            if(index > -1)
                 return this.values[index];
             else
                 return null;

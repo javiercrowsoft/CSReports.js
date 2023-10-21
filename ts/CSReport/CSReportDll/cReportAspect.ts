@@ -69,7 +69,7 @@ namespace CSReportDll {
         }
 
         public setHeight(rhs: number) {
-            if (rhs < 1) { rhs = 1; }
+            if(rhs < 1) { rhs = 1; }
             this.height = rhs;
         }
 

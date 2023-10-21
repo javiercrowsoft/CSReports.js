@@ -61,7 +61,7 @@ namespace CSReportDll {
             this.fieldType = xDoc.getNodeProperty(nodeObj, "FieldType").getValueInt(eTypes.eInteger);
 
             nodeObjAspect = nodeObj;
-            if (!this.aspect.load(xDoc, nodeObjAspect)) {
+            if(!this.aspect.load(xDoc, nodeObjAspect)) {
                 return false;
             }
             else  {

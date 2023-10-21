@@ -7,14 +7,14 @@ namespace CSReportPaint {
         private _bold: string = '';
         private _italic: string = '';
 
-        public _strike: boolean = false;        
+        public _strike: boolean = false;
         public _underline: boolean = false;
 
-        constructor(name: string, 
-                    size: number, 
-                    bold?: boolean, 
-                    italic?: boolean, 
-                    strike: boolean = false, 
+        constructor(name: string,
+                    size: number,
+                    bold?: boolean,
+                    italic?: boolean,
+                    strike: boolean = false,
                     underline = false) {
 
             this._name = name;
@@ -62,7 +62,7 @@ namespace CSReportPaint {
 
                 fontCheck.forEach((font) => {
                     // @ts-ignore
-                    if (document.fonts.check(`12px "${font}"`)) {
+                    if(document.fonts.check(`12px "${font}"`)) {
                         fontAvailable.add(font);
                     }
                 });

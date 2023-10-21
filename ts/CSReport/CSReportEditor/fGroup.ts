@@ -1,5 +1,6 @@
 namespace CSReportEditor {
 
+    import Form = CSForms.Form;
     import NotImplementedException = CSOAPI.NotImplementedException;
 
     export class FGroup extends Form {
@@ -113,7 +114,7 @@ namespace CSReportEditor {
         }
 
         private cmd_dbField_Click(sender: object, e: object) {
-            if (this.editor.showHelpDbFieldForGroup()) {
+            if(this.editor.showHelpDbFieldForGroup()) {
                 this.dbFieldChanged = true;
             }
         }

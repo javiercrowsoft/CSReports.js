@@ -1,5 +1,6 @@
 namespace CSReportEditor {
 
+    import Form = CSForms.Form;
     import NotImplementedException = CSOAPI.NotImplementedException;
 
     export class FFormulaReplace extends Form {

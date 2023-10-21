@@ -21,7 +21,7 @@ namespace CSOAPI {
         }
 
         public static val(value: any): number {
-            if (value === null || value === undefined) return 0;
+            if(value === null || value === undefined) return 0;
             else {
                 try {
                     value = parseFloat(value);
@@ -37,7 +37,7 @@ namespace CSOAPI {
         }
 
         public static divideByZero(x1: number, x2: number) {
-            if (x2 !== 0) {
+            if(x2 !== 0) {
                 return x1 / x2;
             } else {
                 return 0;
@@ -46,7 +46,7 @@ namespace CSOAPI {
 
         public static removeLastColon(list: string) {
             list = list.trim();
-            if (list.substring(list.length - 1) === ",") {
+            if(list.substring(list.length - 1) === ",") {
                 return list.substring(0, list.length - 1);
             } else {
                 return list;
@@ -70,7 +70,7 @@ namespace CSOAPI {
         }
 
         private static getDPI() {
-            if (Utils._dpi < 0) {
+            if(Utils._dpi < 0) {
                 Utils._dpi = 96; // default HTML canvas DPI
             }
             return Utils._dpi;
@@ -95,18 +95,18 @@ namespace CSOAPI {
             let i: number = 0;
             let s: string = "";
             debugger; // seguro que este substring esta mal
-            if (token.substring(token.length - 1, 1) !== "=") token += "=";
+            if(token.substring(token.length - 1, 1) !== "=") token += "=";
             let l = source.length;
             i = source.indexOf(token);
-            if (i === -1) return "";
+            if(i === -1) return "";
             i += token.length - 1;
 
             while (true) {
                 i++;
-                if (i > l) break;
+                if(i > l) break;
                 debugger; // seguro que este substring esta mal
                 let c = source.substring(i, 1);
-                if (c !== ";") s += c;
+                if(c !== ";") s += c;
                 else break;
             }
             return s;
@@ -149,7 +149,7 @@ namespace CSOAPI {
         private static listID_(list: ComboBox): string {
             // TODO: implement
             /*
-            if (list.SelectedIndex === -1) { return 0; }
+            if(list.SelectedIndex === -1) { return 0; }
             return (list.SelectedItem).Id;
             */
             return "0";
@@ -159,8 +159,8 @@ namespace CSOAPI {
             /*
             let _rtn: number = 0;
 
-            if (index < list.Items.Count) {
-                if (index === -1) {
+            if(index < list.Items.Count) {
+                if(index === -1) {
                     _rtn = this.listID_(list);
                 }
                 else {
@@ -173,16 +173,16 @@ namespace CSOAPI {
         private static listSetListIndex_(list: ComboBox, idx: number) {
             // TODO: implement
             /*
-            if (list.Items.Count < 1) { return; }
-            if (list.Items.Count > idx) { list.SelectedIndex = idx; }
+            if(list.Items.Count < 1) { return; }
+            if(list.Items.Count > idx) { list.SelectedIndex = idx; }
             */
         }
         private static listSetListIndexForId_(list: ComboBox, id: number) {
             // TODO: implement
             /*
             let i: number = 0;
-            for (i = 0; i < list.Items.Count; i++) {
-                if ((list.Items[i]).Id === id) {
+            for(i = 0; i < list.Items.Count; i++) {
+                if((list.Items[i]).Id === id) {
                     list.SelectedIndex = i;
                     break;
                 }
@@ -193,8 +193,8 @@ namespace CSOAPI {
             // TODO: implement
             /*
             let i: number = 0;
-            for (i = 0; i < list.Items.Count; i++) {
-                if (list.Items[i].ToString() === text) {
+            for(i = 0; i < list.Items.Count; i++) {
+                if(list.Items[i].ToString() === text) {
                     list.SelectedIndex = i;
                     break;
                 }
@@ -208,9 +208,9 @@ namespace CSOAPI {
         private static listChangeText_(list: ComboBox, idx: number, value: string) {
             // TODO: implement
             /*
-            if (idx < list.Items.Count && idx > -1) {
+            if(idx < list.Items.Count && idx > -1) {
                 let item: object = list.Items[idx];
-                if (item is ListValueWithId) {
+                if(item is ListValueWithId) {
                     (item).setText(value);
                 }
                 else {
@@ -224,7 +224,7 @@ namespace CSOAPI {
             /*
             for(var i = 0; i < list.Items.Count; i++) {
 
-                if (list.Items[i] is ListValueWithId && (list.Items[i]).Id === valueItemData) {
+                if(list.Items[i] is ListValueWithId && (list.Items[i]).Id === valueItemData) {
                     return i;
                 }
             }
@@ -266,25 +266,25 @@ namespace CSOAPI {
 
             // the key can't apears more than one
             //
-            if (source.toLowerCase().indexOf(key.toLowerCase(), i + 1) != -1) {
+            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) != -1) {
                 throw (new Exception("cUtil.getInfoString: the key can't apears more than one."));
             }
 
             // if the key is not present we add it to the end of the string
             //
-            if (i == -1) {
+            if(i == -1) {
                 return source + key + "=" + value + ";";
             }
             else {
                 const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
 
                 let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
-                if (j == -1) {
+                if(j == -1) {
                     throw (new Exception(this.format(c_errorstr, ";")));
                 }
                 debugger; // seguro que este substring esta mal
                 let k = source.substring(i, j-i).toLowerCase().indexOf("=".toLowerCase(), 0);
-                if (k == -1)
+                if(k == -1)
                 {
                     throw (new Exception(this.format(c_errorstr, "=")));
                 }
@@ -306,7 +306,7 @@ namespace CSOAPI {
 
         public static getInfoString(source: string, key: string, defaultValue: string) {
 
-            if (this.isNullOrEmpty(source)) {
+            if(this.isNullOrEmpty(source)) {
                 return defaultValue;
             }
 
@@ -316,24 +316,24 @@ namespace CSOAPI {
 
             // the key can't apears more than one
             //
-            if (source.toLowerCase().indexOf(key.toLowerCase(), i + 1) != -1) {
+            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) != -1) {
                 throw(new Exception("cUtil.getInfoString: the key can't apears more than one."));
             }
 
             // if the key is not present return default
             //
-            if (i == -1) {
+            if(i == -1) {
                 return defaultValue;
             }
             else {
                 const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
 
                 let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
-                if (j == -1) {
+                if(j == -1) {
                     throw(new Exception(this.format(c_errorstr, ";")));
                 }
                 let k = source.substring(i, j).toLowerCase().indexOf("=".toLowerCase(), 0);
-                if (k == -1) {
+                if(k == -1) {
                     throw(new Exception(this.format(c_errorstr, "=")));
                 }
                 k = k + i;

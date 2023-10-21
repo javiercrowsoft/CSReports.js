@@ -178,7 +178,7 @@ namespace CSReportDll {
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Chart");
 
-            if (nodeObj !== null) {
+            if(nodeObj !== null) {
                 this.chartLineStyle = xDoc.getNodeProperty(nodeObj, "LineStyle").getValueInt(eTypes.eInteger);
                 this.chartBarOutline = xDoc.getNodeProperty(nodeObj, "BarOutline").getValueBool(eTypes.eBoolean);
                 this.chartShowValues = xDoc.getNodeProperty(nodeObj, "ShowValues").getValueBool(eTypes.eBoolean);
@@ -200,13 +200,13 @@ namespace CSReportDll {
 
                 nodeObj = xDoc.getNodeFromNode(nodeObj, "Series");
 
-                if (xDoc.nodeHasChild(nodeObj)) {
+                if(xDoc.nodeHasChild(nodeObj)) {
                     nodeObjSeries = xDoc.getNodeChild(nodeObj);
 
                     while (nodeObjSeries !== null) {
                         index = index + 1;
                         nodeObjAux = nodeObjSeries;
-                        if (!this.getSeries().add(null, "").load(xDoc, nodeObjAux, index)) {
+                        if(!this.getSeries().add(null, "").load(xDoc, nodeObjAux, index)) {
                             return false;
                         }
                         nodeObjSeries = xDoc.getNextNode(nodeObjSeries);
@@ -299,7 +299,7 @@ namespace CSReportDll {
             //
             this.destroyImage();
 
-            if (rows === null) {
+            if(rows === null) {
                 return false;
             }
 
@@ -311,7 +311,7 @@ namespace CSReportDll {
 
             chart.setColorPrimary(this.series.item(0).getColor());
             chart.setLabelPrimary(ReportGlobals.getRealName(this.series.item(0).getValueFieldName()));
-            if (this.series.count() > 1) {
+            if(this.series.count() > 1) {
                 chart.setColorAlternate(this.series.item(1).getColor());
                 chart.setLabelAlternate(ReportGlobals.getRealName(this.series.item(1).getValueFieldName()));
             }
@@ -323,7 +323,7 @@ namespace CSReportDll {
             chart.setThickness(this.pieThickness);
             chart.setDiameter(this.pieDiameter);
 
-            if (!bIsForWeb) {
+            if(!bIsForWeb) {
                 fileName = Utils.getValidPath(""/* TODO: reimplement * System.IO.Path.GetTempPath()*/) + "~ChartImage";
             }
 
@@ -338,14 +338,14 @@ namespace CSReportDll {
             chart.setCopyRight(this.copyright);
             chart.renderWebChartImage();
 
-            if (!bIsForWeb) {
+            if(!bIsForWeb) {
                 this.loadChart(fileName);
             }
 
             this.chartCreated = true;
             chart.dispose();
-            
-            return true;            
+
+            return true;
         }
 
         private pGetExt() {
@@ -381,7 +381,7 @@ namespace CSReportDll {
             //
             this.destroyImage();
 
-            if (fileName.length > 0) {
+            if(fileName.length > 0) {
                 // TODO: reimplement
                 //  let image: Image = Image.FromFile(fileName);
             }
@@ -405,24 +405,24 @@ namespace CSReportDll {
             let bCompare: boolean = false;
             let newTop: number = 0;
 
-            if (this.groupFieldIndex >= 0) {
+            if(this.groupFieldIndex >= 0) {
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                for (j = 0; j < rows.length; j++) {
-                    if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
+                for(j = 0; j < rows.length; j++) {
+                    if(ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                         newTop++;
                     }
                 }
 
-                if (newTop > 0) { newTop--; }
+                if(newTop > 0) { newTop--; }
             }
 
-            if (this.sort) {
+            if(this.sort) {
 
-                if (this.groupFieldIndex >= 0) {
+                if(this.groupFieldIndex >= 0) {
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                    for (j = 0; j < rows.length; j++) {
+                    for(j = 0; j < rows.length; j++) {
 
-                        if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
+                        if(ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
                             v[0].value = ReportGlobals.valVariant(rows[j][valueIndex]);
                             v[0].label = ReportGlobals.valVariant(rows[j][labelIndex]);
                             v[0].idx = j;
@@ -437,19 +437,19 @@ namespace CSReportDll {
                     v[0].idx = 0;
                 }
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                for (j = 0; j < rows.length; j++) {
+                for(j = 0; j < rows.length; j++) {
 
-                    if (this.groupFieldIndex >= 0) {
+                    if(this.groupFieldIndex >= 0) {
                         bCompare = ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
                     }
                     else {
                         bCompare = true;
                     }
 
-                    if (bCompare) {
+                    if(bCompare) {
                         value = Utils.val(ReportGlobals.valVariant(rows[j][valueIndex]));
 
-                        if (value > v[0].value) {
+                        if(value > v[0].value) {
                             v[0].value = value;
                             v[0].label = ReportGlobals.valVariant(rows[j][labelIndex]);
                             v[0].idx = j;
@@ -457,34 +457,34 @@ namespace CSReportDll {
                     }
                 }
 
-                for (i = 0; i < v.length; i++) {
+                for(i = 0; i < v.length; i++) {
 
                     v[i].idx = -1;
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                    for (j = 0; j < rows.length; j++) {
+                    for(j = 0; j < rows.length; j++) {
 
-                        if (this.groupFieldIndex >= 0) {
+                        if(this.groupFieldIndex >= 0) {
                             bCompare = ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue;
                         }
                         else {
                             bCompare = true;
                         }
 
-                        if (bCompare) {
+                        if(bCompare) {
                             value = Utils.val(ReportGlobals.valVariant(rows[j][valueIndex]));
 
-                            if ((value > v[i].value || v[i].idx == -1)
+                            if((value > v[i].value || v[i].idx == -1)
                                 && value <= v[i - 1].value && j !== v[i - 1].idx) {
 
                                 bFound = false;
-                                for (q = 0; q <= i; q++) {
-                                    if (j === v[q].idx) {
+                                for(q = 0; q <= i; q++) {
+                                    if(j === v[q].idx) {
                                         bFound = true;
                                         break;
                                     }
                                 }
 
-                                if (!bFound) {
+                                if(!bFound) {
                                     v[i].value = value;
                                     v[i].label = ReportGlobals.valVariant(rows[j][labelIndex]).toString();
                                     v[i].idx = j;
@@ -497,31 +497,31 @@ namespace CSReportDll {
             else {
                 i = 0;
                 // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                for (j = 0; j < rows.length; j++) {
-                    if (this.groupFieldIndex >= 0) {
-                        if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
-                            if (this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
+                for(j = 0; j < rows.length; j++) {
+                    if(this.groupFieldIndex >= 0) {
+                        if(ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
+                            if(this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
                         }
                     }
                     else {
-                        if (this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
+                        if(this.pGetSerieValuesAux(rows, v, valueIndex, labelIndex, i, j, false)) { break; }
                     }
                 }
 
-                if (bOthers) {
+                if(bOthers) {
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                    if (rows.length > v.length) {
+                    if(rows.length > v.length) {
                         let n: number = 0;
                         let k: number = 0;
                         let bHaveToRedim: boolean = false;
                         bHaveToRedim = true;
                         n = v.length + 1;
                         // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-                        for (j = 0; j < rows.length; j++) {
-                            if (this.groupFieldIndex >= 0) {
-                                if (ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
-                                    if (k >= n) {
-                                        if (bHaveToRedim) {
+                        for(j = 0; j < rows.length; j++) {
+                            if(this.groupFieldIndex >= 0) {
+                                if(ReportGlobals.valVariant(rows[j][this.groupFieldIndex]) === this.groupValue) {
+                                    if(k >= n) {
+                                        if(bHaveToRedim) {
                                             this.redimPreserve(v, n);
                                             bHaveToRedim = false;
                                         }
@@ -533,7 +533,7 @@ namespace CSReportDll {
                                 }
                             }
                             else {
-                                if (bHaveToRedim) {
+                                if(bHaveToRedim) {
                                     this.redimPreserve(v, n);
                                     bHaveToRedim = false;
                                 }
@@ -553,7 +553,7 @@ namespace CSReportDll {
             i: number,
             j: number,
             bAdd: boolean) {
-            if (bAdd) {
+            if(bAdd) {
                 v[i].value = v[i].value + ReportGlobals.valVariant<number>(rows[j][valueIndex]);
             }
             else {
@@ -571,10 +571,10 @@ namespace CSReportDll {
             let serie: cReportChartSequence = null;
             let idxSerie: number = 0;
 
-            if (this.top === 0) { this.top = 50; }
+            if(this.top === 0) { this.top = 50; }
 
             // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
-            if (rows.length < 0) { return; }
+            if(rows.length < 0) { return; }
 
             for(let _i = 0; _i < this.series.count(); _i++) {
                 serie = this.series.item(_i);
@@ -582,25 +582,25 @@ namespace CSReportDll {
                 // At the time we only support two series
                 //
                 idxSerie = idxSerie + 1;
-                if (idxSerie > 2) { return; }
+                if(idxSerie > 2) { return; }
 
                 this.getSeriesValues(rows,
-                                values, 
-                                serie.getValueIndex(), 
-                                serie.getLabelIndex(), 
+                                values,
+                                serie.getValueIndex(),
+                                serie.getLabelIndex(),
                                 this.chartType === csRptChartType.PIE);
 
-                for (i = 0; i < values.length; i++) {
+                for(i = 0; i < values.length; i++) {
 
-                    if (values[i].idx !== -1) {
-                        if (idxSerie === 1) {
+                    if(values[i].idx !== -1) {
+                        if(idxSerie === 1) {
                             let w_add: cWebChartItem = chart.getItems().add(null);
                             w_add.setPrimaryValue(values[i].value);
                             w_add.setPrimaryLabel(ReportGlobals.format(values[i].label, strFormat));
                             w_add.setPieLabel(ReportGlobals.format(values[i].label, strFormat));
                             w_add.setAlternateValue(0);
-                        } 
-                        else if (idxSerie === 2) {
+                        }
+                        else if(idxSerie === 2) {
                             let w_item: cWebChartItem = chart.getItems().item(i);
                             w_item.setAlternateValue(values[i].value);
                             w_item.setPieLabel(ReportGlobals.format(values[i].label, strFormat));
@@ -609,7 +609,7 @@ namespace CSReportDll {
                     }
                 }
 
-                if ((values.length > this.top - 1) && this.chartType === csRptChartType.PIE) {
+                if((values.length > this.top - 1) && this.chartType === csRptChartType.PIE) {
 
                     let w_item: cWebChartItem = chart.getItems().item(chart.getItems().count()-1);
                     w_item.setPrimaryLabel("Otros");
@@ -618,20 +618,20 @@ namespace CSReportDll {
 
             }
 
-            if (chart.getItems().count() > 0) {
+            if(chart.getItems().count() > 0) {
                 chart.getItems().item(0).setExplode(true);
             }
         }
 
         private redimPreserve(vSeries: t_SerieValue[], size: number) {
-            if (size === 0) {
+            if(size === 0) {
                 vSeries = null;
             }
             else {
-                if (vSeries === null) {
+                if(vSeries === null) {
                     vSeries = new t_SerieValue[size];
                 }
-                else if (vSeries.length === 0) {
+                else if(vSeries.length === 0) {
                     vSeries = new t_SerieValue[size];
                 }
                 else {
@@ -641,7 +641,7 @@ namespace CSReportDll {
         }
 
         private redim(vSeries: t_SerieValue[], size: number) {
-            if (size === 0) {
+            if(size === 0) {
                 vSeries = null;
             }
             else {

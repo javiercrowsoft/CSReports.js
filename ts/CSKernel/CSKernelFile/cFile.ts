@@ -63,13 +63,13 @@ namespace CSKernelFile  {
         private openFile(resolve: (fc: FileContent) => void, reject: () => void) {
             const readFile = (e: any) => {
                 const file = e.target.files[0];
-                if (!file) {
+                if(!file) {
                     reject();
                     return;
                 }
                 const reader = new FileReader();
                 reader.onload = function(e: any) {
-                    document.body.removeChild(fileInput);                    
+                    document.body.removeChild(fileInput);
                     const fc = new FileContent();
                     fc.name = file.name;
                     fc.content = e.target.result;

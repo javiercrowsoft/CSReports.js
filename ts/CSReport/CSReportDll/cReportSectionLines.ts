@@ -40,10 +40,10 @@ namespace CSReportDll {
 
 		public add(c: cReportSectionLine = null, key: string = "", index: number = -1) {
             try {
-                if (c === null || c === undefined)  {
+                if(c === null || c === undefined)  {
                     c = new cReportSectionLine();
                 }
-                if (key === "" || key === undefined) {
+                if(key === "" || key === undefined) {
                     key = ReportGlobals.getNextKey().toString();
                 }
                 else {
@@ -52,7 +52,7 @@ namespace CSReportDll {
 
                 key = ReportGlobals.getKey(key);
 
-                if (index != -1 && this.count() > 0) {
+                if(index != -1 && this.count() > 0) {
                     this._keys.splice(index, 0, key);
                 }
                 else {
@@ -90,8 +90,8 @@ namespace CSReportDll {
         public remove(indexOrKey: string | number) {
             try {
                 let w_item: cReportSectionLine = this.item(indexOrKey);
-                if (w_item !== null) {
-                    if (w_item.getControls() !== null) {
+                if(w_item !== null) {
+                    if(w_item.getControls() !== null) {
                         w_item.getControls().clear();
                         w_item.getControls().setSectionLine(null);
                         w_item.getControls().setCopyColl(null);
@@ -120,7 +120,7 @@ namespace CSReportDll {
         }
 
         private keyRemoveByIndex(index: number): void {
-            if (index > -1) {
+            if(index > -1) {
                 this._keys.splice(index,1);
             }
         }

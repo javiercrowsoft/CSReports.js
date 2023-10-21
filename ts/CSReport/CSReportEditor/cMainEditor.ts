@@ -43,29 +43,29 @@ namespace CSReportEditor {
 	    public static setDocActive(editor: cEditor) {
 	        this.editor = editor;
 	        this.setMenu();
-            if (editor !== null) {
+            if(editor !== null) {
                 let editorTab: TabPage = editor.getEditorTab();
                 // TODO: implement
                 //  this.selectedTab = editorTab;
 
-                if (this.fToolbox !== null && U.isVisible(this.fToolbox)) {
-                    if (this.getToolbox(editor) !== null) { editor.showToolbox(); }
+                if(this.fToolbox !== null && U.isVisible(this.fToolbox)) {
+                    if(this.getToolbox(editor) !== null) { editor.showToolbox(); }
                 }
-                if (this.fControls !== null && U.isVisible(this.fControls)) {
-                    if (this.getCtrlBox(editor) !== null) { editor.showControls(); }
+                if(this.fControls !== null && U.isVisible(this.fControls)) {
+                    if(this.getCtrlBox(editor) !== null) { editor.showControls(); }
                 }
-                if (this.fTreeViewCtrls !== null && U.isVisible(this.fTreeViewCtrls)) {
-                    if (this.getCtrlTreeBox(editor) !== null) { editor.showControlsTree(); }
+                if(this.fTreeViewCtrls !== null && U.isVisible(this.fTreeViewCtrls)) {
+                    if(this.getCtrlTreeBox(editor) !== null) { editor.showControlsTree(); }
                 }
             }
             else {
-                if (this.fToolbox !== null && U.isVisible(this.fToolbox)) {
+                if(this.fToolbox !== null && U.isVisible(this.fToolbox)) {
                     this.fToolbox.clear();
                 }
-                if (this.fControls !== null && U.isVisible(this.fControls)) {
+                if(this.fControls !== null && U.isVisible(this.fControls)) {
                     this.fControls.clear();
                 }
-                if (this.fTreeViewCtrls !== null && U.isVisible(this.fTreeViewCtrls)) {
+                if(this.fTreeViewCtrls !== null && U.isVisible(this.fTreeViewCtrls)) {
                     this.fTreeViewCtrls.clear();
                 }
             }
@@ -77,7 +77,7 @@ namespace CSReportEditor {
         }
 
 	    public static setDocInacActive(editor: cEditor) {
-	        if (this.editor !== editor) { return; }
+	        if(this.editor !== editor) { return; }
 	        this.editor = null;
 	        this.setMenu();
             this.setEditAlignTextState(false);
@@ -85,7 +85,7 @@ namespace CSReportEditor {
 
 	    public static setStatus() {
 	        try {
-	            if (this.editor === null) {
+	            if(this.editor === null) {
 	                this.setStatusAux("");
 	            }
 	            else {
@@ -132,7 +132,7 @@ namespace CSReportEditor {
 	    private static setMenu() {
 	        try {
 
-                if (this.editor === null || this.editor.getReport() === null) {
+                if(this.editor === null || this.editor.getReport() === null) {
                     this.fMain.setMenuAux(false);
                     this.fMain.setBarText("");
                     this.fMain.setStatus("");
@@ -153,7 +153,7 @@ namespace CSReportEditor {
         }
 
         public static getSearch(editor?: cEditor) {
-            if (this.fSearch === null) {
+            if(this.fSearch === null) {
                 this.fSearch = new FSearch();
             }
             if(editor) this.fSearch.setHandler(editor);
@@ -161,7 +161,7 @@ namespace CSReportEditor {
         }
 
         public static getToolbox(editor?: cEditor) {
-            if (this.fToolbox === null) {
+            if(this.fToolbox === null) {
                 this.fToolbox = new FToolbox();
             }
             if(editor) this.fToolbox.setHandler(editor);
@@ -169,7 +169,7 @@ namespace CSReportEditor {
         }
 
         public static getCtrlBox(editor?: cEditor) {
-            if (this.fControls === null) {
+            if(this.fControls === null) {
                 this.fControls = new FControls();
             }
             if(editor) this.fControls.setHandler(editor);
@@ -177,7 +177,7 @@ namespace CSReportEditor {
         }
 
         public static getCtrlTreeBox(editor?: cEditor) {
-            if (this.fTreeViewCtrls === null) {
+            if(this.fTreeViewCtrls === null) {
                 this.fTreeViewCtrls = new FTreeViewCtrls();
             }
             if(editor) this.fTreeViewCtrls.setHandler(editor);
@@ -185,8 +185,8 @@ namespace CSReportEditor {
         }
 
         public static clearToolbox(editor: cEditor) {
-            if (this.editor === editor) {
-                if (this.fToolbox !== null && U.isVisible(this.fToolbox)) {
+            if(this.editor === editor) {
+                if(this.fToolbox !== null && U.isVisible(this.fToolbox)) {
                     this.fToolbox.clear();
                 }
             }

@@ -1,5 +1,8 @@
+///<reference path="../../CSForms/Form.ts"/>
+
 namespace CSReportEditor {
 
+    import Form = CSForms.Form;
     import cReport = CSReportDll.cReport;
 
     export class FControls extends Form {
@@ -40,9 +43,9 @@ namespace CSReportEditor {
 
         private lv_controls_ColumnClick(sender: object, e: object) {
             // // Determine if clicked column is already the column that is being sorted.
-            // if (e.Column === lvwColumnSorter.SortColumn) {
+            // if(e.Column === lvwColumnSorter.SortColumn) {
             //     // Reverse the current sort direction for this column.
-            //     if (lvwColumnSorter.Order === SortOrder.Ascending) {
+            //     if(lvwColumnSorter.Order === SortOrder.Ascending) {
             //         lvwColumnSorter.Order = SortOrder.Descending;
             //     }
             //     else {
@@ -68,7 +71,7 @@ namespace CSReportEditor {
         }
 
         private selectControl() {
-            // if (lv_controls.SelectedItems.Count > 0) {
+            // if(lv_controls.SelectedItems.Count > 0) {
             //     let info = lv_controls.SelectedItems[0].Tag.toString();
             //     this.editor.selectCtrl(info);
             // }
@@ -79,7 +82,7 @@ namespace CSReportEditor {
         }
 
         private cmd_edit_Click(sender: object, e: object) {
-            // if (lv_controls.SelectedItems.Count > 0) {
+            // if(lv_controls.SelectedItems.Count > 0) {
             //     let info = lv_controls.SelectedItems[0].Tag.toString();
             //     this.editor.showProperties(info);
             // }

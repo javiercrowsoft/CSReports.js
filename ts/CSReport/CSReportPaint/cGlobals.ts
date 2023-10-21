@@ -19,8 +19,8 @@ namespace CSReportPaint {
         }
 
         public static getKey(value: string) {
-            if (value.length > 0) {
-                if ("0123456789".contains(value.substring(0, 1))) {
+            if(value.length > 0) {
+                if("0123456789".contains(value.substring(0, 1))) {
                     value = "K" + value;
                 }
             }
@@ -36,29 +36,29 @@ namespace CSReportPaint {
         }
 
         public static setRectangleWidth(width: number) {
-            if (width < 0) width = 0;
+            if(width < 0) width = 0;
             return width;
         }
 
         public static setRectangleHeight(height: number) {
-            if (height < 0) height = 0;
+            if(height < 0) height = 0;
             return height;
         }
 
         public static newRectangleF(left: number, top: number, right: number, bottom: number) {
-            if (left < 0) left = 0;
-            if (top < 0) top = 0;
-            if (right < left) right = left;
-            if (bottom < top) bottom = top;
+            if(left < 0) left = 0;
+            if(top < 0) top = 0;
+            if(right < left) right = left;
+            if(bottom < top) bottom = top;
 
             return RectangleF.new4(left, top, right, bottom);
         }
 
         public static newRectangle(left: number, top: number, right: number, bottom: number) {
-            if (left < 0) left = 0;
-            if (top < 0) top = 0;
-            if (right < left) right = left;
-            if (bottom < top) bottom = top;
+            if(left < 0) left = 0;
+            if(top < 0) top = 0;
+            if(right < left) right = left;
+            if(bottom < top) bottom = top;
 
             return RectangleF.new4(left, top, right, bottom);
         }
@@ -96,7 +96,7 @@ namespace CSReportPaint {
                     break;
 
                 case csReportPaperType.CS_RPT_PAPER_USER:
-                    if (info === null) {
+                    if(info === null) {
                         throw new ReportPaintException("The settings for the custome user paper size is not defined");
                     }
                     else {
@@ -106,7 +106,7 @@ namespace CSReportPaint {
                     break;
             }
 
-            if (orientation === csRptPageOrientation.LANDSCAPE) {
+            if(orientation === csRptPageOrientation.LANDSCAPE) {
                 let tmp: number = 0;
                 tmp = rtn.getHeight();
                 rtn.setHeight(rtn.getWidth());
@@ -119,23 +119,23 @@ namespace CSReportPaint {
         // fonts
         public static addFontIfRequired(font: cReportFont, fnt: Font[]): number {
             for(let i = 0; i < fnt.length; i++) {
-                if(font.getName() === fnt[i].name 
-                    && font.getBold() === fnt[i].bold 
-                    && font.getItalic() === fnt[i].italic 
-                    && font.getUnderline() === fnt[i]._underline 
-                    && font.getSize() === fnt[i].size 
+                if(font.getName() === fnt[i].name
+                    && font.getBold() === fnt[i].bold
+                    && font.getItalic() === fnt[i].italic
+                    && font.getUnderline() === fnt[i]._underline
+                    && font.getSize() === fnt[i].size
                     && font.getStrike() === fnt[i].strike) {
                     return i;
                 }
             }
 
             let afont: Font = new Font(
-                    font.getName(), 
-                    ((font.getSize() > 0) ? font.getSize() : 3), 
+                    font.getName(),
+                    ((font.getSize() > 0) ? font.getSize() : 3),
                     font.getBold(),
-                    font.getItalic(),                    
+                    font.getItalic(),
                     font.getStrike(),
-                    font.getUnderline()   
+                    font.getUnderline()
                 );
 
             fnt[fnt.length] = afont;
@@ -176,7 +176,7 @@ namespace CSReportPaint {
         C_NEXTPAGE = -1,
         C_PREVIOUSPAGE = -2,
         C_LASTPAGE = -3
-    } 
+    }
 
     export enum csPDFQuality {
         PDFQUALITYFULL = 1,

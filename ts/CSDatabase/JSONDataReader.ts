@@ -104,27 +104,27 @@ namespace CSDatabase
 
         public getValue(i: number) {
             let value = this.rows[this.rowIndex]["values"][i];
-            if (this.isByteA(i)) {
+            if(this.isByteA(i)) {
                 value = this.atob(value.toString());
             }
-            else if (this.isTimestamptz(i)) {
-                if (value.toString().trim().length === 0) {
+            else if(this.isTimestamptz(i)) {
+                if(value.toString().trim().length === 0) {
                     value = this.start;
                 }
                 else {
                     value = new Date(value).toString();
-                }                
+                }
             }
             return value;
         }
 
         public getValues(values: object[]) {
-            if (values === null) {
+            if(values === null) {
                 throw new ArgumentNullException("values");
             }
             this.checkRow();
             let count: number = Math.min(this.fieldCount(), values.length);
-            for (let i = 0; i < count; i++) {
+            for(let i = 0; i < count; i++) {
                 values.push(this.getValue(i));
             }
             return count;
@@ -145,7 +145,7 @@ namespace CSDatabase
         }
 
         private checkRow(): void {
-            if (!this.isOnRow()) {
+            if(!this.isOnRow()) {
                 throw new InvalidOperationException("No row is available");
             }
         }

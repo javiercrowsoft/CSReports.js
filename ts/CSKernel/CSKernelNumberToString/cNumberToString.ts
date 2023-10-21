@@ -29,9 +29,9 @@ namespace CSKernelNumberToString {
 
             num = Maths.round(num, 2);
 
-            if (num >= 1000000) {
+            if(num >= 1000000) {
                 iMillion = cNumberToString.getValue(num, 1000000);
-                if (num >= 2000000) {
+                if(num >= 2000000) {
                     rtn = cNumberToString.spanishGetNumber(iMillion, true) + " Millones ";
                 }
                 else {
@@ -40,7 +40,7 @@ namespace CSKernelNumberToString {
                 num = num - (iMillion * 1000000);
             }
 
-            if (num >= 1000) {
+            if(num >= 1000) {
                 iThousand = cNumberToString.getValue(num, 1000);
                 rtn = rtn + cNumberToString.spanishGetNumber(iThousand, true) + " Mil ";
                 num = num - (iThousand * 1000);
@@ -59,9 +59,9 @@ namespace CSKernelNumberToString {
 
             num = Maths.round(num, 2);
 
-            if (num >= 1000000) {
+            if(num >= 1000000) {
                 iMillion = cNumberToString.getValue(num, 1000000);
-                if (num >= 2000000) {
+                if(num >= 2000000) {
                     rtn = cNumberToString.frenchGetNumber(iMillion) + " Millions ";
                 }
                 else {
@@ -70,9 +70,9 @@ namespace CSKernelNumberToString {
                 num = num - (iMillion * 1000000);
             }
 
-            if (num >= 1000) {
+            if(num >= 1000) {
                 iThousand = cNumberToString.getValue(num, 1000);
-                if (iThousand === 1) {
+                if(iThousand === 1) {
                     rtn = " Mil ";
                 }
                 else {
@@ -94,13 +94,13 @@ namespace CSKernelNumberToString {
 
             num = Maths.round(num, 2);
 
-            if (num >= 1000000) {
+            if(num >= 1000000) {
                 iMillion = cNumberToString.getValue(num, 1000000);
                 rtn = cNumberToString.englishGetNumber(iMillion) + " Million ";
                 num = num - (iMillion * 1000000);
             }
 
-            if (num >= 1000) {
+            if(num >= 1000) {
                 iThousand = cNumberToString.getValue(num, 1000);
                 rtn = rtn + cNumberToString.englishGetNumber(iThousand) + " Thousand ";
                 num = num - (iThousand * 1000);
@@ -122,11 +122,11 @@ namespace CSKernelNumberToString {
             let iNumAux: number = 0;
             let bPutOneAux: boolean = false;
 
-            if (num === 100) {
+            if(num === 100) {
                 rtn = "Cien ";
             }
             else {
-                if (num > 100) {
+                if(num > 100) {
                     iNumAux = num;
                     rtn = cNumberToString.spanishGetNameHundred(iNumAux) + " ";
                     iTens = cNumberToString.getHundred(iNumAux);
@@ -137,25 +137,25 @@ namespace CSKernelNumberToString {
                 }
             }
 
-            if (iTens !== 0) {
-                if (iTens >= 1 && iTens <= 15) {
+            if(iTens !== 0) {
+                if(iTens >= 1 && iTens <= 15) {
                     bPutOneAux = bPutOne;
                     rtn = rtn + cNumberToString.spanishGetNameNumber(iTens, bPutOneAux);
                 }
                 else {
-                    if (iTens >= 16 && iTens <= 19) {
+                    if(iTens >= 16 && iTens <= 19) {
                         rtn = rtn + "Dieci" + cNumberToString.spanishGetNameNumber(Maths.trunc(iTens - 10), bPutOne);
                     }
                     else {
-                        if (iTens === 20) {
+                        if(iTens === 20) {
                             rtn = rtn + "Veinte";
                         }
                         else {
-                            if (iTens >= 21 && iTens <= 29) {
+                            if(iTens >= 21 && iTens <= 29) {
                                 rtn = rtn + "Venti" + cNumberToString.spanishGetNameNumber(Maths.trunc(iTens - 20), bPutOne);
                             }
                             else {
-                                if (iTens >= 30) {
+                                if(iTens >= 30) {
                                     rtn = rtn + cNumberToString.spanishGetNameTens(iTens);
                                     iUnit = cNumberToString.getUnit(iTens);
                                     rtn = rtn + (iUnit === 0 ? "" : " y ");
@@ -174,7 +174,7 @@ namespace CSKernelNumberToString {
             switch (num)
             {
                 case 1:
-                    if (bPutOne) {
+                    if(bPutOne) {
                         return "Un";
                     }
                     else {
@@ -201,29 +201,29 @@ namespace CSKernelNumberToString {
         private static spanishGetNameHundred(num: number) {
             let number: number = num;
 
-            if (number >= 900) return "Novecientos"; 
-            else if (number >= 800) return "Ochocientos"; 
-            else if (number >= 700) return "Setecientos"; 
-            else if (number >= 600) return "Seiscientos"; 
-            else if (number >= 500) return "Quinientos"; 
-            else if (number >= 400) return "Cuatrocientos"; 
-            else if (number >= 300) return "trescientos"; 
-            else if (number >= 200) return "Doscientos"; 
-            else if (number >= 100) return "Ciento"; 
-            else return ""; 
+            if(number >= 900) return "Novecientos";
+            else if(number >= 800) return "Ochocientos";
+            else if(number >= 700) return "Setecientos";
+            else if(number >= 600) return "Seiscientos";
+            else if(number >= 500) return "Quinientos";
+            else if(number >= 400) return "Cuatrocientos";
+            else if(number >= 300) return "trescientos";
+            else if(number >= 200) return "Doscientos";
+            else if(number >= 100) return "Ciento";
+            else return "";
         }
 
         private static spanishGetNameTens(num: number) {
             let number: number = num;
 
-            if (number >= 90) return "Noventa"; 
-            else if (number >= 80) return "Ochenta"; 
-            else if (number >= 70) return "Setenta"; 
-            else if (number >= 60) return "Sesenta"; 
-            else if (number >= 50) return "Cincuenta"; 
-            else if (number >= 40) return "Cuarenta"; 
-            else if (number >= 30) return "Treinta"; 
-            else return ""; 
+            if(number >= 90) return "Noventa";
+            else if(number >= 80) return "Ochenta";
+            else if(number >= 70) return "Setenta";
+            else if(number >= 60) return "Sesenta";
+            else if(number >= 50) return "Cincuenta";
+            else if(number >= 40) return "Cuarenta";
+            else if(number >= 30) return "Treinta";
+            else return "";
         }
 
         private static spanishGetDecimal(num: number) {
@@ -239,11 +239,11 @@ namespace CSKernelNumberToString {
             let iUnit: number = 0;
             let iNumAux: number = 0;
 
-            if (num === 100) {
+            if(num === 100) {
                 rtn = "Cent ";
             }
             else {
-                if (num > 100) {
+                if(num > 100) {
                     iNumAux = num;
                     rtn = cNumberToString.frenchGetNameHundred(iNumAux) + " ";
                     iTens = cNumberToString.getHundred(iNumAux);
@@ -253,21 +253,21 @@ namespace CSKernelNumberToString {
                 }
             }
 
-            if (iTens !== 0) {
-                if (iTens >= 1 && iTens <= 16) {
+            if(iTens !== 0) {
+                if(iTens >= 1 && iTens <= 16) {
                     rtn = rtn + cNumberToString.frenchGetNameNumber(iTens);
                 }
                 else {
-                    if (iTens >= 17 && iTens <= 19) {
+                    if(iTens >= 17 && iTens <= 19) {
                         rtn = rtn + "Dix " + cNumberToString.frenchGetNameNumber(Maths.trunc(iTens - 10));
                     }
                     else {
-                        if (iTens === 20) {
+                        if(iTens === 20) {
                             rtn = rtn + "Vingt";
                         }
                         else {
-                            if (iTens >= 21 && iTens <= 29) {
-                                if (iTens === 21) {
+                            if(iTens >= 21 && iTens <= 29) {
+                                if(iTens === 21) {
                                     rtn = rtn + "Vingt et un";
                                 }
                                 else {
@@ -276,12 +276,12 @@ namespace CSKernelNumberToString {
                             }
                             else {
                                 iUnit = cNumberToString.getUnit(iTens);
-                                if (!(iTens >= 70 && iTens < 80) && !(iTens >= 90)) {
+                                if(!(iTens >= 70 && iTens < 80) && !(iTens >= 90)) {
                                     rtn = rtn + cNumberToString.frenchGetNameTens(iTens);
-                                    if (iUnit === 1) {
+                                    if(iUnit === 1) {
                                         rtn = rtn + " et ";
                                     }
-                                    if (iUnit > 1) {
+                                    if(iUnit > 1) {
                                         rtn = rtn + " ";
                                     }
                                     rtn = rtn + cNumberToString.frenchGetNameNumber(iUnit);
@@ -328,17 +328,17 @@ namespace CSKernelNumberToString {
             let rtn: string = "";
             let number: number = num;
 
-            if (number >= 900) rtn = "Neuf "; 
-            else if (number >= 800) rtn = "Huit "; 
-            else if (number >= 700) rtn = "Sept "; 
-            else if (number >= 600) rtn = "Six "; 
-            else if (number >= 500) rtn = "Cinq "; 
-            else if (number >= 400) rtn = "Quatre "; 
-            else if (number >= 300) rtn = "Trois "; 
-            else if (number >= 200) rtn = "Deux "; 
-            else if (number >= 100) rtn = ""; 
+            if(number >= 900) rtn = "Neuf ";
+            else if(number >= 800) rtn = "Huit ";
+            else if(number >= 700) rtn = "Sept ";
+            else if(number >= 600) rtn = "Six ";
+            else if(number >= 500) rtn = "Cinq ";
+            else if(number >= 400) rtn = "Quatre ";
+            else if(number >= 300) rtn = "Trois ";
+            else if(number >= 200) rtn = "Deux ";
+            else if(number >= 100) rtn = "";
 
-            if (number >= 200) {
+            if(number >= 200) {
                 rtn = rtn + "Cents";
             }
             else {
@@ -351,13 +351,13 @@ namespace CSKernelNumberToString {
         private static frenchGetNameTens(num: number) {
             let number: number = num;
 
-            if (number >= 90) return "Quatre Vingt "; 
-            else if (number >= 80) return "Quatre Vingt"; 
-            else if (number >= 70) return "Soixante "; 
-            else if (number >= 60) return "Soixante"; 
-            else if (number >= 50) return "Cinquante"; 
-            else if (number >= 40) return "Quarante"; 
-            else if (number >= 30) return "Treinte"; 
+            if(number >= 90) return "Quatre Vingt ";
+            else if(number >= 80) return "Quatre Vingt";
+            else if(number >= 70) return "Soixante ";
+            else if(number >= 60) return "Soixante";
+            else if(number >= 50) return "Cinquante";
+            else if(number >= 40) return "Quarante";
+            else if(number >= 30) return "Treinte";
             else return "";
         }
 
@@ -374,11 +374,11 @@ namespace CSKernelNumberToString {
             let iUnit: number = 0;
             let iNumAux: number = 0;
 
-            if (num === 100) {
+            if(num === 100) {
                 rtn = "Hundred ";
             }
             else {
-                if (num > 100) {
+                if(num > 100) {
                     iNumAux = num;
                     rtn = this.englishGetNameHundred(iNumAux) + " ";
                     iTens = this.getHundred(iNumAux);
@@ -388,16 +388,16 @@ namespace CSKernelNumberToString {
                 }
             }
 
-            if (iTens !== 0) {
-                if (iTens >= 1 && iTens <= 15) {
+            if(iTens !== 0) {
+                if(iTens >= 1 && iTens <= 15) {
                     rtn = rtn + cNumberToString.englishGetNameNumber(iTens);
                 }
                 else {
-                    if (iTens >= 16 && iTens <= 19) {
+                    if(iTens >= 16 && iTens <= 19) {
                         rtn = rtn + cNumberToString.englishGetNameNumber(Maths.trunc(iTens - 10)) + "teen";
                     }
                     else {
-                        if (iTens === 20) {
+                        if(iTens === 20) {
                             rtn = rtn + "twenty";
                         }
                         else {
@@ -442,15 +442,15 @@ namespace CSKernelNumberToString {
         private static englishGetNameTens(num: number) {
             let number: number = num;
 
-            if (number >= 90) return "Ninety"; 
-            else if (number >= 80) return "Eighty"; 
-            else if (number >= 70) return "Seventy"; 
-            else if (number >= 60) return "Sixty"; 
-            else if (number >= 50) return "Fifty"; 
-            else if (number >= 40) return "Forty"; 
-            else if (number >= 30) return "Thirty"; 
-            else if (number >= 20) return "Twenty"; 
-            else return ""; 
+            if(number >= 90) return "Ninety";
+            else if(number >= 80) return "Eighty";
+            else if(number >= 70) return "Seventy";
+            else if(number >= 60) return "Sixty";
+            else if(number >= 50) return "Fifty";
+            else if(number >= 40) return "Forty";
+            else if(number >= 30) return "Thirty";
+            else if(number >= 20) return "Twenty";
+            else return "";
         }
 
         private static englishGetDecimal(num: number) {
@@ -464,9 +464,9 @@ namespace CSKernelNumberToString {
 
             num = Maths.round(num, 2);
             iDecimal = Maths.round((num - Maths.trunc(num)) * 100, 2);
-            if (iDecimal !== 0) 
+            if(iDecimal !== 0)
                 return " " + word + " " + iDecimal.toString() + "/100";
-            else 
+            else
                 return "";
         }
 

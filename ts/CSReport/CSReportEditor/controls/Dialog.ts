@@ -175,7 +175,7 @@ namespace CSReportEditor {
             this.x_pos = document.all ? window.event.clientX : event.pageX;
             // @ts-ignore
             this.y_pos = document.all ? window.event.clientY : event.pageY;
-            if (this.selected !== null) {
+            if(this.selected !== null) {
                 this.selected.style.left = !this.settings.left !== null
                                             ? ((this.x_pos - this.x_elem) + this.selected.offsetWidth/2) + 'px'
                                             : ((this.x_pos - this.x_elem) - this.settings.left) + 'px';
@@ -192,7 +192,7 @@ namespace CSReportEditor {
 
         // Maximized or minimized dialog box
         private dialogMinMax() {
-            if (this.maximize) {
+            if(this.maximize) {
                 this.dialog.className += ' minimize';
                 this.dialogMinmax.innerHTML = '+';
                 this.dialogMinmax.title = this.dialogTitle.innerHTML.replace(/<.*?>/g,"");

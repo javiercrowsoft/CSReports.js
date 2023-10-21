@@ -1,8 +1,7 @@
-///<reference path="./controls/Form.ts"/>
-
 namespace CSReportEditor {
 
     import U = CSOAPI.Utils;
+    import Form = CSForms.Form;
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
     import csRptControlType = CSReportGlobals.csRptControlType;
     import P = CSKernelClient.Callable;
@@ -69,10 +68,10 @@ namespace CSReportEditor {
 
             for(let _i = 0; _i < report.getControls().count(); _i++) {
                 let c = report.getControls().item(_i);
-                if (c.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
+                if(c.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
                     this.addDBField(c.getName(), c.getField().getName());
                 }
-                else if (c.getControlType() === csRptControlType.CS_RPT_CT_LABEL) {
+                else if(c.getControlType() === csRptControlType.CS_RPT_CT_LABEL) {
                     this.addLabel(c.getName());
                 }
             }
@@ -117,7 +116,7 @@ namespace CSReportEditor {
             let item = father.getNodes().add(name, imageIndex);
             item.selectedImageIndex = item.imageIndex;
 
-            if (descrip !== "")  {
+            if(descrip !== "")  {
                 item.setText(descrip + " ( "+ name + " )");
             }
 
@@ -141,7 +140,7 @@ namespace CSReportEditor {
         private tvFormulasDoubleClick(node: Node) {
             let info = node.tag as string;
             let name = U.getInfoString(info, this.FUN_NAME, "");
-            if (! this.isDbOrLabel(info)) {
+            if(! this.isDbOrLabel(info)) {
                  name += "()";
             }
             let i: number = this.tx_formula.getSelectionStart();

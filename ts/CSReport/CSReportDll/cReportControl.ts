@@ -4,7 +4,7 @@ namespace CSReportDll {
     import csRptSectionType = CSReportGlobals.csRptSectionType;
     import csRptControlType = CSReportGlobals.csRptControlType;
     import XmlNode = CSXml.XmlNode;
-    
+
     export class cReportControl {
 
         private label: cReportLabel = new cReportLabel();
@@ -184,24 +184,24 @@ namespace CSReportDll {
             catch  (ex) { }
 
             try {
-                if (!this.field.load(xDoc, nodeObj)) { return false; }
-                if (!this.image.load(xDoc, nodeObj)) { return false; }
-                if (!this.label.load(xDoc, nodeObj)) { return false; }
-                if (!this.line.load(xDoc, nodeObj)) { return false; }
-                if (!this.formulaHide.load(xDoc, nodeObj)) { return false; }
-                if (!this.formulaValue.load(xDoc, nodeObj)) { return false; }
-                if (!this.chart.load(xDoc, nodeObj)) { return false; }
+                if(!this.field.load(xDoc, nodeObj)) { return false; }
+                if(!this.image.load(xDoc, nodeObj)) { return false; }
+                if(!this.label.load(xDoc, nodeObj)) { return false; }
+                if(!this.line.load(xDoc, nodeObj)) { return false; }
+                if(!this.formulaHide.load(xDoc, nodeObj)) { return false; }
+                if(!this.formulaValue.load(xDoc, nodeObj)) { return false; }
+                if(!this.chart.load(xDoc, nodeObj)) { return false; }
 
                 // TODO: remove me after all reports were migrated
                 //
-                if (this.label.getAspect().getFormat() === "" && this.field.getFieldType() === CSDatabase.csAdoDataType.adDBTimeStamp) {
+                if(this.label.getAspect().getFormat() === "" && this.field.getFieldType() === CSDatabase.csAdoDataType.adDBTimeStamp) {
                     this.label.getAspect().setFormat("dd/MM/yyyy");
                 }
 
                 return true;
             }
             catch(ex)  {
-                return false; 
+                return false;
             }
         }
 
@@ -249,13 +249,13 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eBoolean, this.isFreeCtrl);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if (!this.field.save(xDoc, nodeObj)) { return false; }
-            if (!this.image.save(xDoc, nodeObj)) { return false; }
-            if (!this.label.save(xDoc, nodeObj)) { return false; }
-            if (!this.line.save(xDoc, nodeObj)) { return false; }
-            if (!this.formulaHide.save(xDoc, nodeObj)) { return false; }
-            if (!this.formulaValue.save(xDoc, nodeObj)) { return false; }
-            if (!this.chart.save(xDoc, nodeObj)) { return false; }
+            if(!this.field.save(xDoc, nodeObj)) { return false; }
+            if(!this.image.save(xDoc, nodeObj)) { return false; }
+            if(!this.label.save(xDoc, nodeObj)) { return false; }
+            if(!this.line.save(xDoc, nodeObj)) { return false; }
+            if(!this.formulaHide.save(xDoc, nodeObj)) { return false; }
+            if(!this.formulaValue.save(xDoc, nodeObj)) { return false; }
+            if(!this.chart.save(xDoc, nodeObj)) { return false; }
             return true;
         }
     }

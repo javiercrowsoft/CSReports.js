@@ -32,7 +32,7 @@ namespace CSReportDll {
         public setCopyColl(rhs: cReportControls2) {
             this.copyColl = rhs;
 
-            if (this.count() > 0)  {
+            if(this.count() > 0)  {
                 for(let _i = 0; _i < this.count(); _i++) {
                     this.item(_i).setCopyColl(rhs);
                 }
@@ -41,10 +41,10 @@ namespace CSReportDll {
 
         public add(c: cReportSection = null, key: string = "", index: number = -1) {
             try {
-                if (c === null || undefined) {
+                if(c === null || undefined) {
                     c = new cReportSection();
                 }
-                if (key === "" || key === null || key === undefined) {
+                if(key === "" || key === null || key === undefined) {
                     key = ReportGlobals.getNextKey().toString();
                 }
                 else {
@@ -53,7 +53,7 @@ namespace CSReportDll {
 
                 key = ReportGlobals.getKey(key);
 
-                if (index !== -1 && this.count() > 0) {
+                if(index !== -1 && this.count() > 0) {
                     this._keys.splice(index, 0, key);
                 }
                 else {
@@ -63,7 +63,7 @@ namespace CSReportDll {
                 this.baseAdd(c, key);
                 c.setCopyColl(this.copyColl);
 
-                if (this.count() === 1) {
+                if(this.count() === 1) {
                     c.setTypeSection(this.mainTypeSection);
                 }
                 else {
@@ -129,7 +129,7 @@ namespace CSReportDll {
         }
 
         private keyRemoveByIndex(index: number): void {
-            if (index > -1) {
+            if(index > -1) {
                 this._keys.splice(index,1);
             }
         }

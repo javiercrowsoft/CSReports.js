@@ -129,7 +129,7 @@ namespace CSReportDll {
         }
 
         public setCopyColl(rhs: cReportControls2) {
-            if (this.controls !== null) {
+            if(this.controls !== null) {
                 this.controls.setCopyColl(rhs);
             }
         }
@@ -150,24 +150,24 @@ namespace CSReportDll {
             nodeObjAspect = nodeObj;
 
             let nodeObjAux: XmlNode = nodeObj;
-            if (!this.formulaHide.load(xDoc, nodeObjAux))  {
-                return false; 
+            if(!this.formulaHide.load(xDoc, nodeObjAux))  {
+                return false;
             }
 
-            if (!this.aspect.load(xDoc, nodeObjAspect))  {
-                return false; 
+            if(!this.aspect.load(xDoc, nodeObjAspect))  {
+                return false;
             }
 
             nodeObjCtrls = xDoc.getNodeFromNode(nodeObj, this.C_NODE_RPT_CONTROLS);
 
-            if (xDoc.nodeHasChild(nodeObjCtrls))  {
+            if(xDoc.nodeHasChild(nodeObjCtrls))  {
                 nodeObjCtrl = xDoc.getNodeChild(nodeObjCtrls);
 
                 while (nodeObjCtrl !== null) {
                     let key: string = xDoc.getNodeProperty(nodeObjCtrl, "Key").getValueString(eTypes.eText);
                     ctrl = this.controls.add(null, key);
-                    if (!ctrl.load(xDoc, nodeObjCtrl))  {
-                        return false; 
+                    if(!ctrl.load(xDoc, nodeObjCtrl))  {
+                        return false;
                     }
                     nodeObjCtrl = xDoc.getNextNode(nodeObjCtrl);
                 }
@@ -203,11 +203,11 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eBoolean, this.hasFormulaHide);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if (!this.aspect.save(xDoc, nodeObj))  {
-                return false; 
+            if(!this.aspect.save(xDoc, nodeObj))  {
+                return false;
             }
-            if (!this.formulaHide.save(xDoc, nodeObj))  {
-                return false; 
+            if(!this.formulaHide.save(xDoc, nodeObj))  {
+                return false;
             }
 
             xProperty.setName(this.C_NODE_RPT_CONTROLS);

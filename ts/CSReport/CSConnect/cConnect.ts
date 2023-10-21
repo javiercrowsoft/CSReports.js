@@ -30,28 +30,28 @@ namespace CSConnect {
 
         public fillParameters(dataSource: string) {
             let db: Database = new Database(DatabaseEngine.SQL_SERVER);
-            if (db.initDb(this.strConnect)) {
+            if(db.initDb(this.strConnect)) {
                 let restrictions: string[] = [];
                 restrictions[2] = dataSource;
                 let dt: DataTable = db.openSchema("ProcedureParameters", restrictions);
 
-                if (this.parameters === null) this.parameters = new cParameters();
+                if(this.parameters === null) this.parameters = new cParameters();
 
                 let parameters: cParameters = new cParameters();
 
                 for(let i = 0; i < dt.rows.length; i++) {
                     let row = dt.rows[i];
-                    if (row["parameter_mode"].toString() !== "OUT")  {
+                    if(row["parameter_mode"].toString() !== "OUT")  {
                         let p: cParameter = null;
                         let found: boolean = false;
-                        for (let i = 0; i < this.parameters.count(); i++) {
+                        for(let i = 0; i < this.parameters.count(); i++) {
                             p = this.parameters.item(i);
-                            if (p.getName() === row["parameter_name"].toString()) {
+                            if(p.getName() === row["parameter_name"].toString()) {
                                 found = true;
                                 break;
                             }
                         }
-                        if (!found) p = null;
+                        if(!found) p = null;
                         p = parameters.add(p, "");
                         p.setName(row["parameter_name"].toString());
                         p.setPosition(row["ordinal_position"]);
@@ -64,17 +64,17 @@ namespace CSConnect {
                 //
                 this.parameters = new cParameters();
 
-                for (let j = 1; j < parameters.count() + 1; j++) {
+                for(let j = 1; j < parameters.count() + 1; j++) {
                     let p: cParameter = null;
                     let found: boolean = false;
-                    for (let i = 0; i < parameters.count(); i++) {
+                    for(let i = 0; i < parameters.count(); i++) {
                         p = parameters.item(i);
-                        if (p.getPosition() === j) {
+                        if(p.getPosition() === j) {
                             found = true;
                             break;
                         }
                     }
-                    if (!found) {
+                    if(!found) {
                         throw new Exception("Parameter not found for position: " + j);
                     }
                     else {
@@ -99,7 +99,7 @@ namespace CSConnect {
                 let f: fParameters = new fParameters();
                 f.setParameters(this.parameters);
                 f.showDialog();
-                if (f.getOk()) {
+                if(f.getOk()) {
                     sqlstmt = "[" + this.dataSource + "] " + f.getSqlParameters();
                 }
                 else {
@@ -115,9 +115,9 @@ namespace CSConnect {
 
         private fillColumns(sqlstmt: string) {
             let db = new Database(DatabaseEngine.SQL_SERVER);
-            if (db.initDb(this.strConnect)) {
+            if(db.initDb(this.strConnect)) {
                 let rsRef = new RefWrapper<DataTable>();
-                if (db.openRs(sqlstmt, rsRef)) {
+                if(db.openRs(sqlstmt, rsRef)) {
                     let rs = rsRef.get();
                     for(let i = 0; i < rs.getFieldCount(); i++) {
                         let column = new cColumnInfo();

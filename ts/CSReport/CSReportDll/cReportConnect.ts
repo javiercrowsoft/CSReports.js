@@ -145,7 +145,7 @@ namespace CSReportDll {
                 }
             }
 
-            if (s.length > 0 &&  s.substring(s.length - 1) === ",") {
+            if(s.length > 0 &&  s.substring(s.length - 1) === ",") {
                 debugger; // seguro que este substring esta mal
                 s = s.substring(0, s.length - 1);
             }
@@ -165,11 +165,11 @@ namespace CSReportDll {
         }
 
         private loadNode(xDoc: CSXml.cXml, node, coll) {
-            if (xDoc.nodeHasChild(node)) {
+            if(xDoc.nodeHasChild(node)) {
                 let child = xDoc.getNodeChild(node);
                 while (child !== null) {
                     let key: string = xDoc.getNodeProperty(child, "Key").getValueString(eTypes.eText);
-                    if (!coll.add(null, key).load(xDoc, child)) {
+                    if(!coll.add(null, key).load(xDoc, child)) {
                         return false;
                     }
                     child = xDoc.getNextNode(child);
@@ -183,7 +183,7 @@ namespace CSReportDll {
 
             xProperty.setName(cReportConnect.C_RPT_CONNECT);
 
-            if (nodeFather !== null) {
+            if(nodeFather !== null) {
                 nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
             }
             else {
@@ -215,7 +215,7 @@ namespace CSReportDll {
             let col: cColumnInfo = null;
             for(let _i = 0; _i < this.columns.count(); _i++) {
                 col = this.columns.item(_i);
-                if (!col.save(xDoc, node)) {
+                if(!col.save(xDoc, node)) {
                     return false;
                 }
             }
@@ -225,20 +225,20 @@ namespace CSReportDll {
             let param: cParameter = null;
             for(let _i = 0; _i < this.parameters.count(); _i++) {
                 param = this.parameters.item(_i);
-                if (!param.save(xDoc, node)) {
+                if(!param.save(xDoc, node)) {
                     return false;
                 }
             }
         }
 
         private getXFromStrConnect(strConnect: string, x: string) {
-            if (x.substring(x.length - 1) !== "=") {
+            if(x.substring(x.length - 1) !== "=") {
                 x = x + "=";
             }
             let i = strConnect.indexOf(x, 0);
-            if (i > 0) {
+            if(i > 0) {
                 let p = strConnect.indexOf(";", i);
-                if (p === 0) {
+                if(p === 0) {
                     p = strConnect.length + 1;
                 }
                 i = i + x.length;

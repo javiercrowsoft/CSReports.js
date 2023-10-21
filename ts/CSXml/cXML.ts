@@ -27,7 +27,7 @@ namespace CSXml {
 
         public getPath() {
             let _rtn: string = "";
-            if (this.path.substring(this.path.length - 1) === cFile.directorySeparatorChar()) {
+            if(this.path.substring(this.path.length - 1) === cFile.directorySeparatorChar()) {
                 _rtn = this.path;
             }
             else {
@@ -80,22 +80,22 @@ namespace CSXml {
                 let bExists: boolean = false;
                 let bReadonly: boolean = false;
 
-                if (!file.save(this.name, bExists, bReadonly, ""))  {
-                    return false; 
+                if(!file.save(this.name, bExists, bReadonly, ""))  {
+                    return false;
                 }
 
-                if (bExists && bReadonly) {
+                if(bExists && bReadonly) {
                     msg = "There is already a file with this name and it is read only. Do you want to replace this file?";
                 }
-                else if (bExists) {
-                    if (this.name !== file.getName()) {
+                else if(bExists) {
+                    if(this.name !== file.getName()) {
                         msg = "There is already a file with this name. Do you want to replace this file?";
                     }
                 }
 
-                if (msg !== "") {
-                    if (!cWindow.ask(msg, MessageBoxDefaultButton.Button2))  {
-                        return false; 
+                if(msg !== "") {
+                    if(!cWindow.ask(msg, MessageBoxDefaultButton.Button2))  {
+                        return false;
                     }
                 }
 
@@ -130,8 +130,8 @@ namespace CSXml {
             try {
                 let file: CSKernelFile.cFile = new CSKernelFile.cFile();
 
-                if (!file.open(this.name, eFileMode.eWrite, false, false, eFileAccess.eLockWrite, false, false))  {
-                    return false; 
+                if(!file.open(this.name, eFileMode.eWrite, false, false, eFileAccess.eLockWrite, false, false))  {
+                    return false;
                 }
 
                 this.name = file.getName();
@@ -144,7 +144,7 @@ namespace CSXml {
             catch (ex) {
                 cError.mngError(ex);
                 return false;
-            }            
+            }
         }
 
         public setNodeText(node: XmlNode, text: string) {
@@ -201,7 +201,7 @@ namespace CSXml {
         }
 
         public getRootNode() {
-            if (this.domDoc.getElementsByTagName("Root").length > 0) {
+            if(this.domDoc.getElementsByTagName("Root").length > 0) {
                 return this.domDoc.getElementsByTagName("Root")[0];
             }
             else {
@@ -210,7 +210,7 @@ namespace CSXml {
         }
 
         public getNode(nodeTag: string) {
-            if (this.domDoc.getElementsByTagName(nodeTag).length > 0) {
+            if(this.domDoc.getElementsByTagName(nodeTag).length > 0) {
                 return this.domDoc.getElementsByTagName(nodeTag)[0];
             }
             else {
@@ -223,7 +223,7 @@ namespace CSXml {
         }
 
         public getNodeChild(node: XmlNode) {
-            if (this.nodeHasChild(node)) {
+            if(this.nodeHasChild(node)) {
                 return node.getChildNodes()[0];
             }
             else {
@@ -245,7 +245,7 @@ namespace CSXml {
             try {
                 let o: cXmlProperty = new cXmlProperty();
                 let txt: string = "";
-                if (node.attributeByName(propertyName) !== null) {
+                if(node.attributeByName(propertyName) !== null) {
                     txt = node.attributeByName(propertyName).value;
                 }
                 o.setValue(eTypes.eVariant, txt);
@@ -262,7 +262,7 @@ namespace CSXml {
             let vBuffer;
 
             let attr = node.attributeByName(propertyName);
-            if (attr !== null) {
+            if(attr !== null) {
                 vBuffer = cXml.base64ToArrayBuffer(attr.value);
             }
             else {
@@ -276,7 +276,7 @@ namespace CSXml {
         private static base64ToArrayBuffer(base64) {
             let binaryString = atob(base64);
             let bytes = new Uint8Array(binaryString.length);
-            for (let i = 0; i < binaryString.length; i++) {
+            for(let i = 0; i < binaryString.length; i++) {
                 bytes[i] = binaryString.charCodeAt(i);
             }
             return bytes.buffer;
@@ -288,13 +288,13 @@ namespace CSXml {
 
         private loadXml(file: string) {
             try {
-                
+
                 return true;
             }
             catch (ex) {
-                cWindow.msgWarning("Open file has failded.;;" 
-                                    + file 
-                                    + ";;Error: " 
+                cWindow.msgWarning("Open file has failded.;;"
+                                    + file
+                                    + ";;Error: "
                                     + ex.Message);
                 return false;
             }

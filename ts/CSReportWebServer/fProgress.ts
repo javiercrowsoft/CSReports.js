@@ -1,6 +1,6 @@
-///<reference path="../../CSForms/Form.ts"/>
+///<reference path="../CSForms/Form.ts"/>
 
-namespace CSReportEditor {
+namespace CSReportWebServer {
 
     import Form = CSForms.Form;
 

@@ -13,14 +13,14 @@ namespace CSReportDll {
                 let fint = formula.getFormulasInt().item(_i);
                 parameters += "globals.getVar(\"p__" + _i + "__\").getValue(),";
             }
-            if (parameters.length > 0) {
+            if(parameters.length > 0) {
                 parameters = parameters.substring(0, parameters.length - 1);
             }
             return functionName + "(" + parameters + ")";
         }
 
         private putCodeInClass(code: string, formula: cReportFormula) {
-            if (code.substring(0, 8).toLowerCase() === "function") {
+            if(code.substring(0, 8).toLowerCase() === "function") {
                 return "Public Class util\r\n"
                      + "Implements CSReportScript.cIReportScriptType\r\n"
                      + code + "\r\n"

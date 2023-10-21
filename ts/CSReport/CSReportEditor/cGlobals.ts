@@ -100,7 +100,7 @@ namespace CSReportEditor {
             let fc: FColumns = null;
 
             const close = () => {
-                if (fc !== null) {
+                if(fc !== null) {
                     fc.close();
                 }
             }
@@ -123,7 +123,7 @@ namespace CSReportEditor {
                 fc.setField(field);
                 fc.showDialog();
 
-                if (fc.getOk()) {
+                if(fc.getOk()) {
                     field = fc.getField();
                     fieldType = fc.getFieldType();
                     index = fc.getIndex();
@@ -181,7 +181,7 @@ namespace CSReportEditor {
                 rptParameter.setColumnType(parameter.getColumnType());
                 rptParameter.setValue(parameter.getValue());
                 rptConnect.getParameters().add(rptParameter, "");
-            }        
+            }
         }
 
         public static moveGroup(group: cReportGroup, editor: cEditor) {
@@ -197,7 +197,7 @@ namespace CSReportEditor {
             report.getFooters().add(null, cGlobals.C_KEY_FOOTER);
             report.getDetails().add(null, cGlobals.C_KEY_DETAIL);
 
-            // 
+            //
             // main header
             //
             let sec: cReportSection = report.getHeaders().item(cGlobals.C_KEY_HEADER);
@@ -214,7 +214,7 @@ namespace CSReportEditor {
             aspect.setHeight(tr.height * 0.25);
             aspect.setWidth(tr.width);
 
-            // 
+            //
             // detail
             //
             sec = report.getDetails().item(cGlobals.C_KEY_DETAIL);
@@ -231,7 +231,7 @@ namespace CSReportEditor {
             aspect.setHeight(tr.height * 0.25);
             aspect.setWidth(tr.width);
 
-            // 
+            //
             // main footer
             //
             sec = report.getFooters().item(cGlobals.C_KEY_FOOTER);
@@ -284,7 +284,7 @@ namespace CSReportEditor {
                         break;
                 }
 
-                if (ctrlInfo.length > 0) {
+                if(ctrlInfo.length > 0) {
                     ctrlName += " (" + ctrlInfo + ")";
                 }
 
@@ -294,18 +294,18 @@ namespace CSReportEditor {
                 item.subItems.add("");
                 item.subItems.add("");
 
-                if (ctrl.getHasFormulaValue()) item.subItems.item(1).setText("*");
-                if (ctrl.getHasFormulaHide()) item.subItems.item(2).setText("*");
+                if(ctrl.getHasFormulaValue()) item.subItems.item(1).setText("*");
+                if(ctrl.getHasFormulaHide()) item.subItems.item(2).setText("*");
 
-                if (ctrlField.length > 0) {
+                if(ctrlField.length > 0) {
                     item.subItems.item(3).setText(ctrlField);
                     item.subItems.item(3).setForeColor(Color.Blue);
                     item.setImageIndex(dbImage);
                 }
-                if (ctrl.getName().length > 4 && ctrl.getName().substring(0, 4) === "lnk_") {
+                if(ctrl.getName().length > 4 && ctrl.getName().substring(0, 4) === "lnk_") {
                     item.setForeColor(Color.Red);
                 }
-            }            
+            }
         }
 
         public static addCtrls2(report: cReport, tv_controls: TreeView,
@@ -352,8 +352,8 @@ namespace CSReportEditor {
                 nodeSec = father.getNodes().add(sec.getName(), folderImage);
                 nodeSec.tag = "S" + sec.getKey();
 
-                if (sec.getFormulaHide().getText() !== "") {
-                    if (sec.getFormulaHide().getText() === "0") {
+                if(sec.getFormulaHide().getText() !== "") {
+                    if(sec.getFormulaHide().getText() === "0") {
                         text = "Hidden";
                         bComplexF = false;
                     }
@@ -363,11 +363,11 @@ namespace CSReportEditor {
                     }
                     item = nodeSec.getNodes().add(text, formulaImage);
                     item.selectedImageIndex = formulaImage;
-                    if (!sec.getHasFormulaHide()) {
+                    if(!sec.getHasFormulaHide()) {
                         item.foreColor = Color.Red.toString();
                     }
 
-                    if (bComplexF) {
+                    if(bComplexF) {
                         item.tag = "@FH=" + sec.getFormulaHide().getText();
                     }
                 }
@@ -377,8 +377,8 @@ namespace CSReportEditor {
                     nodeSecLn = nodeSec.getNodes().add("Line " + secLn.getRealIndex(), folderImage);
                     nodeSecLn.tag = "L" + secLn.getKey();
 
-                    if (secLn.getFormulaHide().getText() !== "") {
-                        if (secLn.getFormulaHide().getText() === "0") {
+                    if(secLn.getFormulaHide().getText() !== "") {
+                        if(secLn.getFormulaHide().getText() === "0") {
                             text = "Hidden";
                             bComplexF = false;
                         }
@@ -388,20 +388,20 @@ namespace CSReportEditor {
                         }
                         item = nodeSecLn.getNodes().add(text, formulaImage);
                         item.selectedImageIndex = formulaImage;
-                        if (!secLn.getHasFormulaHide()) {
+                        if(!secLn.getHasFormulaHide()) {
                             item.foreColor = Color.Red.toString();
                         }
-                        if (bComplexF) {
+                        if(bComplexF) {
                             item.tag = "@FH=" + secLn.getFormulaHide().getText();
                         }
                     }
                     for(let t = 0; t < secLn.getControls().count(); t++) {
                         ctrl = secLn.getControls().item(t);
                         nodeCtrl = nodeSecLn.getNodes().add(
-                            ctrl.getName() 
-                            + (ctrl.getLabel().getText() !== "" 
-                                ? " - " + ctrl.getLabel().getText() 
-                                : ""), 
+                            ctrl.getName()
+                            + (ctrl.getLabel().getText() !== ""
+                                ? " - " + ctrl.getLabel().getText()
+                                : ""),
                             controlImage
                             );
                         nodeCtrl.selectedImageIndex = controlImage;
@@ -409,13 +409,13 @@ namespace CSReportEditor {
                         nodeCtrl.backColor = ctrl.getLabel().getAspect().getBackColor();
                         nodeCtrl.foreColor = ctrl.getLabel().getAspect().getFont().getForeColor();
 
-                        if (ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
+                        if(ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
                             item = nodeCtrl.getNodes().add(ctrl.getField().getName(), databaseFieldImage);
                             item.selectedImageIndex = databaseFieldImage;
                         }
 
-                        if (ctrl.getFormulaHide().getText() !== "") {
-                            if (ctrl.getFormulaHide().getText() === "0") {
+                        if(ctrl.getFormulaHide().getText() !== "") {
+                            if(ctrl.getFormulaHide().getText() === "0") {
                                 text = "hidden";
                                 bComplexF = false;
                             }
@@ -426,18 +426,18 @@ namespace CSReportEditor {
 
                             item = nodeCtrl.getNodes().add(text, formulaImage);
                             item.selectedImageIndex = formulaImage;
-                            if (!ctrl.getHasFormulaHide()) {
+                            if(!ctrl.getHasFormulaHide()) {
                                 item.foreColor = Color.Red.toString();
                             }
-                            if (bComplexF) {
+                            if(bComplexF) {
                                 item.tag = "@FH=" + ctrl.getFormulaHide().getText();
                             }
                         }
 
-                        if (ctrl.getFormulaValue().getText() !== "") {
+                        if(ctrl.getFormulaValue().getText() !== "") {
                             item = nodeCtrl.getNodes().add("Value formula", formulaImage);
                             item.selectedImageIndex = formulaImage;
-                            if (!ctrl.getHasFormulaValue()) {
+                            if(!ctrl.getHasFormulaValue()) {
                                 item.foreColor = Color.Red.toString();
                             }
                             item.tag = "@FV=" + ctrl.getFormulaValue().getText();
@@ -448,14 +448,14 @@ namespace CSReportEditor {
             father.expandAll();
         }
 
-        public static fillColumns(dataSource: string, 
-                                  columns: CSReportDll.cColumnsInfo, 
+        public static fillColumns(dataSource: string,
+                                  columns: CSReportDll.cColumnsInfo,
                                   lvColumns: ListView,
-                                  index: string, 
-                                  fieldType: string, 
+                                  index: string,
+                                  fieldType: string,
                                   add: boolean) {
 
-            if (!add) {
+            if(!add) {
                 lvColumns.clear();
                 lvColumns.createHeaders(['Name']);
             }
@@ -469,7 +469,7 @@ namespace CSReportEditor {
                 // item.tag = info;
             }
         }
-    } 
+    }
 
     export class Rectangle {
         public height: number = null;
@@ -479,7 +479,7 @@ namespace CSReportEditor {
             this.height = rect.getHeight();
             this.width = rect.getWidth();
         }
-    } 
+    }
 
     export interface cIDatabaseFieldSelector {
         getFieldType(): number;

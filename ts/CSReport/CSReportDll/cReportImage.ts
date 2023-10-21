@@ -35,7 +35,7 @@ namespace CSReportDll {
             //
             // an empty image is serialized as AA== which is vBytes === [0] ( yes the number zero ) and vBytes.length === 1
             //
-            if (vBytes.length > 1) {
+            if(vBytes.length > 1) {
                 this.image = cImage.deSerialiseBitmap(vBytes);
             }
             vBytes = [];
@@ -52,7 +52,7 @@ namespace CSReportDll {
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             let vBytes = null;
-            if (this.getImage() !== null) {
+            if(this.getImage() !== null) {
                 cImage.serialiseBitmap(this.getImage(), vBytes);
             }
             else {

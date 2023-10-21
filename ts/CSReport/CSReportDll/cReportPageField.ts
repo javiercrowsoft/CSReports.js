@@ -99,12 +99,12 @@ namespace CSReportDll {
 
             let nodeObjAux: XmlNode = null;
             nodeObjAux = nodeObj;
-            if (!this.objectID.load(xDoc, nodeObjAux))  {
-                return false; 
+            if(!this.objectID.load(xDoc, nodeObjAux))  {
+                return false;
             }
             nodeObjAux = nodeObj;
-            if (!this.info.load(xDoc, nodeObjAux))  {
-                return false; 
+            if(!this.info.load(xDoc, nodeObjAux))  {
+                return false;
             }
 
             return true;
@@ -138,16 +138,16 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eLong, this.width);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if (this.objectID !== null) {
-                if (!this.objectID.save(xDoc, nodeObj)) {
+            if(this.objectID !== null) {
+                if(!this.objectID.save(xDoc, nodeObj)) {
                     return false;
                 }
             }
-            if (!this.info.save(xDoc, nodeObj))  {
-                return false; 
+            if(!this.info.save(xDoc, nodeObj))  {
+                return false;
             }
 
-            return true;  
+            return true;
         }
 
         public saveForWeb(xDoc: CSXml.cXml, nodeFather: XmlNode) {

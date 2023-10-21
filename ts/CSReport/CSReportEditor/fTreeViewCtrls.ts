@@ -1,5 +1,7 @@
 namespace CSReportEditor {
 
+    import Form = CSForms.Form;
+
     export class FTreeViewCtrls extends Form {
 
         private editor: cEditor = null;
@@ -38,14 +40,14 @@ namespace CSReportEditor {
         }
 
         private selectAndShowInfo(node: object) {
-            // if (node !== null && node.Tag !== null) {
+            // if(node !== null && node.Tag !== null) {
             //     let info = node.Tag.toString();
-            //     if (info.length > 0) {
+            //     if(info.length > 0) {
             //         let infoType = info.substring(0, 1);
-            //         if (infoType === "@") {
+            //         if(infoType === "@") {
             //             tx_descrip.setText(info.substring(4));
             //         }
-            //         else if (infoType === "S" || infoType === "L") {
+            //         else if(infoType === "S" || infoType === "L") {
             //             this.editor.selectSection(info.substring(1));
             //         }
             //         else {
@@ -57,21 +59,21 @@ namespace CSReportEditor {
         }
 
         private tv_formulas_NodeMouseDoubleClick(sender: object, e: object) {
-            // if (e.Node.Tag !== null) {
+            // if(e.Node.Tag !== null) {
             //     let info = e.Node.Tag.toString();
-            //     if (info.length > 0) {
+            //     if(info.length > 0) {
             //         let infoType = info.substring(0, 4);
-            //         if (infoType === "@FH=") {
+            //         if(infoType === "@FH=") {
             //             this.formulaName = "Hide";
             //             let formula: string = info.substring(4);
-            //             if (this.editor.showEditFormula(formula)) {
+            //             if(this.editor.showEditFormula(formula)) {
             //                 e.Node.Tag = "@FH=" + formula;
             //             }
             //         }
-            //         else if (infoType === "@FV=") {
+            //         else if(infoType === "@FV=") {
             //             this.formulaName = "Value";
             //             let formula: string = info.substring(4);
-            //             if (this.editor.showEditFormula(formula)) {
+            //             if(this.editor.showEditFormula(formula)) {
             //                 e.Node.Tag = "@FV=" + formula;
             //             }
             //         }
@@ -97,7 +99,7 @@ namespace CSReportEditor {
             // let tabs = new String('\t', n);
             // let methods = getMethods(anObject);
             // for(let i_ = 0; i_ < methods.length; i_++) {
-            //     if (m.IsPublic
+            //     if(m.IsPublic
             //         && m.Name.length > 3
             //         && m.Name.substring(0,3) === "get"
             //         && m.Name.substring(0, 4) !== "get_"
@@ -112,14 +114,14 @@ namespace CSReportEditor {
         }
 
         private getValue(value: object, n: number) {
-            // if (n > 10) return "";
+            // if(n > 10) return "";
             //
-            // if (value === null) {
+            // if(value === null) {
             //     return "NULL";
             // }
             // else {
             //     let t = value.GetType();
-            //     if (t.IsPrimitive || t === typeof(Decimal) || t === typeof(String)) {
+            //     if(t.IsPrimitive || t === typeof(Decimal) || t === typeof(String)) {
             //         return value.toString();
             //     }
             //     else {
@@ -133,12 +135,12 @@ namespace CSReportEditor {
         }
 
         private cmd_edit_Click(sender: object, e: object) {
-            // if (tv_controls.SelectedNode !== null) {
-            //     if (tv_controls.SelectedNode.Tag !== null) {
+            // if(tv_controls.SelectedNode !== null) {
+            //     if(tv_controls.SelectedNode.Tag !== null) {
             //         let info = tv_controls.SelectedNode.Tag.toString();
-            //         if (info.length > 0) {
+            //         if(info.length > 0) {
             //             let infoType = info.substring(0, 1);
-            //             if (infoType === "@") {
+            //             if(infoType === "@") {
             //                 tx_descrip.setText(info.substring(4));
             //             }
             //             else {
@@ -153,5 +155,5 @@ namespace CSReportEditor {
             // this.Close();
         }
 
-    } 
+    }
 }

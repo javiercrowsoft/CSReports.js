@@ -15,11 +15,11 @@ namespace CSXml {
         }
 
         public setBinaryValue(value) {
-            if (value === null) {
+            if(value === null) {
                 this.binaryValue = null;
             }
             else {
-                if (Array.isArray(value)) {
+                if(Array.isArray(value)) {
                     let valueArray: Uint8Array[] = value;
                     let newArray = [...valueArray];
                     this.binaryValue = newArray;
@@ -72,7 +72,7 @@ namespace CSXml {
                     }
                 case eTypes.eDate:
                 case eTypes.eDateOrNull:
-                    if (cDateUtils.isDate(this.value)) {
+                    if(cDateUtils.isDate(this.value)) {
                         return this.value;
                     }
                     else {
@@ -83,7 +83,7 @@ namespace CSXml {
                 case eTypes.eId:
                 case eTypes.eSingle:
                 case eTypes.eCurrency:
-                    if (! Number.isNaN(this.value as any) ) {
+                    if(! Number.isNaN(this.value as any) ) {
                         return  Number(this.value);
                     }
                     else {
@@ -99,10 +99,10 @@ namespace CSXml {
         }
 
         public setValue(type: eTypes, value: any) {
-            if (type === eTypes.eBoolean) {
+            if(type === eTypes.eBoolean) {
                 this.value = value ? "-1" : "0";
             }
-            else if (type === eTypes.eInteger) {
+            else if(type === eTypes.eInteger) {
                 this.value = parseInt(value).toString();
             }
             else {
@@ -111,7 +111,7 @@ namespace CSXml {
         }
 
         public setValue2(value: object) {
-            if (typeof value === "boolean") {
+            if(typeof value === "boolean") {
                 this.value = value ? "-1" : "0";
             }
             else {

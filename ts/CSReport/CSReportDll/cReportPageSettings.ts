@@ -19,10 +19,10 @@ namespace CSReportDll {
                     c: cReportPageInfo,
                     key: string) {
             try {
-                if (c === null)  {
+                if(c === null)  {
                     c = new cReportPageInfo();
                 }
-                if (key === "") {
+                if(key === "") {
                     key = ReportGlobals.getNextKey().toString();
                 }
 

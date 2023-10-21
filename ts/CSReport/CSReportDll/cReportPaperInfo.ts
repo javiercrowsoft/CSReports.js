@@ -80,7 +80,7 @@ namespace CSReportDll {
         }
 
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
-            if (nodeObj !== null) {
+            if(nodeObj !== null) {
                 this.height = xDoc.getNodeProperty(nodeObj, "Height").getValueInt(eTypes.eLong);
                 this.paperSize = xDoc.getNodeProperty(nodeObj, "PaperSize").getValueInt(eTypes.eInteger);
                 this.width = xDoc.getNodeProperty(nodeObj, "Width").getValueInt(eTypes.eLong);

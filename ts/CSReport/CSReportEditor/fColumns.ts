@@ -34,7 +34,7 @@ namespace CSReportEditor {
         public fillColumns(dataSource: string, columns: cColumnsInfo, add: boolean) {
             // cGlobals.fillColumns(dataSource, columns, lv_columns, C_INDEX, C_FIELDTYPE, add);
             /*
-            foreach (cColumnInfo column in columns) 
+            foreach (cColumnInfo column in columns)
             {
                 var item = lv_columns.Items.Add(String.Format("{{{0}}}.{1}", dataSource, column.getName()));
                 item.ImageIndex = 0;
@@ -42,13 +42,13 @@ namespace CSReportEditor {
                 info = cUtil.setInfoString(info, C_FIELDTYPE, column.getColumnType().toString());
                 item.Tag = info;
             }
-             */ 
+             */
         }
 
         public setField(field: string) {
             // this.field = field;
             // for(let i_ = 0; i_ < lv_columns.Items.length; i_++) {
-            //     if (item.Text === field)  {
+            //     if(item.Text === field)  {
             //         item.Selected = true;
             //         item.Focused = true;
             //         lv_columns.Select();
@@ -74,7 +74,7 @@ namespace CSReportEditor {
         }
 
         private lv_columns_Click(sender: object, e: object) {
-            // if (lv_columns.SelectedItems.Count > 0) {
+            // if(lv_columns.SelectedItems.Count > 0) {
             //     let item: ListViewItem = lv_columns.SelectedItems[0];
             //     this.field = item.Text;
             //     let info = item.Tag.toString();

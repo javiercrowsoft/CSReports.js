@@ -82,7 +82,7 @@ namespace CSReportDll {
             fromPage = 1;
             toPage = pages;
 
-            if (cPrintAPI.showPrintDialog(
+            if(cPrintAPI.showPrintDialog(
                     this.printDialog,
                     this.deviceName,
                     this.driverName,

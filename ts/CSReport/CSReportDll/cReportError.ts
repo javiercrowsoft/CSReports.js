@@ -61,7 +61,7 @@ namespace CSReportDll {
                     break;
             }
 
-            for (let i = 0; i < x.length; i++) {
+            for(let i = 0; i < x.length; i++) {
                 s = s.replace("$" + i.toString(), x[i]);
             }
 

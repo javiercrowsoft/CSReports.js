@@ -1,5 +1,6 @@
 namespace CSReportEditor {
 
+    import Form = CSForms.Form;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
 
     export class FPageSetup extends Form {
@@ -100,7 +101,7 @@ namespace CSReportEditor {
             cUtil.listSetListIndexForId(cb_paperSize, (int)this.paperSize);
             tx_height.setText(this.customHeight.toString());
             tx_width.setText(this.customWidth.toString());
-            if (this.orientation === csRptPageOrientation.LANDSCAPE) {
+            if(this.orientation === csRptPageOrientation.LANDSCAPE) {
                 op_landscape.setChecked(true);
             }
             else {

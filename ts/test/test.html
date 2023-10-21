@@ -19,7 +19,7 @@
           var testLine = line + words[n] + ' ';
           var metrics = context.measureText(testLine);
           var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
+          if(testWidth > maxWidth && n > 0) {
             context.fillText(line, x, y);
             line = words[n] + ' ';
             y += lineHeight;
@@ -30,7 +30,7 @@
         }
         context.fillText(line, x, y);
       }
-      
+
       var canvas = document.getElementById('myCanvas');
       var context = canvas.getContext('2d');
       var maxWidth = 400;
@@ -45,4 +45,4 @@
       wrapText(context, text, x, y, maxWidth, lineHeight);
     </script>
   </body>
-</html>      
+</html>

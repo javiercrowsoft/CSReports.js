@@ -139,8 +139,8 @@ namespace CSReportDll {
             nodeObjAux = nodeObj;
             nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.C_HEADER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
-            if (!this.header.load(xDoc, nodeObjAux))  {
-                return false; 
+            if(!this.header.load(xDoc, nodeObjAux))  {
+                return false;
             }
 
             this.header.setName(this.name);
@@ -148,8 +148,8 @@ namespace CSReportDll {
             nodeObjAux = nodeObj;
             nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.C_FOOTER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
-            if (!this.footer.load(xDoc, nodeObjAux))  {
-                return false; 
+            if(!this.footer.load(xDoc, nodeObjAux))  {
+                return false;
             }
 
             this.footer.setName(this.name);
@@ -158,7 +158,7 @@ namespace CSReportDll {
         }
 
         public fixName() {
-            if (this.name.length === 0
+            if(this.name.length === 0
                 || this.name.toLowerCase().substring(0, 5) === "group"
                 || this.name.toLowerCase().substring(0, 5) === "grupo"
                 || this.name.toLowerCase().substring(0, 3) === "gh_"

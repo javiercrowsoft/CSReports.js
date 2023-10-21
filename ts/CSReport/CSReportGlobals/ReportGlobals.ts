@@ -18,25 +18,25 @@ namespace CSReportGlobals {
 
         public static refreshNextKey(key: string) {
             let keyNumber: number = 0;
-            if (Utils.isNumber(key)) {
+            if(Utils.isNumber(key)) {
                 keyNumber = Utils.parseInt(key);
             }
             else {
-                if (key.length > 1)  {
-                    if (Utils.isNumber(key.substring(1))) {
+                if(key.length > 1)  {
+                    if(Utils.isNumber(key.substring(1))) {
                         keyNumber = Utils.parseInt(key.substring(1));
                     }
                 }
             }
 
-            if (ReportGlobals.nextKey < keyNumber) {
+            if(ReportGlobals.nextKey < keyNumber) {
                 ReportGlobals.nextKey = keyNumber + 1;
             }
         }
 
         public static getKey(value: string) {
-            if (value.length > 0) {
-                if ("0123456789".contains(value.substring(0, 1))) {
+            if(value.length > 0) {
+                if("0123456789".contains(value.substring(0, 1))) {
                     value = "K" + value;
                 }
             }
@@ -52,7 +52,7 @@ namespace CSReportGlobals {
         }
 
         public static valVariant<T>(value: object): T {
-            if (value === null) {
+            if(value === null) {
                 let typeCode = this.toType(value);
                 switch (typeCode) {
                     case "string":
@@ -78,12 +78,12 @@ namespace CSReportGlobals {
         }
 
         public static dateValue(value: any) {
-            if (value === null) {
+            if(value === null) {
                 return CSDatabase.Constants.C_NO_DATE;
             }
             else {
                 let utcDate = Date.parse(value.toString())
-                if (! isNaN(utcDate)) {
+                if(! isNaN(utcDate)) {
                     return new Date(utcDate);
                 }
                 else {
@@ -97,23 +97,23 @@ namespace CSReportGlobals {
         }
 
         public static format(expression: any, strFormat: string): string {
-            if (expression === null) {
+            if(expression === null) {
                 return "";
             }
             else {
                 let isDate: boolean = false;
 
-                if (expression instanceof Date) {
-                    if (expression === CSDatabase.Constants.C_NO_DATE) {
+                if(expression instanceof Date) {
+                    if(expression === CSDatabase.Constants.C_NO_DATE) {
                         return "";
                     }
                     isDate = true;
                 }
-                if (strFormat === "") {
+                if(strFormat === "") {
                     return expression.toString();
                 }
                 else {
-                    if (isDate) {
+                    if(isDate) {
                         return expression.toString().format(strFormat);
                     }
                     else {

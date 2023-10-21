@@ -61,14 +61,14 @@ namespace CSDatabase {
         }
 
         public static sqlNumber(number: string): string {
-            if (! Utils.isNumber(number)) {
+            if(! Utils.isNumber(number)) {
                 return "0";
             }
             else {
                 let s = Utils.val(number).toString();
                 s = s.replace(",", ".");
                 debugger; // seguro que este substring esta mal
-                if (s.substring(s.length - 1, 0) == ".") {
+                if(s.substring(s.length - 1, 0) == ".") {
                     s = s.substring(0, s.length - 1);
                 }
                 return s;

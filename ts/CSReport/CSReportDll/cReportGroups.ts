@@ -31,12 +31,12 @@ namespace CSReportDll {
 
         public add(c: cReportGroup, key: string) {
             try  {
-                if (c === null)  {
+                if(c === null)  {
                     c = new cReportGroup();
                 }
-                if (key === "")  {
+                if(key === "")  {
                     key = ReportGlobals.getNextKey().toString();
-                } 
+                }
                 else  {
                     ReportGlobals.refreshNextKey(key);
                 }
@@ -58,7 +58,7 @@ namespace CSReportDll {
                 c.getFooter().setTypeSection(csRptSectionType.GROUP_FOOTER);
 
                 return c;
-            } 
+            }
             catch (ex) {
                 return null;
             }
@@ -66,12 +66,12 @@ namespace CSReportDll {
 
         public add2(c: cReportGroup, key: string) {
             try  {
-                if (c === null)  {
+                if(c === null)  {
                     c = new cReportGroup();
                 }
-                if (key === "")  {
+                if(key === "")  {
                     key = ReportGlobals.getNextKey().toString();
-                } 
+                }
                 else  {
                     ReportGlobals.refreshNextKey(key);
                 }
@@ -93,7 +93,7 @@ namespace CSReportDll {
                 c.getFooter().setTypeSection(csRptSectionType.GROUP_FOOTER);
 
                 return c;
-            } 
+            }
             catch(ex) {
                 return null;
             }
@@ -105,7 +105,7 @@ namespace CSReportDll {
 
         private setName2(section: string, name: string) {
             let sectionName: string = section.toLowerCase();
-            if (sectionName.length === 0
+            if(sectionName.length === 0
                 || sectionName.substring(0, 5) === "group"
                 || sectionName.substring(0, 5) === "grupo"
                 || sectionName.substring(0, 3) === "gh_"

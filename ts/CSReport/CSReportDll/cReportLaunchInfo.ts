@@ -139,9 +139,9 @@ namespace CSReportDll {
         }
 
         public setPaperBin(paperBin: string) {
-            if (this.printer === null) { return; }
+            if(this.printer === null) { return; }
 
-            if (paperBin.length === 0) {
+            if(paperBin.length === 0) {
                 let idPaperBin: number = cPrintAPI.printerPaperBinNameToId(
                                                         this.printer.getDeviceName(),
                                                         this.printer.getPort(),
@@ -170,7 +170,7 @@ namespace CSReportDll {
 
             xProperty.setName(cReportLaunchInfo.C_LAUNCH_INFO);
 
-            if (nodeFather !== null) {
+            if(nodeFather !== null) {
                 nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
             }
             else {

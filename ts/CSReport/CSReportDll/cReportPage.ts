@@ -2,7 +2,7 @@ namespace CSReportDll {
 
     import eTypes = CSKernelClient.eTypes;
     import XmlNode = CSXml.XmlNode;
-    
+
     export class cReportPage {
 
         private C_NODERPTHEADER: string = "Header";
@@ -80,33 +80,33 @@ namespace CSReportDll {
             this.footer.clear();
 
             nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTHEADER);
-            if (xDoc.nodeHasChild(nodeObj)) {
+            if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if (!this.header.add(null).load(xDoc, nodeObjSecLn))  {
-                        return false; 
+                    if(!this.header.add(null).load(xDoc, nodeObjSecLn))  {
+                        return false;
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
                 }
             }
 
             nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTDETAIL);
-            if (xDoc.nodeHasChild(nodeObj)) {
+            if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if (!this.detail.add(null).load(xDoc, nodeObjSecLn))  {
-                        return false; 
+                    if(!this.detail.add(null).load(xDoc, nodeObjSecLn))  {
+                        return false;
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
                 }
             }
 
             nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTFOOTER);
-            if (xDoc.nodeHasChild(nodeObj)) {
+            if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if (!this.footer.add(null).load(xDoc, nodeObjSecLn))  {
-                        return false; 
+                    if(!this.footer.add(null).load(xDoc, nodeObjSecLn))  {
+                        return false;
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
                 }
@@ -198,22 +198,22 @@ namespace CSReportDll {
                 pageFld = this.header.item(_i);
                 addLine = false;
 
-                if (pageFld.getTop() === 0) {
-                    if (top !== pageFld.getInfo().getAspect().getTop()) {
+                if(pageFld.getTop() === 0) {
+                    if(top !== pageFld.getInfo().getAspect().getTop()) {
                         top = pageFld.getInfo().getAspect().getTop();
                         addLine = true;
                         nHeader = nHeader + 1;
                     }
                 }
                 else {
-                    if (top !== pageFld.getTop()) {
+                    if(top !== pageFld.getTop()) {
                         top = pageFld.getTop();
                         addLine = true;
                         nHeader = nHeader + 1;
                     }
                 }
 
-                if (addLine) {
+                if(addLine) {
                     xProperty.setName(this.C_NODERPTHEADERLINE + nHeader.toString());
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
@@ -231,20 +231,20 @@ namespace CSReportDll {
 
                 addLine = false;
 
-                if (pageFld.getTop() === 0) {
-                    if (top !== pageFld.getInfo().getAspect().getTop()) {
+                if(pageFld.getTop() === 0) {
+                    if(top !== pageFld.getInfo().getAspect().getTop()) {
                         top = pageFld.getInfo().getAspect().getTop();
                         addLine = true;
                     }
                 }
                 else {
-                    if (top !== pageFld.getTop()) {
+                    if(top !== pageFld.getTop()) {
                         top = pageFld.getTop();
                         addLine = true;
                     }
                 }
 
-                if (addLine) {
+                if(addLine) {
                     xProperty.setName(this.C_NODERPTDETAILLINE);
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
@@ -261,20 +261,20 @@ namespace CSReportDll {
                 pageFld = this.footer.item(_i);
                 addLine = false;
 
-                if (pageFld.getTop() === 0) {
-                    if (top !== pageFld.getInfo().getAspect().getTop()) {
+                if(pageFld.getTop() === 0) {
+                    if(top !== pageFld.getInfo().getAspect().getTop()) {
                         top = pageFld.getInfo().getAspect().getTop();
                         addLine = true;
                     }
                 }
                 else {
-                    if (top !== pageFld.getTop()) {
+                    if(top !== pageFld.getTop()) {
                         top = pageFld.getTop();
                         addLine = true;
                     }
                 }
 
-                if (addLine) {
+                if(addLine) {
                     xProperty.setName(this.C_NODERPTFOOTERLINE);
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);

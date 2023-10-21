@@ -1,5 +1,7 @@
 namespace CSReportEditor {
 
+    import Form = CSForms.Form;
+
     export class FSimpleConnect extends Form {
 
         private ok: boolean = false;
@@ -66,7 +68,7 @@ namespace CSReportEditor {
 
         private cmd_apply_Click(sender: object, e: object) {
             /*
-            if (op_sqlConnection.Checked && tx_user.Text === "") {
+            if(op_sqlConnection.Checked && tx_user.Text === "") {
                 cWindow.msgWarning("You must indicate a user");
             }
             else {

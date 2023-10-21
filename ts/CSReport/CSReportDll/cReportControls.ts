@@ -57,10 +57,10 @@ namespace CSReportDll {
         public add(c?: cReportControl, key?: string) {
             try {
 
-                if (c === null || c === undefined)  {
+                if(c === null || c === undefined)  {
                     c = new cReportControl();
                 }
-                if (key === "" || key === null || key === undefined) {
+                if(key === "" || key === null || key === undefined) {
                     key = ReportGlobals.getNextKey().toString();
                 }
                 else {
@@ -74,8 +74,8 @@ namespace CSReportDll {
                 c.setTypeSection(this.typeSection);
                 c.setSectionLine(this.sectionLine);
 
-                if (this.copyColl !== null)  {
-                    this.copyColl.add2(c, key); 
+                if(this.copyColl !== null)  {
+                    this.copyColl.add2(c, key);
                 }
                 return c;
             }
@@ -98,7 +98,7 @@ namespace CSReportDll {
         public remove(index: number|string) {
             try {
                 this.item(index).setSectionLine(null);
-                if (this.copyColl !== null) {
+                if(this.copyColl !== null) {
                     this.copyColl.remove(this.item(index).getKey());
                 }
                 this.baseRemove(index);
@@ -116,16 +116,16 @@ namespace CSReportDll {
 
             this.collByLeft = [];
 
-            for (i = 0; i < this.collByLeft.length; i++) {
+            for(i = 0; i < this.collByLeft.length; i++) {
                 this.collByLeft[i] = i;
             }
 
-            for (i = 0; i < this.count()-1; i++) {
-                for (j = i; j < this.count()-1; j++) {
+            for(i = 0; i < this.count()-1; i++) {
+                for(j = i; j < this.count()-1; j++) {
                     ctl1 = this.item(this.collByLeft[j]);
                     ctl2 = this.item(this.collByLeft[j + 1]);
 
-                    if (ctl2.getLabel().getAspect().getLeft() < ctl1.getLabel().getAspect().getLeft()) {
+                    if(ctl2.getLabel().getAspect().getLeft() < ctl1.getLabel().getAspect().getLeft()) {
                         tmp = this.collByLeft[j];
                         this.collByLeft[j] = this.collByLeft[j + 1];
                         this.collByLeft[j + 1] = tmp;

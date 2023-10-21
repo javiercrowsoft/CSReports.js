@@ -21,7 +21,7 @@ namespace CSReportPreview {
 //         public event FirstPage FirstPage;
 //         public event PreviousPage PreviousPage;
 //         public event MoveToPage MoveToPage;
-//         public event NextPage NextPage;        
+//         public event NextPage NextPage;
 //         public event LastPage LastPage;
 
 //         public event Print Print;
@@ -64,41 +64,41 @@ namespace CSReportPreview {
         }
 
         private tsbFirstPage_Click(sender: object, e: object) {
-            if (this.firstPage !== null) {
+            if(this.firstPage !== null) {
                 this.firstPage(this, EventArgs.Empty);
             }
         }
 
         private tsbPreviousPage_Click(sender: object, e: object) {
-            if (this.previousPage !== null) {
+            if(this.previousPage !== null) {
                 this.previousPage(this, EventArgs.Empty);
             }
         }
 
         private tsbNextPage_Click(sender: object, e: object) {
-            if (this.moveToNext !== null) {
+            if(this.moveToNext !== null) {
                 this.moveToNext(this, EventArgs.Empty);
             }
         }
 
         private tsbLastPage_Click(sender: object, e: object) {
-            if (this.moveToLast !== null) {
+            if(this.moveToLast !== null) {
                 this.moveToLast(this, EventArgs.Empty);
             }
         }
 
         private tsbExportPDF_Click(sender: object, e: object) {
-            if (this.exportToPDF !== null) {
+            if(this.exportToPDF !== null) {
                 this.exportToPDF(this, EventArgs.Empty);
             }
         }
 
         private tsbPage_KeyUp(sender: object, e: object) {
             /*
-            if (e.KeyCode === Keys.Enter) {
+            if(e.KeyCode === Keys.Enter) {
                 let page = Utils.valInt(tsbPage.Text);
-                if (page > 0)  {
-                    if (MoveToPage !== null) {
+                if(page > 0)  {
+                    if(MoveToPage !== null) {
                         MoveToPage(this, new PageEventArgs(page));
                     }
                 }
@@ -107,7 +107,7 @@ namespace CSReportPreview {
         }
 
         private tsbPrint_Click(sender: object, e: object) {
-            if (this.print !== null) {
+            if(this.print !== null) {
                 this.print(this, EventArgs.Empty);
             }
         }

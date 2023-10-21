@@ -272,7 +272,7 @@ namespace CSReportEditor {
             this.formulaDlg.expandTree();
 
             return this.formulaDlg.showModal().then(P.call(this, (result) => {
-                if (result) {
+                if(result) {
                     this.formulaHide = this.formulaDlg.getFormula();
                     this.formulaHideChanged = true;
                     this.lbFormulaHide.setText(this.formulaHide);
@@ -289,7 +289,7 @@ namespace CSReportEditor {
             this.formulaDlg.expandTree();
 
             return this.formulaDlg.showModal().then(P.call(this, (result) => {
-                if (result) {
+                if(result) {
                     this.formulaValue = this.formulaDlg.getFormula();
                     this.formulaValueChanged = true;
                     this.lbFormulaValue.setText(this.formulaValue);
@@ -914,7 +914,7 @@ namespace CSReportEditor {
                 w___TYPE_NOT_FOUND.Flags = cdlCCRGBInit;
                 VBA.ex.clear();
                 w___TYPE_NOT_FOUND.ShowColor;
-                if (VBA.ex.Number !== 0) { return; }
+                if(VBA.ex.Number !== 0) { return; }
                 txBorderColor.cReportPaintObject.setText(w___TYPE_NOT_FOUND.Color);
                 shBorderColor.cReportAspect.setBackColor(txBorderColor.csValue);
                  */
@@ -939,7 +939,7 @@ namespace CSReportEditor {
                 w___TYPE_NOT_FOUND.Flags = cdlCCRGBInit;
                 VBA.ex.clear();
                 w___TYPE_NOT_FOUND.ShowColor;
-                if (VBA.ex.Number !== 0) { return; }
+                if(VBA.ex.Number !== 0) { return; }
                 txBorderShadow.cReportPaintObject.setText(w___TYPE_NOT_FOUND.Color);
                 shBorderShadow.cReportAspect.setBackColor(txBorderShadow.csValue);
                  */
@@ -966,7 +966,7 @@ namespace CSReportEditor {
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartGroupField(cancel);
             };
-            if (!cancel) {
+            if(!cancel) {
               this.chartFieldGroupChanged = true;
             }
              * */
@@ -979,7 +979,7 @@ namespace CSReportEditor {
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartField(cancel, TxDbFieldLbl1, 2);
             };
-            if (!cancel) {
+            if(!cancel) {
               this.chartFieldLbl1Changed = true;
             }
              * */
@@ -992,7 +992,7 @@ namespace CSReportEditor {
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartField(cancel, TxDbFieldLbl2, 3);
             };
-            if (!cancel) {
+            if(!cancel) {
               this.chartFieldLbl2Changed = true;
             }
              * */
@@ -1005,7 +1005,7 @@ namespace CSReportEditor {
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartField(cancel, TxDbFieldVal1, 0);
             };
-            if (!cancel) {
+            if(!cancel) {
               this.chartFieldVal1Changed = true;
             }
              * */
@@ -1018,7 +1018,7 @@ namespace CSReportEditor {
             while(listeners.hasNext()) {
                 (listeners.next()).showHelpChartField(cancel, TxDbFieldVal2, 1);
             };
-            if (!cancel) {
+            if(!cancel) {
               this.chartFieldVal2Changed = true;
             }
              * */
@@ -1112,7 +1112,7 @@ namespace CSReportEditor {
             // // Show the color dialog.
             // let result: DialogResult = colorDialog.ShowDialog();
             // // See if user pressed ok.
-            // if (result === DialogResult.OK) {
+            // if(result === DialogResult.OK) {
             //     // Set form background to the selected color.
             //     txColor.setText(colorDialog.Color.ToArgb().toString());
             //     shColor.setBackColor(colorDialog.Color);
@@ -1124,10 +1124,10 @@ namespace CSReportEditor {
             // fontDialog.ShowEffects = true;
             //
             // let fontStyle: FontStyle = FontStyle.Regular;
-            // if (chkFontBold.Checked) fontStyle = fontStyle | FontStyle.Bold; {
-            // if (chkFontItalic.Checked) fontStyle = fontStyle | FontStyle.Italic; {
-            // if (chkFontUnderline.Checked) fontStyle = fontStyle | FontStyle.Underline; {
-            // if (chkFontStrike.Checked) fontStyle = fontStyle | FontStyle.Strikeout; {
+            // if(chkFontBold.Checked) fontStyle = fontStyle | FontStyle.Bold; {
+            // if(chkFontItalic.Checked) fontStyle = fontStyle | FontStyle.Italic; {
+            // if(chkFontUnderline.Checked) fontStyle = fontStyle | FontStyle.Underline; {
+            // if(chkFontStrike.Checked) fontStyle = fontStyle | FontStyle.Strikeout; {
             //
             // let fontSize: number = Utils.val(txFontSize.Text);
             // let font: Font = new Font(txFont.Text, ((fontSize > 0f) ? fontSize : 3f), fontStyle);
@@ -1137,7 +1137,7 @@ namespace CSReportEditor {
             //
 	        // let result: DialogResult = fontDialog.ShowDialog();
             //
-            // if (result === DialogResult.OK) {
+            // if(result === DialogResult.OK) {
             //     font = fontDialog.Font;
             //
             //     txFont.setText(font.Name);
@@ -1164,7 +1164,7 @@ namespace CSReportEditor {
         }
 
         private cmdDbFieldClick() {
-            if (this.editor.showHelpDbField()) {
+            if(this.editor.showHelpDbField()) {
                 this.dbFieldChanged = true;
             }
         }

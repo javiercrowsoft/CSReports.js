@@ -21,9 +21,9 @@ namespace CSReportDll {
         public constructor() {
             this.formulaHide.setName("H");
 
-            // when a new section is create a new line section 
+            // when a new section is create a new line section
             // is automatically added
-            // 
+            //
             this.sectionLines.add(null, "", -1);
         }
 
@@ -84,7 +84,7 @@ namespace CSReportDll {
         }
 
         public setCopyColl(rhs: cReportControls2) {
-            if (this.sectionLines !== null) {
+            if(this.sectionLines !== null) {
                 this.sectionLines.setCopyColl(rhs);
             }
         }
@@ -124,24 +124,24 @@ namespace CSReportDll {
             this.hasFormulaHide = xDoc.getNodeProperty(nodeObj, "HasFormulaHide").getValueBool(eTypes.eBoolean);
 
             nodeObjAspect = nodeObj;
-            if (!this.aspect.load(xDoc, nodeObjAspect)) {
+            if(!this.aspect.load(xDoc, nodeObjAspect)) {
                 return false;
             }
 
             let nodeObjAux: XmlNode = nodeObj;
-            if (!this.formulaHide.load(xDoc, nodeObjAux)) {
+            if(!this.formulaHide.load(xDoc, nodeObjAux)) {
                 return false;
             }
 
             this.sectionLines.clear();
 
             nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTSECTIONLINES);
-            if (xDoc.nodeHasChild(nodeObj)) {
+            if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
                     let key: string = xDoc.getNodeProperty(nodeObjSecLn, "Key").getValueString(eTypes.eText);
                     secLn = this.sectionLines.add(null, key, -1);
-                    if (!secLn.load(xDoc, nodeObjSecLn)) {
+                    if(!secLn.load(xDoc, nodeObjSecLn)) {
                         return false;
                     }
                     secLn.setSectionName(this.name);
@@ -183,11 +183,11 @@ namespace CSReportDll {
             xProperty.setValue(eTypes.eBoolean, this.hasFormulaHide);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if (!this.aspect.save(xDoc, nodeObj))  {
-                return false; 
+            if(!this.aspect.save(xDoc, nodeObj))  {
+                return false;
             }
-            if (!this.formulaHide.save(xDoc, nodeObj))  {
-                return false; 
+            if(!this.formulaHide.save(xDoc, nodeObj))  {
+                return false;
             }
 
             xProperty.setName(this.C_NODERPTSECTIONLINES);
