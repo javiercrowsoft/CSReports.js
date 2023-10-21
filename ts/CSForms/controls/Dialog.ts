@@ -1,4 +1,6 @@
-namespace CSReportEditor {
+///<reference path="../../CSKernel/CSKernelClient/Promise.ts"/>
+
+namespace CSForms {
 
     import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;

@@ -1,11 +1,26 @@
-///<reference path="../CSReportPaint/Bitmap.ts"/>
+///<reference path="../../CSDrawing/Bitmap.ts"/>
+///<reference path="../../CSForms/controls/Label.ts"/>
+///<reference path="../../CSForms/controls/TextBox.ts"/>
+///<reference path="../../CSForms/controls/CheckBox.ts"/>
+///<reference path="../../CSForms/controls/Button.ts"/>
+///<reference path="../../CSForms/controls/OptionButton.ts"/>
+///<reference path="../../CSForms/controls/ComboBox.ts"/>
+///<reference path="../../CSForms/controls/PictureBox.ts"/>
 
 namespace CSReportEditor {
 
     import U = CSOAPI.Utils;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import P = CSKernelClient.Callable;
-    import Color = CSReportPaint.Color;
+    import Color = CSDrawing.Color;
+
+    import Label = CSForms.Label;
+    import TextBox = CSForms.TextBox;
+    import CheckBox = CSForms.CheckBox;
+    import Button = CSForms.Button;
+    import OptionButton = CSForms.OptionButton;
+    import ComboBox = CSForms.ComboBox;
+    import PictureBox = CSForms.PictureBox;
 
     export class PropertyDlg {
 

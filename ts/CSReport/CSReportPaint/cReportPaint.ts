@@ -1,15 +1,34 @@
 ///<reference path="../../CSKernel/CSKernelClient/Promise.ts"/>
+///<reference path="../../CSDrawing/cGraphics.ts"/>
 
 namespace CSReportPaint {
 
     import cError = CSKernelClient.cError;
     import cReportAspect = CSReportDll.cReportAspect;
-    import csColors = CSReportGlobals.csColors;
-    import cColor = CSKernelClient.cColor;
+    import csColors = CSDrawing.csColors;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import csReportBorderType = CSReportGlobals.csReportBorderType;
     import RefWrapper = CSKernelClient.RefWrapper;
     import P = CSKernelClient.Callable;
+    import HatchBrush = CSDrawing.HatchBrush;
+    import Font = CSDrawing.Font;
+    import Bitmap = CSDrawing.Bitmap;
+    import Graphic = CSDrawing.Graphic;
+    import Color = CSDrawing.Color;
+    import Image = CSDrawing.Image;
+    import StringTrimming = CSDrawing.StringTrimming;
+    import StringFormat = CSDrawing.StringFormat;
+    import StringFormatFlags = CSDrawing.StringFormatFlags;
+    import StringAlignment = CSDrawing.StringAlignment;
+    import cGraphics = CSDrawing.cGraphics;
+    import Rectangle = CSDrawing.Rectangle;
+    import DashStyle = CSDrawing.DashStyle;
+    import SolidBrush = CSDrawing.SolidBrush;
+    import HatchStyle = CSDrawing.HatchStyle;
+    import Brush = CSDrawing.Brush;
+    import Pen = CSDrawing.Pen;
+    import RectangleF = CSDrawing.RectangleF;
+    import SizeF = CSDrawing.SizeF;
 
     export class cReportPaint {
 

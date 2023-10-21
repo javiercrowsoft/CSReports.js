@@ -3,6 +3,8 @@ namespace CSReportEditor {
     import cError = CSKernelClient.cError;
     import U = CSOAPI.Utils;
 
+    import TabPage = CSForms.TabPage;
+
 	export class cMainEditor {
 
 		public csNoDate: Date = new Date("1900-01-01T00:00:00Z");

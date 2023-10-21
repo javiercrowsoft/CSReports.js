@@ -1,6 +1,6 @@
 namespace CSReportDll {
 
-    import Image = CSReportPaint.Image;
+    import Image = CSDrawing.Image;
     import XmlNode = CSXml.XmlNode;
 
     export class cReportImage {

@@ -1,8 +1,14 @@
+///<reference path="../../CSForms/controls/ComboBox.ts"/>
+///<reference path="../../CSForms/controls/TextBox.ts"/>
+
 namespace CSReportEditor {
 
     import Form = CSForms.Form;
     import CMouseWait = CSKernelClient.CMouseWait;
     import NotImplementedException = CSOAPI.NotImplementedException;
+
+    import ComboBox = CSForms.ComboBox;
+    import TextBox = CSForms.TextBox;
 
     export class FProperties extends Form {
 

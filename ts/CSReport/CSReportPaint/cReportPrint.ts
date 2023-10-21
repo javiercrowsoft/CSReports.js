@@ -26,8 +26,12 @@ namespace CSReportPaint {
     import csEZoom = CSReportGlobals.csEZoom;
     import cReportPreview = CSReportPreview.cReportPreview;
     import EventArgs = CSReportPreview.EventArgs;
+    import Font = CSDrawing.Font;
+    import RectangleF = CSDrawing.RectangleF;
+    import Graphic = CSDrawing.Graphic;
+    import Bitmap = CSDrawing.Bitmap;
 
-    import PictureBox = CSReportEditor.PictureBox;
+    import PictureBox = CSForms.PictureBox;
 
 	export class cReportPrint implements cIReportPrint {
 
@@ -464,9 +468,9 @@ namespace CSReportPaint {
                     printer = this.report.getLaunchInfo().getPrinter();
                 }
 
-                let w_launchInfo: cReportLaunchInfo = this.report.getLaunchInfo();
-                copies = w_launchInfo.getCopies();
-                if(w_launchInfo.getShowPrintersDialog()) {
+                let launchInfo: cReportLaunchInfo = this.report.getLaunchInfo();
+                copies = launchInfo.getCopies();
+                if(launchInfo.getShowPrintersDialog()) {
                     printer.setCopies(copies);
                     if(!printer.showDialog(this.report.getPages().count())) {
                         return false;

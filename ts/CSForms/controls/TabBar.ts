@@ -1,6 +1,6 @@
 ///<reference path="Container.ts"/>
 
-namespace CSReportEditor {
+namespace CSForms {
 
     export class TabBar extends Container<TabPage> {
 
@@ -34,9 +34,9 @@ namespace CSReportEditor {
             // add tab control to tab bar
             const tabSelectorNode = document.createElement('button');
             tabSelectorNode.className = "tablinks";
-            tabSelectorNode.onclick = (event) => { 
+            tabSelectorNode.onclick = (event) => {
                 this.hideAll();
-                console.log("open " + tabPage.getText()); 
+                console.log("open " + tabPage.getText());
                 tabPage.getElement().style.display = 'block';
                 event.stopPropagation();
                 // @ts-ignore
@@ -45,8 +45,8 @@ namespace CSReportEditor {
             tabSelectorNode.innerText = tabPage.getText();
             const tabCloseNode = document.createElement('span');
             tabCloseNode.className = "close";
-            tabCloseNode.onclick = (event) => { 
-                console.log("close " + tabPage.getText()); 
+            tabCloseNode.onclick = (event) => {
+                console.log("close " + tabPage.getText());
                 tabPage.getElement().style.display = 'none';
                 tabSelectorNode.parentNode.removeChild(tabSelectorNode);
                 event.stopPropagation();
@@ -55,9 +55,9 @@ namespace CSReportEditor {
                 if(this.tabBar.getControls().size() > 0) {
                     const nextTab = this.tabBar.getControls().item(0) as TabPage;
                     nextTab.showTab();
-                } 
+                }
                 else {
-                    cMainEditor.setDocActive(null);
+                    CSReportEditor.cMainEditor.setDocActive(null);
                 }
             };
             tabCloseNode.innerText = "x";
@@ -72,7 +72,7 @@ namespace CSReportEditor {
             this.hideAll();
             tabPage.getElement().style.display = 'block';
 
-            return this.tabBar.getControls().add(tabPage, key);            
+            return this.tabBar.getControls().add(tabPage, key);
         }
     }
 }

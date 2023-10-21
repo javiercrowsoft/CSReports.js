@@ -1,6 +1,6 @@
 namespace CSOAPI {
 
-    import ComboBox = CSReportEditor.ComboBox;
+    import ComboBox = CSForms.ComboBox;
     import RefWrapper = CSKernelClient.RefWrapper;
 
     export class Utils {

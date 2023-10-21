@@ -1,4 +1,4 @@
-namespace CSReportEditor {
+namespace CSForms {
 
     export class Control {
 

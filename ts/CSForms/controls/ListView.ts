@@ -1,8 +1,8 @@
 ///<reference path="Control.ts"/>
 
-namespace CSReportEditor {
+namespace CSForms {
 
-    import Color = CSReportPaint.Color;
+    import Color = CSDrawing.Color;
 
     class Items {
         private body: HTMLTableSectionElement;
@@ -32,7 +32,7 @@ namespace CSReportEditor {
         }
     }
 
-    class Item {        
+    class Item {
         private text: string;
         private imageIndex: number;
         private foreColor: Color;
@@ -128,9 +128,9 @@ namespace CSReportEditor {
 
         public constructor(name: string, el: HTMLElement) {
             super(el);
-            
+
             this.name = name;
-            
+
             this.div = el as HTMLDivElement;
             this.table = document.createElement('table') as HTMLTableElement;
             this.table.className = "fl-table";
@@ -145,7 +145,7 @@ namespace CSReportEditor {
                 const body = this.table.tBodies[0];
                 while(body.firstChild) {
                     body.removeChild(body.firstChild);
-                } 
+                }
             }
         }
 
@@ -173,7 +173,7 @@ namespace CSReportEditor {
             }
             return maxCols;
         }
-        
+
         createHeaders(columns: string[]) {
             while(this.table.tHead.firstChild) {
                 this.table.tHead.removeChild(this.table.tHead.firstChild);

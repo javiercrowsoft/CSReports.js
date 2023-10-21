@@ -26,7 +26,7 @@ namespace CSReportDll {
     import XmlNode = CSXml.XmlNode;
     import DataTable = CSDatabase.DataTable;
     import Map = CSOAPI.Map;
-    import Bitmap = CSKernelClient.Bitmap;
+    import Bitmap = CSDrawing.Bitmap;
     import CMouseWait = CSKernelClient.CMouseWait;
     import DataType = CSDatabase.DataType;
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
@@ -2440,7 +2440,7 @@ namespace CSReportDll {
                 //    image = new Image()
                 // and then
                 //    image.src = "data:image/png;base64," + base64;
-                this.images.add(key, image);
+                this.images.add(image, key);
             }
             return image;
         }

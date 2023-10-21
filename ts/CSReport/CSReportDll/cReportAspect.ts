@@ -1,6 +1,6 @@
 namespace CSReportDll {
 
-    import csColors = CSReportGlobals.csColors;
+    import csColors = CSDrawing.csColors;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import csReportBorderType = CSReportGlobals.csReportBorderType;
     import XmlNode = CSXml.XmlNode;

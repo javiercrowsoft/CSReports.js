@@ -1,3 +1,9 @@
+///<reference path="../../CSForms/controls/TreeView.ts"/>
+///<reference path="../../CSForms/controls/Dialog.ts"/>
+///<reference path="../../CSForms/controls/TextBox.ts"/>
+///<reference path="../../CSForms/controls/Label.ts"/>
+///<reference path="../../CSForms/controls/TabPage.ts"/>
+
 namespace CSReportEditor {
 
     import U = CSOAPI.Utils;
@@ -5,6 +11,14 @@ namespace CSReportEditor {
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
     import csRptControlType = CSReportGlobals.csRptControlType;
     import P = CSKernelClient.Callable;
+
+    import TreeView = CSForms.TreeView;
+    import Node = CSForms.Node;
+    import TreeViewAction = CSForms.TreeViewAction;
+    import Label = CSForms.Label;
+    import TextBox = CSForms.TextBox;
+    import Dialog = CSForms.Dialog;
+    import TabPage = CSForms.TabPage;
 
     export class FFormula extends Form {
 

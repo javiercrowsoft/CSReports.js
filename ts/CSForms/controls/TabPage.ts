@@ -1,6 +1,6 @@
 ///<reference path="Container.ts"/>
 
-namespace CSReportEditor {
+namespace CSForms {
 
     import cWindow = CSKernelClient.cWindow;
 
@@ -13,7 +13,7 @@ namespace CSReportEditor {
         public constructor(name: string, el: HTMLElement) {
             super(el);
         }
-        
+
         private tag: object;
 
         public setTabSelector(tabSelector: HTMLElement) {

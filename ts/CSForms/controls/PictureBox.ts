@@ -1,10 +1,10 @@
 ///<reference path="Control.ts"/>
 
-namespace CSReportEditor {
+namespace CSForms {
 
-    import Point = CSReportPaint.Point;
-    import Graphic = CSReportPaint.Graphic;
-    import Color = CSReportPaint.Color;
+    import Point = CSDrawing.Point;
+    import Graphic = CSDrawing.Graphic;
+    import Color = CSDrawing.Color;
 
     export class PictureBox extends Control {
 
@@ -16,9 +16,9 @@ namespace CSReportEditor {
 
         public constructor(name: string, el: HTMLElement) {
             super(el);
-            
+
             this.name = name;
-            
+
             this.div = el as HTMLDivElement;
             this.canvas = document.createElement('canvas') as HTMLCanvasElement;
             this.canvas.style.left = "0px";
@@ -118,7 +118,7 @@ namespace CSReportEditor {
             };
         }
 
-        setImage(image: CSReportPaint.Image) {
+        setImage(image: CSDrawing.Image) {
             // TODO: implements
         }
 

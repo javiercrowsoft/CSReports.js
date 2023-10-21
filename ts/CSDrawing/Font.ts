@@ -1,4 +1,4 @@
-namespace CSReportPaint {
+namespace CSDrawing {
 
     export class Font {
 

@@ -2,6 +2,7 @@ namespace CSReportPaint {
 
     import cReportAspect = CSReportDll.cReportAspect;
     import csRptSectionType = CSReportGlobals.csRptSectionType;
+    import Image = CSDrawing.Image;
 
     export class cReportPaintObject {
 

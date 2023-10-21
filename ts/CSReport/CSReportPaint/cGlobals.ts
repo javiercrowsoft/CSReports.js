@@ -1,9 +1,14 @@
+///<reference path="../../CSDrawing/Font.ts"/>
+
 namespace CSReportPaint {
 
     import cReportPaperInfo = CSReportDll.cReportPaperInfo;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import cReportFont = CSReportDll.cReportFont;
     import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
+
+    import RectangleF = CSDrawing.RectangleF;
+    import Font = CSDrawing.Font;
 
     export class cGlobals {
 

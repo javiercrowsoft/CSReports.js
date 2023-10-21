@@ -1,11 +1,12 @@
+///<reference path="../../CSDrawing/Bitmap.ts"/>
 ///<reference path="Control.ts"/>
 
-namespace CSReportEditor {
+namespace CSForms {
 
-    import Color = CSReportPaint.Color;
+    import Color = CSDrawing.Color;
 
     export class Label extends Control {
-        
+
         private elLabel: HTMLLabelElement;
 
         public constructor(el: HTMLLabelElement = null) {

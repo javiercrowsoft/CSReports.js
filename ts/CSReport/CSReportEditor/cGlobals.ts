@@ -11,10 +11,13 @@ namespace CSReportEditor {
     import cReportControl = CSReportDll.cReportControl;
     import cReportAspect = CSReportDll.cReportAspect;
     import cReportSectionLine = CSReportDll.cReportSectionLine;
-    import RectangleF = CSReportPaint.RectangleF;
+    import RectangleF = CSDrawing.RectangleF;
     import cIReportGroupSections = CSReportDll.cIReportGroupSections;
-    import Color = CSReportPaint.Color;
-    import Node = CSReportEditor.Node;
+    import Color = CSDrawing.Color;
+
+    import Node = CSForms.Node;
+    import ListView = CSForms.ListView;
+    import TreeView = CSForms.TreeView;
 
     export enum csRptEditorMoveType {
         CSRPTEDMOVTHORIZONTAL,

@@ -1,4 +1,4 @@
-namespace CSReportEditor {
+namespace CSForms {
 
     export enum MouseButtons {
         Left = 0,
@@ -7,7 +7,7 @@ namespace CSReportEditor {
     }
 
     export class MouseEventArgs {
-        constructor(Left: CSReportEditor.MouseButtons, number: number, x: number, y: number, number2: number) {
+        constructor(Left: MouseButtons, number: number, x: number, y: number, number2: number) {
 
         }
 

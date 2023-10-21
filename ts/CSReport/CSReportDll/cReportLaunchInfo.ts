@@ -20,19 +20,10 @@ namespace CSReportDll {
         private copies: number = 0;
         private silent: boolean = null;
         private fileFormat: csRptFileFormat = null;
-        private hWnd: number = 0;
 
         private objPaint: CSIReportPrint.cIReportPrint = null;
 
         public constructor() {}
-
-        public getHwnd() {
-            return this.hWnd;
-        }
-
-        public setHwnd(rhs: number) {
-            this.hWnd = rhs;
-        }
 
         public getFile() {
             return this.file;

@@ -1,10 +1,10 @@
 ///<reference path="Control.ts"/>
 
-namespace CSReportEditor {
+namespace CSForms {
 
     import Map = CSOAPI.Map;
     import P = CSKernelClient.Callable;
-    import Color = CSReportPaint.Color;
+    import Color = CSDrawing.Color;
 
     class TreeState {
         onclick: (node: Node) => void;

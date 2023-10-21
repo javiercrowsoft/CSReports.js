@@ -13,12 +13,12 @@ namespace CSReportPaint {
                     return "There is not information for this error";
             }
         }
-    } 
+    }
 
     export enum csRptPaintErrors
     {
         CSRPT_PAINT_ERR_OBJ_CLIENT = 2001,
         CSRPT_PAINT_ERR_OBJ_CLIENT_INVALID,
         CSRPT_PAINT_ERR_PRINTING
-    } 
+    }
 }

@@ -1,6 +1,6 @@
 ///<reference path="Control.ts"/>
 
-namespace CSReportEditor {
+namespace CSForms {
 
     import Map = CSOAPI.Map;
 

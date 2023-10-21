@@ -1,9 +1,9 @@
 ///<reference path="Control.ts"/>
 
-namespace CSReportEditor {
+namespace CSForms {
 
-    export class OptionButton extends Control {
-        
+    export class CheckBox extends Control {
+
         private elInput: HTMLInputElement;
 
         public constructor(el: HTMLInputElement = null) {

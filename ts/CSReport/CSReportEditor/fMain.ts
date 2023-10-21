@@ -1,5 +1,10 @@
-///<reference path="../CSReportPaint/Font.ts"/>
+///<reference path="../../CSDrawing/Font.ts"/>
 ///<reference path="../../CSReportWebServer/ReportWeb.ts"/>
+///<reference path="../../CSForms/controls/Panel.ts"/>
+///<reference path="../../CSForms/controls/PictureBox.ts"/>
+///<reference path="../../CSForms/controls/TabBar.ts"/>
+///<reference path="../../CSForms/controls/ListView.ts"/>
+///<reference path="../../CSForms/controls/TreeView.ts"/>
 
 namespace CSReportEditor {
 
@@ -12,12 +17,21 @@ namespace CSReportEditor {
     import csRptSectionType = CSReportGlobals.csRptSectionType;
     import cWindow = CSKernelClient.cWindow;
     import csECtlAlignConst = CSReportGlobals.csECtlAlignConst;
-    import Color = CSReportPaint.Color;
-    import Font = CSReportPaint.Font;
+    import Color = CSDrawing.Color;
+    import Font = CSDrawing.Font;
     import P = CSKernelClient.Callable;
     import FileContent = CSKernelFile.FileContent;
     import Map = CSOAPI.Map;
     import ReportWeb = CSReportWebServer.ReportWeb;
+
+    import Panel = CSForms.Panel;
+    import PictureBox = CSForms.PictureBox;
+    import TabBar = CSForms.TabBar;
+    import TabPage = CSForms.TabPage;
+    import ListView = CSForms.ListView;
+    import TreeView = CSForms.TreeView;
+    import TreeViewAction = CSForms.TreeViewAction;
+    import Node = CSForms.Node;
 
     export class FMain {
 

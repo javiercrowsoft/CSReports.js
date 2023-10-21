@@ -1,3 +1,4 @@
+
 namespace CSReportPreview {
 //     public delegate void FirstPage(object sender, EventArgs e);
 //     public delegate void PreviousPage(object sender, EventArgs e);
@@ -8,8 +9,8 @@ namespace CSReportPreview {
 //     public delegate void Print(object sender, EventArgs e);
 //     public delegate void ExportToPDF(object sender, EventArgs e);
 
-    import PictureBox = CSReportEditor.PictureBox;
-    import Panel = CSReportEditor.Panel;
+    import PictureBox = CSForms.PictureBox;
+    import Panel = CSForms.Panel;
 
     export class cReportPreview {
         getWidth(): number {

@@ -1,6 +1,6 @@
 namespace CSReportDll {
 
-    import csColors = CSReportGlobals.csColors;
+    import csColors = CSDrawing.csColors;
     import eTypes = CSKernelClient.eTypes;
     import XmlNode = CSXml.XmlNode;
 

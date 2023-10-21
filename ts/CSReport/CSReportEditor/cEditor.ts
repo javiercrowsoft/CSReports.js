@@ -1,7 +1,13 @@
 ///<reference path="../CSReportPaint/cReportPaint.ts"/>
 ///<reference path="../CSReportPaint/cReportPrint.ts"/>
-///<reference path="../CSReportPaint/Bitmap.ts"/>
+///<reference path="../../CSDrawing/Bitmap.ts"/>
 ///<reference path="../CSReportPaint/cGlobals.ts"/>
+///<reference path="../../CSForms/controls/Panel.ts"/>
+///<reference path="../../CSForms/controls/PictureBox.ts"/>
+///<reference path="../../CSForms/controls/TabPage.ts"/>
+///<reference path="../../CSForms/controls/TextBox.ts"/>
+///<reference path="../../CSForms/controls/Cursor.ts"/>
+///<reference path="../../CSForms/controls/MouseEventArgs.ts"/>
 
 namespace CSReportEditor {
 
@@ -50,16 +56,20 @@ namespace CSReportEditor {
     import cWindow = CSKernelClient.cWindow;
     import MessageBoxDefaultButton = CSKernelClient.MessageBoxDefaultButton;
     import csAskEditResult = CSKernelClient.csAskEditResult;
-    import cParameter = CSConnect.cParameter;
     import Exception = CSOAPI.Exception;
-    import Color = CSReportPaint.Color;
+    import Color = CSDrawing.Color;
     import csRptLaunchAction = CSReportGlobals.csRptLaunchAction;
-    import cColor = CSKernelClient.cColor;
-    import csColors = CSReportGlobals.csColors;
-    import Bitmap = CSReportPaint.Bitmap;
-    import Point = CSReportPaint.Point;
+    import Point = CSDrawing.Point;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import P = CSKernelClient.Callable;
+
+    import Panel = CSForms.Panel;
+    import PictureBox = CSForms.PictureBox;
+    import TabPage = CSForms.TabPage;
+    import TextBox = CSForms.TextBox;
+    import Cursor = CSForms.Cursor;
+    import MouseEventArgs = CSForms.MouseEventArgs;
+    import MouseButtons = CSForms.MouseButtons;
 
     export class cEditor {
 
@@ -2961,8 +2971,6 @@ namespace CSReportEditor {
 
                 this.report.getLaunchInfo().getPrinter().setPaperInfo(this.report.getPaperInfo());
                 this.report.getLaunchInfo().setObjPaint(new cReportPrint());
-                // TODO: remove this
-                this.report.getLaunchInfo().setHwnd(0);
                 this.report.getLaunchInfo().setShowPrintersDialog(true);
                 this.report.launch();
 

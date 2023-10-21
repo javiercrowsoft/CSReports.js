@@ -125,17 +125,13 @@ namespace CSReportWebServer {
             try {
                 this.showProgressDlg();
 
-                var li = this.report.getLaunchInfo();
-
-                li.getPrinter().setPaperInfo(this.report.getPaperInfo());
-
                 this.fPrint = new cReportPrint();
                 this.fPrint.setHidePreviewWindow(true);
-                li.setObjPaint(this.fPrint);
 
-                // TODO: remove this
-                li.setHwnd(0);
-                li.setShowPrintersDialog(true);
+                const launchInfo = this.report.getLaunchInfo();
+                launchInfo.getPrinter().setPaperInfo(this.report.getPaperInfo());
+                launchInfo.setObjPaint(this.fPrint);
+                launchInfo.setShowPrintersDialog(true);
 
                 this.report.launch();
 
