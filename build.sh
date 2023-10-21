@@ -1,5 +1,7 @@
-./node_modules/typescript/bin/tsc
 mkdir -p dist
+rm dist/csreports.js
+rm dist/csreports.js.map
+./node_modules/typescript/bin/tsc
 rm dist/index.html
 rm dist/styles.css
 rm -r dist/images
