@@ -1,5 +1,7 @@
 namespace CSForms {
 
+    import cError = CSKernelClient.cError;
+
     export class Control {
 
         private el: HTMLElement;
@@ -83,7 +85,7 @@ namespace CSForms {
                 try {
                     this.el.parentNode.removeChild(this.el);
                 } catch(ex) {
-                    console.log(ex);
+                    cError.mngError(ex);
                 }
             }
         }

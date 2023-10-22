@@ -79,7 +79,7 @@ namespace CSReportEngine {
                 }
                 return c;
             }
-            catch(ex) {
+            catch(ignore) {
                 return null;
             }
         }
@@ -91,7 +91,7 @@ namespace CSReportEngine {
                     this.remove(0);
                 }
             }
-            catch(ex) {
+            catch(ignore) {
             }
         }
 
@@ -103,7 +103,7 @@ namespace CSReportEngine {
                 }
                 this.baseRemove(index);
             }
-            catch(ex) {
+            catch(ignore) {
             }
         }
 

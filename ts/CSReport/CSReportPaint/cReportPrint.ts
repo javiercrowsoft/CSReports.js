@@ -1272,7 +1272,7 @@ namespace CSReportPaint {
                 rtn.set(fields.item(index));
                 return true;
             }
-            catch(ex) {
+            catch(ignore) {
                 return false;
             }
         }

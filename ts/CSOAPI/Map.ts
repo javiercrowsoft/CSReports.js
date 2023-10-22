@@ -125,7 +125,7 @@ namespace CSOAPI {
                 else
                     return this.itemByIndex(indexOrKey);
             }
-            catch(ex) {
+            catch(ignore) {
                 return null;
             }
         }

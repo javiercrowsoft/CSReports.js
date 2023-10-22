@@ -3084,6 +3084,7 @@ namespace CSReportEditor {
                 }));
             }
             catch(ex) {
+                cError.mngError(ex);
                 mouse.dispose();
                 return P.resolvedPromise(false);
             }

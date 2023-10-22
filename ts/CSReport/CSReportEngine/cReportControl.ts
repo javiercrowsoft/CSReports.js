@@ -200,7 +200,7 @@ namespace CSReportEngine {
 
                 return true;
             }
-            catch(ex)  {
+            catch(ignore)  {
                 return false;
             }
         }

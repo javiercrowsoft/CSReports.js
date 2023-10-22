@@ -103,7 +103,7 @@ namespace CSDrawing {
                     path.addEllipse( baseRect );
                 }
             }
-            catch(ex) {
+            catch(ignore) {
                 path.addEllipse( baseRect );
             }
             finally

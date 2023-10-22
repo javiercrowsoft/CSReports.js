@@ -171,7 +171,7 @@ namespace CSReportEditor {
                         try {
                             tabPageNode.parentNode.removeChild(tabPageNode);
                         } catch(ex) {
-                            console.log(ex);
+                            cError.mngError(ex);
                         }
                     }
                 });

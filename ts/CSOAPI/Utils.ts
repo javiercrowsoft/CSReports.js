@@ -252,6 +252,10 @@ namespace CSOAPI {
             return this.el(id) as HTMLLabelElement;
         }
 
+        static divEl(id: string) {
+            return this.el(id) as HTMLDivElement;
+        }
+
         static selectEl(id: string) {
             return this.el(id) as HTMLSelectElement;
         }

@@ -633,14 +633,14 @@ namespace CSReportEngine {
                             }
                             code = vParams[i] + "|";
                         }
-                        catch(ex) {
+                        catch(ignore) {
                             // we don't care about errors here
                         }
                     }
 
                     return Utils.removeLastColon(code);
                 }
-                catch(ex) {
+                catch(ignore) {
                     // we don't care about errors here
                 }
             }
@@ -1155,7 +1155,7 @@ namespace CSReportEngine {
             try {
                 collCtrlsToReplace = this.collTextReplace[this.ctrlName];
             }
-            catch(ex) {
+            catch(ignore) {
                 let lenText: number = 0;
                 let pos: number = 0;
                 let endPos: number = 0;

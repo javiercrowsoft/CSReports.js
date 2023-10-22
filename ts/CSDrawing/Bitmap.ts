@@ -1,7 +1,11 @@
+///<reference path="../CSKernel/CSKernelClient/cError.ts"/>
+
 namespace CSDrawing {
 
     // Bitmap Documentation
     // https://developer.mozilla.org/en-US/docs/Web/API/createImageBitmap
+
+    import cError = CSKernelClient.cError;
 
     export class Bitmap {
         private bitmap: ImageBitmap;
@@ -164,7 +168,7 @@ namespace CSDrawing {
                 // this.context.fill(path);
             }
             catch(ex) {
-                console.log(ex);
+                cError.mngError(ex);
                 throw ex;
             }
 

@@ -22,7 +22,7 @@ namespace CSReportScript {
             try {
                 this.add(new cReportCompilerVar(), varName);
                 return this.getVar(varName);
-            } catch(e) {
+            } catch(ignore) {
                 return null;
             }
         }
@@ -30,7 +30,7 @@ namespace CSReportScript {
         public getVar(varName: string): cReportCompilerVar {
             try  {
                 return this.item(varName);
-            } catch(e) {
+            } catch(ignore) {
                 return null;
             }
         }

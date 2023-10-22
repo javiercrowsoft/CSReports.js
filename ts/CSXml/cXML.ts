@@ -252,7 +252,7 @@ namespace CSXml {
                 return o;
             }
             catch(ex) {
-                console.log(ex);
+                cError.mngError(ex);
                 throw ex;
             }
         }

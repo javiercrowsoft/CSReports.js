@@ -20,7 +20,7 @@ namespace CSReportEngine {
 
                 return c;
             }
-            catch(ex) {
+            catch(ignore) {
                 return null;
             }
         }

@@ -31,7 +31,7 @@ namespace CSReportEngine {
                 c.setSectionLine(sectionLine);
                 return c;
             }
-            catch(ex) {
+            catch(ignore) {
                 return null;
             }
         }

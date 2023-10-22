@@ -1,4 +1,5 @@
 ///<reference path="../../CSForms/controls/Dialog.ts"/>
+///<reference path="../../CSForms/Form.ts"/>
 
 namespace CSKernelClient {
 
