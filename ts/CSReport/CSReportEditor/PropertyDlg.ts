@@ -909,14 +909,14 @@ namespace CSReportEditor {
                 shBorder3D.cReportAspect.setBackColor(txBorder3D.csValue);
                  */
             }
-            catch (ignore) { }
+            catch(ignore) { }
         }
 
         private txBorderColorLostFocus() {
             // try {
             //     shBorderColor.setBackColor(Color.FromArgb(Int32.Parse(txBorderColor.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         private cmdBorderColorClick() {
@@ -934,14 +934,14 @@ namespace CSReportEditor {
                 shBorderColor.cReportAspect.setBackColor(txBorderColor.csValue);
                  */
             }
-            catch (ignore) { }
+            catch(ignore) { }
         }
 
         private txBorderShadowLostFocus() {
             // try {
             //     shBorderShadow.setBackColor(Color.FromArgb(Int32.Parse(txBorderShadow.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         private cmdBorderShadowClick() {
@@ -959,7 +959,7 @@ namespace CSReportEditor {
                 shBorderShadow.cReportAspect.setBackColor(txBorderShadow.csValue);
                  */
             }
-            catch (ignore) { }
+            catch(ignore) { }
         }
 
         private txBorderWidthTextChanged() {
@@ -1043,14 +1043,14 @@ namespace CSReportEditor {
             // try {
             //     shForeColor.setBackColor(Color.FromArgb(Int32.Parse(tx_foreColor.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         private txBackColorLostFocus() {
             // try {
             //     shBackColor.setBackColor(Color.FromArgb(Int32.Parse(tx_backColor.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         private fProperties_Load() {

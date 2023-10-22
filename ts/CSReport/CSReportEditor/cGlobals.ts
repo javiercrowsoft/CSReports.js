@@ -138,7 +138,7 @@ namespace CSReportEditor {
                     return false;
                 }
 
-            } catch (ex) {
+            } catch(ex) {
                 close();
                 cError.mngError(ex);
                 return false;

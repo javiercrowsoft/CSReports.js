@@ -94,7 +94,7 @@ namespace CSReportEditor {
                     this.setStatusAux(this.pGetStatus());
 	            }
 
-	        } catch (ex) {
+	        } catch(ex) {
 	            cError.mngError(ex);
 	        }
 	    }
@@ -145,7 +145,7 @@ namespace CSReportEditor {
                     this.fMain.setBarText(this.editor.getReport().getName());
                     this.fMain.setStatus(this.pGetStatus());
 	            }
-	        } catch (ex) {
+	        } catch(ex) {
 	            cError.mngError(ex);
 	        }
 	    }

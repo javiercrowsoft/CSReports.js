@@ -572,7 +572,8 @@ End Function
             <button>Cancel</button>
         </div>
     </div>
-    <div id="seach-dlg"></div>
+    <div id="seach-dlg">
+    </div>
     <div id="page-setup-dlg">
         <div class="dlg-header"></div>
         <div class="dlg-body">
@@ -580,6 +581,21 @@ End Function
         <div class="dlg-footer">
             <button>Apply</button>
             <button>Cancel</button>
+        </div>
+    </div>
+    <div id="error-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img style="margin-left: 20px; width: 40px;" id="error-dlg-icon">
+                <h1 style="margin-left: 15px;" id="error-dlg-title">Error</h1>
+            </div>
+        </div>
+        <div class="dlg-body" style="padding: 50px;">
+            <label id="error-dlg-description"></label>
+            <label id="error-dlg-info-add"></label>
+        </div>
+        <div class="dlg-footer">
+            <button id="error-dlg-okay">Ok</button>
         </div>
     </div>
 </div>

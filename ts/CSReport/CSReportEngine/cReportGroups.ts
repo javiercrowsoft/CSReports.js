@@ -59,7 +59,7 @@ namespace CSReportEngine {
 
                 return c;
             }
-            catch (ex) {
+            catch(ex) {
                 return null;
             }
         }
@@ -151,7 +151,7 @@ namespace CSReportEngine {
                     this.item(i).fixName();
                 }
             }
-            catch (ex) {
+            catch(ex) {
             }
         }
     }

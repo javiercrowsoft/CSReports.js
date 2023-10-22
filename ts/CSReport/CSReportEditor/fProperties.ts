@@ -676,7 +676,7 @@ namespace CSReportEditor {
             // try {
             //     shBorder3D.setBackColor(Color.FromArgb(Int32.Parse(txBorder3D.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         private cmd_border3D_click(sender: object, e: object) {
@@ -694,14 +694,14 @@ namespace CSReportEditor {
                 shBorder3D.cReportAspect.setBackColor(txBorder3D.csValue);
                  */
             }
-            catch (ignore) { }
+            catch(ignore) { }
         }
 
         private tx_borderColor_LostFocus(sender: object, e: object) {
             // try {
             //     shBorderColor.setBackColor(Color.FromArgb(Int32.Parse(txBorderColor.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         private cmd_borderColor_Click(sender: object, e: object) {
@@ -719,14 +719,14 @@ namespace CSReportEditor {
                 shBorderColor.cReportAspect.setBackColor(txBorderColor.csValue);
                  */
             }
-            catch (ignore) { }
+            catch(ignore) { }
         }
 
         private tx_borderShadow_LostFocus(sender: object, e: object) {
             // try {
             //     shBorderShadow.setBackColor(Color.FromArgb(Int32.Parse(txBorderShadow.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         private cmd_borderShadow_Click(sender: object, e: object) {
@@ -744,7 +744,7 @@ namespace CSReportEditor {
                 shBorderShadow.cReportAspect.setBackColor(txBorderShadow.csValue);
                  */
             }
-            catch (ignore) { }
+            catch(ignore) { }
         }
 
         private tx_BorderWidth_TextChanged(sender: object, e: object) {
@@ -828,14 +828,14 @@ namespace CSReportEditor {
             // try {
             //     shForeColor.setBackColor(Color.FromArgb(Int32.Parse(tx_foreColor.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         private tx_backColor_LostFocus(sender: object, e: object) {
             // try {
             //     shBackColor.setBackColor(Color.FromArgb(Int32.Parse(tx_backColor.Text)));
             // }
-            // catch (ignore) { }
+            // catch(ignore) { }
         }
 
         //------------------------------------------------------------------------------------------------------------------

@@ -92,7 +92,7 @@ namespace CSReportPaint {
 
                 this.zoom = 100;
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -946,7 +946,7 @@ namespace CSReportPaint {
                 return true;
 
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }

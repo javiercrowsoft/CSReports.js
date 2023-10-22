@@ -869,3 +869,9 @@ ul.toolbar a:hover {
 #formula-dlg-description {
     white-space: pre-wrap;
 }
+#error-dlg-description {
+    white-space: pre-wrap;
+}
+#error-dlg-info-add {
+    white-space: pre-wrap;
+}

@@ -106,7 +106,7 @@ namespace CSXml {
 
                 return this.newXml();
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -120,7 +120,7 @@ namespace CSXml {
 
                 return true;
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -141,7 +141,7 @@ namespace CSXml {
 
                 return this.save();
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -156,7 +156,7 @@ namespace CSXml {
                 this.domDoc.save(this.getPath() + this.name);
                 return true;
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -291,7 +291,7 @@ namespace CSXml {
 
                 return true;
             }
-            catch (ex) {
+            catch(ex) {
                 cWindow.msgWarning("Open file has failded.;;"
                                     + file
                                     + ";;Error: "

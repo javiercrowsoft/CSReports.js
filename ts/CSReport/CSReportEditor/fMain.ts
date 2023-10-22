@@ -401,7 +401,7 @@ namespace CSReportEditor {
                 }));
 
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -423,6 +423,7 @@ namespace CSReportEditor {
             let editor: cEditor = cMainEditor.getDocActive();
             if(editor !== null) {
                 this.openFileWithDialog().then(P.call(this, (fc: FileContent) => {
+                    fc.content = JSON.parse(fc.content);
                     this.debugData.add(fc, editor.getId());
                 }));
             }

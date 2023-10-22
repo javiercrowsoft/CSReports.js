@@ -15,7 +15,7 @@ namespace CSOAPI {
             try {
                 return isNaN(parseFloat(value.toString()));
             }
-            catch (ignore) {
+            catch(ignore) {
                 return false;
             }
         }
@@ -26,7 +26,7 @@ namespace CSOAPI {
                 try {
                     value = parseFloat(value);
                     return isNaN(value) ? 0 : value;
-                } catch (ignore) {
+                } catch(ignore) {
                     return 0;
                 }
             }
@@ -194,7 +194,7 @@ namespace CSOAPI {
             /*
             let i: number = 0;
             for(i = 0; i < list.Items.Count; i++) {
-                if(list.Items[i].ToString() === text) {
+                if(list.Items[i].toString() === text) {
                     list.SelectedIndex = i;
                     break;
                 }
@@ -242,6 +242,10 @@ namespace CSOAPI {
 
         static inputEl(id: string) {
             return this.el(id) as HTMLInputElement;
+        }
+
+        static imageEl(id: string) {
+            return this.el(id) as HTMLImageElement;
         }
 
         static labelEl(id: string) {

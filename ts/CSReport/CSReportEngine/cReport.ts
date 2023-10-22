@@ -283,7 +283,7 @@ namespace CSReportEngine {
                 this.headers.setMainTypeSection(csRptSectionType.MAIN_HEADER);
                 this.footers.setMainTypeSection(csRptSectionType.MAIN_FOOTER);
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -1645,7 +1645,7 @@ namespace CSReportEngine {
                 this.setLaunchInfo(oLaunchInfo);
                 return true;
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -1808,7 +1808,7 @@ namespace CSReportEngine {
                 return true;
 
             }
-            catch (ex) {
+            catch(ex) {
                 this.compiler.setReport(null);
 
                 // if we haven't printed to preview
@@ -1859,7 +1859,7 @@ namespace CSReportEngine {
 
                 return this.nLoad(docXml);
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }*/
@@ -1893,7 +1893,7 @@ namespace CSReportEngine {
                     return this.nLoad(docXml);
                 }));
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return P.resolvedPromise(false);
             }

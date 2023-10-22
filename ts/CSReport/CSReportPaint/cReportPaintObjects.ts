@@ -36,7 +36,7 @@ namespace CSReportPaint {
 
                 return c;
             }
-            catch (ex) {
+            catch(ex) {
                 return null;
             }
         }

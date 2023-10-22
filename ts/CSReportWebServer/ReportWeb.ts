@@ -31,32 +31,38 @@ namespace CSReportWebServer {
         }
 
         public init(request: any, report: cReport): void {
-            this.webReportId = request["message"]["webReportId"].ToString();
-            this.reportId = this.uid();
-            this.database = this.uid();
-            this.report = report;
+            try {
 
-            this.report.setDatabaseEngine(DatabaseEngine.CS_REPORT_WEB);
+                this.webReportId = request["content"]["webReportId"].toString();
+                this.reportId = this.uid();
+                this.database = this.uid();
+                this.report = report;
 
-            this.report.onProgress(this.reportProgress);
-            this.report.onReportDone(this.reportDone);
+                this.report.setDatabaseEngine(DatabaseEngine.CS_REPORT_WEB);
 
-            const oLaunchInfo = new cReportLaunchInfo();
+                this.report.onProgress(this.reportProgress);
+                this.report.onReportDone(this.reportDone);
 
-            oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(null));
+                const oLaunchInfo = new cReportLaunchInfo();
 
-            this.registerDataSource(request);
+                oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(null));
 
-            if(!this.report.init(oLaunchInfo)) { return; }
+                this.registerDataSource(request);
 
-            this.report.setPathDefault("~");
+                if(!this.report.init(oLaunchInfo)) { return; }
+
+                this.report.setPathDefault("~");
+
+            } catch(ex) {
+                cError.mngError(ex);
+            }
         }
 
         private registerDataSource(request: any): void {
-            const dataSources = request["message"]["data"]["data"];
+            const dataSources = request["content"]["data"]["data"];
             for(let i = 0; i < dataSources.length; i++) {
                 const dataSource = dataSources[i];
-                const ds = new JSONDataSource(dataSource["name"].ToString(), dataSource["data"]);
+                const ds = new JSONDataSource(dataSource["name"].toString(), dataSource["data"]);
                 JSONServer.registerDataSource(ds, this.database + "." + ds.getName());
             }
         }
@@ -135,7 +141,7 @@ namespace CSReportWebServer {
 
                 this.report.launch();
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
             finally {

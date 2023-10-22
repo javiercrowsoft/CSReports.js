@@ -135,7 +135,7 @@ namespace CSForms {
             this.dialog.style.visibility = "hidden";
             this.dialog.style.opacity = '0';
             this.dialogOverlay.style.display = "none";
-            this.maximize =  false;
+            this.maximize = false;
             this.resolve(result);
         }
 

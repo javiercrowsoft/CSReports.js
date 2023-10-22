@@ -122,7 +122,7 @@ namespace CSReportEngine {
 
                 return true;
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
 
                 this.formula = null;
@@ -633,7 +633,7 @@ namespace CSReportEngine {
                             }
                             code = vParams[i] + "|";
                         }
-                        catch (ex) {
+                        catch(ex) {
                             // we don't care about errors here
                         }
                     }
@@ -674,7 +674,7 @@ namespace CSReportEngine {
                 }
                 return cReportScriptEngine.eval(formula.getCompiledScript(), this.objGlobals);
             }
-            catch (ex) {
+            catch(ex) {
                 let msg: string = ex.stack + "\n\n"+ ex.message + "\n\nCode:\n=====\n\n" + code + "\n\n";
                 throw new ReportException(csRptErrors.ERROR_IN_SCRIPT, msg);
             }

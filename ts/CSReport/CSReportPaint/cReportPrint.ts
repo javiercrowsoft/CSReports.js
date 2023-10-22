@@ -88,7 +88,7 @@ namespace CSReportPaint {
                 this.scaleY = 1;
                 this.fnt = [];
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -165,7 +165,7 @@ namespace CSReportPaint {
                 return true;
 
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -489,7 +489,7 @@ namespace CSReportPaint {
                 }
                 return true;
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -553,7 +553,7 @@ namespace CSReportPaint {
 
                 return true;
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -1258,7 +1258,7 @@ namespace CSReportPaint {
                 }
 
                 //*TODO:** goto found: GoTo ExitProc;
-            } catch (Exception ex) {
+            } catch(Exception ex) {
                 cError.mngError(ex);
                 if(VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
@@ -1304,7 +1304,7 @@ namespace CSReportPaint {
 
 
                 //*TODO:** goto found: GoTo ExitProc;
-            } catch (Exception ex) {
+            } catch(Exception ex) {
                 cError.mngError(ex);
                 if(VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
@@ -1346,7 +1346,7 @@ namespace CSReportPaint {
                 this.y = y;
 
                 //*TODO:** goto found: GoTo ExitProc;
-            } catch (Exception ex) {
+            } catch(Exception ex) {
                 cError.mngError(ex);
                 if(VBA.ex.Number) { /**TODO:** resume found: Resume(ExitProc)* / }
                 //*TODO:** label found: ExitProc:;
@@ -1429,7 +1429,7 @@ namespace CSReportPaint {
 
                     expExcel.export(this.report);
 
-                } catch (Exception ex) {
+                } catch(Exception ex) {
                     cError.mngError(ex);
                 }
             }
@@ -1479,7 +1479,7 @@ namespace CSReportPaint {
                 return expPDF.exportEx(this.report, this, outputFile, bShowPDFWindow);
 
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -1496,7 +1496,7 @@ namespace CSReportPaint {
 
                     expWord.export(this.report);
 
-                } catch (Exception ex) {
+                } catch(Exception ex) {
                     cError.mngError(ex);
                 }
             }

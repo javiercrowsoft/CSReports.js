@@ -44,7 +44,7 @@ namespace CSReportEngine {
                 }
                 return null;
             }
-            catch (ex) {
+            catch(ex) {
                 return null;
             }
              */

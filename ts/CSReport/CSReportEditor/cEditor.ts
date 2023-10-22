@@ -314,7 +314,7 @@ namespace CSReportEditor {
                     f.show(this.fMain);
                 }
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -349,7 +349,7 @@ namespace CSReportEditor {
                 }
                 this.fConnectsAux.showDialog();
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
                 this.fConnectsAux.close();
                 this.fConnectsAux = null;
@@ -446,7 +446,7 @@ namespace CSReportEditor {
                     if(!this.configConnection(rptConnect)) return;
                     this.report.getConnectsAux().add(rptConnect);
                     this.pAddConnectAuxToListView(rptConnect);
-                } catch (ex) {
+                } catch(ex) {
                     cError.mngError(ex);
                 }
             };
@@ -455,7 +455,7 @@ namespace CSReportEditor {
                 try {
                     this.selectCtrl(ctrlKey);
                     this.showProperties2();
-                } catch (ex) {
+                } catch(ex) {
                     cError.mngError(ex);
                 }
             });
@@ -463,7 +463,7 @@ namespace CSReportEditor {
             cMainEditor.getSearch(this).setFocusSec((secKey: string) => {
                 try {
                     this.selectSection(secKey);
-                } catch (ex) {
+                } catch(ex) {
                     cError.mngError(ex);
                 }
             });
@@ -480,7 +480,7 @@ namespace CSReportEditor {
                 else {
                     this.showProperties2();
                 }
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -488,7 +488,7 @@ namespace CSReportEditor {
         public setFocusCtrl(ctrlKey: string) {
             try {
                 this.selectCtrl(ctrlKey);
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -623,7 +623,7 @@ namespace CSReportEditor {
                 this.keyObj = sKey;
                 this.paint.setFocus(this.keyFocus, this.picReport.getGraphics(), true);
                 cMainEditor.showProperties("S" + secKey, true);
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -897,7 +897,7 @@ namespace CSReportEditor {
 
                 this.keyboardMove = true;
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -1160,7 +1160,7 @@ namespace CSReportEditor {
                 this.pSetEditAlignValue();
                 this.pSetFontBoldValue();
             }
-            catch (ex) {
+            catch(ex) {
                 cError.mngError(ex);
             }
             finally {
@@ -1872,7 +1872,7 @@ namespace CSReportEditor {
                     this.report.getConnect().setStrConnect(f.getStrConnect());
                 }
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
                 f.close();
             }
@@ -1903,7 +1903,7 @@ namespace CSReportEditor {
 
                 return true;
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -1918,7 +1918,7 @@ namespace CSReportEditor {
                     connect.setStrConnect(this.report.getConnect().getStrConnect());
                 }
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -2982,7 +2982,7 @@ namespace CSReportEditor {
                 this.report.getLaunchInfo().setShowPrintersDialog(true);
                 this.report.launch();
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
             finally {
@@ -3018,7 +3018,7 @@ namespace CSReportEditor {
                     return false;
                 }
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
                 return false;
             }
@@ -3083,7 +3083,7 @@ namespace CSReportEditor {
                     }
                 }));
             }
-            catch (ex) {
+            catch(ex) {
                 mouse.dispose();
                 return P.resolvedPromise(false);
             }
@@ -3246,7 +3246,7 @@ namespace CSReportEditor {
                     this.dataHasChanged = true;
                 }
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
             finally {
@@ -3326,7 +3326,7 @@ namespace CSReportEditor {
 
                 propertyDlg.showSectionPropertyTabs();
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -3376,7 +3376,7 @@ namespace CSReportEditor {
                     if(sec instanceof cReportSection) { sec.setName(this.fSecProperties.getTxName().getText()); }
                 }
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
             finally {
@@ -3704,7 +3704,7 @@ namespace CSReportEditor {
 
                 propertyDlg.resetChangedFlags();
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -4066,7 +4066,7 @@ namespace CSReportEditor {
 
                 this.dataHasChanged = true;
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
             finally {
@@ -4138,7 +4138,7 @@ namespace CSReportEditor {
             try {
                 this.vCopyKeys = [...this.vSelectedKeys];
                 this.fMain.setReportCopySource(this);
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -4154,7 +4154,7 @@ namespace CSReportEditor {
                     this.copyControls = true;
                 }
                 this.addLabel();
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -4174,7 +4174,7 @@ namespace CSReportEditor {
 
                 if(paintObjAspect === null) return;
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -5088,7 +5088,7 @@ namespace CSReportEditor {
 
                 this.paint.endMove(this.picReport.getGraphics());
 
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -6111,7 +6111,7 @@ namespace CSReportEditor {
                 if(!f.getVisible()) {
                     f.show(this.fMain);
                 }
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
@@ -6124,7 +6124,7 @@ namespace CSReportEditor {
                 if(!f.getVisible()) {
                     f.show(this.fMain);
                 }
-            } catch (ex) {
+            } catch(ex) {
                 cError.mngError(ex);
             }
         }
