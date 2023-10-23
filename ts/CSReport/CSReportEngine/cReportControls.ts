@@ -116,7 +116,7 @@ namespace CSReportEngine {
 
             this.collByLeft = [];
 
-            for(i = 0; i < this.collByLeft.length; i++) {
+            for(i = 0; i < this.count(); i++) {
                 this.collByLeft[i] = i;
             }
 

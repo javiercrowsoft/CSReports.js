@@ -70,7 +70,7 @@ namespace CSKernelClient {
 
         public static mngError(ex: any, infoAdd: string = "") {
             console.log(ex);
-            if(this.f == null) this.f = new fErrors();
+            if(this.f === null) this.f = new fErrors();
             this.f.setErrorIcon();
             this.f.setDetails(ex.getMessage ? ex.getMessage() : ex.toString());
             this.f.setInfoAdd(infoAdd);
@@ -78,12 +78,21 @@ namespace CSKernelClient {
         }
 
         public static mngWarning(msg: string, title: string = "") {
-            if(this.f == null) this.f = new fErrors();
+            if(this.f === null) this.f = new fErrors();
             this.f.setWarnIcon();
             this.f.setTitle(title);
             this.f.setDetails(msg);
             return this.f.showDialog();
         }
+
+        public static mngInfo(msg: string, title: string = "") {
+            if(this.f === null) this.f = new fErrors();
+            this.f.setInfoIcon();
+            this.f.setTitle(title);
+            this.f.setDetails(msg);
+            return this.f.showDialog();
+        }
+
 
         public getLastErrorDescription() {
             return this.lastErrorDescription;

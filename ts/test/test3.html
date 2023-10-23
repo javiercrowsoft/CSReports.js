@@ -75,7 +75,7 @@
         var toggler = document.getElementsByClassName("box");
         for(var i = 0; i < toggler.length; i++) {
             toggler[i].addEventListener("click", function () {
-                if(this.parentElement.querySelector(".nested") != null) {
+                if(this.parentElement.querySelector(".nested") !== null) {
                     this.parentElement.querySelector(".nested").classList.toggle("active");
                     this.classList.toggle("check-box");
                 }

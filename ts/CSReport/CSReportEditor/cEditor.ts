@@ -3086,7 +3086,7 @@ namespace CSReportEditor {
             catch(ex) {
                 cError.mngError(ex);
                 mouse.dispose();
-                return P.resolvedPromise(false);
+                return P._(false);
             }
         }
 
@@ -3106,7 +3106,7 @@ namespace CSReportEditor {
                 });
             }
             this.dataHasChanged = false;
-            return P.resolvedPromise(true);
+            return P._(true);
         }
 
         private askEdit(msg: string, title: string) {
@@ -5647,7 +5647,7 @@ namespace CSReportEditor {
             if(!isForSectionLine) {
                 minBottom.set(cEditor.getMinBottomWithSecLn(rptSec.getSectionLines(), minBottom.get()));
             }
-            if(maxBottomSectionLine != null) {
+            if(maxBottomSectionLine !== null) {
                 maxBottomSectionLine.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, secLnKey));
             }
             maxBottom.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, ""));
@@ -5683,7 +5683,7 @@ namespace CSReportEditor {
                 minBottom.set(cEditor.getMinBottomWithSecLn(rptSec.getSectionLines(), minBottom.get()));
             }
 
-            if(maxBottomSectionLine != null) {
+            if(maxBottomSectionLine !== null) {
                 maxBottomSectionLine.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, secLnKey));
             }
             maxBottom.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, ""));
@@ -5832,7 +5832,7 @@ namespace CSReportEditor {
                 minBottom.set(cEditor.getMinBottomWithSecLn(rptSec.getSectionLines(), minBottom.get()));
             }
 
-            if(maxBottomSectionLine != null) {
+            if(maxBottomSectionLine !== null) {
                 maxBottomSectionLine.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, secLnKey));
             }
             maxBottom.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, ""));
@@ -5870,7 +5870,7 @@ namespace CSReportEditor {
             if(!isForSectionLine) {
                 minBottom.set(cEditor.getMinBottomWithSecLn(rptSec.getSectionLines(), minBottom.get()));
             }
-            if(maxBottomSectionLine != null) {
+            if(maxBottomSectionLine !== null) {
                 maxBottomSectionLine.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, secLnKey));
             }
             maxBottom.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, ""));
@@ -5922,7 +5922,7 @@ namespace CSReportEditor {
                 minBottom.set(cEditor.getMinBottomWithSecLn(rptSec.getSectionLines(), minBottom.get()));
             }
 
-            if(maxBottomSectionLine != null) {
+            if(maxBottomSectionLine !== null) {
                 maxBottomSectionLine.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, secLnKey));
             }
             maxBottom.set(this.picReport.getHeight() - this.getHeightOfSectionsBellowMe(rptSec, ""));

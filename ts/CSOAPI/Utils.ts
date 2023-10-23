@@ -274,25 +274,25 @@ namespace CSOAPI {
 
             // the key can't apears more than one
             //
-            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) != -1) {
+            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) !== -1) {
                 throw (new Exception("cUtil.getInfoString: the key can't apears more than one."));
             }
 
             // if the key is not present we add it to the end of the string
             //
-            if(i == -1) {
+            if(i === -1) {
                 return source + key + "=" + value + ";";
             }
             else {
                 const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
 
                 let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
-                if(j == -1) {
+                if(j === -1) {
                     throw (new Exception(this.format(c_errorstr, ";")));
                 }
                 debugger; // seguro que este substring esta mal
                 let k = source.substring(i, j-i).toLowerCase().indexOf("=".toLowerCase(), 0);
-                if(k == -1)
+                if(k === -1)
                 {
                     throw (new Exception(this.format(c_errorstr, "=")));
                 }
@@ -324,24 +324,24 @@ namespace CSOAPI {
 
             // the key can't apears more than one
             //
-            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) != -1) {
+            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) !== -1) {
                 throw(new Exception("cUtil.getInfoString: the key can't apears more than one."));
             }
 
             // if the key is not present return default
             //
-            if(i == -1) {
+            if(i === -1) {
                 return defaultValue;
             }
             else {
                 const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
 
                 let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
-                if(j == -1) {
+                if(j === -1) {
                     throw(new Exception(this.format(c_errorstr, ";")));
                 }
                 let k = source.substring(i, j).toLowerCase().indexOf("=".toLowerCase(), 0);
-                if(k == -1) {
+                if(k === -1) {
                     throw(new Exception(this.format(c_errorstr, "=")));
                 }
                 k = k + i;

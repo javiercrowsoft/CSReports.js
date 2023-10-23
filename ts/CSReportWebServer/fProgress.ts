@@ -22,7 +22,7 @@ namespace CSReportWebServer {
 
         public constructor() {
             super();
-            this.el = U.el('error-dlg');
+            this.el = U.el('progress-dlg');
             this.currPage = new Label(U.labelEl('progress-dlg-curr-page'));
             this.task = new Label(U.labelEl('progress-dlg-task'));
             this.rowCount = new Label(U.labelEl('progress-dlg-row-count'));

@@ -13,17 +13,23 @@ namespace CSDatabase {
         }
     }
 
-    export class JSONServerConnection {
+    export class JSONServerConnection implements DbConnection {
 
-        private readonly _connectionString: string;
+        private _connectionString: string;
 
         public constructor(connectionString: string = "") {
             this._connectionString = connectionString;
         }
 
-
         public connectionString(): string {
             return this._connectionString;
         }
+
+        public setConnectionString(strConnect: string) {
+            this._connectionString = strConnect;
+        }
+
+        public open() {}
+        public close() {}
     }
 }

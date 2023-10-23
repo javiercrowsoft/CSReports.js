@@ -14,6 +14,7 @@ namespace CSReportWebServer {
     import MessageBoxDefaultButton = CSKernelClient.MessageBoxDefaultButton;
     import cReportPrint = CSReportPaint.cReportPrint;
     import cError = CSKernelClient.cError;
+    import P = CSKernelClient.Callable;
 
     export class ReportWeb {
 
@@ -40,8 +41,8 @@ namespace CSReportWebServer {
 
                 this.report.setDatabaseEngine(DatabaseEngine.CS_REPORT_WEB);
 
-                this.report.onProgress(this.reportProgress);
-                this.report.onReportDone(this.reportDone);
+                this.report.onProgress(P.call(this, this.reportProgress));
+                this.report.onReportDone(P.call(this, this.reportDone));
 
                 const oLaunchInfo = new cReportLaunchInfo();
 
@@ -152,7 +153,7 @@ namespace CSReportWebServer {
 
         private showProgressDlg(): void {
             this.cancelPrinting = false;
-            if(this.fProgress == null) {
+            if(this.fProgress === null) {
                 this.fProgress = new FProgress();
             }
             this.fProgress.show();

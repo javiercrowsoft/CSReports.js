@@ -1042,7 +1042,7 @@ namespace CSReportPaint {
         }
 
         private move(left: number, top: number, width: number, height: number, graphic: Graphic) {
-            let p = P.resolvedPromise();
+            let p = P._();
             if(this.x1 > 0 || this.x2 > 0 || this.y1 > 0 || this.y2 > 0) {
                 p = this.paintPictureMove(
                     graphic,
@@ -1457,7 +1457,7 @@ namespace CSReportPaint {
                         }
                 }));
             }
-            return P.resolvedPromise();
+            return P._();
         }
 
         // grid
@@ -1543,7 +1543,7 @@ namespace CSReportPaint {
             // this.notBorder is used by preview and printing to indicate the controls must be print a border only
             // when BorderType !== NONE
             //
-            if(this.notBorder == false || filled || aspect.getBorderType() !== csReportBorderType.CS_RPT_BS_NONE) {
+            if(this.notBorder === false || filled || aspect.getBorderType() !== csReportBorderType.CS_RPT_BS_NONE) {
                 if(aspect.getBorderType() === csReportBorderType.CS_RPT_BS_3D) {
 
                     // this will clear the complete rectangle printing white including the border

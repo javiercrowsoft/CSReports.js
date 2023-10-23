@@ -14,7 +14,7 @@ namespace CSOAPI {
         private keyIndex = 1;
 
         public constructor(map: Map<T> = null, readOnly: boolean = false, construct: { new() } = null) {
-            if(map != null) {
+            if(map !== null) {
                 for(let i_ = 0; i_ < map.getKeys().length; i_++) {
                     const de = map.item(map.getKeys[i_]);
                     this.add(de, map.getKeys[i_]);

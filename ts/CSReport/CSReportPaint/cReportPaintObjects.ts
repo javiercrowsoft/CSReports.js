@@ -13,7 +13,7 @@ namespace CSReportPaint {
         public remove(indexOrKey: string|number): void {
             this.baseRemove(indexOrKey);
             // @ts-ignore
-            let key: string = (typeof indexOrKey == "string") ? indexOrKey: this.keyByIndex(indexOrKey);
+            let key: string = (typeof indexOrKey === "string") ? indexOrKey: this.keyByIndex(indexOrKey);
             this.removeZOrder(key);
         }
 
@@ -25,8 +25,8 @@ namespace CSReportPaint {
 
         public add(c: cReportPaintObject, key: string): cReportPaintObject {
             try {
-                if(c == null) { c = new cReportPaintObject(); }
-                if(key == "") { key = cGlobals.getNextKey().toString(); }
+                if(c === null) { c = new cReportPaintObject(); }
+                if(key === "") { key = cGlobals.getNextKey().toString(); }
 
                 key = cGlobals.getKey(key);
                 this.baseAdd(c, key);

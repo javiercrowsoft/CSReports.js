@@ -180,7 +180,7 @@ namespace CSReportEngine {
         // this array contains a table with the data of every recordset
         // in the main connection
         //
-        // the function this.pGetData() reserves a position for every recordset
+        // the function this.getData() reserves a position for every recordset
         // in the additional connections
         //
         private tables: DataTable[] = null;
@@ -1654,185 +1654,205 @@ namespace CSReportEngine {
         // run report
         //
         public launch(oLaunchInfo: cReportLaunchInfo = null) {
-            try {
-                let recordSets: [object|string[]] = null;
-                let rs: DataTable = null;
+            return P._().then(P.call(this, () => {
 
-                this.compiler.setReport(this);
-                this.compiler.initGlobalObject();
+                let p = P._();
 
-                if(oLaunchInfo === null) {
-                    if(this.launchInfo === null) {
-                        throw new ReportLaunchInfoNoDefined(
-                                        csRptErrors.LAUNCH_INFO_UNDEFINED,
-                                        cReportError.errGetDescription(csRptErrors.LAUNCH_INFO_UNDEFINED));
+                try {
+                    let recordSets: [object|string[]] = null;
+                    let rs: DataTable = null;
+
+                    this.compiler.setReport(this);
+                    this.compiler.initGlobalObject();
+
+                    if(oLaunchInfo === null) {
+                        if(this.launchInfo === null) {
+                            throw new ReportLaunchInfoNoDefined(
+                                            csRptErrors.LAUNCH_INFO_UNDEFINED,
+                                            cReportError.errGetDescription(csRptErrors.LAUNCH_INFO_UNDEFINED));
+                        }
                     }
-                }
-                else {
-                    this.setLaunchInfo(oLaunchInfo);
-                }
+                    else {
+                        this.setLaunchInfo(oLaunchInfo);
+                    }
 
-                if(this.launchInfo.getPrinter() === null) {
-                    throw new ReportLaunchInfoNoDefined(
-                                    csRptErrors.PRINTER_NOT_DEFINED,
-                                    cReportError.errGetDescription(csRptErrors.PRINTER_NOT_DEFINED));
-                }
+                    if(this.launchInfo.getPrinter() === null) {
+                        throw new ReportLaunchInfoNoDefined(
+                                        csRptErrors.PRINTER_NOT_DEFINED,
+                                        cReportError.errGetDescription(csRptErrors.PRINTER_NOT_DEFINED));
+                    }
 
-                if(!this.progress("Building report ...")) {
-                    return false;
-                }
+                    if(!this.progress("Building report ...")) {
+                        return false;
+                    }
 
-                // we need to sort all controls using the zorder property
-                //
-                this.sortCollection();
+                    // we need to sort all controls using the zorder property
+                    //
+                    this.sortCollection();
 
-                if(! this.progress("Compiling report ...")) {
-                    return false;
-                }
+                    if(! this.progress("Compiling report ...")) {
+                        return false;
+                    }
 
-                // compile report
-                //
-                if(! this.compileReport()) {
-                    return false;
-                }
+                    // compile report
+                    //
+                    if(! this.compileReport()) {
+                        return false;
+                    }
 
-                // we need to sort all controls by his aspect.left property
-                //
-                this.pSortControlsByLeft();
+                    // we need to sort all controls by his aspect.left property
+                    //
+                    this.pSortControlsByLeft();
 
-                if(! this.progress("Querying database")) {
-                    return false;
-                }
+                    if(! this.progress("Querying database")) {
+                        return false;
+                    }
 
-                recordSets = [[]];
+                    recordSets = [[]];
 
-                this.tables = new DataTable[1];
+                    this.tables = [];
 
-                // get the main recordset
-                //
-                let dtr = new RefWrapper(this.table);
-                let rsr = new RefWrapper(rs);
-                if(! this.pGetData(dtr, this.connect, true, recordSets, rsr)) {
-                    return false;
-                }
-                this.table = dtr.get();
-                rs = rsr.get()
+                    // get the main recordset
+                    //
+                    let dtr = new RefWrapper(this.table);
+                    let rsr = new RefWrapper(rs);
 
-                // the first element contains the main recordset
-                //
-                this.tables[0] = this.table;
+                    p = p
+                    .then(P.call(this, () => this.getData(dtr, this.connect, true, recordSets, rsr)))
+                    .then(P.call(this, (result) => {
 
-                this.pInitImages();
+                        if(! result) { return false; }
 
-                // get additional recordSets
-                //
-                if(!this.pGetDataAux(recordSets)) {
-                    return false;
-                }
+                        try {
 
-                if(! this.initGroups(rs, this.pGetMainDataSource(recordSets))) {
-                    return false;
-                }
+                            this.table = dtr.get();
+                            rs = rsr.get()
 
-                if(! this.progress("Initializing report")) {
-                    return false;
-                }
+                            // the first element contains the main recordset
+                            //
+                            this.tables[0] = this.table;
 
-                if(! this.initControls(recordSets)) {
-                    return false;
-                }
+                            this.pInitImages();
 
-                // create the definition of this report
-                //
-                if(! this.createPageSetting()) {
-                    return false;
-                }
+                            // get additional recordSets
+                            //
+                            if(!this.pGetDataAux(recordSets)) {
+                                return false;
+                            }
 
-                this.pages.clear();
-                this.lineIndex = 0;
+                            if(! this.initGroups(rs, this.pGetMainDataSource(recordSets))) {
+                                return false;
+                            }
 
-                // globals initialization
-                //
-                this.bPrintFooter = false;
-                this.bLastFootersWasPrinted = false;
-                this.groupIndexChange = this.NO_GROUP_INDEX;
-                this.iRow2 = 0;
-                this.iRowFormula = 0;
-                this.pSetGroupFormulaHeaders();
-                this.pSetGroupsInCtrlFormulaHide();
-                this.pSetIndexColInGroupFormulas(recordSets);
-                this.pInitRowFormulas();
+                            if(! this.progress("Initializing report")) {
+                                return false;
+                            }
 
-                // check if there are groups which need to be reprinted when the page change
-                //
-                this.pExistsGroupToReprintInNP();
+                            if(! this.initControls(recordSets)) {
+                                return false;
+                            }
 
-                // to force the evaluate of the groups in the first page
-                //
-                this.bEvalPreGroups = true;
-                this.bCloseFooter = false;
-                this.bOpenHeader = false;
+                            // create the definition of this report
+                            //
+                            if(! this.createPageSetting()) {
+                                return false;
+                            }
 
-                let formula: cReportFormula = null;
-                for(let _i = 0; _i < this.formulas.count(); _i++) {
-                    formula = this.formulas.item(_i);
-                    formula.setHaveToEval(true);
-                }
+                            this.pages.clear();
+                            this.lineIndex = 0;
 
-                // launch the report
-                //
-                this.launchInfo.getObjPaint().setReport(this);
-                if(!this.launchInfo.getObjPaint().makeReport()) {
-                    return false;
-                }
+                            // globals initialization
+                            //
+                            this.bPrintFooter = false;
+                            this.bLastFootersWasPrinted = false;
+                            this.groupIndexChange = this.NO_GROUP_INDEX;
+                            this.iRow2 = 0;
+                            this.iRowFormula = 0;
+                            this.pSetGroupFormulaHeaders();
+                            this.pSetGroupsInCtrlFormulaHide();
+                            this.pSetIndexColInGroupFormulas(recordSets);
+                            this.pInitRowFormulas();
 
-                switch (this.launchInfo.getAction())
-                {
-                    case csRptLaunchAction.CS_RPT_LAUNCH_PRINTER:
-                        if(!this.launchInfo.getObjPaint().printReport()) {
-                            return false;
+                            // check if there are groups which need to be reprinted when the page change
+                            //
+                            this.pExistsGroupToReprintInNP();
+
+                            // to force the evaluate of the groups in the first page
+                            //
+                            this.bEvalPreGroups = true;
+                            this.bCloseFooter = false;
+                            this.bOpenHeader = false;
+
+                            let formula: cReportFormula = null;
+                            for(let _i = 0; _i < this.formulas.count(); _i++) {
+                                formula = this.formulas.item(_i);
+                                formula.setHaveToEval(true);
+                            }
+
+                            // launch the report
+                            //
+                            this.launchInfo.getObjPaint().setReport(this);
+                            if(!this.launchInfo.getObjPaint().makeReport()) {
+                                return false;
+                            }
+
+                            switch (this.launchInfo.getAction())
+                            {
+                                case csRptLaunchAction.CS_RPT_LAUNCH_PRINTER:
+                                    if(!this.launchInfo.getObjPaint().printReport()) {
+                                        return false;
+                                    }
+                                    break;
+                                case csRptLaunchAction.CS_RPT_LAUNCH_FILE:
+                                    if(!this.launchInfo.getObjPaint().makeXml()) {
+                                        return false;
+                                    }
+                                    break;
+                                case csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW:
+                                    if(!this.launchInfo.getObjPaint().previewReport()) {
+                                        return false;
+                                    }
+                                    break;
+                            }
+
+                            return true;
                         }
-                        break;
-                    case csRptLaunchAction.CS_RPT_LAUNCH_FILE:
-                        if(!this.launchInfo.getObjPaint().makeXml()) {
-                            return false;
+                        catch(ex) {
+                            this.processLaunchError(ex);
                         }
-                        break;
-                    case csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW:
-                        if(!this.launchInfo.getObjPaint().previewReport()) {
-                            return false;
-                        }
-                        break;
+                    }));
                 }
+                catch(ex) {
+                    this.processLaunchError(ex);
+                }
+            }));
+        }
 
-                return true;
+        private processLaunchError(ex: any) {
+            console.log(ex);
 
+            this.compiler.setReport(null);
+
+            // if we haven't printed to preview
+            // we need to clear the references
+            // between cReport and cReportLaunchInfo
+            //
+            if(this.launchInfo.getAction() !== csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW) {
+                this.launchInfo.getObjPaint().setReport(null);
+                this.launchInfo.setObjPaint(null);
             }
-            catch(ex) {
-                this.compiler.setReport(null);
 
-                // if we haven't printed to preview
-                // we need to clear the references
-                // between cReport and cReportLaunchInfo
-                //
-                if(this.launchInfo.getAction() !== csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW) {
-                    this.launchInfo.getObjPaint().setReport(null);
-                    this.launchInfo.setObjPaint(null);
-                }
-
-                throw new ReportException(csRptErrors.ERROR_WHEN_RUNNING_REPORT,
-                                          "Error when running report.\n\n"
-                                          + "Info: " + ex.Message + "\n"
-                                          + "Source: " + ex.Source + "\n"
-                                          + "Stack trace: " + ex.StackTrace + "\n"
-                                          + "Description: " + ex.toString()
-                                          );
-            }
+            throw new ReportException(csRptErrors.ERROR_WHEN_RUNNING_REPORT,
+                                      "Error when running report.\n\n"
+                                      + "Info: " + ex.message + "\n"
+                                      + "Name: " + ex.name + "\n"
+                                      + "Stack trace: " + ex.stack
+                                      );
         }
 
         public loadSilent(fileName: string) {
 
-            return P.resolvedPromise(false);
+            return P._(false);
 
             /* TODO: when working in node backend version or Electron desktop app
             try {
@@ -1895,7 +1915,7 @@ namespace CSReportEngine {
             }
             catch(ex) {
                 cError.mngError(ex);
-                return P.resolvedPromise(false);
+                return P._(false);
             }
         }
 
@@ -2981,7 +3001,7 @@ namespace CSReportEngine {
                 return true;
             }
             else {
-                this.vGroups = new T_Groups[this.groupCount];
+                this.vGroups = [];
                 for(let t = 0; t < this.groupCount; t++) {
                     this.vGroups[t] = new T_Groups();
                 }
@@ -3039,14 +3059,14 @@ namespace CSReportEngine {
                 this.vGroups[i].comparisonType = this.groups.item(i).getComparisonType();
                 this.vGroups[i].oderType = this.groups.item(i).getOderType();
 
-                this.vGroups[i].groups = new T_Group[1];
+                this.vGroups[i].groups = [];
                 this.vGroups[i].groups[0] = new T_Group();
             }
 
             let recordCount: number;
             let q: number = 0;
 
-            this.vGroups[0].groups = new T_Group[1];
+            this.vGroups[0].groups = [];
             this.vGroups[0].groups[0] = new T_Group();
             recordCount = this.vRowsIndex.length;
             this.vGroups[0].groups[0].first = 0;
@@ -4034,7 +4054,7 @@ namespace CSReportEngine {
             for(let _i = 0; _i < this.connectsAux.count(); _i++) {
                 let connect: cReportConnect = this.connectsAux.item(_i);
                 let dtr = new RefWrapper(new DataTable());
-                if(! this.pGetData(dtr, connect, false, recordSets)) {
+                if(! this.getData(dtr, connect, false, recordSets)) {
                     return false;
                 }
                 this.tables.push(dtr.get());
@@ -4043,149 +4063,165 @@ namespace CSReportEngine {
             return true;
         }
 
-        private pGetData(dtr: RefWrapper<DataTable>,
+        private getData(dtr: RefWrapper<DataTable>,
                          connect: cReportConnect, createIndexVector: boolean,
                          recordSets: [object|string[]], rs: RefWrapper<DataTable> = null) {
 
-            let strConnect: string;
-            let saveInReport: boolean = false;
-            let cn: CSDatabase.Database = null;
-            let varRs: object|string[] = null;
-            let rsAux: DataTable = null;
-            let dr: CSDatabase.DbDataReader = null;
+            return P._().then(P.call(this, () => {
 
-            // if we get an string connection
-            //
-            if(this.launchInfo.getStrConnect().trim() !== "") {
-                strConnect = this.launchInfo.getStrConnect();
-            }
-            // if this.launchInfo.getStrConnect() is empty we will use
-            // the connection of the connect object
-            //
-            else {
-                strConnect = connect.getStrConnect();
-                saveInReport = true;
-            }
-            if(! this.getReportDisconnected()) {
-                if(strConnect.trim() === "") {
-                    cWindow.msgWarning("The connection settings were not defined."
-                                        + "Both the LaunchInfo and the Connect object have their "
-                                        + "strConnect property empty. Without this connection string "
-                                        + "it will be impossible to open the connection to the database.",
-                                        "CSReportEditor");
-                    return false;
-                }
+                let p = P._();
 
-                cn = new CSDatabase.Database(this.databaseEngine);
+                let strConnect: string;
+                let saveInReport: boolean = false;
+                let cn: CSDatabase.Database = null;
+                let varRs: object|string[] = null;
+                let rsAux: DataTable = null;
+                let dr: CSDatabase.DbDataReader = null;
 
-                if(this.isForWeb) {
-                    cn.setSilent(true);
-                }
-                if(connect.getCommandTimeout() > 0) {
-                    cn.setCommandTimeout(connect.getCommandTimeout());
-                }
-                if(connect.getConnectionTimeout() > 0) {
-                    cn.setConnectionTimeout(connect.getConnectionTimeout());
-                }
-
-                // open the connection
+                // if we get an string connection
                 //
-                if(!cn.initDb(strConnect)) return false;
-
-                // we need to prepare the first sentence
-                //
-                let sqlstmt: string;
-
-                // if it was a select
-                //
-                if(this.launchInfo.getSqlstmt().trim() !== "") {
-                    sqlstmt = this.launchInfo.getSqlstmt();
+                if(this.launchInfo.getStrConnect().trim() !== "") {
+                    strConnect = this.launchInfo.getStrConnect();
                 }
+                // if this.launchInfo.getStrConnect() is empty we will use
+                // the connection of the connect object
+                //
                 else {
-                    if(connect.getDataSourceType() === csDataSourceType.CS_DT_PROCEDURE) {
-                        sqlstmt = "exec [" + connect.getDataSource() + "] " + connect.getSqlParameters();
+                    strConnect = connect.getStrConnect();
+                    saveInReport = true;
+                }
+                if(! this.getReportDisconnected()) {
+                    if(strConnect.trim() === "") {
+                        cWindow.msgWarning("The connection settings were not defined."
+                                            + "Both the LaunchInfo and the Connect object have their "
+                                            + "strConnect property empty. Without this connection string "
+                                            + "it will be impossible to open the connection to the database.",
+                                            "CSReportEditor");
+                        return false;
                     }
-                    else if(connect.getDataSourceType() === csDataSourceType.CS_DT_TABLE) {
-                        sqlstmt = "select * from [" + connect.getDataSource() + "]";
+
+                    cn = new CSDatabase.Database(this.databaseEngine);
+
+                    if(this.isForWeb) {
+                        cn.setSilent(true);
+                    }
+                    if(connect.getCommandTimeout() > 0) {
+                        cn.setCommandTimeout(connect.getCommandTimeout());
+                    }
+                    if(connect.getConnectionTimeout() > 0) {
+                        cn.setConnectionTimeout(connect.getConnectionTimeout());
+                    }
+
+                    // open the connection
+                    //
+                    if(!cn.initDb(strConnect)) return false;
+
+                    // we need to prepare the first sentence
+                    //
+                    let sqlstmt: string;
+
+                    // if it was a select
+                    //
+                    if(this.launchInfo.getSqlstmt().trim() !== "") {
+                        sqlstmt = this.launchInfo.getSqlstmt();
                     }
                     else {
-                        sqlstmt = connect.getDataSource();
+                        if(connect.getDataSourceType() === csDataSourceType.CS_DT_PROCEDURE) {
+                            p = p
+                            .then(() => connect.getSqlParameters())
+                            .then(params =>
+                                sqlstmt = "exec [" + connect.getDataSource() + "] " + params
+                            );
+                        }
+                        else if(connect.getDataSourceType() === csDataSourceType.CS_DT_TABLE) {
+                            sqlstmt = "select * from [" + connect.getDataSource() + "]";
+                        }
+                        else {
+                            sqlstmt = connect.getDataSource();
+                        }
                     }
+
+                    p = p.then(P.call(this, () => {
+
+                        // open the recordset
+                        //
+                        cn.setOpenRsExDescript(this.userDescription);
+
+                        if(! cn.loadDataTable(true, false, false, sqlstmt, rs, dr)) {
+                            return false;
+                        }
+
+                        dtr = rs;
+
+                        if(rs.get().rows.length === 0) {
+                            if(createIndexVector) {
+                                this.vRowsIndex = [];
+                                this.lastRowIndex = -1;
+                            }
+                        }
+                        else {
+                            if(createIndexVector) {
+                                this.vRowsIndex = [];
+                                this.lastRowIndex = dtr.get().rows.length - 1;
+                                for(let k = 0, count = dtr.get().rows.length; k < count; k++) {
+                                    this.vRowsIndex.push(k);
+                                }
+                            }
+                        }
+
+                        varRs = [];
+                        varRs[0] = rs;
+                        varRs[1] = connect.getDataSource();
+
+                        recordSets.push(varRs);
+
+                        // we need to load every recordset from every data source
+                        // in the recordset collection (this code support multiples
+                        // recordset in the same reader)
+                        //
+                        while (!dr.isClosed() && dr.nextResult()) {
+                            rsAux = new DataTable();
+                            rsAux.load(dr);
+
+                            varRs = [];
+                            varRs[0] = rsAux;
+                            varRs[1] = connect.getDataSource();
+                            recordSets.push(varRs);
+
+                            // TODO: check if this works
+                            //
+                            // we add an empty element to this.collRows to avoid
+                            // index of bounds exception
+                            //
+                            this.tables.push();
+                        }
+
+                        cn.closeDb();
+
+                    }));
                 }
-
-                // open the recordset
-                //
-                cn.setOpenRsExDescript(this.userDescription);
-
-                if(! cn.loadDataTable(true, false, false, sqlstmt, rs, dr)) {
-                    return false;
-                }
-
-                dtr = rs;
-
-                if(rs.get().rows.length === 0) {
+                else {
+                    dtr = null;
                     if(createIndexVector) {
                         this.vRowsIndex = [];
                         this.lastRowIndex = -1;
                     }
                 }
-                else {
-                    if(createIndexVector) {
-                        this.vRowsIndex = [];
-                        this.lastRowIndex = dtr.get().rows.length - 1;
-                        for(let k = 0, count = dtr.get().rows.length; k < count; k++) {
-                            this.vRowsIndex.push(k);
-                        }
+
+                p.then(P.call(this, () => {
+                    if(this.table !== null) {
+                        this.recordCount = this.vRowsIndex.length;
                     }
-                }
+                    else {
+                        this.recordCount = 0;
+                    }
+                    this.iRow = 0;
+                    this.idxGroupHeader = this.NO_GROUP_INDEX;
+                    this.idxGroupFooter = this.NO_GROUP_INDEX;
 
-                varRs = [];
-                varRs[0] = rs;
-                varRs[1] = connect.getDataSource();
-
-                recordSets.push(varRs);
-
-                // we need to load every recordset from every data source
-                // in the recordset collection (this code support multiples
-                // recordset in the same reader)
-                //
-                while (!dr.isClosed() && dr.nextResult()) {
-                    rsAux = new DataTable();
-                    rsAux.load(dr);
-
-                    varRs = [];
-                    varRs[0] = rsAux;
-                    varRs[1] = connect.getDataSource();
-                    recordSets.push(varRs);
-
-                    // TODO: check if this works
-                    //
-                    // we add an empty element to this.collRows to avoid
-                    // index of bounds exception
-                    //
-                    this.tables.push();
-                }
-
-                cn.closeDb();
-            }
-            else {
-                dtr = null;
-                if(createIndexVector) {
-                    this.vRowsIndex = [];
-                    this.lastRowIndex = -1;
-                }
-            }
-            if(this.table !== null) {
-                this.recordCount = this.vRowsIndex.length;
-            }
-            else {
-                this.recordCount = 0;
-            }
-            this.iRow = 0;
-            this.idxGroupHeader = this.NO_GROUP_INDEX;
-            this.idxGroupFooter = this.NO_GROUP_INDEX;
-
-            return true;
+                    return true;
+                }));
+            }));
         }
 
         private pInitRowFormulas() {
@@ -4625,7 +4661,7 @@ namespace CSReportEngine {
         // debug functions
         //
         public debugGroupKeys() {
-            let keys: string[] = new String[this.groups.count() * 2];
+            let keys: string[] = new Array(this.groups.count() * 2);
             let groupCount = this.groups.count();
             for(let i = 0; i < groupCount; i++) {
                 let h = this.groups.getGroupsHeaders().item(i);
@@ -4637,7 +4673,7 @@ namespace CSReportEngine {
         }
 
         public debugGroupPanitKeys() {
-            let keys: string[] = new String[this.groups.count() * 2];
+            let keys: string[] = new Array(this.groups.count() * 2);
             let groupCount = this.groups.count();
             for(let i = 0; i < groupCount; i++) {
                 keys[i] = "H: " + this.groups.getGroupsHeaders().item(i).getKeyPaint();

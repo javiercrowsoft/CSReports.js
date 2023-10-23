@@ -1,9 +1,11 @@
 ///<reference path="../../CSKernel/CSKernelClient/Promise.ts"/>
+///<reference path="../../CSKernel/CSKernelClient/cWindow.ts"/>
 
 namespace CSForms {
 
     import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;
+    import cError = CSKernelClient.cWindow;
 
     export type DialogSettings = {
         title?: string,
@@ -57,59 +59,63 @@ namespace CSForms {
 
         public constructor(el: HTMLElement = null, applyAndCloseButtonId?: string, cancelButtonId?: string) {
 
-            this.dialog = document.createElement('div');
-            this.dialog.className = 'dialog-box';
+            try {
+                this.dialog = document.createElement('div');
+                this.dialog.className = 'dialog-box';
 
-            this.dialogTitle = document.createElement('h3');
-            this.dialogTitle.className = 'dialog-title';
-            this.dialog.appendChild(this.dialogTitle);
+                this.dialogTitle = document.createElement('h3');
+                this.dialogTitle.className = 'dialog-title';
+                this.dialog.appendChild(this.dialogTitle);
 
-            this.dialogMinmax = document.createElement('a');
-            this.dialogMinmax.className = 'dialog-minmax';
-            this.dialogMinmax.title = 'Minimize';
-            this.dialogMinmax.innerHTML = '&ndash;';
-            this.dialogMinmax.href = 'javascript:;';
-            this.dialog.appendChild(this.dialogMinmax);
+                this.dialogMinmax = document.createElement('a');
+                this.dialogMinmax.className = 'dialog-minmax';
+                this.dialogMinmax.title = 'Minimize';
+                this.dialogMinmax.innerHTML = '&ndash;';
+                this.dialogMinmax.href = 'javascript:;';
+                this.dialog.appendChild(this.dialogMinmax);
 
-            this.dialogClose = document.createElement('a');
-            this.dialogClose.className = 'dialog-close';
-            this.dialogClose.title = 'Close';
-            this.dialogClose.innerHTML = '&times;';
-            this.dialogClose.href = 'javascript:;';
-            this.dialog.appendChild(this.dialogClose);
+                this.dialogClose = document.createElement('a');
+                this.dialogClose.className = 'dialog-close';
+                this.dialogClose.title = 'Close';
+                this.dialogClose.innerHTML = '&times;';
+                this.dialogClose.href = 'javascript:;';
+                this.dialog.appendChild(this.dialogClose);
 
-            this.dialogContent = document.createElement('div');
-            this.dialogContent.className = 'dialog-content';
-            this.dialogContent.appendChild(el);
-            this.dialog.appendChild(this.dialogContent);
+                this.dialogContent = document.createElement('div');
+                this.dialogContent.className = 'dialog-content';
+                this.dialogContent.appendChild(el);
+                this.dialog.appendChild(this.dialogContent);
 
-            const footer = Array.from(el.children)
-                                .filter(child => child.className === 'dlg-footer')[0];
+                const footer = Array.from(el.children)
+                                    .filter(child => child.className === 'dlg-footer')[0];
 
-            this.dialogAction = document.createElement('div');
-            this.dialogAction.className = 'dialog-action';
-            this.dialogAction.appendChild(footer);
-            this.dialog.appendChild(this.dialogAction);
+                this.dialogAction = document.createElement('div');
+                this.dialogAction.className = 'dialog-action';
+                this.dialogAction.appendChild(footer);
+                this.dialog.appendChild(this.dialogAction);
 
-            this.dialogOverlay = document.createElement('div');
-            this.dialogOverlay.className = 'dialog-box-overlay';
+                this.dialogOverlay = document.createElement('div');
+                this.dialogOverlay.className = 'dialog-box-overlay';
 
-            document.body.appendChild(this.dialog);
-            document.body.appendChild(this.dialogOverlay);
+                document.body.appendChild(this.dialog);
+                document.body.appendChild(this.dialogOverlay);
 
-            // bind the draggable function here...
-            //
-            this.dialogTitle.onmousedown = P.call(this, this.initDrag);
+                // bind the draggable function here...
+                //
+                this.dialogTitle.onmousedown = P.call(this, this.initDrag);
 
-            this.dialogClose.onclick = P.call(this, () => this.close(false));
+                this.dialogClose.onclick = P.call(this, () => this.close(false));
 
-            if(applyAndCloseButtonId) {
-                const applyButton = U.el(applyAndCloseButtonId);
-                applyButton.onclick = P.call(this, () => this.onApplyClick());
-            }
-            if(cancelButtonId) {
-                const cancelButton = U.el(cancelButtonId);
-                cancelButton.onclick = P.call(this, () => this.close(false));
+                if(applyAndCloseButtonId) {
+                    const applyButton = U.el(applyAndCloseButtonId);
+                    applyButton.onclick = P.call(this, () => this.onApplyClick());
+                }
+                if(cancelButtonId) {
+                    const cancelButton = U.el(cancelButtonId);
+                    cancelButton.onclick = P.call(this, () => this.close(false));
+                }
+            } catch(ex) {
+                cError.mngError(ex);
             }
         }
 

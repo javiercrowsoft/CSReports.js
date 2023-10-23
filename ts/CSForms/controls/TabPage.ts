@@ -30,7 +30,7 @@ namespace CSForms {
 
         showTab() {
             cWindow.clickElem(this.tabSelector);
-            if(this.onActive != null) {
+            if(this.onActive !== null) {
                 this.onActive();
             }
         }

@@ -1,9 +1,19 @@
 ///<reference path="../CSOAPI/Utils.ts"/>
+///<reference path="../CSKernel/CSKernelClient/cError.ts"/>
 
 namespace CSDatabase {
 
     import RefWrapper = CSKernelClient.RefWrapper;
     import Utils = CSOAPI.Utils;
+    import NotImplementedException = CSOAPI.NotImplementedException;
+    import cError = CSKernelClient.cError;
+
+    export enum DatabaseEngine {
+        SQL_SERVER = 1,
+        POSTGRESQL = 2,
+        ORACLE = 3,
+        CS_REPORT_WEB = 4
+    }
 
     export class Database {
 
@@ -15,6 +25,9 @@ namespace CSDatabase {
         private connectionTimeout: number;
         private userDescription: string;
         private strConnect: string;
+
+        private ocn: DbConnection = null;
+        private databaseEngine = DatabaseEngine.CS_REPORT_WEB;
 
         public constructor(databaseEngine: DatabaseEngine) {
 
@@ -34,7 +47,25 @@ namespace CSDatabase {
 
         public initDb(strConnect: string) {
             this.strConnect = strConnect;
-            return false;
+            this.closeDb();
+            if (this.ocn == null) {
+                this.ocn = this.createConnection();
+            }
+            this.ocn.setConnectionString(this.strConnect);
+            this.ocn.open();
+            return true;
+        }
+
+        private createConnection(): DbConnection {
+            switch (this.databaseEngine) {
+                case DatabaseEngine.CS_REPORT_WEB:
+                    return new JSONServerConnection();
+                case DatabaseEngine.SQL_SERVER:
+                case DatabaseEngine.POSTGRESQL:
+                case DatabaseEngine.ORACLE:
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         setOpenRsExDescript(userDescription: string) {
@@ -47,7 +78,13 @@ namespace CSDatabase {
         }
 
         public closeDb() {
-
+            try {
+                if(this.ocn !== null) {
+                    this.ocn.close();
+                }
+            } catch(ex) {
+                cError.mngError(ex);
+            }
         }
 
         public static sqlString(val: string) {
@@ -68,7 +105,7 @@ namespace CSDatabase {
                 let s = Utils.val(number).toString();
                 s = s.replace(",", ".");
                 debugger; // seguro que este substring esta mal
-                if(s.substring(s.length - 1, 0) == ".") {
+                if(s.substring(s.length - 1, 0) === ".") {
                     s = s.substring(0, s.length - 1);
                 }
                 return s;
@@ -100,12 +137,5 @@ namespace CSDatabase {
     export class DatabaseEngineStringConnections {
 
         public CS_REPORT_WEB: string = "CSREPORT_WEB";
-    }
-
-    export enum DatabaseEngine {
-        SQL_SERVER = 1,
-        POSTGRESQL = 2,
-        ORACLE = 3,
-        CS_REPORT_WEB = 4
     }
 }

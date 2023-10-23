@@ -473,7 +473,7 @@ namespace CSReportEngine {
                         if(bCompare) {
                             value = Utils.val(ReportGlobals.valVariant(rows[j][valueIndex]));
 
-                            if((value > v[i].value || v[i].idx == -1)
+                            if((value > v[i].value || v[i].idx === -1)
                                 && value <= v[i - 1].value && j !== v[i - 1].idx) {
 
                                 bFound = false;
@@ -629,10 +629,10 @@ namespace CSReportEngine {
             }
             else {
                 if(vSeries === null) {
-                    vSeries = new t_SerieValue[size];
+                    vSeries = new Array(size);
                 }
                 else if(vSeries.length === 0) {
-                    vSeries = new t_SerieValue[size];
+                    vSeries = new Array(size);
                 }
                 else {
                     vSeries.length = size;
@@ -645,7 +645,7 @@ namespace CSReportEngine {
                 vSeries = null;
             }
             else {
-                vSeries = new t_SerieValue[size];
+                vSeries = new  Array(size);
             }
         }
 

@@ -187,7 +187,7 @@ namespace CSDrawing {
 
         drawRectangle4(pen: Pen, x: number, y: number, w: number, h: number) {
             this.context.save();
-            if(pen.dashStyle == DashStyle.Dot) this.context.setLineDash([3, 2]);
+            if(pen.dashStyle === DashStyle.Dot) this.context.setLineDash([3, 2]);
             this.context.lineWidth = pen.width();
             this.context.strokeStyle = pen.color();
             this.context.strokeRect(x, y, w, h);
@@ -202,7 +202,7 @@ namespace CSDrawing {
             this.context.save();
             this.context.fillStyle = brush.foreground.color;
             this.context.font = font.toStringFont();
-            if(format && format.formatFlags == StringFormatFlags.Wrap) {
+            if(format && format.formatFlags === StringFormatFlags.Wrap) {
                 this.drawWrappedString(text, rect.getLeft(), rect.getBottom(), rect.getWidth())
             }
             else {
@@ -287,7 +287,7 @@ namespace CSDrawing {
             this.context.save();
 
             this.context.font = font.toStringFont();
-            if(format && format.formatFlags == StringFormatFlags.Wrap) {
+            if(format && format.formatFlags === StringFormatFlags.Wrap) {
                 size = this.measureWrappedString(text, width);
             }
             else {
@@ -700,7 +700,7 @@ namespace CSDrawing {
 
         private static componentToHex(c: number) {
             const hex = c.toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
+            return hex.length === 1 ? "0" + hex : hex;
         }
 
         public static rgbToHex(r: number, g: number, b: number) {

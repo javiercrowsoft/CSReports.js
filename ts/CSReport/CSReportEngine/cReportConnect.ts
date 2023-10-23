@@ -4,6 +4,7 @@ namespace CSReportEngine {
     import csDataSourceType = CSReportGlobals.csDataSourceType;
     import eTypes = CSKernelClient.eTypes;
     import cWindow = CSKernelClient.cWindow;
+    import P = CSKernelClient.Callable;
     import Database = CSDatabase.Database;
 
     export class cReportConnect {
@@ -99,58 +100,60 @@ namespace CSReportEngine {
         public getSqlParameters() {
             let s: string = "";
             let param: cParameter = null;
+
+            let p = P._();
+
             for(let _i = 0; _i < this.parameters.count(); _i++) {
-                param = this.parameters.item(_i);
-                switch (param.getColumnType())
-                {
-                    case csDataType.CS_TD_WCHAR:
-                        /*
-                            case  csDataType.CS_TD_VARWCHAR:
-                            case  csDataType.CS_TD_VARCHAR:
-                            case  csDataType.CS_TD_LONGVARWCHAR:
-                            case  csDataType.CS_TD_LONGVARCHAR:
-                            case  csDataType.CS_TD_CHAR:
-                         */
-                        s +=  Database.sqlString(param.getValue()) + ",";
-                        break;
-                    case csDataType.CS_TD_TINYINT:
-                    case csDataType.CS_TD_UNSIGNEDTINYINT:
-                    case csDataType.CS_TD_SMALLINT:
-                    case csDataType.CS_TD_SINGLE:
-                    case csDataType.CS_TD_NUMERIC:
-                    case csDataType.CS_TD_INTEGER:
-                    case csDataType.CS_TD_DOUBLE:
-                    /*
-                        case  csDataType.CS_TD_DECIMAL:
-                        case  csDataType.CS_TD_CURRENCY:
-                    */
-                    case csDataType.CS_TD_BOOLEAN:
-                    case csDataType.CS_TD_BIGINT:
-                        s +=  Database.sqlNumber(param.getValue()) + ",";
-                        break;
-                    case csDataType.CS_TD_DBTIMESTAMP:
-                        /*
-                        case  csDataType.CS_TD_DBTIME:
-                        case  csDataType.CS_TD_DBDATE:
-                        case  csDataType.CS_TD_DATE:
-                        */
-                        s +=  Database.sqlDate(param.getValue()) + ",";
-                        break;
-                    default:
-                        cWindow.msgWarning("This data type is not codified "
-                                            + param.getColumnType()
-                                            + ". Parameter: " + param.getName()
-                                            + ". Function: sqlParameters.", "Report connect");
-                        break;
+                p = p.then(P.call(this, (_i: number)=> {
+
+                    param = this.parameters.item(_i);
+                    switch (param.getColumnType())
+                    {
+                        case csDataType.CS_TD_WCHAR:
+                        case csDataType.CS_TD_VARWCHAR:
+                        case csDataType.CS_TD_VARCHAR:
+                        case csDataType.CS_TD_LONGVARWCHAR:
+                        case csDataType.CS_TD_LONGVARCHAR:
+                        case csDataType.CS_TD_CHAR:
+                            s +=  Database.sqlString(param.getValue()) + ",";
+                            break;
+
+                        case csDataType.CS_TD_TINYINT:
+                        case csDataType.CS_TD_UNSIGNEDTINYINT:
+                        case csDataType.CS_TD_SMALLINT:
+                        case csDataType.CS_TD_SINGLE:
+                        case csDataType.CS_TD_NUMERIC:
+                        case csDataType.CS_TD_INTEGER:
+                        case csDataType.CS_TD_DOUBLE:
+                        case csDataType.CS_TD_DECIMAL:
+                        case csDataType.CS_TD_CURRENCY:
+                        case csDataType.CS_TD_BOOLEAN:
+                        case csDataType.CS_TD_BIGINT:
+                            s +=  Database.sqlNumber(param.getValue()) + ",";
+                            break;
+
+                        case csDataType.CS_TD_DBTIMESTAMP:
+                        case csDataType.CS_TD_DBTIME:
+                        case csDataType.CS_TD_DBDATE:
+                        case csDataType.CS_TD_DATE:
+                            s +=  Database.sqlDate(param.getValue()) + ",";
+                            break;
+                        default:
+                            return cWindow.msgWarning("This data type is not codified "
+                                                + param.getColumnType()
+                                                + ". Parameter: " + param.getName()
+                                                + ". Function: sqlParameters.", "Report connect");
+                    }
+                }, _i));
+            }
+
+            return p.then(()=> {
+                if(s.length > 0 &&  s.substring(s.length - 1) === ",") {
+                    s = s.substring(0, s.length - 1);
                 }
-            }
 
-            if(s.length > 0 &&  s.substring(s.length - 1) === ",") {
-                debugger; // seguro que este substring esta mal
-                s = s.substring(0, s.length - 1);
-            }
-
-            return s;
+                return s;
+            });
         }
 
         public load(xDoc: CSXml.cXml, nodeObj): boolean {

@@ -52,7 +52,7 @@ namespace CSReportEngine {
 
                 key = ReportGlobals.getKey(key);
 
-                if(index != -1 && this.count() > 0) {
+                if(index !== -1 && this.count() > 0) {
                     this._keys.splice(index, 0, key);
                 }
                 else {

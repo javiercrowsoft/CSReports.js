@@ -1,7 +1,7 @@
 namespace CSIReportPrint {
 
-    export interface cIPrintClient
-    {
+    export interface cIPrintClient {
+
         printingPage(iPage: number): boolean;
     }
 }

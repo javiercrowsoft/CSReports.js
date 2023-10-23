@@ -9,11 +9,11 @@ namespace CSKernelClient {
         private static silent = false;
 
         public static mngError(ex: Exception, infoAdd: string = "") {
-            cError.mngError(ex, infoAdd);
+            return cError.mngError(ex, infoAdd);
         }
 
         public static msgWarning(msg: string, title: string = "") {
-            cError.mngWarning(msg, title);
+            return cError.mngWarning(msg, title);
         }
 
         public static getLastErrorDescription() {
@@ -36,8 +36,8 @@ namespace CSKernelClient {
             return Promise.resolve(csAskEditResult.CSASKRSLTCANCEL);
         }
 
-        static msgInfo(theMainHeaderCanTBeDeleted: string): Promise<void> {
-            return Promise.resolve();
+        static msgInfo(msg: string, title = "Info") {
+            return cError.mngInfo(msg, title);
         }
 
         static clickElem(elem) {
