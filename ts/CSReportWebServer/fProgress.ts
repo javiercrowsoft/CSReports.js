@@ -34,23 +34,23 @@ namespace CSReportWebServer {
             this.dialog = new Dialog(this.el, 'error-dlg-okay');
         }
 
-        getLbCurrPage(): any {
+        getLbCurrPage(): Label {
             return this.currPage;
         }
 
-        getLbTask(): any {
+        getLbTask(): Label {
             return this.task;
         }
 
-        getLbCurrRecord(): any {
+        getLbCurrRecord(): Label {
             return this.currRow;
         }
 
-        getLbRecordCount(): any {
+        getLbRecordCount(): Label {
             return this.rowCount;
         }
 
-        getPrgBar(): any {
+        getPrgBar(): ProgressBar {
             return this.progressBar;
         }
 

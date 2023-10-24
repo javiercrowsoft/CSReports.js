@@ -62,7 +62,7 @@ namespace CSReportEngine {
             }
 
             for(let i = 0; i < x.length; i++) {
-                s = s.replace("$" + i.toString(), x[i]);
+                s = s.replaceAll("$" + i.toString(), x[i]);
             }
 
             s = s + "\n\nSection  : " + this.gDebugSection

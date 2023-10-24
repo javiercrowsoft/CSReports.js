@@ -15,7 +15,7 @@ namespace CSReportEngine {
     import cError = CSKernelClient.cError;
     import RefWrapper = CSKernelClient.RefWrapper;
     import ReportGlobals = CSReportGlobals.ReportGlobals;
-    import Utils = CSOAPI.Utils;
+    import U = CSOAPI.Utils;
     import csRptControlType = CSReportGlobals.csRptControlType;
     import csRptErrors = CSReportGlobals.csRptErrors;
     import csRptLaunchAction = CSReportGlobals.csRptLaunchAction;
@@ -1117,7 +1117,7 @@ namespace CSReportEngine {
                             }
                             break;
                         case RptGrpComparisonType.CS_RPT_GRP_NUMBER:
-                            let number: number = Utils.val(ReportGlobals.valVariant(this.table.rows[row][col]));
+                            let number: number = U.val(ReportGlobals.valVariant(this.table.rows[row][col]));
                             if(this.vGroups[i].value !== number) {
                                 return true;
                             }
@@ -1304,7 +1304,7 @@ namespace CSReportEngine {
                         break;
 
                     case RptGrpComparisonType.CS_RPT_GRP_NUMBER:
-                        let num: number = Utils.val(ReportGlobals.valVariant(this.table.rows[row][col]));
+                        let num: number = U.val(ReportGlobals.valVariant(this.table.rows[row][col]));
                         if(this.vGroups[i].value === null) {
                             this.changeGroup(i, num);
                         }
@@ -1341,7 +1341,7 @@ namespace CSReportEngine {
                     this.vGroups[i].value = ReportGlobals.valVariant(this.table.rows[row][col]).toString().toLowerCase();
                     break;
                 case RptGrpComparisonType.CS_RPT_GRP_NUMBER:
-                    this.vGroups[i].value = Utils.val(ReportGlobals.valVariant(this.table.rows[row][col]));
+                    this.vGroups[i].value = U.val(ReportGlobals.valVariant(this.table.rows[row][col]));
                     break;
                 case RptGrpComparisonType.CS_RPT_GRP_DATE:
                     this.vGroups[i].value = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row][col]));
@@ -1510,7 +1510,7 @@ namespace CSReportEngine {
             let indexField: number = 0;
 
             if(sec.getHasFormulaHide()) {
-                isVisible = Utils.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                isVisible = U.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
             }
             else {
                 isVisible = true;
@@ -1525,7 +1525,7 @@ namespace CSReportEngine {
 
                     if(secLn.getHasFormulaHide()) {
                         this.compiler.evalFunction(secLn.getFormulaHide());
-                        isVisible = Utils.val(this.compiler.resultFunction(secLn.getFormulaHide())) !== 0;
+                        isVisible = U.val(this.compiler.resultFunction(secLn.getFormulaHide())) !== 0;
                     }
                     else {
                         isVisible = true;
@@ -1606,7 +1606,7 @@ namespace CSReportEngine {
                             }
 
                             if(ctrl.getHasFormulaHide()) {
-                                field.setVisible(Utils.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
+                                field.setVisible(U.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
                             }
                             else {
                                 field.setVisible(true);
@@ -1627,7 +1627,7 @@ namespace CSReportEngine {
         private pGetIndexRows(indexRows: number, indexRow: number, indexField: number, ctrl: cReportControl) {
             // the datasource index have an offset of 1000 between each other
             //
-            indexRows= ctrl.getField().getIndex() / 1000;
+            indexRows = Math.floor(ctrl.getField().getIndex() / 1000);
             indexField = ctrl.getField().getIndex() - (indexRows * 1000);
 
             if(indexRows === 0) {
@@ -1654,13 +1654,12 @@ namespace CSReportEngine {
         // run report
         //
         public launch(oLaunchInfo: cReportLaunchInfo = null) {
+            let recordSets: (object|string)[][] = [];
+            let dtr = new RefWrapper(null);
+            this.tables = [];
+
             return P._().then(P.call(this, () => {
-
-                let p = P._();
-
                 try {
-                    let recordSets: [object|string[]] = null;
-                    let rs: DataTable = null;
 
                     this.compiler.setReport(this);
                     this.compiler.initGlobalObject();
@@ -1707,125 +1706,125 @@ namespace CSReportEngine {
                     if(! this.progress("Querying database")) {
                         return false;
                     }
+                }
+                catch(ex) {
+                    this.processLaunchError(ex);
+                }
+            }))
+            // get the main recordset
+            //
+            .then(P.call(this, () => this.getData(dtr, this.connect, true, recordSets)))
+            .then(P.call(this, (result) => {
 
-                    recordSets = [[]];
+                if(! result) { return false; }
 
-                    this.tables = [];
+                try {
 
-                    // get the main recordset
+                    // main recordset
                     //
-                    let dtr = new RefWrapper(this.table);
-                    let rsr = new RefWrapper(rs);
+                    this.table = dtr.get();
+                    this.tables[0] = this.table; // the first element contains the main recordset
 
-                    return p
-                    .then(P.call(this, () => this.getData(dtr, this.connect, true, recordSets, rsr)))
-                    .then(P.call(this, (result) => {
+                    this.pInitImages();
 
-                        if(! result) { return false; }
+                    return true;
+                }
+                catch(ex) {
+                    this.processLaunchError(ex);
+                }
+            }))
+            // get additional recordSets
+            //
+            .then(P.call(this, () => this.getDataAux(recordSets)))
+            .then(P.call(this, (result) => {
 
-                        try {
+                if(! result) { return false; }
 
-                            this.table = dtr.get();
-                            rs = rsr.get()
+                try {
 
-                            // the first element contains the main recordset
-                            //
-                            this.tables[0] = this.table;
+                    if(! this.initGroups(dtr.get(), this.getMainDataSource(recordSets))) {
+                        return false;
+                    }
 
-                            this.pInitImages();
+                    if(! this.progress("Initializing report")) {
+                        return false;
+                    }
 
-                            // get additional recordSets
-                            //
-                            if(!this.pGetDataAux(recordSets)) {
+                    if(! this.initControls(recordSets)) {
+                        return false;
+                    }
+
+                    // create the definition of this report
+                    //
+                    if(! this.createPageSetting()) {
+                        return false;
+                    }
+
+                    this.pages.clear();
+                    this.lineIndex = 0;
+
+                    // globals initialization
+                    //
+                    this.bPrintFooter = false;
+                    this.bLastFootersWasPrinted = false;
+                    this.groupIndexChange = this.NO_GROUP_INDEX;
+                    this.iRow2 = 0;
+                    this.iRowFormula = 0;
+                    this.pSetGroupFormulaHeaders();
+                    this.pSetGroupsInCtrlFormulaHide();
+                    this.pSetIndexColInGroupFormulas(recordSets);
+                    this.pInitRowFormulas();
+
+                    // check if there are groups which need to be reprinted when the page change
+                    //
+                    this.pExistsGroupToReprintInNP();
+
+                    // to force the evaluate of the groups in the first page
+                    //
+                    this.bEvalPreGroups = true;
+                    this.bCloseFooter = false;
+                    this.bOpenHeader = false;
+
+                    let formula: cReportFormula = null;
+                    for(let _i = 0; _i < this.formulas.count(); _i++) {
+                        formula = this.formulas.item(_i);
+                        formula.setHaveToEval(true);
+                    }
+
+                    // launch the report
+                    //
+                    this.launchInfo.getObjPaint().setReport(this);
+                    if(!this.launchInfo.getObjPaint().makeReport()) {
+                        return false;
+                    }
+
+                    switch (this.launchInfo.getAction())
+                    {
+                        case csRptLaunchAction.CS_RPT_LAUNCH_PRINTER:
+                            if(!this.launchInfo.getObjPaint().printReport()) {
                                 return false;
                             }
-
-                            if(! this.initGroups(rs, this.pGetMainDataSource(recordSets))) {
+                            break;
+                        case csRptLaunchAction.CS_RPT_LAUNCH_FILE:
+                            if(!this.launchInfo.getObjPaint().makeXml()) {
                                 return false;
                             }
-
-                            if(! this.progress("Initializing report")) {
+                            break;
+                        case csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW:
+                            if(!this.launchInfo.getObjPaint().previewReport()) {
                                 return false;
                             }
+                            break;
+                    }
 
-                            if(! this.initControls(recordSets)) {
-                                return false;
-                            }
-
-                            // create the definition of this report
-                            //
-                            if(! this.createPageSetting()) {
-                                return false;
-                            }
-
-                            this.pages.clear();
-                            this.lineIndex = 0;
-
-                            // globals initialization
-                            //
-                            this.bPrintFooter = false;
-                            this.bLastFootersWasPrinted = false;
-                            this.groupIndexChange = this.NO_GROUP_INDEX;
-                            this.iRow2 = 0;
-                            this.iRowFormula = 0;
-                            this.pSetGroupFormulaHeaders();
-                            this.pSetGroupsInCtrlFormulaHide();
-                            this.pSetIndexColInGroupFormulas(recordSets);
-                            this.pInitRowFormulas();
-
-                            // check if there are groups which need to be reprinted when the page change
-                            //
-                            this.pExistsGroupToReprintInNP();
-
-                            // to force the evaluate of the groups in the first page
-                            //
-                            this.bEvalPreGroups = true;
-                            this.bCloseFooter = false;
-                            this.bOpenHeader = false;
-
-                            let formula: cReportFormula = null;
-                            for(let _i = 0; _i < this.formulas.count(); _i++) {
-                                formula = this.formulas.item(_i);
-                                formula.setHaveToEval(true);
-                            }
-
-                            // launch the report
-                            //
-                            this.launchInfo.getObjPaint().setReport(this);
-                            if(!this.launchInfo.getObjPaint().makeReport()) {
-                                return false;
-                            }
-
-                            switch (this.launchInfo.getAction())
-                            {
-                                case csRptLaunchAction.CS_RPT_LAUNCH_PRINTER:
-                                    if(!this.launchInfo.getObjPaint().printReport()) {
-                                        return false;
-                                    }
-                                    break;
-                                case csRptLaunchAction.CS_RPT_LAUNCH_FILE:
-                                    if(!this.launchInfo.getObjPaint().makeXml()) {
-                                        return false;
-                                    }
-                                    break;
-                                case csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW:
-                                    if(!this.launchInfo.getObjPaint().previewReport()) {
-                                        return false;
-                                    }
-                                    break;
-                            }
-
-                            return true;
-                        }
-                        catch(ex) {
-                            this.processLaunchError(ex);
-                        }
-                    }));
+                    return true;
                 }
                 catch(ex) {
                     this.processLaunchError(ex);
                 }
             }));
+
+
         }
 
         private processLaunchError(ex: any) {
@@ -2226,7 +2225,7 @@ namespace CSReportEngine {
 
                     // the datasource index have an offset of 1000 between each other
                     //
-                    indexRows = (ctrl.getField().getIndex() / 1000);
+                    indexRows = Math.floor((ctrl.getField().getIndex() / 1000));
                     indexField = ctrl.getField().getIndex() - (indexRows * 1000);
 
                     if(indexRows === 0) {
@@ -2293,7 +2292,7 @@ namespace CSReportEngine {
             }
         }
 
-        private initControls(recordSets: [object|string[]]) {
+        private initControls(recordSets: (object|string)[][]) {
             let ctrl: cReportControl = null;
             let sequence: cReportChartSequence = null;
             let idx = new RefWrapper(0);
@@ -2343,11 +2342,11 @@ namespace CSReportEngine {
             }
             else {
                 return columnName === fieldName
-                    .replace(" ", "_").replace(".","");
+                    .replaceAll(" ", "_").replaceAll(".","");
             }
         }
 
-        private initControlAux(ctrl: cReportControl, idx: RefWrapper<number>, recordSets: [object|string[]], fieldName: string) {
+        private initControlAux(ctrl: cReportControl, idx: RefWrapper<number>, recordSets: (object|string)[][], fieldName: string) {
             let found: boolean = false;
             let j: number = 0;
             let bIsDBImage: boolean = false;
@@ -2407,8 +2406,6 @@ namespace CSReportEngine {
                 return "";
             }
             else {
-                n = n - 1;
-                debugger; // seguro que este substring esta mal: no hay que restar el 1
                 return name.substring(1, n);
             }
         }
@@ -2593,7 +2590,7 @@ namespace CSReportEngine {
                                     }
                                     else {
                                         let value = this.table.rows[this.vRowsIndex[i]][this.vGroups[j].indexField];
-                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
+                                        let number: number = U.val(ReportGlobals.valVariant(value));
                                         if(this.vGroups[j].value !== number) {
                                             return total;
                                         }
@@ -2683,7 +2680,7 @@ namespace CSReportEngine {
                                     }
                                     else {
                                         let value: object = this.table.rows[this.vRowsIndex[i]][this.vGroups[j].indexField];
-                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
+                                        let number: number = U.val(ReportGlobals.valVariant(value));
                                         if(this.vGroups[j].value !== number) {
                                             return max;
                                         }
@@ -2775,7 +2772,7 @@ namespace CSReportEngine {
                                     }
                                     else {
                                         let value: object = this.table.rows[this.vRowsIndex[i]][this.vGroups[j].indexField];
-                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
+                                        let number: number = U.val(ReportGlobals.valVariant(value));
                                         if(this.vGroups[j].value !== number) {
                                             return min;
                                         }
@@ -2864,7 +2861,7 @@ namespace CSReportEngine {
                                     }
                                     else {
                                         let value: object = this.table.rows[this.vRowsIndex[i]][this.vGroups[j].indexField];
-                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
+                                        let number: number = U.val(ReportGlobals.valVariant(value));
                                         if(this.vGroups[j].value !== number) {
                                             return total;
                                         }
@@ -2897,7 +2894,7 @@ namespace CSReportEngine {
                     }
                 }
             }
-            return Utils.divideByZero(total, count);
+            return U.divideByZero(total, count);
         }
 
         public getGroupLineNumber(indexGroup: number) {
@@ -2948,7 +2945,7 @@ namespace CSReportEngine {
                                     }
                                     else {
                                         let value: object = this.table.rows[this.vRowsIndex[i]][this.vGroups[j].indexField];
-                                        let number: number = Utils.val(ReportGlobals.valVariant(value));
+                                        let number: number = U.val(ReportGlobals.valVariant(value));
                                         if(this.vGroups[j].value !== number) {
                                             return count;
                                         }
@@ -3186,8 +3183,8 @@ namespace CSReportEngine {
 
                                         case RptGrpComparisonType.CS_RPT_GRP_NUMBER:
 
-                                            let number1: number = Utils.val(this.vGroups[i + 1].value);
-                                            let number2: number = Utils.val(value);
+                                            let number1: number = U.val(this.vGroups[i + 1].value);
+                                            let number2: number = U.val(value);
                                             if(number1 !== number2) {
                                                 this.addGroup(i, j, value);
                                             }
@@ -3232,8 +3229,8 @@ namespace CSReportEngine {
                 bChanged = false;
                 for(j = last; j >= i; j--) {
                     q = q + 1;
-                    let value1: number = Utils.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
-                    let value2: number = Utils.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
+                    let value1: number = U.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
+                    let value2: number = U.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
                     if(value1 < value2) {
                         if(!this.progress("", 0, q, t))  {
                             return false;
@@ -3264,8 +3261,8 @@ namespace CSReportEngine {
                 bChanged = false;
                 for(j = last; j >= i; j--) {
                     q = q + 1;
-                    let number1: number = Utils.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
-                    let number2: number = Utils.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
+                    let number1: number = U.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
+                    let number2: number = U.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
                     if(number1 > number2) {
                         if(!this.progress("", 0, q, t)) {
                             return false;
@@ -3669,10 +3666,10 @@ namespace CSReportEngine {
                 if(this.pIsGroupFormula(fint.getFormulaType())) {
                     if(fint.getFormulaType() === csRptFormulaType.CSRPTF_GROUP_PERCENT) {
                         formula.setIdxGroup2(0);
-                        indexGroup = Utils.valInt(fint.getParameters().item(2).getValue());
+                        indexGroup = U.valInt(fint.getParameters().item(2).getValue());
                     }
                     else {
-                        indexGroup = Utils.valInt(fint.getParameters().item(1).getValue());
+                        indexGroup = U.valInt(fint.getParameters().item(1).getValue());
                     }
                     if(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP) === null) {
                         fint.getParameters().add2("", ReportGlobals.C_KEY_INDEX_GROUP);
@@ -3776,7 +3773,7 @@ namespace CSReportEngine {
             for(let _i = 0; _i < this.headers.count(); _i++) {
                 sec = this.headers.item(_i);
                 if(sec.getHasFormulaHide()) {
-                    isVisible = Utils.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                    isVisible = U.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
                 }
                 else {
                     isVisible = true;
@@ -3830,7 +3827,7 @@ namespace CSReportEngine {
                 this.lineIndex = this.lineIndex + 1;
 
                 if(sec.getHasFormulaHide()) {
-                    isVisible = Utils.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                    isVisible = U.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
                 }
                 else {
                     isVisible = true;
@@ -3839,7 +3836,7 @@ namespace CSReportEngine {
                     for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
                         secLine = sec.getSectionLines().item(_j);
                         if(secLine.getHasFormulaHide()) {
-                            isVisible = Utils.val(this.compiler.resultFunction(secLine.getFormulaHide())) !== 0;
+                            isVisible = U.val(this.compiler.resultFunction(secLine.getFormulaHide())) !== 0;
                         }
                         else {
                             isVisible = true;
@@ -3929,7 +3926,7 @@ namespace CSReportEngine {
 
                                 if(ctrl.getHasFormulaHide()) {
                                     field.setVisible(
-                                        Utils.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
+                                        U.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
                                 }
                                 else {
                                     field.setVisible(true);
@@ -4050,7 +4047,7 @@ namespace CSReportEngine {
             return true;
         }
 
-        private pGetDataAux(recordSets: [object|string[]]) {
+        private getDataAux(recordSets: (object|string)[][]) {
             let p = P._<boolean>(null);
             for(let _i = 0; _i < this.connectsAux.count(); _i++) {
                 p = p.then(P.call(this, (result) => {
@@ -4071,14 +4068,16 @@ namespace CSReportEngine {
             return p.then(P.call(this, (result) => {
                 if(! result) return false;
 
-                this.vRowsIndexAux = new Array(this.tables.length);
+                this.vRowsIndexAux = U.newArrayOfInts(this.tables.length);
+
                 return true;
             }));
         }
 
         private getData(dtr: RefWrapper<DataTable>,
-                         connect: cReportConnect, createIndexVector: boolean,
-                         recordSets: [object|string[]], rs: RefWrapper<DataTable> = null) {
+                        connect: cReportConnect,
+                        createIndexVector: boolean,
+                        recordSets: (object|string)[][]) {
 
             return P._().then(P.call(this, () => {
 
@@ -4087,9 +4086,9 @@ namespace CSReportEngine {
                 let strConnect: string;
                 let saveInReport: boolean = false;
                 let cn: CSDatabase.Database = null;
-                let varRs: object|string[] = null;
+                let varRs:(object|string)[] = null;
                 let rsAux: DataTable = null;
-                let dr = new RefWrapper<CSDatabase.DbDataReader>(null);
+                let drr = new RefWrapper<CSDatabase.DbDataReader>(null);
 
                 // if we get an string connection
                 //
@@ -4160,13 +4159,11 @@ namespace CSReportEngine {
                         //
                         cn.setOpenRsExDescript(this.userDescription);
 
-                        if(! cn.loadDataTable(sqlstmt, rs, dr)) {
+                        if(! cn.loadDataTable(sqlstmt, dtr, drr)) {
                             return false;
                         }
 
-                        dtr = rs;
-
-                        if(rs.get().rows.length === 0) {
+                        if(dtr.get().rows.length === 0) {
                             if(createIndexVector) {
                                 this.vRowsIndex = [];
                                 this.lastRowIndex = -1;
@@ -4183,22 +4180,21 @@ namespace CSReportEngine {
                         }
 
                         varRs = [];
-                        varRs[0] = rs;
-                        varRs[1] = connect.getDataSource();
-
+                        varRs.push(dtr.get());
+                        varRs.push(connect.getDataSource());
                         recordSets.push(varRs);
 
                         // we need to load every recordset from every data source
                         // in the recordset collection (this code support multiples
                         // recordset in the same reader)
                         //
-                        while (!dr.get().isClosed() && dr.get().nextResult()) {
+                        while (!drr.get().isClosed() && drr.get().nextResult()) {
                             rsAux = new DataTable();
-                            rsAux.load(dr.get());
+                            rsAux.load(drr.get());
 
                             varRs = [];
-                            varRs[0] = rsAux;
-                            varRs[1] = connect.getDataSource();
+                            varRs.push(rsAux);
+                            varRs.push(connect.getDataSource());
                             recordSets.push(varRs);
 
                             // TODO: check if this works
@@ -4214,7 +4210,7 @@ namespace CSReportEngine {
                     }));
                 }
                 else {
-                    dtr = null;
+                    dtr.set(null);
                     if(createIndexVector) {
                         this.vRowsIndex = [];
                         this.lastRowIndex = -1;
@@ -4565,7 +4561,7 @@ namespace CSReportEngine {
             secs.setCopyColl(null);
         }
 
-        private pGetMainDataSource(recordSets: [object|string[]]): string {
+        private getMainDataSource(recordSets: (object|string)[][]): string {
             if(recordSets.length > 0) {
                 return recordSets[0][1].toString();
             }
@@ -4574,7 +4570,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pSetIndexColInGroupFormulas(recordSets: [object|string[]]) {
+        private pSetIndexColInGroupFormulas(recordSets: (object|string)[][]) {
             this.pSetIndexColInGroupFormulasAux(this.headers, recordSets);
             this.pSetIndexColInGroupFormulasAux(this.groupsHeaders, recordSets);
             this.pSetIndexColInGroupFormulasAux(this.groupsFooters, recordSets);
@@ -4582,7 +4578,7 @@ namespace CSReportEngine {
             this.pSetIndexColInGroupFormulasAux(this.footers, recordSets);
         }
 
-        private pSetIndexColInGroupFormulasAux(sections: cReportSections, recordSets: [object|string[]]) {
+        private pSetIndexColInGroupFormulasAux(sections: cReportSections, recordSets: (object|string)[][]) {
             for(let i = 0; i < sections.count(); i++) {
                 let sec = sections.item(i);
                 if(sec.getHasFormulaHide()) {
@@ -4606,7 +4602,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pSetIndexColInGroupFormula(formula: cReportFormula, recordSets: [object|string[]]) {
+        private pSetIndexColInGroupFormula(formula: cReportFormula, recordSets: (object|string)[][]) {
             if(!this.reportDisconnected) {
                 let rs = recordSets[0][0];
 
@@ -4615,11 +4611,11 @@ namespace CSReportEngine {
 
                     if(this.pIsGroupFormula(fint.getFormulaType())) {
                         let colName = fint.getParameters().item(0).getValue();
-                        this.pSetColIndexInGroupFormulaAux(rs, fint, colName, ReportGlobals.C_KEY_INDEX_COL);
+                        this.pSetColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.C_KEY_INDEX_COL);
 
                         if(fint.getFormulaType() === csRptFormulaType.CSRPTF_GROUP_PERCENT) {
                             colName = fint.getParameters().item(1).getValue();
-                            this.pSetColIndexInGroupFormulaAux(rs, fint, colName, ReportGlobals.C_KEY_INDEX_COL2);
+                            this.pSetColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.C_KEY_INDEX_COL2);
                         }
                     }
                 }

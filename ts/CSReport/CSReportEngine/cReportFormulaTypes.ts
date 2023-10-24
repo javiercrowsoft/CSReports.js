@@ -138,62 +138,62 @@ namespace CSReportEngine {
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_TOTAL);
             fi.setName("_groupTotal");
             fi.setNameUser("Group) Group total");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replace("$1", "summatory")
+            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "summatory")
                             + "\n\nSyntax: _groupTotal(column_name, group_index)"
                             + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX.replace("$1", "summatory"));
+                            + "\n" + C_GROUP_INDEX.replaceAll("$1", "summatory"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_TOTAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_TOTAL);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_MAX);
             fi.setName("_groupMax");
             fi.setNameUser("Group) Group maximum");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replace("$1", "maximum value")
+            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "maximum value")
                             + "\n\nSyntax: _groupTotal(column_name, group_index)"
                             + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX.replace("$1", "maximum value"));
+                            + "\n" + C_GROUP_INDEX.replaceAll("$1", "maximum value"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_MAX);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_MAX);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_MIN);
             fi.setName("_groupMin");
             fi.setNameUser("Group) Group minimum");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replace("$1", "minimum value")
+            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "minimum value")
                             + "\n\nSyntax: _groupTotal(column_name, group_index)"
                             + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX.replace("$1", "minimum value"));
+                            + "\n" + C_GROUP_INDEX.replaceAll("$1", "minimum value"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_MIN);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_MIN);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_AVERAGE);
             fi.setName("_groupAverage");
             fi.setNameUser("Group) Group average");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replace("$1", "average value")
+            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "average value")
                             + "\n\nSyntax: _groupAverage(column_name, group_index)"
                             + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX.replace("$1", "average value"));
+                            + "\n" + C_GROUP_INDEX.replaceAll("$1", "average value"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_AVERAGE);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_AVERAGE);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_PERCENT);
             fi.setName("_groupPercent");
             fi.setNameUser("Group) Group percent");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replace("$1", "percent value column_name2 represents in the summatory of column_name1")
+            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "percent value column_name2 represents in the summatory of column_name1")
                             + "\n\nSyntax: _groupTotal(column_name1, column_name2, group_index)"
                             + "\n\n" + C_COLUMN_NAME
                             + "\n" + C_COLUMN_NAME
                             + "\nNote: usually column_name1 and column_name2 have the same value because it is used to get the perecentage a value in a set represents."
-                            + "\n" + C_GROUP_INDEX2.replace("$1", "percent value"));
+                            + "\n" + C_GROUP_INDEX2.replaceAll("$1", "percent value"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_PERCENT);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_PERCENT);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_COUNT);
             fi.setName("_groupCount");
             fi.setNameUser("Group) Amount of lines in a group");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replace("$1", "amunt of lines in the group")
+            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "amunt of lines in the group")
                             + "\n\nSyntax: _groupCount(column_name, group_index)"
                             + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX2.replace("$1", "amunt of lines"));
+                            + "\n" + C_GROUP_INDEX2.replaceAll("$1", "amunt of lines"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_COUNT);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_COUNT);
 
@@ -207,9 +207,9 @@ namespace CSReportEngine {
                             + "\nWhen group_index is 0 the line number in the report will be returned."
                             + "\nWhen group_index is > 0 the line number in the group will be returned.");
 
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replace("$1", "line number of the current line in the group.")
+            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "line number of the current line in the group.")
                             + "\n\nSyntax: _groupLineNumber(group_index)"
-                            + "\n" + C_GROUP_INDEX2.replace("$1", "line number of the current line in the group"));
+                            + "\n" + C_GROUP_INDEX2.replaceAll("$1", "line number of the current line in the group"));
 
             fi.setId(csRptFormulaType.CSRPTF_GROUP_LINE_NUMBER);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_LINE_NUMBER);

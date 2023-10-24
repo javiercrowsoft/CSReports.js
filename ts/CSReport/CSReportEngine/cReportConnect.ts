@@ -104,7 +104,7 @@ namespace CSReportEngine {
             let p = P._();
 
             for(let _i = 0; _i < this.parameters.count(); _i++) {
-                p = p.then(P.call(this, (_i: number)=> {
+                p = p.then(P.call(this, () => {
 
                     param = this.parameters.item(_i);
                     switch (param.getColumnType())
@@ -144,7 +144,7 @@ namespace CSReportEngine {
                                                 + ". Parameter: " + param.getName()
                                                 + ". Function: sqlParameters.", "Report connect");
                     }
-                }, _i));
+                }));
             }
 
             return p.then(()=> {

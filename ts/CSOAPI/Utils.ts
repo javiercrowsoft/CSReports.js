@@ -13,7 +13,7 @@ namespace CSOAPI {
 
         public static isNumber(value: any): boolean {
             try {
-                return isNaN(parseFloat(value.toString()));
+                return ! isNaN(parseFloat(value.toString()));
             }
             catch(ignore) {
                 return false;
@@ -381,6 +381,14 @@ namespace CSOAPI {
                 k = k + i;
                 return source.substring(k + 1, j);
             }
+        }
+
+        public static newArrayOfInts(size: number): number[] {
+            return Array.apply(null, {length: size}).map(() => 0);
+        }
+
+        public static newArrayOfObjects<T>(size: number, f:() => T): T[] {
+            return Array.apply(null, {length: size}).map(() => f.call(null));
         }
     }
 

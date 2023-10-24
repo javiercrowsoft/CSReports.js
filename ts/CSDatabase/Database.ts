@@ -4,7 +4,7 @@
 namespace CSDatabase {
 
     import RefWrapper = CSKernelClient.RefWrapper;
-    import Utils = CSOAPI.Utils;
+    import U = CSOAPI.Utils;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import Exception = CSOAPI.Exception;
     import cError = CSKernelClient.cError;
@@ -73,7 +73,7 @@ namespace CSDatabase {
             this.userDescription = userDescription;
         }
 
-        loadDataTable(sqlstmt: string, dt: RefWrapper<DataTable>, dr: RefWrapper<DbDataReader>,
+        loadDataTable(sqlstmt: string, dtr: RefWrapper<DataTable>, drr: RefWrapper<DbDataReader>,
                       showWindowCancel = true, raiseProgressEvent = false, showModal = false) {
 
             let cmd = this.createCommand(sqlstmt);
@@ -81,14 +81,14 @@ namespace CSDatabase {
             const ors = cmd.executeReader();
 
             if(ors) {
-                dr.set(ors);
-                dt.set(new DataTable())
-                dt.get().load(ors);
+                drr.set(ors);
+                dtr.set(new DataTable())
+                dtr.get().load(ors);
                 return true;
             }
             else {
-                dr.set(null);
-                dt.set(null);
+                drr.set(null);
+                dtr.set(null);
                 return false;
             }
         }
@@ -136,14 +136,13 @@ namespace CSDatabase {
         }
 
         public static sqlNumber(number: string): string {
-            if(! Utils.isNumber(number)) {
+            if(! U.isNumber(number)) {
                 return "0";
             }
             else {
-                let s = Utils.val(number).toString();
-                s = s.replace(",", ".");
-                debugger; // seguro que este substring esta mal
-                if(s.substring(s.length - 1, 0) === ".") {
+                let s = U.val(number).toString();
+                s = s.replaceAll(",", ".");
+                if(s.substring(s.length - 1, s.length) === ".") {
                     s = s.substring(0, s.length - 1);
                 }
                 return s;

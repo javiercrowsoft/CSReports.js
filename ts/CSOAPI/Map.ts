@@ -46,7 +46,7 @@ namespace CSOAPI {
                 // @ts-ignore
                 if(value.setKey !== undefined) value.setKey(key);
             }
-            if(key === undefined || key === null) {
+            if(key === undefined || key === null || key === "") {
                 key = "___k" + this.keyIndex++;
             }
             this.keys.push(key);

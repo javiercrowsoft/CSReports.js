@@ -24,11 +24,11 @@ namespace CSDatabase
         }
 
         public fieldCount() {
-            return (this.dataSource.getData()["columns"]).getCount();
+            return this.dataSource.getData()["columns"].length;
         }
 
         public hasRows(): boolean {
-            return (this.dataSource.getData()["rows"]).getCount() > 0;
+            return this.dataSource.getData()["rows"].length > 0;
         }
 
         public isClosed() {
@@ -136,7 +136,7 @@ namespace CSDatabase
 
         public nextResult() {
             this.resultIndex += 1;
-            return this.resultIndex < 2;
+            return this.resultIndex < 1;
         }
 
         public read() {

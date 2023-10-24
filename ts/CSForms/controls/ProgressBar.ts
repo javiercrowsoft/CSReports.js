@@ -22,5 +22,10 @@ namespace CSForms {
             this.elProgressBar.textContent = text;
             super.setText(text);
         }
+
+        setValue(value: number) {
+            console.log('progress bar: ' + value);
+        }
+
     }
 }

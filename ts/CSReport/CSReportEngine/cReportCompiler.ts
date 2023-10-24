@@ -8,7 +8,7 @@ namespace CSReportEngine {
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
     import cError = CSKernelClient.cError;
     import ReportGlobals = CSReportGlobals.ReportGlobals;
-    import Utils = CSOAPI.Utils;
+    import U = CSOAPI.Utils;
     import eReportCompilerMode = CSReportScript.eReportCompilerMode;
     import cDateUtils = CSKernelClient.cDateUtils;
     import cNumberToString = CSKernelNumberToString.cNumberToString;
@@ -218,13 +218,13 @@ namespace CSReportEngine {
             // we check if the code has scripting or is only
             // calls to internal functions
             //
-            let code = formula.getTextC().replace(cReportCompiler.C_KEY_FUNC_INT, "");
-            code = code.replace(" ", "");
+            let code = formula.getTextC().replaceAll(cReportCompiler.C_KEY_FUNC_INT, "");
+            code = code.replaceAll(" ", "");
 
             // if after removing calls to internal functions and spaces
             // there is only a number we don't have scripting
             //
-            if(Utils.isNumber(code)) {
+            if(U.isNumber(code)) {
                 if(vResult.length > 0) {
                     formula.setLastResult(vResult[0]);
                     formula.setHaveToEval(false);
@@ -250,7 +250,7 @@ namespace CSReportEngine {
 
                     let parameter = "p__" + i + "__";
                     parameters += parameter + ",";
-                    code = code.replace(cReportCompiler.C_KEY_FUNC_INT + ReportGlobals.format(i + 1, "000"), parameter);
+                    code = code.replaceAll(cReportCompiler.C_KEY_FUNC_INT + ReportGlobals.format(i + 1, "000"), parameter);
 
                     let paramValue = this.objGlobals.getVar(parameter);
                     if(paramValue === null) {
@@ -260,7 +260,6 @@ namespace CSReportEngine {
                 }
 
                 if(parameters.length > 0) {
-                    debugger; // seguro que este substring esta mal: no hay que restar el 1
                     parameters = parameters.substring(0, parameters.length - 1);
                     code = this.insertParametersIntoFunction(code, parameters);
                 }
@@ -273,7 +272,6 @@ namespace CSReportEngine {
 
         private insertParametersIntoFunction(code: string, parameters: string) {
             let n: number = code.indexOf("(") + 1;
-            debugger; // seguro que este substring esta mal
             return code.substring(0, n) + parameters + code.substring(n);
         }
 
@@ -286,13 +284,13 @@ namespace CSReportEngine {
                     value = 0;
                 }
                 else {
-                    let columnIndex: number = Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL2).getValue());
-                    value = Utils.val(this.report.getValueFromRs(columnIndex).toString());
+                    let columnIndex: number = U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL2).getValue());
+                    value = U.val(this.report.getValueFromRs(columnIndex).toString());
                 }
 
                 let variable: cReportVariable = fint.getVariables().item(cReportCompiler.C_GROUP_PERCENT_T);
-                total = Utils.val(variable.getValue().toString());
-                value = Utils.divideByZero(value, total);
+                total = U.val(variable.getValue().toString());
+                value = U.divideByZero(value, total);
                 variable.setValue(value);
 
             }
@@ -324,7 +322,7 @@ namespace CSReportEngine {
             this.pCompile(formula.getText(), false, codeC);
 
             if(formula.getFormulasInt().count() > 0) {
-                if(Utils.isNumber(codeC)) {
+                if(U.isNumber(codeC)) {
                     this.pEvalSyntax("", codeC, false, formula);
                 }
                 else {
@@ -349,11 +347,11 @@ namespace CSReportEngine {
         }
 
         private pColonToPipe(code: string) {
-            return code.replace(",", "|");
+            return code.replaceAll(",", "|");
         }
 
         private pPipeToColon(code: string) {
-            return code.replace("|", ",");
+            return code.replaceAll("|", ",");
         }
 
         private pIsFunction(word: string) {
@@ -591,7 +589,7 @@ namespace CSReportEngine {
             else if(code === "\"\"") {
                 return "";
             }
-            else if(Utils.isNumber(code)) {
+            else if(U.isNumber(code)) {
                 return code;
             }
             else if(cDateUtils.isDate(code)) {
@@ -620,7 +618,7 @@ namespace CSReportEngine {
                         try {
                             // if it is a number we don't need to evaluate it
                             //
-                            if(!Utils.isNumber(vParams[i])) {
+                            if(!U.isNumber(vParams[i])) {
 
                                 if(!this.pIsControl(vParams[i])) {
                                     // if an error is raised here, it will be caused by
@@ -638,7 +636,7 @@ namespace CSReportEngine {
                         }
                     }
 
-                    return Utils.removeLastColon(code);
+                    return U.removeLastColon(code);
                 }
                 catch(ignore) {
                     // we don't care about errors here
@@ -658,7 +656,7 @@ namespace CSReportEngine {
                 return false;
             }
 
-            return Utils.isNumber(vTime[0]) && Utils.isNumber(vTime[1]);
+            return U.isNumber(vTime[0]) && U.isNumber(vTime[1]);
 
         }
 
@@ -735,7 +733,7 @@ namespace CSReportEngine {
                 param = vParam[paramIndex];
             }
 
-            return param.replace(")", "").trim();
+            return param.replaceAll(")", "").trim();
         }
 
         private pCheckInternalFunction(functionName: string, code: string) {
@@ -944,10 +942,10 @@ namespace CSReportEngine {
             }
             else {
                 if(this.pIsControl(param)) {
-                    return "\"" + this.report.getValueString(param).replace("\"", "\"\"") + "\"";
+                    return "\"" + this.report.getValueString(param).replaceAll("\"", "\"\"") + "\"";
                 }
                 else {
-                    return "\"" + param.replace("\"", "\"\"") + "\"";
+                    return "\"" + param.replaceAll("\"", "\"\"") + "\"";
                 }
             }
         }
@@ -957,7 +955,7 @@ namespace CSReportEngine {
                 return "";
             }
             let st = fint.getVariables().item(cReportCompiler.C_SUM_TIME).getValue();
-            if(Utils.val(fint.getParameters().item(1).getValue()) !== 0) {
+            if(U.val(fint.getParameters().item(1).getValue()) !== 0) {
                 return ReportGlobals.format(st.getHour(), "00")
                         + ":" + ReportGlobals.format(st.getMinute(), "00")
                         + ":" + ReportGlobals.format(st.getSecond(), "00");
@@ -1108,7 +1106,7 @@ namespace CSReportEngine {
                 value2 = parseFloat(fint.getParameters().item(2).getValue());
             }
 
-            let operation = Utils.parseInt(fint.getParameters().item(3).getValue());
+            let operation = U.parseInt(fint.getParameters().item(3).getValue());
 
             switch (operation)
             {
@@ -1126,7 +1124,7 @@ namespace CSReportEngine {
 
                 // division
                 case 4:
-                    return Utils.divideByZero(value1, value2);
+                    return U.divideByZero(value1, value2);
 
                 // power
                 case 5:
@@ -1187,7 +1185,7 @@ namespace CSReportEngine {
             for(let i = 0; i < collCtrlsToReplace.Count; i++) {
                 ctrlValue = this.pGetControl(collCtrlsToReplace[i]);
                 if(ctrlValue !== null) {
-                    text = text.replace(
+                    text = text.replaceAll(
                         cReportCompiler.C_MACRO_CTRL + collCtrlsToReplace[i] + cReportCompiler.C_MACRO_CTRL,
                         this.report.getValue(ctrlValue.getName(), false).toString());
                 }
@@ -1305,12 +1303,12 @@ namespace CSReportEngine {
             let rtn: number = 0;
             let sepDecimal: string = "";
 
-            if(Utils.isNumber(strNumber)) {
-                sepDecimal = Utils.getSepDecimal();
+            if(U.isNumber(strNumber)) {
+                sepDecimal = U.getSepDecimal();
                 if(sepDecimal !== ".") {
-                    strNumber = strNumber.replace(".", sepDecimal);
+                    strNumber = strNumber.replaceAll(".", sepDecimal);
                 }
-                rtn = Utils.val(strNumber);
+                rtn = U.val(strNumber);
 
             }
 
@@ -1460,7 +1458,7 @@ namespace CSReportEngine {
             //
             let iNumber = this.pGetNumber(
                 this.report.getValue(fint.getParameters().item(0).getValue(), true));
-            let iLanguage = Utils.valInt(fint.getParameters().item(1).getValue());
+            let iLanguage = U.valInt(fint.getParameters().item(1).getValue());
 
             switch (iLanguage)
             {
@@ -1597,8 +1595,8 @@ namespace CSReportEngine {
             else {
                 item.setValue(
                     this.report.getGroupTotal(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1627,8 +1625,8 @@ namespace CSReportEngine {
             else {
                 item.setValue(
                     this.report.getGroupMax(
-                                Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
-                                Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
+                                U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                                U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1657,8 +1655,8 @@ namespace CSReportEngine {
             else {
                 item.setValue(
                     this.report.getGroupMin(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1687,8 +1685,8 @@ namespace CSReportEngine {
             else {
                 item.setValue(
                     this.report.getGroupAverage(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1724,8 +1722,8 @@ namespace CSReportEngine {
             else {
                 item.setValue(
                     this.report.getGroupTotal(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
             this.pEvalFunctionGroup(fint);
         }
@@ -1755,8 +1753,8 @@ namespace CSReportEngine {
             else {
                 item.setValue(
                     this.report.getGroupCount(
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
-                        Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_COL).getValue()),
+                        U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
             }
         }
 
@@ -1769,7 +1767,7 @@ namespace CSReportEngine {
             // the LineNumber function is for numbers
             item.setValue(
                 this.report.getGroupLineNumber(
-                    Utils.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
+                    U.parseInt(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).getValue())));
         }
 
         private evalIsInRs(fint: cReportFormulaInt) {
@@ -1984,8 +1982,7 @@ namespace CSReportEngine {
 
             parameters = parameters.trim();
             if(parameters.length > 2) {
-                debugger; // seguro que este substring esta mal
-                parameters = parameters.substring(1, parameters.length - 2);
+                parameters = parameters.substring(1, parameters.length - 1);
                 parameters = parameters.trim();
                 vParams = parameters.split('|');
 
@@ -1999,7 +1996,7 @@ namespace CSReportEngine {
             let decimalDigit: number = 0;
             decimalDigit = value.indexOf(",", 0);
             if(decimalDigit > 0) {
-                value = value.replace(",", ".");
+                value = value.replaceAll(",", ".");
             }
             return value;
         }

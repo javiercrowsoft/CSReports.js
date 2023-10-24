@@ -40,7 +40,7 @@ namespace CSDatabase {
             cmdText = cmdText.substring(startIndex);
             let length: number = cmdText.indexOf(" ", 1);
 
-            return cmdText.substring(0, length).replace("[","").replace("]","");
+            return cmdText.substring(0, length).replaceAll("[","").replaceAll("]","");
         }
     }
 }

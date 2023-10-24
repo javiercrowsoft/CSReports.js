@@ -108,7 +108,7 @@ namespace CSReportEngine {
                 for(let i = 0; i < this.count(); i++) {
                     let sec: cReportSection = this.item[this._keys[i]];
                     sec.setIndex(i);
-                    sec.setName(sec.getName().substring(0, 2).replace("_", "")
+                    sec.setName(sec.getName().substring(0, 2).replaceAll("_", "")
                                 + "_" + i.toString());
                 }
                 this.refreshIndex();

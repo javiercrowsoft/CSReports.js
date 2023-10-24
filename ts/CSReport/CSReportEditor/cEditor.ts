@@ -6218,7 +6218,7 @@ namespace CSReportEditor {
             if(formulaText.substring(0, 1).trim() !== "_") {
                 const fReplace = new FFormulaReplace();
                 fReplace.getTxCurrFormula().setText(formulaText);
-                fReplace.getTxNewFormula().setText(formulaText.replace(currentName, newName));
+                fReplace.getTxNewFormula().setText(formulaText.replaceAll(currentName, newName));
                 fReplace.showDialog();
                 if(fReplace.getOk()) {
                     rtn = fReplace.getTxNewFormula().getText();
@@ -6230,7 +6230,7 @@ namespace CSReportEditor {
             }
             else {
 
-                rtn = formulaText.replace(currentName, newName);
+                rtn = formulaText.replaceAll(currentName, newName);
             }
             return rtn;
         }

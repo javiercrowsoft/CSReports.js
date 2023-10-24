@@ -890,7 +890,7 @@ namespace CSReportPaint {
 
         private printerSetSizeAndOrient(p: string, paperType: csReportPaperType, p_2: number) {
             // TODO: implement this
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         private newPage(top: number, detailHeight: number) {

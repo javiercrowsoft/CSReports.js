@@ -11,7 +11,7 @@ namespace CSReportEngine {
     import cWebChart = CSChartServer.cWebChart;
     import DataTable = CSDatabase.DataTable;
     import cError = CSKernelClient.cError;
-    import Utils = CSOAPI.Utils;
+    import U = CSOAPI.Utils;
     import cWebChartItem = CSChartServer.cWebChartItem;
 
     export class cReportChart {
@@ -324,7 +324,7 @@ namespace CSReportEngine {
             chart.setDiameter(this.pieDiameter);
 
             if(!bIsForWeb) {
-                fileName = Utils.getValidPath(""/* TODO: reimplement * System.IO.Path.GetTempPath()*/) + "~ChartImage";
+                fileName = U.getValidPath(""/* TODO: reimplement * System.IO.Path.GetTempPath()*/) + "~ChartImage";
             }
 
             chart.setFormat(this.imageFormat);
@@ -447,7 +447,7 @@ namespace CSReportEngine {
                     }
 
                     if(bCompare) {
-                        value = Utils.val(ReportGlobals.valVariant(rows[j][valueIndex]));
+                        value = U.val(ReportGlobals.valVariant(rows[j][valueIndex]));
 
                         if(value > v[0].value) {
                             v[0].value = value;
@@ -471,7 +471,7 @@ namespace CSReportEngine {
                         }
 
                         if(bCompare) {
-                            value = Utils.val(ReportGlobals.valVariant(rows[j][valueIndex]));
+                            value = U.val(ReportGlobals.valVariant(rows[j][valueIndex]));
 
                             if((value > v[i].value || v[i].idx === -1)
                                 && value <= v[i - 1].value && j !== v[i - 1].idx) {
@@ -625,27 +625,30 @@ namespace CSReportEngine {
 
         private redimPreserve(vSeries: t_SerieValue[], size: number) {
             if(size === 0) {
-                vSeries = null;
+                vSeries = [];
             }
             else {
-                if(vSeries === null) {
-                    vSeries = new Array(size);
-                }
-                else if(vSeries.length === 0) {
-                    vSeries = new Array(size);
+                if(vSeries === null || vSeries.length === 0) {
+                    vSeries = U.newArrayOfObjects(size, () => new t_SerieValue());
                 }
                 else {
-                    vSeries.length = size;
+                    if(vSeries.length < size) {
+                        vSeries = vSeries.concat(U.newArrayOfObjects(size-vSeries.length, () => new t_SerieValue()));
+                    }
+                    else if(vSeries.length > size) {
+                        vSeries = vSeries.slice(0, size);
+                    }
+
                 }
             }
         }
 
         private redim(vSeries: t_SerieValue[], size: number) {
             if(size === 0) {
-                vSeries = null;
+                vSeries = [];
             }
             else {
-                vSeries = new  Array(size);
+                vSeries = U.newArrayOfObjects(size, () => new t_SerieValue());;
             }
         }
 
