@@ -1717,7 +1717,7 @@ namespace CSReportEngine {
                     let dtr = new RefWrapper(this.table);
                     let rsr = new RefWrapper(rs);
 
-                    p = p
+                    return p
                     .then(P.call(this, () => this.getData(dtr, this.connect, true, recordSets, rsr)))
                     .then(P.call(this, (result) => {
 
@@ -4051,16 +4051,29 @@ namespace CSReportEngine {
         }
 
         private pGetDataAux(recordSets: [object|string[]]) {
+            let p = P._<boolean>(null);
             for(let _i = 0; _i < this.connectsAux.count(); _i++) {
-                let connect: cReportConnect = this.connectsAux.item(_i);
-                let dtr = new RefWrapper(new DataTable());
-                if(! this.getData(dtr, connect, false, recordSets)) {
-                    return false;
-                }
-                this.tables.push(dtr.get());
+                p = p.then(P.call(this, (result) => {
+                    if(result === false) return false;
+
+                    let connect: cReportConnect = this.connectsAux.item(_i);
+                    let dtr = new RefWrapper(new DataTable());
+                    return this.getData(dtr, connect, false, recordSets)
+                    .then(P.call(this, (result) => {
+
+                        if(! result) return false;
+
+                        this.tables.push(dtr.get());
+                        return true;
+                    }));
+                }));
             }
-            this.vRowsIndexAux = [];
-            return true;
+            return p.then(P.call(this, (result) => {
+                if(! result) return false;
+
+                this.vRowsIndexAux = new Array(this.tables.length);
+                return true;
+            }));
         }
 
         private getData(dtr: RefWrapper<DataTable>,
@@ -4076,7 +4089,7 @@ namespace CSReportEngine {
                 let cn: CSDatabase.Database = null;
                 let varRs: object|string[] = null;
                 let rsAux: DataTable = null;
-                let dr: CSDatabase.DbDataReader = null;
+                let dr = new RefWrapper<CSDatabase.DbDataReader>(null);
 
                 // if we get an string connection
                 //
@@ -4147,7 +4160,7 @@ namespace CSReportEngine {
                         //
                         cn.setOpenRsExDescript(this.userDescription);
 
-                        if(! cn.loadDataTable(true, false, false, sqlstmt, rs, dr)) {
+                        if(! cn.loadDataTable(sqlstmt, rs, dr)) {
                             return false;
                         }
 
@@ -4179,9 +4192,9 @@ namespace CSReportEngine {
                         // in the recordset collection (this code support multiples
                         // recordset in the same reader)
                         //
-                        while (!dr.isClosed() && dr.nextResult()) {
+                        while (!dr.get().isClosed() && dr.get().nextResult()) {
                             rsAux = new DataTable();
-                            rsAux.load(dr);
+                            rsAux.load(dr.get());
 
                             varRs = [];
                             varRs[0] = rsAux;
@@ -4208,7 +4221,7 @@ namespace CSReportEngine {
                     }
                 }
 
-                p.then(P.call(this, () => {
+                return p.then(P.call(this, () => {
                     if(this.table !== null) {
                         this.recordCount = this.vRowsIndex.length;
                     }

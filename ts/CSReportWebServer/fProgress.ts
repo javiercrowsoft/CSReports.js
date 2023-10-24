@@ -22,14 +22,15 @@ namespace CSReportWebServer {
 
         public constructor() {
             super();
-            this.el = U.el('progress-dlg');
-            this.currPage = new Label(U.labelEl('progress-dlg-curr-page'));
-            this.task = new Label(U.labelEl('progress-dlg-task'));
-            this.rowCount = new Label(U.labelEl('progress-dlg-row-count'));
-            this.currRow = new Label(U.labelEl('progress-dlg-curr-row'));
-            this.progressBar = new ProgressBar(U.divEl('progress-dlg-progress-bar-status'));
-            this.title = U.labelEl('progress-dlg-title');
-            this.title.textContent = "Executing report";
+            this.el = U.el('progress-dlg-template').cloneNode(true) as HTMLElement;
+            this.el.id = null;
+            this.currPage = new Label(U.labelElc('progress-dlg-curr-page', this.el));
+            this.task = new Label(U.labelElc('progress-dlg-task', this.el));
+            this.rowCount = new Label(U.labelElc('progress-dlg-row-count', this.el));
+            this.currRow = new Label(U.labelElc('progress-dlg-curr-row', this.el));
+            this.progressBar = new ProgressBar(U.divElc('progress-dlg-progress-bar-status', this.el));
+            this.title = U.labelElc('progress-dlg-title', this.el);
+            this.title.textContent = 'Executing report';
             this.dialog = new Dialog(this.el, 'error-dlg-okay');
         }
 
@@ -51,6 +52,10 @@ namespace CSReportWebServer {
 
         getPrgBar(): any {
             return this.progressBar;
+        }
+
+        show(owner = null) {
+            return this.showDialog();
         }
 
         showDialog() {

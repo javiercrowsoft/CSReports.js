@@ -6,7 +6,7 @@ namespace CSDatabase
     import ArgumentNullException = CSOAPI.ArgumentNullException;
     import InvalidOperationException = CSOAPI.InvalidOperationException;
 
-    export class JSONDataReader {
+    export class JSONDataReader implements DbDataReader {
 
         private dataSource: JSONDataSource = null;
         private cols = [];
@@ -44,9 +44,9 @@ namespace CSDatabase
             return this.cols[i]["name"].toString();
         }
 
-        private getType(typeName: string, columnName: string): string {
+        private getType(typeName: string, columnName: string): DataType {
 
-            let type: string;
+            let type: DataType;
 
             switch (typeName.toLowerCase())
             {
@@ -62,28 +62,32 @@ namespace CSDatabase
                 case "float8":
                 case "float4":
                 case "real":
-                    type = "number";
+                    type = DataType.dbNumber;
                     break;
                 case "timestamp":
                 case "timestamptz":
                 case "date":
                 case "time":
-                    type = "date";
+                    type = DataType.dbDate;
                     break;
                 case "character":
                 case "char":
                 case "varchar":
                 case "text":
                 case "character varying":
-                    type = "string";
+                    type = DataType.dbText;
                     break;
                 case "bytea":
-                    type = "array";
+                    type = DataType.dbImage;
                     break;
                 default:
                     throw new ArgumentException("The data type for column " + columnName + " of data source " + this.dataSource.getName() + " is not supported");
             }
             return type;
+        }
+
+        public getColumnType(i: number) {
+            return this.getType(this.cols[i]["columnType"].toString(), this.getName(i));
         }
 
         public getString(i: number) {
@@ -123,7 +127,7 @@ namespace CSDatabase
                 throw new ArgumentNullException("values");
             }
             this.checkRow();
-            let count: number = Math.min(this.fieldCount(), values.length);
+            let count: number = values.length === 0 ? this.fieldCount() : Math.min(this.fieldCount(), values.length);
             for(let i = 0; i < count; i++) {
                 values.push(this.getValue(i));
             }

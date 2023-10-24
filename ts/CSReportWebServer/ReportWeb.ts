@@ -52,6 +52,8 @@ namespace CSReportWebServer {
 
                 if(!this.report.init(oLaunchInfo)) { return; }
 
+                this.report.getLaunchInfo().setStrConnect(this.database);
+
                 this.report.setPathDefault("~");
 
             } catch(ex) {
@@ -140,12 +142,13 @@ namespace CSReportWebServer {
                 launchInfo.setObjPaint(this.fPrint);
                 launchInfo.setShowPrintersDialog(true);
 
-                this.report.launch();
+                this.report.launch().then(P.call(this, () => {
+                    mouse.dispose();
+                    this.closeProgressDlg();
+                }));
 
             } catch(ex) {
                 cError.mngError(ex);
-            }
-            finally {
                 mouse.dispose();
                 this.closeProgressDlg();
             }

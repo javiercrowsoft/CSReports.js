@@ -599,29 +599,29 @@ End Function
             <button id="error-dlg-okay">Ok</button>
         </div>
     </div>
-    <div id="progress-dlg">
+    <div id="progress-dlg-template">
         <div class="dlg-header">
             <div class="inner-row-left" style="height: 60px;">
-                <img style="margin-left: 20px;" id="progress-dlg-icon" src="images/properties/config_page.jpg">
-                <h1 style="margin-left: 15px;" id="progress-dlg-title"></h1>
-                <lable id="progress-dlg-task"></lable>
+                <img style="margin-left: 20px;" class="progress-dlg-icon" src="images/properties/config_page.jpg">
+                <h1 style="margin-left: 15px;" class="progress-dlg-title"></h1>
+                <lable class="progress-dlg-task" style="margin-left: 15px;"></lable>
             </div>
         </div>
         <div class="dlg-body" style="padding: 50px;">
             <div class="inner-row-left" style="height: 60px;">
                 <label>Generating page</label>
-                <label id="progress-dlg-curr-page"></label>
+                <label class="progress-dlg-curr-page" style="margin-left: 15px;"></label>
                 <label>Rows</label>
-                <label id="progress-dlg-row-count"></label>
+                <label class="progress-dlg-row-count" style="margin-left: 15px;"></label>
                 <label>Current row</label>
-                <label id="progress-dlg-curr-row"></label>
+                <label class="progress-dlg-curr-row" style="margin-left: 15px;"></label>
             </div>
-            <div id="progress-dlg-progress-bar">
-                <div id="progress-dlg-progress-bar-status"></div>
+            <div class="progress-dlg-progress-bar">
+                <div class="progress-dlg-progress-bar-status"></div>
             </div>
         </div>
         <div class="dlg-footer">
-            <button id="progress-dlg-cancel">Cancel</button>
+            <button class="progress-dlg-cancel">Cancel</button>
         </div>
     </div>
 </div>

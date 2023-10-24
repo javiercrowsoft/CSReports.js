@@ -240,6 +240,8 @@ namespace CSOAPI {
             return "";
         }
 
+        // ----------------------------------------------------------------------------------
+
         static inputEl(id: string) {
             return this.el(id) as HTMLInputElement;
         }
@@ -263,9 +265,41 @@ namespace CSOAPI {
         static el(id: string) {
             const el = document.getElementById(id);
             if(el === null || el === undefined) console.log(id + ' was not found');
-            //console.log(el);
             return el;
         }
+
+        static inputElc(className: string, node: HTMLElement) {
+            return this.elc(className, node) as HTMLInputElement;
+        }
+
+        static imageElc(className: string, node: HTMLElement) {
+            return this.elc(className, node) as HTMLImageElement;
+        }
+
+        static labelElc(className: string, node: HTMLElement) {
+            return this.elc(className, node) as HTMLLabelElement;
+        }
+
+        static divElc(className: string, node: HTMLElement) {
+            return this.elc(className, node) as HTMLDivElement;
+        }
+
+        static selectElc(className: string, node: HTMLElement) {
+            return this.elc(className, node) as HTMLSelectElement;
+        }
+
+        static elc(className: string, node: HTMLElement) {
+            const elements = node.querySelectorAll('.' + className);
+            if(elements === null || elements === undefined) {
+                console.log(className + ' in node ' + node.toString() + ' was not found');
+                return null;
+            }
+            else {
+                return elements[0];
+            }
+        }
+
+        // ----------------------------------------------------------------------------------
 
         public static setInfoString(source: string, key: string, value: string) {
             key = "#" + key;

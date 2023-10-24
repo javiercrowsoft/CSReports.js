@@ -6,6 +6,7 @@ namespace CSDatabase {
     import RefWrapper = CSKernelClient.RefWrapper;
     import Utils = CSOAPI.Utils;
     import NotImplementedException = CSOAPI.NotImplementedException;
+    import Exception = CSOAPI.Exception;
     import cError = CSKernelClient.cError;
 
     export enum DatabaseEngine {
@@ -72,9 +73,46 @@ namespace CSDatabase {
             this.userDescription = userDescription;
         }
 
-        loadDataTable(showWindowCancel: boolean, raiseProgressEvent: boolean, showModal: boolean,
-                      sqlstmt: string, dtr: RefWrapper<DataTable>, dr: DbDataReader) {
-            return false;
+        loadDataTable(sqlstmt: string, dt: RefWrapper<DataTable>, dr: RefWrapper<DbDataReader>,
+                      showWindowCancel = true, raiseProgressEvent = false, showModal = false) {
+
+            let cmd = this.createCommand(sqlstmt);
+
+            const ors = cmd.executeReader();
+
+            if(ors) {
+                dr.set(ors);
+                dt.set(new DataTable())
+                dt.get().load(ors);
+                return true;
+            }
+            else {
+                dr.set(null);
+                dt.set(null);
+                return false;
+            }
+        }
+
+        private createCommand(sqlstmt: string) {
+            let ocmd: DbCommand = null;
+
+            switch (this.databaseEngine) {
+                case DatabaseEngine.CS_REPORT_WEB:
+                    ocmd = new JSONCommand(sqlstmt, this.ocn as JSONServerConnection);
+                    break;
+                case DatabaseEngine.SQL_SERVER:
+                case DatabaseEngine.POSTGRESQL:
+                case DatabaseEngine.ORACLE:
+                    throw new NotImplementedException();
+            }
+
+            if(ocmd == null)
+                throw new Exception("The database engine is not supported " + this.databaseEngine.toString());
+
+            ocmd.commandTimeout = this.commandTimeout;
+            ocmd.commandType = CommandType.Text;
+
+            return ocmd;
         }
 
         public closeDb() {
@@ -123,15 +161,14 @@ namespace CSDatabase {
         }
     }
 
-    export class DbDataReader {
-
-        public isClosed() {
-            return false;
-        }
-
-        public nextResult() {
-            return false;
-        }
+    export interface DbDataReader {
+        read(): boolean;
+        isClosed(): boolean;
+        nextResult(): boolean;
+        getValues(values: object[]): number;
+        fieldCount(): number;
+        getName(i: number): string;
+        getColumnType(i: number): DataType;
     }
 
     export class DatabaseEngineStringConnections {

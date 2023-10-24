@@ -4,24 +4,27 @@ namespace CSDatabase {
 
     import ArgumentException = CSOAPI.ArgumentException;
 
-    export class JSONCommand {
+    export class JSONCommand implements DbCommand {
 
         private readonly cmdText: string = "";
         private connection: JSONServerConnection = null;
+
+        public commandType: CommandType;
+        public commandTimeout: number;
 
         public constructor(cmdText: string = "", connection: JSONServerConnection = null) {
             this.cmdText = cmdText;
             this.connection = connection;
         }
 
-        public executeReader(behavior: CommandBehavior) {
+        public executeReader() {
             let cmdName: string = this.getCommandName();
             let data: JSONDataSource = JSONServer.getDataSource(this.connection.connectionString() + "." + cmdName);
             return new JSONDataReader(data);
         }
 
-        public executeDbDataReader(behavior: CommandBehavior) {
-            return this.executeReader(behavior);
+        public executeDbDataReader() {
+            return this.executeReader();
         }
 
         private getCommandName() {
@@ -40,8 +43,4 @@ namespace CSDatabase {
             return cmdText.substring(0, length).replace("[","").replace("]","");
         }
     }
-
-    class CommandBehavior {
-    }
-
 }
