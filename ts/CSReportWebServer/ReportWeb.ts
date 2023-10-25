@@ -99,7 +99,6 @@ namespace CSReportWebServer {
                         this.cancelPrinting = false;
                     }
                 });
-
             }
 
             if(this.fProgress === null) return;

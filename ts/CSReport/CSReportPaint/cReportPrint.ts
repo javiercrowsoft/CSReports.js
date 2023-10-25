@@ -21,12 +21,12 @@ namespace CSReportPaint {
     import cReportPageFields = CSReportEngine.cReportPageFields;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import NotImplementedException = CSOAPI.NotImplementedException;
-    import PageEventArgs = CSReportPreview.PageEventArgs;
-    import Form = CSForms.Form;
     import cReportPdf = CSReportExport.cReportPdf;
     import csEZoom = CSReportGlobals.csEZoom;
-    import cReportPreview = CSReportPreview.cReportPreview;
-    import EventArgs = CSReportPreview.EventArgs;
+    import Form = CSForms.Form;
+    import ReportPreview = CSForms.ReportPreview;
+    import PageEventArgs = CSForms.PageEventArgs;
+    import EventArgs = CSForms.EventArgs;
     import Font = CSDrawing.Font;
     import RectangleF = CSDrawing.RectangleF;
     import Graphic = CSDrawing.Graphic;
@@ -42,7 +42,7 @@ namespace CSReportPaint {
 
         private report: CSReportEngine.cReport = null;
         private paint: cReportPaint = null;
-        private rpwPrint: cReportPreview = null;
+        private rpwPrint: ReportPreview = null;
         private fPreview: fPreview = null;
 
         private lastIndexField: number = 0;
@@ -132,7 +132,7 @@ namespace CSReportPaint {
             return this.report;
         }
 
-        public setPreviewControl(rhs: CSReportPreview.cReportPreview) {
+        public setPreviewControl(rhs: ReportPreview) {
             this.rpwPrint = rhs;
         }
 
