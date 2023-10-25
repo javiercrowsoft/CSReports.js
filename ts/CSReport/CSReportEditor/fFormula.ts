@@ -55,6 +55,7 @@ namespace CSReportEditor {
             this.tx_formula = new TextBox(U.inputEl("formula-dlg-code"));
             this.lb_description = new Label(U.labelEl("formula-dlg-description"));
             this.dialog.onApply = P.call(this, this.cmdApplyClick);
+            super.setDialog(this.dialog);
         }
 
         showModal() {

@@ -295,7 +295,7 @@ namespace CSOAPI {
                 return null;
             }
             else {
-                return elements[0];
+                return elements[0] as HTMLElement;
             }
         }
 

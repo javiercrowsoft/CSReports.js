@@ -32,6 +32,7 @@ namespace CSReportWebServer {
             this.title = U.labelElc('progress-dlg-title', this.el);
             this.title.textContent = 'Executing report';
             this.dialog = new Dialog(this.el, 'error-dlg-okay');
+            super.setDialog(this.dialog);
         }
 
         getLbCurrPage(): Label {

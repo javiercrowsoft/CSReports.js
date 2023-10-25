@@ -25,6 +25,7 @@ namespace CSKernelClient {
             this.infoAdd = U.labelEl('error-dlg-info-add');
             this.description = U.labelEl('error-dlg-description');
             this.dialog = new Dialog(this.el, 'error-dlg-okay');
+            super.setDialog(this.dialog);
         }
 
         setErrorIcon() {
