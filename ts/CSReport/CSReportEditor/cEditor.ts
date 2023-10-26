@@ -3008,7 +3008,7 @@ namespace CSReportEditor {
 
                 this.validateSectionAspect();
 
-                if(this.report.save(this.fMain.saveFileDialog, isNew)) {
+                if(this.report.save(isNew)) {
                     this.isNew = false;
                     this.reLoadReport();
                     cMainEditor.setDocActive(this);

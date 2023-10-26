@@ -757,7 +757,7 @@ namespace CSReportPaint {
 
             // add the height of the images for controls which can grow and are in the header
             //
-            this.getLineHeight(this.report.getPages().item(this.report.getPages().count()-1).getHeader());
+            this.updateFieldHeight(this.report.getPages().item(this.report.getPages().count()-1).getHeader());
 
             do {
                 // get the line
@@ -798,7 +798,7 @@ namespace CSReportPaint {
                 else {
                     // get the line's height
                     //
-                    lineHeight = this.getLineHeight(fields.get(), offsetTopr);
+                    lineHeight = this.updateFieldHeight(fields.get(), offsetTopr);
 
                     // if it can fit we create a new page
                     //
@@ -925,7 +925,9 @@ namespace CSReportPaint {
 
         // returns the bigger control's height and set the height of every control
         //
-        private getLineHeight(fields: CSReportEngine.cReportPageFields, offsetTopr: RefWrapper<number[]> = null) {
+        private updateFieldHeight(fields: CSReportEngine.cReportPageFields,
+                                  offsetTopr: RefWrapper<number[]> = null) {
+
             let field: CSReportEngine.cReportPageField = null;
             let offBottom: number = 0;
             let aspectHeight: number = 0;

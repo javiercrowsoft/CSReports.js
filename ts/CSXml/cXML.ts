@@ -1,6 +1,5 @@
 namespace CSXml {
 
-    import NotImplementedException = CSOAPI.NotImplementedException;
     import cWindow = CSKernelClient.cWindow;
     import MessageBoxDefaultButton = CSKernelClient.MessageBoxDefaultButton;
     import cError = CSKernelClient.cError;
@@ -16,6 +15,16 @@ namespace CSXml {
         private path: string = "";
         private domDoc: XmlDocument = new XmlDocument();
         private filter: string = "";
+
+        public constructor() {
+            this.createDomDoc();
+        }
+
+        private createDomDoc() {
+            this.domDoc = new XmlDocument();
+            let node: XmlNode = this.domDoc.createNode("Root", "");
+            this.domDoc.appendChild(node);
+        }
 
         public getName() {
             return this.name;
@@ -48,10 +57,6 @@ namespace CSXml {
             this.filter = rhs;
         }
 
-        public init() {
-
-        }
-
         public openXmlWithDialog() {
             let file: CSKernelFile.cFile = new CSKernelFile.cFile();
             file.setFilter(this.filter);
@@ -65,8 +70,16 @@ namespace CSXml {
             });
         }
 
-        public openXml(): boolean {
-            throw new NotImplementedException();
+        public openXml(xml: string = null): boolean {
+            try {
+                xml = xml || this.getXml();
+                this.domDoc.load(xml);
+                return true;
+            }
+            catch(ex) {
+                cError.mngError(ex);
+                return false;
+            }
         }
 
         public newXmlWithDialog() {
@@ -114,10 +127,7 @@ namespace CSXml {
 
         public newXml() {
             try {
-                this.domDoc = new XmlDocument();
-                let node: XmlNode = this.domDoc.createNode("Root", "");
-                this.domDoc.appendChild(node);
-
+                this.createDomDoc();
                 return true;
             }
             catch(ex) {
@@ -149,6 +159,11 @@ namespace CSXml {
 
         public setNodeText(node: XmlNode, text: string) {
             node.value = text;
+        }
+
+        public getXml() {
+            const xml = new XMLSerializer().serializeToString(this.getRootNode().getDomNode());
+            return xml.replace(' xmlns="http://www.w3.org/1999/xhtml"', ''); // remove xml namespace
         }
 
         public save() {
@@ -284,20 +299,6 @@ namespace CSXml {
 
         public nodeHasChild(node: XmlNode) {
             return node.getChildNodes().length > 0;
-        }
-
-        private loadXml(file: string) {
-            try {
-
-                return true;
-            }
-            catch(ex) {
-                cWindow.msgWarning("Open file has failded.;;"
-                                    + file
-                                    + ";;Error: "
-                                    + ex.Message);
-                return false;
-            }
         }
     }
 }

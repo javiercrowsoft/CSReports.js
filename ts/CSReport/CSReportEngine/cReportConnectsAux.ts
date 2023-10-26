@@ -22,12 +22,8 @@ namespace CSReportEngine {
 
             for(let _i = 0; _i < this.count(); _i++) {
                 connect = this.item(_i);
-                if(! connect.save(xDoc, nodeFather))  {
-                    return false;
-                }
+                connect.save(xDoc, nodeFather);
             }
-
-            return true;
         }
 
         public load(xDoc: CSXml.cXml, nodeFather: XmlNode) {

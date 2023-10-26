@@ -203,8 +203,6 @@ namespace CSReportEngine {
             xProperty.setName("StrConnect");
             xProperty.setValue(eTypes.eText, this.strConnect);
             xDoc.addPropertyToNode(nodeObj, xProperty);
-
-            return true;
         }
     }
 }

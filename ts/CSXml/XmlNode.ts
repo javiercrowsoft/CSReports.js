@@ -1,15 +1,20 @@
 namespace CSXml {
 
     export class XmlNode {
+
         private node: Element;
+
         value: string;
+        name: string;
         private childrenLoaded = false;
         private childNodes: XmlNode[];
-        name: string;
-        attributes: XmlAttribute[];
 
         constructor(node: Element) {
-            this.node = node;            
+            this.node = node;
+        }
+
+        getDomNode() {
+            return this.node;
         }
 
         getChildNodes() {
@@ -31,11 +36,11 @@ namespace CSXml {
         }
 
         addAttribute(attr: CSXml.XmlAttribute) {
-
+            this.node.setAttribute(attr.name, attr.value);
         }
 
         appendChild(node: CSXml.XmlNode) {
-
+            this.node.appendChild(node.getDomNode())
         }
 
         selectSingleNode(nodeTag: string): XmlNode {

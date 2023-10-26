@@ -71,11 +71,6 @@ namespace CSReportEditor {
 
         private editorIndex = 0;
 
-        // TODO: implement
-        //
-        saveFileDialog: object;
-        openFileDialog: object;
-
         private lv_controls: ListView = null;
         private lv_properties: ListView = null;
         private lv_fields: ListView = null;

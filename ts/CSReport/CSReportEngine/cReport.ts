@@ -1884,11 +1884,14 @@ namespace CSReportEngine {
             }*/
         }
 
+        public copy(report: cReport) {
+
+        }
+
         public load() {
             try {
                 let docXml: cXml = new cXml();
 
-                docXml.init();
                 docXml.setFilter(this.C_FILE_EX);
 
                 if(this.name !== "") {
@@ -1901,7 +1904,7 @@ namespace CSReportEngine {
                 docXml.setPath(this.path);
 
                 return docXml.openXmlWithDialog().then(P.call(this, () => {
-
+                    /*
                     let property: cXmlProperty = docXml.getNodeProperty(
                         docXml.getRootNode(), "ReportDisconnected");
 
@@ -1910,6 +1913,8 @@ namespace CSReportEngine {
                     this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
                     return this.nLoad(docXml);
+                    */
+                    return this.loadFromDocXml(docXml);
                 }));
             }
             catch(ex) {
@@ -1918,28 +1923,16 @@ namespace CSReportEngine {
             }
         }
 
-        public save(commDialog: object, withDialog: boolean) {
-            let docXml: cXml = new cXml();
-
-            docXml.init();
-            docXml.setFilter(this.C_FILE_EX);
-            docXml.setName(this.name);
-            docXml.setPath(this.path);
-
-            if(withDialog) {
-                if(!docXml.newXmlWithDialog()) {
-                    return false;
-                }
-            }
-            else {
-                if(!docXml.newXml()) {
-                    return false;
-                }
-            }
-
-            this.name = docXml.getName();
+        private loadFromDocXml(docXml: cXml) {
             this.path = docXml.getPath();
+            this.name = docXml.getName();
+            let property: cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
+            this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
+            return this.nLoad(docXml);
+        }
+
+        public toXml(docXml = new cXml()) {
             let xProperty: cXmlProperty = new cXmlProperty();
 
             xProperty.setName("RptName");
@@ -1955,15 +1948,9 @@ namespace CSReportEngine {
             let sec: cReportSection = null;
             let nodeObj: XmlNode = null;
 
-            if(!this.connect.save(docXml, null)) {
-                return false;
-            }
-            if(!this.connectsAux.save(docXml, null)) {
-                return false;
-            }
-            if(!this.launchInfo.save(docXml, null)) {
-                return false;
-            }
+            this.connect.save(docXml, null);
+            this.connectsAux.save(docXml, null);
+            this.launchInfo.save(docXml, null);
 
             xProperty.setName(this.C_NODE_RPT_HEADERS);
             xProperty.setValue(eTypes.eText, "");
@@ -2020,6 +2007,32 @@ namespace CSReportEngine {
             nodeObj = docXml.addNode(xProperty);
             this.paperInfo.save(docXml, nodeObj);
 
+            return docXml;
+        }
+
+        public save(withDialog: boolean) {
+            let docXml: cXml = new cXml();
+
+            docXml.setFilter(this.C_FILE_EX);
+            docXml.setName(this.name);
+            docXml.setPath(this.path);
+
+            if(withDialog) {
+                if(!docXml.newXmlWithDialog()) {
+                    return false;
+                }
+            }
+            else {
+                if(!docXml.newXml()) {
+                    return false;
+                }
+            }
+
+            this.name = docXml.getName();
+            this.path = docXml.getPath();
+
+            docXml = this.toXml(docXml);
+
             if(! docXml.save()) {
                 return false;
             }
@@ -2041,12 +2054,11 @@ namespace CSReportEngine {
             this.path = cFile.getPath(fileName);
             this.name = cFile.getFileName(fileName);
 
-            docXml.init();
             docXml.setFilter(this.C_FILE_DATA_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
 
-            if(!docXml.openXml()) {
+            if(! docXml.openXml()) {
                 return false;
             }
 
@@ -2062,7 +2074,6 @@ namespace CSReportEngine {
         public loadData(commDialog: object) {
             let docXml: cXml = new cXml();
 
-            docXml.init();
             docXml.setFilter(this.C_FILE_DATA_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
@@ -2082,7 +2093,6 @@ namespace CSReportEngine {
         public saveData(commDialog: object, withDialog: boolean) {
             let docXml: cXml = new cXml();
 
-            docXml.init();
             docXml.setFilter(this.C_FILE_DATA_EX);
             docXml.setName(this.getFileName(this.name) + "-data.csd");
             docXml.setPath(this.path);
@@ -2144,7 +2154,6 @@ namespace CSReportEngine {
         private saveDataForWeb(page: cReportPage, dataName: string, dataPath: string) {
             let docXml: cXml = new cXml();
 
-            docXml.init();
             docXml.setFilter("xml");
             docXml.setName(this.getFileName(dataName) + "-1.xml");
             docXml.setPath(dataPath);

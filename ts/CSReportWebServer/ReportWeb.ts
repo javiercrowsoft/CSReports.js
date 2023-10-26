@@ -50,20 +50,20 @@ namespace CSReportWebServer {
 
                 this.registerDataSource(request);
 
-                if(!this.report.init(oLaunchInfo)) { return; }
+                if (!this.report.init(oLaunchInfo)) { return; }
 
                 this.report.getLaunchInfo().setStrConnect(this.database);
 
                 this.report.setPathDefault("~");
 
-            } catch(ex) {
+            } catch (ex) {
                 cError.mngError(ex);
             }
         }
 
         private registerDataSource(request: any): void {
             const dataSources = request["content"]["data"]["data"];
-            for(let i = 0; i < dataSources.length; i++) {
+            for (let i = 0; i < dataSources.length; i++) {
                 const dataSource = dataSources[i];
                 const ds = new JSONDataSource(dataSource["name"].toString(), dataSource["data"]);
                 JSONServer.registerDataSource(ds, this.database + "." + ds.getName());
@@ -75,7 +75,7 @@ namespace CSReportWebServer {
         }
 
         private closeProgressDlg(): void {
-            if(this.fProgress !== null && !this.fProgress.isDisposed()) {
+            if (this.fProgress !== null && !this.fProgress.isDisposed()) {
                 this.fProgress.close();
             }
             this.fProgress = null;
@@ -87,34 +87,34 @@ namespace CSReportWebServer {
             let currRecord: number = eventArgs.getCurrRecord();
             let recordCount: number = eventArgs.getRecordCount();
 
-            if(this.cancelPrinting) {
+            if (this.cancelPrinting) {
                 cWindow.ask("Confirm you want to cancel the execution of this report?", MessageBoxDefaultButton.Button2)
-                .then(answer => {
-                    if(answer) {
-                        eventArgs.setCancel(true);
-                        this.closeProgressDlg();
-                        return;
-                    }
-                    else {
-                        this.cancelPrinting = false;
-                    }
-                });
+                    .then(answer => {
+                        if (answer) {
+                            eventArgs.setCancel(true);
+                            this.closeProgressDlg();
+                            return;
+                        }
+                        else {
+                            this.cancelPrinting = false;
+                        }
+                    });
             }
 
-            if(this.fProgress === null) return;
+            if (this.fProgress === null) return;
 
-            if(page > 0) { this.fProgress.getLbCurrPage().setText(page.toString()); }
-            if(task !== "") { this.fProgress.getLbTask().setText(task); }
-            if(currRecord > 0) { this.fProgress.getLbCurrRecord().setText(currRecord.toString()); }
-            if(recordCount > 0 && U.val(this.fProgress.getLbRecordCount().getText()) !== recordCount) {
+            if (page > 0) { this.fProgress.getLbCurrPage().setText(page.toString()); }
+            if (task !== "") { this.fProgress.getLbTask().setText(task); }
+            if (currRecord > 0) { this.fProgress.getLbCurrRecord().setText(currRecord.toString()); }
+            if (recordCount > 0 && U.val(this.fProgress.getLbRecordCount().getText()) !== recordCount) {
                 this.fProgress.getLbRecordCount().setText(recordCount.toString());
             }
 
             let percent: number = 0;
-            if(recordCount > 0 && currRecord > 0) {
+            if (recordCount > 0 && currRecord > 0) {
                 percent = currRecord / recordCount;
                 let value = Math.trunc(percent * 100);
-                if(value > 100) value = 100;
+                if (value > 100) value = 100;
                 this.fProgress.getPrgBar().setValue(value);
             }
         }
@@ -130,36 +130,74 @@ namespace CSReportWebServer {
 
         private launchReport(): void {
             let mouse: CMouseWait = new CMouseWait();
-            try {
-                this.showProgressDlg();
 
-                this.fPrint = new cReportPrint();
-                this.fPrint.setHidePreviewWindow(true);
+            this.showProgressDlg().then(P.call(this, () => {
 
-                const launchInfo = this.report.getLaunchInfo();
-                launchInfo.getPrinter().setPaperInfo(this.report.getPaperInfo());
-                launchInfo.setObjPaint(this.fPrint);
-                launchInfo.setShowPrintersDialog(true);
+                try {
+                    this.fPrint = new cReportPrint();
+                    this.fPrint.setHidePreviewWindow(true);
 
-                this.report.launch().then(P.call(this, () => {
+                    const launchInfo = this.report.getLaunchInfo();
+                    launchInfo.getPrinter().setPaperInfo(this.report.getPaperInfo());
+                    launchInfo.setObjPaint(this.fPrint);
+                    launchInfo.setShowPrintersDialog(true);
+
+                    const reportWorker = new Worker("./csreports.js");
+                    debugger;
+
+                    this.report.getControls().forEach((k, c) => c.setSectionLine(null));
+                    const sections = [
+                        this.report.getHeaders(),
+                        this.report.getGroupsHeaders(),
+                        this.report.getDetails(),
+                        this.report.getGroupsFooters(),
+                        this.report.getFooters()
+                    ];
+                    sections.forEach((coll) => coll.forEach((k, s: CSReportEngine.cReportSection) =>
+                            s.getSectionLines().forEach((k, sl: CSReportEngine.cReportSectionLine) =>
+                                sl.getControls().forEach((k, c) => c.setSectionLine(null)))
+                    ));
+                    sections.forEach((coll) => coll.forEach((k, s: CSReportEngine.cReportSection) =>
+                            s.getSectionLines().forEach((k, sl: CSReportEngine.cReportSectionLine) =>
+                                sl.getControls().setSectionLine(null)))
+                    );
+
+                    reportWorker.postMessage({
+                        action: 'launch',
+                        launchInfo: launchInfo,
+                        reportAsXml : JSON.stringify(this.report)
+                    });
+
+                    console.log('Message posted to worker');
+
+                    reportWorker.onmessage = (e) => {
+                        console.log('Message received from worker');
+                    }
+
+                    //this.report.launch().then(P.call(this, () => {
+                    //    mouse.dispose();
+                    //    this.closeProgressDlg();
+                    //}));
+
+                } catch (ex) {
+                    cError.mngError(ex);
                     mouse.dispose();
                     this.closeProgressDlg();
-                }));
+                }
 
-            } catch(ex) {
-                cError.mngError(ex);
-                mouse.dispose();
-                this.closeProgressDlg();
-            }
+            }));
         }
 
-        private showProgressDlg(): void {
+        private showProgressDlg() {
             this.cancelPrinting = false;
-            if(this.fProgress === null) {
+            if (this.fProgress === null) {
                 this.fProgress = new FProgress();
             }
             this.fProgress.show();
             this.fProgress.bringToFront();
+            return new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
         }
     }
 }

@@ -4,7 +4,6 @@
     <title>Report Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="csreports.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -640,7 +639,22 @@ End Function
     </div>
 </div>
 
+<div class="controls" tabindex="0">
+    <form>
+      <div>
+        <label for="number1">Multiply number 1: </label>
+        <input type="text" id="number1" value="0" />
+      </div>
+      <div>
+        <label for="number2">Multiply number 2: </label>
+        <input type="text" id="number2" value="0" />
+      </div>
+    </form>
+
+    <p class="result">Result: 0</p>
+</div>
 </body>
+<script type="text/javascript" src="csreports.js"></script>
 <script defer>
 
     String.prototype.contains = function(value) {

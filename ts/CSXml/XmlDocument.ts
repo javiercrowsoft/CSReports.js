@@ -1,19 +1,27 @@
 namespace CSXml {
 
+    import NotImplementedException = CSOAPI.NotImplementedException;
+
     export class XmlDocument {
 
         private xmlDoc: Document;
 
+        public constructor() {
+            this.xmlDoc = new Document();
+        }
+
         appendChild(node: CSXml.XmlNode) {
-
+            this.xmlDoc.appendChild(node.getDomNode());
         }
 
-        createNode(root: string, s: string) {
-            return undefined;
+        createNode(name: string, value: string) {
+            let node = this.xmlDoc.createElement(name);
+            node.nodeValue = value;
+            return new XmlNode(node);
         }
 
-        save(s: string) {
-
+        save(filename: string) {
+            throw new NotImplementedException();
         }
 
         getElementsByTagName(nodeTag: string): XmlNode[] {

@@ -210,8 +210,6 @@ namespace CSReportEngine {
 
             xProperty.setName(cReportConnect.C_RPT_PARAMETERS);
             this.saveParamNode(xDoc, xDoc.addNodeToNode(nodeObj, xProperty));
-
-            return true;
         }
 
         private saveColumnNode(xDoc: CSXml.cXml, node) {
