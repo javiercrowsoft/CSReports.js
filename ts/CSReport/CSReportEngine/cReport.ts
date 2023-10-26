@@ -1885,7 +1885,27 @@ namespace CSReportEngine {
         }
 
         public copy(report: cReport) {
+            this.cleanCollections();
 
+            if(!this.copyAux(report, this.headers, this.C_NODE_RPT_HEADERS)) { return false; }
+            if(!this.copyAux(report, this.details, this.C_NODE_RPT_DETAILS)) { return false; }
+            if(!this.copyAux(report, this.footers, this.C_NODE_RPT_FOOTERS)) { return false; }
+
+            if(!this.copyGroups(report)) { return false; }
+
+            this.pFixGroupIndex();
+
+            if(!this.copyConnect(report)) { return false; }
+            if(!this.copyConnectsAux(report)) { return false; }
+            if(!this.copyLaunchInfo(report)) { return false; }
+
+            this.copyPaperInfo(report);
+
+            this.sortCollection();
+
+            this.originalHeight = this.paperInfo.getCustomHeight();
+
+            return true;
         }
 
         public load() {
@@ -1904,16 +1924,6 @@ namespace CSReportEngine {
                 docXml.setPath(this.path);
 
                 return docXml.openXmlWithDialog().then(P.call(this, () => {
-                    /*
-                    let property: cXmlProperty = docXml.getNodeProperty(
-                        docXml.getRootNode(), "ReportDisconnected");
-
-                    this.path = docXml.getPath();
-                    this.name = docXml.getName();
-                    this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
-
-                    return this.nLoad(docXml);
-                    */
                     return this.loadFromDocXml(docXml);
                 }));
             }
@@ -4265,7 +4275,7 @@ namespace CSReportEngine {
             }
         }
 
-        private nLoad(docXml: cXml) {
+        private cleanCollections() {
             this.pDestroyCrossRef(this.headers);
             this.pDestroyCrossRef(this.details);
             this.pDestroyCrossRef(this.footers);
@@ -4286,6 +4296,11 @@ namespace CSReportEngine {
             this.footers.setCopyColl(this.controls);
             this.groupsHeaders.setCopyColl(this.controls);
             this.groupsFooters.setCopyColl(this.controls);
+        }
+
+        private nLoad(docXml: cXml) {
+
+            this.cleanCollections();
 
             if(!this.loadAux(docXml, this.headers, this.C_NODE_RPT_HEADERS)) { return false; }
             if(!this.loadAux(docXml, this.details, this.C_NODE_RPT_DETAILS)) { return false; }
@@ -4339,6 +4354,26 @@ namespace CSReportEngine {
                     secLn.setControls(this.getControlsInZOrder(secLn.getControls()));
                 }
             }
+        }
+
+        private copyAux(report: cReport, sections: cReportSections, keySection: string): boolean {
+            let nodeObj = docXml.getRootNode();
+            nodeObj = docXml.getNodeFromNode(nodeObj, keySection);
+
+            if(docXml.nodeHasChild(nodeObj)) {
+                let nodeObjSec = docXml.getNodeChild(nodeObj);
+
+                while (nodeObjSec !== null) {
+                    let nodeObjAux = nodeObjSec;
+                    let key: string = docXml.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
+                    let sec: cReportSection = sections.add(null, key);
+                    if(!sec.load(docXml, nodeObjAux))  {
+                        return false;
+                    }
+                    nodeObjSec = docXml.getNextNode(nodeObjSec);
+                }
+            }
+            return true;
         }
 
         private loadAux(docXml: cXml, sections: cReportSections, keySection: string): boolean {
