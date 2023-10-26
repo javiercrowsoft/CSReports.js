@@ -134,6 +134,29 @@ namespace CSReportEngine {
             }
         }
 
+        public copy(from: cReportSectionLine) {
+            this.index = from.getIndex();
+            this.idField = from.getIdField();
+            this.hasFormulaHide = from.getHasFormulaHide();
+
+            if(!this.formulaHide.copy(from.getFormulaHide()))  {
+                return false;
+            }
+
+            if(!this.aspect.copy(from.getAspect()))  {
+                return false;
+            }
+
+            for(let i = 0; i < from.getControls().count(); i++) {
+                const ctrl = this.controls.add(null, from.getControls().getKeys()[i]);
+                if(!ctrl.copy(from.getControls().item(i)))  {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             let nodeObjCtrls: XmlNode = null;
             let nodeObjCtrl: XmlNode = null;

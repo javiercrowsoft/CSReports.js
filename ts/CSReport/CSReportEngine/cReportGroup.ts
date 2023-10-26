@@ -118,6 +118,31 @@ namespace CSReportEngine {
             this.key = rhs;
         }
 
+        public copy(from: cReportGroup) {
+            this.name = from.getName();
+            this.index = from.getIndex();
+            this.comparisonType = from.getComparisonType();
+            this.fieldName = from.getFieldName();
+            this.oderType = from.getOderType();
+            this.printInNewPage = from.getPrintInNewPage();
+            this.rePrintInNewPage = from.getRePrintInNewPage();
+            this.grandTotalGroup = from.getGrandTotalGroup();
+
+            this.fixName();
+
+            if(!this.header.copy(from.getHeader()))  {
+                return false;
+            }
+            this.header.setName(this.name);
+
+            if(!this.footer.copy(from.getFooter()))  {
+                return false;
+            }
+            this.footer.setName(this.name);
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
 

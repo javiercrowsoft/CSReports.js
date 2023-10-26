@@ -70,6 +70,18 @@ namespace CSReportEngine {
             this.strike = rhs;
         }
 
+        public copy(from: cReportFont) {
+            this.bold = from.getBold();
+            this.foreColor = from.getForeColor();
+            this.italic = from.getItalic();
+            this.name = from.getName();
+            this.size = from.getSize();
+            this.underline = from.getUnderline();
+            this.strike = from.getStrike();
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Font");
             this.bold = xDoc.getNodeProperty(nodeObj, "Bold").getValueBool(eTypes.eBoolean);

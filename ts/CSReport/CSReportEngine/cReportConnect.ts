@@ -156,6 +156,30 @@ namespace CSReportEngine {
             });
         }
 
+        public copy(from: cReportConnect): boolean {
+            this.dataSource = from.getDataSource();
+            this.dataSourceType = from.getDataSourceType();
+            this.strConnect = from.getStrConnect();
+
+            this.loadColl(from.getColumns(), this.columns);
+            this.loadColl(from.getParameters(), this.parameters);
+
+            return true;
+        }
+
+        private loadColl(xDoc: CSXml.cXml, node, coll) {
+            if(xDoc.nodeHasChild(node)) {
+                let child = xDoc.getNodeChild(node);
+                while (child !== null) {
+                    let key: string = xDoc.getNodeProperty(child, "Key").getValueString(eTypes.eText);
+                    if(!coll.add(null, key).load(xDoc, child)) {
+                        return false;
+                    }
+                    child = xDoc.getNextNode(child);
+                }
+            }
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj): boolean {
             this.dataSource = xDoc.getNodeProperty(nodeObj, "DataSource").getValueString(eTypes.eText);
             this.dataSourceType = xDoc.getNodeProperty(nodeObj, "DataSourceType").getValueInt(eTypes.eInteger);

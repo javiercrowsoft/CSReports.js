@@ -209,6 +209,33 @@ namespace CSReportEngine {
             this.borderRounded = rhs;
         }
 
+        public copy(from: cReportAspect) {
+            this.align = from.getAlign();
+            this.backColor = from.getBackColor();
+            this.borderColor = from.getBorderColor();
+            this.borderColor3d = from.getBorderColor3d();
+            this.borderColor3dShadow = from.getBorderColor3dShadow();
+            this.borderType = from.getBorderType();
+            this.borderWidth = from.getBorderWidth();
+            this.height = from.getHeight();
+            this.canGrow = from.getCanGrow();
+            this.left = from.getLeft();
+            this.nZOrder = from.getNZOrder();
+            this.selectColor = from.getSelectColor();
+            this.top = from.getTop();
+            this.width = from.getWidth();
+            this.transparent = from.getTransparent();
+            this.format = from.getFormat();
+            this.symbol = from.getSymbol();
+            this.isAccounting = from.getIsAccounting();
+            this.wordWrap = from.getWordWrap();
+            this.borderRounded = from.getBorderRounded();
+
+            this.twipsToPixels();
+
+            return this.font.copy(from.getFont());
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Aspect");
 

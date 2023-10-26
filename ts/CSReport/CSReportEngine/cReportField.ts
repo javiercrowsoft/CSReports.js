@@ -33,6 +33,13 @@ namespace CSReportEngine {
             this.fieldType = rhs;
         }
 
+        public copy(from: cReportField) {
+            this.index = from.getIndex();
+            this.name = from.getName();
+            this.fieldType = from.getFieldType();
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Field");
             this.index = xDoc.getNodeProperty(nodeObj, "Index").getValueInt(eTypes.eInteger);

@@ -79,6 +79,19 @@ namespace CSReportEngine {
             this.pagesToPrint = rhs;
         }
 
+        public copy(from: cReportPaperInfo) {
+            if(from !== null) {
+                this.height = from.getHeight();
+                this.paperSize = from.getPaperSize();
+                this.width = from.getWidth();
+                this.orientation = from.getOrientation();
+                this.customWidth = from.getCustomWidth();
+                this.customHeight = from.getCustomHeight();
+            }
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             if(nodeObj !== null) {
                 this.height = xDoc.getNodeProperty(nodeObj, "Height").getValueInt(eTypes.eLong);

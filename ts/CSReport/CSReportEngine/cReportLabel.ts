@@ -37,6 +37,11 @@ namespace CSReportEngine {
             this.canGrow = rhs;
         }
 
+        public copy(from: cReportLabel) {
+            this.text = from.getText();
+            return this.aspect.copy(from.getAspect());
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Label");
             this.text = xDoc.getNodeProperty(nodeObj, "Text").getValueString(eTypes.eText);

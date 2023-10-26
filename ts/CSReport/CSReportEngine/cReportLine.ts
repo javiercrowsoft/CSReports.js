@@ -14,6 +14,10 @@ namespace CSReportEngine {
             this.aspect = rhs;
         }
 
+        public copy(from: cReportLine) {
+            return this.aspect.copy(from.getAspect());
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Line");
             return this.aspect.load(xDoc, nodeObj);

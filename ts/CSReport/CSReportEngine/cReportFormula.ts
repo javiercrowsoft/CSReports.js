@@ -148,6 +148,16 @@ namespace CSReportEngine {
             this.lastResult = rhs;
         }
 
+        public copy(from: cReportFormula) {
+            if(from !== null) {
+                this.name = from.getName();
+                this.text = from.getText();
+                this.idxGroup = from.getIdxGroup();
+                this.whenEval = from.getWhenEval();
+            }
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, this.name);
 

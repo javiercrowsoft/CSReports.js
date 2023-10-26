@@ -28,17 +28,20 @@ namespace CSReportEngine {
             this.image = rhs;
         }
 
+        public copy(from: cReportImage) {
+            this.image = from.getImage();
+            return this.aspect.copy(from.getAspect());
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: CSXml.XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Image");
-            let vBytes = null;
-            vBytes = xDoc.getBinaryNodeProperty(nodeObj, "Data").getBinaryValue();
+            const vBytes = xDoc.getBinaryNodeProperty(nodeObj, "Data").getBinaryValue();
             //
             // an empty image is serialized as AA== which is vBytes === [0] ( yes the number zero ) and vBytes.length === 1
             //
             if(vBytes.length > 1) {
                 this.image = cImage.deSerialiseBitmap(vBytes);
             }
-            vBytes = [];
             return this.aspect.load(xDoc, nodeObj);
         }
 

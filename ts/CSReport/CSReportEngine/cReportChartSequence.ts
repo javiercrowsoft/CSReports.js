@@ -55,6 +55,14 @@ namespace CSReportEngine {
             this.labelIndex = rhs;
         }
 
+        public copy(from: cReportChartSequence) {
+            this.valueFieldName = from.getValueFieldName();
+            this.labelFieldName = from.getLabelFieldName();
+            this.color = from.getColor();
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode, index: number) {
             try { this.valueFieldName = xDoc.getNodeProperty(nodeObj, "ValueFieldName").getValueString(eTypes.eText); }
             catch  (ex) { }

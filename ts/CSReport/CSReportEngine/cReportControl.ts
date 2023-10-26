@@ -166,6 +166,40 @@ namespace CSReportEngine {
             return this.isFreeCtrl;
         }
 
+        public copy(from: cReportControl) {
+            this.keyPaint = from.getKeyPaint();
+            this.name = from.getName();
+            this.hasFormulaHide = from.getHasFormulaHide();
+            this.hasFormulaValue = from.getHasFormulaValue();
+            this.controlType = from.getControlType();
+            this.tag = from.getTag();
+            this.exportColIdx = from.getExportColIdx();
+            this.isFreeCtrl = from.getIsFreeCtrl();
+
+            try {
+                if(!this.field.copy(from.getField())) { return false; }
+                if(!this.image.copy(from.getImage())) { return false; }
+                if(!this.label.copy(from.getLabel())) { return false; }
+                if(!this.line.copy(from.getLine())) { return false; }
+                if(!this.formulaHide.copy(from.getFormulaHide())) { return false; }
+                if(!this.formulaValue.copy(from.getFormulaValue())) { return false; }
+                if(!this.chart.copy(from.getChart())) { return false; }
+
+                // TODO: remove me after all reports were migrated
+                //
+                if(   this.label.getAspect().getFormat() === ""
+                   && this.field.getFieldType() === CSDatabase.csAdoDataType.adDBTimeStamp) {
+
+                    this.label.getAspect().setFormat("dd/MM/yyyy");
+                }
+
+                return true;
+            }
+            catch(ignore)  {
+                return false;
+            }
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             this.keyPaint = xDoc.getNodeProperty(nodeObj, "KeyPaint").getValueString(eTypes.eText);
             this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);

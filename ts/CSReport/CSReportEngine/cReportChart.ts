@@ -175,6 +175,34 @@ namespace CSReportEngine {
             return this.make(rs.getRows(), "###,###,##0.00", true, fileName);
         }
 
+        public copy(from: cReportChart) {
+            if(from !== null) {
+                this.chartLineStyle = from.getGridLines();
+                this.chartBarOutline = from.getOutlineBars();
+                this.chartShowValues = from.getShowValues();
+                this.pieThickness = from.getThickness();
+                this.pieDiameter = from.getDiameter();
+                this.imageFormat = from.getFormat();
+                this.copyright = from.getCopyRight();
+                this.chartTitle = from.getChartTitle();
+                this.chartType = from.getChartType();
+                this.top = from.getTop();
+                this.groupValue = from.getGroupValue();
+                this.groupFieldName = from.getGroupFieldName();
+                this.groupFieldIndex = from.getGroupFieldIndex();
+                this.sort = from.getSort();
+
+                let index: number = 0;
+                for(let i = 0; i < from.getSeries().count(); i++) {
+                    index = index + 1;
+                    if(!this.getSeries().add(null, "").copy(from.getSeries().item(i))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Chart");
 

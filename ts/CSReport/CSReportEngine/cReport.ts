@@ -1887,9 +1887,9 @@ namespace CSReportEngine {
         public copy(report: cReport) {
             this.cleanCollections();
 
-            if(!this.copyAux(report, this.headers, this.C_NODE_RPT_HEADERS)) { return false; }
-            if(!this.copyAux(report, this.details, this.C_NODE_RPT_DETAILS)) { return false; }
-            if(!this.copyAux(report, this.footers, this.C_NODE_RPT_FOOTERS)) { return false; }
+            if(!this.copyAux(report.getHeaders(), this.headers)) { return false; }
+            if(!this.copyAux(report.getDetails(), this.details)) { return false; }
+            if(!this.copyAux(report.getFooters(), this.footers)) { return false; }
 
             if(!this.copyGroups(report)) { return false; }
 
@@ -4329,10 +4329,14 @@ namespace CSReportEngine {
             }
         }
 
+        private copyPaperInfo(report: cReport): void {
+            this.paperInfo.copy(report.getPaperInfo());
+        }
+
         private loadPaperInfo(docXml: cXml): void {
             let nodeObj = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, this.C_NODE_PAPER_INFO);
-            this.paperInfo.load(docXml, nodeObj)
+            this.paperInfo.load(docXml, nodeObj);
         }
 
         private sortCollection() {
@@ -4356,22 +4360,11 @@ namespace CSReportEngine {
             }
         }
 
-        private copyAux(report: cReport, sections: cReportSections, keySection: string): boolean {
-            let nodeObj = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, keySection);
-
-            if(docXml.nodeHasChild(nodeObj)) {
-                let nodeObjSec = docXml.getNodeChild(nodeObj);
-
-                while (nodeObjSec !== null) {
-                    let nodeObjAux = nodeObjSec;
-                    let key: string = docXml.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
-                    let sec: cReportSection = sections.add(null, key);
-                    if(!sec.load(docXml, nodeObjAux))  {
-                        return false;
-                    }
-                    nodeObjSec = docXml.getNextNode(nodeObjSec);
-                }
+        private copyAux(from: cReportSections, to: cReportSections): boolean {
+            for(let i = 0; i < from.count(); i++) {
+                const secTo: cReportSection = to.add(null, from.getKeys()[i]);
+                const secFrom = from.item(i);
+                if(!secTo.copy(secFrom)) return false;
             }
             return true;
         }
@@ -4419,16 +4412,35 @@ namespace CSReportEngine {
             return true;
         }
 
+        private copyConnect(report: cReport): boolean {
+            return this.connect.load(report.getConnect());
+        }
+
         private loadConnect(docXml: cXml): boolean {
             let nodeObj: XmlNode = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, this.C_RPT_CONNECT);
             return this.connect.load(docXml, nodeObj);
         }
 
+        private copyConnectsAux(report: cReport): boolean {
+            let nodeObj: XmlNode = docXml.getRootNode();
+            nodeObj = docXml.getNodeFromNode(nodeObj, cReportConnectsAux.C_RPT_CONNECTS_AUX);
+            return this.connectsAux.load(docXml, nodeObj);
+        }
+
         private loadConnectsAux(docXml: cXml): boolean {
             let nodeObj: XmlNode = docXml.getRootNode();
             nodeObj = docXml.getNodeFromNode(nodeObj, cReportConnectsAux.C_RPT_CONNECTS_AUX);
             return this.connectsAux.load(docXml, nodeObj);
+        }
+
+        private copyGroups(report: cReport) {
+            for(let i = 0; i < report.getGroups().count(); i++) {
+                const group = this.getGroups().add(null, report.getGroups().getKeys()[i]);
+                if(!group.copy(report.getGroups().item(i)))  {
+                    return false;
+                }
+            }
         }
 
         private loadGroups(docXml: cXml) {
@@ -4448,6 +4460,12 @@ namespace CSReportEngine {
                 }
             }
             return true;
+        }
+
+        private copyLaunchInfo(report: cReport) {
+            let nodeObj: XmlNode = docXml.getRootNode();
+            nodeObj = docXml.getNodeFromNode(nodeObj, cReportLaunchInfo.C_LAUNCH_INFO);
+            return this.launchInfo.load(docXml, nodeObj);
         }
 
         private loadLaunchInfo(docXml: cXml) {
