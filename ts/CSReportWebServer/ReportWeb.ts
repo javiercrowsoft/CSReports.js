@@ -143,7 +143,6 @@ namespace CSReportWebServer {
                     launchInfo.setShowPrintersDialog(true);
 
                     const reportWorker = new Worker("./csreports.js");
-                    debugger;
 
                     this.report.getControls().forEach((k, c) => c.setSectionLine(null));
                     const sections = [

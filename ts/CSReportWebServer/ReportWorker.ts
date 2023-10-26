@@ -1,7 +1,6 @@
 onmessage = function (e) {
     console.log('Worker: Message received from main script');
 
-    debugger;
     switch(e.data.action) {
         case 'launch':
             const report = new CSReportEngine.cReport();

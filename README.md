@@ -54,7 +54,9 @@ npm install -g npx
 
 ./build.sh
 
-then run /dist/index.html in your browser
+then
+
+./start.sh
 
 ## To compile just
 
