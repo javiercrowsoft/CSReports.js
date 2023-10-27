@@ -12,28 +12,28 @@ namespace CSReportEngine {
 
         private initialize() {
 
-            const C_LANGUAGE_DESCRIPT: string = "language: 1 Spanish, 2 English y 3 French";
-            const C_CONTROL_NAME_DESCRIPT: string = "control_name: an string which identifies the control.";
-            const C_COMPARE_DESCRIPT: string = "It returns a boolean after comparing a control's value with the second argument ";
-            const C_VALUE_TO_COMPARE_DESCRIPT: string = "value: a number or a text to by compared with.";
-            const C_GROUP_FUNCTION_DESCRIPT: string = "It function calculates its value before processing the group."
+            const LANGUAGE_DESCRIPT: string = "language: 1 Spanish, 2 English y 3 French";
+            const CONTROL_NAME_DESCRIPT: string = "control_name: an string which identifies the control.";
+            const COMPARE_DESCRIPT: string = "It returns a boolean after comparing a control's value with the second argument ";
+            const VALUE_TO_COMPARE_DESCRIPT: string = "value: a number or a text to by compared with.";
+            const GROUP_FUNCTION_DESCRIPT: string = "It function calculates its value before processing the group."
                                                     + "\nWhen CSReport found this function it iterates through the "
                                                     + "main recordset to the last row in the group and calculates "
                                                     + "the $1  of the values in the column refered by the "
                                                     + "column_name parameter.";
-            const C_COLUMN_NAME: string = "column_name: name of the column in the main recordset.\n";
-            const C_GROUP_INDEX: string = "group_index: index of the group"
+            const COLUMN_NAME: string = "column_name: name of the column in the main recordset.\n";
+            const GROUP_INDEX: string = "group_index: index of the group"
                                         + "\nWhen group_index is equal to -1 the index of the group section in which the control is contained will be used."
                                         + "\nWhen group_index is equal to 0 the $1 of the column of every row in the main recordset will be returned."
                                         + "\nWhen group_index is greater than zero the $1 of the column of every row in the main recordset contained in the group which index is equal to index_group will be returned.";
 
-            const C_GROUP_FUNCTION_DESCRIPT2: string = "It function calculates its value before processing the group."
+            const GROUP_FUNCTION_DESCRIPT2: string = "It function calculates its value before processing the group."
                                                     + "\nWhen CSReport found this function it iterates through the "
                                                     + "main recordset to the last row in the group and calculates "
                                                     + "the $1.";
-            const C_COLUMN_NAME1: string = "column_name1: name of the column in the main recordset to summarize.\n";
-            const C_COLUMN_NAME2: string = "column_name2: name of the column in the main recordset to compare with the total.\n";
-            const C_GROUP_INDEX2: string = "group_index: index of the group"
+            const COLUMN_NAME1: string = "column_name1: name of the column in the main recordset to summarize.\n";
+            const COLUMN_NAME2: string = "column_name2: name of the column in the main recordset to compare with the total.\n";
+            const GROUP_INDEX2: string = "group_index: index of the group"
                                         + "\nWhen group_index is equal to -1 the index of the group section in which the control is contained will be used."
                                         + "\nWhen group_index is equal to 0 the $1 will be evaluated using every row in the main recordset."
                                         + "\nWhen group_index is greater than zero the $1 will be evaluated using every row contained in the group which index is equal to index_group.\n";
@@ -100,28 +100,28 @@ namespace CSReportEngine {
             fi = this.add2(null, csRptFormulaType.CSRPTF_IS_EQUAL);
             fi.setName("_isEqual");
             fi.setNameUser("Equal to");
-            fi.setDecrip(C_COMPARE_DESCRIPT + "\n\nSyntax: _isEqual(control_name, value)\n" + C_CONTROL_NAME_DESCRIPT + "\n" + C_VALUE_TO_COMPARE_DESCRIPT);
+            fi.setDecrip(COMPARE_DESCRIPT + "\n\nSyntax: _isEqual(control_name, value)\n" + CONTROL_NAME_DESCRIPT + "\n" + VALUE_TO_COMPARE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_IS_EQUAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_EQUAL);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_IS_NOT_EQUAL);
             fi.setName("_isNotEqual");
             fi.setNameUser("It is not equal to");
-            fi.setDecrip(C_COMPARE_DESCRIPT + "\n\nSyntax: _isNotEqual(control_name, value)\n" + C_CONTROL_NAME_DESCRIPT + "\n" + C_VALUE_TO_COMPARE_DESCRIPT);
+            fi.setDecrip(COMPARE_DESCRIPT + "\n\nSyntax: _isNotEqual(control_name, value)\n" + CONTROL_NAME_DESCRIPT + "\n" + VALUE_TO_COMPARE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_IS_NOT_EQUAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_NOT_EQUAL);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_IS_GREATER_THAN);
             fi.setName("_isGreaterThan");
             fi.setNameUser("It is greater than");
-            fi.setDecrip(C_COMPARE_DESCRIPT + "\n\nSyntax: _isGreaterThan(control_name, value)\n" + C_CONTROL_NAME_DESCRIPT + "\n" + C_VALUE_TO_COMPARE_DESCRIPT);
+            fi.setDecrip(COMPARE_DESCRIPT + "\n\nSyntax: _isGreaterThan(control_name, value)\n" + CONTROL_NAME_DESCRIPT + "\n" + VALUE_TO_COMPARE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_IS_GREATER_THAN);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_GREATER_THAN);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_IS_LESS_THAN);
             fi.setName("_iseLowerthan");
             fi.setNameUser("It is lower than");
-            fi.setDecrip(C_COMPARE_DESCRIPT + "\n\nSyntax: _isLowerThan(control_name, value)\n" + C_CONTROL_NAME_DESCRIPT + "\n" + C_VALUE_TO_COMPARE_DESCRIPT);
+            fi.setDecrip(COMPARE_DESCRIPT + "\n\nSyntax: _isLowerThan(control_name, value)\n" + CONTROL_NAME_DESCRIPT + "\n" + VALUE_TO_COMPARE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_IS_LESS_THAN);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_IS_LESS_THAN);
 
@@ -138,62 +138,62 @@ namespace CSReportEngine {
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_TOTAL);
             fi.setName("_groupTotal");
             fi.setNameUser("Group) Group total");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "summatory")
+            fi.setDecrip(GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "summatory")
                             + "\n\nSyntax: _groupTotal(column_name, group_index)"
-                            + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX.replaceAll("$1", "summatory"));
+                            + "\n\n" + COLUMN_NAME
+                            + "\n" + GROUP_INDEX.replaceAll("$1", "summatory"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_TOTAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_TOTAL);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_MAX);
             fi.setName("_groupMax");
             fi.setNameUser("Group) Group maximum");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "maximum value")
+            fi.setDecrip(GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "maximum value")
                             + "\n\nSyntax: _groupTotal(column_name, group_index)"
-                            + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX.replaceAll("$1", "maximum value"));
+                            + "\n\n" + COLUMN_NAME
+                            + "\n" + GROUP_INDEX.replaceAll("$1", "maximum value"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_MAX);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_MAX);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_MIN);
             fi.setName("_groupMin");
             fi.setNameUser("Group) Group minimum");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "minimum value")
+            fi.setDecrip(GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "minimum value")
                             + "\n\nSyntax: _groupTotal(column_name, group_index)"
-                            + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX.replaceAll("$1", "minimum value"));
+                            + "\n\n" + COLUMN_NAME
+                            + "\n" + GROUP_INDEX.replaceAll("$1", "minimum value"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_MIN);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_MIN);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_AVERAGE);
             fi.setName("_groupAverage");
             fi.setNameUser("Group) Group average");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "average value")
+            fi.setDecrip(GROUP_FUNCTION_DESCRIPT.replaceAll("$1", "average value")
                             + "\n\nSyntax: _groupAverage(column_name, group_index)"
-                            + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX.replaceAll("$1", "average value"));
+                            + "\n\n" + COLUMN_NAME
+                            + "\n" + GROUP_INDEX.replaceAll("$1", "average value"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_AVERAGE);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_AVERAGE);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_PERCENT);
             fi.setName("_groupPercent");
             fi.setNameUser("Group) Group percent");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "percent value column_name2 represents in the summatory of column_name1")
+            fi.setDecrip(GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "percent value column_name2 represents in the summatory of column_name1")
                             + "\n\nSyntax: _groupTotal(column_name1, column_name2, group_index)"
-                            + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_COLUMN_NAME
+                            + "\n\n" + COLUMN_NAME
+                            + "\n" + COLUMN_NAME
                             + "\nNote: usually column_name1 and column_name2 have the same value because it is used to get the perecentage a value in a set represents."
-                            + "\n" + C_GROUP_INDEX2.replaceAll("$1", "percent value"));
+                            + "\n" + GROUP_INDEX2.replaceAll("$1", "percent value"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_PERCENT);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_PERCENT);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_GROUP_COUNT);
             fi.setName("_groupCount");
             fi.setNameUser("Group) Amount of lines in a group");
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "amunt of lines in the group")
+            fi.setDecrip(GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "amunt of lines in the group")
                             + "\n\nSyntax: _groupCount(column_name, group_index)"
-                            + "\n\n" + C_COLUMN_NAME
-                            + "\n" + C_GROUP_INDEX2.replaceAll("$1", "amunt of lines"));
+                            + "\n\n" + COLUMN_NAME
+                            + "\n" + GROUP_INDEX2.replaceAll("$1", "amunt of lines"));
             fi.setId(csRptFormulaType.CSRPTF_GROUP_COUNT);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_COUNT);
 
@@ -207,9 +207,9 @@ namespace CSReportEngine {
                             + "\nWhen group_index is 0 the line number in the report will be returned."
                             + "\nWhen group_index is > 0 the line number in the group will be returned.");
 
-            fi.setDecrip(C_GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "line number of the current line in the group.")
+            fi.setDecrip(GROUP_FUNCTION_DESCRIPT2.replaceAll("$1", "line number of the current line in the group.")
                             + "\n\nSyntax: _groupLineNumber(group_index)"
-                            + "\n" + C_GROUP_INDEX2.replaceAll("$1", "line number of the current line in the group"));
+                            + "\n" + GROUP_INDEX2.replaceAll("$1", "line number of the current line in the group"));
 
             fi.setId(csRptFormulaType.CSRPTF_GROUP_LINE_NUMBER);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GROUP_LINE_NUMBER);
@@ -220,14 +220,14 @@ namespace CSReportEngine {
             fi = this.add2(null, csRptFormulaType.CSRPTF_MAX);
             fi.setName("_max");
             fi.setNameUser("Maximum value in a column");
-            fi.setDecrip("It returns a double with the maximun value in a column.\n\nSyntax: _max(control_name)\n" + C_CONTROL_NAME_DESCRIPT);
+            fi.setDecrip("It returns a double with the maximun value in a column.\n\nSyntax: _max(control_name)\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_MAX);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_MAX);
 
             fi = this.add2(null, csRptFormulaType.CSRPTF_MIN);
             fi.setName("_min");
             fi.setNameUser("Minimum value in a column");
-            fi.setDecrip("It returns a double with the minimu valie in a column.\n\nSyntax: _min(control_name)\n" + C_CONTROL_NAME_DESCRIPT);
+            fi.setDecrip("It returns a double with the minimu valie in a column.\n\nSyntax: _min(control_name)\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_MIN);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_MIN);
 
@@ -237,7 +237,7 @@ namespace CSReportEngine {
             fi = this.add2(null, csRptFormulaType.CSRPTF_NUMBER_TO_STRING);
             fi.setName("_numberToString");
             fi.setNameUser("Number to String");
-            fi.setDecrip("It returns the number expressed in words.\n\nSyntax: _numberToString(control_name,nLanguage)\n" + C_CONTROL_NAME_DESCRIPT + "\n" + C_LANGUAGE_DESCRIPT);
+            fi.setDecrip("It returns the number expressed in words.\n\nSyntax: _numberToString(control_name,nLanguage)\n" + CONTROL_NAME_DESCRIPT + "\n" + LANGUAGE_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_NUMBER_TO_STRING);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_NUMBER_TO_STRING);
 
@@ -299,7 +299,7 @@ namespace CSReportEngine {
             fi.setName("_getString");
             fi.setNameUser("Get an string");
             fi.setDecrip("It returns the value of the control refered by the control_name parameter surrounded by double quotes"
-                            + "\n\nSyntax: _getString(control_name)\n" + C_CONTROL_NAME_DESCRIPT);
+                            + "\n\nSyntax: _getString(control_name)\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_GET_STRING);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_GET_STRING);
 
@@ -318,7 +318,7 @@ namespace CSReportEngine {
             fi.setName("_average");
             fi.setNameUser("Average of a Column");
             fi.setDecrip("It returns a double with the average value of a column"
-                            + "\n\nSyntax: _average(control_name)\n" + C_CONTROL_NAME_DESCRIPT);
+                            + "\n\nSyntax: _average(control_name)\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_AVERAGE);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_AVERAGE);
 
@@ -336,7 +336,7 @@ namespace CSReportEngine {
             fi = this.add2(null, csRptFormulaType.CSRPTF_SUM);
             fi.setName("_sum");
             fi.setNameUser("Totals of a column");
-            fi.setDecrip("It returns the total of a column\n\nSyntax: _sum(control_name)\n" + C_CONTROL_NAME_DESCRIPT);
+            fi.setDecrip("It returns the total of a column\n\nSyntax: _sum(control_name)\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_SUM);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_SUM);
 
@@ -344,7 +344,7 @@ namespace CSReportEngine {
             fi.setName("_sumTime");
             fi.setNameUser("Totals in time units of a column");
             fi.setDecrip("It returns the amount of hours, minutes and seconds from a column which contains hours and minutes in the format hh:nn"
-                            + "\n\nSyntax: _sumTime(control_name, show_seconds)\n" + C_CONTROL_NAME_DESCRIPT);
+                            + "\n\nSyntax: _sumTime(control_name, show_seconds)\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_SUM_TIME);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_SUM_TIME);
 
@@ -354,7 +354,7 @@ namespace CSReportEngine {
             fi = this.add2(null, csRptFormulaType.CSRPTF_LENGTH);
             fi.setName("_length");
             fi.setNameUser("Length of a control's value");
-            fi.setDecrip("It returns an int with the length of a control's value\n\nSyntax: _length(control_name)\n\n" + C_CONTROL_NAME_DESCRIPT);
+            fi.setDecrip("It returns an int with the length of a control's value\n\nSyntax: _length(control_name)\n\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_LENGTH);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_LENGTH);
 
@@ -365,7 +365,7 @@ namespace CSReportEngine {
                         + "\n\nThis is the only function which is used in the text property of a control. "
                         + "the syntax is very weird because you don't call this function using its name "
                         + "but you put in the text property of a control the name of other control "
-                        + "surrounded by two ats (@@control_name@@)\n\nSyntax: @@control_name@@\n\n" + C_CONTROL_NAME_DESCRIPT);
+                        + "surrounded by two ats (@@control_name@@)\n\nSyntax: @@control_name@@\n\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_TEXT_REPLACE);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_TEXT_REPLACE);
 
@@ -376,7 +376,7 @@ namespace CSReportEngine {
             fi.setName("_value");
             fi.setNameUser("Value of a control");
             fi.setDecrip("It returns an string with the value of the control refered by the control_name parameter"
-                            + "\n\nSyntax: _value(control_name)\n\n" + C_CONTROL_NAME_DESCRIPT);
+                            + "\n\nSyntax: _value(control_name)\n\n" + CONTROL_NAME_DESCRIPT);
             fi.setId(csRptFormulaType.CSRPTF_VAL);
             fi.setHelpContextId(csRptFormulaType.CSRPTF_VAL);
         }

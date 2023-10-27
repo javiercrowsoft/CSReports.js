@@ -118,12 +118,12 @@ namespace CSReportEditor {
             return this.saveChanges();
         }
 
-        private C_TOP_BODY: number = 10;
-        private C_LEFT_BODY: number = 0;
-        private C_MIN_HEIGHT_SECTION: number = 3;
-        private C_SECTION_LINE: string = "L ";
+        private TOP_BODY: number = 10;
+        private LEFT_BODY: number = 0;
+        private MIN_HEIGHT_SECTION: number = 3;
+        private SECTION_LINE: string = "L ";
 
-        private C_NO_MOVE: number = -1111111;
+        private NO_MOVE: number = -1111111;
 
         private report: cReport = null;
         private paint: cReportPaint = null;
@@ -909,9 +909,9 @@ namespace CSReportEditor {
             let po: cReportPaintObject = this.paint.getPaintObject(this.keyMoving);
 
             switch (po.getTag()) {
-                case cGlobals.C_KEY_DETAIL:
-                case cGlobals.C_KEY_FOOTER:
-                case cGlobals.C_KEY_HEADER:
+                case cGlobals.KEY_DETAIL:
+                case cGlobals.KEY_FOOTER:
+                case cGlobals.KEY_HEADER:
                     this.moveType = csRptEditorMoveType.CSRPTEDMOVTVERTICAL;
                     this.picReport.setCursor(Cursor.SizeNS);
                     break;
@@ -1003,9 +1003,9 @@ namespace CSReportEditor {
                             this.keyMoving = sKey;
 
                             switch (po.getTag()) {
-                                case cGlobals.C_KEY_DETAIL:
-                                case cGlobals.C_KEY_FOOTER:
-                                case cGlobals.C_KEY_HEADER:
+                                case cGlobals.KEY_DETAIL:
+                                case cGlobals.KEY_FOOTER:
+                                case cGlobals.KEY_HEADER:
 
                                     // only if no controls are selected
                                     //
@@ -1124,9 +1124,9 @@ namespace CSReportEditor {
                             switch (po.getTag())
                             {
                                 // this sections can not be moved
-                                case cGlobals.C_KEY_HEADER:
-                                case cGlobals.C_KEY_DETAIL:
-                                case cGlobals.C_KEY_FOOTER:
+                                case cGlobals.KEY_HEADER:
+                                case cGlobals.KEY_DETAIL:
+                                case cGlobals.KEY_FOOTER:
                                     noDelete = true;
                                     break;
 
@@ -1531,28 +1531,28 @@ namespace CSReportEditor {
                 else if(this.keySizing !== "") {
                     switch (this.moveType) {
                         case csRptEditorMoveType.CSRPTEDMOVDOWN:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, y);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFT:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHT:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, x, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, x, cGlobals.NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVUP:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, y, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, y, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFTDOWN:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, y);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFTUP:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, y, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, y, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, cGlobals.C_NO_CHANGE, x, y);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, x, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHTUP:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.C_NO_CHANGE, y, x, cGlobals.C_NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, y, x, cGlobals.NO_CHANGE);
                             break;
                     }
                     this.moving = true;
@@ -1587,9 +1587,9 @@ namespace CSReportEditor {
                         }
                         else {
                             switch (po.getTag()) {
-                                case cGlobals.C_KEY_DETAIL:
-                                case cGlobals.C_KEY_FOOTER:
-                                case cGlobals.C_KEY_HEADER:
+                                case cGlobals.KEY_DETAIL:
+                                case cGlobals.KEY_FOOTER:
+                                case cGlobals.KEY_HEADER:
                                     this.keyMoving = sKey;
                                     this.keySizing = "";
                                     this.picReport.setCursor(Cursor.SizeNS);
@@ -1778,10 +1778,10 @@ namespace CSReportEditor {
                     switch (this.moveType) {
                         case csRptEditorMoveType.CSRPTEDMOVTALL:
                             if(this.bMoveVertical) {
-                                this.pMoveAll(this.C_NO_MOVE, y);
+                                this.pMoveAll(this.NO_MOVE, y);
                             }
                             else if(this.bMoveHorizontal) {
-                                this.pMoveAll(x, this.C_NO_MOVE);
+                                this.pMoveAll(x, this.NO_MOVE);
                             }
                             else {
                                 this.pMoveAll(x, y);
@@ -2374,13 +2374,13 @@ namespace CSReportEditor {
             // we would move the control to the desired
             // section line
             //
-            let ctrl = this.report.getHeaders().item(cGlobals.C_KEY_HEADER)
+            let ctrl = this.report.getHeaders().item(cGlobals.KEY_HEADER)
                 .getSectionLines().item(0).getControls().add();
 
             // later we will set the properties related to the type of the control
             //
             this.nextNameCtrl = this.nextNameCtrl + 1;
-            ctrl.setName(cGlobals.C_CONTROL_NAME + this.nextNameCtrl);
+            ctrl.setName(cGlobals.CONTROL_NAME + this.nextNameCtrl);
 
             if(baseControl === null) {
                 this.setNewControlProperties(ctrl);
@@ -2660,13 +2660,13 @@ namespace CSReportEditor {
                 case csRptSectionType.MAIN_FOOTER:
 
                     aspect = sec.getSectionLines().add(null, "", 0).getAspect();
-                    aspect.setHeight(cGlobals.C_HEIGHT_NEW_SECTION);
+                    aspect.setHeight(cGlobals.HEIGHT_NEW_SECTION);
                     aspect.setWidth(sec.getAspect().getWidth());
 
                     // for new sections the top is the top of the previous section
-                    // plus cGlobals.C_HEIGHT_NEW_SECTION
+                    // plus cGlobals.HEIGHT_NEW_SECTION
                     //
-                    aspect.setTop(sec.getSectionLines().item(0).getAspect().getTop() - cGlobals.C_HEIGHT_NEW_SECTION);
+                    aspect.setTop(sec.getSectionLines().item(0).getAspect().getTop() - cGlobals.HEIGHT_NEW_SECTION);
                     break;
 
                 default:
@@ -2691,17 +2691,17 @@ namespace CSReportEditor {
                     // which is used to instruct moveSection to add
                     // to the section height the size of the new section line
                     //
-                    this.newSecLineOffSet = cGlobals.C_HEIGHT_NEW_SECTION;
+                    this.newSecLineOffSet = cGlobals.HEIGHT_NEW_SECTION;
 
                     aspect = sec.getSectionLines().add().getAspect();
-                    aspect.setHeight(cGlobals.C_HEIGHT_NEW_SECTION);
+                    aspect.setHeight(cGlobals.HEIGHT_NEW_SECTION);
                     aspect.setWidth(sec.getAspect().getWidth());
 
                     break;
             }
 
             aspect = sec.getAspect();
-            aspect.setHeight(aspect.getHeight() + cGlobals.C_HEIGHT_NEW_SECTION);
+            aspect.setHeight(aspect.getHeight() + cGlobals.HEIGHT_NEW_SECTION);
 
             this.pAddSectionLinesAux(sec);
 
@@ -2761,10 +2761,10 @@ namespace CSReportEditor {
                 case csRptSectionType.MAIN_FOOTER:
 
                     aspect = sec.getAspect();
-                    aspect.setTop(aspect.getTop() - cGlobals.C_HEIGHT_NEW_SECTION);
+                    aspect.setTop(aspect.getTop() - cGlobals.HEIGHT_NEW_SECTION);
                     this.moveFooter(sec.getKey(), minBottom, maxBottom);
                     this.offY = 0;
-                    y = aspect.getHeight() + aspect.getTop() - this.offSet - cGlobals.C_HEIGHT_BAR_SECTION;
+                    y = aspect.getHeight() + aspect.getTop() - this.offSet - cGlobals.HEIGHT_BAR_SECTION;
                     typeSecLn = csRptSectionType.SECLN_FOOTER;
                     index = 0;
                     break;
@@ -2777,7 +2777,7 @@ namespace CSReportEditor {
                 this.paintSection(secL.getAspect(),
                                 secL.getKey(),
                                 sec.getTypeSection(),
-                                this.C_SECTION_LINE + (sec.getSectionLines().count() - 2).toString(),
+                                this.SECTION_LINE + (sec.getSectionLines().count() - 2).toString(),
                                 true));
 
             // section line
@@ -2787,7 +2787,7 @@ namespace CSReportEditor {
 
             // section
             po = this.paint.getPaintSections().item(sec.getKeyPaint());
-            po.setTextLine(this.C_SECTION_LINE + (sec.getSectionLines().count() - 1).toString());
+            po.setTextLine(this.SECTION_LINE + (sec.getSectionLines().count() - 1).toString());
 
             this.moveSection(this.paint.getPaintSections().item(this.keyFocus), 0, y,
                 minBottom.get(), maxBottom.get(), sec, false);
@@ -2829,7 +2829,7 @@ namespace CSReportEditor {
                     this.moveSection(this.paint.getPaintObject(rptSection.getKeyPaint()),
                                 0,
                                 aspect.getTop(),
-                                aspect.getTop() + cGlobals.C_HEIGHT_NEW_SECTION,
+                                aspect.getTop() + cGlobals.HEIGHT_NEW_SECTION,
                                 aspect.getTop() + rptSection.getAspect().getHeight(),
                                 rptSection,
                                 true);
@@ -2867,9 +2867,9 @@ namespace CSReportEditor {
                     aspect = rptSection.getAspect();
                     this.moveSection(this.paint.getPaintObject(rptSection.getKeyPaint()),
                                 0,
-                                aspect.getTop() + cGlobals.C_HEIGHT_NEW_SECTION,
+                                aspect.getTop() + cGlobals.HEIGHT_NEW_SECTION,
                                 aspect.getTop(),
-                                aspect.getTop() + cGlobals.C_HEIGHT_NEW_SECTION,
+                                aspect.getTop() + cGlobals.HEIGHT_NEW_SECTION,
                                 rptSection,
                                 true);
                     break;
@@ -2888,7 +2888,7 @@ namespace CSReportEditor {
 
                     aspect = topSec.getAspect();
                     rptSection.getAspect().setWidth(aspect.getWidth());
-                    rptSection.getAspect().setHeight(cGlobals.C_HEIGHT_NEW_SECTION);
+                    rptSection.getAspect().setHeight(cGlobals.HEIGHT_NEW_SECTION);
                     rptSection.getAspect().setTop(aspect.getTop() + aspect.getHeight());
 
                     rptSection.setKeyPaint(this.paintSection(rptSection.getAspect(),
@@ -2903,7 +2903,7 @@ namespace CSReportEditor {
                     this.offY = 0;
 
                     aspect = rptSection.getAspect();
-                    y = aspect.getHeight() + aspect.getTop() - cGlobals.C_HEIGHT_BAR_SECTION;
+                    y = aspect.getHeight() + aspect.getTop() - cGlobals.HEIGHT_BAR_SECTION;
 
                     this.moveSection(paintObj, 0, y, minBottom.get(), maxBottom.get(), rptSection, true);
                     break;
@@ -2918,7 +2918,7 @@ namespace CSReportEditor {
 
                     aspect = footers.item(1).getAspect();
                     rptSection.getAspect().setWidth(aspect.getWidth());
-                    rptSection.getAspect().setHeight(cGlobals.C_HEIGHT_NEW_SECTION);
+                    rptSection.getAspect().setHeight(cGlobals.HEIGHT_NEW_SECTION);
                     rptSection.getAspect().setTop(aspect.getTop());
 
                     rptSection.setKeyPaint(this.paintSection(rptSection.getAspect(),
@@ -2933,7 +2933,7 @@ namespace CSReportEditor {
                     this.offY = 0;
 
                     aspect = rptSection.getAspect();
-                    y = aspect.getHeight() + aspect.getTop() - this.offSet - cGlobals.C_HEIGHT_BAR_SECTION;
+                    y = aspect.getHeight() + aspect.getTop() - this.offSet - cGlobals.HEIGHT_BAR_SECTION;
 
                     this.moveSection(paintObj, 0, y, minBottom.get(), maxBottom.get(), rptSection, true);
                     break;
@@ -4217,9 +4217,9 @@ namespace CSReportEditor {
             // we only draw the bottom line of the sections
             //
             paintAspect.setLeft(0);
-            paintAspect.setTop(aspect.getTop() + aspect.getHeight() - cGlobals.C_HEIGHT_BAR_SECTION);
+            paintAspect.setTop(aspect.getTop() + aspect.getHeight() - cGlobals.HEIGHT_BAR_SECTION);
             paintAspect.setWidth(aspect.getWidth());
-            paintAspect.setHeight(cGlobals.C_HEIGHT_BAR_SECTION);
+            paintAspect.setHeight(cGlobals.HEIGHT_BAR_SECTION);
             paintAspect.setBorderType(csReportBorderType.CS_RPT_BS_FIXED);
             paintAspect.setBorderWidth(1);
 
@@ -4479,7 +4479,7 @@ namespace CSReportEditor {
 
                 if(rptSecLine.getKeyPaint() !== "") {
                     paintSec = this.paint.getPaintSections().item(rptSecLine.getKeyPaint());
-                    paintSec.getAspect().setTop(secLineAspect.getTop() + secLineAspect.getHeight() - cGlobals.C_HEIGHT_BAR_SECTION);
+                    paintSec.getAspect().setTop(secLineAspect.getTop() + secLineAspect.getHeight() - cGlobals.HEIGHT_BAR_SECTION);
                 }
                 else {
                     paintSec = this.paint.getPaintSections().item(rptSec.getKeyPaint());
@@ -4532,7 +4532,7 @@ namespace CSReportEditor {
             if(paintSec !== null) {
                 paintSec.getAspect().setTop(aspect.getTop()
                                             + aspect.getHeight()
-                                            - cGlobals.C_HEIGHT_BAR_SECTION);
+                                            - cGlobals.HEIGHT_BAR_SECTION);
                 paintSec.setHeightSec(aspect.getHeight());
             }
         }
@@ -4598,7 +4598,7 @@ namespace CSReportEditor {
             // to the bottom of the report
             //
             secToMove.getAspect().setHeight(aspect.getTop()
-                                            + cGlobals.C_HEIGHT_BAR_SECTION
+                                            + cGlobals.HEIGHT_BAR_SECTION
                                             - secToMove.getAspect().getTop());
 
             // every section bellow this section needs to update its top
@@ -4971,7 +4971,7 @@ namespace CSReportEditor {
                             secLine.getAspect(),
                             secLine.getKey(),
                             sec.getTypeSection(),
-                            this.C_SECTION_LINE + i.toString(),
+                            this.SECTION_LINE + i.toString(),
                             true));
 
                     // we set the height of every section line
@@ -4986,7 +4986,7 @@ namespace CSReportEditor {
                 // textLine to show the name of the last line
                 //
                let po: cReportPaintObject = this.paint.getPaintSections().item(sec.getKeyPaint());
-                po.setTextLine(this.C_SECTION_LINE + (sec.getSectionLines().count() - 1).toString());
+                po.setTextLine(this.SECTION_LINE + (sec.getSectionLines().count() - 1).toString());
             }
 
             // we set the height of the last section line
@@ -4999,8 +4999,8 @@ namespace CSReportEditor {
 
         private refreshNextNameCtrl(nameCtrl: string) {
             let x: number = 0;
-            if(nameCtrl.substring(0, cGlobals.C_CONTROL_NAME.length).toUpperCase() === cGlobals.C_CONTROL_NAME.toUpperCase()) {
-                x = Utils.valInt(nameCtrl.substring(cGlobals.C_CONTROL_NAME.length + 1));
+            if(nameCtrl.substring(0, cGlobals.CONTROL_NAME.length).toUpperCase() === cGlobals.CONTROL_NAME.toUpperCase()) {
+                x = Utils.valInt(nameCtrl.substring(cGlobals.CONTROL_NAME.length + 1));
                 if(x > this.nextNameCtrl) {
                     this.nextNameCtrl = x + 1;
                 }
@@ -5186,10 +5186,10 @@ namespace CSReportEditor {
 
         private getLeftBody() {
             if(cMainEditor.gHideLeftBar) {
-                return this.C_LEFT_BODY;
+                return this.LEFT_BODY;
             }
             else {
-                return this.picRule.getWidth() + this.C_LEFT_BODY;
+                return this.picRule.getWidth() + this.LEFT_BODY;
             }
         }
 
@@ -5207,7 +5207,7 @@ namespace CSReportEditor {
             if(pageHeight > realPageHeight) { realPageHeight = pageHeight; }
 
             this.picReport.setHeight(realPageHeight);
-            this.picRule.setHeight(realPageHeight + this.C_TOP_BODY * 2);
+            this.picRule.setHeight(realPageHeight + this.TOP_BODY * 2);
 
             return pageHeight;
         }
@@ -5249,11 +5249,11 @@ namespace CSReportEditor {
 
                 aspect = paintObj.getAspect();
 
-                if(x !== this.C_NO_MOVE) {
+                if(x !== this.NO_MOVE) {
                     aspect.setLeft(x - this.offX + offsetLeft);
                 }
 
-                if(y !== this.C_NO_MOVE) {
+                if(y !== this.NO_MOVE) {
                     aspect.setTop(y - this.offY + offsetTop);
                 }
                 else {
@@ -5409,7 +5409,7 @@ namespace CSReportEditor {
                 y = rptSec.getAspect().getTop()
                     - paintObj.getAspect().getOffset()
                     + cEditor.getSecHeightFromSecLines(rptSec)
-                    - cGlobals.C_HEIGHT_BAR_SECTION;
+                    - cGlobals.HEIGHT_BAR_SECTION;
 
                 this.offY = 0;
                 paintObj = this.paint.getPaintSections().item(rptSec.getKeyPaint());
@@ -5476,7 +5476,7 @@ namespace CSReportEditor {
             // the section line height has been changed
             //
             secLn.getAspect().setHeight(aspect.getTop()
-                                        + cGlobals.C_HEIGHT_BAR_SECTION
+                                        + cGlobals.HEIGHT_BAR_SECTION
                                         - secLn.getAspect().getTop());
         }
 
@@ -5565,8 +5565,8 @@ namespace CSReportEditor {
         }
 
         private pMoveControlAfterResize(aspect: cReportAspect, bSizing: boolean) {
-            const C_MIN_WIDTH: number = 1;
-            const C_MIN_HEIGHT: number = 1;
+            const MIN_WIDTH: number = 1;
+            const MIN_HEIGHT: number = 1;
 
             let rptCtrlAspect: cReportAspect = null;
 
@@ -5613,13 +5613,13 @@ namespace CSReportEditor {
 
             // Validations
 
-            // Width can't be lower than C_MIN_WIDTH
+            // Width can't be lower than MIN_WIDTH
             //
-            if(aspect.getWidth() < C_MIN_WIDTH) { aspect.setWidth(C_MIN_WIDTH); }
+            if(aspect.getWidth() < MIN_WIDTH) { aspect.setWidth(MIN_WIDTH); }
 
-            // Height can't be lower than C_MIN_HEIGHT
+            // Height can't be lower than MIN_HEIGHT
             //
-            if(aspect.getHeight() < C_MIN_HEIGHT) { aspect.setHeight(C_MIN_HEIGHT); }
+            if(aspect.getHeight() < MIN_HEIGHT) { aspect.setHeight(MIN_HEIGHT); }
         }
 
         private moveHeader(sKeySection: string,
@@ -5636,12 +5636,12 @@ namespace CSReportEditor {
             // MinBottom
             //-----------
             if(index === 0) {
-                minBottom.set(this.C_MIN_HEIGHT_SECTION);
+                minBottom.set(this.MIN_HEIGHT_SECTION);
             }
             else {
-                // bottom of previous header + C_Min_Height_Section
+                // bottom of previous header + MIN_HEIGHT_SECTION
                 let aspect: cReportAspect = this.report.getHeaders().item(index - 1).getAspect();
-                minBottom.set(aspect.getTop() + aspect.getHeight() + this.C_MIN_HEIGHT_SECTION);
+                minBottom.set(aspect.getTop() + aspect.getHeight() + this.MIN_HEIGHT_SECTION);
             }
 
             if(!isForSectionLine) {
@@ -5668,15 +5668,15 @@ namespace CSReportEditor {
             // MinBottom
             //-----------
             if(index === 0) {
-                // bottom of previous header + C_Min_Height_Section
+                // bottom of previous header + MIN_HEIGHT_SECTION
                 let headers: cReportSections = this.report.getHeaders();
                 let aspect: cReportAspect = headers.item(headers.count()-1).getAspect();
-                minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
             }
             else {
-                // bottom of previous group header + C_Min_Height_Section
+                // bottom of previous group header + MIN_HEIGHT_SECTION
                 let aspect: cReportAspect = this.report.getGroupsHeaders().item(index - 1).getAspect();
-                minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
             }
 
             if(!isForSectionLine) {
@@ -5809,23 +5809,23 @@ namespace CSReportEditor {
                 // if there are groups
                 //
                 if(this.report.getGroupsHeaders().count() > 0) {
-                    // top of the last group header + C_Min_Height_Section
+                    // top of the last group header + MIN_HEIGHT_SECTION
                     let groupsHeaders: cIReportGroupSections = this.report.getGroupsHeaders();
                     let aspect: cReportAspect = groupsHeaders.item(groupsHeaders.count()-1).getAspect();
-                    minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                    minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
                 }
                 else {
-                    // top of the last header + C_Min_Height_Section
+                    // top of the last header + MIN_HEIGHT_SECTION
                     let headers: cReportSections = this.report.getHeaders();
                     let aspect: cReportAspect = headers.item(headers.count()-1).getAspect();
-                    minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                    minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
                 }
             }
             else {
-                // top of the previous detail + C_Min_Height_Section
+                // top of the previous detail + MIN_HEIGHT_SECTION
                 //
                 let aspect: cReportAspect = this.report.getDetails().item(index - 1).getAspect();
-                minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
             }
 
             if(!isForSectionLine) {
@@ -5854,17 +5854,17 @@ namespace CSReportEditor {
             // MinBottom
             //-----------
             if(index === 0) {
-                // bottom of the last detail + C_Min_Height_Section
+                // bottom of the last detail + MIN_HEIGHT_SECTION
                 //
                 let details: cReportSections = this.report.getDetails();
                 let aspect: cReportAspect = details.item(details.count() - 1).getAspect();
-                minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
             }
             else {
-                // bottom of the previous group footer + C_Min_Height_Section
+                // bottom of the previous group footer + MIN_HEIGHT_SECTION
                 //
                 let aspect: cReportAspect = this.report.getGroupsFooters().item(index - 1).getAspect();
-                minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
             }
 
             if(!isForSectionLine) {
@@ -5901,21 +5901,21 @@ namespace CSReportEditor {
                     //
                     let groupsFooters: cIReportGroupSections = this.report.getGroupsFooters();
                     let aspect: cReportAspect = groupsFooters.item(groupsFooters.count() - 1).getAspect();
-                    minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                    minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
                 }
                 else {
                     // bottom of the last detail
                     //
                     let details: cReportSections = this.report.getDetails();
                     let aspect: cReportAspect = details.item(details.count() - 1).getAspect();
-                    minBottom.set(aspect.getHeight() + aspect.getTop() + this.C_MIN_HEIGHT_SECTION);
+                    minBottom.set(aspect.getHeight() + aspect.getTop() + this.MIN_HEIGHT_SECTION);
                 }
             }
             else {
                 // bottom of the previous footer
                 //
                 let aspect: cReportAspect = this.report.getFooters().item(index - 1).getAspect();
-                minBottom.set(aspect.getHeight() + aspect.getTop() - this.offSet + this.C_MIN_HEIGHT_SECTION);
+                minBottom.set(aspect.getHeight() + aspect.getTop() - this.offSet + this.MIN_HEIGHT_SECTION);
             }
 
             if(!isForSectionLine) {
@@ -6069,8 +6069,8 @@ namespace CSReportEditor {
                 aspect = secLn.getAspect();
                 aspect.setTop(topLn);
                 aspect.setWidth(width);
-                if(aspect.getHeight() < this.C_MIN_HEIGHT_SECTION) {
-                    aspect.setHeight(this.C_MIN_HEIGHT_SECTION);
+                if(aspect.getHeight() < this.MIN_HEIGHT_SECTION) {
+                    aspect.setHeight(this.MIN_HEIGHT_SECTION);
                 }
                 topLn = topLn + aspect.getHeight();
                 secLnHeight = secLnHeight + aspect.getHeight();
@@ -6084,8 +6084,8 @@ namespace CSReportEditor {
             aspect = secLn.getAspect();
             aspect.setTop(topLn);
             aspect.setHeight(sec.getAspect().getHeight() - secLnHeight);
-            if(aspect.getHeight() < this.C_MIN_HEIGHT_SECTION) {
-                aspect.setHeight(this.C_MIN_HEIGHT_SECTION);
+            if(aspect.getHeight() < this.MIN_HEIGHT_SECTION) {
+                aspect.setHeight(this.MIN_HEIGHT_SECTION);
             }
             secLnHeight = secLnHeight + aspect.getHeight();
 
@@ -6093,8 +6093,8 @@ namespace CSReportEditor {
             //
             aspect = sec.getAspect();
             aspect.setHeight(secLnHeight);
-            if(aspect.getHeight() < this.C_MIN_HEIGHT_SECTION) {
-                aspect.setHeight(this.C_MIN_HEIGHT_SECTION);
+            if(aspect.getHeight() < this.MIN_HEIGHT_SECTION) {
+                aspect.setHeight(this.MIN_HEIGHT_SECTION);
             }
             aspect.setWidth(width);
             aspect.setTop(top);
@@ -6157,7 +6157,7 @@ namespace CSReportEditor {
 
             this.report.setPathDefault("~"); // Application.StartupPath
 
-            this.picReport.setTop(this.C_TOP_BODY);
+            this.picReport.setTop(this.TOP_BODY);
             this.picRule.setLeft(0);
             this.picReport.setLeft(this.getLeftBody());
 

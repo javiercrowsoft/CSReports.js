@@ -6,7 +6,7 @@ namespace CSReportEngine {
 
     export class cReportSection {
 
-        private C_NODERPTSECTIONLINES: string = "RptSectionLines";
+        private NODE_RPT_SECTION_LINES: string = "RptSectionLines";
 
         private sectionLines: cReportSectionLines = new cReportSectionLines();
         private aspect: cReportAspect = new cReportAspect();
@@ -162,7 +162,7 @@ namespace CSReportEngine {
 
             this.sectionLines.clear();
 
-            nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTSECTIONLINES);
+            nodeObj = xDoc.getNodeFromNode(nodeObj, this.NODE_RPT_SECTION_LINES);
             if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
@@ -217,7 +217,7 @@ namespace CSReportEngine {
                 return false;
             }
 
-            xProperty.setName(this.C_NODERPTSECTIONLINES);
+            xProperty.setName(this.NODE_RPT_SECTION_LINES);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 

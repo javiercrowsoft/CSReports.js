@@ -9,9 +9,9 @@ namespace CSReportEngine {
 
     export class cReportConnect {
 
-        private static C_RPT_CONNECT: string = "RptConnect";
-        private static C_RPT_COLUMNS: string = "Columns";
-        private static C_RPT_PARAMETERS: string = "Parameters";
+        private static RPT_CONNECT: string = "RptConnect";
+        private static RPT_COLUMNS: string = "Columns";
+        private static RPT_PARAMETERS: string = "Parameters";
 
         private strConnect: string = "";
         private dataSource: string = "";
@@ -181,8 +181,8 @@ namespace CSReportEngine {
             this.dataSourceType = xDoc.getNodeProperty(nodeObj, "DataSourceType").getValueInt(eTypes.eInteger);
             this.strConnect = xDoc.getNodeProperty(nodeObj, "StrConnect").getValueString(eTypes.eText);
 
-            this.loadNode(xDoc, xDoc.getNodeFromNode(nodeObj, cReportConnect.C_RPT_COLUMNS), this.columns);
-            this.loadNode(xDoc, xDoc.getNodeFromNode(nodeObj, cReportConnect.C_RPT_PARAMETERS), this.parameters);
+            this.loadNode(xDoc, xDoc.getNodeFromNode(nodeObj, cReportConnect.RPT_COLUMNS), this.columns);
+            this.loadNode(xDoc, xDoc.getNodeFromNode(nodeObj, cReportConnect.RPT_PARAMETERS), this.parameters);
 
             return true;
         }
@@ -204,7 +204,7 @@ namespace CSReportEngine {
             let nodeObj;
             let xProperty = new CSXml.cXmlProperty();
 
-            xProperty.setName(cReportConnect.C_RPT_CONNECT);
+            xProperty.setName(cReportConnect.RPT_CONNECT);
 
             if(nodeFather !== null) {
                 nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
@@ -225,10 +225,10 @@ namespace CSReportEngine {
             xProperty.setValue(eTypes.eText, this.strConnect);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            xProperty.setName(cReportConnect.C_RPT_COLUMNS);
+            xProperty.setName(cReportConnect.RPT_COLUMNS);
             this.saveColumnNode(xDoc, xDoc.addNodeToNode(nodeObj, xProperty));
 
-            xProperty.setName(cReportConnect.C_RPT_PARAMETERS);
+            xProperty.setName(cReportConnect.RPT_PARAMETERS);
             this.saveParamNode(xDoc, xDoc.addNodeToNode(nodeObj, xProperty));
         }
 

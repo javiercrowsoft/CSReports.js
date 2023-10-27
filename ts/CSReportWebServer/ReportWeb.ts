@@ -144,13 +144,15 @@ namespace CSReportWebServer {
 
                     const reportWorker = new Worker("./csreports.js");
 
-                    this.report.getControls().forEach((k, c) => c.setSectionLine(null));
+                    const report = this.report.clone();
+
+                    report.getControls().forEach((k, c) => c.setSectionLine(null));
                     const sections = [
-                        this.report.getHeaders(),
-                        this.report.getGroupsHeaders(),
-                        this.report.getDetails(),
-                        this.report.getGroupsFooters(),
-                        this.report.getFooters()
+                        report.getHeaders(),
+                        report.getGroupsHeaders(),
+                        report.getDetails(),
+                        report.getGroupsFooters(),
+                        report.getFooters()
                     ];
                     sections.forEach((coll) => coll.forEach((k, s: CSReportEngine.cReportSection) =>
                             s.getSectionLines().forEach((k, sl: CSReportEngine.cReportSectionLine) =>
@@ -161,10 +163,12 @@ namespace CSReportWebServer {
                                 sl.getControls().setSectionLine(null)))
                     );
 
+                    report.zip();
+
                     reportWorker.postMessage({
                         action: 'launch',
                         launchInfo: launchInfo,
-                        reportAsXml : JSON.stringify(this.report)
+                        reportAsJson : JSON.stringify(report)
                     });
 
                     console.log('Message posted to worker');

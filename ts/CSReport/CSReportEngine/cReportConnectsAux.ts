@@ -5,7 +5,7 @@ namespace CSReportEngine {
 
     export class cReportConnectsAux extends Map<cReportConnect> {
 
-        public static C_RPT_CONNECTS_AUX: string = "RptConnectsAux";
+        public static RPT_CONNECTS_AUX: string = "RptConnectsAux";
 
         constructor() {
             super(null, false, cReportConnect);
@@ -16,7 +16,7 @@ namespace CSReportEngine {
 
             if(nodeFather === null) {
                 let xProperty: CSXml.cXmlProperty = new CSXml.cXmlProperty();
-                xProperty.setName(cReportConnectsAux.C_RPT_CONNECTS_AUX);
+                xProperty.setName(cReportConnectsAux.RPT_CONNECTS_AUX);
                 nodeFather = xDoc.addNode(xProperty);
             }
 

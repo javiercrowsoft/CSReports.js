@@ -46,52 +46,52 @@ namespace CSReportEditor {
 
     export class cGlobals {
 
-        public static C_KEY_HEADER: string = "RH";
-        public static C_KEY_FOOTER: string = "RF";
-        public static C_KEY_DETAIL: string = "RD";
-        public static C_KEY_GROUPH: string = "GH";
-        public static C_KEY_GROUPF: string = "GF";
+        public static KEY_HEADER: string = "RH";
+        public static KEY_FOOTER: string = "RF";
+        public static KEY_DETAIL: string = "RD";
+        public static KEY_GROUPH: string = "GH";
+        public static KEY_GROUPF: string = "GF";
 
-        public static c_BTN_PRINT: string        = "PRINT";
-        public static c_BTN_PROPERTIES: string   = "PROPERTIES";
-        public static c_BTN_DB: string           = "DB";
-        public static c_BTN_SAVE: string         = "SAVE";
-        public static c_BTN_OPEN: string         = "OPEN";
-        public static c_BTN_TOOL: string         = "TOOL";
-        public static c_BTN_NEW: string          = "NEW";
-        public static c_BTN_PREV: string         = "PREV";
+        public static BTN_PRINT: string        = "PRINT";
+        public static BTN_PROPERTIES: string   = "PROPERTIES";
+        public static BTN_DB: string           = "DB";
+        public static BTN_SAVE: string         = "SAVE";
+        public static BTN_OPEN: string         = "OPEN";
+        public static BTN_TOOL: string         = "TOOL";
+        public static BTN_NEW: string          = "NEW";
+        public static BTN_PREV: string         = "PREV";
 
-        public static c_BTN_ALIGN_LEFT: string   = "ALIGN_LEFT";
-        public static c_BTN_ALIGN_CENTER: string = "ALIGN_CENTER";
-        public static c_BTN_ALIGN_RIGHT: string  = "ALIGN_RIGHT";
+        public static BTN_ALIGN_LEFT: string   = "ALIGN_LEFT";
+        public static BTN_ALIGN_CENTER: string = "ALIGN_CENTER";
+        public static BTN_ALIGN_RIGHT: string  = "ALIGN_RIGHT";
 
-        public static c_BTN_FONT_BOLD: string = "FONT_BOLD";
-        public static c_BTN_SEARCH: string    = "SEARCH";
+        public static BTN_FONT_BOLD: string = "FONT_BOLD";
+        public static BTN_SEARCH: string    = "SEARCH";
 
-        public static c_BTN_CTL_ALIGN_TOP: string        = "CTL_ALIGN_TOP";
-        public static c_BTN_CTL_ALIGN_BOTTOM: string     = "CTL_ALIGN_BOTTOM";
-        public static c_BTN_CTL_ALIGN_VERTICAL: string   = "CTL_ALIGN_VERTICAL";
-        public static c_BTN_CTL_ALIGN_HORIZONTAL: string = "CTL_ALIGN_HORIZONTAL";
-        public static c_BTN_CTL_ALIGN_LEFT: string       = "CTL_ALIGN_LEFT";
-        public static c_BTN_CTL_ALIGN_RIGHT: string      = "CTL_ALIGN_RIGHT";
+        public static BTN_CTL_ALIGN_TOP: string        = "CTL_ALIGN_TOP";
+        public static BTN_CTL_ALIGN_BOTTOM: string     = "CTL_ALIGN_BOTTOM";
+        public static BTN_CTL_ALIGN_VERTICAL: string   = "CTL_ALIGN_VERTICAL";
+        public static BTN_CTL_ALIGN_HORIZONTAL: string = "CTL_ALIGN_HORIZONTAL";
+        public static BTN_CTL_ALIGN_LEFT: string       = "CTL_ALIGN_LEFT";
+        public static BTN_CTL_ALIGN_RIGHT: string      = "CTL_ALIGN_RIGHT";
 
-        public static c_BTN_CTL_WIDTH: string  = "CTL_WIDTH";
-        public static c_BTN_CTL_HEIGHT: string = "CTL_HEIGHT";
+        public static BTN_CTL_WIDTH: string  = "CTL_WIDTH";
+        public static BTN_CTL_HEIGHT: string = "CTL_HEIGHT";
 
-        public static C_CONTROL_NAME: string = "Control";
+        public static CONTROL_NAME: string = "Control";
 
-        public static C_TOTINRECENTLIST: number = 7;
+        public static TOT_IN_RECENT_LIST: number = 7;
 
-        public static C_HEIGHT_NEW_SECTION: number = 23;
-        public static C_HEIGHT_BAR_SECTION: number = 8;
+        public static HEIGHT_NEW_SECTION: number = 23;
+        public static HEIGHT_BAR_SECTION: number = 8;
 
-        public static C_NO_CHANGE: number = -32768;
+        public static NO_CHANGE: number = -32768;
 
-        public static C_MAIN_HEADER: string = "Main Header";
-        public static C_MAIN_DETAIL: string = "Detail";
-        public static C_MAIN_FOOTER: string = "Main Footer";
+        public static MAIN_HEADER: string = "Main Header";
+        public static MAIN_DETAIL: string = "Detail";
+        public static MAIN_FOOTER: string = "Main Footer";
 
-        public static C_GROUP_LABEL: string = "Group";
+        public static GROUP_LABEL: string = "Group";
 
 		public static ShiftMask: number = 1;
 
@@ -196,14 +196,14 @@ namespace CSReportEditor {
         }
 
         public static createStandardSections(report: cReport, tr: Rectangle) {
-            report.getHeaders().add(null, cGlobals.C_KEY_HEADER);
-            report.getFooters().add(null, cGlobals.C_KEY_FOOTER);
-            report.getDetails().add(null, cGlobals.C_KEY_DETAIL);
+            report.getHeaders().add(null, cGlobals.KEY_HEADER);
+            report.getFooters().add(null, cGlobals.KEY_FOOTER);
+            report.getDetails().add(null, cGlobals.KEY_DETAIL);
 
             //
             // main header
             //
-            let sec: cReportSection = report.getHeaders().item(cGlobals.C_KEY_HEADER);
+            let sec: cReportSection = report.getHeaders().item(cGlobals.KEY_HEADER);
             sec.setName("Main header");
 
             let aspect: cReportAspect = sec.getAspect();
@@ -220,7 +220,7 @@ namespace CSReportEditor {
             //
             // detail
             //
-            sec = report.getDetails().item(cGlobals.C_KEY_DETAIL);
+            sec = report.getDetails().item(cGlobals.KEY_DETAIL);
             sec.setName("Detail");
 
             aspect = sec.getAspect();
@@ -237,7 +237,7 @@ namespace CSReportEditor {
             //
             // main footer
             //
-            sec = report.getFooters().item(cGlobals.C_KEY_FOOTER);
+            sec = report.getFooters().item(cGlobals.KEY_FOOTER);
             sec.setName("Main footer");
 
             aspect = sec.getAspect();

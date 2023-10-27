@@ -36,9 +36,9 @@ namespace CSReportPaint {
 
 	export class cReportPrint implements cIReportPrint {
 
-        private static C_OFFSETHEADER: number = 0;
-        private static C_OFFSETDETAIL: number = 100000;
-        private static C_OFFSETFOOTER: number = 1000000;
+        private static OFFSETHEADER: number = 0;
+        private static OFFSETDETAIL: number = 100000;
+        private static OFFSETFOOTER: number = 1000000;
 
         private report: CSReportEngine.cReport = null;
         private paint: cReportPaint = null;
@@ -179,10 +179,10 @@ namespace CSReportPaint {
             }
             else {
                 let item: CSReportEngine.cReportPage = this.report.getPages().item(this.currPage);
-                if(indexField < cReportPrint.C_OFFSETDETAIL) {
+                if(indexField < cReportPrint.OFFSETDETAIL) {
                     return this.getLineAux(fld.get().getIndexLine(), item.getHeader());
                 }
-                else if(indexField < cReportPrint.C_OFFSETFOOTER) {
+                else if(indexField < cReportPrint.OFFSETFOOTER) {
                     return this.getLineAux(fld.get().getIndexLine(), item.getDetail());
                 }
                 else {
@@ -206,18 +206,18 @@ namespace CSReportPaint {
 
             page = this.report.getPages().item(this.currPage);
 
-            if(indexField < cReportPrint.C_OFFSETDETAIL) {
+            if(indexField < cReportPrint.OFFSETDETAIL) {
                 if(!this.getFieldFromIndexAux(page.getHeader(), indexField, fld)) {
                     return;
                 }
             }
-            else if(indexField < cReportPrint.C_OFFSETFOOTER) {
-                if(!this.getFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, fld)) {
+            else if(indexField < cReportPrint.OFFSETFOOTER) {
+                if(!this.getFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.OFFSETDETAIL, fld)) {
                     return;
                 }
             }
             else {
-                if(!this.getFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, fld)) {
+                if(!this.getFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.OFFSETFOOTER, fld)) {
                     return;
                 }
             }
@@ -243,7 +243,7 @@ namespace CSReportPaint {
             let paintObj = this.pGetPaintObjByCtrlName(
                 ctrlName,
                 this.report.getPages().item(this.currPage).getFooter(),
-                cReportPrint.C_OFFSETFOOTER);
+                cReportPrint.OFFSETFOOTER);
             paintObj.setText(this.getCtrlFooter(ctrlName).getValue());
             this.paint.refreshObject(paintObj.getKey(), this.rpwPrint.getGraph());
         }
@@ -266,17 +266,17 @@ namespace CSReportPaint {
             let offset: number;
             let item: CSReportEngine.cReportPage = this.report.getPages().item(this.currPage);
             let fields = item.getHeader();
-            offset = cReportPrint.C_OFFSETHEADER;
+            offset = cReportPrint.OFFSETHEADER;
             let fld = this.getFieldByCtrlName(ctrlName, fields, indexField);
 
             if(fld === null) {
                 fields = item.getDetail();
-                offset = cReportPrint.C_OFFSETDETAIL;
+                offset = cReportPrint.OFFSETDETAIL;
                 fld = this.getFieldByCtrlName(ctrlName, fields, indexField);
 
                 if(fld === null) {
                     fields = item.getFooter();
-                    offset = cReportPrint.C_OFFSETFOOTER;
+                    offset = cReportPrint.OFFSETFOOTER;
                     fld = this.getFieldByCtrlName(ctrlName, fields, indexField);
                     if(fld === null) {
                         return null;
@@ -318,18 +318,18 @@ namespace CSReportPaint {
             let rtn = new RefWrapper<CSReportEngine.cReportPageField>(null);
             let page = this.report.getPages().item(this.currPage);
 
-            if(indexField < cReportPrint.C_OFFSETDETAIL) {
+            if(indexField < cReportPrint.OFFSETDETAIL) {
                 if(!this.getFieldFromIndexAux(page.getHeader(), indexField, rtn)) {
                     return null;
                 }
             }
-            else if(indexField < cReportPrint.C_OFFSETFOOTER) {
-                if(!this.getFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.C_OFFSETDETAIL, rtn)) {
+            else if(indexField < cReportPrint.OFFSETFOOTER) {
+                if(!this.getFieldFromIndexAux(page.getDetail(), indexField - cReportPrint.OFFSETDETAIL, rtn)) {
                     return null;
                 }
             }
             else {
-                if(!this.getFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.C_OFFSETFOOTER, rtn)) {
+                if(!this.getFieldFromIndexAux(page.getFooter(), indexField - cReportPrint.OFFSETFOOTER, rtn)) {
                     return null;
                 }
             }
@@ -337,7 +337,7 @@ namespace CSReportPaint {
         }
 
         public fieldIsInDetail(indexField: number) {
-            return indexField >= cReportPrint.C_OFFSETDETAIL && indexField < cReportPrint.C_OFFSETFOOTER;
+            return indexField >= cReportPrint.OFFSETDETAIL && indexField < cReportPrint.OFFSETFOOTER;
         }
 
         public printPage(nPage: number, inPrinter: boolean = false) {
@@ -353,13 +353,13 @@ namespace CSReportPaint {
             else {
                 switch (nPage)
                 {
-                    case csEMoveTo.C_FIRSTPAGE:
+                    case csEMoveTo.FIRSTPAGE:
                         this.currPage = 0;
                         break;
-                    case csEMoveTo.C_LASTPAGE:
+                    case csEMoveTo.LASTPAGE:
                         this.currPage = this.report.getPages().count()-1;
                         break;
-                    case csEMoveTo.C_NEXTPAGE:
+                    case csEMoveTo.NEXTPAGE:
                         if(this.currPage + 1 < this.report.getPages().count()) {
                             this.currPage = this.currPage + 1;
                         }
@@ -367,7 +367,7 @@ namespace CSReportPaint {
                             this.currPage = this.report.getPages().count()-1;
                         }
                         break;
-                    case csEMoveTo.C_PREVIOUSPAGE:
+                    case csEMoveTo.PREVIOUSPAGE:
                         if(this.currPage - 1 >= 0) {
                             this.currPage = this.currPage - 1;
                         }
@@ -385,9 +385,9 @@ namespace CSReportPaint {
             //
             this.paint.getPaintObjects().clear();
 
-            this.createPaintObjects(page.getHeader(), cReportPrint.C_OFFSETHEADER);
-            this.createPaintObjects(page.getDetail(), cReportPrint.C_OFFSETDETAIL);
-            this.createPaintObjects(page.getFooter(), cReportPrint.C_OFFSETFOOTER);
+            this.createPaintObjects(page.getHeader(), cReportPrint.OFFSETHEADER);
+            this.createPaintObjects(page.getDetail(), cReportPrint.OFFSETDETAIL);
+            this.createPaintObjects(page.getFooter(), cReportPrint.OFFSETFOOTER);
 
             if(!inPrinter) {
                 // set the current page in the preview window
@@ -421,7 +421,7 @@ namespace CSReportPaint {
             this.pCreatePaint();
 
             this.rpwPrint.setPages(this.report.getPages().count());
-            this.printPage(csEMoveTo.C_FIRSTPAGE, false);
+            this.printPage(csEMoveTo.FIRSTPAGE, false);
 
             // TODO: implement this
 
@@ -1505,19 +1505,19 @@ namespace CSReportPaint {
             }
         */
         private rpwPrintMoveFirst(sender: object, e: EventArgs) {
-            this.printPage(csEMoveTo.C_FIRSTPAGE);
+            this.printPage(csEMoveTo.FIRSTPAGE);
         }
 
         private rpwPrintMoveLast(sender: object, e: EventArgs) {
-            this.printPage(csEMoveTo.C_LASTPAGE);
+            this.printPage(csEMoveTo.LASTPAGE);
         }
 
         private rpwPrintMoveNext(sender: object, e: EventArgs) {
-            this.printPage(csEMoveTo.C_NEXTPAGE);
+            this.printPage(csEMoveTo.NEXTPAGE);
         }
 
         private rpwPrintMovePrevious(sender: object, e: EventArgs) {
-            this.printPage(csEMoveTo.C_PREVIOUSPAGE);
+            this.printPage(csEMoveTo.PREVIOUSPAGE);
         }
 
         private rpwPrintMoveToPage(sender: object, e: PageEventArgs) {

@@ -5,12 +5,12 @@ namespace CSReportEngine {
 
     export class cReportPage {
 
-        private C_NODERPTHEADER: string = "Header";
-        private C_NODERPTHEADERLINE: string = "HeaderLine";
-        private C_NODERPTDETAIL: string = "Detail";
-        private C_NODERPTDETAILLINE: string = "DetailLine";
-        private C_NODERPTFOOTER: string = "Footer";
-        private C_NODERPTFOOTERLINE: string = "FooterLine";
+        private NODE_RPT_HEADER: string = "Header";
+        private NODE_RPT_HEADER_LINE: string = "HeaderLine";
+        private NODE_RPT_DETAIL: string = "Detail";
+        private NODE_RPT_DETAIL_LINE: string = "DetailLine";
+        private NODE_RPT_FOOTER: string = "Footer";
+        private NODE_RPT_FOOTER_LINE: string = "FooterLine";
 
         private detail: cReportPageFields = new cReportPageFields();
         private header: cReportPageFields = new cReportPageFields();
@@ -79,7 +79,7 @@ namespace CSReportEngine {
             this.detail.clear();
             this.footer.clear();
 
-            nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTHEADER);
+            nodeObj = xDoc.getNodeFromNode(nodeObj, this.NODE_RPT_HEADER);
             if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
@@ -90,7 +90,7 @@ namespace CSReportEngine {
                 }
             }
 
-            nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTDETAIL);
+            nodeObj = xDoc.getNodeFromNode(nodeObj, this.NODE_RPT_DETAIL);
             if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
@@ -101,7 +101,7 @@ namespace CSReportEngine {
                 }
             }
 
-            nodeObj = xDoc.getNodeFromNode(nodeObj, this.C_NODERPTFOOTER);
+            nodeObj = xDoc.getNodeFromNode(nodeObj, this.NODE_RPT_FOOTER);
             if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
@@ -142,7 +142,7 @@ namespace CSReportEngine {
             let pageFld: cReportPageField = null;
             let nodeAux: XmlNode = null;
 
-            xProperty.setName(this.C_NODERPTHEADER);
+            xProperty.setName(this.NODE_RPT_HEADER);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -151,7 +151,7 @@ namespace CSReportEngine {
                 pageFld.save(xDoc, nodeAux);
             }
 
-            xProperty.setName(this.C_NODERPTDETAIL);
+            xProperty.setName(this.NODE_RPT_DETAIL);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -160,7 +160,7 @@ namespace CSReportEngine {
                 pageFld.save(xDoc, nodeAux);
             }
 
-            xProperty.setName(this.C_NODERPTFOOTER);
+            xProperty.setName(this.NODE_RPT_FOOTER);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -190,7 +190,7 @@ namespace CSReportEngine {
 
             let nHeader: number = 0;
 
-            xProperty.setName(this.C_NODERPTHEADER);
+            xProperty.setName(this.NODE_RPT_HEADER);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -214,7 +214,7 @@ namespace CSReportEngine {
                 }
 
                 if(addLine) {
-                    xProperty.setName(this.C_NODERPTHEADERLINE + nHeader.toString());
+                    xProperty.setName(this.NODE_RPT_HEADER_LINE + nHeader.toString());
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
                 }
@@ -222,7 +222,7 @@ namespace CSReportEngine {
                 pageFld.saveForWeb(xDoc, nodeAux);
             }
 
-            xProperty.setName(this.C_NODERPTDETAIL);
+            xProperty.setName(this.NODE_RPT_DETAIL);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -245,7 +245,7 @@ namespace CSReportEngine {
                 }
 
                 if(addLine) {
-                    xProperty.setName(this.C_NODERPTDETAILLINE);
+                    xProperty.setName(this.NODE_RPT_DETAIL_LINE);
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
                 }
@@ -253,7 +253,7 @@ namespace CSReportEngine {
                 pageFld.saveForWeb(xDoc, nodeAux);
             }
 
-            xProperty.setName(this.C_NODERPTFOOTER);
+            xProperty.setName(this.NODE_RPT_FOOTER);
             xProperty.setValue(eTypes.eText, "");
             nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
 
@@ -275,7 +275,7 @@ namespace CSReportEngine {
                 }
 
                 if(addLine) {
-                    xProperty.setName(this.C_NODERPTFOOTERLINE);
+                    xProperty.setName(this.NODE_RPT_FOOTER_LINE);
                     xProperty.setValue(eTypes.eText, "");
                     nodeAux = xDoc.addNodeToNode(nodeObj, xProperty);
                 }

@@ -4,7 +4,7 @@ onmessage = function (e) {
     switch(e.data.action) {
         case 'launch':
             const report = new CSReportEngine.cReport();
-            report.copy(JSON.parse(e.data.reportAsXml));
+            report.copy(JSON.parse(e.data.reportAsJson));
             report.launch().then(()=> {
                 console.log('Worker: Posting message back to main script');
                 postMessage({message: 'report done'});

@@ -6,7 +6,7 @@ namespace CSReportEngine {
 
     export class cReportSectionLine {
 
-        private C_NODE_RPT_CONTROLS: string = "RptControls";
+        private NODE_RPT_CONTROLS: string = "RptControls";
 
         private controls: cReportControls = new cReportControls();
         private aspect: cReportAspect = new cReportAspect();
@@ -181,7 +181,7 @@ namespace CSReportEngine {
                 return false;
             }
 
-            nodeObjCtrls = xDoc.getNodeFromNode(nodeObj, this.C_NODE_RPT_CONTROLS);
+            nodeObjCtrls = xDoc.getNodeFromNode(nodeObj, this.NODE_RPT_CONTROLS);
 
             if(xDoc.nodeHasChild(nodeObjCtrls))  {
                 nodeObjCtrl = xDoc.getNodeChild(nodeObjCtrls);
@@ -233,7 +233,7 @@ namespace CSReportEngine {
                 return false;
             }
 
-            xProperty.setName(this.C_NODE_RPT_CONTROLS);
+            xProperty.setName(this.NODE_RPT_CONTROLS);
             nodeObj = xDoc.addNodeToNode(nodeObj, xProperty);
 
             let ctrl: cReportControl = null;

@@ -177,10 +177,10 @@ namespace CSReportPaint {
     }
 
     export enum csEMoveTo {
-        C_FIRSTPAGE = 1,
-        C_NEXTPAGE = -1,
-        C_PREVIOUSPAGE = -2,
-        C_LASTPAGE = -3
+        FIRSTPAGE = 1,
+        NEXTPAGE = -1,
+        PREVIOUSPAGE = -2,
+        LASTPAGE = -3
     }
 
     export enum csPDFQuality {

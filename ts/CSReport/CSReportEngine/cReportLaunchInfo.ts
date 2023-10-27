@@ -7,7 +7,7 @@ namespace CSReportEngine {
 
     export class cReportLaunchInfo {
 
-        public static C_LAUNCH_INFO: string = "RptLaunchInfo";
+        public static LAUNCH_INFO: string = "RptLaunchInfo";
 
         private file: string = "";
         private dataSource: object = null;
@@ -173,7 +173,7 @@ namespace CSReportEngine {
             let xProperty: CSXml.cXmlProperty = new CSXml.cXmlProperty();
             let nodeObj: XmlNode;
 
-            xProperty.setName(cReportLaunchInfo.C_LAUNCH_INFO);
+            xProperty.setName(cReportLaunchInfo.LAUNCH_INFO);
 
             if(nodeFather !== null) {
                 nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);

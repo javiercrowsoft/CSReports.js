@@ -33,11 +33,11 @@ namespace CSReportPaint {
 
     export class cReportPaint {
 
-        private static readonly C_GRID_AREA_WIDTH: number = 200;
-        private static readonly C_GRID_AREA_HEIGHT: number = 67;
+        private static readonly GRID_AREA_WIDTH: number = 200;
+        private static readonly GRID_AREA_HEIGHT: number = 67;
 
-        private static readonly C_KEY_PAINT_OBJ: string = "P";
-        private static readonly C_KEY_PAINT_SEC: string = "S";
+        private static readonly KEY_PAINT_OBJ: string = "P";
+        private static readonly KEY_PAINT_SEC: string = "S";
 
         private static readonly LINE_WIDTH = 0.2;
         private static readonly LINE_WIDTH_FAT = 0.7;
@@ -143,7 +143,7 @@ namespace CSReportPaint {
         }
 
         public getPaintObject(sKey: string) {
-            if(sKey.substring(0, cReportPaint.C_KEY_PAINT_OBJ.length) === cReportPaint.C_KEY_PAINT_OBJ) {
+            if(sKey.substring(0, cReportPaint.KEY_PAINT_OBJ.length) === cReportPaint.KEY_PAINT_OBJ) {
                 return this.paintObjects.item(sKey);
             }
             else {
@@ -188,7 +188,7 @@ namespace CSReportPaint {
         }
 
         public paintObjIsSection(sKey: string) {
-            return sKey.substring(0, cReportPaint.C_KEY_PAINT_SEC.length) === cReportPaint.C_KEY_PAINT_SEC;
+            return sKey.substring(0, cReportPaint.KEY_PAINT_SEC.length) === cReportPaint.KEY_PAINT_SEC;
         }
 
 		public pointIsInObject(
@@ -234,7 +234,7 @@ namespace CSReportPaint {
             sKey: RefWrapper<string>,
             regionType: RefWrapper<csRptPaintRegionType>) {
 
-            const C_WIDTH_REGION: number = 3;
+            const WIDTH_REGION: number = 3;
 
             let yY: number = 0;
             let xX: number = 0;
@@ -254,92 +254,92 @@ namespace CSReportPaint {
                 top = w_aspect.getTop() - w_aspect.getOffset();
                 height = w_aspect.getHeight();
 
-                if(CSReportPaint.cReportPaint.pointIsInRegion(left - C_WIDTH_REGION,
-                                    top - C_WIDTH_REGION,
-                                    left + width + C_WIDTH_REGION,
-                                    top + height + C_WIDTH_REGION,
+                if(CSReportPaint.cReportPaint.pointIsInRegion(left - WIDTH_REGION,
+                                    top - WIDTH_REGION,
+                                    left + width + WIDTH_REGION,
+                                    top + height + WIDTH_REGION,
                                     x, y)) {
                     sKey.set(paintObj.getKey());
 
                     yY = top + height / 2;
-                    yY = yY - C_WIDTH_REGION;
+                    yY = yY - WIDTH_REGION;
 
                     xX = left + width / 2;
-                    xX = xX - C_WIDTH_REGION;
+                    xX = xX - WIDTH_REGION;
 
                     // we need to know in which region it is
                     //
 
                     // body
                     //
-                    if(CSReportPaint.cReportPaint.pointIsInRegion(left + C_WIDTH_REGION,
-                                        top + C_WIDTH_REGION,
-                                        left + width - C_WIDTH_REGION,
-                                        top + height - C_WIDTH_REGION,
+                    if(CSReportPaint.cReportPaint.pointIsInRegion(left + WIDTH_REGION,
+                                        top + WIDTH_REGION,
+                                        left + width - WIDTH_REGION,
+                                        top + height - WIDTH_REGION,
                                         x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEBODY);
                     }
                     // Left
-                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left - C_WIDTH_REGION * 2,
+                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left - WIDTH_REGION * 2,
                                                 yY,
-                                                left + C_WIDTH_REGION * 2,
-                                                yY + C_WIDTH_REGION * 2,
+                                                left + WIDTH_REGION * 2,
+                                                yY + WIDTH_REGION * 2,
                                                 x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFT);
                     }
                     // Rigth
-                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - C_WIDTH_REGION * 2,
+                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - WIDTH_REGION * 2,
                                                 yY,
-                                                left + width + C_WIDTH_REGION * 2,
-                                                yY + C_WIDTH_REGION * 2,
+                                                left + width + WIDTH_REGION * 2,
+                                                yY + WIDTH_REGION * 2,
                                                 x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHT);
                     }
                     // Up
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(xX,
-                                                top - C_WIDTH_REGION * 2,
-                                                xX + C_WIDTH_REGION * 2,
-                                                top + C_WIDTH_REGION * 2,
+                                                top - WIDTH_REGION * 2,
+                                                xX + WIDTH_REGION * 2,
+                                                top + WIDTH_REGION * 2,
                                                 x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEUP);
                     }
                     // Down
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(xX,
-                                                top + height - C_WIDTH_REGION * 2,
-                                                xX + C_WIDTH_REGION * 2,
-                                                top + height + C_WIDTH_REGION * 2,
+                                                top + height - WIDTH_REGION * 2,
+                                                xX + WIDTH_REGION * 2,
+                                                top + height + WIDTH_REGION * 2,
                                                 x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEDOWN);
                     }
                     // LeftUp
-                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left - C_WIDTH_REGION,
-                                                top - C_WIDTH_REGION,
-                                                left + C_WIDTH_REGION,
-                                                top + C_WIDTH_REGION,
+                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left - WIDTH_REGION,
+                                                top - WIDTH_REGION,
+                                                left + WIDTH_REGION,
+                                                top + WIDTH_REGION,
                                                 x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP);
                     }
                     // LeftDown
-                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left - C_WIDTH_REGION,
-                                                top + height - C_WIDTH_REGION,
-                                                left + C_WIDTH_REGION,
-                                                top + height + C_WIDTH_REGION,
+                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left - WIDTH_REGION,
+                                                top + height - WIDTH_REGION,
+                                                left + WIDTH_REGION,
+                                                top + height + WIDTH_REGION,
                                                 x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN);
                     }
                     // RightUp
-                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - C_WIDTH_REGION,
-                                                top - C_WIDTH_REGION,
-                                                left + width + C_WIDTH_REGION,
-                                                top + C_WIDTH_REGION,
+                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - WIDTH_REGION,
+                                                top - WIDTH_REGION,
+                                                left + width + WIDTH_REGION,
+                                                top + WIDTH_REGION,
                                                 x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP);
                     }
                     // RightDown
-                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - C_WIDTH_REGION,
-                                                top + height - C_WIDTH_REGION,
-                                                left + width + C_WIDTH_REGION,
-                                                top + height + C_WIDTH_REGION,
+                    else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - WIDTH_REGION,
+                                                top + height - WIDTH_REGION,
+                                                left + width + WIDTH_REGION,
+                                                top + height + WIDTH_REGION,
                                                 x, y)) {
                         regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHTDOWN);
                     }
@@ -354,12 +354,12 @@ namespace CSReportPaint {
 
         private getKeyPaintObj() {
             this.nextKey = this.nextKey + 1;
-            return cReportPaint.C_KEY_PAINT_OBJ + this.nextKey;
+            return cReportPaint.KEY_PAINT_OBJ + this.nextKey;
         }
 
         private getKeyPaintSec() {
             this.nextKey = this.nextKey + 1;
-            return cReportPaint.C_KEY_PAINT_SEC + this.nextKey;
+            return cReportPaint.KEY_PAINT_SEC + this.nextKey;
         }
 
         private getKey() {
@@ -423,8 +423,8 @@ namespace CSReportPaint {
 
             this.createBrushGrid(typeGrid);
 
-            let y = (graphicGrid.getBoundingClientRect().height / cReportPaint.C_GRID_AREA_HEIGHT);
-            let x = (graphicGrid.getBoundingClientRect().width / cReportPaint.C_GRID_AREA_WIDTH);
+            let y = (graphicGrid.getBoundingClientRect().height / cReportPaint.GRID_AREA_HEIGHT);
+            let x = (graphicGrid.getBoundingClientRect().width / cReportPaint.GRID_AREA_WIDTH);
 
             x = x + 1;
             y = y + 1;
@@ -438,13 +438,13 @@ namespace CSReportPaint {
             for(let i = 0; i < y * x; i++) {
                 const c = this.paintGridAreas.add(null, this.getKey());
 
-                left = cReportPaint.C_GRID_AREA_WIDTH * l;
-                top = cReportPaint.C_GRID_AREA_HEIGHT * t;
+                left = cReportPaint.GRID_AREA_WIDTH * l;
+                top = cReportPaint.GRID_AREA_HEIGHT * t;
                 const aspect: cReportAspect = c.getAspect();
                 aspect.setLeft(left);
                 aspect.setTop(top);
-                aspect.setWidth(cReportPaint.C_GRID_AREA_WIDTH);
-                aspect.setHeight(cReportPaint.C_GRID_AREA_HEIGHT);
+                aspect.setWidth(cReportPaint.GRID_AREA_WIDTH);
+                aspect.setHeight(cReportPaint.GRID_AREA_HEIGHT);
 
                 if(this.vGridObjs.length < l+1) this.vGridObjs.push([]);
                 this.vGridObjs[l][t] = c.getKey();
@@ -534,7 +534,7 @@ namespace CSReportPaint {
 
             let paintObjs: cReportPaintObjects;
 
-            if(sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_SEC) {
+            if(sKey.substring(0, 1) === cReportPaint.KEY_PAINT_SEC) {
                 paintObjs = this.paintSections;
             }
             else {
@@ -552,11 +552,11 @@ namespace CSReportPaint {
             if(toTop || toLeft) {
                 // we get the grid where the point A is located
                 //
-                z1 = Math.trunc(nLeft / cReportPaint.C_GRID_AREA_WIDTH);
-                q1 = Math.trunc(nTop / cReportPaint.C_GRID_AREA_HEIGHT);
+                z1 = Math.trunc(nLeft / cReportPaint.GRID_AREA_WIDTH);
+                q1 = Math.trunc(nTop / cReportPaint.GRID_AREA_HEIGHT);
 
-                if(nLeft > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
-                if(nTop > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
+                if(nLeft > z1 * cReportPaint.GRID_AREA_WIDTH) { z1 = z1 + 1; }
+                if(nTop > q1 * cReportPaint.GRID_AREA_HEIGHT) { q1 = q1 + 1; }
 
                 if(z1 < 0) { z1 = 0; }
                 if(q1 < 0) { q1 = 0; }
@@ -597,11 +597,11 @@ namespace CSReportPaint {
             if(toRight) {
                 // we get the grid where the point B is located
                 //
-                z1 = Math.trunc((nLeft + aspect.getWidth()) / cReportPaint.C_GRID_AREA_WIDTH);
-                if(nLeft + aspect.getWidth() > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
+                z1 = Math.trunc((nLeft + aspect.getWidth()) / cReportPaint.GRID_AREA_WIDTH);
+                if(nLeft + aspect.getWidth() > z1 * cReportPaint.GRID_AREA_WIDTH) { z1 = z1 + 1; }
 
-                q1 = Math.trunc(nTop / cReportPaint.C_GRID_AREA_HEIGHT);
-                if(nTop > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
+                q1 = Math.trunc(nTop / cReportPaint.GRID_AREA_HEIGHT);
+                if(nTop > q1 * cReportPaint.GRID_AREA_HEIGHT) { q1 = q1 + 1; }
 
                 if(z1 < 1) { z1 = 0; }
                 if(q1 < 1) { q1 = 0; }
@@ -622,11 +622,11 @@ namespace CSReportPaint {
             if(toBottom) {
                 // we get the grid where the point C is located
                 //
-                z1 = Math.trunc(nLeft / cReportPaint.C_GRID_AREA_WIDTH);
-                q1 = Math.trunc((nTop + aspect.getHeight()) / cReportPaint.C_GRID_AREA_HEIGHT);
+                z1 = Math.trunc(nLeft / cReportPaint.GRID_AREA_WIDTH);
+                q1 = Math.trunc((nTop + aspect.getHeight()) / cReportPaint.GRID_AREA_HEIGHT);
 
-                if(nLeft > z1 * cReportPaint.C_GRID_AREA_WIDTH) { z1 = z1 + 1; }
-                if(nTop + aspect.getHeight() > q1 * cReportPaint.C_GRID_AREA_HEIGHT) { q1 = q1 + 1; }
+                if(nLeft > z1 * cReportPaint.GRID_AREA_WIDTH) { z1 = z1 + 1; }
+                if(nTop + aspect.getHeight() > q1 * cReportPaint.GRID_AREA_HEIGHT) { q1 = q1 + 1; }
 
                 if(z1 < 1) { z1 = 0; }
                 if(q1 < 1) { q1 = 0; }
@@ -771,7 +771,7 @@ namespace CSReportPaint {
         }
 
 		public moveObjToXY(sKey: string, x: number, y: number, graphic: Graphic) {
-            if(sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
+            if(sKey.substring(0, 1) === cReportPaint.KEY_PAINT_OBJ) {
                 let aspect = this.paintObjects.item(sKey).getAspect();
                 this.move(x, y, aspect.getWidth(), aspect.getHeight(), graphic);
             }
@@ -809,7 +809,7 @@ namespace CSReportPaint {
         }
 
 		public moveVertical(sKey: string, y: number, graphic: Graphic) {
-            if(sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
+            if(sKey.substring(0, 1) === cReportPaint.KEY_PAINT_OBJ) {
                 let aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
                 this.move(aspect.getLeft(), y, aspect.getWidth(), aspect.getHeight(), graphic);
             }
@@ -820,7 +820,7 @@ namespace CSReportPaint {
         }
 
 		public moveHorizontal(sKey: string, x: number, graphic: Graphic) {
-            if(sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
+            if(sKey.substring(0, 1) === cReportPaint.KEY_PAINT_OBJ) {
                 let w_aspect: cReportAspect = this.paintObjects.item(sKey).getAspect();
                 this.move(x, w_aspect.getTop(), w_aspect.getWidth(), w_aspect.getHeight(), graphic);
             }
@@ -1018,7 +1018,7 @@ namespace CSReportPaint {
 
             this.keyFocus = sKey;
 
-            if(this.keyFocus.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
+            if(this.keyFocus.substring(0, 1) === cReportPaint.KEY_PAINT_OBJ) {
                 paintObjAsp = this.paintObjects.item(this.keyFocus);
                 color = 0x80C0FF;
                 bCircle = false;
@@ -1072,12 +1072,12 @@ namespace CSReportPaint {
         }
 
         public resize(graphic: Graphic, sKey: string, left: number, top: number, x2: number, y2: number) {
-            const C_MIN_WIDTH: number = 1;
-            const C_MIN_HEIGHT: number = 1;
+            const MIN_WIDTH: number = 1;
+            const MIN_HEIGHT: number = 1;
 
             let paintObjAsp: cReportAspect;
 
-            if(sKey.substring(0, 1) === cReportPaint.C_KEY_PAINT_OBJ) {
+            if(sKey.substring(0, 1) === cReportPaint.KEY_PAINT_OBJ) {
                 paintObjAsp = this.paintObjects.item(sKey).getAspect();
             }
             else {
@@ -1117,11 +1117,11 @@ namespace CSReportPaint {
             // validations :
 
             // x2 can't be lower than Left
-            if(this.x2 < paintObjAsp.getLeft() + C_MIN_WIDTH) { this.x2 = paintObjAsp.getLeft() + C_MIN_WIDTH; }
+            if(this.x2 < paintObjAsp.getLeft() + MIN_WIDTH) { this.x2 = paintObjAsp.getLeft() + MIN_WIDTH; }
 
             // y2 can't be lower than Top
-            if(this.y2 < paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT) {
-                this.y2 = paintObjAsp.getTop() - paintObjAsp.getOffset() + C_MIN_HEIGHT;
+            if(this.y2 < paintObjAsp.getTop() - paintObjAsp.getOffset() + MIN_HEIGHT) {
+                this.y2 = paintObjAsp.getTop() - paintObjAsp.getOffset() + MIN_HEIGHT;
             }
 
             this.paintPicture(graphic, false).then(P.call(this, ()=> {

@@ -103,46 +103,46 @@ namespace CSReportEngine {
 
         //--------------------------------------------------------------------------------
 
-        private C_HEADERS: number = 1;
-        private C_FOOTERS: number = 2;
-        private C_NODE_RPT_HEADERS: string = "RptHeaders";
-        private C_NODE_RPT_DETAILS: string = "RptDetails";
-        private C_NODE_GROUPS: string = "RptGroups";
-        private C_NODE_RPT_FOOTERS: string = "RptFooters";
-        private C_RPT_CONNECT: string = "RptConnect";
-        private C_NODE_RPT_FORMULAS: string = "RptFormulas";
-        private C_NODE_RPT_PAGES_SETTING: string = "RptPagesSetting";
-        private C_NODE_RPT_PAGES: string = "RptPages";
-        private C_NODE_PAPER_INFO: string = "PaperInfo";
-        private C_FILE_EX: string = "CrowSoft Report|*.csr| Archivos Xml|*.xml";
-        private C_FILE_DATA_EX: string = "CrowSoft Report data|*.csd| Archivos Xml|*.xml";
+        private HEADERS: number = 1;
+        private FOOTERS: number = 2;
+        private NODE_RPT_HEADERS: string = "RptHeaders";
+        private NODE_RPT_DETAILS: string = "RptDetails";
+        private NODE_GROUPS: string = "RptGroups";
+        private NODE_RPT_FOOTERS: string = "RptFooters";
+        private RPT_CONNECT: string = "RptConnect";
+        private NODE_RPT_FORMULAS: string = "RptFormulas";
+        private NODE_RPT_PAGES_SETTING: string = "RptPagesSetting";
+        private NODE_RPT_PAGES: string = "RptPages";
+        private NODE_PAPER_INFO: string = "PaperInfo";
+        private FILE_EX: string = "CrowSoft Report|*.csr| Archivos Xml|*.xml";
+        private FILE_DATA_EX: string = "CrowSoft Report data|*.csd| Archivos Xml|*.xml";
 
         // every formula in a header
         //
-        private C_IDX_GROUP_HEADER: number = -1000;
+        private IDX_GROUP_HEADER: number = -1000;
         //
         // every formula in detail
         //
-        private C_IDX_GROUP_DETAIL: number = 0;
+        private IDX_GROUP_DETAIL: number = 0;
         //
         // every formula in a footer
         //
-        private C_IDX_GROUP_FOOTER: number = -1001;
+        private IDX_GROUP_FOOTER: number = -1001;
         //
         // every formula in groups
         //
-        private C_IDX_GROUP_REPORT_HEADER: number = -2000;
-        private C_IDX_GROUP_REPORT_FOOTER: number = -2001;
+        private IDX_GROUP_REPORT_HEADER: number = -2000;
+        private IDX_GROUP_REPORT_FOOTER: number = -2001;
 
-        private C_IDX_H_LAST_ROW_EVALUATED: number = 0;
-        private C_IDX_D_LAST_ROW_EVALUATED: number = 1;
-        private C_IDX_F_LAST_ROW_EVALUATED: number = 2;
+        private IDX_H_LAST_ROW_EVALUATED: number = 0;
+        private IDX_D_LAST_ROW_EVALUATED: number = 1;
+        private IDX_F_LAST_ROW_EVALUATED: number = 2;
 
         // flag to know if we need to check in the group (this.vGroups)
         // which row was the last evaluated
         // instead of checking in this.LastRow..Evaluated
         //
-        private C_IDX_G_LAST_ROW_EVALUATED: number = -1;
+        private IDX_G_LAST_ROW_EVALUATED: number = -1;
 
         private launchInfo: cReportLaunchInfo = null;
 
@@ -494,25 +494,25 @@ namespace CSReportEngine {
             // if it is the first page we evaluate the headers of the report
             //
             if(this.pages.count() === 1) {
-                this.evalFunctions(this.C_IDX_GROUP_REPORT_HEADER, csRptWhenEval.CS_RPT_EVAL_PRE);
+                this.evalFunctions(this.IDX_GROUP_REPORT_HEADER, csRptWhenEval.CS_RPT_EVAL_PRE);
             }
 
             // only formulas located in header sections
             //
-            this.evalFunctions(this.C_IDX_GROUP_HEADER, csRptWhenEval.CS_RPT_EVAL_PRE);
+            this.evalFunctions(this.IDX_GROUP_HEADER, csRptWhenEval.CS_RPT_EVAL_PRE);
 
             // add field from every header to the page
             //
-            this.addFieldToNewPage(this.headers, page, this.C_HEADERS);
+            this.addFieldToNewPage(this.headers, page, this.HEADERS);
 
             // only formulas located in header sections
             //
-            this.evalFunctions(this.C_IDX_GROUP_HEADER, csRptWhenEval.CS_RPT_EVAL_POST);
+            this.evalFunctions(this.IDX_GROUP_HEADER, csRptWhenEval.CS_RPT_EVAL_POST);
 
             // if it is the first page we evaluate the headers of the report
             //
             if(this.pages.count() === 1) {
-                this.evalFunctions(this.C_IDX_GROUP_REPORT_HEADER, csRptWhenEval.CS_RPT_EVAL_POST);
+                this.evalFunctions(this.IDX_GROUP_REPORT_HEADER, csRptWhenEval.CS_RPT_EVAL_POST);
             }
 
             // we need to set height of headers an footers
@@ -592,15 +592,15 @@ namespace CSReportEngine {
 
             // only formulas located in footer sections
             //
-            this.evalFunctions(this.C_IDX_GROUP_FOOTER, csRptWhenEval.CS_RPT_EVAL_PRE);
+            this.evalFunctions(this.IDX_GROUP_FOOTER, csRptWhenEval.CS_RPT_EVAL_PRE);
 
             // add field from every header to the page
             //
-            this.addFieldToNewPage(this.footers, page, this.C_FOOTERS);
+            this.addFieldToNewPage(this.footers, page, this.FOOTERS);
 
             // only formulas located in footer sections
             //
-            this.evalFunctions(this.C_IDX_GROUP_FOOTER, csRptWhenEval.CS_RPT_EVAL_POST);
+            this.evalFunctions(this.IDX_GROUP_FOOTER, csRptWhenEval.CS_RPT_EVAL_POST);
 
             return csRptEndPageResult.CS_RPT_EP_SUCCESS;
         }
@@ -695,7 +695,7 @@ namespace CSReportEngine {
         }
 
         public evalPost() {
-            this.evalFunctions(this.C_IDX_GROUP_DETAIL, csRptWhenEval.CS_RPT_EVAL_POST);
+            this.evalFunctions(this.IDX_GROUP_DETAIL, csRptWhenEval.CS_RPT_EVAL_POST);
         }
 
         public evalPreGroupHeader() {
@@ -757,7 +757,7 @@ namespace CSReportEngine {
         }
 
         public evalPre() {
-            this.evalFunctions(this.C_IDX_GROUP_DETAIL, csRptWhenEval.CS_RPT_EVAL_PRE);
+            this.evalFunctions(this.IDX_GROUP_DETAIL, csRptWhenEval.CS_RPT_EVAL_PRE);
         }
 
         public moveToNext() {
@@ -1861,7 +1861,7 @@ namespace CSReportEngine {
                 this.name = cFile.getFileName(fileName);
 
                 docXml.init();
-                docXml.setFilter(this.C_FILE_EX);
+                docXml.setFilter(this.FILE_EX);
                 docXml.setName(this.name);
                 docXml.setPath(this.path);
 
@@ -1912,13 +1912,13 @@ namespace CSReportEngine {
             try {
                 let docXml: cXml = new cXml();
 
-                docXml.setFilter(this.C_FILE_EX);
+                docXml.setFilter(this.FILE_EX);
 
                 if(this.name !== "") {
                     docXml.setName(this.name);
                 }
                 else {
-                    docXml.setPath(this.pathDefault + "\\*." + this.C_FILE_EX);
+                    docXml.setPath(this.pathDefault + "\\*." + this.FILE_EX);
                 }
 
                 docXml.setPath(this.path);
@@ -1931,6 +1931,13 @@ namespace CSReportEngine {
                 cError.mngError(ex);
                 return P._(false);
             }
+        }
+
+        clone() {
+            const report = new cReport();
+            const docXml = this.toXml();
+            report.loadFromDocXml(docXml);
+            return report;
         }
 
         private loadFromDocXml(docXml: cXml) {
@@ -1962,7 +1969,7 @@ namespace CSReportEngine {
             this.connectsAux.save(docXml, null);
             this.launchInfo.save(docXml, null);
 
-            xProperty.setName(this.C_NODE_RPT_HEADERS);
+            xProperty.setName(this.NODE_RPT_HEADERS);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
@@ -1971,7 +1978,7 @@ namespace CSReportEngine {
                 sec.save(docXml, nodeObj);
             }
 
-            xProperty.setName(this.C_NODE_RPT_DETAILS);
+            xProperty.setName(this.NODE_RPT_DETAILS);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
@@ -1980,7 +1987,7 @@ namespace CSReportEngine {
                 sec.save(docXml, nodeObj);
             }
 
-            xProperty.setName(this.C_NODE_RPT_FOOTERS);
+            xProperty.setName(this.NODE_RPT_FOOTERS);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
@@ -1989,7 +1996,7 @@ namespace CSReportEngine {
                 sec.save(docXml, nodeObj);
             }
 
-            xProperty.setName(this.C_NODE_GROUPS);
+            xProperty.setName(this.NODE_GROUPS);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
@@ -2000,7 +2007,7 @@ namespace CSReportEngine {
                 group.save(docXml, nodeObj);
             }
 
-            xProperty.setName(this.C_NODE_RPT_FORMULAS);
+            xProperty.setName(this.NODE_RPT_FORMULAS);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
 
@@ -2012,7 +2019,7 @@ namespace CSReportEngine {
                 }
             }
 
-            xProperty.setName(this.C_NODE_PAPER_INFO);
+            xProperty.setName(this.NODE_PAPER_INFO);
             xProperty.setValue(eTypes.eText, "");
             nodeObj = docXml.addNode(xProperty);
             this.paperInfo.save(docXml, nodeObj);
@@ -2023,7 +2030,7 @@ namespace CSReportEngine {
         public save(withDialog: boolean) {
             let docXml: cXml = new cXml();
 
-            docXml.setFilter(this.C_FILE_EX);
+            docXml.setFilter(this.FILE_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
 
@@ -2064,7 +2071,7 @@ namespace CSReportEngine {
             this.path = cFile.getPath(fileName);
             this.name = cFile.getFileName(fileName);
 
-            docXml.setFilter(this.C_FILE_DATA_EX);
+            docXml.setFilter(this.FILE_DATA_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
 
@@ -2084,7 +2091,7 @@ namespace CSReportEngine {
         public loadData(commDialog: object) {
             let docXml: cXml = new cXml();
 
-            docXml.setFilter(this.C_FILE_DATA_EX);
+            docXml.setFilter(this.FILE_DATA_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
 
@@ -2103,7 +2110,7 @@ namespace CSReportEngine {
         public saveData(commDialog: object, withDialog: boolean) {
             let docXml: cXml = new cXml();
 
-            docXml.setFilter(this.C_FILE_DATA_EX);
+            docXml.setFilter(this.FILE_DATA_EX);
             docXml.setName(this.getFileName(this.name) + "-data.csd");
             docXml.setPath(this.path);
 
@@ -2132,7 +2139,7 @@ namespace CSReportEngine {
             // page settings
             //
 
-            xProperty.setName(this.C_NODE_RPT_PAGES);
+            xProperty.setName(this.NODE_RPT_PAGES);
             xProperty.setValue(eTypes.eText, "");
             let nodeObj = docXml.addNode(xProperty);
 
@@ -3381,30 +3388,30 @@ namespace CSReportEngine {
             if(this.iRowFormula < recordCount) {
                 switch (idxGroup)
                 {
-                    case this.C_IDX_GROUP_HEADER:
-                    case this.C_IDX_GROUP_REPORT_HEADER:
-                        idxRowEvaluated = this.C_IDX_H_LAST_ROW_EVALUATED;
+                    case this.IDX_GROUP_HEADER:
+                    case this.IDX_GROUP_REPORT_HEADER:
+                        idxRowEvaluated = this.IDX_H_LAST_ROW_EVALUATED;
                         break;
 
-                    case this.C_IDX_GROUP_DETAIL:
-                        idxRowEvaluated = this.C_IDX_D_LAST_ROW_EVALUATED;
+                    case this.IDX_GROUP_DETAIL:
+                        idxRowEvaluated = this.IDX_D_LAST_ROW_EVALUATED;
                         break;
 
-                    case this.C_IDX_GROUP_FOOTER:
-                    case this.C_IDX_GROUP_REPORT_FOOTER:
-                        idxRowEvaluated = this.C_IDX_F_LAST_ROW_EVALUATED;
+                    case this.IDX_GROUP_FOOTER:
+                    case this.IDX_GROUP_REPORT_FOOTER:
+                        idxRowEvaluated = this.IDX_F_LAST_ROW_EVALUATED;
                         break;
 
                     // groups headers o footers
                     default:
-                        idxRowEvaluated = this.C_IDX_G_LAST_ROW_EVALUATED;
+                        idxRowEvaluated = this.IDX_G_LAST_ROW_EVALUATED;
                         break;
                 }
 
                 // evaluate functions before printing
                 //
                 if(whenEval === csRptWhenEval.CS_RPT_EVAL_PRE) {
-                    if(idxRowEvaluated === this.C_IDX_G_LAST_ROW_EVALUATED) {
+                    if(idxRowEvaluated === this.IDX_G_LAST_ROW_EVALUATED) {
                         // if it is a footer
                         //
                         if(idxGroup < 0) {
@@ -3422,7 +3429,7 @@ namespace CSReportEngine {
                 // evaluate function after printing
                 //
                 else {
-                    if(idxRowEvaluated === this.C_IDX_G_LAST_ROW_EVALUATED) {
+                    if(idxRowEvaluated === this.IDX_G_LAST_ROW_EVALUATED) {
                         // if it is a footer
                         //
                         if(idxGroup < 0) {
@@ -3468,7 +3475,7 @@ namespace CSReportEngine {
                     // evaluate before printing
                     //
                     if(whenEval === csRptWhenEval.CS_RPT_EVAL_PRE) {
-                        if(idxRowEvaluated === this.C_IDX_G_LAST_ROW_EVALUATED) {
+                        if(idxRowEvaluated === this.IDX_G_LAST_ROW_EVALUATED) {
                             // if it is a footer
                             //
                             if(idxGroup < 0) {
@@ -3485,7 +3492,7 @@ namespace CSReportEngine {
                     // evaluate after printing
                     //
                     else {
-                        if(idxRowEvaluated === this.C_IDX_G_LAST_ROW_EVALUATED) {
+                        if(idxRowEvaluated === this.IDX_G_LAST_ROW_EVALUATED) {
                             // if it is a footer
                             //
                             if(idxGroup < 0) {
@@ -3509,12 +3516,12 @@ namespace CSReportEngine {
         // of the formula to -2000
         //
         private pSetGroupFormulaHeaders() {
-            this.pSetGroupFormulaHF(this.headers, this.C_IDX_GROUP_HEADER);
+            this.pSetGroupFormulaHF(this.headers, this.IDX_GROUP_HEADER);
 
             // the main header is -2000
             //
             if(this.headers.item(0).getHasFormulaHide()) {
-                this.headers.item(0).getFormulaHide().setIdxGroup(this.C_IDX_GROUP_REPORT_HEADER);
+                this.headers.item(0).getFormulaHide().setIdxGroup(this.IDX_GROUP_REPORT_HEADER);
             }
 
             let secLn: cReportSectionLine = null;
@@ -3525,10 +3532,10 @@ namespace CSReportEngine {
                 for(let _j = 0; _j < secLn.getControls().count(); _j++) {
                     ctrl = secLn.getControls().item(_j);
                     if(ctrl.getHasFormulaHide()) {
-                        ctrl.getFormulaHide().setIdxGroup(this.C_IDX_GROUP_REPORT_HEADER);
+                        ctrl.getFormulaHide().setIdxGroup(this.IDX_GROUP_REPORT_HEADER);
                     }
                     if(ctrl.getHasFormulaValue()) {
-                        ctrl.getFormulaValue().setIdxGroup(this.C_IDX_GROUP_REPORT_HEADER);
+                        ctrl.getFormulaValue().setIdxGroup(this.IDX_GROUP_REPORT_HEADER);
                     }
                 }
             }
@@ -3690,30 +3697,30 @@ namespace CSReportEngine {
                     else {
                         indexGroup = U.valInt(fint.getParameters().item(1).getValue());
                     }
-                    if(fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP) === null) {
-                        fint.getParameters().add2("", ReportGlobals.C_KEY_INDEX_GROUP);
+                    if(fint.getParameters().item(ReportGlobals.KEY_INDEX_GROUP) === null) {
+                        fint.getParameters().add2("", ReportGlobals.KEY_INDEX_GROUP);
                     }
                     if(indexGroup === -1) {
                         if(sec.getTypeSection() === csRptSectionType.GROUP_HEADER
                             || sec.getTypeSection() === csRptSectionType.GROUP_FOOTER) {
                             // index of the group
                             //
-                            fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).setValue(sec.getIndex().toString());
+                            fint.getParameters().item(ReportGlobals.KEY_INDEX_GROUP).setValue(sec.getIndex().toString());
                             formula.setIdxGroup(sec.getIndex());
                         }
                         else if(sec.getTypeSection() === csRptSectionType.MAIN_DETAIL) {
                             // index of the most internal group
                             //
-                            fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).setValue(this.groups.count().toString());
+                            fint.getParameters().item(ReportGlobals.KEY_INDEX_GROUP).setValue(this.groups.count().toString());
                             formula.setIdxGroup(this.groups.count()-1);
                         }
                         else {
-                            fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).setValue("0");
+                            fint.getParameters().item(ReportGlobals.KEY_INDEX_GROUP).setValue("0");
                             formula.setIdxGroup(0);
                         }
                     }
                     else {
-                        fint.getParameters().item(ReportGlobals.C_KEY_INDEX_GROUP).setValue(indexGroup.toString());
+                        fint.getParameters().item(ReportGlobals.KEY_INDEX_GROUP).setValue(indexGroup.toString());
                         formula.setIdxGroup(indexGroup);
                     }
                 }
@@ -3866,10 +3873,10 @@ namespace CSReportEngine {
                             for(indexCtrl = 0; indexCtrl < secLine.getControls().getCollByLeft().length; indexCtrl++) {
                                 ctrl = secLine.getControls().item(secLine.getControls().getCollByLeft()[indexCtrl]);
 
-                                if(where === this.C_HEADERS) {
+                                if(where === this.HEADERS) {
                                     field = page.getHeader().add(null, "");
                                 }
-                                else if(where === this.C_FOOTERS) {
+                                else if(where === this.FOOTERS) {
                                     field = page.getFooter().add(null, "");
                                 }
 
@@ -3955,10 +3962,10 @@ namespace CSReportEngine {
                     }
                 }
                 else {
-                    if(where === this.C_HEADERS) {
+                    if(where === this.HEADERS) {
                         offset = offset - sec.getAspect().getHeight();
                     }
-                    else if(where === this.C_FOOTERS) {
+                    else if(where === this.FOOTERS) {
                         offset = offset + sec.getAspect().getHeight();
                     }
                 }
@@ -4276,11 +4283,11 @@ namespace CSReportEngine {
         }
 
         private cleanCollections() {
-            this.pDestroyCrossRef(this.headers);
-            this.pDestroyCrossRef(this.details);
-            this.pDestroyCrossRef(this.footers);
-            this.pDestroyCrossRef(this.groups.getGroupsHeaders());
-            this.pDestroyCrossRef(this.groups.getGroupsFooters());
+            this.destroyCrossRef(this.headers);
+            this.destroyCrossRef(this.details);
+            this.destroyCrossRef(this.footers);
+            this.destroyCrossRef(this.groups.getGroupsHeaders());
+            this.destroyCrossRef(this.groups.getGroupsFooters());
 
             this.headers.clear();
             this.groups.clear();
@@ -4302,9 +4309,9 @@ namespace CSReportEngine {
 
             this.cleanCollections();
 
-            if(!this.loadAux(docXml, this.headers, this.C_NODE_RPT_HEADERS)) { return false; }
-            if(!this.loadAux(docXml, this.details, this.C_NODE_RPT_DETAILS)) { return false; }
-            if(!this.loadAux(docXml, this.footers, this.C_NODE_RPT_FOOTERS)) { return false; }
+            if(!this.loadAux(docXml, this.headers, this.NODE_RPT_HEADERS)) { return false; }
+            if(!this.loadAux(docXml, this.details, this.NODE_RPT_DETAILS)) { return false; }
+            if(!this.loadAux(docXml, this.footers, this.NODE_RPT_FOOTERS)) { return false; }
 
             if(!this.loadGroups(docXml)) { return false; }
 
@@ -4335,7 +4342,7 @@ namespace CSReportEngine {
 
         private loadPaperInfo(docXml: cXml): void {
             let nodeObj = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, this.C_NODE_PAPER_INFO);
+            nodeObj = docXml.getNodeFromNode(nodeObj, this.NODE_PAPER_INFO);
             this.paperInfo.load(docXml, nodeObj);
         }
 
@@ -4395,7 +4402,7 @@ namespace CSReportEngine {
             let nodeObjSec: XmlNode = null;
 
             nodeObj = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, this.C_NODE_RPT_FORMULAS);
+            nodeObj = docXml.getNodeFromNode(nodeObj, this.NODE_RPT_FORMULAS);
 
             if(docXml.nodeHasChild(nodeObj)) {
                 nodeObjSec = docXml.getNodeChild(nodeObj);
@@ -4418,7 +4425,7 @@ namespace CSReportEngine {
 
         private loadConnect(docXml: cXml): boolean {
             let nodeObj: XmlNode = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, this.C_RPT_CONNECT);
+            nodeObj = docXml.getNodeFromNode(nodeObj, this.RPT_CONNECT);
             return this.connect.load(docXml, nodeObj);
         }
 
@@ -4428,7 +4435,7 @@ namespace CSReportEngine {
 
         private loadConnectsAux(docXml: cXml): boolean {
             let nodeObj: XmlNode = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, cReportConnectsAux.C_RPT_CONNECTS_AUX);
+            nodeObj = docXml.getNodeFromNode(nodeObj, cReportConnectsAux.RPT_CONNECTS_AUX);
             return this.connectsAux.load(docXml, nodeObj);
         }
 
@@ -4443,7 +4450,7 @@ namespace CSReportEngine {
 
         private loadGroups(docXml: cXml) {
             let nodeObj = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, this.C_NODE_GROUPS);
+            nodeObj = docXml.getNodeFromNode(nodeObj, this.NODE_GROUPS);
 
             if(docXml.nodeHasChild(nodeObj)) {
                 let nodeObjGroup = docXml.getNodeChild(nodeObj);
@@ -4466,7 +4473,8 @@ namespace CSReportEngine {
 
         private loadLaunchInfo(docXml: cXml) {
             let nodeObj: XmlNode = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, cReportLaunchInfo.C_LAUNCH_INFO);
+            nodeObj = docXml.getNodeFromNode(nodeObj, cReportLaunchInfo.LAUNCH_INFO);
+            if(this.launchInfo === null) this.launchInfo = new cReportLaunchInfo();
             return this.launchInfo.load(docXml, nodeObj);
         }
 
@@ -4477,7 +4485,7 @@ namespace CSReportEngine {
         private nLoadData(docXml: cXml) {
             this.pages.clear();
             let nodeObj = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, this.C_NODE_RPT_PAGES);
+            nodeObj = docXml.getNodeFromNode(nodeObj, this.NODE_RPT_PAGES);
 
             if(docXml.nodeHasChild(nodeObj)) {
                 let nodeObjSec = docXml.getNodeChild(nodeObj);
@@ -4534,10 +4542,8 @@ namespace CSReportEngine {
                 }
             }
         }
-        // public functions
-        public dispose() {
-            //console.log("dispose was called in object " + this.constructor.name);
 
+        public dispose() {
             this.table = null;
             this.tables = null;
             this.vRowsIndexAux = null;
@@ -4550,11 +4556,11 @@ namespace CSReportEngine {
             this.controls.clear();
             this.controls = null;
 
-            this.pDestroyCrossRef(this.headers);
-            this.pDestroyCrossRef(this.details);
-            this.pDestroyCrossRef(this.footers);
-            this.pDestroyCrossRef(this.groups.getGroupsHeaders());
-            this.pDestroyCrossRef(this.groups.getGroupsFooters());
+            this.destroyCrossRef(this.headers);
+            this.destroyCrossRef(this.details);
+            this.destroyCrossRef(this.footers);
+            this.destroyCrossRef(this.groups.getGroupsHeaders());
+            this.destroyCrossRef(this.groups.getGroupsFooters());
 
             this.headers.clear();
             this.details.clear();
@@ -4600,7 +4606,47 @@ namespace CSReportEngine {
             this.images = null;
         }
 
-        private pDestroyCrossRef(secs: cReportSections) {
+        public zip() {
+            this.table = null;
+            this.tables = null;
+            this.vRowsIndexAux = null;
+            this.vGroups = null;
+            this.vRowsIndex = null;
+            this.lastRowIndex = -1;
+            this.lastRowPreEvaluated = null;
+            this.lastRowPostEvaluated = null;
+
+            this.controls.clear();
+            this.controls = null;
+
+            this.destroyCrossRef(this.headers, true);
+            this.destroyCrossRef(this.details, true);
+            this.destroyCrossRef(this.footers, true);
+            this.destroyCrossRef(this.groups.getGroupsHeaders(), true);
+            this.destroyCrossRef(this.groups.getGroupsFooters(), true);
+
+            this.details.setCopyColl(null);
+            this.headers.setCopyColl(null);
+            this.footers.setCopyColl(null);
+            this.groupsHeaders.setCopyColl(null);
+            this.groupsFooters.setCopyColl(null);
+
+            this.formulas.clear();
+            this.formulas = null;
+
+            this.formulaTypes.clear();
+            this.formulaTypes = null;
+
+            this.pages.clear();
+            this.pages = null;
+
+            this.compiler = null;
+
+            this.pDestroyImages();
+            this.images = null;
+        }
+
+        private destroyCrossRef(secs: cReportSections, isZip = false) {
             for(let i = 0; i < secs.count(); i++) {
                 let sec = secs.item(i);
                 for(let j = 0; j < sec.getSectionLines().count(); j++) {
@@ -4611,8 +4657,11 @@ namespace CSReportEngine {
                         secl.getControls().getCopyColl().clear();
                     }
                     secl.getControls().setCopyColl(null);
-                    secl.getControls().clear();
-                    secl.setControls(null);
+                    if(! isZip) {
+                        secl.getControls().clear();
+                        secl.setControls(null);
+                    }
+                    secl.setCopyColl(null);
                 }
                 sec.setCopyColl(null);
             }
@@ -4669,11 +4718,11 @@ namespace CSReportEngine {
 
                     if(this.pIsGroupFormula(fint.getFormulaType())) {
                         let colName = fint.getParameters().item(0).getValue();
-                        this.pSetColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.C_KEY_INDEX_COL);
+                        this.pSetColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.KEY_INDEX_COL);
 
                         if(fint.getFormulaType() === csRptFormulaType.CSRPTF_GROUP_PERCENT) {
                             colName = fint.getParameters().item(1).getValue();
-                            this.pSetColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.C_KEY_INDEX_COL2);
+                            this.pSetColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.KEY_INDEX_COL2);
                         }
                     }
                 }

@@ -4,7 +4,7 @@ namespace CSReportScript {
 
     export class cReportCompilerGlobals extends Map<cReportCompilerVar> {
 
-        private mode: eReportCompilerMode = eReportCompilerMode.C_EVAL;
+        private mode: eReportCompilerMode = eReportCompilerMode.EVAL;
 
         constructor() {
             super(null, false, cReportCompilerVar);
@@ -37,7 +37,7 @@ namespace CSReportScript {
     }
 
     export enum eReportCompilerMode {
-        C_EVAL,
-        C_RESULT
+        EVAL,
+        RESULT
     }
 }

@@ -5,9 +5,9 @@ namespace CSReportGlobals {
 
     export class ReportGlobals {
 
-        public static C_KEY_INDEX_COL: string   = "indexcol";
-        public static C_KEY_INDEX_COL2: string  = "indexcol2";
-        public static C_KEY_INDEX_GROUP: string = "indexgroup";
+        public static KEY_INDEX_COL: string   = "indexcol";
+        public static KEY_INDEX_COL2: string  = "indexcol2";
+        public static KEY_INDEX_GROUP: string = "indexgroup";
 
         private static nextKey = 1000;
 
@@ -63,7 +63,7 @@ namespace CSReportGlobals {
                         return 0;
                     case "date":
                         // @ts-ignore
-                        return Constants.C_NO_DATE;
+                        return Constants.NO_DATE;
                     case "boolean":
                         // @ts-ignore
                         return false;
@@ -79,7 +79,7 @@ namespace CSReportGlobals {
 
         public static dateValue(value: any) {
             if(value === null) {
-                return CSDatabase.Constants.C_NO_DATE;
+                return CSDatabase.Constants.NO_DATE;
             }
             else {
                 let utcDate = Date.parse(value.toString())
@@ -87,7 +87,7 @@ namespace CSReportGlobals {
                     return new Date(utcDate);
                 }
                 else {
-                    return CSDatabase.Constants.C_NO_DATE;
+                    return CSDatabase.Constants.NO_DATE;
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace CSReportGlobals {
                 let isDate: boolean = false;
 
                 if(expression instanceof Date) {
-                    if(expression === CSDatabase.Constants.C_NO_DATE) {
+                    if(expression === CSDatabase.Constants.NO_DATE) {
                         return "";
                     }
                     isDate = true;

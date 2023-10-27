@@ -7,8 +7,8 @@ namespace CSReportEngine {
 
     export class cReportGroup {
 
-        private C_HEADER: string = "H";
-        private C_FOOTER: string = "F";
+        private HEADER: string = "H";
+        private FOOTER: string = "F";
 
         private header: cReportSection = null;
         private footer: cReportSection = null;
@@ -162,7 +162,7 @@ namespace CSReportEngine {
             let nodeObjAux: XmlNode = null;
 
             nodeObjAux = nodeObj;
-            nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.C_HEADER);
+            nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.HEADER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
             if(!this.header.load(xDoc, nodeObjAux))  {
                 return false;
@@ -171,7 +171,7 @@ namespace CSReportEngine {
             this.header.setName(this.name);
 
             nodeObjAux = nodeObj;
-            nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.C_FOOTER);
+            nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.FOOTER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
             if(!this.footer.load(xDoc, nodeObjAux))  {
                 return false;
@@ -245,12 +245,12 @@ namespace CSReportEngine {
 
             let nodeObjAux: XmlNode = null;
             nodeObjAux = nodeObj;
-            xProperty.setName(this.C_HEADER);
+            xProperty.setName(this.HEADER);
             nodeObjAux = xDoc.addNodeToNode(nodeObjAux, xProperty);
             this.header.save(xDoc, nodeObjAux);
 
             nodeObjAux = nodeObj;
-            xProperty.setName(this.C_FOOTER);
+            xProperty.setName(this.FOOTER);
             nodeObjAux = xDoc.addNodeToNode(nodeObjAux, xProperty);
             this.footer.save(xDoc, nodeObjAux);
 

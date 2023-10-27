@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Debug in Chrome",
-            "url": "http://localhost:43383/index.html",
+            "url": "http://localhost:8080/index.html",
             "webRoot": "${workspaceFolder}/dist"
         }
     ]
