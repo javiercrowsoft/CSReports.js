@@ -89,6 +89,20 @@ namespace CSReportEngine {
             this.maxLength = rhs;
         }
 
+        public copy(from: cParameter) {
+            this.columnType = from.getColumnType();
+            this.value = from.getValue();
+            this.position = from.getPosition();
+            this.name = from.getName();
+            this.maxLength = from.getMaxLength();
+            this.key = from.getKey();
+            this.isNullable = from.getIsNullable();
+            this.hasDefault = from.getHasDefault();
+            this.default = from.getDefaultValue();
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             this.columnType = DatabaseGlobals.getDataTypeFromAdo(xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger));
             this.value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);

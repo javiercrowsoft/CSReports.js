@@ -47,6 +47,15 @@ namespace CSReportEngine {
             this.position = position;
         }
 
+        public copy(from: cColumnInfo) {
+            this.columnType = from.getColumnType();
+            this.position = from.getPosition();
+            this.name = from.getName();
+            this.key = from.getKey();
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             this.columnType = xDoc.getNodeProperty(nodeObj, "TypeColumn").getValueInt(eTypes.eInteger);
             this.position = xDoc.getNodeProperty(nodeObj, "Position").getValueInt(eTypes.eInteger);

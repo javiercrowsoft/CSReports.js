@@ -26,6 +26,16 @@ namespace CSReportEngine {
             }
         }
 
+        public copy(from: cReportConnectsAux) {
+            for(let i = 0; i < from.count(); i++) {
+                if(! this.add(null).copy(from.item(i)))  {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeFather: XmlNode) {
             let nodeObj: XmlNode = null;
             this.clear();

@@ -4413,7 +4413,7 @@ namespace CSReportEngine {
         }
 
         private copyConnect(report: cReport): boolean {
-            return this.connect.load(report.getConnect());
+            return this.connect.copy(report.getConnect());
         }
 
         private loadConnect(docXml: cXml): boolean {
@@ -4423,9 +4423,7 @@ namespace CSReportEngine {
         }
 
         private copyConnectsAux(report: cReport): boolean {
-            let nodeObj: XmlNode = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, cReportConnectsAux.C_RPT_CONNECTS_AUX);
-            return this.connectsAux.load(docXml, nodeObj);
+            return this.connectsAux.copy(report.getConnectsAux());
         }
 
         private loadConnectsAux(docXml: cXml): boolean {
@@ -4463,9 +4461,7 @@ namespace CSReportEngine {
         }
 
         private copyLaunchInfo(report: cReport) {
-            let nodeObj: XmlNode = docXml.getRootNode();
-            nodeObj = docXml.getNodeFromNode(nodeObj, cReportLaunchInfo.C_LAUNCH_INFO);
-            return this.launchInfo.load(docXml, nodeObj);
+            return this.launchInfo.copy(report.getLaunchInfo());
         }
 
         private loadLaunchInfo(docXml: cXml) {

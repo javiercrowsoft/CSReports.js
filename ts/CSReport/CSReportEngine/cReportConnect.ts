@@ -167,15 +167,11 @@ namespace CSReportEngine {
             return true;
         }
 
-        private loadColl(xDoc: CSXml.cXml, node, coll) {
-            if(xDoc.nodeHasChild(node)) {
-                let child = xDoc.getNodeChild(node);
-                while (child !== null) {
-                    let key: string = xDoc.getNodeProperty(child, "Key").getValueString(eTypes.eText);
-                    if(!coll.add(null, key).load(xDoc, child)) {
-                        return false;
-                    }
-                    child = xDoc.getNextNode(child);
+        private loadColl(from: any, coll: any) {
+            for(let i = 0; i < from.count(); i++) {
+                let key: string = from.getKeys()[i];
+                if(!coll.add(null, key).copy(from.item(i))) {
+                    return;
                 }
             }
         }
@@ -197,7 +193,7 @@ namespace CSReportEngine {
                 while (child !== null) {
                     let key: string = xDoc.getNodeProperty(child, "Key").getValueString(eTypes.eText);
                     if(!coll.add(null, key).load(xDoc, child)) {
-                        return false;
+                        return;
                     }
                     child = xDoc.getNextNode(child);
                 }

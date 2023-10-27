@@ -141,6 +141,20 @@ namespace CSReportEngine {
             }
         }
 
+        public copy(from: cReportLaunchInfo) {
+            this.strConnect = from.getStrConnect();
+            this.action = from.getAction();
+            this.copies = from.getCopies();
+            this.file = from.getFile();
+            this.fileFormat = from.getFileFormat();
+            this.internalPreview = from.getInternalPreview();
+            this.showPrintersDialog = from.getShowPrintersDialog();
+            this.silent = from.getSilent();
+            this.sqlstmt = from.getSqlstmt();
+
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             this.strConnect = xDoc.getNodeProperty(nodeObj, "StrConnect").getValueString(eTypes.eText);
             this.action = xDoc.getNodeProperty(nodeObj, "Action").getValueInt(eTypes.eInteger);
