@@ -1884,12 +1884,12 @@ namespace CSReportEngine {
             }*/
         }
 
-        public copy(report: cReport) {
+        public copy(report: ReportDTO) {
             this.cleanCollections();
 
-            if(!this.copyAux(report.getHeaders(), this.headers)) { return false; }
-            if(!this.copyAux(report.getDetails(), this.details)) { return false; }
-            if(!this.copyAux(report.getFooters(), this.footers)) { return false; }
+            if(!this.copyAux(report.headers, this.headers)) { return false; }
+            if(!this.copyAux(report.details, this.details)) { return false; }
+            if(!this.copyAux(report.footers, this.footers)) { return false; }
 
             if(!this.copyGroups(report)) { return false; }
 
@@ -4336,8 +4336,8 @@ namespace CSReportEngine {
             }
         }
 
-        private copyPaperInfo(report: cReport): void {
-            this.paperInfo.copy(report.getPaperInfo());
+        private copyPaperInfo(from: ReportDTO): void {
+            this.paperInfo.copy(from.paperInfo);
         }
 
         private loadPaperInfo(docXml: cXml): void {
@@ -4367,10 +4367,10 @@ namespace CSReportEngine {
             }
         }
 
-        private copyAux(from: cReportSections, to: cReportSections): boolean {
-            for(let i = 0; i < from.count(); i++) {
-                const secTo: cReportSection = to.add(null, from.getKeys()[i]);
-                const secFrom = from.item(i);
+        private copyAux(from: ReportSectionsDTO, to: cReportSections): boolean {
+            for(let i = 0; i < from.values.length; i++) {
+                const secTo: cReportSection = to.add(null, from.keys[i]);
+                const secFrom = from.values[i];
                 if(!secTo.copy(secFrom)) return false;
             }
             return true;
@@ -4419,8 +4419,8 @@ namespace CSReportEngine {
             return true;
         }
 
-        private copyConnect(report: cReport): boolean {
-            return this.connect.copy(report.getConnect());
+        private copyConnect(from: ReportDTO): boolean {
+            return this.connect.copy(from.connect);
         }
 
         private loadConnect(docXml: cXml): boolean {
@@ -4429,8 +4429,8 @@ namespace CSReportEngine {
             return this.connect.load(docXml, nodeObj);
         }
 
-        private copyConnectsAux(report: cReport): boolean {
-            return this.connectsAux.copy(report.getConnectsAux());
+        private copyConnectsAux(report: ReportDTO): boolean {
+            return this.connectsAux.copy(report.connectsAux);
         }
 
         private loadConnectsAux(docXml: cXml): boolean {
@@ -4439,10 +4439,10 @@ namespace CSReportEngine {
             return this.connectsAux.load(docXml, nodeObj);
         }
 
-        private copyGroups(report: cReport) {
-            for(let i = 0; i < report.getGroups().count(); i++) {
-                const group = this.getGroups().add(null, report.getGroups().getKeys()[i]);
-                if(!group.copy(report.getGroups().item(i)))  {
+        private copyGroups(report: ReportDTO) {
+            for(let i = 0; i < report.groups.values.length; i++) {
+                const group = this.getGroups().add(null, report.groups.keys[i]);
+                if(!group.copy(report.groups.values[i]))  {
                     return false;
                 }
             }
@@ -4467,8 +4467,8 @@ namespace CSReportEngine {
             return true;
         }
 
-        private copyLaunchInfo(report: cReport) {
-            return this.launchInfo.copy(report.getLaunchInfo());
+        private copyLaunchInfo(report: ReportDTO) {
+            return this.launchInfo.copy(report.launchInfo);
         }
 
         private loadLaunchInfo(docXml: cXml) {

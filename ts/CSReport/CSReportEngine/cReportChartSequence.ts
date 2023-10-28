@@ -56,9 +56,9 @@ namespace CSReportEngine {
         }
 
         public copy(from: cReportChartSequence) {
-            this.valueFieldName = from.getValueFieldName();
-            this.labelFieldName = from.getLabelFieldName();
-            this.color = from.getColor();
+            this.valueFieldName = from.valueFieldName;
+            this.labelFieldName = from.labelFieldName;
+            this.color = from.color;
 
             return true;
         }

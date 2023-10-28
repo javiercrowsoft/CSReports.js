@@ -175,27 +175,27 @@ namespace CSReportEngine {
             return this.make(rs.getRows(), "###,###,##0.00", true, fileName);
         }
 
-        public copy(from: cReportChart) {
+        public copy(from: ReportChartDTO) {
             if(from !== null) {
-                this.chartLineStyle = from.getGridLines();
-                this.chartBarOutline = from.getOutlineBars();
-                this.chartShowValues = from.getShowValues();
-                this.pieThickness = from.getThickness();
-                this.pieDiameter = from.getDiameter();
-                this.imageFormat = from.getFormat();
-                this.copyright = from.getCopyRight();
-                this.chartTitle = from.getChartTitle();
-                this.chartType = from.getChartType();
-                this.top = from.getTop();
-                this.groupValue = from.getGroupValue();
-                this.groupFieldName = from.getGroupFieldName();
-                this.groupFieldIndex = from.getGroupFieldIndex();
-                this.sort = from.getSort();
+                this.chartLineStyle = from.chartLineStyle;
+                this.chartBarOutline = from.chartBarOutline;
+                this.chartShowValues = from.chartShowValues;
+                this.pieThickness = from.pieThickness;
+                this.pieDiameter = from.pieDiameter;
+                this.imageFormat = from.imageFormat;
+                this.copyright = from.copyright;
+                this.chartTitle = from.chartTitle;
+                this.chartType = from.chartType;
+                this.top = from.top;
+                this.groupValue = from.groupValue;
+                this.groupFieldName = from.groupFieldName;
+                this.groupFieldIndex = from.groupFieldIndex;
+                this.sort = from.sort;
 
                 let index: number = 0;
-                for(let i = 0; i < from.getSeries().count(); i++) {
+                for(let i = 0; i < from.series.values.length; i++) {
                     index = index + 1;
-                    if(!this.getSeries().add(null, "").copy(from.getSeries().item(i))) {
+                    if(!this.getSeries().add(null, "").copy(from.series.values[i])) {
                         return false;
                     }
                 }

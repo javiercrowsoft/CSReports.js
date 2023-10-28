@@ -156,20 +156,20 @@ namespace CSReportEngine {
             });
         }
 
-        public copy(from: cReportConnect): boolean {
-            this.dataSource = from.getDataSource();
-            this.dataSourceType = from.getDataSourceType();
-            this.strConnect = from.getStrConnect();
+        public copy(from: ReportConnectDTO): boolean {
+            this.dataSource = from.dataSource;
+            this.dataSourceType = from.dataSourceType;
+            this.strConnect = from.strConnect;
 
-            this.loadColl(from.getColumns(), this.columns);
-            this.loadColl(from.getParameters(), this.parameters);
+            this.loadColl(from.columns, this.columns);
+            this.loadColl(from.parameters, this.parameters);
 
             return true;
         }
 
         private loadColl(from: any, coll: any) {
             for(let i = 0; i < from.count(); i++) {
-                let key: string = from.getKeys()[i];
+                let key: string = from.keys[i];
                 if(!coll.add(null, key).copy(from.item(i))) {
                     return;
                 }

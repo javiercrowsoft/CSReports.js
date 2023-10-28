@@ -70,14 +70,14 @@ namespace CSReportEngine {
             this.strike = rhs;
         }
 
-        public copy(from: cReportFont) {
-            this.bold = from.getBold();
-            this.foreColor = from.getForeColor();
-            this.italic = from.getItalic();
-            this.name = from.getName();
-            this.size = from.getSize();
-            this.underline = from.getUnderline();
-            this.strike = from.getStrike();
+        public copy(from: ReportFontDTO) {
+            this.bold = from.bold;
+            this.foreColor = from.foreColor.toString();
+            this.italic = from.italic;
+            this.name = from.name;
+            this.size = from.size;
+            this.underline = from.underline;
+            this.strike = from.strike;
 
             return true;
         }

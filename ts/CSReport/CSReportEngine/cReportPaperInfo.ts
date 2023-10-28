@@ -79,14 +79,14 @@ namespace CSReportEngine {
             this.pagesToPrint = rhs;
         }
 
-        public copy(from: cReportPaperInfo) {
+        public copy(from: ReportPaperInfoDTO) {
             if(from !== null) {
-                this.height = from.getHeight();
-                this.paperSize = from.getPaperSize();
-                this.width = from.getWidth();
-                this.orientation = from.getOrientation();
-                this.customWidth = from.getCustomWidth();
-                this.customHeight = from.getCustomHeight();
+                this.height = from.height;
+                this.paperSize = from.paperSize;
+                this.width = from.width;
+                this.orientation = from.orientation;
+                this.customWidth = from.customWidth;
+                this.customHeight = from.customHeight;
             }
 
             return true;

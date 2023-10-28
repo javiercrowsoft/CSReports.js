@@ -33,10 +33,10 @@ namespace CSReportEngine {
             this.fieldType = rhs;
         }
 
-        public copy(from: cReportField) {
-            this.index = from.getIndex();
-            this.name = from.getName();
-            this.fieldType = from.getFieldType();
+        public copy(from: ReportFieldDTO) {
+            this.index = from.index;
+            this.name = from.name;
+            this.fieldType = from.fieldType;
             return true;
         }
 

@@ -26,9 +26,9 @@ namespace CSReportEngine {
             }
         }
 
-        public copy(from: cReportConnectsAux) {
-            for(let i = 0; i < from.count(); i++) {
-                if(! this.add(null).copy(from.item(i)))  {
+        public copy(from: ReportConnectsAuxDTO) {
+            for(let i = 0; i < from.values.length; i++) {
+                if(! this.add(null).copy(from.values[i]))  {
                     return false;
                 }
             }

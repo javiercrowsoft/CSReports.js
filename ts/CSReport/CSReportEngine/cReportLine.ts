@@ -14,8 +14,8 @@ namespace CSReportEngine {
             this.aspect = rhs;
         }
 
-        public copy(from: cReportLine) {
-            return this.aspect.copy(from.getAspect());
+        public copy(from: ReportLineDTO) {
+            return this.aspect.copy(from.aspect);
         }
 
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {

@@ -109,25 +109,26 @@ namespace CSReportEngine {
             return this.formulaHide;
         }
 
-        public copy(from: cReportSection) {
-            this.name = from.getName();
-            this.index = from.getIndex();
-            this.setTypeSection(from.getTypeSection());
-            this.hasFormulaHide = from.getHasFormulaHide();
+        public copy(from: ReportSectionDTO) {
+            this.name = from.name;
+            this.index = from.index;
+            debugger; // check this
+            this.setTypeSection(from.typeSection);
+            this.hasFormulaHide = from.hasFormulaHide;
 
-            if(!this.aspect.copy(from.getAspect())) {
+            if(!this.aspect.copy(from.aspect)) {
                 return false;
             }
 
-            if(!this.formulaHide.copy(from.getFormulaHide())) {
+            if(!this.formulaHide.copy(from.formulaHide)) {
                 return false;
             }
 
             this.sectionLines.clear();
 
-            for(let i = 0; from.getSectionLines().count(); i++) {
-                const seclTo = this.sectionLines.add(null, from.getSectionLines().getKeys()[i], -1);
-                if(!seclTo.copy(from.getSectionLines().item(i))) {
+            for(let i = 0; from.sectionLines.values.length; i++) {
+                const seclTo = this.sectionLines.add(null, from.sectionLines.keys[i], -1);
+                if(!seclTo.copy(from.sectionLines.values[i])) {
                     return false;
                 }
                 seclTo.setSectionName(this.name);

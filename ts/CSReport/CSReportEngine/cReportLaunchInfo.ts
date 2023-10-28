@@ -141,16 +141,16 @@ namespace CSReportEngine {
             }
         }
 
-        public copy(from: cReportLaunchInfo) {
-            this.strConnect = from.getStrConnect();
-            this.action = from.getAction();
-            this.copies = from.getCopies();
-            this.file = from.getFile();
-            this.fileFormat = from.getFileFormat();
-            this.internalPreview = from.getInternalPreview();
-            this.showPrintersDialog = from.getShowPrintersDialog();
-            this.silent = from.getSilent();
-            this.sqlstmt = from.getSqlstmt();
+        public copy(from: ReportLaunchInfoDTO) {
+            this.strConnect = from.strConnect;
+            this.action = from.action;
+            this.copies = from.copies;
+            this.file = from.file;
+            this.fileFormat = from.fileFormat;
+            this.internalPreview = from.internalPreview;
+            this.showPrintersDialog = from.showPrintersDialog;
+            this.silent = from.silent;
+            this.sqlstmt = from.sqlstmt;
 
             return true;
         }

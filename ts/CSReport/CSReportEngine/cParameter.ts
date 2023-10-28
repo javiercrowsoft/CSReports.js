@@ -89,16 +89,16 @@ namespace CSReportEngine {
             this.maxLength = rhs;
         }
 
-        public copy(from: cParameter) {
-            this.columnType = from.getColumnType();
-            this.value = from.getValue();
-            this.position = from.getPosition();
-            this.name = from.getName();
-            this.maxLength = from.getMaxLength();
-            this.key = from.getKey();
-            this.isNullable = from.getIsNullable();
-            this.hasDefault = from.getHasDefault();
-            this.default = from.getDefaultValue();
+        public copy(from: ReportParameterDTO) {
+            this.columnType = from.columnType;
+            this.value = from.value;
+            this.position = from.position;
+            this.name = from.name;
+            this.maxLength = from.maxLength;
+            this.key = from.key;
+            this.isNullable = from.isNullable;
+            this.hasDefault = from.hasDefault;
+            this.default = from.default;
 
             return true;
         }

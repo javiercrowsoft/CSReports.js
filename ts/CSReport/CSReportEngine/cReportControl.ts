@@ -166,24 +166,24 @@ namespace CSReportEngine {
             return this.isFreeCtrl;
         }
 
-        public copy(from: cReportControl) {
-            this.keyPaint = from.getKeyPaint();
-            this.name = from.getName();
-            this.hasFormulaHide = from.getHasFormulaHide();
-            this.hasFormulaValue = from.getHasFormulaValue();
-            this.controlType = from.getControlType();
-            this.tag = from.getTag();
-            this.exportColIdx = from.getExportColIdx();
-            this.isFreeCtrl = from.getIsFreeCtrl();
+        public copy(from: ReportControlDTO) {
+            this.keyPaint = from.keyPaint;
+            this.name = from.name;
+            this.hasFormulaHide = from.hasFormulaHide;
+            this.hasFormulaValue = from.hasFormulaValue;
+            this.controlType = from.controlType;
+            this.tag = from.tag;
+            this.exportColIdx = from.exportColIdx;
+            this.isFreeCtrl = from.isFreeCtrl;
 
             try {
-                if(!this.field.copy(from.getField())) { return false; }
-                if(!this.image.copy(from.getImage())) { return false; }
-                if(!this.label.copy(from.getLabel())) { return false; }
-                if(!this.line.copy(from.getLine())) { return false; }
-                if(!this.formulaHide.copy(from.getFormulaHide())) { return false; }
-                if(!this.formulaValue.copy(from.getFormulaValue())) { return false; }
-                if(!this.chart.copy(from.getChart())) { return false; }
+                if(!this.field.copy(from.field)) { return false; }
+                if(!this.image.copy(from.image)) { return false; }
+                if(!this.label.copy(from.label)) { return false; }
+                if(!this.line.copy(from.line)) { return false; }
+                if(!this.formulaHide.copy(from.formulaHide)) { return false; }
+                if(!this.formulaValue.copy(from.formulaValue)) { return false; }
+                if(!this.chart.copy(from.chart)) { return false; }
 
                 // TODO: remove me after all reports were migrated
                 //

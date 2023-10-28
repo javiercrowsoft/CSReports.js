@@ -209,31 +209,31 @@ namespace CSReportEngine {
             this.borderRounded = rhs;
         }
 
-        public copy(from: cReportAspect) {
-            this.align = from.getAlign();
-            this.backColor = from.getBackColor();
-            this.borderColor = from.getBorderColor();
-            this.borderColor3d = from.getBorderColor3d();
-            this.borderColor3dShadow = from.getBorderColor3dShadow();
-            this.borderType = from.getBorderType();
-            this.borderWidth = from.getBorderWidth();
-            this.height = from.getHeight();
-            this.canGrow = from.getCanGrow();
-            this.left = from.getLeft();
-            this.nZOrder = from.getNZOrder();
-            this.selectColor = from.getSelectColor();
-            this.top = from.getTop();
-            this.width = from.getWidth();
-            this.transparent = from.getTransparent();
-            this.format = from.getFormat();
-            this.symbol = from.getSymbol();
-            this.isAccounting = from.getIsAccounting();
-            this.wordWrap = from.getWordWrap();
-            this.borderRounded = from.getBorderRounded();
+        public copy(from: ReportAspectDTO) {
+            this.align = from.align;
+            this.backColor = from.backColor.toString();
+            this.borderColor = from.borderColor.toString();
+            this.borderColor3d = from.borderColor3d.toString();
+            this.borderColor3dShadow = from.borderColor3dShadow.toString();
+            this.borderType = from.borderType;
+            this.borderWidth = from.borderWidth;
+            this.height = from.height;
+            this.canGrow = from.canGrow;
+            this.left = from.left;
+            this.nZOrder = from.nZOrder;
+            this.selectColor = from.selectColor.toString();
+            this.top = from.top;
+            this.width = from.width;
+            this.transparent = from.transparent;
+            this.format = from.format;
+            this.symbol = from.symbol;
+            this.isAccounting = from.isAccounting;
+            this.wordWrap = from.wordWrap;
+            this.borderRounded = from.borderRounded;
 
             this.twipsToPixels();
 
-            return this.font.copy(from.getFont());
+            return this.font.copy(from.font);
         }
 
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {

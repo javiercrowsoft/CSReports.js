@@ -118,24 +118,24 @@ namespace CSReportEngine {
             this.key = rhs;
         }
 
-        public copy(from: cReportGroup) {
-            this.name = from.getName();
-            this.index = from.getIndex();
-            this.comparisonType = from.getComparisonType();
-            this.fieldName = from.getFieldName();
-            this.oderType = from.getOderType();
-            this.printInNewPage = from.getPrintInNewPage();
-            this.rePrintInNewPage = from.getRePrintInNewPage();
-            this.grandTotalGroup = from.getGrandTotalGroup();
+        public copy(from: ReportGroupDTO) {
+            this.name = from.name;
+            this.index = from.index;
+            this.comparisonType = from.comparisonType;
+            this.fieldName = from.fieldName;
+            this.oderType = from.oderType;
+            this.printInNewPage = from.printInNewPage;
+            this.rePrintInNewPage = from.rePrintInNewPage;
+            this.grandTotalGroup = from.grandTotalGroup;
 
             this.fixName();
 
-            if(!this.header.copy(from.getHeader()))  {
+            if(!this.header.copy(from.header))  {
                 return false;
             }
             this.header.setName(this.name);
 
-            if(!this.footer.copy(from.getFooter()))  {
+            if(!this.footer.copy(from.footer))  {
                 return false;
             }
             this.footer.setName(this.name);

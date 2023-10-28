@@ -48,10 +48,10 @@ namespace CSReportEngine {
         }
 
         public copy(from: cColumnInfo) {
-            this.columnType = from.getColumnType();
-            this.position = from.getPosition();
-            this.name = from.getName();
-            this.key = from.getKey();
+            this.columnType = from.columnType;
+            this.position = from.position;
+            this.name = from.name;
+            this.key = from.key;
 
             return true;
         }

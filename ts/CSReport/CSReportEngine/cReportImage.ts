@@ -28,9 +28,9 @@ namespace CSReportEngine {
             this.image = rhs;
         }
 
-        public copy(from: cReportImage) {
-            this.image = from.getImage();
-            return this.aspect.copy(from.getAspect());
+        public copy(from: ReportImageDTO) {
+            this.image = from.image;
+            return this.aspect.copy(from.aspect);
         }
 
         public load(xDoc: CSXml.cXml, nodeObj: CSXml.XmlNode) {

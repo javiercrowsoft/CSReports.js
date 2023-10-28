@@ -134,22 +134,22 @@ namespace CSReportEngine {
             }
         }
 
-        public copy(from: cReportSectionLine) {
-            this.index = from.getIndex();
-            this.idField = from.getIdField();
-            this.hasFormulaHide = from.getHasFormulaHide();
+        public copy(from: ReportSectionLineDTO) {
+            this.index = from.index;
+            this.idField = from.idField;
+            this.hasFormulaHide = from.hasFormulaHide;
 
-            if(!this.formulaHide.copy(from.getFormulaHide()))  {
+            if(!this.formulaHide.copy(from.formulaHide))  {
                 return false;
             }
 
-            if(!this.aspect.copy(from.getAspect()))  {
+            if(!this.aspect.copy(from.aspect))  {
                 return false;
             }
 
-            for(let i = 0; i < from.getControls().count(); i++) {
-                const ctrl = this.controls.add(null, from.getControls().getKeys()[i]);
-                if(!ctrl.copy(from.getControls().item(i)))  {
+            for(let i = 0; i < from.controls.values.length; i++) {
+                const ctrl = this.controls.add(null, from.controls.keys[i]);
+                if(!ctrl.copy(from.controls.values[i]))  {
                     return false;
                 }
             }

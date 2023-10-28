@@ -148,12 +148,12 @@ namespace CSReportEngine {
             this.lastResult = rhs;
         }
 
-        public copy(from: cReportFormula) {
+        public copy(from: ReportFormulaDTO) {
             if(from !== null) {
-                this.name = from.getName();
-                this.text = from.getText();
-                this.idxGroup = from.getIdxGroup();
-                this.whenEval = from.getWhenEval();
+                this.name = from.name;
+                this.text = from.text;
+                this.idxGroup = from.idxGroup;
+                this.whenEval = from.whenEval;
             }
             return true;
         }
