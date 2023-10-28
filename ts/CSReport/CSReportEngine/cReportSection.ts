@@ -17,6 +17,7 @@ namespace CSReportEngine {
         private keyPaint: string = "";
         private formulaHide: cReportFormula = new cReportFormula();
         private hasFormulaHide: boolean = null;
+        private typeSection: csRptSectionType = null; // this fields is redundant because JSON.stringify don't serialize getters
 
         public constructor() {
             this.formulaHide.setName("H");
@@ -72,6 +73,7 @@ namespace CSReportEngine {
         }
 
         public setTypeSection(rhs: csRptSectionType) {
+            this.typeSection = rhs;
             this.sectionLines.setTypeSection(rhs);
         }
 
@@ -112,7 +114,6 @@ namespace CSReportEngine {
         public copy(from: ReportSectionDTO) {
             this.name = from.name;
             this.index = from.index;
-            debugger; // check this
             this.setTypeSection(from.typeSection);
             this.hasFormulaHide = from.hasFormulaHide;
 
@@ -126,7 +127,7 @@ namespace CSReportEngine {
 
             this.sectionLines.clear();
 
-            for(let i = 0; from.sectionLines.values.length; i++) {
+            for(let i = 0; i < from.sectionLines.values.length; i++) {
                 const seclTo = this.sectionLines.add(null, from.sectionLines.keys[i], -1);
                 if(!seclTo.copy(from.sectionLines.values[i])) {
                     return false;

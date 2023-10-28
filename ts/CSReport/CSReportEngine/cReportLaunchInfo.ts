@@ -152,6 +152,12 @@ namespace CSReportEngine {
             this.silent = from.silent;
             this.sqlstmt = from.sqlstmt;
 
+            this.printer = new cPrinter(null);
+            this.printer.setCopies(from.printer?.copies);
+            this.printer.setDeviceName(from.printer?.deviceName);
+            this.printer.setDriverName(from.printer?.driverName);
+            this.printer.setPort(from.printer?.port);
+
             return true;
         }
 

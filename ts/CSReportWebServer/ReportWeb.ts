@@ -3,6 +3,7 @@ namespace CSReportWebServer {
     import U = CSOAPI.Utils;
     import cReport = CSReportEngine.cReport;
     import cReportLaunchInfo = CSReportEngine.cReportLaunchInfo;
+    import ReportLaunchInfoDTO = CSReportEngine.ReportLaunchInfoDTO;
     import ProgressEventArgs = CSReportEngine.ProgressEventArgs;
     import DatabaseEngine = CSDatabase.DatabaseEngine;
     import JSONDataSource = CSDatabase.JSONDataSource;
@@ -137,38 +138,27 @@ namespace CSReportWebServer {
                     this.fPrint = new cReportPrint();
                     this.fPrint.setHidePreviewWindow(true);
 
-                    const launchInfo = this.report.getLaunchInfo();
-                    launchInfo.getPrinter().setPaperInfo(this.report.getPaperInfo());
-                    launchInfo.setObjPaint(this.fPrint);
-                    launchInfo.setShowPrintersDialog(true);
-
                     const reportWorker = new Worker("./csreports.js");
 
                     const report = this.report.clone();
 
-                    report.getControls().forEach((k, c) => c.setSectionLine(null));
-                    const sections = [
-                        report.getHeaders(),
-                        report.getGroupsHeaders(),
-                        report.getDetails(),
-                        report.getGroupsFooters(),
-                        report.getFooters()
-                    ];
-                    sections.forEach((coll) => coll.forEach((k, s: CSReportEngine.cReportSection) =>
-                            s.getSectionLines().forEach((k, sl: CSReportEngine.cReportSectionLine) =>
-                                sl.getControls().forEach((k, c) => c.setSectionLine(null)))
-                    ));
-                    sections.forEach((coll) => coll.forEach((k, s: CSReportEngine.cReportSection) =>
-                            s.getSectionLines().forEach((k, sl: CSReportEngine.cReportSectionLine) =>
-                                sl.getControls().setSectionLine(null)))
-                    );
+                    // clone doesn't copy launch info content
+                    //
+                    report.getLaunchInfo().copy(JSON.stringify(this.report.getLaunchInfo())as unknown as ReportLaunchInfoDTO);
+                    report.getLaunchInfo().getPrinter().setPaperInfo(report.getPaperInfo());
+                    report.getLaunchInfo().setObjPaint(this.fPrint);
+                    report.getLaunchInfo().setShowPrintersDialog(true);
 
-                    report.zip();
+                    this.removeCircularReferences(report);
+
+                    reportWorker.postMessage({
+                        action: 'init'
+                    });
 
                     reportWorker.postMessage({
                         action: 'launch',
-                        launchInfo: launchInfo,
-                        reportAsJson : JSON.stringify(report)
+                        launchInfo: JSON.stringify(report.getLaunchInfo()),
+                        report : JSON.stringify(report)
                     });
 
                     console.log('Message posted to worker');
@@ -189,6 +179,26 @@ namespace CSReportWebServer {
                 }
 
             }));
+        }
+
+        removeCircularReferences(report: cReport) {
+            report.getControls().forEach((k, c) => c.setSectionLine(null));
+            const sections = [
+                report.getHeaders(),
+                report.getGroupsHeaders(),
+                report.getDetails(),
+                report.getGroupsFooters(),
+                report.getFooters()
+            ];
+            sections.forEach((coll) => coll.forEach((k, s: CSReportEngine.cReportSection) =>
+                    s.getSectionLines().forEach((k, sl: CSReportEngine.cReportSectionLine) =>
+                        sl.getControls().forEach((k, c) => c.setSectionLine(null)))
+            ));
+            sections.forEach((coll) => coll.forEach((k, s: CSReportEngine.cReportSection) =>
+                    s.getSectionLines().forEach((k, sl: CSReportEngine.cReportSectionLine) =>
+                        sl.getControls().setSectionLine(null)))
+            );
+            report.zip();
         }
 
         private showProgressDlg() {
