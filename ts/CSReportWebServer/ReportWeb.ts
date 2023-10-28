@@ -25,6 +25,7 @@ namespace CSReportWebServer {
         private report: cReport;
         private cancelPrinting = false;
 
+        private reportWorker: Worker;
         private fProgress: FProgress = null;
         private fPrint: cReportPrint = null;
 
@@ -42,9 +43,6 @@ namespace CSReportWebServer {
 
                 this.report.setDatabaseEngine(DatabaseEngine.CS_REPORT_WEB);
 
-                this.report.onProgress(P.call(this, this.reportProgress));
-                this.report.onReportDone(P.call(this, this.reportDone));
-
                 const oLaunchInfo = new cReportLaunchInfo();
 
                 oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(null));
@@ -57,71 +55,43 @@ namespace CSReportWebServer {
 
                 this.report.setPathDefault("~");
 
+                this.reportWorker = new Worker("./csreports.js");
+
+                this.reportWorker.onmessage = this.onmessage();
+
+                this.reportWorker.postMessage({
+                    action: 'init'
+                });
+
+                this.reportWorker.postMessage({
+                    action: 'register-datasource',
+                    request: request,
+                    database: this.database
+                });
+
             } catch (ex) {
                 cError.mngError(ex);
             }
         }
 
-        private registerDataSource(request: any): void {
-            const dataSources = request["content"]["data"]["data"];
-            for (let i = 0; i < dataSources.length; i++) {
-                const dataSource = dataSources[i];
-                const ds = new JSONDataSource(dataSource["name"].toString(), dataSource["data"]);
-                JSONServer.registerDataSource(ds, this.database + "." + ds.getName());
-            }
-        }
+        private onmessage() {
+            return P.call(this, (e: any) => {
+                console.log('Message received from worker');
+                switch(e.data.action) {
+                    case 'report-progress':
+                        this.reportProgress(e.data.eventArgs);
+                        break;
 
-        private reportDone(report: cReport): void {
-            this.closeProgressDlg();
-        }
+                    case 'report-done':
+                        this.reportDone();
+                        break;
 
-        private closeProgressDlg(): void {
-            if (this.fProgress !== null && !this.fProgress.isDisposed()) {
-                this.fProgress.close();
-            }
-            this.fProgress = null;
-        }
-
-        private reportProgress(report: cReport, eventArgs: ProgressEventArgs) {
-            let task: string = eventArgs.getTask();
-            let page: number = eventArgs.getPage();
-            let currRecord: number = eventArgs.getCurrRecord();
-            let recordCount: number = eventArgs.getRecordCount();
-
-            if (this.cancelPrinting) {
-                cWindow.ask("Confirm you want to cancel the execution of this report?", MessageBoxDefaultButton.Button2)
-                    .then(answer => {
-                        if (answer) {
-                            eventArgs.setCancel(true);
-                            this.closeProgressDlg();
-                            return;
-                        }
-                        else {
-                            this.cancelPrinting = false;
-                        }
-                    });
-            }
-
-            if (this.fProgress === null) return;
-
-            if (page > 0) { this.fProgress.getLbCurrPage().setText(page.toString()); }
-            if (task !== "") { this.fProgress.getLbTask().setText(task); }
-            if (currRecord > 0) { this.fProgress.getLbCurrRecord().setText(currRecord.toString()); }
-            if (recordCount > 0 && U.val(this.fProgress.getLbRecordCount().getText()) !== recordCount) {
-                this.fProgress.getLbRecordCount().setText(recordCount.toString());
-            }
-
-            let percent: number = 0;
-            if (recordCount > 0 && currRecord > 0) {
-                percent = currRecord / recordCount;
-                let value = Math.trunc(percent * 100);
-                if (value > 100) value = 100;
-                this.fProgress.getPrgBar().setValue(value);
-            }
-        }
-
-        private uid() {
-            return Date.now().toString(36) + Math.random().toString(36).substring(2);
+                    case 'report-fail':
+                        CMouseWait.default();
+                        cError.mngError(e.data.razon, e.data.message);
+                        break;
+                }
+            });
         }
 
         public preview(): void {
@@ -138,50 +108,32 @@ namespace CSReportWebServer {
                     this.fPrint = new cReportPrint();
                     this.fPrint.setHidePreviewWindow(true);
 
-                    const reportWorker = new Worker("./csreports.js");
-
                     const report = this.report.clone();
 
                     // clone doesn't copy launch info content
                     //
-                    report.getLaunchInfo().copy(JSON.stringify(this.report.getLaunchInfo())as unknown as ReportLaunchInfoDTO);
+                    report.getLaunchInfo().copy(JSON.parse(JSON.stringify(this.report.getLaunchInfo())));
                     report.getLaunchInfo().getPrinter().setPaperInfo(report.getPaperInfo());
                     report.getLaunchInfo().setObjPaint(this.fPrint);
                     report.getLaunchInfo().setShowPrintersDialog(true);
 
                     this.removeCircularReferences(report);
 
-                    reportWorker.postMessage({
-                        action: 'init'
-                    });
-
-                    reportWorker.postMessage({
+                    this.reportWorker.postMessage({
                         action: 'launch',
                         launchInfo: JSON.stringify(report.getLaunchInfo()),
                         report : JSON.stringify(report)
                     });
-
-                    console.log('Message posted to worker');
-
-                    reportWorker.onmessage = (e) => {
-                        console.log('Message received from worker');
-                    }
-
-                    //this.report.launch().then(P.call(this, () => {
-                    //    mouse.dispose();
-                    //    this.closeProgressDlg();
-                    //}));
 
                 } catch (ex) {
                     cError.mngError(ex);
                     mouse.dispose();
                     this.closeProgressDlg();
                 }
-
             }));
         }
 
-        removeCircularReferences(report: cReport) {
+        private removeCircularReferences(report: cReport) {
             report.getControls().forEach((k, c) => c.setSectionLine(null));
             const sections = [
                 report.getHeaders(),
@@ -211,6 +163,69 @@ namespace CSReportWebServer {
             return new Promise((resolve) => {
                 setTimeout(resolve, 1000);
             });
+        }
+
+        private registerDataSource(request: any): void {
+            const dataSources = request["content"]["data"]["data"];
+            for (let i = 0; i < dataSources.length; i++) {
+                const dataSource = dataSources[i];
+                const ds = new JSONDataSource(dataSource["name"].toString(), dataSource["data"]);
+                JSONServer.registerDataSource(ds, this.database + "." + ds.getName());
+            }
+        }
+
+        private reportDone(): void {
+            CMouseWait.default();
+            this.closeProgressDlg();
+        }
+
+        private closeProgressDlg(): void {
+            if (this.fProgress !== null && !this.fProgress.isDisposed()) {
+                this.fProgress.close();
+            }
+            this.fProgress = null;
+        }
+
+        private reportProgress(eventArgs: ProgressEventArgs) {
+            let task: string = eventArgs.task;
+            let page: number = eventArgs.page;
+            let currRecord: number = eventArgs.currRecord;
+            let recordCount: number = eventArgs.recordCount;
+
+            if (this.cancelPrinting) {
+                cWindow.ask("Confirm you want to cancel the execution of this report?", MessageBoxDefaultButton.Button2)
+                    .then(answer => {
+                        if (answer) {
+                            eventArgs.cancel = true;
+                            this.closeProgressDlg();
+                            return;
+                        }
+                        else {
+                            this.cancelPrinting = false;
+                        }
+                    });
+            }
+
+            if (this.fProgress === null) return;
+
+            if (page > 0) { this.fProgress.getLbCurrPage().setText(page.toString()); }
+            if (task !== "") { this.fProgress.getLbTask().setText(task); }
+            if (currRecord > 0) { this.fProgress.getLbCurrRecord().setText(currRecord.toString()); }
+            if (recordCount > 0 && U.val(this.fProgress.getLbRecordCount().getText()) !== recordCount) {
+                this.fProgress.getLbRecordCount().setText(recordCount.toString());
+            }
+
+            let percent: number = 0;
+            if (recordCount > 0 && currRecord > 0) {
+                percent = currRecord / recordCount;
+                let value = Math.trunc(percent * 100);
+                if (value > 100) value = 100;
+                this.fProgress.getPrgBar().setValue(value);
+            }
+        }
+
+        private uid() {
+            return Date.now().toString(36) + Math.random().toString(36).substring(2);
         }
     }
 }

@@ -168,9 +168,9 @@ namespace CSReportEngine {
         }
 
         private loadColl(from: any, coll: any) {
-            for(let i = 0; i < from.count(); i++) {
+            for(let i = 0; i < from.values.length; i++) {
                 let key: string = from.keys[i];
-                if(!coll.add(null, key).copy(from.item(i))) {
+                if(!coll.add(null, key).copy(from.values[i])) {
                     return;
                 }
             }

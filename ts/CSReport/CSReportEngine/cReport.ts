@@ -4446,6 +4446,7 @@ namespace CSReportEngine {
                     return false;
                 }
             }
+            return true;
         }
 
         private loadGroups(docXml: cXml) {
@@ -4468,6 +4469,7 @@ namespace CSReportEngine {
         }
 
         private copyLaunchInfo(report: ReportDTO) {
+            if(this.launchInfo === null) this.launchInfo = new cReportLaunchInfo();
             return this.launchInfo.copy(report.launchInfo);
         }
 
@@ -4520,7 +4522,7 @@ namespace CSReportEngine {
             if(this.progressListener !== null) {
                 let e: ProgressEventArgs = new ProgressEventArgs(task, page, currRecord, recordCount);
                 this.progressListener(this, e);
-                cancel = e.isCancel();
+                cancel = e.cancel;
             }
             return !cancel;
         }
