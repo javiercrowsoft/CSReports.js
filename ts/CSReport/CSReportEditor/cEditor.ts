@@ -94,6 +94,9 @@ namespace CSReportEditor {
 
         private isNew: boolean = false;
 
+        private previewTab: PreviewTab;
+
+
         // the id change if we load a new report in this editor
         //
         public getId() {
@@ -116,6 +119,18 @@ namespace CSReportEditor {
 
         public close() {
             return this.saveChanges();
+        }
+
+        public setPreviewTab(previewTab: PreviewTab) {
+            this.previewTab = previewTab;
+        }
+
+        public getPreviewTab() {
+            return this.previewTab;
+        }
+
+        public isEditor() {
+            return true;
         }
 
         private TOP_BODY: number = 10;

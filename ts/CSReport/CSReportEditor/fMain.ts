@@ -32,6 +32,7 @@ namespace CSReportEditor {
     import TreeView = CSForms.TreeView;
     import TreeViewAction = CSForms.TreeViewAction;
     import Node = CSForms.Node;
+    import ReportPreview = CSForms.ReportPreview;
 
     export class FMain {
 
@@ -184,6 +185,7 @@ namespace CSReportEditor {
             tabPageNode.className = "editor";
             this.mainView.appendChild(tabPageNode);
 
+            /*
             const pnEditorNode = document.createElement('div');
             pnEditorNode.className = "editor-container";
             tabPageNode.appendChild(pnEditorNode);
@@ -208,29 +210,36 @@ namespace CSReportEditor {
 
             pnEditor.getControls().add(picRule);
             pnEditor.getControls().add(picReport);
+            */
 
-            let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);
-            tab.getControls().add(pnEditor);
-            tab.setText("New Report");
+            const previewNode = document.createElement('div');
+            previewNode.className = "editor-container";
+            tabPageNode.appendChild(previewNode);
+
+            let reportPreview: ReportPreview = new ReportPreview("reportPreview", previewNode);
+
+            let tab: TabPage = new TabPage("tbpPreview" + this.editorIndex, tabPageNode);
+            tab.getControls().add(reportPreview);
+            tab.setText("Preview Report");
             this.tabReports.getPages().add(tab);
 
+            const previewTab = new PreviewTab(this, reportPreview, tab);
+
+            editor.setPreviewTab(previewTab);
+
             tab.onClose = () => {
-                editor.preview.close().then((canClose) => {
-                    if(canClose) {
-                        pnEditor.dispose();
-                        picRule.dispose();
-                        picReport.dispose();
-                        try {
-                            tabPageNode.parentNode.removeChild(tabPageNode);
-                        } catch(ex) {
-                            cError.mngError(ex);
-                        }
+                editor.getPreviewTab().close().then(() => {
+                    reportPreview.dispose();
+                    try {
+                        tabPageNode.parentNode.removeChild(tabPageNode);
+                    } catch(ex) {
+                        cError.mngError(ex);
                     }
                 });
             };
 
             tab.onActive = () => {
-                cMainEditor.setDocActive(editor.preview);
+                cMainEditor.setDocActive(editor.getPreviewTab());
             };
         }
 
@@ -457,26 +466,28 @@ namespace CSReportEditor {
         }
 
         public debugnReportClick() {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                let previewReport = this.previewReports.item(editor.getId());
-                if(previewReport === null) {
-                    previewReport = new ReportWeb();
-                    this.previewReports.add(previewReport);
-                    previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
-                }
-                previewReport.preview().then((result) => {
-                    this.createPreview(editor);
-                });
+            let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(maybeEditor === null || ! maybeEditor.isEditor()) return;
+            const editor = maybeEditor as cEditor;
+
+            let previewReport = this.previewReports.item(editor.getId());
+            if(previewReport === null) {
+                previewReport = new ReportWeb();
+                this.previewReports.add(previewReport);
+                previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
             }
+            previewReport.preview().then((result) => {
+                this.createPreview(editor);
+            });
+
         }
 
         public loadDataClick() {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
                 this.openFileWithDialog().then(P.call(this, (fc: FileContent) => {
                     fc.content = JSON.parse(fc.content);
-                    this.debugData.add(fc, editor.getId());
+                    this.debugData.add(fc, (editor as cEditor).getId());
                 }));
             }
         }
@@ -552,16 +563,16 @@ namespace CSReportEditor {
         }
 
         private mnuViewTreeViewCtrls_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.showControlsTree();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).showControlsTree();
             }
         }
 
         private mnuViewControls_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.showControls();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).showControls();
             }
         }
 
@@ -574,9 +585,9 @@ namespace CSReportEditor {
         }
 
         private showToolbox() {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.showToolbox();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).showToolbox();
             }
         }
 
@@ -589,37 +600,37 @@ namespace CSReportEditor {
         }
 
         private search() {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.search();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).search();
             }
         }
 
         private tsbProperties_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.showProperties2();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).showProperties2();
             }
         }
 
         private mnuDataBaseSQLServerConnection_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.setSimpleConnection();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).setSimpleConnection();
             }
         }
 
         private mnuDataBaseConnectConfig_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.editConnectionString();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).editConnectionString();
             }
         }
 
         private mnuDataBaseEditDataSource_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.editDataSource();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).editDataSource();
             }
         }
 
@@ -628,16 +639,16 @@ namespace CSReportEditor {
         }
 
         private mnuParametersSettings_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.setParameters();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).setParameters();
             }
         }
 
         public showControls(editor: cEditor) {
             this.lv_controls.clear();
 
-            if(editor !== null) {
+            if(editor !== null && editor.isEditor()) {
                 cGlobals.addCtrls(editor.getReport(), this.lv_controls, this.C_CTRL_IMAGE, this.C_DB_IMAGE);
             }
         }
@@ -646,7 +657,7 @@ namespace CSReportEditor {
             this.wasDoubleClick = false;
             this.tv_controls.clear();
 
-            if(editor !== null) {
+            if(editor !== null && editor.isEditor()) {
                 cGlobals.addCtrls2(
                     editor.getReport(), this.tv_controls,
                     this.C_IMG_FOLDER, this.C_IMG_FORMULA,
@@ -661,7 +672,7 @@ namespace CSReportEditor {
         public showProperties(editor?: cEditor, key?: string) {
             this.lv_properties.clear();
             this.lv_properties.createHeaders(['Property', 'Value']);
-            if(editor !== null) {
+            if(editor !== null && editor.isEditor()) {
                 this.setObjectDescription(this.getControlOrSection(editor, key));
             }
         }
@@ -735,7 +746,7 @@ namespace CSReportEditor {
         public showFields(editor: cEditor) {
             this.lv_fields.clear();
 
-            if(editor !== null) {
+            if(editor !== null && editor.isEditor()) {
                 let connect = editor.getReport().getConnect();
                 cGlobals.fillColumns(
                     connect.getDataSource(),
@@ -777,11 +788,11 @@ namespace CSReportEditor {
         }
 
         private selectControl() {
-            let editor: cEditor = cMainEditor.getDocActive();
-
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor === null || ! editor.isEditor()) return;
             if(this.lv_controls.selectedItems().length > 0 && editor !== null) {
                 let info = this.lv_controls.selectedItems()[0].tag.toString();
-                editor.selectCtrl(info);
+                (editor as cEditor).selectCtrl(info);
             }
         }
 
@@ -790,21 +801,20 @@ namespace CSReportEditor {
         }
 
         private selectControl2(node: Node) {
-            let editor: cEditor = cMainEditor.getDocActive();
-
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor === null || ! editor.isEditor()) return;
             if(node !== null
                 && node.tag !== undefined
-                && node.tag !== null
-                && editor !== null) {
+                && node.tag !== null) {
 
                 let info = node.tag.toString();
                 if(info.length > 0) {
                     let infoType = info.substring(0, 1);
                     if("@SL".indexOf(infoType) === -1) {
-                        editor.selectCtrl(info);
+                        (editor as cEditor).selectCtrl(info);
                     }
                     else if(infoType === "S" || infoType === "L") {
-                        editor.selectSection(info.substring(1));
+                        (editor as cEditor).selectSection(info.substring(1));
                     }
                 }
             }
@@ -815,15 +825,15 @@ namespace CSReportEditor {
         }
 
         private tv_controls_MouseDoubleClick(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-
-            if(this.tv_controls.selectedNode() !== null && editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor === null || ! editor.isEditor()) return;
+            if(this.tv_controls.selectedNode() !== null) {
                 if(this.tv_controls.selectedNode().tag !== null) {
                     let info = this.tv_controls.selectedNode().tag.toString();
                     if(info.length > 0) {
                         let infoType = info.substring(0, 1);
                         if("@".indexOf(infoType) === -1) {
-                            editor.showProperties(info);
+                            (editor as cEditor).showProperties(info);
                         }
                     }
                 }
@@ -845,11 +855,11 @@ namespace CSReportEditor {
         }
 
         private lv_controls_MouseDoubleClick(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-
-            if(this.lv_controls.selectedItems().length > 0 && editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor === null || ! editor.isEditor()) return;
+            if(this.lv_controls.selectedItems().length > 0) {
                 let info = this.lv_controls.selectedItems[0].tag.toString();
-                editor.showProperties(info);
+                (editor as cEditor).showProperties(info);
             }
         }
 
@@ -862,65 +872,65 @@ namespace CSReportEditor {
         }
 
         private previewReport() {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.preview();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).preview();
             }
         }
 
         private mnuEditAddHeader_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addSection(csRptSectionType.HEADER);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addSection(csRptSectionType.HEADER);
             }
         }
 
         private mnuEditAddGroup_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addGroup();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addGroup();
             }
         }
 
         private mnuEditAddFooter_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addSection(csRptSectionType.FOOTER);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addSection(csRptSectionType.FOOTER);
             }
         }
 
         private mnuEditAddLabel_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addLabel();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addLabel();
             }
         }
 
         private mnuEditAddLine_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addLineLabel();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addLineLabel();
             }
         }
 
         private mnuEditAddControl_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addDBField();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addDBField();
             }
         }
 
         private mnuEditAddImage_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addImage();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addImage();
             }
         }
 
         private mnuEditAddChart_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addChart();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addChart();
             }
         }
 
@@ -931,16 +941,16 @@ namespace CSReportEditor {
         }
 
         private cmSectionAddSectionLine_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.addSectionLine();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).addSectionLine();
             }
         }
 
         private deleteReportObject(isSectionLine: boolean) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.deleteObj(isSectionLine);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).deleteObj(isSectionLine);
             }
         }
 
@@ -953,9 +963,9 @@ namespace CSReportEditor {
         }
 
         private cmSectionMoveGroup_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.moveGroup();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).moveGroup();
             }
         }
 
@@ -964,16 +974,16 @@ namespace CSReportEditor {
         }
 
         private mnuDataBaseSetToMainConnect_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.setAllConnectToMainConnect();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).setAllConnectToMainConnect();
             }
         }
 
         private alignText(align: CSReportGlobals.HorizontalAlignment) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.textAlign(align);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).textAlign(align);
             }
         }
 
@@ -990,17 +1000,17 @@ namespace CSReportEditor {
         }
 
         private tsbBold_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.setFontBold();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).setFontBold();
             }
         }
 
         private saveReport(saveAs: boolean) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.saveDocument(saveAs);
-                this.addToRecentList(editor.getFileName());
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).saveDocument(saveAs);
+                this.addToRecentList((editor as cEditor).getFileName());
             }
         }
 
@@ -1021,11 +1031,12 @@ namespace CSReportEditor {
         }
 
         private mnuPageSetup_Click(sender: object, e: any) {
+            let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(maybeEditor === null || ! maybeEditor.isEditor) return;
+
+            const editor = (maybeEditor as cEditor);
             let pageSetup: FPageSetup = new FPageSetup();
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                pageSetup.initDialog(editor.getPaperSize(), editor.getCustomHeight(), editor.getCustomWidth(), editor.getOrientation());
-            }
+            pageSetup.initDialog(editor.getPaperSize(), editor.getCustomHeight(), editor.getCustomWidth(), editor.getOrientation());
 
             pageSetup.showDialog();
 
@@ -1034,7 +1045,7 @@ namespace CSReportEditor {
                 this.paperSizeHeight = pageSetup.getCustomHeight();
                 this.paperSizeWidth = pageSetup.getCustomWidth();
                 this.orientation = pageSetup.getOrientation();
-                if(editor !== null) {
+                if(editor !== null && editor.isEditor()) {
                     editor.setPaperSize(this.paperSize);
                     editor.setOrientation(this.orientation);
                     editor.setCustomHeight(this.paperSizeHeight);
@@ -1066,9 +1077,9 @@ namespace CSReportEditor {
         }
 
         private copy() {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.copy();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).copy();
             }
         }
 
@@ -1077,9 +1088,9 @@ namespace CSReportEditor {
         }
 
         private paste(dontMove: boolean) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.paste(false);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).paste(false);
             }
         }
 
@@ -1104,16 +1115,16 @@ namespace CSReportEditor {
         }
 
         private cmCtrlDelete_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.deleteObj(false);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).deleteObj(false);
             }
         }
 
         private printReport() {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.printReport();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).printReport();
             }
         }
 
@@ -1126,23 +1137,23 @@ namespace CSReportEditor {
         }
 
         private cmCtrlBringFront_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.bringToFront();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).bringToFront();
             }
         }
 
         private cmCtrlSendBack_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.sendToBack();
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).sendToBack();
             }
         }
 
         private lockToolStripMenuItem_click(sender: object, e: any) {
             /*
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
                 editor.moveNoMove();
                 lockToolStripMenuItem.setChecked(!lockToolStripMenuItem.Checked);
                 if(lockToolStripMenuItem.Checked) {
@@ -1157,8 +1168,8 @@ namespace CSReportEditor {
 
         private verticalToolStripMenuItem_click(sender: object, e: any) {
             /*
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
                 editor.moveVertical();
                 horizontalToolStripMenuItem.setChecked(false);
                 verticalToolStripMenuItem.setChecked(true);
@@ -1170,8 +1181,8 @@ namespace CSReportEditor {
 
         private horizontalToolStripMenuItem_click(sender: object, e: any) {
             /*
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
                 editor.moveHorizontal();
                 horizontalToolStripMenuItem.setChecked(true);
                 verticalToolStripMenuItem.setChecked(false);
@@ -1183,8 +1194,8 @@ namespace CSReportEditor {
 
         private allDirectionsToolStripMenuItem_click(sender: object, e: any) {
             /*
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
                 editor.moveAll();
                 horizontalToolStripMenuItem.setChecked(false);
                 verticalToolStripMenuItem.setChecked(false);
@@ -1195,71 +1206,71 @@ namespace CSReportEditor {
         }
 
         private tsbCtrlAlignLeft_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.controlsAlign(csECtlAlignConst.csECtlAlignLeft);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignLeft);
             }
         }
 
         private tsbCtrlAlignRight_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.controlsAlign(csECtlAlignConst.csECtlAlignRight);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignRight);
             }
         }
 
         private tsbCtrlAlignTop_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.controlsAlign(csECtlAlignConst.csECtlAlignTop);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignTop);
             }
         }
 
         private tsbCtrlAlignBottothis_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.controlsAlign(csECtlAlignConst.csECtlAlignBottom);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignBottom);
             }
         }
 
         private tsbCtrlSameHeight_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.controlsAlign(csECtlAlignConst.csECtlAlignHeight);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignHeight);
             }
         }
 
         private tsbCtrlSameWidth_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.controlsAlign(csECtlAlignConst.csECtlAlignWidth);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignWidth);
             }
         }
 
         private tsbCtrlSameLeft_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.controlsAlign(csECtlAlignConst.csECtlAlignHorizontal);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignHorizontal);
             }
         }
 
         private tsbCtrlSameTop_Click(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
-                editor.controlsAlign(csECtlAlignConst.csECtlAlignVertical);
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignVertical);
             }
         }
 
         private fMain_KeyUp(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
                 editor.keyUp(sender, e);
             }
         }
 
         private fMain_KeyDown(sender: object, e: any) {
-            let editor: cEditor = cMainEditor.getDocActive();
-            if(editor !== null) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
                 editor.keyDown(sender, e);
             }
         }

@@ -12,7 +12,7 @@ namespace CSReportEditor {
 	    public C_HEIGHT_BAR_SECTION: number = 120;
 	    public C_HEIGHT_NEW_SECTION: number = 350;
 
-	    private static editor: cEditor = null;
+	    private static editor: cEditor | PreviewTab = null;
 
         private static fToolbox: FToolbox = null;
         private static fControls: FControls = null;
@@ -42,9 +42,13 @@ namespace CSReportEditor {
 	        return this.editor;
 	    }
 
-	    public static setDocActive(editor: cEditor) {
-	        this.editor = editor;
+	    public static setDocActive(maybeEditor: cEditor | PreviewTab) {
+	        this.editor = maybeEditor;
 	        this.setMenu();
+
+            if(! this.editor.isEditor()) return;
+            const editor = (this.editor as cEditor);
+
             if(editor !== null) {
                 let editorTab: TabPage = editor.getEditorTab();
                 // TODO: implement
@@ -132,17 +136,19 @@ namespace CSReportEditor {
 	    }
 
 	    private static setMenu() {
-	        try {
+            if(! this.editor.isEditor()) return;
+            const editor = (this.editor as cEditor);
 
-                if(this.editor === null || this.editor.getReport() === null) {
+	        try {
+                if(this.editor === null || editor.getReport() === null) {
                     this.fMain.setMenuAux(false);
                     this.fMain.setBarText("");
                     this.fMain.setStatus("");
 	            }
 	            else {
                     this.fMain.setMenuAux(true);
-                    this.fMain.setDisconnectedReport(this.editor.getReport().getReportDisconnected());
-                    this.fMain.setBarText(this.editor.getReport().getName());
+                    this.fMain.setDisconnectedReport(editor.getReport().getReportDisconnected());
+                    this.fMain.setBarText(editor.getReport().getName());
                     this.fMain.setStatus(this.pGetStatus());
 	            }
 	        } catch(ex) {
@@ -202,18 +208,20 @@ namespace CSReportEditor {
         }
 
         public static showProperties(key?: string, isSection: boolean = false) {
+            if(! this.editor.isEditor()) return;
+            const editor = (this.editor as cEditor);
             if(key === undefined) {
-                key = this.editor.getSelectedKey();
-                isSection = this.editor.getSelectedKeyIsSection();
+                key = editor.getSelectedKey();
+                isSection = editor.getSelectedKeyIsSection();
             }
             if(isSection) {
                 this.clearProperties();
-                this.editor.showSelectedSectionProperties();
+                editor.showSelectedSectionProperties();
             }
             else {
-                this.editor.showSelectedCtrlProperties();
+                editor.showSelectedCtrlProperties();
             }
-            this.fMain.showProperties(this.editor, key);
+            this.fMain.showProperties(editor, key);
         }
 
         public static getPropertyDlg(): PropertyDlg {
