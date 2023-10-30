@@ -29,6 +29,11 @@ namespace CSReportWebServer {
         private fProgress: FProgress = null;
         private fPrint: cReportPrint = null;
 
+        // calllback to complete Launch Promise
+        //
+        private successLaunch: (value: boolean | PromiseLike<boolean>) => void;
+        private launchFailed: (reason?: any) => void;
+
         public init2(request: any): void {
             this.init(request, new cReport());
         }
@@ -86,51 +91,61 @@ namespace CSReportWebServer {
                         this.reportDone();
                         break;
 
-                    case 'report-fail':
+                    case 'worker-launch-complete-successfully':
                         CMouseWait.default();
-                        cError.mngError(e.data.razon, e.data.message);
+                        console.log(e.data.message);
+                        this.successLaunch(true);
+                        break;
+
+                    case 'worker-launch-failed':
+                        CMouseWait.default();
+                        cError.mngError(e.data.reazon, e.data.message);
+                        this.launchFailed(e.data.reazon);
                         break;
                 }
             });
         }
 
-        public preview(): void {
+        public preview() {
             this.report.getLaunchInfo().setAction(csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW);
-            this.launchReport();
+            return this.launchReport();
         }
 
-        private launchReport(): void {
+        private launchReport() {
             let mouse: CMouseWait = new CMouseWait();
 
-            this.showProgressDlg().then(P.call(this, () => {
+            return new Promise((resolve, reject) => {
 
-                try {
-                    this.fPrint = new cReportPrint();
-                    this.fPrint.setHidePreviewWindow(true);
+                this.showProgressDlg().then(P.call(this, () => {
 
-                    const report = this.report.clone();
+                    try {
+                        const report = this.report.clone();
 
-                    // clone doesn't copy launch info content
-                    //
-                    report.getLaunchInfo().copy(JSON.parse(JSON.stringify(this.report.getLaunchInfo())));
-                    report.getLaunchInfo().getPrinter().setPaperInfo(report.getPaperInfo());
-                    report.getLaunchInfo().setObjPaint(this.fPrint);
-                    report.getLaunchInfo().setShowPrintersDialog(true);
+                        // clone doesn't copy launch info content
+                        //
+                        report.getLaunchInfo().copy(JSON.parse(JSON.stringify(this.report.getLaunchInfo())));
+                        report.getLaunchInfo().getPrinter().setPaperInfo(report.getPaperInfo());
+                        report.getLaunchInfo().setShowPrintersDialog(true);
 
-                    this.removeCircularReferences(report);
+                        this.removeCircularReferences(report);
 
-                    this.reportWorker.postMessage({
-                        action: 'launch',
-                        launchInfo: JSON.stringify(report.getLaunchInfo()),
-                        report : JSON.stringify(report)
-                    });
+                        this.successLaunch = resolve;
+                        this.launchFailed = reject;
 
-                } catch (ex) {
-                    cError.mngError(ex);
-                    mouse.dispose();
-                    this.closeProgressDlg();
-                }
-            }));
+                        this.reportWorker.postMessage({
+                            action: 'launch',
+                            launchInfo: JSON.stringify(report.getLaunchInfo()),
+                            report : JSON.stringify(report)
+                        });
+
+                    } catch (ex) {
+                        cError.mngError(ex);
+                        mouse.dispose();
+                        this.closeProgressDlg();
+                        reject(ex);
+                    }
+                }));
+            });
         }
 
         private removeCircularReferences(report: cReport) {

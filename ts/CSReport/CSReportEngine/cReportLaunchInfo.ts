@@ -21,7 +21,7 @@ namespace CSReportEngine {
         private silent: boolean = null;
         private fileFormat: csRptFileFormat = null;
 
-        private objPaint: CSIReportPrint.cIReportPrint = null;
+        private reportPrint: CSIReportPrint.cIReportPrint = null;
 
         public constructor() {}
 
@@ -77,12 +77,12 @@ namespace CSReportEngine {
             this.fileFormat = rhs;
         }
 
-        public getObjPaint() {
-            return this.objPaint;
+        public getReportPrint() {
+            return this.reportPrint;
         }
 
-        public setObjPaint(rhs: CSIReportPrint.cIReportPrint) {
-            this.objPaint = rhs;
+        public setReportPrint(rhs: CSIReportPrint.cIReportPrint) {
+            this.reportPrint = rhs;
         }
 
         public getAction() {

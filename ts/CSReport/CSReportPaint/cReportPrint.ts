@@ -817,7 +817,7 @@ namespace CSReportPaint {
 
                         //---------------------------------------------------------------------------------
                         // this code is here and not in a function because we want to improve the
-                        // speed when run the report
+                        // speed when running the report
                         //
                         // add the line to the page
                         //
@@ -1239,8 +1239,8 @@ namespace CSReportPaint {
         //
         private fPreview_FormUnload() {
             this.rpwPrint = null;
-            this.report.getLaunchInfo().getObjPaint().setReport(null);
-            this.report.getLaunchInfo().setObjPaint(null);
+            this.report.getLaunchInfo().getReportPrint().setReport(null);
+            this.report.getLaunchInfo().setReportPrint(null);
         }
 
         //------------------------------------------------------------------

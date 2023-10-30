@@ -37,16 +37,22 @@ const reportWorker = (()=> {
         const launchInfoFrom: CSReportEngine.ReportLaunchInfoDTO = JSON.parse(data.launchInfo);
         launchInfo.copy(launchInfoFrom);
 
+        const fPrint = new CSReportPaint.cReportPrint();
+        fPrint.setHidePreviewWindow(true);
+        launchInfo.setReportPrint(fPrint);
+
         report.onProgress(reportWorker.reportProgress);
         report.onReportDone(reportWorker.reportDone);
 
+        report.setRunningInWebWorker(true);
+
         report.launch(launchInfo).then(()=> {
             console.log('Worker: Posting message back to main script');
-            postMessage({action: 'report-done', message: 'report done'});
+            postMessage({action: 'worker-launch-complete-successfully', message: 'report launch completes successfully'});
         })
         .catch((reason)=> {
             console.log('Worker: Posting error back to main script');
-            postMessage({action: 'report-fail', message: 'report failed', reason: reason});
+            postMessage({action: 'worker-launch-failed', message: 'report launch failed', reason: reason});
         });
     }
 

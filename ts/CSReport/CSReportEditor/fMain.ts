@@ -179,6 +179,61 @@ namespace CSReportEditor {
             return editor;
         }
 
+        private createPreview(editor: cEditor) {
+            const tabPageNode = document.createElement('div');
+            tabPageNode.className = "editor";
+            this.mainView.appendChild(tabPageNode);
+
+            const pnEditorNode = document.createElement('div');
+            pnEditorNode.className = "editor-container";
+            tabPageNode.appendChild(pnEditorNode);
+
+            const picRuleNode = document.createElement('div');
+            picRuleNode.className = "rule";
+            pnEditorNode.appendChild(picRuleNode);
+
+            const picReportNode = document.createElement('div');
+            picReportNode.className = "report";
+            pnEditorNode.appendChild(picReportNode);
+
+            let pnEditor: Panel = new Panel("pnEditor" + this.editorIndex, pnEditorNode);
+            let picRule: PictureBox = new PictureBox("pnRule" + this.editorIndex, picRuleNode);
+            let picReport: PictureBox = new PictureBox("pnReport" + this.editorIndex, picReportNode);
+
+            this.editorIndex++;
+
+            picRule.setWidth(70);
+            picRule.setBacgroundColor(new Color("#f7f8f9"));
+            picReport.setBacgroundColor(Color.White);
+
+            pnEditor.getControls().add(picRule);
+            pnEditor.getControls().add(picReport);
+
+            let tab: TabPage = new TabPage("tbpEditor" + this.editorIndex, tabPageNode);
+            tab.getControls().add(pnEditor);
+            tab.setText("New Report");
+            this.tabReports.getPages().add(tab);
+
+            tab.onClose = () => {
+                editor.preview.close().then((canClose) => {
+                    if(canClose) {
+                        pnEditor.dispose();
+                        picRule.dispose();
+                        picReport.dispose();
+                        try {
+                            tabPageNode.parentNode.removeChild(tabPageNode);
+                        } catch(ex) {
+                            cError.mngError(ex);
+                        }
+                    }
+                });
+            };
+
+            tab.onActive = () => {
+                cMainEditor.setDocActive(editor.preview);
+            };
+        }
+
         public setEditAlignTextState(status: boolean) {
             // TODO: implement
             /*
@@ -410,7 +465,9 @@ namespace CSReportEditor {
                     this.previewReports.add(previewReport);
                     previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
                 }
-                previewReport.preview();
+                previewReport.preview().then((result) => {
+                    this.createPreview(editor);
+                });
             }
         }
 

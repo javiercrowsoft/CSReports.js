@@ -247,6 +247,8 @@ namespace CSReportEngine {
         private reportDoneListener: (report: cReport) => void;
         private progressListener: (report: cReport, eventArgs: ProgressEventArgs) => void;
 
+        private runningInWebWorker = false;
+
         public constructor() {
             try {
                 this.headers = new cReportSections();
@@ -1793,30 +1795,32 @@ namespace CSReportEngine {
 
                     // launch the report
                     //
-                    this.launchInfo.getObjPaint().setReport(this);
-                    if(!this.launchInfo.getObjPaint().makeReport()) {
+                    this.launchInfo.getReportPrint().setReport(this);
+                    if(!this.launchInfo.getReportPrint().makeReport()) {
                         return false;
                     }
 
-                    switch (this.launchInfo.getAction())
-                    {
-                        case csRptLaunchAction.CS_RPT_LAUNCH_PRINTER:
-                            if(!this.launchInfo.getObjPaint().printReport()) {
-                                return false;
-                            }
-                            break;
-                        case csRptLaunchAction.CS_RPT_LAUNCH_FILE:
-                            if(!this.launchInfo.getObjPaint().makeXml()) {
-                                return false;
-                            }
-                            break;
-                        case csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW:
-                            if(!this.launchInfo.getObjPaint().previewReport()) {
-                                return false;
-                            }
-                            break;
-                    }
+                    if(! this.runningInWebWorker) {
 
+                        switch (this.launchInfo.getAction())
+                        {
+                            case csRptLaunchAction.CS_RPT_LAUNCH_PRINTER:
+                                if(!this.launchInfo.getReportPrint().printReport()) {
+                                    return false;
+                                }
+                                break;
+                            case csRptLaunchAction.CS_RPT_LAUNCH_FILE:
+                                if(!this.launchInfo.getReportPrint().makeXml()) {
+                                    return false;
+                                }
+                                break;
+                            case csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW:
+                                if(!this.launchInfo.getReportPrint().previewReport()) {
+                                    return false;
+                                }
+                                break;
+                        }
+                    }
                     return true;
                 }
                 catch(ex) {
@@ -1837,8 +1841,8 @@ namespace CSReportEngine {
             // between cReport and cReportLaunchInfo
             //
             if(this.launchInfo.getAction() !== csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW) {
-                this.launchInfo.getObjPaint().setReport(null);
-                this.launchInfo.setObjPaint(null);
+                this.launchInfo.getReportPrint().setReport(null);
+                this.launchInfo.setReportPrint(null);
             }
 
             throw new ReportException(csRptErrors.ERROR_WHEN_RUNNING_REPORT,
@@ -2526,7 +2530,7 @@ namespace CSReportEngine {
             this.launchInfo.setStrConnect(oLaunchInfo.getStrConnect());
             this.launchInfo.setCopies(oLaunchInfo.getCopies());
 
-            this.launchInfo.setObjPaint(oLaunchInfo.getObjPaint());
+            this.launchInfo.setReportPrint(oLaunchInfo.getReportPrint());
             this.launchInfo.setDataSource(oLaunchInfo.getDataSource());
 
             this.launchInfo.setFile(oLaunchInfo.getFile());
@@ -4525,6 +4529,10 @@ namespace CSReportEngine {
                 cancel = e.cancel;
             }
             return !cancel;
+        }
+
+        public setRunningInWebWorker(rhs) {
+            this.runningInWebWorker = rhs;
         }
 
         private pSortControlsByLeft() {

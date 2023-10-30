@@ -2978,7 +2978,7 @@ namespace CSReportEditor {
                 this.showProgressDlg();
 
                 this.report.getLaunchInfo().getPrinter().setPaperInfo(this.report.getPaperInfo());
-                this.report.getLaunchInfo().setObjPaint(new cReportPrint());
+                this.report.getLaunchInfo().setReportPrint(new cReportPrint());
                 this.report.getLaunchInfo().setShowPrintersDialog(true);
                 this.report.launch();
 
@@ -6152,7 +6152,7 @@ namespace CSReportEditor {
             this.report.getPaperInfo().setOrientation(this.fMain.getOrientation());
 
             oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(this.fMain.printDialog()));
-            oLaunchInfo.setObjPaint(new cReportPrint());
+            oLaunchInfo.setReportPrint(new cReportPrint());
             if(!this.report.init(oLaunchInfo)) return;
 
             this.report.setPathDefault("~"); // Application.StartupPath
