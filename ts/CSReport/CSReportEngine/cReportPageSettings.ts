@@ -19,7 +19,7 @@ namespace CSReportEngine {
                     c: cReportPageInfo,
                     key: string) {
             try {
-                if(c === null)  {
+                if(c === null) {
                     c = new cReportPageInfo();
                 }
                 if(key === "") {

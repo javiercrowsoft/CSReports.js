@@ -195,7 +195,7 @@ namespace CSReportEngine {
 
                 return true;
             }
-            catch(ignore)  {
+            catch(ignore) {
                 return false;
             }
         }
@@ -234,7 +234,7 @@ namespace CSReportEngine {
 
                 return true;
             }
-            catch(ignore)  {
+            catch(ignore) {
                 return false;
             }
         }

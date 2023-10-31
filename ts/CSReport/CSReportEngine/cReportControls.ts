@@ -57,7 +57,7 @@ namespace CSReportEngine {
         public add(c?: cReportControl, key?: string) {
             try {
 
-                if(c === null || c === undefined)  {
+                if(c === null || c === undefined) {
                     c = new cReportControl();
                 }
                 if(key === "" || key === null || key === undefined) {
@@ -74,7 +74,7 @@ namespace CSReportEngine {
                 c.setTypeSection(this.typeSection);
                 c.setSectionLine(this.sectionLine);
 
-                if(this.copyColl !== null)  {
+                if(this.copyColl !== null) {
                     this.copyColl.add2(c, key);
                 }
                 return c;

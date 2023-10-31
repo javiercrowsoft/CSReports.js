@@ -1183,17 +1183,17 @@ namespace CSReportEngine {
                     let date1: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row1][orderBy]));
                     let date2: Date = ReportGlobals.dateValue(ReportGlobals.valVariant(this.table.rows[row2][orderBy]));
                     if(date1 > date2) {
-                        if(!this.progress("", 0, q, t))  {
+                        if(!this.progress("", 0, q, t)) {
                             return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if(!this.progress("", 0, q, t))  {
+                if(!this.progress("", 0, q, t)) {
                     return false;
                 }
-                if(!bChanged)  {
+                if(!bChanged) {
                     break;
                 }
             }
@@ -3262,17 +3262,17 @@ namespace CSReportEngine {
                     let value1: number = U.val(this.table.rows[this.vRowsIndex[j]][orderBy]);
                     let value2: number = U.val(this.table.rows[this.vRowsIndex[j - 1]][orderBy]);
                     if(value1 < value2) {
-                        if(!this.progress("", 0, q, t))  {
+                        if(!this.progress("", 0, q, t)) {
                             return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if(!this.progress("", 0, q, t))  {
+                if(!this.progress("", 0, q, t)) {
                     return false;
                 }
-                if(!bChanged)  {
+                if(!bChanged) {
                     break;
                 }
             }
@@ -3324,17 +3324,17 @@ namespace CSReportEngine {
                     let text1: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j]][orderBy]).toString();
                     let text2: string = ReportGlobals.valVariant(this.table.rows[this.vRowsIndex[j - 1]][orderBy]).toString();
                     if(text1.toLowerCase().localeCompare(text2.toLowerCase()) < 0) {
-                        if(! this.progress("", 0, q, t))  {
+                        if(! this.progress("", 0, q, t)) {
                             return false;
                         }
                         this.changeRow(j, j - 1);
                         bChanged = true;
                     }
                 }
-                if(! this.progress("", 0, q, t))  {
+                if(! this.progress("", 0, q, t)) {
                     return false;
                 }
-                if(! bChanged)  {
+                if(! bChanged) {
                     break;
                 }
             }
@@ -3602,7 +3602,7 @@ namespace CSReportEngine {
             for(let _i = 0; _i < this.controls.count(); _i++) {
                 ctrl = this.controls.item(_i);
                 if(ctrl.getHasFormulaHide()) {
-                    if(!this.compiler.checkSyntax(ctrl.getFormulaHide()))  {
+                    if(!this.compiler.checkSyntax(ctrl.getFormulaHide())) {
                         return false;
                     }
 
@@ -3617,7 +3617,7 @@ namespace CSReportEngine {
                     this.addFormula(ctrl.getFormulaHide(), ctrl.getName() + "_" + "H");
                 }
                 if(ctrl.getHasFormulaValue()) {
-                    if(!this.compiler.checkSyntax(ctrl.getFormulaValue()))  {
+                    if(!this.compiler.checkSyntax(ctrl.getFormulaValue())) {
                         return false;
                     }
 
@@ -3757,7 +3757,7 @@ namespace CSReportEngine {
             for(let _i = 0; _i < sections.count(); _i++) {
                 sec = sections.item(_i);
                 if(sec.getHasFormulaHide()) {
-                    if(!this.compiler.checkSyntax(sec.getFormulaHide()))  {
+                    if(!this.compiler.checkSyntax(sec.getFormulaHide())) {
                         return false;
                     }
                     // to have debug info
@@ -3771,7 +3771,7 @@ namespace CSReportEngine {
                 for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
                     secLn = sec.getSectionLines().item(_j);
                     if(secLn.getHasFormulaHide()) {
-                        if(!this.compiler.checkSyntax(secLn.getFormulaHide()))  {
+                        if(!this.compiler.checkSyntax(secLn.getFormulaHide())) {
                             return false;
                         }
                         // to have debug info
@@ -3809,7 +3809,7 @@ namespace CSReportEngine {
                     isVisible = true;
                 }
 
-                if(isVisible)  {
+                if(isVisible) {
                     height = height + sec.getAspect().getHeight();
                 }
             }
@@ -4391,7 +4391,7 @@ namespace CSReportEngine {
                     let nodeObjAux = nodeObjSec;
                     let key: string = docXml.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
                     let sec: cReportSection = sections.add(null, key);
-                    if(!sec.load(docXml, nodeObjAux))  {
+                    if(!sec.load(docXml, nodeObjAux)) {
                         return false;
                     }
                     nodeObjSec = docXml.getNextNode(nodeObjSec);
@@ -4414,7 +4414,7 @@ namespace CSReportEngine {
                     nodeObjAux = nodeObjSec;
                     let name: string = docXml.getNodeProperty(nodeObjAux, "Name").getValueString(eTypes.eText);
                     let formula: cReportFormula = this.formulas.add(name);
-                    if(!formula.load(docXml, nodeObjAux))  {
+                    if(!formula.load(docXml, nodeObjAux)) {
                         return false;
                     }
                     nodeObjSec = docXml.getNextNode(nodeObjSec);
@@ -4446,7 +4446,7 @@ namespace CSReportEngine {
         private copyGroups(report: ReportDTO) {
             for(let i = 0; i < report.groups.values.length; i++) {
                 const group = this.getGroups().add(null, report.groups.keys[i]);
-                if(!group.copy(report.groups.values[i]))  {
+                if(!group.copy(report.groups.values[i])) {
                     return false;
                 }
             }
@@ -4463,7 +4463,7 @@ namespace CSReportEngine {
                     let nodeObjAux = nodeObjGroup;
                     let key: string = docXml.getNodeProperty(nodeObjAux, "Key").getValueString(eTypes.eText);
                     let group: cReportGroup = this.getGroups().add(null, key);
-                    if(!group.load(docXml, nodeObjAux))  {
+                    if(!group.load(docXml, nodeObjAux)) {
                         return false;
                     }
                     nodeObjGroup = docXml.getNextNode(nodeObjGroup);
@@ -4498,7 +4498,7 @@ namespace CSReportEngine {
                 while (nodeObjSec !== null) {
                     let nodeObjAux = nodeObjSec;
                     let page: cReportPage = this.pages.add(null);
-                    if(!page.load(docXml, nodeObjAux))  {
+                    if(!page.load(docXml, nodeObjAux)) {
                         return false;
                     }
                     nodeObjSec = docXml.getNextNode(nodeObjSec);

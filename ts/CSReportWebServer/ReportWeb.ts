@@ -18,7 +18,6 @@ namespace CSReportWebServer {
     import P = CSKernelClient.Callable;
 
     export class ReportWeb {
-
         private reportId: string;
         private webReportId: string;
         private database: string;
@@ -33,6 +32,9 @@ namespace CSReportWebServer {
         //
         private successLaunch: (value: boolean | PromiseLike<boolean>) => void;
         private launchFailed: (reason?: any) => void;
+
+        private successGetReport: (value: boolean | PromiseLike<boolean>) => void;
+        private getReportFailed: (reason?: any) => void;
 
         public init2(request: any): void {
             this.init(request, new cReport());
@@ -81,7 +83,7 @@ namespace CSReportWebServer {
 
         private onmessage() {
             return P.call(this, (e: any) => {
-                console.log('Message received from worker');
+
                 switch(e.data.action) {
                     case 'report-progress':
                         this.reportProgress(e.data.eventArgs);
@@ -101,6 +103,11 @@ namespace CSReportWebServer {
                         CMouseWait.default();
                         cError.mngError(e.data.reazon, e.data.message);
                         this.launchFailed(e.data.reazon);
+                        break;
+
+                    case 'get-report':
+                        this.report.getPages().copy(JSON.parse(e.data.pages));
+                        this.successGetReport(true);
                         break;
                 }
             });
@@ -242,5 +249,18 @@ namespace CSReportWebServer {
         private uid() {
             return Date.now().toString(36) + Math.random().toString(36).substring(2);
         }
+
+        public getFirstPage() {
+            return new Promise((resolve, reject) => {
+
+                this.successGetReport = resolve;
+                this.getReportFailed = reject;
+
+                this.reportWorker.postMessage({
+                    action: 'get-report'
+                });
+            });
+        }
+
     }
 }

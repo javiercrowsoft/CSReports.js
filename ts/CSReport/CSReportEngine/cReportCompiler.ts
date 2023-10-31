@@ -244,7 +244,7 @@ namespace CSReportEngine {
                     // if one argument is null it means we don't have a row for this formula
                     // so we don't need to compile the code
                     //
-                    if(vResult[i] === null)  {
+                    if(vResult[i] === null) {
                         return null;
                     }
 
@@ -647,12 +647,12 @@ namespace CSReportEngine {
 
         private pIsTime(code: string) {
             code = code.trim();
-            if(code.indexOf(":", 0) === 0)  {
+            if(code.indexOf(":", 0) === 0) {
                 return false;
             }
 
             let vTime = code.split(':');
-            if(vTime.length !== 1)  {
+            if(vTime.length !== 1) {
                 return false;
             }
 
@@ -951,7 +951,7 @@ namespace CSReportEngine {
         }
 
         private resultSumTime(fint: cReportFormulaInt) {
-            if(fint.getVariables().count() === 0)  {
+            if(fint.getVariables().count() === 0) {
                 return "";
             }
             let st = fint.getVariables().item(cReportCompiler.SUM_TIME).getValue();
@@ -1085,7 +1085,7 @@ namespace CSReportEngine {
         }
 
         private resultAverage(fint: cReportFormulaInt) {
-            if(fint.getVariables().count() === 0)  {
+            if(fint.getVariables().count() === 0) {
                 return 0;
             }
             let sum: number = fint.getVariables().item(cReportCompiler.AVERAGE_SUM).getValue();

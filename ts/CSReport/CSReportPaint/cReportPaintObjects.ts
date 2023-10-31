@@ -66,10 +66,10 @@ namespace CSReportPaint {
                 }
             }
 
-            if(i >= this.zorder.length-1 && top)  {
+            if(i >= this.zorder.length-1 && top) {
                 return;
             }
-            if(i === 0 && !top)  {
+            if(i === 0 && !top) {
                 return;
             }
 

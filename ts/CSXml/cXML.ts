@@ -93,7 +93,7 @@ namespace CSXml {
                 let bExists: boolean = false;
                 let bReadonly: boolean = false;
 
-                if(!file.save(this.name, bExists, bReadonly, ""))  {
+                if(!file.save(this.name, bExists, bReadonly, "")) {
                     return false;
                 }
 
@@ -107,7 +107,7 @@ namespace CSXml {
                 }
 
                 if(msg !== "") {
-                    if(!cWindow.ask(msg, MessageBoxDefaultButton.Button2))  {
+                    if(!cWindow.ask(msg, MessageBoxDefaultButton.Button2)) {
                         return false;
                     }
                 }
@@ -140,7 +140,7 @@ namespace CSXml {
             try {
                 let file: CSKernelFile.cFile = new CSKernelFile.cFile();
 
-                if(!file.open(this.name, eFileMode.eWrite, false, false, eFileAccess.eLockWrite, false, false))  {
+                if(!file.open(this.name, eFileMode.eWrite, false, false, eFileAccess.eLockWrite, false, false)) {
                     return false;
                 }
 

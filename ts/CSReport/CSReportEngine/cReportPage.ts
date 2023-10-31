@@ -68,6 +68,33 @@ namespace CSReportEngine {
             this.footerTop = rhs;
         }
 
+        public copy(from: any) {
+            this.pageNumber = from.pageNumber;
+            this.headerBottom = from.headerBottom;
+            this.footerTop = from.footerTop;
+
+            this.header.clear();
+            this.detail.clear();
+            this.footer.clear();
+
+            for(let i = 0; i < from.header.values.length; i++) {
+                if(!this.header.add(null).copy(from.header.values[i])) {
+                    return false;
+                }
+            }
+            for(let i = 0; i < from.detail.values.length; i++) {
+                if(!this.detail.add(null).copy(from.detail.values[i])) {
+                    return false;
+                }
+            }
+            for(let i = 0; i < from.footer.values.length; i++) {
+                if(!this.footer.add(null).copy(from.footer.values[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             let nodeObjSecLn: XmlNode = null;
 
@@ -83,7 +110,7 @@ namespace CSReportEngine {
             if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if(!this.header.add(null).load(xDoc, nodeObjSecLn))  {
+                    if(!this.header.add(null).load(xDoc, nodeObjSecLn)) {
                         return false;
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
@@ -94,7 +121,7 @@ namespace CSReportEngine {
             if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if(!this.detail.add(null).load(xDoc, nodeObjSecLn))  {
+                    if(!this.detail.add(null).load(xDoc, nodeObjSecLn)) {
                         return false;
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);
@@ -105,7 +132,7 @@ namespace CSReportEngine {
             if(xDoc.nodeHasChild(nodeObj)) {
                 nodeObjSecLn = xDoc.getNodeChild(nodeObj);
                 while (nodeObjSecLn !== null) {
-                    if(!this.footer.add(null).load(xDoc, nodeObjSecLn))  {
+                    if(!this.footer.add(null).load(xDoc, nodeObjSecLn)) {
                         return false;
                     }
                     nodeObjSecLn = xDoc.getNextNode(nodeObjSecLn);

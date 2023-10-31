@@ -55,6 +55,16 @@ namespace CSReportEngine {
             this.fieldType = rhs;
         }
 
+        public copy(from: any) {
+            this.name = from.name;
+            this.tag = from.tag;
+            this.fieldType = from.fieldType;
+            if(!this.aspect.copy(from.aspect)) {
+                return false;
+            }
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             let nodeObjAspect: XmlNode = null;
             this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);

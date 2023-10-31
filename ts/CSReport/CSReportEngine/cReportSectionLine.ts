@@ -139,17 +139,17 @@ namespace CSReportEngine {
             this.idField = from.idField;
             this.hasFormulaHide = from.hasFormulaHide;
 
-            if(!this.formulaHide.copy(from.formulaHide))  {
+            if(!this.formulaHide.copy(from.formulaHide)) {
                 return false;
             }
 
-            if(!this.aspect.copy(from.aspect))  {
+            if(!this.aspect.copy(from.aspect)) {
                 return false;
             }
 
             for(let i = 0; i < from.controls.values.length; i++) {
                 const ctrl = this.controls.add(null, from.controls.keys[i]);
-                if(!ctrl.copy(from.controls.values[i]))  {
+                if(!ctrl.copy(from.controls.values[i])) {
                     return false;
                 }
             }
@@ -173,23 +173,23 @@ namespace CSReportEngine {
             nodeObjAspect = nodeObj;
 
             let nodeObjAux: XmlNode = nodeObj;
-            if(!this.formulaHide.load(xDoc, nodeObjAux))  {
+            if(!this.formulaHide.load(xDoc, nodeObjAux)) {
                 return false;
             }
 
-            if(!this.aspect.load(xDoc, nodeObjAspect))  {
+            if(!this.aspect.load(xDoc, nodeObjAspect)) {
                 return false;
             }
 
             nodeObjCtrls = xDoc.getNodeFromNode(nodeObj, this.NODE_RPT_CONTROLS);
 
-            if(xDoc.nodeHasChild(nodeObjCtrls))  {
+            if(xDoc.nodeHasChild(nodeObjCtrls)) {
                 nodeObjCtrl = xDoc.getNodeChild(nodeObjCtrls);
 
                 while (nodeObjCtrl !== null) {
                     let key: string = xDoc.getNodeProperty(nodeObjCtrl, "Key").getValueString(eTypes.eText);
                     ctrl = this.controls.add(null, key);
-                    if(!ctrl.load(xDoc, nodeObjCtrl))  {
+                    if(!ctrl.load(xDoc, nodeObjCtrl)) {
                         return false;
                     }
                     nodeObjCtrl = xDoc.getNextNode(nodeObjCtrl);
@@ -226,10 +226,10 @@ namespace CSReportEngine {
             xProperty.setValue(eTypes.eBoolean, this.hasFormulaHide);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if(!this.aspect.save(xDoc, nodeObj))  {
+            if(!this.aspect.save(xDoc, nodeObj)) {
                 return false;
             }
-            if(!this.formulaHide.save(xDoc, nodeObj))  {
+            if(!this.formulaHide.save(xDoc, nodeObj)) {
                 return false;
             }
 

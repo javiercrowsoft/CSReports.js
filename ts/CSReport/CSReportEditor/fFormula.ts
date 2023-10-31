@@ -128,7 +128,7 @@ namespace CSReportEditor {
             let item = father.getNodes().add(name, imageIndex);
             item.selectedImageIndex = item.imageIndex;
 
-            if(descrip !== "")  {
+            if(descrip !== "") {
                 item.setText(descrip + " ( "+ name + " )");
             }
 

@@ -15,6 +15,11 @@ namespace CSReportEngine {
             this.value = rhs;
         }
 
+        public copy(from: any) {
+            this.value = from?.value || null;
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             this.value = xDoc.getNodeProperty(nodeObj, "Value").getValueString(eTypes.eText);
             return true;

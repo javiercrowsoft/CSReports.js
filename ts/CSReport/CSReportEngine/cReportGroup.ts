@@ -130,12 +130,12 @@ namespace CSReportEngine {
 
             this.fixName();
 
-            if(!this.header.copy(from.header))  {
+            if(!this.header.copy(from.header)) {
                 return false;
             }
             this.header.setName(this.name);
 
-            if(!this.footer.copy(from.footer))  {
+            if(!this.footer.copy(from.footer)) {
                 return false;
             }
             this.footer.setName(this.name);
@@ -164,7 +164,7 @@ namespace CSReportEngine {
             nodeObjAux = nodeObj;
             nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.HEADER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
-            if(!this.header.load(xDoc, nodeObjAux))  {
+            if(!this.header.load(xDoc, nodeObjAux)) {
                 return false;
             }
 
@@ -173,7 +173,7 @@ namespace CSReportEngine {
             nodeObjAux = nodeObj;
             nodeObjAux = xDoc.getNodeFromNode(nodeObj, this.FOOTER);
             nodeObjAux = xDoc.getNodeChild(nodeObjAux);
-            if(!this.footer.load(xDoc, nodeObjAux))  {
+            if(!this.footer.load(xDoc, nodeObjAux)) {
                 return false;
             }
 

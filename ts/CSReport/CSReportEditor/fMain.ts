@@ -477,7 +477,10 @@ namespace CSReportEditor {
                 previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
             }
             previewReport.preview().then((result) => {
-                this.createPreview(editor);
+                if(result) {
+                    this.createPreview(editor);
+                    previewReport.getFirstPage();
+                }
             });
 
         }
@@ -506,7 +509,7 @@ namespace CSReportEditor {
         //------------------------------------------------------------------------------------------------------------------
 
         private cmCtrlProperties_Click(sender: object, e: any) {
-            if(this.contextMenuEditor !== null)  {
+            if(this.contextMenuEditor !== null) {
                 this.contextMenuEditor.showProperties2();
             }
         }

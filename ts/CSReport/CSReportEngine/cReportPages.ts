@@ -7,6 +7,14 @@ namespace CSReportEngine {
         constructor() {
             super(null, false, cReportPage);
         }
+
+        public copy(from: any) {
+            for(let i = 0; i < from.values.length; i++) {
+                const pageTo = super.baseAdd(null, from.keys[i]);
+                const pageFrom = from.values[i];
+                if(!pageTo.copy(pageFrom)) return false;
+            }
+        }
     }
 
 }

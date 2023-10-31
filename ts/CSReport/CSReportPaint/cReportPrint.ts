@@ -418,28 +418,11 @@ namespace CSReportPaint {
         public previewReport() {
             this.setPreviewForm();
 
-            this.pCreatePaint();
+            this.createPaint();
 
             this.rpwPrint.setPages(this.report.getPages().count());
             this.printPage(csEMoveTo.FIRSTPAGE, false);
 
-            // TODO: implement this
-
-            /*
-            let f: Form = this.rpwPrint.Parent;
-
-            if(this.bModal) {
-                f.ShowDialog();
-            }
-            else {
-                if(!this.bHidePreviewWindow) {
-                    f.Show();
-                    if(f.WindowState === FormWindowState.Minimized) {
-                        f.WindowState = FormWindowState.Normal;
-                    }
-                }
-            }
-            */
             return true;
         }
 
@@ -452,7 +435,7 @@ namespace CSReportPaint {
                 let copies: number = 0;
                 let q: number = 0;
 
-                this.pCreatePaint();
+                this.createPaint();
 
                 this.rePaintObject = true;
 
@@ -524,7 +507,7 @@ namespace CSReportPaint {
             return null;
         }
 
-        private pCreatePaint() {
+        private createPaint() {
             if(this.paint === null) {
                 this.paint = new cReportPaint();
             }
@@ -1135,8 +1118,8 @@ namespace CSReportPaint {
 
             let tR: RectangleF;
 
-            let w_printer: cPrinter = this.report.getLaunchInfo().getPrinter();
-            tR = cGlobals.getRectFromPaperSize(w_printer.getPaperInfo(), w_printer.getPaperInfo().getPaperSize(), w_printer.getPaperInfo().getOrientation());
+            let printer: cPrinter = this.report.getLaunchInfo().getPrinter();
+            tR = cGlobals.getRectFromPaperSize(printer.getPaperInfo(), printer.getPaperInfo().getPaperSize(), printer.getPaperInfo().getOrientation());
 
             this.realWidth = tR.getWidth();
             this.realHeight = tR.getHeight();
@@ -1147,7 +1130,7 @@ namespace CSReportPaint {
             if(!this.bModal) {
                 if(!this.bHidePreviewWindow) {
                     let obj = this.rpwPrint.getParent();
-                    if(obj instanceof Form)  {
+                    if(obj instanceof Form) {
                         let f: Form = obj as Form;
                         f.show();
                     }

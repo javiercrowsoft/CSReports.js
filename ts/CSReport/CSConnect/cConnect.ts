@@ -41,7 +41,7 @@ namespace CSConnect {
 
                 for(let i = 0; i < dt.rows.length; i++) {
                     let row = dt.rows[i];
-                    if(row["parameter_mode"].toString() !== "OUT")  {
+                    if(row["parameter_mode"].toString() !== "OUT") {
                         let p: cParameter = null;
                         let found: boolean = false;
                         for(let i = 0; i < this.parameters.count(); i++) {

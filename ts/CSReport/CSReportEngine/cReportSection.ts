@@ -212,10 +212,10 @@ namespace CSReportEngine {
             xProperty.setValue(eTypes.eBoolean, this.hasFormulaHide);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            if(!this.aspect.save(xDoc, nodeObj))  {
+            if(!this.aspect.save(xDoc, nodeObj)) {
                 return false;
             }
-            if(!this.formulaHide.save(xDoc, nodeObj))  {
+            if(!this.formulaHide.save(xDoc, nodeObj)) {
                 return false;
             }
 

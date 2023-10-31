@@ -749,7 +749,7 @@ namespace CSReportPaint {
                 this.printText(graphic, secPO.getText(), aspect, secPO.getImage());
             }
 
-            if(secPO === this.paintSections.item(this.paintSections.count() - 1))  {
+            if(secPO === this.paintSections.item(this.paintSections.count() - 1)) {
                 top = Math.trunc(aspect.getTop() + secPO.getHeightSecLine() - heightSec - aspect.getOffset() + 6);
 
                 if(secPO.getIsSection()) {
@@ -1309,17 +1309,17 @@ namespace CSReportPaint {
                 marginX += image.getSize().width;
                 marginY = image.getSize().height - stringHeight - c_Margen_Bottom;
 
-                if(marginY + stringHeight > aspect.getHeight())  {
+                if(marginY + stringHeight > aspect.getHeight()) {
                     marginY = Math.trunc(aspect.getHeight() - stringHeight - c_Margen_Bottom);
                 }
-                if(marginY < c_Margen_Y)  {
+                if(marginY < c_Margen_Y) {
                     marginY = c_Margen_Y;
                 }
             }
 
             let nWidth: number = Math.trunc(aspect.getWidth() - marginX * 2);
 
-            if(stringWidth > nWidth)  {
+            if(stringWidth > nWidth) {
                 stringWidth = nWidth;
             }
 

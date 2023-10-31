@@ -38,7 +38,7 @@ namespace CSDrawing {
         private static getRoundedRect(baseRect: RectangleF, radius: number) {
             // if corner radius is less than or equal to zero,
             // return the original rectangle
-            if( radius <= 0 )  {
+            if( radius <= 0 ) {
                 let mPath = new GraphicsPath();
                 mPath.addRectangle(baseRect);
                 mPath.closeFigure();
@@ -80,7 +80,7 @@ namespace CSDrawing {
         private static getCapsule(baseRect: RectangleF, diameter: number = 0, arc: RectangleF = null) {
             let path: GraphicsPath = new GraphicsPath();
             try  {
-                if( baseRect.getWidth() > baseRect.getHeight() )  {
+                if( baseRect.getWidth() > baseRect.getHeight() ) {
                     // return horizontal capsule
                     diameter = baseRect.getHeight();
                     let sizeF: SizeF = new SizeF(diameter, diameter);
@@ -89,7 +89,7 @@ namespace CSDrawing {
                     arc.setX(baseRect.getRight() - diameter);
                     path.addArc(arc, 270, 180);
                 }
-                else if( baseRect.getWidth() < baseRect.getHeight() )  {
+                else if( baseRect.getWidth() < baseRect.getHeight() ) {
                     // return vertical capsule
                     diameter = baseRect.getWidth();
                     let sizeF: SizeF = new SizeF(diameter, diameter);

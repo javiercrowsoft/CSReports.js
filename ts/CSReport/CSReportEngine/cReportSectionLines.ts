@@ -40,7 +40,7 @@ namespace CSReportEngine {
 
 		public add(c: cReportSectionLine = null, key: string = "", index: number = -1) {
             try {
-                if(c === null || c === undefined)  {
+                if(c === null || c === undefined) {
                     c = new cReportSectionLine();
                 }
                 if(key === "" || key === undefined) {

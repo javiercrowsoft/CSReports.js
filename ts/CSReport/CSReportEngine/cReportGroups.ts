@@ -31,10 +31,10 @@ namespace CSReportEngine {
 
         public add(c: cReportGroup, key: string) {
             try  {
-                if(c === null)  {
+                if(c === null) {
                     c = new cReportGroup();
                 }
-                if(key === "")  {
+                if(key === "") {
                     key = ReportGlobals.getNextKey().toString();
                 }
                 else  {
@@ -66,10 +66,10 @@ namespace CSReportEngine {
 
         public add2(c: cReportGroup, key: string) {
             try  {
-                if(c === null)  {
+                if(c === null) {
                     c = new cReportGroup();
                 }
-                if(key === "")  {
+                if(key === "") {
                     key = ReportGlobals.getNextKey().toString();
                 }
                 else  {

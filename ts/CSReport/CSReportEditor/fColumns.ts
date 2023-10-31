@@ -48,7 +48,7 @@ namespace CSReportEditor {
         public setField(field: string) {
             // this.field = field;
             // for(let i_ = 0; i_ < lv_columns.Items.length; i_++) {
-            //     if(item.Text === field)  {
+            //     if(item.Text === field) {
             //         item.Selected = true;
             //         item.Focused = true;
             //         lv_columns.Select();

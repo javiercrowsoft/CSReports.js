@@ -1,5 +1,7 @@
 const reportWorker = (()=> {
 
+    let pages: CSReportEngine.cReportPages = null;
+
     const init = () => {
         String.prototype.contains = function(value: string): boolean {
             let d = String(this);
@@ -13,11 +15,11 @@ const reportWorker = (()=> {
 
     const reportProgress = (report: CSReportEngine.cReport, eventArgs: CSReportEngine.ProgressEventArgs) => {
         postMessage({ action: 'report-progress', eventArgs: eventArgs });
-    }
+    };
 
     const reportDone = (report: CSReportEngine.cReport) => {
         postMessage({ action: 'report-done' });
-    }
+    };
 
     const registerDataSource = (database: string, request: any) => {
         const dataSources = request["content"]["data"]["data"];
@@ -26,7 +28,7 @@ const reportWorker = (()=> {
             const ds = new CSDatabase.JSONDataSource(dataSource["name"].toString(), dataSource["data"]);
             CSDatabase.JSONServer.registerDataSource(ds, database + "." + ds.getName());
         }
-    }
+    };
 
     const launch = (data: any) => {
         const report = new CSReportEngine.cReport();
@@ -47,27 +49,39 @@ const reportWorker = (()=> {
         report.setRunningInWebWorker(true);
 
         report.launch(launchInfo).then(()=> {
-            console.log('Worker: Posting message back to main script');
+            pages = report.getPages();
             postMessage({action: 'worker-launch-complete-successfully', message: 'report launch completes successfully'});
         })
         .catch((reason)=> {
-            console.log('Worker: Posting error back to main script');
             postMessage({action: 'worker-launch-failed', message: 'report launch failed', reason: reason});
         });
-    }
+    };
+
+    const sendReportPagesToMainTread = () => {
+
+        pages.getValues().forEach((page) => {
+            const fields = [...page.getHeader().getValues(), ...page.getDetail().getValues(), ...page.getFooter().getValues()];
+            fields.forEach((field) => {
+                field.getInfo().getSectionLine().getControls().forEach((k, c) => c.setSectionLine(null));
+                field.getInfo().getSectionLine().getControls().setSectionLine(null);
+                field.getInfo().getSectionLine().getControls().setCopyColl(null);
+                field.getInfo().getSectionLine().setCopyColl(null);
+            });
+        });
+        postMessage({action: 'get-report', pages: JSON.stringify(pages) });
+    };
 
     return {
         init,
         reportProgress,
         reportDone,
         registerDataSource,
-        launch
+        launch,
+        sendReportPagesToMainTread
     }
 })();
 
 onmessage = function (e) {
-    console.log('Worker: Message received from main script');
-
     switch(e.data.action) {
 
         case 'init':
@@ -80,6 +94,10 @@ onmessage = function (e) {
 
         case 'launch':
             reportWorker.launch(e.data);
+            break;
+
+        case 'get-report':
+            reportWorker.sendReportPagesToMainTread();
             break;
 
         default:

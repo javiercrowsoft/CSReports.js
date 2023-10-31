@@ -22,7 +22,7 @@ namespace CSReportGlobals {
                 keyNumber = Utils.parseInt(key);
             }
             else {
-                if(key.length > 1)  {
+                if(key.length > 1) {
                     if(Utils.isNumber(key.substring(1))) {
                         keyNumber = Utils.parseInt(key.substring(1));
                     }

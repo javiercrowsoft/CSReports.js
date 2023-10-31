@@ -28,7 +28,7 @@ namespace CSReportEngine {
 
         public copy(from: ReportConnectsAuxDTO) {
             for(let i = 0; i < from.values.length; i++) {
-                if(! this.add(null).copy(from.values[i]))  {
+                if(! this.add(null).copy(from.values[i])) {
                     return false;
                 }
             }
@@ -43,7 +43,7 @@ namespace CSReportEngine {
                 if(xDoc.nodeHasChild(nodeFather)) {
                     nodeObj = xDoc.getNodeChild(nodeFather);
                     while (nodeObj !== null) {
-                        if(! this.add(null).load(xDoc, nodeObj))  {
+                        if(! this.add(null).load(xDoc, nodeObj)) {
                             return false;
                         }
                         nodeObj = xDoc.getNextNode(nodeObj);

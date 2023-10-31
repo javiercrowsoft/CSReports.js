@@ -87,6 +87,25 @@ namespace CSReportEngine {
             this.indexLine = rhs;
         }
 
+        public copy(from: any) {
+            this.objectID = new cReportPageID();
+            this.info = new cReportPageInfo();
+
+            this.value = from.value;
+            this.visible = from.visible;
+            this.top = from.top;
+            this.height = from.height;
+            this.width = from.width;
+
+            if(!this.objectID.copy(from.objectID)) {
+                return false;
+            }
+            if(!this.info.copy(from.info)) {
+                return false;
+            }
+            return true;
+        }
+
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             this.objectID = new cReportPageID();
             this.info = new cReportPageInfo();
@@ -99,11 +118,11 @@ namespace CSReportEngine {
 
             let nodeObjAux: XmlNode = null;
             nodeObjAux = nodeObj;
-            if(!this.objectID.load(xDoc, nodeObjAux))  {
+            if(!this.objectID.load(xDoc, nodeObjAux)) {
                 return false;
             }
             nodeObjAux = nodeObj;
-            if(!this.info.load(xDoc, nodeObjAux))  {
+            if(!this.info.load(xDoc, nodeObjAux)) {
                 return false;
             }
 
@@ -143,7 +162,7 @@ namespace CSReportEngine {
                     return false;
                 }
             }
-            if(!this.info.save(xDoc, nodeObj))  {
+            if(!this.info.save(xDoc, nodeObj)) {
                 return false;
             }
 

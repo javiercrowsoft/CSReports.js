@@ -32,7 +32,7 @@ namespace CSReportEngine {
         public setCopyColl(rhs: cReportControls2) {
             this.copyColl = rhs;
 
-            if(this.count() > 0)  {
+            if(this.count() > 0) {
                 for(let _i = 0; _i < this.count(); _i++) {
                     this.item(_i).setCopyColl(rhs);
                 }
