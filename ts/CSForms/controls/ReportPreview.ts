@@ -2,19 +2,27 @@
 
 namespace CSForms {
 
+    import U = CSOAPI.Utils;
+    import P = CSKernelClient.Callable;
+
     export class ReportPreview extends Control {
+
+        private static IMAGE_FIRST_PAGE = "tsbFirstPage.Image.png";
+        private static IMAGE_PREVIOUS_PAGE = "tsbPreviousPage.Image.png";
+        private static IMAGE_NEXT_PAGE = "tsbNextPage.Image.png";
+        private static IMAGE_LAST_PAGE = "tsbLastPage.Image.png";
 
         private static previewIndex = 0;
 
         private parent: object;
 
-        private firstPage: (sender: object, e: EventArgs) => void;
-        private previousPage: (sender: object, e: EventArgs) => void;
-        private moveToPage: (sender: object, e: PageEventArgs) => void;
-        private moveToNext: (sender: object, e: EventArgs) => void;
-        private moveToLast: (sender: object, e: EventArgs) => void;
-        private exportToPDF: (sender: object, e: EventArgs) => void;
-        private print: (sender: object, e: EventArgs) => void;
+        private firstPage: (sender: object, e: EventArgs) => void = null;
+        private previousPage: (sender: object, e: EventArgs) => void = null;
+        private moveToPage: (sender: object, e: PageEventArgs) => void = null;
+        private nextPage: (sender: object, e: EventArgs) => void = null;
+        private lastPage: (sender: object, e: EventArgs) => void = null;
+        private exportToPDF: (sender: object, e: EventArgs) => void = null;
+        private print: (sender: object, e: EventArgs) => void = null;
 
         private readonly div: HTMLDivElement;
         private toolbar: Toolbar;
@@ -40,8 +48,30 @@ namespace CSForms {
             pnEditorNode.appendChild(picReportNode);
 
             this.div = el as HTMLDivElement;
-            this.toolbar = new Toolbar("toolbar" + ReportPreview.previewIndex++, toolbarNode);
+            this.createToolbar(toolbarNode);
             this.picPreview = new PictureBox("pnReport" + ReportPreview.previewIndex++, picReportNode);
+        }
+
+        private createToolbar(toolbarNode: HTMLDivElement) {
+            this.toolbar = new Toolbar("preview-toolbar" + ReportPreview.previewIndex++, toolbarNode);
+            this.toolbar.addButton("firstPage", ReportPreview.IMAGE_FIRST_PAGE, P.call(this, () => this.buttonClick(this.firstPage, EventArgs.Empty)));
+            this.toolbar.addButton("previousPage", ReportPreview.IMAGE_PREVIOUS_PAGE, P.call(this, () => this.buttonClick(this.previousPage, EventArgs.Empty)));
+            this.toolbar.addInput("moveToPage",
+                P.call(this, (event) => {
+                    if(event.key === "Enter") {
+                        const page = U.valInt(event.target.value);
+                        if(page > 0 && this.moveToPage !== null)
+                        this.moveToPage(this, new PageEventArgs(page));
+                    }
+                }));
+            this.toolbar.addNumberLabel("totalPages");
+            this.toolbar.addButton("nextPage", ReportPreview.IMAGE_NEXT_PAGE, P.call(this, () => this.buttonClick(this.nextPage, EventArgs.Empty)));
+            this.toolbar.addButton("lastPage", ReportPreview.IMAGE_LAST_PAGE, P.call(this, () => this.buttonClick(this.lastPage, EventArgs.Empty)));
+
+        }
+
+        private buttonClick(f: (sender: object, e: any) => void, e: any) {
+            if(f !== null) f(this, e);
         }
 
         setFirstPage(firstPage: (sender: object, e: object) => void) {
@@ -56,12 +86,12 @@ namespace CSForms {
             this.moveToPage = moveToPage;
         }
 
-        setNextPage(moveToNext: (sender: object, e: EventArgs) => void) {
-            this.moveToNext = moveToNext;
+        setNextPage(nextPage: (sender: object, e: EventArgs) => void) {
+            this.nextPage = nextPage;
         }
 
-        setLastPage(moveToLast: (sender: object, e: EventArgs) => void) {
-            this.moveToLast = moveToLast;
+        setLastPage(lastPage: (sender: object, e: EventArgs) => void) {
+            this.lastPage = lastPage;
         }
 
         //-------------------------------------------------------------------

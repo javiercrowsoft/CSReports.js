@@ -617,6 +617,19 @@ ul.toolbar a:hover {
     background-color: #111;
 }
 
+.toolbar-span-number {
+    margin-top: 15px;
+    border-width: 1px;
+    background-color: gray;
+    width: 50px;
+    display: block;
+    color: white;
+    height: 19px;
+    text-align: right;
+    padding-top: 3px;
+    padding-right: 10px;
+}
+
 /* Skin for Simple Dialog Box Plugin */
 .dialog-box {
     width: 300px;
