@@ -16,6 +16,7 @@ namespace CSReportWebServer {
     import cReportPrint = CSReportPaint.cReportPrint;
     import cError = CSKernelClient.cError;
     import P = CSKernelClient.Callable;
+    import ReportPreview = CSForms.ReportPreview;
 
     export class ReportWeb {
         private reportId: string;
@@ -26,7 +27,6 @@ namespace CSReportWebServer {
 
         private reportWorker: Worker;
         private fProgress: FProgress = null;
-        private fPrint: cReportPrint = null;
 
         // calllback to complete Launch Promise
         //
@@ -107,13 +107,17 @@ namespace CSReportWebServer {
 
                     case 'get-report':
                         this.report.getPages().copy(JSON.parse(e.data.pages));
+                        const reportPrint = new CSReportPaint.cReportPrint();
+                        reportPrint.setHidePreviewWindow(true);
+                        this.report.getLaunchInfo().setReportPrint(reportPrint);
+                        reportPrint.setReport(this.report);
                         this.successGetReport(true);
                         break;
                 }
             });
         }
 
-        public preview() {
+        public makeReport() {
             this.report.getLaunchInfo().setAction(csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW);
             return this.launchReport();
         }
@@ -260,6 +264,12 @@ namespace CSReportWebServer {
                     action: 'get-report'
                 });
             });
+        }
+
+        public previewFirstPage(previewControl: ReportPreview) {
+            const reportPrint = this.report.getLaunchInfo().getReportPrint();
+            (reportPrint as cReportPrint).setPreviewControl(previewControl);
+            reportPrint.previewReport();
         }
 
     }

@@ -11,8 +11,9 @@ namespace CSForms {
         private readonly div: HTMLDivElement;
         private readonly canvas: HTMLCanvasElement;
         private readonly graphic: Graphic;
+        private paint: (sender: object, e: { graphics: Graphic }) => void;
+
         public readonly name: string;
-        private bacgroundColor: Color;
 
         public constructor(name: string, el: HTMLElement) {
             super(el);
@@ -48,7 +49,7 @@ namespace CSForms {
         }
 
         public refresh() {
-
+            if(this.paint !== null) this.paint(this, {graphics: this.getGraphics()});
         }
 
         public pointToScreen(point: Point) {
@@ -56,7 +57,7 @@ namespace CSForms {
         }
 
         setPaint(paint: (sender: object, e: { graphics: Graphic }) => void) {
-
+            this.paint = paint;
         }
 
         getCursor(): Cursor {
@@ -81,7 +82,6 @@ namespace CSForms {
         }
 
         setBacgroundColor(color: Color) {
-            this.bacgroundColor = color;
             this.canvas.style.backgroundColor = color.color;
         }
 

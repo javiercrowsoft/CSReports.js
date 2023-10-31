@@ -648,7 +648,7 @@ namespace CSReportPaint {
         //-------------------------------
 
         // Drawing
-        public clearPage(graphic: Graphic) {
+        public reDrawPage(graphic: Graphic) {
             return this.refreshBackgroundPicture(graphic, Color.White.toArgb());
         }
 

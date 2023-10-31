@@ -11,6 +11,8 @@ namespace CSForms {
         private static IMAGE_PREVIOUS_PAGE = "tsbPreviousPage.Image.png";
         private static IMAGE_NEXT_PAGE = "tsbNextPage.Image.png";
         private static IMAGE_LAST_PAGE = "tsbLastPage.Image.png";
+        private static TOTAL_PAGES_ID = "totalPages";
+        private static CURRENT_PAGE_ID = "moveToPage";
 
         private static previewIndex = 0;
 
@@ -64,10 +66,9 @@ namespace CSForms {
                         this.moveToPage(this, new PageEventArgs(page));
                     }
                 }));
-            this.toolbar.addNumberLabel("totalPages");
+            this.toolbar.addNumberLabel(ReportPreview.TOTAL_PAGES_ID);
             this.toolbar.addButton("nextPage", ReportPreview.IMAGE_NEXT_PAGE, P.call(this, () => this.buttonClick(this.nextPage, EventArgs.Empty)));
             this.toolbar.addButton("lastPage", ReportPreview.IMAGE_LAST_PAGE, P.call(this, () => this.buttonClick(this.lastPage, EventArgs.Empty)));
-
         }
 
         private buttonClick(f: (sender: object, e: any) => void, e: any) {
@@ -109,11 +110,11 @@ namespace CSForms {
         }
 
         public setCurrPage(page: number) {
-            //tsbPage.setText(.toString());
+            (this.toolbar.getControls().item(ReportPreview.CURRENT_PAGE_ID) as HTMLInputElement).value = (page +1).toString();
         }
 
         public setPages(pages: number) {
-            //tsbPages.setText(pages.toString());
+            this.toolbar.getControls().item(ReportPreview.TOTAL_PAGES_ID).textContent = pages.toString();
         }
     }
 

@@ -39,9 +39,9 @@ const reportWorker = (()=> {
         const launchInfoFrom: CSReportEngine.ReportLaunchInfoDTO = JSON.parse(data.launchInfo);
         launchInfo.copy(launchInfoFrom);
 
-        const fPrint = new CSReportPaint.cReportPrint();
-        fPrint.setHidePreviewWindow(true);
-        launchInfo.setReportPrint(fPrint);
+        const reportPrint = new CSReportPaint.cReportPrint();
+        reportPrint.setHidePreviewWindow(true);
+        launchInfo.setReportPrint(reportPrint);
 
         report.onProgress(reportWorker.reportProgress);
         report.onReportDone(reportWorker.reportDone);

@@ -5,7 +5,8 @@
 namespace CSReportPaint {
 
     import cError = CSKernelClient.cError;
-    import Utils = CSOAPI.Utils;
+    import U = CSOAPI.Utils;
+    import P = CSKernelClient.Callable;
     import cIPrintClient = CSIReportPrint.cIPrintClient;
     import CMouseWait = CSKernelClient.CMouseWait;
     import cPrinter = CSReportEngine.cPrinter;
@@ -649,22 +650,22 @@ namespace CSReportPaint {
                     v2 = v[i].split('-');
                     addInterval = false;
                     for(t = 0; t < v2.length; t++) {
-                        if(Utils.isNumber(v2[t])) {
+                        if(U.isNumber(v2[t])) {
                             if(addInterval) {
-                                for(r = n[n.length - 1] + 1; r <= Utils.parseInt(v2[t]) - 1; r++) {
+                                for(r = n[n.length - 1] + 1; r <= U.parseInt(v2[t]) - 1; r++) {
                                     n.push(r);
                                 }
                             }
                             else {
                                 addInterval = true;
                             }
-                            n.push(Utils.parseInt(v2[t]));
+                            n.push(U.parseInt(v2[t]));
                         }
                     }
                 }
                 else {
-                    if(Utils.isNumber(v[i])) {
-                        n.push(Utils.parseInt(v[i]));
+                    if(U.isNumber(v[i])) {
+                        n.push(U.parseInt(v[i]));
                     }
                 }
             }
@@ -1111,10 +1112,6 @@ namespace CSReportPaint {
                 }
                 this.rpwPrint = this.fPreview.getRpwReport();
             }
-            else {
-                this.fPreview = new fPreview();
-                this.rpwPrint = this.fPreview.getRpwReport();
-            }
 
             let tR: RectangleF;
 
@@ -1137,12 +1134,12 @@ namespace CSReportPaint {
                 }
             }
 
-            this.rpwPrint.getBody().setPaint(this.rpwPrintBodyPaint);
-            this.rpwPrint.setFirstPage(this.rpwPrintMoveFirst);
-            this.rpwPrint.setPreviousPage(this.rpwPrintMovePrevious);
-            this.rpwPrint.setMoveToPage(this.rpwPrintMoveToPage);
-            this.rpwPrint.setNextPage(this.rpwPrintMoveNext);
-            this.rpwPrint.setLastPage(this.rpwPrintMoveLast);
+            this.rpwPrint.getBody().setPaint(P.call(this, this.rpwPrintBodyPaint));
+            this.rpwPrint.setFirstPage(P.call(this, this.rpwPrintMoveFirst));
+            this.rpwPrint.setPreviousPage(P.call(this, this.rpwPrintMovePrevious));
+            this.rpwPrint.setMoveToPage(P.call(this, this.rpwPrintMoveToPage));
+            this.rpwPrint.setNextPage(P.call(this, this.rpwPrintMoveNext));
+            this.rpwPrint.setLastPage(P.call(this, this.rpwPrintMoveLast));
         }
 
         private createPaintObjects(fields: CSReportEngine.cReportPageFields, offset: number) {
@@ -1459,7 +1456,7 @@ namespace CSReportPaint {
                 let expPDF: CSReportExport.cReportPdf = null;
                 expPDF = new CSReportExport.cReportPdf();
 
-                expPDF.setFileName(Utils.getValidPath(""/* TODO: reimplement * System.Environment.GetEnvironmentVariable("TEMP")*/) + this.pGetExportFileName());
+                expPDF.setFileName(U.getValidPath(""/* TODO: reimplement * System.Environment.GetEnvironmentVariable("TEMP")*/) + this.pGetExportFileName());
                 expPDF.setExportEmailAddress(this.report.getExportEmailAddress());
 
                 return expPDF.exportEx(this.report, this, outputFile, bShowPDFWindow);
@@ -1527,11 +1524,11 @@ namespace CSReportPaint {
                     }
                 }
                 else {
-                    this.paint.clearPage(this.rpwPrint.getBody().getGraphics());
+                    this.paint.reDrawPage(this.rpwPrint.getBody().getGraphics());
 
                     this.rePaintObject = false;
 
-                    this.paint.paintPicture(graphic, false);
+                    // this.paint.paintPicture(graphic, false);
                 }
             }
             else {

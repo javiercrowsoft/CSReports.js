@@ -185,33 +185,6 @@ namespace CSReportEditor {
             tabPageNode.className = "editor";
             this.mainView.appendChild(tabPageNode);
 
-            /*
-            const pnEditorNode = document.createElement('div');
-            pnEditorNode.className = "editor-container";
-            tabPageNode.appendChild(pnEditorNode);
-
-            const picRuleNode = document.createElement('div');
-            picRuleNode.className = "rule";
-            pnEditorNode.appendChild(picRuleNode);
-
-            const picReportNode = document.createElement('div');
-            picReportNode.className = "report";
-            pnEditorNode.appendChild(picReportNode);
-
-            let pnEditor: Panel = new Panel("pnEditor" + this.editorIndex, pnEditorNode);
-            let picRule: PictureBox = new PictureBox("pnRule" + this.editorIndex, picRuleNode);
-            let picReport: PictureBox = new PictureBox("pnReport" + this.editorIndex, picReportNode);
-
-            this.editorIndex++;
-
-            picRule.setWidth(70);
-            picRule.setBacgroundColor(new Color("#f7f8f9"));
-            picReport.setBacgroundColor(Color.White);
-
-            pnEditor.getControls().add(picRule);
-            pnEditor.getControls().add(picReport);
-            */
-
             const previewNode = document.createElement('div');
             previewNode.className = "editor-container";
             tabPageNode.appendChild(previewNode);
@@ -241,6 +214,8 @@ namespace CSReportEditor {
             tab.onActive = () => {
                 cMainEditor.setDocActive(editor.getPreviewTab());
             };
+
+            return reportPreview;
         }
 
         public setEditAlignTextState(status: boolean) {
@@ -476,13 +451,18 @@ namespace CSReportEditor {
                 this.previewReports.add(previewReport);
                 previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
             }
-            previewReport.preview().then((result) => {
-                if(result) {
-                    this.createPreview(editor);
-                    previewReport.getFirstPage();
-                }
-            });
+            previewReport.makeReport()
+            .then((result) => {
+                if(! result) return false;
 
+                return previewReport.getFirstPage();
+            })
+            .then((result) => {
+                if(! result) return false;
+
+                const previewControl = this.createPreview(editor);
+                previewReport.previewFirstPage(previewControl);
+            });
         }
 
         public loadDataClick() {

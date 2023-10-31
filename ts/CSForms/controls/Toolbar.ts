@@ -8,6 +8,8 @@ namespace CSForms {
         private readonly ul: HTMLUListElement;
         public readonly name: string;
 
+        private controls = new CSOAPI.Map<HTMLElement>;
+
         public constructor(name: string, el: HTMLElement) {
             super(el);
 
@@ -30,6 +32,7 @@ namespace CSForms {
             link.appendChild(img);
             li.appendChild(link);
             this.ul.appendChild(li);
+            this.controls.add(link, buttonId);
         }
 
         addInput(inputId: string, onkeyup?: (event) => void) {
@@ -40,6 +43,7 @@ namespace CSForms {
             input.style.width = "50px";
             li.appendChild(input);
             this.ul.appendChild(li);
+            this.controls.add(input, inputId);
         }
 
         addNumberLabel(labelId: string) {
@@ -48,6 +52,11 @@ namespace CSForms {
             span.className = "toolbar-span-number";
             li.appendChild(span);
             this.ul.appendChild(li);
+            this.controls.add(span, labelId);
+        }
+
+        getControls() {
+            return this.controls;
         }
     }
 }
