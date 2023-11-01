@@ -1288,8 +1288,8 @@ namespace CSReportPaint {
                 format.formatFlags = StringFormatFlags.NoWrap;
             }
 
-            let stringWidth: number = this.getPlEvaluateTextWidth(text, font, this.scaleX);
-            let stringHeight: number = this.getPlEvaluateTextHeight(text, font, aspect.getWidth(), format, this.scaleY, this.scaleX);
+            let stringWidth: number = this.evaluateTextWidth(text, font, this.scaleX);
+            let stringHeight: number = this.evaluateTextHeight(text, font, aspect.getWidth(), format, this.scaleY, this.scaleX);
 
             // TODO: translate this to English if it is really needed
             //
@@ -1498,12 +1498,21 @@ namespace CSReportPaint {
             }
         }
 
-        private getPlEvaluateTextWidth(text: string, font: Font, scaleX: number) {
+        private evaluateTextWidth(text: string,
+                                     font: Font,
+                                     scaleX: number) {
+
             let stringSize: SizeF = this.textEvalGraphic.measureString(text, font);
             return Math.trunc(stringSize.width / scaleX); // TODO: check if it is / or *
         }
 
-        private getPlEvaluateTextHeight(text: string, font: Font, width: number, format: StringFormat, scaleY: number, scaleX: number) {
+        private evaluateTextHeight(text: string,
+                                      font: Font,
+                                      width: number,
+                                      format: StringFormat,
+                                      scaleY: number,
+                                      scaleX: number) {
+
             let stringSize: SizeF = this.textEvalGraphic.measureString(text, font, Math.trunc(width * scaleX), format);
             return Math.trunc(stringSize.height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
         }

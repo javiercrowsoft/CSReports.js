@@ -29,10 +29,15 @@ namespace CSReportPaint {
     import PageEventArgs = CSForms.PageEventArgs;
     import EventArgs = CSForms.EventArgs;
     import Font = CSDrawing.Font;
+    import StringTrimming = CSDrawing.StringTrimming;
+    import StringFormat = CSDrawing.StringFormat;
+    import StringFormatFlags = CSDrawing.StringFormatFlags;
+    import StringAlignment = CSDrawing.StringAlignment;
     import RectangleF = CSDrawing.RectangleF;
     import Graphic = CSDrawing.Graphic;
+    import OffscreenGraphic = CSDrawing.OffscreenGraphic;
     import Bitmap = CSDrawing.Bitmap;
-
+    import SizeF = CSDrawing.SizeF;
     import PictureBox = CSForms.PictureBox;
 
 	export class cReportPrint implements cIReportPrint {
@@ -82,6 +87,8 @@ namespace CSReportPaint {
         private oldScaleY: number = 0;
         private oldScaleX: number = 0;
         private oldScaleFont: number = 0;
+
+        private textEvalGraphic: OffscreenGraphic = OffscreenGraphic.createOffscreenGraphic("textEvalGraphic");
 
         public constructor() {
             try {
@@ -685,7 +692,7 @@ namespace CSReportPaint {
         }
 
         private make() {
-            let detailHeight: number = 0;
+            let detailHeight = new RefWrapper(0);
             let lineHeight: number = 0;
 
             let fields = new RefWrapper<cReportPageFields>(null);
@@ -695,7 +702,7 @@ namespace CSReportPaint {
             let rslt: csRptGetLineResult ;
             let rsltNewPage: csRptNewPageResult ;
 
-            let top: number = 0;
+            let top = new RefWrapper(0);
             let topSection: number = 0;
             let heightSection: number = 0;
             let secLnIndex: number = -1;
@@ -737,7 +744,12 @@ namespace CSReportPaint {
 
             // get details dimensions
             //
-            detailHeight = this.getDetailHeight(this.report.getPages().item(this.report.getPages().count()-1), top);
+            detailHeight.set(
+                this.getDetailHeight(
+                    this.report.getPages().item(this.report.getPages().count()-1),
+                    top));
+
+            console.log( "top: " + top.get() + " - detailHeight: " + detailHeight.get());
 
             // add the height of the images for controls which can grow and are in the header
             //
@@ -786,7 +798,7 @@ namespace CSReportPaint {
 
                     // if it can fit we create a new page
                     //
-                    if(lineHeight > detailHeight) {
+                    if(lineHeight > detailHeight.get()) {
 
                         // get the new page
                         //
@@ -834,8 +846,8 @@ namespace CSReportPaint {
 
                         // get the detail's height
                         //
-                        top = top + lineHeight;
-                        detailHeight = detailHeight - lineHeight;
+                        top.set(top.get() + lineHeight);
+                        detailHeight.set(detailHeight.get() - lineHeight);
 
                         // notify the engine about the groups' staste
                         //
@@ -876,7 +888,7 @@ namespace CSReportPaint {
             // throw new NotImplementedException();
         }
 
-        private newPage(top: number, detailHeight: number) {
+        private newPage(top: RefWrapper<number>, detailHeight: RefWrapper<number>) {
             let rsltNewPage: csRptNewPageResult;
             let rsltEndPage: csRptEndPageResult;
 
@@ -892,19 +904,19 @@ namespace CSReportPaint {
 
             // get details' dimensions
             //
-            detailHeight = this.getDetailHeight(
-                this.report.getPages().item(
-                    this.report.getPages().count()-1),
-                top);
+            detailHeight.set(
+                this.getDetailHeight(
+                    this.report.getPages().item(this.report.getPages().count()-1),
+                    top));
 
             return true;
         }
 
         // returns details' height of this page
         //
-        private getDetailHeight(page: CSReportEngine.cReportPage, top: number) {
-            top = page.getHeaderBottom();
-            return page.getFooterTop() - top;
+        private getDetailHeight(page: CSReportEngine.cReportPage, top: RefWrapper<number>) {
+            top.set(page.getHeaderBottom());
+            return page.getFooterTop() - top.get();
         }
 
         // returns the bigger control's height and set the height of every control
@@ -1014,21 +1026,15 @@ namespace CSReportPaint {
                         }
                         else {
                             if(field.getValue() !== "") {
-                                let flags: number = 0;
 
-                                // TODO: flags to get height of text to be drawn
-                                if(aspect.getWordWrap()) {
-                                    flags = 0/*ECGTextAlignFlags.DT_WORDBREAK
-                                             || ECGTextAlignFlags.DT_WORD_ELLIPSIS
-                                             || ECGTextAlignFlags.DT_LEFT
-                                             || ECGTextAlignFlags.DT_NOPREFIX
-                                             || ECGTextAlignFlags.DT_EDITCONTROL*/;
-                                }
-                                else {
-                                    flags = 0/*ECGTextAlignFlags.DT_SINGLELINE
-                                             || ECGTextAlignFlags.DT_WORD_ELLIPSIS
-                                             || ECGTextAlignFlags.DT_LEFT
-                                             || ECGTextAlignFlags.DT_NOPREFIX*/;
+
+                                let format: StringFormat = new StringFormat();
+
+                                format.trimming = StringTrimming.EllipsisWord;
+                                format.alignment = StringAlignment.Near;
+
+                                if(!aspect.getWordWrap()) {
+                                    format.formatFlags = StringFormatFlags.NoWrap;
                                 }
 
                                 let idx: number = cGlobals.addFontIfRequired(aspect.getFont(), this.fnt);
@@ -1040,9 +1046,10 @@ namespace CSReportPaint {
                                         field.getValue(),
                                         font,
                                         aspect.getWidth(),
-                                        flags,
+                                        format,
                                         this.scaleY,
                                         this.scaleX));
+
                                 if(field.getHeight() < aspectHeight) { field.setHeight(aspectHeight); }
                             }
                         }
@@ -1087,19 +1094,15 @@ namespace CSReportPaint {
             return heightSection;
         }
 
-        // TODO: check if we should have a bitmap as a member field so it is not created everytime
-        //
-        private evaluateTextHeight(text: string, font: Font, width: number, flags: number, scaleY: number, scaleX: number) {
-            // TODO: implement
-            /*
-            let bmp: Bitmap = new Bitmap(1, 1);
-            let graphic: Graphics = Graphics.FromImage(bmp);
-            let stringSize: SizeF = graphic.MeasureString(text, font, Math.trunc(width * scaleX));
-            graphic.dispose();
-            bmp.dispose();
-            return stringSize.Height * scaleY;
-            */
-            return 0;
+        private evaluateTextHeight(text: string,
+                                   font: Font,
+                                   width: number,
+                                   format: StringFormat,
+                                   scaleY: number,
+                                   scaleX: number) {
+
+            let stringSize: SizeF = this.textEvalGraphic.measureString(text, font, Math.trunc(width * scaleX), format);
+            return Math.trunc(stringSize.height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
         }
 
         // if the caller hasn't assigned a preview object
@@ -1528,7 +1531,7 @@ namespace CSReportPaint {
 
                     this.rePaintObject = false;
 
-                    // this.paint.paintPicture(graphic, false);
+                    this.paint.paintPicture(graphic, false);
                 }
             }
             else {

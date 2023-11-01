@@ -231,8 +231,6 @@ namespace CSReportEngine {
             this.wordWrap = from.wordWrap;
             this.borderRounded = from.borderRounded;
 
-            this.twipsToPixels();
-
             return this.font.copy(from.font);
         }
 

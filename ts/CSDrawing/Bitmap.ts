@@ -94,6 +94,95 @@ namespace CSDrawing {
         }
     }
 
+    export class OffscreenGraphic {
+
+        private readonly canvas: OffscreenCanvas;
+        private readonly context: OffscreenCanvasRenderingContext2D;
+        public readonly name: string;
+
+        constructor(canvas: OffscreenCanvas, name: string) {
+            this.name = name;
+            this.canvas = canvas;
+            this.context = canvas.getContext("2d");
+            // @ts-ignore
+            this.canvas.name = name
+        }
+
+        static createOffscreenGraphic(name: string, width = 1, height = 1) {
+            const canvas = new OffscreenCanvas(width, height);
+            // @ts-ignore
+            canvas.name = name;
+            return new OffscreenGraphic(canvas, name);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // END repeated code
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        measureString(text: string, font: Font, width = -1, format?: StringFormat): SizeF {
+            let size: SizeF;
+
+            this.context.save();
+
+            this.context.font = font.toStringFont();
+            if(format && format.formatFlags === StringFormatFlags.Wrap) {
+                size = this.measureWrappedString(text, width);
+            }
+            else {
+                const m = this.context.measureText(text);
+                size = new SizeF(
+                    Math.floor(m.width),
+                    // @ts-ignore
+                    Math.floor(m.fontBoundingBoxAscent + m.fontBoundingBoxDescent));
+            }
+
+            this.context.restore();
+
+            return size;
+        }
+
+        private measureWrappedString(text: string, maxWidth: number) {
+            let words = text.split(' ');
+            let line = '';
+            let width = 0;
+            let wrapped = false;
+            const lineHeight = this.lineHeight();
+            let y = lineHeight;
+
+            for(let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = this.context.measureText(testLine);
+                let testWidth = metrics.width;
+                if(testWidth > maxWidth && n > 0) {
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                    wrapped = true;
+                }
+                else {
+                    line = testLine;
+                    width = testWidth;
+                }
+            }
+            if(wrapped) width = maxWidth;
+            return new SizeF(Math.floor(width), Math.floor(y));
+        }
+
+        // this function uses the current font applied to the context
+        //
+        private lineHeight() {
+            const m = this.context.measureText("ABCDEFGHYJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@\"\\/#$%^*()_+=?><");
+            // @ts-ignore
+            return Math.floor(m.fontBoundingBoxAscent + m.fontBoundingBoxDescent);
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // END repeated code
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
+
     export class Graphic {
 
         private readonly canvas: HTMLCanvasElement;
@@ -213,8 +302,8 @@ namespace CSDrawing {
 
         private drawStringIntoRect(text: string, rect: RectangleF) {
             this.context.beginPath();
-            this.context.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight() + 20);
-            this.context.clip();
+            //this.context.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight() + 20);
+            //this.context.clip();
             this.context.fillText(text, rect.getLeft(), rect.getTop() + rect.getHeight());
             this.context.closePath();
         }

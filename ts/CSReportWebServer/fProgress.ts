@@ -29,6 +29,10 @@ namespace CSReportWebServer {
             this.rowCount = new Label(U.labelElc('progress-dlg-row-count', this.el));
             this.currRow = new Label(U.labelElc('progress-dlg-curr-row', this.el));
             this.progressBar = new ProgressBar(U.divElc('progress-dlg-progress-bar-status', this.el));
+            this.progressBar.setWidth(600);
+            this.progressBar.setHeight(10);
+            this.progressBar.setValue(0);
+            this.progressBar.setBackColor("green");
             this.title = U.labelElc('progress-dlg-title', this.el);
             this.title.textContent = 'Executing report';
             this.dialog = new Dialog(this.el, 'error-dlg-okay');

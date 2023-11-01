@@ -24,7 +24,12 @@ namespace CSForms {
         }
 
         setValue(value: number) {
-            console.log('progress bar: ' + value);
+            this.elProgressBar.style.width = Math.floor(this.getWidth() * (value / 100)).toString() + "px";
+        }
+
+        setHeight(value: number) {
+            super.setHeight(value);
+            this.elProgressBar.style.height = this.getHeight().toString() + "px";
         }
 
     }
