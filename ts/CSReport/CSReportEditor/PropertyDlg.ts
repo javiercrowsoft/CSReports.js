@@ -163,10 +163,15 @@ namespace CSReportEditor {
         private chkSectionLineFormulaHide: CheckBox;
         private lbSectionFormulaHide: Label;
         private lbSectionLineFormulaHide: Label;
+        private cmdSectionFormulaHide: Button;
+        private cmdSectionLineFormulaHide: Button;
+        private sectionFormulaHideChanged: boolean = null;
+        private sectionLineFormulaHideChanged: boolean = null;
         private txSectionName: TextBox;
         private lbSectionLineName: Label;
 
         private bSetSectionFormulaHideChanged: boolean = null;
+        private bSetSectionLineFormulaHideChanged: boolean = null;
 
         private formulaDlg = new FFormula();
 
@@ -253,10 +258,14 @@ namespace CSReportEditor {
             this.chkSectionFormulaHide.setOnClick(P.call(this, this.chkSectionFormulaHideClick));
 
             this.chkSectionLineFormulaHide = new CheckBox(U.inputEl('section-line-has-visible-formula'));
+            this.chkSectionLineFormulaHide.setOnClick(P.call(this, this.chkSectionLineFormulaHideClick));
+
             this.lbSectionFormulaHide = new Label(U.labelEl('section-visible-formula'));
             this.lbSectionLineFormulaHide = new Label(U.labelEl('section-line-visible-formula'));
             this.txSectionName = new TextBox(U.inputEl('section-name'));
             this.lbSectionLineName = new Label(U.labelEl('section-line-name'));
+            this.cmdSectionFormulaHide = new Button(U.el('ctrl-section-hide-formula-edit'));
+            this.cmdSectionLineFormulaHide = new Button(U.el('ctrl-section-line-hide-formula-edit'));
 
             this.tabFormat = U.el('property-format-tab-selector');
             this.tabBorders = U.el('property-borders-tab-selector');
@@ -273,6 +282,9 @@ namespace CSReportEditor {
 
             this.cmdFormulaHide.setOnClick(P.call(this, this.editFormulaHideClick));
             this.cmdFormulaValue.setOnClick(P.call(this, this.editFormulaValueClick));
+
+            this.cmdSectionFormulaHide.setOnClick(P.call(this, this.editSectionFormulaHideClick));
+            this.cmdSectionLineFormulaHide.setOnClick(P.call(this, this.editSectionLineFormulaHideClick));
 
             // TODO: implement chart
             // initChart();
@@ -308,6 +320,40 @@ namespace CSReportEditor {
                     this.formulaValue = this.formulaDlg.getFormula();
                     this.formulaValueChanged = true;
                     this.lbFormulaValue.setText(this.formulaValue);
+                }
+            }));
+        }
+
+        private editSectionFormulaHideClick() {
+            this.formulaName = "Hide";
+
+            this.formulaDlg.setFormula(this.sectionFormulaHide);
+            this.formulaDlg.setHandler(this.editor);
+            this.formulaDlg.createTree();
+            this.formulaDlg.expandTree();
+
+            return this.formulaDlg.showModal().then(P.call(this, (result) => {
+                if(result) {
+                    this.sectionFormulaHide = this.formulaDlg.getFormula();
+                    this.sectionFormulaHideChanged = true;
+                    this.lbSectionFormulaHide.setText(this.sectionFormulaHide);
+                }
+            }));
+        }
+
+        private editSectionLineFormulaHideClick() {
+            this.formulaName = "Hide";
+
+            this.formulaDlg.setFormula(this.sectionLineFormulaHide);
+            this.formulaDlg.setHandler(this.editor);
+            this.formulaDlg.createTree();
+            this.formulaDlg.expandTree();
+
+            return this.formulaDlg.showModal().then(P.call(this, (result) => {
+                if(result) {
+                    this.sectionLineFormulaHide = this.formulaDlg.getFormula();
+                    this.sectionLineFormulaHideChanged = true;
+                    this.lbSectionLineFormulaHide.setText(this.sectionLineFormulaHide);
                 }
             }));
         }
@@ -860,6 +906,14 @@ namespace CSReportEditor {
             this.bSetSectionFormulaHideChanged = rhs;
         }
 
+        public getSetSectionLineFormulaHideChanged() {
+            return this.bSetSectionLineFormulaHideChanged;
+        }
+
+        public setSetSectionLineFormulaHideChanged(rhs: boolean) {
+            this.bSetSectionLineFormulaHideChanged = rhs;
+        }
+
         //#endregion
 
         // change events
@@ -887,6 +941,10 @@ namespace CSReportEditor {
 
         private chkSectionFormulaHideClick() {
             this.bSetSectionFormulaHideChanged = true;
+        }
+
+        private chkSectionLineFormulaHideClick() {
+            this.bSetSectionLineFormulaHideChanged = true;
         }
 
         private opAfterPrintClick() {
@@ -1431,6 +1489,7 @@ namespace CSReportEditor {
             this.exportColIdxChanged = false;
 
             this.bSetSectionFormulaHideChanged = false;
+            this.bSetSectionLineFormulaHideChanged = false;
         }
 
         //#endregion
