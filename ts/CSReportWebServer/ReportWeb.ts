@@ -22,7 +22,7 @@ namespace CSReportWebServer {
         private reportId: string;
         private webReportId: string;
         private database: string;
-        private report: cReport;
+        private report: cReport = null;
         private cancelPrinting = false;
 
         private reportWorker: Worker;
@@ -118,6 +118,7 @@ namespace CSReportWebServer {
         }
 
         public makeReport() {
+            if(this.report === null) return P._(false);
             this.report.getLaunchInfo().setAction(csRptLaunchAction.CS_RPT_LAUNCH_PREVIEW);
             return this.launchReport();
         }

@@ -706,7 +706,7 @@ namespace CSReportPaint {
             let topSection: number = 0;
             let heightSection: number = 0;
             let secLnIndex: number = -1;
-            let offsetTopr = new RefWrapper<number[]>(null);
+            let offsetTopr = new RefWrapper<number[]>([]);
 
             let mouse: CMouseWait = new CMouseWait();
 
@@ -830,13 +830,13 @@ namespace CSReportPaint {
                             //
                             if(secLnIndex !== sectionLine.getIndex()) {
                                 secLnIndex = sectionLine.getIndex();
-                                let w_aspect: CSReportEngine.cReportAspect = sectionLine.getAspect();
-                                topSection = topSection + (w_aspect.getTop() - (topSection + heightSection));
-                                heightSection = heightSection + w_aspect.getHeight();
+                                let aspect: CSReportEngine.cReportAspect = sectionLine.getAspect();
+                                topSection = topSection + (aspect.getTop() - (topSection + heightSection));
+                                heightSection = heightSection + aspect.getHeight();
                             }
 
-                            field.setTop(top
-                                            + offsetTopr.get[secLnIndex]
+                            field.setTop(top.get()
+                                            + offsetTopr.get()[secLnIndex]
                                             + (field.getInfo().getAspect().getTop()
                                             - topSection));
 
@@ -977,7 +977,7 @@ namespace CSReportPaint {
                         // save this offset to add it to every control holded in the
                         // section lines which are under the current section line
                         //
-                        offsetTop[indexSection] = offsetTop[indexSection] + newLnHeight - lnHeight;
+                        offsetTop[indexSection] = U.val(offsetTop[indexSection]) + newLnHeight - lnHeight;
 
                         // we get the top of the current line which includes only
                         // the height of visible lines
@@ -1075,7 +1075,7 @@ namespace CSReportPaint {
                         //
                         if(newLnHeight > lnHeight2) {
                             //                                substract the original height
-                            //                                |         add the hieght for canGrow
+                            //                                |         add the height for canGrow
                             //                                |             |
                             heightSection = heightSection - lnHeight2 + newLnHeight;
                             lnHeight2 = newLnHeight;
