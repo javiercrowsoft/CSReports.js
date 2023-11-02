@@ -234,8 +234,8 @@ input[type=number],
 select {
     display: block;
     width: 90%;
-    margin: 10px 0;
-    padding: 10px;
+    margin: 5px 0;
+    padding: 5px;
     border-radius: 5px;
     border: 1px solid #eee;
     transition: .3s border-color;

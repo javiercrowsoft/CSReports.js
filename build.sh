@@ -21,9 +21,11 @@ echo "compile ts files"
 echo "removing static files"
 dele_if_exists dist/index.html
 dele_if_exists dist/styles.css
+dele_if_exists dist/favicon.png
 dele_folder_if_exists dist/images
 echo "copying static files"
 cp ts/CSReport/CSReportEditor/index.html dist/
 cp ts/CSReport/CSReportEditor/styles.css dist/
+cp ts/CSReport/CSReportEditor/favicon.png dist/
 cp -r ts/CSForms/controls/images/ dist/
 echo "build complete !!!"

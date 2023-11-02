@@ -30,8 +30,8 @@ namespace CSReportEditor {
     import TabPage = CSForms.TabPage;
     import ListView = CSForms.ListView;
     import TreeView = CSForms.TreeView;
-    import TreeViewAction = CSForms.TreeViewAction;
     import Node = CSForms.Node;
+    import Item = CSForms.Item;
     import ReportPreview = CSForms.ReportPreview;
 
     export class FMain {
@@ -102,6 +102,7 @@ namespace CSReportEditor {
             this.tabReports = new TabBar("tabReports", U.el("tabReports"));
 
             this.lv_controls = new ListView("lvControls", U.el("sidebar-lv-controls"));
+            this.lv_controls.state.onclick = P.call(this, this.lvControlsItemClick);
             this.lv_properties = new ListView("lvControls", U.el("sidebar-lv-properties"));
             this.lv_fields = new ListView("lvFields", U.el("sidebar-lv-database"));
             this.tv_controls = new TreeView("tvControls", U.el("sidebar-tv-controls"), "*");
@@ -794,6 +795,10 @@ namespace CSReportEditor {
             this.selectControl2(node);
         }
 
+        private lvControlsItemClick(item: Item) {
+            this.selectControl3(item);
+        }
+
         private selectControl2(node: Node) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor === null || ! editor.isEditor()) return;
@@ -814,6 +819,27 @@ namespace CSReportEditor {
             }
         }
 
+        private selectControl3(item: Item) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor === null || ! editor.isEditor()) return;
+            if(item !== null
+                && item.tag !== undefined
+                && item.tag !== null) {
+
+                let info = item.tag.toString();
+                if(info.length > 0) {
+                    let infoType = info.substring(0, 1);
+                    if("@SL".indexOf(infoType) === -1) {
+                        (editor as cEditor).selectCtrl(info);
+                    }
+                    else if(infoType === "S" || infoType === "L") {
+                        (editor as cEditor).selectSection(info.substring(1));
+                    }
+                }
+            }
+        }
+
+        /* delete me it has been replaced
         private tv_controls_KeyUp(sender: object, e: any) {
             this.selectControl2(this.tv_controls.selectedNode());
         }
@@ -847,6 +873,7 @@ namespace CSReportEditor {
             if(this.wasDoubleClick === true && e.Action === TreeViewAction.Expand)
                 e.Cancel = true;
         }
+        */
 
         private lv_controls_MouseDoubleClick(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();

@@ -3,15 +3,25 @@
 namespace CSForms {
 
     import Color = CSDrawing.Color;
+    import P = CSKernelClient.Callable;
+
+    export class ListState {
+        onclick: (item: Item) => void;
+        onDblclick: (item: Item) => void;
+        activeItem: Item;
+    }
 
     class Items {
+
         private body: HTMLTableSectionElement;
         private _items: Item[] = [];
+
+        public state: ListState;
 
         // @ts-ignore
         public add(text: string, imageIndex: number = 0) {
             const tr = document.createElement('tr') as HTMLTableRowElement;
-            let item = new Item(tr);
+            let item = new Item(tr, this.state);
             item.setText(text);
             item.setImageIndex(imageIndex);
             this._items.push(item);
@@ -32,7 +42,7 @@ namespace CSForms {
         }
     }
 
-    class Item {
+    export class Item {
         private text: string;
         private imageIndex: number;
         private foreColor: Color;
@@ -41,18 +51,34 @@ namespace CSForms {
         private tr: HTMLTableRowElement;
         private td: HTMLTableCellElement;
 
-        public constructor(tr: HTMLTableRowElement) {
-            this.subItems = new SubItems();
+        public state: ListState;
+
+        public constructor(tr: HTMLTableRowElement, state: ListState) {
+            this.state = state;
+            this.subItems = new SubItems(this);
+            this.subItems.state = state;
             this.tr = tr;
             const td = document.createElement('td') as HTMLTableCellElement;
             this.td = td;
+            this.td.onclick = P.call(this, this.onclick);
+            this.td.style.cursor = "pointer";
             this.tr.appendChild(td);
             this.subItems.setTr(tr);
+        }
+
+        onclick() {
+            if(this.state.onclick) {
+                this.state.onclick(this);
+            }
         }
 
         setText(text: string) {
             this.text = text;
             this.td.textContent = text;
+        }
+
+        getText() {
+            return this.text;
         }
 
         setForeColor(color: Color) {
@@ -66,32 +92,48 @@ namespace CSForms {
 
     class SubItems {
 
-        private _items: SubItem[] = [];
+        private _subItems: SubItem[] = [];
         private tr: HTMLTableRowElement;
 
+        private _item: Item;
+
+        public state: ListState;
+
+        public constructor(item: Item) {
+            this._item = item;
+        }
+
         public item(index: number) {
-            return this._items[index-1];
+            return this._subItems[index-1];
         }
 
         // @ts-ignore
         public add(text: string) {
             const td = document.createElement('td') as HTMLTableCellElement;
+            td.textContent = text;
+            td.onclick = P.call(this, this.onclick);
+            td.style.cursor = "pointer";
+            this.tr.appendChild(td);
+
             let subItem = new SubItem(td);
             subItem.setText(text);
-            this._items.push(subItem);
-            td.textContent = text;
-            this.tr.appendChild(td);
+            this._subItems.push(subItem);
             return subItem;
         }
 
+        onclick() {
+            if(this.state.onclick) {
+                this.state.onclick(this._item);
+            }
+        }
+
         getItems() {
-            return this._items;
+            return this._subItems;
         }
 
         setTr(tr: HTMLTableRowElement) {
             this.tr = tr;
         }
-
     }
 
     class SubItem {
@@ -126,6 +168,8 @@ namespace CSForms {
         private _selectedItems: Items = new Items();
         public readonly name: string;
 
+        public state = new ListState();
+
         public constructor(name: string, el: HTMLElement) {
             super(el);
 
@@ -136,6 +180,7 @@ namespace CSForms {
             this.table.className = "fl-table";
             this.div.appendChild(this.table);
             this.table.createTHead();
+            this._items.state = this.state;
             this._items.setBody(this.table.createTBody())
         }
 
@@ -184,6 +229,5 @@ namespace CSForms {
                 this.table.tHead.appendChild(thead)
             }
         }
-
     }
 }

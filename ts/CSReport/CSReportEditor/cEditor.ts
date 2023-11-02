@@ -3527,6 +3527,10 @@ namespace CSReportEditor {
             return sec;
         }
 
+        public applyProperties() {
+
+        }
+
         public showProperties(key: string) {
             if("SL".indexOf(key.substring(0, 1)) !== -1) {
                 let bIsSecLn = new RefWrapper(false);

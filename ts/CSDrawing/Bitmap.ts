@@ -399,6 +399,10 @@ namespace CSDrawing {
         getWidth(): number {
             return this.canvas.width;
         }
+
+        scale(x: number, y: number) {
+            this.context.scale(x, y);
+        }
     }
 
     export class Location {

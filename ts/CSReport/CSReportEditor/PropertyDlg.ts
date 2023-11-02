@@ -185,6 +185,10 @@ namespace CSReportEditor {
         private tabChart: HTMLElement;
         private tabSection: HTMLElement;
 
+        // footer buttons
+
+        private cmdApply: Button;
+
         //#endregion
 
         public constructor() {
@@ -288,6 +292,14 @@ namespace CSReportEditor {
 
             // TODO: implement chart
             // initChart();
+
+            this.cmdApply = new Button(U.el('ctrl-properties-dlg-apply'));
+            this.cmdApply.setOnClick(P.call(this, this.cmdApplyClick));
+        }
+
+
+        private cmdApplyClick() {
+            this.editor.applyProperties();
         }
 
         private editFormulaHideClick() {
@@ -1242,11 +1254,6 @@ namespace CSReportEditor {
             }
         }
 
-        private cmdApplyClick() {
-            // this.ok = true;
-            // this.Hide();
-        }
-
         private txNameTextChanged() {
 
         }
@@ -1494,6 +1501,8 @@ namespace CSReportEditor {
 
         //#endregion
 
+        // tab properties management
+        //#region
         public hideTabFormats() {
             this.tabFormat.style.display = 'none';
         }
@@ -1549,6 +1558,84 @@ namespace CSReportEditor {
         public showTabSection() {
             this.tabSection.style.display = 'block';
         }
+
+        showCtrlPropertyTabs() {
+            this.hideTabSection();
+            this.showTabFormat();
+            this.showTabField();
+            this.showTabBorders();
+            this.showTabFormulas();
+            CSReportEditor.cMainEditor.showPropertyTab('property-format-tab')
+        }
+        showSectionPropertyTabs() {
+            this.hideTabChart();
+            this.hideTabImage();
+            this.hideTabFormats();
+            this.hideTabField();
+            this.hideTabBorders();
+            this.hideTabFormulas();
+            this.showTabSection();
+            CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')
+        }
+        disable() {
+            this.setEnabled(false);
+        }
+        enable() {
+            this.setEnabled(true);
+        }
+        setEnabled(enable: boolean) {
+            this.lbControl.setEnabled(enable);
+            this.txName.setEnabled(enable);
+            this.txText.setEnabled(enable);
+            this.txTag.setEnabled(enable);
+            this.cbFont.setEnabled(enable);
+            this.txFontSize.setEnabled(enable);
+            this.cbAlign.setEnabled(enable);
+            this.chkFontBold.setEnabled(enable);
+            this.chkFontUnderline.setEnabled(enable);
+            this.chkFontItalic.setEnabled(enable);
+            this.chkFontStrike.setEnabled(enable);
+            this.txForeColor.setEnabled(enable);
+            this.shForeColor.setEnabled(enable);
+            this.chkTransparent.setEnabled(enable);
+            this.txBackColor.setEnabled(enable);
+            this.shBackColor.setEnabled(enable);
+            this.txSymbol.setEnabled(enable);
+            this.txFormat.setEnabled(enable);
+            this.txLeft.setEnabled(enable);
+            this.txTop.setEnabled(enable);
+            this.txWidth.setEnabled(enable);
+            this.txHeight.setEnabled(enable);
+            this.chkCanGrow.setEnabled(enable);
+            this.chkWordWrap.setEnabled(enable);
+            this.chkIsFreeCtrl.setEnabled(enable);
+            this.txExportColIdx.setEnabled(enable);
+
+            this.chkFormulaHide.setEnabled(enable);
+            this.lbFormulaHide.setEnabled(enable);
+            this.cmdFormulaHide.setEnabled(enable);
+            this.chkFormulaValue.setEnabled(enable);
+            this.lbFormulaValue.setEnabled(enable);
+            this.cmdFormulaValue.setEnabled(enable);
+            this.txIdxGroup.setEnabled(enable);
+            this.opBeforePrint.setEnabled(enable);
+            this.opAfterPrint.setEnabled(enable);
+
+            this.txImageFile.setEnabled(enable);
+            this.picImage.setEnabled(enable);
+            this.txDbField.setEnabled(enable);
+
+            this.cbBorderType.setEnabled(enable);
+            this.txBorderColor.setEnabled(enable);
+            this.shBorderColor.setEnabled(enable);
+            this.txBorder3D.setEnabled(enable);
+            this.shBorder3D.setEnabled(enable);
+            this.txBorderShadow.setEnabled(enable);
+            this.shBorderShadow.setEnabled(enable);
+            this.txBorderWidth.setEnabled(enable);
+            this.chkBorderRounded.setEnabled(enable);
+        }
+        //#endregion
 
         // setters and getters for no control properties
         //#region
@@ -1824,83 +1911,6 @@ namespace CSReportEditor {
             return this.lbSectionLineName;
         }
         //#endregion
-
-        showCtrlPropertyTabs() {
-            this.hideTabSection();
-            this.showTabFormat();
-            this.showTabField();
-            this.showTabBorders();
-            this.showTabFormulas();
-            CSReportEditor.cMainEditor.showPropertyTab('property-format-tab')
-        }
-        showSectionPropertyTabs() {
-            this.hideTabChart();
-            this.hideTabImage();
-            this.hideTabFormats();
-            this.hideTabField();
-            this.hideTabBorders();
-            this.hideTabFormulas();
-            this.showTabSection();
-            CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')
-        }
-        disable() {
-            this.setEnabled(false);
-        }
-        enable() {
-            this.setEnabled(true);
-        }
-        setEnabled(enable: boolean) {
-            this.lbControl.setEnabled(enable);
-            this.txName.setEnabled(enable);
-            this.txText.setEnabled(enable);
-            this.txTag.setEnabled(enable);
-            this.cbFont.setEnabled(enable);
-            this.txFontSize.setEnabled(enable);
-            this.cbAlign.setEnabled(enable);
-            this.chkFontBold.setEnabled(enable);
-            this.chkFontUnderline.setEnabled(enable);
-            this.chkFontItalic.setEnabled(enable);
-            this.chkFontStrike.setEnabled(enable);
-            this.txForeColor.setEnabled(enable);
-            this.shForeColor.setEnabled(enable);
-            this.chkTransparent.setEnabled(enable);
-            this.txBackColor.setEnabled(enable);
-            this.shBackColor.setEnabled(enable);
-            this.txSymbol.setEnabled(enable);
-            this.txFormat.setEnabled(enable);
-            this.txLeft.setEnabled(enable);
-            this.txTop.setEnabled(enable);
-            this.txWidth.setEnabled(enable);
-            this.txHeight.setEnabled(enable);
-            this.chkCanGrow.setEnabled(enable);
-            this.chkWordWrap.setEnabled(enable);
-            this.chkIsFreeCtrl.setEnabled(enable);
-            this.txExportColIdx.setEnabled(enable);
-
-            this.chkFormulaHide.setEnabled(enable);
-            this.lbFormulaHide.setEnabled(enable);
-            this.cmdFormulaHide.setEnabled(enable);
-            this.chkFormulaValue.setEnabled(enable);
-            this.lbFormulaValue.setEnabled(enable);
-            this.cmdFormulaValue.setEnabled(enable);
-            this.txIdxGroup.setEnabled(enable);
-            this.opBeforePrint.setEnabled(enable);
-            this.opAfterPrint.setEnabled(enable);
-
-            this.txImageFile.setEnabled(enable);
-            this.picImage.setEnabled(enable);
-            this.txDbField.setEnabled(enable);
-
-            this.cbBorderType.setEnabled(enable);
-            this.txBorderColor.setEnabled(enable);
-            this.shBorderColor.setEnabled(enable);
-            this.txBorder3D.setEnabled(enable);
-            this.shBorder3D.setEnabled(enable);
-            this.txBorderShadow.setEnabled(enable);
-            this.shBorderShadow.setEnabled(enable);
-            this.txBorderWidth.setEnabled(enable);
-            this.chkBorderRounded.setEnabled(enable);
-        }
 
         clear() {
             this.lbControl.setText("");
