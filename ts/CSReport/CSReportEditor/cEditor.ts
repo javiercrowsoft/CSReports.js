@@ -3006,7 +3006,11 @@ namespace CSReportEditor {
             }
         }
 
-        public saveDocument(saveAs: boolean) {
+        public saveDocumentInBrowser() {
+            return this.saveDocument(false, true);
+        }
+
+        public saveDocument(saveAs: boolean, inBrowser = false) {
             let mouse: CMouseWait = new CMouseWait();
             try {
                 let isNew: boolean = this.isNew || this.report.getName() === "";
@@ -3023,7 +3027,7 @@ namespace CSReportEditor {
 
                 this.validateSectionAspect();
 
-                if(this.report.save(isNew)) {
+                if(this.report.save(isNew, inBrowser)) {
                     this.isNew = false;
                     this.reLoadReport();
                     cMainEditor.setDocActive(this);
@@ -3076,10 +3080,6 @@ namespace CSReportEditor {
                 if(fileName === "") {
                     CSReportEditor.cEditor.setInitDir();
                     p = this.report.load();
-                    // TODO: remove after debug
-                    // if(! this.report.load()) {
-                    //    if(this.report.getName() === "") return false;
-                    // }
                 }
                 else {
                     p = this.report.loadSilent(fileName);

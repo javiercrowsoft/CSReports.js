@@ -101,8 +101,9 @@ namespace CSReportWebServer {
 
                     case 'worker-launch-failed':
                         CMouseWait.default();
-                        cError.mngError(e.data.reazon, e.data.message);
-                        this.launchFailed(e.data.reazon);
+                        this.closeProgressDlg();
+                        cError.mngError(e.data.reason, e.data.message);
+                        this.launchFailed(e.data.reason);
                         break;
 
                     case 'get-report':

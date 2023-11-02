@@ -70,6 +70,11 @@ namespace CSXml {
             });
         }
 
+        public saveInBrowser() {
+            let file: CSKernelFile.cFile = new CSKernelFile.cFile();
+            return file.saveInBrowser(this.name, this.getXml(), 'text/xml');
+        }
+
         public openXml(xml: string = null): boolean {
             try {
                 xml = xml || this.getXml();

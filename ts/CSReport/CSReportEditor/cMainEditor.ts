@@ -27,6 +27,10 @@ namespace CSReportEditor {
 
         private static fMain: FMain = null;
 
+        public static runningInBrowser() {
+            return true;
+        }
+
         public static initEditor() {
             if(this.fMain === null) {
                 this.fMain = new FMain();

@@ -1,5 +1,7 @@
 namespace CSReportScript {
 
-     interface cIReportScriptType { }
+     interface cIReportScriptType {
+          runScript(global: cReportCompilerGlobals): string;
+     }
 
 }

@@ -17,8 +17,8 @@
                         <li><a id="mnuFileNew" onclick="CSReportEditor.cMainEditor.fMain.newReportClick()">New</a></li>
                         <li><a id="mnuFileOpen" onclick="CSReportEditor.cMainEditor.fMain.openReportClick()">Open</a></li>
                         <li><a id="mnuFileOpenRecent">Open Recent Files ...</a></li>
-                        <li><a id="mnuFileSave">Save</a></li>
-                        <li><a id="mnuFileSaveAs">Save As</a></li>
+                        <li><a id="mnuFileSave" onclick="CSReportEditor.cMainEditor.fMain.saveReportClick()">Save</a></li>
+                        <li><a id="mnuFileSaveAs" onclick="CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
                         <li class="divider"></li>
                         <li><a id="mnuFilePageSetup">Page Setup</a></li>
                         <li><a id="mnuFilePageSettings">Page Settings</a></li>
@@ -106,8 +106,8 @@
     <ul class="toolbar">
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.newReportClick()"><img src="images/toolbar/file.png">New</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.openReportClick()"><img src="images/toolbar/folder-bw.png">Open</a></li>
-        <li><a href="#"><img src="images/toolbar/disk-bw.png">Save</a></li>
-        <li><a href="#">Save As</a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.saveReportClick()"><img src="images/toolbar/disk-bw.png">Save</a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
         <li><a href="#">DB Connections</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.debugnReportClick()"><img src="images/toolbar/debug.png">Debug</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.loadDataClick()"><img src="images/toolbar/settings.png">Load Data</a></li>

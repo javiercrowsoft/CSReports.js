@@ -48,6 +48,16 @@ namespace CSKernelFile  {
             });
         }
 
+        saveInBrowser(name: string, content: string, type: string) {
+            const a = document.createElement("a") as HTMLAnchorElement;
+            const file = new Blob([content], {type: type});
+            a.style.display = 'none';
+            a.href = URL.createObjectURL(file);
+            a.download = name;
+            document.body.appendChild(a);
+            cWindow.clickElem(a);
+        }
+
         close() {
 
         }
@@ -75,16 +85,16 @@ namespace CSKernelFile  {
                     fc.content = e.target.result;
                     resolve(fc);
                 }
-                reader.readAsText(file)
+                reader.readAsText(file);
             }
 
-            const fileInput = document.createElement("input")
-            fileInput.type = 'file'
-            fileInput.style.display = 'none'
-            fileInput.onchange = readFile
-            document.body.appendChild(fileInput)
+            const fileInput = document.createElement("input");
+            fileInput.type = 'file';
+            fileInput.style.display = 'none';
+            fileInput.onchange = readFile;
+            document.body.appendChild(fileInput);
 
-            cWindow.clickElem(fileInput)
+            cWindow.clickElem(fileInput);
         }
     }
 

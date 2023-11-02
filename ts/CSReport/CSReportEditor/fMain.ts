@@ -440,6 +440,14 @@ namespace CSReportEditor {
             }
         }
 
+        public saveAsReportClick() {
+            this.saveReport(true);
+        }
+
+        public saveReportClick() {
+            this.saveReport(false);
+        }
+
         public debugnReportClick() {
             let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(maybeEditor === null || ! maybeEditor.isEditor()) return;
@@ -462,6 +470,9 @@ namespace CSReportEditor {
 
                 const previewControl = this.createPreview(editor);
                 previewReport.previewFirstPage(previewControl);
+            })
+            .catch((ignore) => {
+
             });
         }
 
@@ -992,25 +1003,9 @@ namespace CSReportEditor {
         private saveReport(saveAs: boolean) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).saveDocument(saveAs);
+                (editor as cEditor).saveDocument(saveAs, cMainEditor.runningInBrowser());
                 this.addToRecentList((editor as cEditor).getFileName());
             }
-        }
-
-        private tsbSaveAs_Click(sender: object, e: any) {
-            this.saveReport(true);
-        }
-
-        private tsbSave_Click(sender: object, e: any) {
-            this.saveReport(false);
-        }
-
-        private mnuSaveReport_Click(sender: object, e: any) {
-            this.saveReport(false);
-        }
-
-        private mnuReportSaveAs_Click(sender: object, e: any) {
-            this.saveReport(true);
         }
 
         private mnuPageSetup_Click(sender: object, e: any) {

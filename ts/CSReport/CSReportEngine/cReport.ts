@@ -1937,7 +1937,7 @@ namespace CSReportEngine {
             }
         }
 
-        clone() {
+        public clone() {
             const report = new cReport();
             const docXml = this.toXml();
             report.loadFromDocXml(docXml);
@@ -2031,14 +2031,14 @@ namespace CSReportEngine {
             return docXml;
         }
 
-        public save(withDialog: boolean) {
+        public save(withDialog: boolean, inBrowser = false) {
             let docXml: cXml = new cXml();
 
             docXml.setFilter(this.FILE_EX);
             docXml.setName(this.name);
             docXml.setPath(this.path);
 
-            if(withDialog) {
+            if(withDialog && ! inBrowser) {
                 if(!docXml.newXmlWithDialog()) {
                     return false;
                 }
@@ -2054,16 +2054,21 @@ namespace CSReportEngine {
 
             docXml = this.toXml(docXml);
 
-            if(! docXml.save()) {
-                return false;
+            if(inBrowser) {
+                docXml.saveInBrowser();
             }
+            else {
+                if(! docXml.save()) {
+                    return false;
+                }
 
-            if(! docXml.openXml()) {
-                return false;
-            }
+                if(! docXml.openXml()) {
+                    return false;
+                }
 
-            if(! this.nLoad(docXml)) {
-                return false;
+                if(! this.nLoad(docXml)) {
+                    return false;
+                }
             }
 
             return true;

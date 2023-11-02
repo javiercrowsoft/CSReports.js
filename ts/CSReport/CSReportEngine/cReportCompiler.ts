@@ -118,7 +118,7 @@ namespace CSReportEngine {
                 let code = formula.getText();
                 this.formula.setTextC(code);
 
-                this.pCheckSyntax(code);
+                this.checkSyntax2(code);
 
                 return true;
             }
@@ -264,7 +264,7 @@ namespace CSReportEngine {
                     code = this.insertParametersIntoFunction(code, parameters);
                 }
 
-                formula.setLastResult(this.pExecScriptCode(code, formula));
+                formula.setLastResult(this.executeScriptCode(code, formula));
                 formula.setHaveToEval(false);
                 return formula.getLastResult();
             }
@@ -350,7 +350,7 @@ namespace CSReportEngine {
             return code.replaceAll(",", "|");
         }
 
-        private pPipeToColon(code: string) {
+        private pipeToColon(code: string) {
             return code.replaceAll("|", ",");
         }
 
@@ -599,7 +599,7 @@ namespace CSReportEngine {
                 return code;
             }
             else if(!bParam) {
-                this.pExecScriptCode(code, formula);
+                this.executeScriptCode(code, formula);
                 return code;
             }
             else {
@@ -626,7 +626,7 @@ namespace CSReportEngine {
                                     // the assignment will no be completed
                                     // the parameter value will no be lost
                                     s = cReportCompiler.TEMP_FUNCTION_B + vParams[i] + cReportCompiler.TEMP_FUNCTION_E;
-                                    vParams[i] = this.pExecScriptCode(s, formula).toString();
+                                    vParams[i] = this.executeScriptCode(s, formula).toString();
                                 }
                             }
                             code = vParams[i] + "|";
@@ -660,13 +660,13 @@ namespace CSReportEngine {
 
         }
 
-        private pCheckSyntax(code: string) {
+        private checkSyntax2(code: string) {
             this.pCompile(code, true, "");
         }
 
-        private pExecScriptCode(code: string, formula: cReportFormula) {
+        private executeScriptCode(code: string, formula: cReportFormula) {
             try {
-                code = this.pPipeToColon(code);
+                code = this.pipeToColon(code);
                 if(formula.getCompiledScript() === null) {
                     formula.setCompiledScript(cReportScriptEngine.compileCode(code, formula));
                 }
