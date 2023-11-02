@@ -27,6 +27,8 @@ namespace CSReportEditor {
 
         private static fMain: FMain = null;
 
+        private static
+
         public static runningInBrowser() {
             return true;
         }
@@ -247,6 +249,10 @@ namespace CSReportEditor {
             U.el('sidebar-lv-controls').style.display = tab === 'sidebar-lv-controls' ? 'block' : 'none';
             U.el('sidebar-lv-properties').style.display = tab === 'sidebar-lv-properties' ? 'block' : 'none';
             U.el('sidebar-lv-database').style.display = tab === 'sidebar-lv-database' ? 'block' : 'none';
+        }
+
+        public static toggleSideBarTab() {
+            U.el('sidebar').style.width = "790px";
         }
     }
 
