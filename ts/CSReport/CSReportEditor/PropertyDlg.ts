@@ -199,8 +199,6 @@ namespace CSReportEditor {
             this.cbFont = new ComboBox(U.selectEl('ctrl-font'));
             this.txFontSize = new TextBox(U.inputEl('ctrl-font-size'));
             this.cbAlign = new ComboBox(U.selectEl('ctrl-align'));
-            this.cbAlign.setOnClick(P.call(this, this.cbAlignClick));
-
             this.chkFontBold = new CheckBox(U.inputEl('ctrl-bold'));
             this.chkFontUnderline = new CheckBox(U.inputEl('ctrl-underline'));
             this.chkFontItalic = new CheckBox(U.inputEl('ctrl-italic'));
@@ -220,33 +218,19 @@ namespace CSReportEditor {
             this.chkWordWrap = new CheckBox(U.inputEl('ctrl-wrap-text'));
             this.chkIsFreeCtrl = new CheckBox(U.inputEl('ctrl-is-in-background'));
             this.txExportColIdx = new TextBox(U.inputEl('ctrl-export-id'));
-
             this.chkFormulaHide = new CheckBox(U.inputEl('ctrl-has-visible-formula'));
-            this.chkFormulaHide.setOnClick(P.call(this, this.chkFormulaHideClick));
-
             this.lbFormulaHide = new Label(U.labelEl('ctrl-visible-formula'));
             this.cmdFormulaHide = new Button(U.el('ctrl-hide-formula-edit'));
-
             this.chkFormulaValue = new CheckBox(U.inputEl('ctrl-has-value-formula'));
-            this.chkFormulaValue.setOnClick(P.call(this, this.chkFormulaValueClick));
-
             this.lbFormulaValue = new Label(U.labelEl('ctrl-value-formula'));
             this.cmdFormulaValue = new Button(U.el('ctrl-value-formula-edit'));
             this.txIdxGroup = new TextBox(U.inputEl('ctrl-formula-group'));
             this.opBeforePrint = new OptionButton(U.inputEl('ctrl-formula-run-before'));
-            this.opBeforePrint.setOnClick(P.call(this, this.opAfterPrintClick));
-
             this.opAfterPrint = new OptionButton(U.inputEl('ctrl-formula-run-after'));
-            this.opAfterPrint.setOnClick(P.call(this, this.opBeforePrintClick));
-
             this.txImageFile = new TextBox(U.inputEl('ctrl-image-file'));
             this.picImage = new PictureBox("ctrl-image-preview", U.el('ctrl-image-preview'));
-
             this.txDbField = new TextBox(U.inputEl('ctrl-db-field'));
-
             this.cbBorderType = new ComboBox(U.selectEl('ctl-border-type'));
-            this.cbBorderType.setOnClick(P.call(this, this.cbBorderTypeClick));
-
             this.txBorderColor = new TextBox(U.inputEl('ctrl-border-color'));
             this.shBorderColor = new Label(U.labelEl('ctrl-border-color-sample'));
             this.txBorder3D = new TextBox(U.inputEl('ctrl-border-color-3d'));
@@ -254,22 +238,80 @@ namespace CSReportEditor {
             this.txBorderShadow = new TextBox(U.inputEl('ctrl-border-color-shadow'));
             this.shBorderShadow = new Label(U.labelEl('ctrl-border-color-shadow-sample'));
             this.txBorderWidth = new TextBox(U.inputEl('ctrl-border-width'));
-
             this.chkBorderRounded = new CheckBox(U.inputEl('ctrl-border-rounded'));
-            this.chkBorderRounded.setOnClick(P.call(this, this.chkBorderRoundedClick));
-
             this.chkSectionFormulaHide = new CheckBox(U.inputEl('section-has-visible-formula'));
             this.chkSectionFormulaHide.setOnClick(P.call(this, this.chkSectionFormulaHideClick));
-
             this.chkSectionLineFormulaHide = new CheckBox(U.inputEl('section-line-has-visible-formula'));
-            this.chkSectionLineFormulaHide.setOnClick(P.call(this, this.chkSectionLineFormulaHideClick));
-
             this.lbSectionFormulaHide = new Label(U.labelEl('section-visible-formula'));
             this.lbSectionLineFormulaHide = new Label(U.labelEl('section-line-visible-formula'));
             this.txSectionName = new TextBox(U.inputEl('section-name'));
             this.lbSectionLineName = new Label(U.labelEl('section-line-name'));
             this.cmdSectionFormulaHide = new Button(U.el('ctrl-section-hide-formula-edit'));
             this.cmdSectionLineFormulaHide = new Button(U.el('ctrl-section-line-hide-formula-edit'));
+
+            this.chkSectionLineFormulaHide.setOnClick(P.call(this, this.chkSectionLineFormulaHideClick));
+            this.chkFormulaHide.setOnClick(P.call(this, this.chkFormulaHideClick));
+            this.chkFormulaValue.setOnClick(P.call(this, this.chkFormulaValueClick));
+
+            this.opBeforePrint.setOnClick(P.call(this, this.opAfterPrintClick));
+            this.opAfterPrint.setOnClick(P.call(this, this.opBeforePrintClick));
+
+            this.txText.setChange(P.call(this, this.txTextChanged));
+            this.txTag.setChange(P.call(this, this.txTagChanged));
+            this.cbFont.setOnClick(P.call(this, this.cbFontClick));
+            this.cbAlign.setOnClick(P.call(this, this.cbAlignClick));
+            this.cbBorderType.setOnClick(P.call(this, this.cbBorderTypeClick));
+            this.chkBorderRounded.setOnClick(P.call(this, this.chkBorderRoundedClick));
+
+            this.txFontSize.setChange(P.call(this, this.txFontSizeChanged));
+            this.txFormat.setChange(P.call(this, this.txFormatChanged));
+            this.txSymbol.setChange(P.call(this, this.txSymbolChanged));
+            this.chkFontBold.setChange(P.call(this, this.chkFontBoldChanged));
+            this.chkFontUnderline.setChange(P.call(this, this.chkFontUnderlineChanged));
+            this.chkFontItalic.setChange(P.call(this, this.chkFontItalicChanged));
+            this.chkFontStrike.setChange(P.call(this, this.chkFontStrikeChanged));
+            this.txLeft.setChange(P.call(this, this.txLeftChanged));
+            this.txTop.setChange(P.call(this, this.txTopChanged));
+            this.txHeight.setChange(P.call(this, this.txHeightChanged));
+            this.txWidth.setChange(P.call(this, this.txWidthChanged));
+            this.chkCanGrow.setChange(P.call(this, this.chkCanGrowCheckedChanged));
+            this.chkWordWrap.setChange(P.call(this, this.chkWordWrapCheckedChanged));
+            this.chkIsFreeCtrl.setChange(P.call(this, this.chkIsFreeCtrlCheckedChanged));
+            this.txExportColIdx.setChange(P.call(this, this.txExportColIdxTextChanged));
+
+            this.txForeColor.setChange(P.call(this, this.txForeColorChanged));
+            this.txBackColor.setChange(P.call(this, this.txBackColorChanged));
+            this.txBorderColor.setChange(P.call(this, this.txBorderColorChanged));
+            this.txBorder3D.setChange(P.call(this, this.txBorder3DChanged));
+            this.txBorderShadow.setChange(P.call(this, this.txBorderShadowChanged));
+            this.txBorderWidth.setChange(P.call(this, this.txBorderWidthChanged));
+
+            this.txForeColor.setLostFocus(P.call(this, this.txForeColorLostFocus));
+            this.txBackColor.setLostFocus(P.call(this, this.txBackColorLostFocus));
+            this.txBorderColor.setLostFocus(P.call(this, this.txBorderColorLostFocus));
+            this.txBorder3D.setLostFocus(P.call(this, this.txBorder3DLostFocus));
+            this.txBorderShadow.setLostFocus(P.call(this, this.txBorderShadowLostFocus));
+
+            //this.txChartGroupValue.setChange(P.call(this, this.txChartGroupValueChanged));
+            //this.txCharttxChartTop.setChange(P.call(this, this.txChartTopChanged));
+
+            this.cbTypeSelectedIndexChanged
+            this.cbFormatTypeSelectedIndexChanged
+            this.cbLinesTypeSelectedIndexChanged
+            this.cbChartSizeSelectedIndexChanged
+            this.txChartTopTextChanged
+            this.cbChartThicknessSelectedIndexChanged
+            this.chkShowBarValuesCheckedChanged
+            this.chkShowOutlinesCheckedChanged
+            this.chkSortCheckedChanged
+            this.txDbFieldGroupValueTextChanged
+            this.txDbFieldVal1TextChanged
+            this.txDbFieldLbl1TextChanged
+            this.cbColorSerie1SelectedIndexChanged
+            this.txDbFieldVal2TextChanged
+            this.txDbFieldLbl2TextChanged
+            this.cbColorSerie2SelectedIndexChanged
+
 
             this.tabFormat = U.el('property-format-tab-selector');
             this.tabBorders = U.el('property-borders-tab-selector');
@@ -297,11 +339,12 @@ namespace CSReportEditor {
             this.cmdApply.setOnClick(P.call(this, this.cmdApplyClick));
         }
 
-
         private cmdApplyClick() {
             this.editor.applyProperties();
         }
 
+        // formula edit click handlers
+        //#region
         private editFormulaHideClick() {
             this.formulaName = "Hide";
 
@@ -373,6 +416,7 @@ namespace CSReportEditor {
         public setHandler(editor: cEditor) {
             this.editor = editor;
         }
+        //#endregion
 
         // properties
         //#region
@@ -931,6 +975,10 @@ namespace CSReportEditor {
         // change events
         //#region
 
+        private cbFontClick() {
+            this.fontChanged = true;
+        }
+
         private cbAlignClick() {
             this.alignChanged = true;
         }
@@ -967,81 +1015,35 @@ namespace CSReportEditor {
             this.whenEvalChanged = true;
         }
 
-        private txBorder3DLostFocus() {
-            this.shBorder3D.setBackColor(new Color(this.txBorder3D.getText()).color);
+        private txForeColorLostFocus() {
+            try {
+                this.shForeColor.setBackColor(new Color(this.txForeColor.getText()).color.toString());
+            }catch(ignore) { }
         }
 
-        private cmdBorder3DClick() {
+        private txBackColorLostFocus() {
             try {
-                // TODO implement color picker
-                /*
-                txBorder3D.cReportPaintObject.setText(w___TYPE_NOT_FOUND.Color);
-                shBorder3D.cReportAspect.setBackColor(txBorder3D.csValue);
-                 */
-            }
-            catch(ignore) { }
+                this.shBackColor.setBackColor(new Color(this.txBackColor.getText()).color.toString());
+            }catch(ignore) { }
+
+        }
+
+        private txBorder3DLostFocus() {
+            try {
+                this.shBorder3D.setBackColor(new Color(this.txBorder3D.getText()).color);
+            }catch(ignore) { }
         }
 
         private txBorderColorLostFocus() {
-            // try {
-            //     shBorderColor.setBackColor(Color.FromArgb(Int32.Parse(txBorderColor.Text)));
-            // }
-            // catch(ignore) { }
-        }
-
-        private cmdBorderColorClick() {
             try {
-                // TODO: fix me
-                /*
-                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = CommDialog;
-                w___TYPE_NOT_FOUND.CancelError = true;
-                w___TYPE_NOT_FOUND.Color = txBorderColor.csValue;
-                w___TYPE_NOT_FOUND.Flags = cdlCCRGBInit;
-                VBA.ex.clear();
-                w___TYPE_NOT_FOUND.ShowColor;
-                if(VBA.ex.Number !== 0) { return; }
-                txBorderColor.cReportPaintObject.setText(w___TYPE_NOT_FOUND.Color);
-                shBorderColor.cReportAspect.setBackColor(txBorderColor.csValue);
-                 */
-            }
-            catch(ignore) { }
+                this.shBorderColor.setBackColor(new Color(this.txBorderColor.getText()).color);
+            }catch(ignore) { }
         }
 
         private txBorderShadowLostFocus() {
-            // try {
-            //     shBorderShadow.setBackColor(Color.FromArgb(Int32.Parse(txBorderShadow.Text)));
-            // }
-            // catch(ignore) { }
-        }
-
-        private cmdBorderShadowClick() {
             try {
-                // TODO: fix me
-                /*
-                __TYPE_NOT_FOUND w___TYPE_NOT_FOUND = CommDialog;
-                w___TYPE_NOT_FOUND.CancelError = true;
-                w___TYPE_NOT_FOUND.Color = txBorderShadow.csValue;
-                w___TYPE_NOT_FOUND.Flags = cdlCCRGBInit;
-                VBA.ex.clear();
-                w___TYPE_NOT_FOUND.ShowColor;
-                if(VBA.ex.Number !== 0) { return; }
-                txBorderShadow.cReportPaintObject.setText(w___TYPE_NOT_FOUND.Color);
-                shBorderShadow.cReportAspect.setBackColor(txBorderShadow.csValue);
-                 */
-            }
-            catch(ignore) { }
-        }
-
-        private txBorderWidthTextChanged() {
-            this.borderWidthChanged = true;
-        }
-
-        private txChartGroupValueTextChanged() {
-            this.chartGroupValueChanged = true;
-        }
-
-        private txChartTopTextChanged() {
-            this.chartTopChanged = true;
+                this.shBorderShadow.setBackColor(new Color(this.txBorderShadow.getText()).color);
+            }catch(ignore) { }
         }
 
         private cmdDbFieldGroupValueClick() {
@@ -1109,30 +1111,6 @@ namespace CSReportEditor {
              * */
         }
 
-        private txForeColorLostFocus() {
-            // try {
-            //     shForeColor.setBackColor(Color.FromArgb(Int32.Parse(tx_foreColor.Text)));
-            // }
-            // catch(ignore) { }
-        }
-
-        private txBackColorLostFocus() {
-            // try {
-            //     shBackColor.setBackColor(Color.FromArgb(Int32.Parse(tx_backColor.Text)));
-            // }
-            // catch(ignore) { }
-        }
-
-        private fProperties_Load() {
-            // this.done = false;
-            // tab_main.SelectedTab = tbpFormat;
-            // cWindow.centerForm(this);
-            // this.ok = false;
-            //
-            // lb_formulaHide.setText(this.formulaHide);
-            // lb_formulaValue.setText(this.formulaValue);
-        }
-
         private initChart() {
             // cUtil.listAdd(cb_formatType, "BMP", (int)csRptChartFormat.BMP);
             // cUtil.listAdd(cb_formatType, "JPG", (int)csRptChartFormat.JPEG);
@@ -1174,23 +1152,30 @@ namespace CSReportEditor {
             // cUtil.listAdd(cb_linesType, "Numbered", (int)csRptChartLineStyle.NUMBERED);
             // cUtil.listAdd(cb_linesType, "Both", (int)csRptChartLineStyle.BOTH);
             // cUtil.listSetListIndex(cb_linesType, 3);
-          }
+        }
 
         private pFillColors(cb_list: ComboBox) {
             // TODO: implement
         }
 
-        private cmdCancelClick() {
-            // this.ok = false;
-            // this.Hide();
-        }
-
         private cmdForeColorClick() {
-            // picColor(tx_foreColor, sh_foreColor);
+            this.picColor(this.txForeColor, this.shForeColor);
         }
 
         private cmdBackColorClick() {
-            // picColor(tx_backColor, sh_backColor);
+            this.picColor(this.txBackColor, this.shBackColor);
+        }
+
+        private cmdBorderColorClick() {
+            this.picColor(this.txBorderColor, this.shBorderColor);
+        }
+
+        private cmdBorder3DClick() {
+            this.picColor(this.txBorder3D, this.shBorder3D);
+        }
+
+        private cmdBorderShadowClick() {
+            this.picColor(this.txBorderShadow, this.shBorderShadow);
         }
 
         private picColor(txColor: TextBox, shColor: object) {
@@ -1236,93 +1221,77 @@ namespace CSReportEditor {
             // }
         }
 
-        private cmdBorderColorClick_1() {
-            // picColor(tx_borderColor, sh_borderColor);
-        }
-
-        private cmdBorderColor3dClick() {
-            // picColor(tx_border3D, sh_border3D);
-        }
-
-        private cmdBorderShadowColorClick() {
-            // picColor(tx_borderShadow, sh_borderShadow);
-        }
-
         private cmdDbFieldClick() {
             if(this.editor.showHelpDbField()) {
                 this.dbFieldChanged = true;
             }
         }
 
-        private txNameTextChanged() {
-
+        private txChartGroupValueChanged() {
+            this.chartGroupValueChanged = true;
         }
 
-        private txTextTextChanged() {
+        private txChartTopChanged() {
+            this.chartTopChanged = true;
+        }
+
+        private txTextChanged() {
             this.textChanged = true;
         }
 
-        private txTagTextChanged() {
+        private txTagChanged() {
             this.tagChanged = true;
         }
 
-        private txFontTextChanged() {
-            this.fontChanged = true;
-        }
-
-        private txFontSizeTextChanged() {
+        private txFontSizeChanged() {
             this.fontSizeChanged = true;
         }
 
-        private cbAlignSelectedIndexChanged() {
-            this.alignChanged = true;
-        }
-
-        private txForeColorTextChanged() {
+        private txForeColorChanged() {
             this.foreColorChanged = true;
         }
 
-        private txBackColorTextChanged() {
+        private txBackColorChanged() {
             this.backColorChanged = true;
         }
 
-        private txFormatTextChanged() {
+        private txFormatChanged() {
             this.formatChanged = true;
         }
 
-        private txSymbolTextChanged() {
+        private txSymbolChanged() {
             this.symbolChanged = true;
         }
 
-        private chkFontBoldCheckedChanged() {
+        private chkFontBoldChanged() {
             this.boldChanged = true;
         }
 
-        private chkFontUnderlineCheckedChanged() {
+        private chkFontUnderlineChanged() {
             this.underlineChanged = true;
         }
 
-        private chkFontItalicCheckedChanged() {
+        private chkFontItalicChanged() {
             this.italicChanged = true;
         }
 
-        private chkFontStrikeCheckedChanged() {
+        private chkFontStrikeChanged() {
             this.strikeChanged = true;
         }
 
-        private txLeftTextChanged() {
+        private txLeftChanged() {
             this.leftChanged = true;
         }
 
-        private txTopTextChanged() {
+        private txTopChanged() {
             this.topChanged = true;
         }
 
-        private txHeightTextChanged() {
+        private txHeightChanged() {
             this.heightChanged = true;
         }
 
-        private txWidthTextChanged() {
+        private txWidthChanged() {
             this.widthChanged = true;
         }
 
@@ -1342,28 +1311,20 @@ namespace CSReportEditor {
             this.exportColIdxChanged = true;
         }
 
-        private cbBorderTypeSelectedIndexChanged() {
-            this.borderTypeChanged = true;
-        }
-
-        private txBorderColorTextChanged() {
+        private txBorderColorChanged() {
             this.borderColorChanged = true;
         }
 
-        private txBorder3DTextChanged() {
+        private txBorder3DChanged() {
             this.border3DChanged = true;
         }
 
-        private txBorderShadowTextChanged() {
+        private txBorderShadowChanged() {
             this.border3DShadowChanged = true;
         }
 
-        private txBorderWidthTextChanged_1() {
+        private txBorderWidthChanged() {
             this.borderWidthChanged = true;
-        }
-
-        private chkBorderRoundedCheckedChanged() {
-            this.borderRoundedChanged = true;
         }
 
         private cbTypeSelectedIndexChanged() {
@@ -1382,7 +1343,7 @@ namespace CSReportEditor {
             this.chartSizeChanged = true;
         }
 
-        private txChartTopTextChanged_1() {
+        private txChartTopTextChanged() {
             this.chartTopChanged = true;
         }
 
@@ -1503,6 +1464,7 @@ namespace CSReportEditor {
 
         // tab properties management
         //#region
+
         public hideTabFormats() {
             this.tabFormat.style.display = 'none';
         }

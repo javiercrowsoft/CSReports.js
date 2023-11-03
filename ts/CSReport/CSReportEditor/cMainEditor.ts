@@ -27,7 +27,7 @@ namespace CSReportEditor {
 
         private static fMain: FMain = null;
 
-        private static
+        private static wideSidebar = false;
 
         public static runningInBrowser() {
             return true;
@@ -252,7 +252,15 @@ namespace CSReportEditor {
         }
 
         public static toggleSideBarTab() {
-            U.el('sidebar').style.width = "790px";
+            this.wideSidebar = ! this.wideSidebar;
+            if(this.wideSidebar) {
+                U.el('sidebar').style.width = "790px";
+                U.el('sidebar-toogle-width').textContent = "<<";
+            }
+            else {
+                U.el('sidebar').style.width = "254px";
+                U.el('sidebar-toogle-width').textContent = ">>";
+            }
         }
     }
 

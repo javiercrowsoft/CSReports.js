@@ -429,9 +429,10 @@ namespace CSReportEditor {
                     cGlobals.setStatus();
                     break;
 
+                /*
                 case Keys.F4:
                     this.showProperties2();
-                    break;
+                    break;*/
 
                 case Keys.C:
                     if(ctrlKey) {
@@ -466,23 +467,24 @@ namespace CSReportEditor {
                 }
             };
 
-            cMainEditor.getSearch(this).setEditCtrl((ctrlKey: string) => {
+            cMainEditor.getSearch(this).setEditCtrl(P.call(this, (ctrlKey: string) => {
                 try {
                     this.selectCtrl(ctrlKey);
-                    this.showProperties2();
                 } catch(ex) {
                     cError.mngError(ex);
                 }
-            });
+            }));
 
-            cMainEditor.getSearch(this).setFocusSec((secKey: string) => {
+            cMainEditor.getSearch(this).setFocusSec(P.call(this, (secKey: string) => {
                 try {
                     this.selectSection(secKey);
                 } catch(ex) {
                     cError.mngError(ex);
                 }
-            });
+            }));
         }
+
+        /* delete me this was replace by other code
 
         public editSection(secKey: string) {
             try {
@@ -498,7 +500,7 @@ namespace CSReportEditor {
             } catch(ex) {
                 cError.mngError(ex);
             }
-        }
+        }*/
 
         public setFocusCtrl(ctrlKey: string) {
             try {
@@ -3527,9 +3529,7 @@ namespace CSReportEditor {
             return sec;
         }
 
-        public applyProperties() {
-
-        }
+        /* delete me this was replace by other code
 
         public showProperties(key: string) {
             if("SL".indexOf(key.substring(0, 1)) !== -1) {
@@ -3547,7 +3547,9 @@ namespace CSReportEditor {
                 this.selectCtrl(key);
                 this.showProperties2();
             }
-        }
+        }*/
+
+        /* delete me this was replace by other code
 
         public showProperties2() {
             if(this.keyFocus === "") return;
@@ -3565,7 +3567,7 @@ namespace CSReportEditor {
             this.refreshAll();
 
             mouse.dispose();
-        }
+        }*/
 
         public getSelectedKey() {
             if(this.keyObj) {
@@ -3729,9 +3731,11 @@ namespace CSReportEditor {
             }
         }
 
-        private showCtrlProperties() {
+        public applyProperties() {
             try {
 
+                //#region
+                /*
                 let rptCtrl: cReportControl = null;
                 let aspect: cReportAspect = null;
                 let font: cReportFont = null;
@@ -3870,12 +3874,16 @@ namespace CSReportEditor {
 
                 this.fProperties.showDialog();
 
-                if(!this.fProperties.getOk()) return;
+                if(!this.fProperties.getOk()) return;*/
+
+                //#endregion
+
+                let bMultiSelect: boolean = false;
 
                 for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
-                    paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
-                    rptCtrl = this.report.getControls().item(paintObject.getTag());
+                    const paintObject = this.paint.getPaintObject(this.vSelectedKeys[i]);
+                    const rptCtrl = this.report.getControls().item(paintObject.getTag());
 
                     if(!bMultiSelect) {
                         if(rptCtrl.getName() !== this.fProperties.getTxName().getText()) {
@@ -4006,7 +4014,7 @@ namespace CSReportEditor {
 
                     if(this.fProperties.getTextChanged()) { paintObject.setText(this.fProperties.getTxText().getText()); }
 
-                    aspect = rptCtrl.getLabel().getAspect();
+                    let aspect = rptCtrl.getLabel().getAspect();
                     if(this.fProperties.getLeftChanged()) { aspect.setLeft(Utils.val(this.fProperties.getTxLeft().getText())); }
                     if(this.fProperties.getTopChanged()) { aspect.setTop(Utils.val(this.fProperties.getTxTop().getText())); }
                     if(this.fProperties.getWidthChanged()) { aspect.setWidth(Utils.val(this.fProperties.getTxWidth().getText())); }
@@ -4029,7 +4037,7 @@ namespace CSReportEditor {
                     if(this.fProperties.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(this.fProperties.getTxBorderWidth().getText())); }
                     if(this.fProperties.getBorderTypeChanged()) { aspect.setBorderType(Utils.listID(this.fProperties.getCbBorderType())); }
 
-                    font = aspect.getFont();
+                    let font = aspect.getFont();
                     if(this.fProperties.getFontChanged()) { font.setName(this.fProperties.getTxFont().getText()); }
                     if(this.fProperties.getForeColorChanged()) { font.setForeColor(this.fProperties.getTxForeColor().getText()); }
                     if(this.fProperties.getFontSizeChanged()) { font.setSize(Utils.val(this.fProperties.getTxFontSize().getText())); }

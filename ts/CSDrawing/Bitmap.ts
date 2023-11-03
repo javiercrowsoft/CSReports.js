@@ -821,6 +821,10 @@ namespace CSDrawing {
             return color;
         }
 
+        toString() {
+            return Color.colorFromNumber(this._color);
+        }
+
         public static Gray = new Color(csColors.GRAY);
         public static Black = new Color(csColors.BLACK);
         public static Red = new Color(csColors.RED);

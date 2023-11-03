@@ -102,5 +102,13 @@ namespace CSForms {
             this.el.onchange = f;
         }
 
+        setLostFocus(f: ()=> void) {
+            this.el.blur = f;
+        }
+
+        setChange(f: ()=> void) {
+            this.el.onchange = f;
+        }
+
     }
 }

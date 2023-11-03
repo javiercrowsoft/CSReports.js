@@ -500,11 +500,13 @@ namespace CSReportEditor {
 
         //------------------------------------------------------------------------------------------------------------------
 
+        /* delete me this was replace by other code
+
         private cmCtrlProperties_Click(sender: object, e: any) {
             if(this.contextMenuEditor !== null) {
                 this.contextMenuEditor.showProperties2();
             }
-        }
+        }*/
 
         public showPopMenuSection(editor: cEditor, noDelete: boolean, showGroups: boolean, p: Point) {
             /*
@@ -539,11 +541,13 @@ namespace CSReportEditor {
              */
         }
 
+        /* delete me this was replace by other code
+
         private cmSectionSectionProperties_Click(sender: object, e: any) {
             if(this.contextMenuEditor !== null) {
                 this.contextMenuEditor.showProperties2();
             }
-        }
+        }*/
 
         private cmSectionSectionLineProperties_Click(sender: object, e: any) {
             if(this.contextMenuEditor !== null) {
@@ -601,12 +605,14 @@ namespace CSReportEditor {
             }
         }
 
+        /* delete me this was replace by other code
+
         private tsbProperties_Click(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).showProperties2();
             }
-        }
+        }*/
 
         private mnuDataBaseSQLServerConnection_Click(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
@@ -875,6 +881,8 @@ namespace CSReportEditor {
         }
         */
 
+        /* delete me this was replace by other code
+
         private lv_controls_MouseDoubleClick(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor === null || ! editor.isEditor()) return;
@@ -882,7 +890,7 @@ namespace CSReportEditor {
                 let info = this.lv_controls.selectedItems[0].tag.toString();
                 (editor as cEditor).showProperties(info);
             }
-        }
+        }*/
 
         private mnuPreviewReport_Click(sender: object, e: any) {
             this.previewReport();
