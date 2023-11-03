@@ -549,11 +549,14 @@ namespace CSReportEditor {
             }
         }*/
 
+        /* delete me this is implemented by other function
+
         private cmSectionSectionLineProperties_Click(sender: object, e: any) {
             if(this.contextMenuEditor !== null) {
                 this.contextMenuEditor.showSecLnProperties();
             }
         }
+        */
 
         private cmSectionGroupProperties_Click(sender: object, e: any) {
             if(this.contextMenuEditor !== null) {

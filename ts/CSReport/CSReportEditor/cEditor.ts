@@ -3298,6 +3298,8 @@ namespace CSReportEditor {
             this.refreshReport();
         }
 
+        /* delete me this is implemented in other function
+
         public showSectionProperties() {
             let isGroup = new RefWrapper(false);
 
@@ -3308,7 +3310,7 @@ namespace CSReportEditor {
             this.pShowSecProperties(sec);
 
             this.refreshAll();
-        }
+        }*/
 
         public showSelectedSectionProperties() {
             let secLn = new RefWrapper<cReportSectionLine>(null);
@@ -3349,6 +3351,8 @@ namespace CSReportEditor {
             }
         }
 
+        /* deleted me this is implemented in other function
+
         public showSecLnProperties() {
             let secLn = new RefWrapper<cReportSectionLine>(null);
             let isSecLn = new RefWrapper(false);
@@ -3362,52 +3366,12 @@ namespace CSReportEditor {
             this.pShowSecProperties(secLn.get(), sec.getName() + " - line " + secLn.get().getIndex().toString());
 
             this.refreshAll();
-        }
+        }*/
 
-        private pShowSecProperties(sec: cIReportSection, secLnName: string = "") {
-            try {
-
-                this.showingProperties = true;
-
-                if(this.fSecProperties === null) {
-                    this.fSecProperties = new FSecProperties();
-                }
-
-                this.fSecProperties.setHandler(this);
-
-                this.fSecProperties.getChkFormulaHide().setChecked(sec.getHasFormulaHide());
-                this.fSecProperties.setFormulaHide(sec.getFormulaHide().getText());
-
-                if(sec instanceof cReportSectionLine) {
-                    this.fSecProperties.getTxName().setEnabled(false);
-                }
-
-                this.fSecProperties.getTxName().setText(sec instanceof cReportSectionLine ? secLnName : sec.getName());
-
-                this.fSecProperties.getLbSectionName().setText("Section: " + (sec instanceof cReportSectionLine ? secLnName : sec.getName()));
-
-                this.fSecProperties.showDialog();
-
-                if(this.fSecProperties.getOk()) {
-                    if(this.fSecProperties.getHasFormulaHideChanged()) { sec.setHasFormulaHide(this.fSecProperties.getChkFormulaHide().getChecked()); }
-                    if(this.fSecProperties.getFormulaHideChanged()) { sec.getFormulaHide().setText(this.fSecProperties.getFormulaHide()); }
-                    if(sec instanceof cReportSection) { sec.setName(this.fSecProperties.getTxName().getText()); }
-                }
-
-            } catch(ex) {
-                cError.mngError(ex);
-            }
-            finally {
-                this.fSecProperties.close();
-                this.showingProperties = false;
-                this.fSecProperties = null;
-            }
-        }
-
-        // returnSecLn is flag to state that the caller wants to get
+        // returnSecLn is flag to signal the caller wants to get
         // the section line associated with the separator of the section
-        // remember that the last section line doesn't have a separator
-        // but share it with the section.
+        // remember the last section line doesn't have a separator
+        // instead shares it with the section.
         //
         private getSection2(isSecLn: RefWrapper<boolean> = new RefWrapper(false),
                             secLn: RefWrapper<cReportSectionLine> = new RefWrapper(null),
@@ -3732,6 +3696,64 @@ namespace CSReportEditor {
         }
 
         public applyProperties() {
+            if(this.vSelectedKeys.length === 0) return;
+            if(this.vSelectedKeys[0].charAt(0) === 'S') {
+
+                let isGroup = new RefWrapper(false);
+                let secLn = new RefWrapper<cReportSectionLine>(null);
+                let isSecLn = new RefWrapper(false);
+
+                let sec = this.getSection(isGroup, isSecLn, secLn, true);
+
+                if(sec === null) return;
+
+                this.applySectionProperties(sec, secLn.get());
+            }
+            else {
+                this.applyCtrlProperties();
+            }
+        }
+
+        private applySectionProperties(sec: cReportSection, secLn: cReportSectionLine) {
+            try {
+
+                /*
+                this.showingProperties = true;
+
+                if(this.fSecProperties === null) {
+                    this.fSecProperties = new FSecProperties();
+                }
+
+                this.fSecProperties.setHandler(this);
+
+                this.fSecProperties.getChkFormulaHide().setChecked(sec.getHasFormulaHide());
+                this.fSecProperties.setFormulaHide(sec.getFormulaHide().getText());
+
+                if(sec instanceof cReportSectionLine) {
+                    this.fSecProperties.getTxName().setEnabled(false);
+                }
+
+                this.fSecProperties.getTxName().setText(sec instanceof cReportSectionLine ? secLnName : sec.getName());
+
+                this.fSecProperties.getLbSectionName().setText("Section: " + (sec instanceof cReportSectionLine ? secLnName : sec.getName()));
+
+                this.fSecProperties.showDialog();
+                */
+
+                const propertyDlg = cMainEditor.getPropertyDlg();
+
+                if(propertyDlg.getHasSectionFormulaHideChanged()) { sec.setHasFormulaHide(propertyDlg.getChkSectionFormulaHide().getChecked()); }
+                if(propertyDlg.getSectionFormulaHideChanged()) { sec.getFormulaHide().setText(propertyDlg.getSectionFormulaHide()); }
+                sec.setName(propertyDlg.getTxName().getText());
+                if(propertyDlg.getHasSectionLineFormulaHideChanged()) { secLn.setHasFormulaHide(propertyDlg.getChkSectionLineFormulaHide().getChecked()); }
+                if(propertyDlg.getSectionLineFormulaHideChanged()) { secLn.getFormulaHide().setText(propertyDlg.getSectionLineFormulaHide()); }
+
+            } catch(ex) {
+                cError.mngError(ex);
+            }
+        }
+
+        private applyCtrlProperties() {
             try {
 
                 //#region
@@ -3878,7 +3900,9 @@ namespace CSReportEditor {
 
                 //#endregion
 
-                let bMultiSelect: boolean = false;
+                let bMultiSelect: boolean = this.vSelectedKeys.length > 1;
+
+                const propertyDlg = cMainEditor.getPropertyDlg();
 
                 for(let i = 0; i < this.vSelectedKeys.length; i++) {
 
@@ -3886,40 +3910,40 @@ namespace CSReportEditor {
                     const rptCtrl = this.report.getControls().item(paintObject.getTag());
 
                     if(!bMultiSelect) {
-                        if(rptCtrl.getName() !== this.fProperties.getTxName().getText()) {
+                        if(rptCtrl.getName() !== propertyDlg.getTxName().getText()) {
                             if(rptCtrl.getName() !== "") {
                                 if(cWindow.ask("You have changed the name of this control.;;Do you want to update all references to this control in all formulas of this report?", MessageBoxDefaultButton.Button2)) {
-                                    this.updateFormulas(rptCtrl.getName(), this.fProperties.getTxName().getText());
+                                    this.updateFormulas(rptCtrl.getName(), propertyDlg.getTxName().getText());
                                 }
                             }
                         }
-                        rptCtrl.setName(this.fProperties.getTxName().getText());
+                        rptCtrl.setName(propertyDlg.getTxName().getText());
                     }
 
-                    if(this.fProperties.getTextChanged()) { rptCtrl.getLabel().setText(this.fProperties.getTxText().getText()); }
-                    if(this.fProperties.getTagChanged()) { rptCtrl.setTag(this.fProperties.getTxTag().getText()); }
-                    if(this.fProperties.getSetFormulaHideChanged()) { rptCtrl.setHasFormulaHide(this.fProperties.getChkFormulaHide().getChecked()); }
-                    if(this.fProperties.getSetFormulaValueChanged()) { rptCtrl.setHasFormulaValue(this.fProperties.getChkFormulaValue().getChecked()); }
-                    if(this.fProperties.getFormulaHideChanged()) { rptCtrl.getFormulaHide().setText(this.fProperties.getFormulaHide()); }
-                    if(this.fProperties.getFormulaValueChanged()) { rptCtrl.getFormulaValue().setText(this.fProperties.getFormulaValue()); }
-                    if(this.fProperties.getIdxGroupChanged()) { rptCtrl.getFormulaValue().setIdxGroup(Utils.valInt(this.fProperties.getTxIdxGroup().getText())); }
-                    if(this.fProperties.getWhenEvalChanged()) { rptCtrl.getFormulaValue().setWhenEval(this.fProperties.getOpAfterPrint().Checked ? csRptWhenEval.CS_RPT_EVAL_POST : csRptWhenEval.CS_RPT_EVAL_PRE); }
+                    if(propertyDlg.getTextChanged()) { rptCtrl.getLabel().setText(propertyDlg.getTxText().getText()); }
+                    if(propertyDlg.getTagChanged()) { rptCtrl.setTag(propertyDlg.getTxTag().getText()); }
+                    if(propertyDlg.getSetFormulaHideChanged()) { rptCtrl.setHasFormulaHide(propertyDlg.getChkFormulaHide().getChecked()); }
+                    if(propertyDlg.getSetFormulaValueChanged()) { rptCtrl.setHasFormulaValue(propertyDlg.getChkFormulaValue().getChecked()); }
+                    if(propertyDlg.getFormulaHideChanged()) { rptCtrl.getFormulaHide().setText(propertyDlg.getFormulaHide()); }
+                    if(propertyDlg.getFormulaValueChanged()) { rptCtrl.getFormulaValue().setText(propertyDlg.getFormulaValue()); }
+                    if(propertyDlg.getIdxGroupChanged()) { rptCtrl.getFormulaValue().setIdxGroup(Utils.valInt(propertyDlg.getTxIdxGroup().getText())); }
+                    if(propertyDlg.getWhenEvalChanged()) { rptCtrl.getFormulaValue().setWhenEval(propertyDlg.getOpAfterPrint().getChecked() ? csRptWhenEval.CS_RPT_EVAL_POST : csRptWhenEval.CS_RPT_EVAL_PRE); }
 
-                    if(this.fProperties.getExportColIdxChanged()) { rptCtrl.setExportColIdx(Utils.valInt(this.fProperties.getTxExportColIdx().getText())); }
-                    if(this.fProperties.getIsFreeCtrlChanged()) { rptCtrl.setIsFreeCtrl(this.fProperties.getChkIsFreeCtrl().getChecked()); }
+                    if(propertyDlg.getExportColIdxChanged()) { rptCtrl.setExportColIdx(Utils.valInt(propertyDlg.getTxExportColIdx().getText())); }
+                    if(propertyDlg.getIsFreeCtrlChanged()) { rptCtrl.setIsFreeCtrl(propertyDlg.getChkIsFreeCtrl().getChecked()); }
 
                     if(rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD || rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
 
                         let field: cReportField = rptCtrl.getField();
-                        if(this.fProperties.getDbFieldChanged()) {
-                            field.setFieldType(this.fProperties.getFieldType());
-                            field.setIndex(this.fProperties.getIndex());
-                            field.setName(this.fProperties.getTxDbField().getText());
+                        if(propertyDlg.getDbFieldChanged()) {
+                            field.setFieldType(propertyDlg.getFieldType());
+                            field.setIndex(propertyDlg.getIndex());
+                            field.setName(propertyDlg.getTxDbField().getText());
                         }
                     }
 
-                    if(this.fProperties.getPictureChanged()) {
-                        rptCtrl.getImage().setImage(this.fProperties.getPicImage().Image);
+                    if(propertyDlg.getPictureChanged()) {
+                        rptCtrl.getImage().setImage(propertyDlg.getPicImage().getImage());
                     }
 
                     if(rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_CHART) {
@@ -3928,125 +3952,125 @@ namespace CSReportEditor {
                             rptCtrl.getChart().getSeries().add(new cReportChartSequence());
                         }
 
-                        if(this.fProperties.getChartTypeChanged()) {
-                            rptCtrl.getChart().setChartType(Utils.listID(this.fProperties.getCbType()));
+                        if(propertyDlg.getChartTypeChanged()) {
+                            rptCtrl.getChart().setChartType(Utils.listID(propertyDlg.getCbType()));
                         }
-                        if(this.fProperties.getChartFormatTypeChanged()) {
-                            rptCtrl.getChart().setFormat(Utils.listID(this.fProperties.getCbFormatType()));
+                        if(propertyDlg.getChartFormatTypeChanged()) {
+                            rptCtrl.getChart().setFormat(Utils.listID(propertyDlg.getCbFormatType()));
                         }
-                        if(this.fProperties.getChartSizeChanged()) {
-                            rptCtrl.getChart().setDiameter(Utils.listID(this.fProperties.getCbChartSize()));
+                        if(propertyDlg.getChartSizeChanged()) {
+                            rptCtrl.getChart().setDiameter(Utils.listID(propertyDlg.getCbChartSize()));
                         }
-                        if(this.fProperties.getChartThicknessChanged()) {
-                            rptCtrl.getChart().setThickness(Utils.listID(this.fProperties.getCbChartThickness()));
+                        if(propertyDlg.getChartThicknessChanged()) {
+                            rptCtrl.getChart().setThickness(Utils.listID(propertyDlg.getCbChartThickness()));
                         }
-                        if(this.fProperties.getChartLinesTypeChanged()) {
-                            rptCtrl.getChart().setGridLines(Utils.listID(this.fProperties.getCbLinesType()));
-                        }
-
-                        if(this.fProperties.getChartShowLinesChanged()) {
-                            rptCtrl.getChart().setOutlineBars(this.fProperties.getChkShowOutlines().getChecked());
-                        }
-                        if(this.fProperties.getChartShowValuesChanged()) {
-                            rptCtrl.getChart().setShowValues(this.fProperties.getChkShowBarValues().getChecked());
+                        if(propertyDlg.getChartLinesTypeChanged()) {
+                            rptCtrl.getChart().setGridLines(Utils.listID(propertyDlg.getCbLinesType()));
                         }
 
-                        if(this.fProperties.getTextChanged()) {
-                            rptCtrl.getChart().setChartTitle(this.fProperties.getTxText().getText());
+                        if(propertyDlg.getChartShowLinesChanged()) {
+                            rptCtrl.getChart().setOutlineBars(propertyDlg.getChkShowOutlines().getChecked());
+                        }
+                        if(propertyDlg.getChartShowValuesChanged()) {
+                            rptCtrl.getChart().setShowValues(propertyDlg.getChkShowBarValues().getChecked());
                         }
 
-                        if(this.fProperties.getChartTopChanged()) {
-                            rptCtrl.getChart().setTop(Utils.valInt(this.fProperties.getTxChartTop().getText()));
+                        if(propertyDlg.getTextChanged()) {
+                            rptCtrl.getChart().setChartTitle(propertyDlg.getTxText().getText());
                         }
 
-                        if(this.fProperties.getChartSortChanged()) {
-                            rptCtrl.getChart().setSort(this.fProperties.getChkSort().getChecked());
+                        if(propertyDlg.getChartTopChanged()) {
+                            rptCtrl.getChart().setTop(Utils.valInt(propertyDlg.getTxChartTop().getText()));
                         }
 
-                        if(this.fProperties.getChartGroupValueChanged()) {
-                            rptCtrl.getChart().setGroupValue(this.fProperties.getTxChartGroupValue().getText());
+                        if(propertyDlg.getChartSortChanged()) {
+                            rptCtrl.getChart().setSort(propertyDlg.getChkSort().getChecked());
                         }
 
-                        if(this.fProperties.getChartFieldGroupChanged()) {
-                            rptCtrl.getChart().setGroupFieldName(this.fProperties.getTxDbFieldGroupValue().getText());
-                            rptCtrl.getChart().setGroupFieldIndex(this.fProperties.getChartGroupIndex());
+                        if(propertyDlg.getChartGroupValueChanged()) {
+                            rptCtrl.getChart().setGroupValue(propertyDlg.getTxChartGroupValue().getText());
                         }
 
-                        if(this.fProperties.getChartFieldLbl1Changed()) {
-                            rptCtrl.getChart().getSeries().item(0).setLabelFieldName(this.fProperties.getTxDbFieldLbl1().getText());
-                            rptCtrl.getChart().getSeries().item(0).setLabelIndex(this.fProperties.getChartIndex(0));
-                        }
-                        if(this.fProperties.getChartFieldVal1Changed()) {
-                            rptCtrl.getChart().getSeries().item(0).setValueFieldName(this.fProperties.getTxDbFieldVal1().getText());
-                            rptCtrl.getChart().getSeries().item(0).setValueIndex(this.fProperties.getChartIndex(1));
+                        if(propertyDlg.getChartFieldGroupChanged()) {
+                            rptCtrl.getChart().setGroupFieldName(propertyDlg.getTxDbFieldGroupValue().getText());
+                            rptCtrl.getChart().setGroupFieldIndex(propertyDlg.getChartGroupIndex());
                         }
 
-                        if(this.fProperties.getChartColorSerie1Changed()) {
-                            rptCtrl.getChart().getSeries().item(0).setColor(Utils.listID(this.fProperties.getCbColorSerie1()));
+                        if(propertyDlg.getChartFieldLbl1Changed()) {
+                            rptCtrl.getChart().getSeries().item(0).setLabelFieldName(propertyDlg.getTxDbFieldLbl1().getText());
+                            rptCtrl.getChart().getSeries().item(0).setLabelIndex(propertyDlg.getChartIndex(0));
+                        }
+                        if(propertyDlg.getChartFieldVal1Changed()) {
+                            rptCtrl.getChart().getSeries().item(0).setValueFieldName(propertyDlg.getTxDbFieldVal1().getText());
+                            rptCtrl.getChart().getSeries().item(0).setValueIndex(propertyDlg.getChartIndex(1));
                         }
 
-                        if(this.fProperties.getChartFieldLbl2Changed() || this.fProperties.getChartFieldVal2Changed()) {
+                        if(propertyDlg.getChartColorSerie1Changed()) {
+                            rptCtrl.getChart().getSeries().item(0).setColor(Utils.listID(propertyDlg.getCbColorSerie1()));
+                        }
+
+                        if(propertyDlg.getChartFieldLbl2Changed() || propertyDlg.getChartFieldVal2Changed()) {
                             if(rptCtrl.getChart().getSeries().count() < 2) {
                                 rptCtrl.getChart().getSeries().add();
                             }
                         }
 
-                        if(this.fProperties.getTxDbFieldLbl2().Text === "" || this.fProperties.getTxDbFieldVal2().Text === "") {
+                        if(propertyDlg.getTxDbFieldLbl2().Text === "" || propertyDlg.getTxDbFieldVal2().Text === "") {
                             if(rptCtrl.getChart().getSeries().count() > 1) { rptCtrl.getChart().getSeries().remove(1); }
                         }
 
                         if(rptCtrl.getChart().getSeries().count() > 1) {
 
-                            if(this.fProperties.getChartFieldLbl2Changed()) {
-                                rptCtrl.getChart().getSeries().item(1).setLabelFieldName(this.fProperties.getTxDbFieldLbl2().getText());
-                                rptCtrl.getChart().getSeries().item(1).setLabelIndex(this.fProperties.getChartIndex(2));
+                            if(propertyDlg.getChartFieldLbl2Changed()) {
+                                rptCtrl.getChart().getSeries().item(1).setLabelFieldName(propertyDlg.getTxDbFieldLbl2().getText());
+                                rptCtrl.getChart().getSeries().item(1).setLabelIndex(propertyDlg.getChartIndex(2));
                             }
-                            if(this.fProperties.getChartFieldVal2Changed()) {
-                                rptCtrl.getChart().getSeries().item(1).setValueFieldName(this.fProperties.getTxDbFieldVal2().getText());
-                                rptCtrl.getChart().getSeries().item(1).setValueIndex(this.fProperties.getChartIndex(3));
+                            if(propertyDlg.getChartFieldVal2Changed()) {
+                                rptCtrl.getChart().getSeries().item(1).setValueFieldName(propertyDlg.getTxDbFieldVal2().getText());
+                                rptCtrl.getChart().getSeries().item(1).setValueIndex(propertyDlg.getChartIndex(3));
                             }
 
-                            if(this.fProperties.getChartColorSerie2Changed()) {
-                                rptCtrl.getChart().getSeries().item(1).setColor(Utils.listID(this.fProperties.getCbColorSerie2()));
+                            if(propertyDlg.getChartColorSerie2Changed()) {
+                                rptCtrl.getChart().getSeries().item(1).setColor(Utils.listID(propertyDlg.getCbColorSerie2()));
                             }
                         }
                     }
 
-                    if(this.fProperties.getTextChanged()) { paintObject.setText(this.fProperties.getTxText().getText()); }
+                    if(propertyDlg.getTextChanged()) { paintObject.setText(propertyDlg.getTxText().getText()); }
 
                     let aspect = rptCtrl.getLabel().getAspect();
-                    if(this.fProperties.getLeftChanged()) { aspect.setLeft(Utils.val(this.fProperties.getTxLeft().getText())); }
-                    if(this.fProperties.getTopChanged()) { aspect.setTop(Utils.val(this.fProperties.getTxTop().getText())); }
-                    if(this.fProperties.getWidthChanged()) { aspect.setWidth(Utils.val(this.fProperties.getTxWidth().getText())); }
-                    if(this.fProperties.getHeightChanged()) { aspect.setHeight(Utils.val(this.fProperties.getTxHeight().getText())); }
-                    if(this.fProperties.getBackColorChanged()) { aspect.setBackColor(this.fProperties.getTxBackColor().getText()); }
-                    if(this.fProperties.getTransparentChanged()) { aspect.setTransparent(this.fProperties.getChkTransparent().getChecked()); }
-                    if(this.fProperties.getAlignChanged()) { aspect.setAlign(Utils.listID(this.fProperties.getCbAlign())); }
-                    if(this.fProperties.getFormatChanged()) { aspect.setFormat(this.fProperties.getTxFormat().getText()); }
-                    if(this.fProperties.getSymbolChanged()) {
-                        aspect.setSymbol(this.fProperties.getTxSymbol().getText());
-                        aspect.setIsAccounting(this.fProperties.getIsAccounting());
+                    if(propertyDlg.getLeftChanged()) { aspect.setLeft(Utils.val(propertyDlg.getTxLeft().getText())); }
+                    if(propertyDlg.getTopChanged()) { aspect.setTop(Utils.val(propertyDlg.getTxTop().getText())); }
+                    if(propertyDlg.getWidthChanged()) { aspect.setWidth(Utils.val(propertyDlg.getTxWidth().getText())); }
+                    if(propertyDlg.getHeightChanged()) { aspect.setHeight(Utils.val(propertyDlg.getTxHeight().getText())); }
+                    if(propertyDlg.getBackColorChanged()) { aspect.setBackColor(propertyDlg.getTxBackColor().getText()); }
+                    if(propertyDlg.getTransparentChanged()) { aspect.setTransparent(propertyDlg.getChkTransparent().getChecked()); }
+                    if(propertyDlg.getAlignChanged()) { aspect.setAlign(Utils.listID(propertyDlg.getCbAlign())); }
+                    if(propertyDlg.getFormatChanged()) { aspect.setFormat(propertyDlg.getTxFormat().getText()); }
+                    if(propertyDlg.getSymbolChanged()) {
+                        aspect.setSymbol(propertyDlg.getTxSymbol().getText());
+                        aspect.setIsAccounting(propertyDlg.getIsAccounting());
                     }
-                    if(this.fProperties.getWordWrapChanged()) { aspect.setWordWrap(this.fProperties.getChkWordWrap().getChecked()); }
-                    if(this.fProperties.getCanGrowChanged()) { aspect.setCanGrow(this.fProperties.getChkCanGrow().getChecked()); }
+                    if(propertyDlg.getWordWrapChanged()) { aspect.setWordWrap(propertyDlg.getChkWordWrap().getChecked()); }
+                    if(propertyDlg.getCanGrowChanged()) { aspect.setCanGrow(propertyDlg.getChkCanGrow().getChecked()); }
 
-                    if(this.fProperties.getBorderColorChanged()) { aspect.setBorderColor(this.fProperties.getTxBorderColor().getText()); }
-                    if(this.fProperties.getBorder3DChanged()) { aspect.setBorderColor3d(this.fProperties.getTxBorder3D().getText()); }
-                    if(this.fProperties.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(this.fProperties.getTxBorderShadow().getText()); }
-                    if(this.fProperties.getBorderRoundedChanged()) { aspect.setBorderRounded(this.fProperties.getChkBorderRounded().getChecked()); }
-                    if(this.fProperties.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(this.fProperties.getTxBorderWidth().getText())); }
-                    if(this.fProperties.getBorderTypeChanged()) { aspect.setBorderType(Utils.listID(this.fProperties.getCbBorderType())); }
+                    if(propertyDlg.getBorderColorChanged()) { aspect.setBorderColor(propertyDlg.getTxBorderColor().getText()); }
+                    if(propertyDlg.getBorder3DChanged()) { aspect.setBorderColor3d(propertyDlg.getTxBorder3D().getText()); }
+                    if(propertyDlg.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(propertyDlg.getTxBorderShadow().getText()); }
+                    if(propertyDlg.getBorderRoundedChanged()) { aspect.setBorderRounded(propertyDlg.getChkBorderRounded().getChecked()); }
+                    if(propertyDlg.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(propertyDlg.getTxBorderWidth().getText())); }
+                    if(propertyDlg.getBorderTypeChanged()) { aspect.setBorderType(Utils.listID(propertyDlg.getCbBorderType())); }
 
                     let font = aspect.getFont();
-                    if(this.fProperties.getFontChanged()) { font.setName(this.fProperties.getTxFont().getText()); }
-                    if(this.fProperties.getForeColorChanged()) { font.setForeColor(this.fProperties.getTxForeColor().getText()); }
-                    if(this.fProperties.getFontSizeChanged()) { font.setSize(Utils.val(this.fProperties.getTxFontSize().getText())); }
-                    if(this.fProperties.getBoldChanged()) { font.setBold(this.fProperties.getChkFontBold().getChecked()); }
-                    if(this.fProperties.getItalicChanged()) { font.setItalic(this.fProperties.getChkFontItalic().getChecked()); }
-                    if(this.fProperties.getUnderlineChanged()) { font.setUnderline(this.fProperties.getChkFontUnderline().getChecked()); }
-                    if(this.fProperties.getStrikeChanged()) { font.setStrike(this.fProperties.getChkFontStrike().getChecked()); }
+                    if(propertyDlg.getFontChanged()) { font.setName(propertyDlg.getCbFont().getText()); }
+                    if(propertyDlg.getForeColorChanged()) { font.setForeColor(propertyDlg.getTxForeColor().getText()); }
+                    if(propertyDlg.getFontSizeChanged()) { font.setSize(Utils.val(propertyDlg.getTxFontSize().getText())); }
+                    if(propertyDlg.getBoldChanged()) { font.setBold(propertyDlg.getChkFontBold().getChecked()); }
+                    if(propertyDlg.getItalicChanged()) { font.setItalic(propertyDlg.getChkFontItalic().getChecked()); }
+                    if(propertyDlg.getUnderlineChanged()) { font.setUnderline(propertyDlg.getChkFontUnderline().getChecked()); }
+                    if(propertyDlg.getStrikeChanged()) { font.setStrike(propertyDlg.getChkFontStrike().getChecked()); }
 
-                    if(this.fProperties.getPictureChanged()) {
+                    if(propertyDlg.getPictureChanged()) {
                         paintObject.setImage(rptCtrl.getImage().getImage());
                     }
 
@@ -4055,18 +4079,18 @@ namespace CSReportEditor {
                     //
 
                     aspect = paintObject.getAspect();
-                    if(this.fProperties.getLeftChanged()) { aspect.setLeft(Utils.val(this.fProperties.getTxLeft().getText())); }
-                    if(this.fProperties.getTopChanged()) { aspect.setTop(Utils.val(this.fProperties.getTxTop().getText())); }
-                    if(this.fProperties.getWidthChanged()) { aspect.setWidth(Utils.val(this.fProperties.getTxWidth().getText())); }
-                    if(this.fProperties.getHeightChanged()) { aspect.setHeight(Utils.val(this.fProperties.getTxHeight().getText())); }
-                    if(this.fProperties.getBackColorChanged()) { aspect.setBackColor(this.fProperties.getTxBackColor().getText()); }
-                    if(this.fProperties.getTransparentChanged()) { aspect.setTransparent(this.fProperties.getChkTransparent().getChecked()); }
-                    if(this.fProperties.getAlignChanged()) { aspect.setAlign(Utils.listID(this.fProperties.getCbAlign())); }
-                    if(this.fProperties.getFormatChanged()) { aspect.setFormat(this.fProperties.getTxFormat().getText()); }
-                    if(this.fProperties.getSymbolChanged()) { aspect.setSymbol(this.fProperties.getTxSymbol().getText()); }
-                    if(this.fProperties.getWordWrapChanged()) { aspect.setWordWrap(this.fProperties.getChkWordWrap().getChecked()); }
+                    if(propertyDlg.getLeftChanged()) { aspect.setLeft(Utils.val(propertyDlg.getTxLeft().getText())); }
+                    if(propertyDlg.getTopChanged()) { aspect.setTop(Utils.val(propertyDlg.getTxTop().getText())); }
+                    if(propertyDlg.getWidthChanged()) { aspect.setWidth(Utils.val(propertyDlg.getTxWidth().getText())); }
+                    if(propertyDlg.getHeightChanged()) { aspect.setHeight(Utils.val(propertyDlg.getTxHeight().getText())); }
+                    if(propertyDlg.getBackColorChanged()) { aspect.setBackColor(propertyDlg.getTxBackColor().getText()); }
+                    if(propertyDlg.getTransparentChanged()) { aspect.setTransparent(propertyDlg.getChkTransparent().getChecked()); }
+                    if(propertyDlg.getAlignChanged()) { aspect.setAlign(Utils.listID(propertyDlg.getCbAlign())); }
+                    if(propertyDlg.getFormatChanged()) { aspect.setFormat(propertyDlg.getTxFormat().getText()); }
+                    if(propertyDlg.getSymbolChanged()) { aspect.setSymbol(propertyDlg.getTxSymbol().getText()); }
+                    if(propertyDlg.getWordWrapChanged()) { aspect.setWordWrap(propertyDlg.getChkWordWrap().getChecked()); }
 
-                    if(this.fProperties.getBorderTypeChanged()) { aspect.setBorderType(Utils.listID(this.fProperties.getCbBorderType())); }
+                    if(propertyDlg.getBorderTypeChanged()) { aspect.setBorderType(Utils.listID(propertyDlg.getCbBorderType())); }
 
                     if(aspect.getBorderType() === csReportBorderType.CS_RPT_BS_NONE) {
                         aspect.setBorderColor(Color.Black.toArgb());
@@ -4075,21 +4099,21 @@ namespace CSReportEditor {
                         aspect.setBorderType(csReportBorderType.CS_RPT_BS_FIXED);
                     }
                     else {
-                        if(this.fProperties.getBorderColorChanged()) { aspect.setBorderColor(this.fProperties.getTxBorderColor().getText()); }
-                        if(this.fProperties.getBorder3DChanged()) { aspect.setBorderColor3d(this.fProperties.getTxBorder3D().getText()); }
-                        if(this.fProperties.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(this.fProperties.getTxBorderShadow().getText()); }
-                        if(this.fProperties.getBorderRoundedChanged()) { aspect.setBorderRounded(this.fProperties.getChkBorderRounded().getChecked()); }
-                        if(this.fProperties.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(this.fProperties.getTxBorderWidth().getText())); }
+                        if(propertyDlg.getBorderColorChanged()) { aspect.setBorderColor(propertyDlg.getTxBorderColor().getText()); }
+                        if(propertyDlg.getBorder3DChanged()) { aspect.setBorderColor3d(propertyDlg.getTxBorder3D().getText()); }
+                        if(propertyDlg.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(propertyDlg.getTxBorderShadow().getText()); }
+                        if(propertyDlg.getBorderRoundedChanged()) { aspect.setBorderRounded(propertyDlg.getChkBorderRounded().getChecked()); }
+                        if(propertyDlg.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(propertyDlg.getTxBorderWidth().getText())); }
                     }
 
                     font = aspect.getFont();
-                    if(this.fProperties.getFontChanged()) { font.setName(this.fProperties.getTxFont().getText()); }
-                    if(this.fProperties.getForeColorChanged()) { font.setForeColor(this.fProperties.getTxForeColor().getText()); }
-                    if(this.fProperties.getFontSizeChanged()) { font.setSize(Utils.val(this.fProperties.getTxFontSize().getText())); }
-                    if(this.fProperties.getBoldChanged()) { font.setBold(this.fProperties.getChkFontBold().getChecked()); }
-                    if(this.fProperties.getItalicChanged()) { font.setItalic(this.fProperties.getChkFontItalic().getChecked()); }
-                    if(this.fProperties.getUnderlineChanged()) { font.setUnderline(this.fProperties.getChkFontUnderline().getChecked()); }
-                    if(this.fProperties.getStrikeChanged()) { font.setStrike(this.fProperties.getChkFontStrike().getChecked()); }
+                    if(propertyDlg.getFontChanged()) { font.setName(propertyDlg.getCbFont().getText()); }
+                    if(propertyDlg.getForeColorChanged()) { font.setForeColor(propertyDlg.getTxForeColor().getText()); }
+                    if(propertyDlg.getFontSizeChanged()) { font.setSize(Utils.val(propertyDlg.getTxFontSize().getText())); }
+                    if(propertyDlg.getBoldChanged()) { font.setBold(propertyDlg.getChkFontBold().getChecked()); }
+                    if(propertyDlg.getItalicChanged()) { font.setItalic(propertyDlg.getChkFontItalic().getChecked()); }
+                    if(propertyDlg.getUnderlineChanged()) { font.setUnderline(propertyDlg.getChkFontUnderline().getChecked()); }
+                    if(propertyDlg.getStrikeChanged()) { font.setStrike(propertyDlg.getChkFontStrike().getChecked()); }
                 }
 
                 this.dataHasChanged = true;
@@ -4098,9 +4122,6 @@ namespace CSReportEditor {
                 cError.mngError(ex);
             }
             finally {
-                this.fProperties.hide();
-                this.showingProperties = false;
-                this.fProperties = null;
                 this.paint.endMove(this.picReport.getGraphics());
             }
         }

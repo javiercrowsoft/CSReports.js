@@ -20,7 +20,10 @@ namespace CSForms {
 
         setText(text: string) {
             this.elLabel.textContent = text;
-            super.setText(text);
+        }
+
+        getText() {
+            return this.elLabel.textContent;
         }
     }
 }

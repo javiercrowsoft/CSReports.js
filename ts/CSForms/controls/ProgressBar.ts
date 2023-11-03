@@ -20,7 +20,6 @@ namespace CSForms {
 
         setText(text: string) {
             this.elProgressBar.textContent = text;
-            super.setText(text);
         }
 
         setValue(value: number) {

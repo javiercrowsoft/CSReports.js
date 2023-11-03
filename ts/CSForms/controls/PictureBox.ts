@@ -122,5 +122,9 @@ namespace CSForms {
             // TODO: implements
         }
 
+        getImage(): CSDrawing.Image {
+            return null;
+        }
+
     }
 }

@@ -13,7 +13,6 @@ namespace CSForms {
 
         setText(text: string) {
             this.changeSelected(text);
-            super.setText(text);
         }
 
         changeSelected(text: string) {
@@ -28,6 +27,10 @@ namespace CSForms {
                     optionSelected.selected = false;
                 }
             }
+        }
+
+        getText() {
+            return this.elSelect.textContent;
         }
     }
 }

@@ -19,13 +19,13 @@ namespace CSReportEngine {
 
         private static putCodeInClass(code: string, formula: cReportFormula) {
 
-            return    "(()= > {"
+            return    "(()=> {"
                     + "\n\n"
-                    + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"
+                    + "//////////////////////////////////////"
                     + "\n\n"
                     + code
                     + "\n\n"
-                    + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"
+                    + "//////////////////////////////////////"
                     + "\n\n"
                     + "    const runScript = (globals) => {"
                     + "\n\n"
@@ -35,7 +35,7 @@ namespace CSReportEngine {
                     + "\n\n"
                     + "    return {runScript};"
                     + "\n\n"
-                    + "};)()";
+                    + "})()";
 
         }
 

@@ -6,6 +6,7 @@ namespace CSForms {
 
     export class TabPage extends Container<Control> {
 
+        private text: string;
         private tabSelector: HTMLElement;
         public onClose: ()=> void;
         public onActive: ()=> void;
@@ -36,11 +37,16 @@ namespace CSForms {
         }
 
         setText(text: string) {
-            super.setText(text);
+            this.text = text;
             if(this.tabSelector) {
                 const textToChange = this.tabSelector.childNodes[0];
-                textToChange.nodeValue = super.getText();
+                textToChange.nodeValue = this.text;
             }
         }
+
+        getText() {
+            return this.text;
+        }
+
     }
 }

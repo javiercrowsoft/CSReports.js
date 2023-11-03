@@ -6,7 +6,6 @@ namespace CSForms {
 
         private el: HTMLElement;
         private cursor = Cursor.Default;
-        private text = "";
         private width = 0;
         private height = 0;
         private top = 0;
@@ -18,14 +17,6 @@ namespace CSForms {
 
         public getElement() {
             return this.el;
-        }
-
-        setText(text: string) {
-            this.text = text;
-        }
-
-        getText() {
-            return this.text;
         }
 
         getCursor(): Cursor {

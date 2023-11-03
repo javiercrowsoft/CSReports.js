@@ -3,7 +3,6 @@
 namespace CSForms {
 
     export class CheckBox extends Control {
-
         private elInput: HTMLInputElement;
 
         public constructor(el: HTMLInputElement = null) {
@@ -14,5 +13,10 @@ namespace CSForms {
         setChecked(checked: boolean) {
             this.elInput.checked = checked;
         }
+
+        getChecked(): boolean {
+            return this.elInput.checked;
+        }
+
     }
 }

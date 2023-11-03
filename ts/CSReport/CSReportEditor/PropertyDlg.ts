@@ -954,20 +954,36 @@ namespace CSReportEditor {
             this.chartSortChanged = rhs;
         }
 
-        public getSetSectionFormulaHideChanged() {
+        public getHasSectionFormulaHideChanged() {
             return this.bSetSectionFormulaHideChanged;
         }
 
-        public setSetSectionFormulaHideChanged(rhs: boolean) {
+        public setHasSectionFormulaHideChanged(rhs: boolean) {
             this.bSetSectionFormulaHideChanged = rhs;
         }
 
-        public getSetSectionLineFormulaHideChanged() {
+        public getSectionFormulaHideChanged() {
+            return this.sectionFormulaHideChanged;
+        }
+
+        public setSectionFormulaHideChanged(rhs: boolean) {
+            this.sectionFormulaHideChanged = rhs;
+        }
+
+        public getHasSectionLineFormulaHideChanged() {
             return this.bSetSectionLineFormulaHideChanged;
         }
 
-        public setSetSectionLineFormulaHideChanged(rhs: boolean) {
+        public setHasSectionLineFormulaHideChanged(rhs: boolean) {
             this.bSetSectionLineFormulaHideChanged = rhs;
+        }
+
+        public getSectionLineFormulaHideChanged() {
+            return this.sectionLineFormulaHideChanged;
+        }
+
+        public setSectionLineFormulaHideChanged(rhs: boolean) {
+            this.sectionLineFormulaHideChanged = rhs;
         }
 
         //#endregion
@@ -1898,7 +1914,6 @@ namespace CSReportEditor {
             this.txWidth.setText("");
             this.txHeight.setText("");
             this.chkCanGrow.setChecked(false);
-            this.chkWordWrap.setText("");
             this.chkIsFreeCtrl.setChecked(false);
             this.txExportColIdx.setText("");
 
@@ -1906,10 +1921,7 @@ namespace CSReportEditor {
             this.lbFormulaHide.setText("");
             this.chkFormulaValue.setChecked(false);
             this.lbFormulaValue.setText("");
-            this.cmdFormulaValue.setText("");
             this.txIdxGroup.setText("");
-            this.opBeforePrint.setText("");
-            this.opAfterPrint.setText("");
 
             this.txImageFile.setText("");
             this.picImage.setImage(null);

@@ -177,6 +177,11 @@ header nav ul li {
     font-size: 24px;
 }
 
+#right-sidebar label {
+    font-size: 13px;
+    margin-top: 10px;
+}
+
 #right-sidebar .toolbar {
     background-color: #494947;
 }
@@ -234,7 +239,7 @@ input[type=number],
 select {
     display: block;
     width: 90%;
-    margin: 5px 0;
+    margin: 5px 0 15px 5px;
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #eee;

@@ -13,12 +13,16 @@ namespace CSForms {
 
         setText(text: string) {
             this.elInput.value = text;
-            super.setText(text);
         }
 
         getSelectionStart() {
             return this.elInput.selectionStart;
         }
+
+        getText() {
+            return this.elInput.value;
+        }
+
 
     }
 }

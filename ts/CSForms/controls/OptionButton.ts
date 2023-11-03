@@ -14,5 +14,9 @@ namespace CSForms {
         setChecked(checked: boolean) {
             this.elInput.checked = checked;
         }
+
+        getChecked(): boolean {
+            return this.elInput.checked;
+        }
     }
 }
