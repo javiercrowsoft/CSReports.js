@@ -49,13 +49,18 @@ namespace CSKernelFile  {
         }
 
         saveInBrowser(name: string, content: string, type: string) {
-            const a = document.createElement("a") as HTMLAnchorElement;
             const file = new Blob([content], {type: type});
+            const url = URL.createObjectURL(file);
+            const a = document.createElement("a") as HTMLAnchorElement;
             a.style.display = 'none';
-            a.href = URL.createObjectURL(file);
+            a.href = url;
             a.download = name;
             document.body.appendChild(a);
             cWindow.clickElem(a);
+            setTimeout(function() {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 0);
         }
 
         close() {

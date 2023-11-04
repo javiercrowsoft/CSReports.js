@@ -19,6 +19,7 @@ namespace CSForms {
     class TabPages {
 
         private tabBar: TabBar;
+        private selectorFlags = new CSOAPI.Map<HTMLSpanElement>();
 
         public constructor(tabBar: TabBar) {
             this.tabBar = tabBar;
@@ -27,6 +28,7 @@ namespace CSForms {
         public hideAll() {
             for(let i = 0; i < this.tabBar.getControls().count(); i++) {
                 this.tabBar.getControls().item(i).getElement().style.display = 'none';
+                this.selectorFlags.item(i).style.display = 'none';
             }
         }
 
@@ -38,6 +40,7 @@ namespace CSForms {
                 this.hideAll();
                 console.log("open " + tabPage.getText());
                 tabPage.getElement().style.display = 'block';
+                tabPage.getSelectedFlag().style.display = 'block';
                 event.stopPropagation();
                 // @ts-ignore
                 if(event.raisedByCode === undefined) tabPage.showTab();
@@ -52,6 +55,7 @@ namespace CSForms {
                 event.stopPropagation();
                 if(tabPage.onClose) tabPage.onClose();
                 this.tabBar.getControls().removeByObject(tabPage);
+                this.selectorFlags.removeByObject(tabPage.getSelectedFlag());
                 if(this.tabBar.getControls().size() > 0) {
                     const nextTab = this.tabBar.getControls().item(0) as TabPage;
                     nextTab.showTab();
@@ -62,8 +66,21 @@ namespace CSForms {
             };
             tabCloseNode.innerText = "x";
             tabSelectorNode.appendChild(tabCloseNode);
-            this.tabBar.getElement().appendChild(tabSelectorNode);
+            const div = document.createElement('div');
+            div.appendChild(tabSelectorNode);
+            div.style.padding = "0";
+            const span = document.createElement('span');
+            span.style.backgroundColor = "#92e1a3";
+            span.style.widows = "100%";
+            span.style.height = "2px";
+            span.style.display = "block";
+            span.style.position = "relative";
+            span.style.top = "44px";
+            this.selectorFlags.add(span);
+            div.appendChild(span);
+            this.tabBar.getElement().appendChild(div);
             tabPage.setTabSelector(tabSelectorNode);
+            tabPage.setSelectedFlag(span);
 
             // add tab page to tab bar parent
             this.tabBar.getElement().parentNode.appendChild(tabPage.getElement());

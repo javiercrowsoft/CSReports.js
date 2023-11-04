@@ -49,17 +49,12 @@ namespace CSReportEditor {
 	    }
 
 	    public static setDocActive(maybeEditor: cEditor | PreviewTab) {
-	        this.editor = maybeEditor;
 	        this.setMenu();
 
-            if(! this.editor.isEditor()) return;
+            this.editor = maybeEditor;
             const editor = (this.editor as cEditor);
 
-            if(editor !== null) {
-                let editorTab: TabPage = editor.getEditorTab();
-                // TODO: implement
-                //  this.selectedTab = editorTab;
-
+            if(editor !== null && editor.isEditor()) {
                 if(this.fToolbox !== null && U.isVisible(this.fToolbox)) {
                     if(this.getToolbox(editor) !== null) { editor.showToolbox(); }
                 }
@@ -142,11 +137,11 @@ namespace CSReportEditor {
 	    }
 
 	    private static setMenu() {
-            if(! this.editor.isEditor()) return;
             const editor = (this.editor as cEditor);
-
 	        try {
-                if(this.editor === null || editor.getReport() === null) {
+                if(this.editor === null
+                    || ! this.editor.isEditor()
+                    || editor.getReport() === null) {
                     this.fMain.setMenuAux(false);
                     this.fMain.setBarText("");
                     this.fMain.setStatus("");
@@ -209,12 +204,14 @@ namespace CSReportEditor {
         public static clearProperties() {
             this.getPropertyDlg().clear();
             this.getPropertyDlg().disable();
+            this.getPropertyDlg().displayCtrlPropertyTabs();
             this.getPropertyDlg().showCtrlPropertyTabs();
             this.fMain.clearProperties();
         }
 
         public static showProperties(key?: string, isSection: boolean = false) {
-            if(! this.editor.isEditor()) return;
+            if(this.editor === null || ! this.editor.isEditor()) return;
+
             const editor = (this.editor as cEditor);
             if(key === undefined) {
                 key = editor.getSelectedKey();
@@ -235,13 +232,7 @@ namespace CSReportEditor {
         }
 
         public static showPropertyTab(tab: string) {
-            U.el('property-format-tab').style.display = tab === 'property-format-tab' ? 'block' : 'none';
-            U.el('property-formulas-tab').style.display = tab === 'property-formulas-tab' ? 'block' : 'none';
-            U.el('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
-            U.el('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
-            U.el('property-image-tab').style.display = tab === 'property-image-tab' ? 'block' : 'none';
-            U.el('property-chart-tab').style.display = tab === 'property-chart-tab' ? 'block' : 'none';
-            U.el('property-section-tab').style.display = tab === 'property-section-tab' ? 'block' : 'none';
+            this.fMain.getPropertyDlg().selectTab(tab);
         }
 
         public static showSideBarTab(tab: string) {
@@ -249,6 +240,11 @@ namespace CSReportEditor {
             U.el('sidebar-lv-controls').style.display = tab === 'sidebar-lv-controls' ? 'block' : 'none';
             U.el('sidebar-lv-properties').style.display = tab === 'sidebar-lv-properties' ? 'block' : 'none';
             U.el('sidebar-lv-database').style.display = tab === 'sidebar-lv-database' ? 'block' : 'none';
+
+            U.el('sidebar-tv-controls-tab').style.backgroundColor = tab === 'sidebar-tv-controls' ? '#ddd' : '#bcb8b8';
+            U.el('sidebar-lv-controls-tab').style.backgroundColor = tab === 'sidebar-lv-controls' ? '#ddd' : '#bcb8b8';
+            U.el('sidebar-lv-properties-tab').style.backgroundColor = tab === 'sidebar-lv-properties' ? '#ddd' : '#bcb8b8';
+            U.el('sidebar-lv-database-tab').style.backgroundColor = tab === 'sidebar-lv-database' ? '#ddd' : '#bcb8b8';
         }
 
         public static toggleSideBarTab() {

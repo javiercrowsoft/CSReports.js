@@ -23,7 +23,6 @@ namespace CSReportEditor {
     import PictureBox = CSForms.PictureBox;
 
     export class PropertyDlg {
-
         // fields
         //#region
         private editor: cEditor;
@@ -184,6 +183,27 @@ namespace CSReportEditor {
         private tabImage: HTMLElement;
         private tabChart: HTMLElement;
         private tabSection: HTMLElement;
+
+        private currentTab: string = null;
+
+        private static CTRL_TABS = [
+            "property-format-tab-selector",
+            "property-formulas-tab-selector",
+            "property-borders-tab-selector",
+            "property-database-tab-selector",
+            "property-image-tab-selector",
+            "property-chart-tab-selector"
+        ];
+
+        private static SECTION_TABS = [
+            "property-format-tab-selector",
+            "property-formulas-tab-selector",
+            "property-borders-tab-selector",
+            "property-database-tab-selector",
+            "property-image-tab-selector",
+            "property-chart-tab-selector",
+            "property-section-tab-selector"
+        ];
 
         // footer buttons
 
@@ -1537,14 +1557,29 @@ namespace CSReportEditor {
             this.tabSection.style.display = 'block';
         }
 
-        showCtrlPropertyTabs() {
+        displayCtrlPropertyTabs() {
             this.hideTabSection();
             this.showTabFormat();
             this.showTabField();
             this.showTabBorders();
             this.showTabFormulas();
-            CSReportEditor.cMainEditor.showPropertyTab('property-format-tab')
         }
+
+        showCtrlPropertyTabs() {
+            if(! this.isCtrlTab(this.currentTab) || ! this.tabIsVisible(this.currentTab)) {
+                this.selectTab('property-format-tab');
+            }
+        }
+
+        private isCtrlTab(tab: string) {
+            return PropertyDlg.CTRL_TABS.indexOf(tab);
+        }
+
+        private tabIsVisible(tab: string) {
+            if(tab === null) return false;
+            return U.el(tab).style.display === 'block';
+        }
+
         showSectionPropertyTabs() {
             this.hideTabChart();
             this.hideTabImage();
@@ -1553,8 +1588,15 @@ namespace CSReportEditor {
             this.hideTabBorders();
             this.hideTabFormulas();
             this.showTabSection();
-            CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')
+            if(! this.isSectionTab(this.currentTab) || ! this.tabIsVisible(this.currentTab)) {
+                this.selectTab('property-section-tab');
+            }
         }
+
+        private isSectionTab(tab: string) {
+            return PropertyDlg.SECTION_TABS.indexOf(tab);
+        }
+
         disable() {
             this.setEnabled(false);
         }
@@ -1936,6 +1978,27 @@ namespace CSReportEditor {
             this.shBorderShadow.setBackColor(null);
             this.txBorderWidth.setText("");
             this.chkBorderRounded.setChecked(false);
+        }
+
+        public selectTab(tab: string) {
+
+            this.currentTab = tab;
+
+            U.el('property-format-tab').style.display = tab === 'property-format-tab' ? 'block' : 'none';
+            U.el('property-formulas-tab').style.display = tab === 'property-formulas-tab' ? 'block' : 'none';
+            U.el('property-database-tab').style.display = tab === 'property-database-tab' ? 'block' : 'none';
+            U.el('property-borders-tab').style.display = tab === 'property-borders-tab' ? 'block' : 'none';
+            U.el('property-image-tab').style.display = tab === 'property-image-tab' ? 'block' : 'none';
+            U.el('property-chart-tab').style.display = tab === 'property-chart-tab' ? 'block' : 'none';
+            U.el('property-section-tab').style.display = tab === 'property-section-tab' ? 'block' : 'none';
+
+            U.el('property-format-tab-selector').style.backgroundColor = tab === 'property-format-tab' ? '#111' : '#494947';
+            U.el('property-formulas-tab-selector').style.backgroundColor = tab === 'property-formulas-tab' ? '#111' : '#494947';
+            U.el('property-database-tab-selector').style.backgroundColor = tab === 'property-database-tab' ? '#111' : '#494947';
+            U.el('property-borders-tab-selector').style.backgroundColor = tab === 'property-borders-tab' ? '#111' : '#494947';
+            U.el('property-image-tab-selector').style.backgroundColor = tab === 'property-image-tab' ? '#111' : '#494947';
+            U.el('property-chart-tab-selector').style.backgroundColor = tab === 'property-chart-tab' ? '#111' : '#494947';
+            U.el('property-section-tab-selector').style.backgroundColor = tab === 'property-section-tab' ? '#111' : '#494947';
         }
     }
 }

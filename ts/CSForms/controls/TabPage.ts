@@ -8,6 +8,7 @@ namespace CSForms {
 
         private text: string;
         private tabSelector: HTMLElement;
+        private selectedFlag: HTMLSpanElement;
         public onClose: ()=> void;
         public onActive: ()=> void;
 
@@ -19,6 +20,14 @@ namespace CSForms {
 
         public setTabSelector(tabSelector: HTMLElement) {
             this.tabSelector = tabSelector;
+        }
+
+        public getSelectedFlag() {
+            return this.selectedFlag;
+        }
+
+        public setSelectedFlag(selectedFlag: HTMLSpanElement) {
+            this.selectedFlag = selectedFlag;
         }
 
         public getTag() {

@@ -3566,7 +3566,7 @@ namespace CSReportEditor {
 
                 if(rptCtrl === null) return;
 
-                propertyDlg.showCtrlPropertyTabs();
+                propertyDlg.displayCtrlPropertyTabs();
 
                 propertyDlg.enable();
 
@@ -3689,6 +3689,8 @@ namespace CSReportEditor {
                 propertyDlg.getChkTransparent().setChecked(aspect.getTransparent());
 
                 propertyDlg.resetChangedFlags();
+
+                propertyDlg.showCtrlPropertyTabs();
 
             } catch(ex) {
                 cError.mngError(ex);
