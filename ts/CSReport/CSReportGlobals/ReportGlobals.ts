@@ -2,6 +2,7 @@ namespace CSReportGlobals {
 
     import Utils = CSOAPI.Utils;
     import Constants = CSDatabase.Constants;
+    import ArgumentException = CSOAPI.ArgumentException;
 
     export class ReportGlobals {
 
@@ -97,6 +98,7 @@ namespace CSReportGlobals {
         }
 
         public static format(expression: any, strFormat: string): string {
+            console.log('strFormat : ' + strFormat);
             if(expression === null) {
                 return "";
             }
@@ -109,18 +111,155 @@ namespace CSReportGlobals {
                     }
                     isDate = true;
                 }
+                else if(typeof expression === 'string'
+                       && ! isNaN(Date.parse(expression))
+                       && (
+                        expression.indexOf("/") > -1
+                        || expression.indexOf(":") > -1
+                        || "ABCDEFGHYJKNLMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".indexOf(expression.charAt(0)) > -1
+                        )) {
+                    isDate = true;
+                }
                 if(strFormat === "") {
                     return expression.toString();
                 }
                 else {
                     if(isDate) {
-                        return expression.toString().format(strFormat);
+                        return this.formatDate(expression, strFormat);
                     }
                     else {
-                        return Utils.val(expression).toString().format(strFormat);
+                        return this.formatNumber(expression, strFormat);
                     }
                 }
             }
+        }
+
+        public static formatDate(value: any, format: string) {
+            try {
+                const date = new Date(value);
+                const z = {
+                    M: date.getMonth() + 1,
+                    d: date.getDate(),
+                    h: date.getHours(),
+                    m: date.getMinutes(),
+                    s: date.getSeconds()
+                };
+                format = format.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
+                    return ((v.length > 1 ? "0" : "") + z[v.slice(-1)]).slice(-2)
+                });
+
+                return format.replace(/(y+)/g, function(v) {
+                    return date.getFullYear().toString().slice(-v.length)
+                });
+            }
+            catch(ex) {
+                return "error: " + ex.message;
+            }
+        }
+
+        public static formatNumber(value: any, format: string) {
+            const validateFormat = (format: string) => {
+                var regExp = new RegExp("^[0#.,;+\-]*$");
+                var isValid = regExp.test(format); // or just: /^\d+$/.test(strNumber);
+                if(isValid) {
+                    if(format.indexOf(";") > -1) {
+                        isValid = format.split(";").length === 2;
+                    }
+                }
+                return isValid;
+            }
+            // format must be of type
+            // ###,###,###,###,##0.00;-###,###,###,###,##0.00
+            //
+            if (! validateFormat(format)) {
+                throw new ArgumentException("strFormat must only contain # . + - and 0. It was " + format);
+            }
+
+            const numberValue = Utils.val(value);
+
+            if(format.indexOf(";") > -1) {
+                const vformat = format.split(";");
+                let positiveFormat: string;
+                let negativeFormat: string;
+                if(vformat[0].charAt(0) === "-") {
+                    negativeFormat = vformat[0];
+                    positiveFormat = vformat[1];
+                }
+                else {
+                    negativeFormat = vformat[1];
+                    positiveFormat = vformat[0];
+                }
+                if(numberValue < 0) {
+                    return this.formatNumber(value, vformat[1]);
+                }
+                else {
+                    return this.formatNumber(value, vformat[0]);
+                }
+            }
+
+            const num = numberValue.toString();
+
+            const vformat = format.split(".");
+            const integerFormat = vformat[0]
+            const decimalFormat = vformat[1];
+
+            const vnumber = num.split(".");
+            let integerPart = vnumber[0];
+            let decimalPart = vnumber[1];
+
+            if(decimalFormat) {
+                decimalPart = decimalPart || '';
+                decimalPart = (decimalPart + decimalFormat).substring(0, decimalFormat.length);
+            }
+
+            let intPart = "";
+            let j = -1;
+            let i = -1;
+            for(i = integerFormat.length -1,
+                j = integerPart.length -1;
+                i > -1 && j > -1;
+                i--, j--) {
+
+                const c = integerFormat.charAt(i);
+                if(c === "#" || c === "0") {
+                    intPart = integerPart[j] + intPart;
+                }
+                else {
+                    intPart = integerFormat[i] + intPart;
+                }
+            }
+
+            if(j > -1) {
+                intPart = intPart.substring(0, j) + intPart;
+            }
+
+            if(i > -1) {
+                for(; i > -1; i--) {
+                    if(integerFormat.charAt(i) !== "#") {
+                        intPart = integerFormat.charAt(i) + intPart;
+                    }
+                }
+            }
+
+            const start = intPart.substring(0, 2);
+            if(start === '-,'|| start === '+,') {
+                intPart = intPart.substring(2);
+            }
+
+            while(true) {
+                const c = intPart.charAt(0)
+                if(c === "," || c === ".") {
+                    intPart = intPart.substring(1);
+                } else {
+                    break;
+                }
+            }
+
+            decimalPart = decimalPart !== undefined ? "." + decimalPart : "";
+
+            if(decimalPart === '.un') debugger;
+
+            return intPart + decimalPart;
         }
 
         public static getRealName(name: string) {

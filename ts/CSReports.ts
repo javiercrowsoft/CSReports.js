@@ -11,6 +11,7 @@ String.prototype.contains = function(value: string): boolean {
 }
 
 String.prototype.format = function(format: string): string {
+    console.log('in String Prototype 1 : ' + format);
     return String(this);
 }
 

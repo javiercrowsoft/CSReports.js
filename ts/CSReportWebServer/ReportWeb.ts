@@ -93,8 +93,8 @@ namespace CSReportWebServer {
                         this.reportProgress(e.data.eventArgs);
                         break;
 
-                    case 'report-done':
-                        this.reportDone();
+                    case 'report-generation-done':
+                        // nothing to do
                         break;
 
                     case 'worker-launch-complete-successfully':
@@ -111,10 +111,13 @@ namespace CSReportWebServer {
                         break;
 
                     case 'get-report-start':
+                        this.reportProgress(e.data.eventArgs);
                         this.pages = new cReportPages();
+                        this.reportProgress(e.data.eventArgs);
                         break;
 
                     case 'get-report-pages':
+                        this.reportProgress(e.data.eventArgs);
                         const pages = new cReportPages()
                         pages.copy(JSON.parse(e.data.pages));
                         this.pages.concat(pages);
@@ -127,6 +130,7 @@ namespace CSReportWebServer {
                         this.report.getLaunchInfo().setReportPrint(reportPrint);
                         reportPrint.setReport(this.report);
                         this.successGetReport(true);
+                        this.reportDone();
                         break;
                 }
             });

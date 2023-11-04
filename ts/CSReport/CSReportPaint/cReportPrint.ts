@@ -796,8 +796,6 @@ namespace CSReportPaint {
                     //
                     lineHeight = this.updateFieldHeight(fields.get(), offsetTopr);
 
-                    console.log("fields size: " + fields.get().count() + " - lineHeight: " + lineHeight + " - detailHeight: " + detailHeight.get());
-
                     // if it can fit we create a new page
                     //
                     if(lineHeight > detailHeight.get()) {
