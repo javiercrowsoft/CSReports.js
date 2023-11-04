@@ -796,6 +796,8 @@ namespace CSReportPaint {
                     //
                     lineHeight = this.updateFieldHeight(fields.get(), offsetTopr);
 
+                    console.log("fields size: " + fields.get().count() + " - lineHeight: " + lineHeight + " - detailHeight: " + detailHeight.get());
+
                     // if it can fit we create a new page
                     //
                     if(lineHeight > detailHeight.get()) {
@@ -1401,25 +1403,6 @@ namespace CSReportPaint {
             this.cIReportPrint_PrintReport();
         }
 
-        /*TODO: we need to decide if this is useful
-         *
-            private void this.rpwPrint_ExportExcel() {
-                try {
-
-                    CMouseWait mouse = new CMouseWait();
-
-                    Application.DoEvents();
-
-                    CSReportExport.cReportExcel expExcel = null;
-                    expExcel = new CSReportExport.cReportExcel();
-
-                    expExcel.export(this.report);
-
-                } catch(Exception ex) {
-                    cError.mngError(ex);
-                }
-            }
-        */
         private rpwPrint_ExportPDF() {
             this.exportPDF();
         }
@@ -1471,22 +1454,6 @@ namespace CSReportPaint {
             }
         }
 
-        /* We need to decide if it is useful
-         *
-            private void this.rpwPrint_ExportWord() {
-                try {
-                    CMouseWait mouse = new CMouseWait();
-
-                    CSReportExport.cReportWord expWord = null;
-                    expWord = new CSReportExport.cReportWord();
-
-                    expWord.export(this.report);
-
-                } catch(Exception ex) {
-                    cError.mngError(ex);
-                }
-            }
-        */
         private rpwPrintMoveFirst(sender: object, e: EventArgs) {
             this.printPage(csEMoveTo.FIRSTPAGE);
         }

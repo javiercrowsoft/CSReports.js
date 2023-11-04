@@ -46,6 +46,11 @@ namespace CSReportEngine {
 
         public static eval(script: any, globals: cReportCompilerGlobals): any {
             return script.runScript(globals);
+            /*
+            const rslt = script.runScript(globals);
+            console.log('script rslt: ' + rslt);
+            return rslt;
+            */
         }
     }
 }

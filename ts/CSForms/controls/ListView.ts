@@ -46,11 +46,11 @@ namespace CSForms {
         private text: string;
         private imageIndex: number;
         private foreColor: Color;
-        tag: any;
-        subItems: SubItems;
         private tr: HTMLTableRowElement;
         private td: HTMLTableCellElement;
 
+        public tag: any;
+        public subItems: SubItems;
         public state: ListState;
 
         public constructor(tr: HTMLTableRowElement, state: ListState) {
@@ -69,6 +69,11 @@ namespace CSForms {
         onclick() {
             if(this.state.onclick) {
                 this.state.onclick(this);
+                this.tr.style.backgroundColor = "lightgreen";
+                if(this.state.activeItem?.subItems?.getTr()) {
+                    this.state.activeItem.subItems.getTr().style.backgroundColor = '';
+                }
+                this.state.activeItem = this;
             }
         }
 
@@ -124,6 +129,11 @@ namespace CSForms {
         onclick() {
             if(this.state.onclick) {
                 this.state.onclick(this._item);
+                this.tr.style.backgroundColor = "lightgreen";
+                if(this.state.activeItem?.subItems?.getTr()) {
+                    this.state.activeItem.subItems.getTr().style.backgroundColor = '';
+                }
+                this.state.activeItem = this._item;
             }
         }
 
@@ -133,6 +143,10 @@ namespace CSForms {
 
         setTr(tr: HTMLTableRowElement) {
             this.tr = tr;
+        }
+
+        getTr() {
+            return this.tr;
         }
     }
 

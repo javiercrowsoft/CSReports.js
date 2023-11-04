@@ -68,7 +68,19 @@ const reportWorker = (()=> {
                 field.getInfo().getSectionLine().setCopyColl(null);
             });
         });
-        postMessage({action: 'get-report', pages: JSON.stringify(pages) });
+
+        postMessage({action: 'get-report-start' });
+
+        let start = 0;
+        const CHUNK_SIZE = 10;
+        while(true) {
+            const chunk = pages.getChunk(start, CHUNK_SIZE);
+            if(chunk.count() === 0) break;
+            start += CHUNK_SIZE;
+            postMessage({action: 'get-report-pages', pages: JSON.stringify(chunk) });
+        }
+
+        postMessage({action: 'get-report-done' });
     };
 
     return {

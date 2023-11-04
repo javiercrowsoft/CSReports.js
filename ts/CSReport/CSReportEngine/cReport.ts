@@ -402,6 +402,10 @@ namespace CSReportEngine {
             return this.pages;
         }
 
+        public setPages(pages: cReportPages) {
+            this.pages = pages;
+        }
+
         public getPageSetting() {
             return this.pageSetting;
         }
@@ -1512,7 +1516,7 @@ namespace CSReportEngine {
             let indexField: number = 0;
 
             if(sec.getHasFormulaHide()) {
-                isVisible = U.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                isVisible = U.valEx(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
             }
             else {
                 isVisible = true;
@@ -1527,7 +1531,7 @@ namespace CSReportEngine {
 
                     if(secLn.getHasFormulaHide()) {
                         this.compiler.evalFunction(secLn.getFormulaHide());
-                        isVisible = U.val(this.compiler.resultFunction(secLn.getFormulaHide())) !== 0;
+                        isVisible = U.valEx(this.compiler.resultFunction(secLn.getFormulaHide())) !== 0;
                     }
                     else {
                         isVisible = true;
@@ -1608,7 +1612,7 @@ namespace CSReportEngine {
                             }
 
                             if(ctrl.getHasFormulaHide()) {
-                                field.setVisible(U.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
+                                field.setVisible(U.valEx(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
                             }
                             else {
                                 field.setVisible(true);
@@ -3808,7 +3812,7 @@ namespace CSReportEngine {
             for(let _i = 0; _i < this.headers.count(); _i++) {
                 sec = this.headers.item(_i);
                 if(sec.getHasFormulaHide()) {
-                    isVisible = U.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                    isVisible = U.valEx(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
                 }
                 else {
                     isVisible = true;
@@ -3862,7 +3866,7 @@ namespace CSReportEngine {
                 this.lineIndex = this.lineIndex + 1;
 
                 if(sec.getHasFormulaHide()) {
-                    isVisible = U.val(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
+                    isVisible = U.valEx(this.compiler.resultFunction(sec.getFormulaHide())) !== 0;
                 }
                 else {
                     isVisible = true;
@@ -3871,7 +3875,7 @@ namespace CSReportEngine {
                     for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
                         secLine = sec.getSectionLines().item(_j);
                         if(secLine.getHasFormulaHide()) {
-                            isVisible = U.val(this.compiler.resultFunction(secLine.getFormulaHide())) !== 0;
+                            isVisible = U.valEx(this.compiler.resultFunction(secLine.getFormulaHide())) !== 0;
                         }
                         else {
                             isVisible = true;
@@ -3961,7 +3965,7 @@ namespace CSReportEngine {
 
                                 if(ctrl.getHasFormulaHide()) {
                                     field.setVisible(
-                                        U.val(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
+                                        U.valEx(this.compiler.resultFunction(ctrl.getFormulaHide())) !== 0);
                                 }
                                 else {
                                     field.setVisible(true);

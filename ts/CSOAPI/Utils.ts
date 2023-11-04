@@ -20,6 +20,11 @@ namespace CSOAPI {
             }
         }
 
+        // this function will convert any value into a number
+        // but if the value is NaN it will be translated as 0
+        // for a more flexible function use valEx which handles
+        // booleans when true is -1 and false is 0
+        //
         public static val(value: any): number {
             if(value === null || value === undefined) return 0;
             else {
@@ -31,6 +36,27 @@ namespace CSOAPI {
                 }
             }
         }
+
+        // this function will convert any value into a number
+        // with an special treatment of booleans
+        // if value is boolean it will be translated as:
+        // false => 0
+        // true  => -1
+        //
+        public static valEx(value: any): number {
+            if(value === null || value === undefined) return 0;
+            else if(value === true)                   return -1;
+            else if(value === false)                  return 0;
+            else {
+                try {
+                    value = parseFloat(value);
+                    return isNaN(value) ? 0 : value;
+                } catch(ignore) {
+                    return 0;
+                }
+            }
+        }
+
 
         public static valInt(value: any): number {
             return parseInt(this.val(value) as any);

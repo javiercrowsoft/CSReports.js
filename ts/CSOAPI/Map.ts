@@ -166,5 +166,21 @@ namespace CSOAPI {
         public forEachValue(f: (T) => void) {
             this.values.forEach(f);
         }
+
+        public getChunk(start: number, size: number) {
+            const map = new Map<T>();
+            map.keys = this.keys.slice(start, start + size);
+            map.values = this.values.slice(start, start + size);
+            map.length = map.keys.length;
+            return map;
+        }
+
+        public concat(map: Map<T>) {
+            this.keys = this.keys.concat(map.keys);
+            this.values = this.values.concat(map.values);
+            this.length = this.values.length;
+            this.keyIndex = this.length;
+        }
+
     }
 }

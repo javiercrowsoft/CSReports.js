@@ -1,7 +1,10 @@
+///<reference path="../CSReport/CSReportEngine/cReportPages.ts"/>
+
 namespace CSReportWebServer {
 
     import U = CSOAPI.Utils;
     import cReport = CSReportEngine.cReport;
+    import cReportPages = CSReportEngine.cReportPages;
     import cReportLaunchInfo = CSReportEngine.cReportLaunchInfo;
     import ReportLaunchInfoDTO = CSReportEngine.ReportLaunchInfoDTO;
     import ProgressEventArgs = CSReportEngine.ProgressEventArgs;
@@ -23,6 +26,7 @@ namespace CSReportWebServer {
         private webReportId: string;
         private database: string;
         private report: cReport = null;
+        private pages: cReportPages = null;
         private cancelPrinting = false;
 
         private reportWorker: Worker;
@@ -106,8 +110,18 @@ namespace CSReportWebServer {
                         this.launchFailed(e.data.reason);
                         break;
 
-                    case 'get-report':
-                        this.report.getPages().copy(JSON.parse(e.data.pages));
+                    case 'get-report-start':
+                        this.pages = new cReportPages();
+                        break;
+
+                    case 'get-report-pages':
+                        const pages = new cReportPages()
+                        pages.copy(JSON.parse(e.data.pages));
+                        this.pages.concat(pages);
+                        break;
+
+                    case 'get-report-done':
+                        this.report.setPages(this.pages);
                         const reportPrint = new CSReportPaint.cReportPrint();
                         reportPrint.setHidePreviewWindow(true);
                         this.report.getLaunchInfo().setReportPrint(reportPrint);
