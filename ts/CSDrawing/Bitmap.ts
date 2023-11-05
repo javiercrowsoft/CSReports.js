@@ -568,11 +568,13 @@ namespace CSDrawing {
 
         constructor(foreground: string|number) {
             super();
+            /*
             if(typeof foreground === 'number') {
                 const hex = foreground.toString(16);
                 foreground = "#" + "000000".substring(0, 6-hex.length) + hex;
             }
-            this._foreground = new Color(foreground);
+            */
+            this._foreground = new Color(Color.colorFromNumber(foreground));
         }
 
         get foreground(): Color {
@@ -811,7 +813,7 @@ namespace CSDrawing {
 
         public static colorFromNumber(color: string|number) {
             //@ts-ignore
-            if(typeof color === 'string' && Number.isInteger(color)) {
+            if(typeof color === 'string' && Number.isInteger(Number(color))) {
                 color = parseInt(color);
             }
             if(typeof color === 'number') {

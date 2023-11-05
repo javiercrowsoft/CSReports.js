@@ -9,7 +9,7 @@ namespace CSReportPaint {
         private aspect: cReportAspect = new cReportAspect();
         private key: string = "";
         private text: string = "";
-        private paintType: csRptPaintObjType = null;
+        private paintType: csRptPaintObjType = csRptPaintObjType.CSRPTPAINTOBJBOX;
         private tag: string = "";
         private rptType: csRptSectionType = null;
         private rptKeySec: string = "";

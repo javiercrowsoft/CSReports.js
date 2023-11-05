@@ -1609,7 +1609,7 @@ namespace CSReportPaint {
                     //       we must not call printRectangle
                     //
                     if(!this.notBorder
-                        || (filled && colorIn !== Color.White.toString()) // this is the value of white controls in cairo reports.
+                        || (filled && colorIn !== '16777215' /*Color.White.toString()*/) // this is the value of white controls in cairo reports.
                         || (aspect.getBorderType() === csReportBorderType.CS_RPT_BS_FIXED && aspect.getBorderWidth() > 0)) {
                         this.printRectangle(graphic, filled, x1, y1, x2, y2, colorIn, borderWidth, dash, colorOut, false);
                     }
