@@ -74,13 +74,12 @@ const reportWorker = (()=> {
         postMessage({action: 'get-report-start', eventArgs: eventArgs });
 
         let start = 0;
-        let n = 0;
         const CHUNK_SIZE = 10;
         while(true) {
             const chunk = pages.getChunk(start, CHUNK_SIZE);
             if(chunk.count() === 0) break;
             start += CHUNK_SIZE;
-            const eventArgs = new CSReportEngine.ProgressEventArgs("Formating pages", n++, start, pages.size());
+            const eventArgs = new CSReportEngine.ProgressEventArgs("Formating pages", start, start, pages.size());
             postMessage({action: 'get-report-pages', pages: JSON.stringify(chunk), eventArgs: eventArgs });
         }
 

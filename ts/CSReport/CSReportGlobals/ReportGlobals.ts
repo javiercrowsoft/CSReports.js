@@ -218,11 +218,12 @@ namespace CSReportGlobals {
             for(i = integerFormat.length -1,
                 j = integerPart.length -1;
                 i > -1 && j > -1;
-                i--, j--) {
+                i--) {
 
                 const c = integerFormat.charAt(i);
                 if(c === "#" || c === "0") {
                     intPart = integerPart[j] + intPart;
+                    j--;
                 }
                 else {
                     intPart = integerFormat[i] + intPart;

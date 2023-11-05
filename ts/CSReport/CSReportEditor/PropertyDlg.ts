@@ -187,22 +187,16 @@ namespace CSReportEditor {
         private currentTab: string = null;
 
         private static CTRL_TABS = [
-            "property-format-tab-selector",
-            "property-formulas-tab-selector",
-            "property-borders-tab-selector",
-            "property-database-tab-selector",
-            "property-image-tab-selector",
-            "property-chart-tab-selector"
+            "property-format-tab",
+            "property-formulas-tab",
+            "property-borders-tab",
+            "property-database-tab",
+            "property-image-tab",
+            "property-chart-tab"
         ];
 
         private static SECTION_TABS = [
-            "property-format-tab-selector",
-            "property-formulas-tab-selector",
-            "property-borders-tab-selector",
-            "property-database-tab-selector",
-            "property-image-tab-selector",
-            "property-chart-tab-selector",
-            "property-section-tab-selector"
+            "property-section-tab"
         ];
 
         // footer buttons
@@ -1572,7 +1566,7 @@ namespace CSReportEditor {
         }
 
         private isCtrlTab(tab: string) {
-            return PropertyDlg.CTRL_TABS.indexOf(tab);
+            return PropertyDlg.CTRL_TABS.indexOf(tab) > -1;
         }
 
         private tabIsVisible(tab: string) {
@@ -1594,7 +1588,7 @@ namespace CSReportEditor {
         }
 
         private isSectionTab(tab: string) {
-            return PropertyDlg.SECTION_TABS.indexOf(tab);
+            return PropertyDlg.SECTION_TABS.indexOf(tab) > -1;
         }
 
         disable() {

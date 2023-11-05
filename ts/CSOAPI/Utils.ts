@@ -107,7 +107,14 @@ namespace CSOAPI {
         }
 
         public static isHidden(el) {
-            return (window.getComputedStyle(el).display === 'none');
+            try {
+                return (window.getComputedStyle(el).display === 'none');
+            }
+            catch(ex) {
+                debugger;
+                console.log(ex);
+                return false;
+            }
         }
 
         private static _sepDecimal = "";

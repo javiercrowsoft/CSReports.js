@@ -73,7 +73,7 @@ namespace CSKernelClient {
             console.log(ex);
             if(this.f === null) this.f = new fErrors();
             this.f.setErrorIcon();
-            this.f.setDetails(ex.getMessage ? ex.getMessage() : ex.toString());
+            this.f.setDetails(ex.getMessage ? ex.getMessage() : ex.message || ex.toString());
             this.f.setInfoAdd(infoAdd);
             return this.f.showDialog();
         }
