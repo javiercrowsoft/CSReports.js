@@ -80,10 +80,10 @@ namespace CSReportEditor {
 
             for(let _i = 0; _i < report.getControls().count(); _i++) {
                 let c = report.getControls().item(_i);
-                if(c.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
+                if(c.getControlType() === csRptControlType.RPT_CT_FIELD) {
                     this.addDBField(c.getName(), c.getField().getName());
                 }
-                else if(c.getControlType() === csRptControlType.CS_RPT_CT_LABEL) {
+                else if(c.getControlType() === csRptControlType.RPT_CT_LABEL) {
                     this.addLabel(c.getName());
                 }
             }

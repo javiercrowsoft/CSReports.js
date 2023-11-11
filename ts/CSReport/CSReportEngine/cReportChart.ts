@@ -1,5 +1,6 @@
 namespace CSReportEngine {
 
+    import Image = CSDrawing.ImageX;
     import csRptChartLineStyle = CSReportGlobals.csRptChartLineStyle;
     import csRptChartPieThickness = CSReportGlobals.csRptChartPieThickness;
     import csRptChartPieDiameter = CSReportGlobals.csRptChartPieDiameter;
@@ -32,7 +33,7 @@ namespace CSReportEngine {
         private groupValue: string = "";
         private groupFieldIndex: number = 0;
         private sort: boolean = null;
-        private image: object = null;
+        private image: Image = null;
 
         public getSeries() {
             return this.series;
@@ -166,7 +167,7 @@ namespace CSReportEngine {
             return this.image;
         }
 
-        public setImage(rhs: object) {
+        public setImage(rhs: Image) {
             this.image = rhs;
         }
 

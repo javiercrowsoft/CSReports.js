@@ -464,7 +464,7 @@ namespace CSReportEditor {
             .then((result) => {
                 if(! result) return false;
 
-                return previewReport.getFirstPage();
+                return previewReport.getPages();
             })
             .then((result) => {
                 if(! result) return false;

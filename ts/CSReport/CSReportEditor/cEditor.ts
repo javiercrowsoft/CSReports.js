@@ -1516,7 +1516,7 @@ namespace CSReportEditor {
             let y: number = insidePos.y;
 
             let sKey: string = "";
-            let rgnTp = new RefWrapper(csRptPaintRegionType.CRPTPNTRGNTYPEBODY);
+            let rgnTp = new RefWrapper(csRptPaintRegionType.BODY);
 
             if(this.dragging) return;
 
@@ -1597,7 +1597,7 @@ namespace CSReportEditor {
                             ctrl.getHasFormulaValue(),
                             ctrl.getField().getName());
 
-                        if(po.getPaintType() === csRptPaintObjType.CSRPTPAINTOBJLINE) {
+                        if(po.getPaintType() === csRptPaintObjType.PAINT_OBJ_LINE) {
                             this.keyMoving = sKey;
                             this.keySizing = "";
                             this.picReport.setCursor(Cursor.SizeNS);
@@ -1629,63 +1629,63 @@ namespace CSReportEditor {
                                     else {
 
                                         switch (rgnTp.get()) {
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPEBODY:
+                                            case csRptPaintRegionType.BODY:
                                                 this.picReport.setCursor(Cursor.MoveAll);
                                                 this.keyMoving = sKey;
                                                 this.keySizing = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVTALL;
                                                 break;
 
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPEDOWN:
+                                            case csRptPaintRegionType.DOWN:
                                                 this.picReport.setCursor(Cursor.SizeNS);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVDOWN;
                                                 break;
 
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPEUP:
+                                            case csRptPaintRegionType.UP:
                                                 this.picReport.setCursor(Cursor.SizeNS);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVUP;
                                                 break;
 
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPELEFT:
+                                            case csRptPaintRegionType.LEFT:
                                                 this.picReport.setCursor(Cursor.SizeEW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFT;
                                                 break;
 
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPERIGHT:
+                                            case csRptPaintRegionType.RIGHT:
                                                 this.picReport.setCursor(Cursor.SizeEW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHT;
                                                 break;
 
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN:
+                                            case csRptPaintRegionType.LEFT_DOWN:
                                                 this.picReport.setCursor(Cursor.SizeNESW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVLEFTDOWN;
                                                 break;
 
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP:
+                                            case csRptPaintRegionType.RIGHT_UP:
                                                 this.picReport.setCursor(Cursor.SizeNESW);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTUP;
                                                 break;
 
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPERIGHTDOWN:
+                                            case csRptPaintRegionType.RIGHT_DOWN:
                                                 this.picReport.setCursor(Cursor.SizeNWSE);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
                                                 this.moveType = csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN;
                                                 break;
 
-                                            case csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP:
+                                            case csRptPaintRegionType.LEFT_UP:
                                                 this.picReport.setCursor(Cursor.SizeNWSE);
                                                 this.keySizing = sKey;
                                                 this.keyMoving = "";
@@ -1738,7 +1738,7 @@ namespace CSReportEditor {
         }
 
         private setStatusBarText(ctrlName: string,
-                                  ctrlType: csRptControlType = csRptControlType.CS_RPT_CT_LABEL,
+                                  ctrlType: csRptControlType = csRptControlType.RPT_CT_LABEL,
                                   formulaHide: string = "",
                                   formulaValue: string = "",
                                   hasFormulaHide: boolean = false,
@@ -1749,16 +1749,16 @@ namespace CSReportEditor {
             let strCtlType: string = "";
 
             switch (ctrlType) {
-                case csRptControlType.CS_RPT_CT_DB_IMAGE:
+                case csRptControlType.RPT_CT_DB_IMAGE:
                     strCtlType = "DbImage";
                     break;
-                case csRptControlType.CS_RPT_CT_FIELD:
+                case csRptControlType.RPT_CT_FIELD:
                     strCtlType = "Field";
                     break;
-                case csRptControlType.CS_RPT_CT_IMAGE:
+                case csRptControlType.RPT_CT_IMAGE:
                     strCtlType = "Image";
                     break;
-                case csRptControlType.CS_RPT_CT_LABEL:
+                case csRptControlType.RPT_CT_LABEL:
                     strCtlType = "Label";
                     break;
             }
@@ -2547,7 +2547,7 @@ namespace CSReportEditor {
 
             switch (this.controlType) {
                 case csRptEditCtrlType.field:
-                    ctrl.setControlType(csRptControlType.CS_RPT_CT_FIELD);
+                    ctrl.setControlType(csRptControlType.RPT_CT_FIELD);
                     ctrl.getLabel().setText(this.fieldName);
                     let field: cReportField = ctrl.getField();
                     field.setIndex(this.fieldIndex);
@@ -2562,7 +2562,7 @@ namespace CSReportEditor {
                     break;
 
                 case csRptEditCtrlType.formula:
-                    ctrl.setControlType(csRptControlType.CS_RPT_CT_LABEL);
+                    ctrl.setControlType(csRptControlType.RPT_CT_LABEL);
                     ctrl.getFormulaValue().setText(this.formulaText + "(" + this.controlName + ")");
                     ctrl.setHasFormulaValue(true);
                     label = ctrl.getLabel();
@@ -2574,7 +2574,7 @@ namespace CSReportEditor {
                     break;
 
                 case csRptEditCtrlType.label:
-                    ctrl.setControlType(csRptControlType.CS_RPT_CT_LABEL);
+                    ctrl.setControlType(csRptControlType.RPT_CT_LABEL);
                     label = ctrl.getLabel();
                     label.setText(this.fieldName);
                     label.getAspect().getFont().setBold(true);
@@ -2582,7 +2582,7 @@ namespace CSReportEditor {
 
                 case csRptEditCtrlType.lineLabel:
                     ctrlHeight = LINE_HEIGHT;
-                    ctrl.setControlType(csRptControlType.CS_RPT_CT_LABEL);
+                    ctrl.setControlType(csRptControlType.RPT_CT_LABEL);
                     label = ctrl.getLabel();
                     label.setText(this.fieldName);
                     aspect = label.getAspect();
@@ -2592,12 +2592,12 @@ namespace CSReportEditor {
                     break;
 
                 case csRptEditCtrlType.image:
-                    ctrl.setControlType(csRptControlType.CS_RPT_CT_IMAGE);
+                    ctrl.setControlType(csRptControlType.RPT_CT_IMAGE);
                     ctrl.getLabel().setText(this.fieldName);
                     break;
 
                 case csRptEditCtrlType.chart:
-                    ctrl.setControlType(csRptControlType.CS_RPT_CT_CHART);
+                    ctrl.setControlType(csRptControlType.RPT_CT_CHART);
                     ctrl.getLabel().setText(this.fieldName);
                     break;
             }
@@ -2613,11 +2613,11 @@ namespace CSReportEditor {
             aspect.setLeft(left);
             aspect.setTop(top);
 
-            let paintType: csRptPaintObjType = csRptPaintObjType.CSRPTPAINTOBJBOX;
+            let paintType: csRptPaintObjType = csRptPaintObjType.PAINT_OBJ_BOX;
 
-            if(ctrl.getControlType() === csRptControlType.CS_RPT_CT_IMAGE
-                || ctrl.getControlType() === csRptControlType.CS_RPT_CT_CHART) {
-                paintType = csRptPaintObjType.CSRPTPAINTOBJIMAGE;
+            if(ctrl.getControlType() === csRptControlType.RPT_CT_IMAGE
+                || ctrl.getControlType() === csRptControlType.RPT_CT_CHART) {
+                paintType = csRptPaintObjType.PAINT_OBJ_IMAGE;
             }
 
             let paintObj = this.paint.getNewObject(paintType);
@@ -3570,7 +3570,7 @@ namespace CSReportEditor {
 
                 propertyDlg.enable();
 
-                if(rptCtrl.getControlType() !== csRptControlType.CS_RPT_CT_IMAGE) {
+                if(rptCtrl.getControlType() !== csRptControlType.RPT_CT_IMAGE) {
                     propertyDlg.hideTabImage();
                 }
                 else {
@@ -3578,7 +3578,7 @@ namespace CSReportEditor {
                     propertyDlg.showTabImage();
                 }
 
-                if(rptCtrl.getControlType() !== csRptControlType.CS_RPT_CT_CHART) {
+                if(rptCtrl.getControlType() !== csRptControlType.RPT_CT_CHART) {
                     propertyDlg.hideTabChart();
                 }
                 else {
@@ -3619,8 +3619,8 @@ namespace CSReportEditor {
                     propertyDlg.showTabChart();
                 }
 
-                if(rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD
-                    || rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
+                if(rptCtrl.getControlType() === csRptControlType.RPT_CT_FIELD
+                    || rptCtrl.getControlType() === csRptControlType.RPT_CT_DB_IMAGE) {
                     propertyDlg.getTxText().setEnabled(false);
                     let field: cReportField = rptCtrl.getField();
                     propertyDlg.getTxText().setText(field.getName());
@@ -3934,7 +3934,7 @@ namespace CSReportEditor {
                     if(propertyDlg.getExportColIdxChanged()) { rptCtrl.setExportColIdx(Utils.valInt(propertyDlg.getTxExportColIdx().getText())); }
                     if(propertyDlg.getIsFreeCtrlChanged()) { rptCtrl.setIsFreeCtrl(propertyDlg.getChkIsFreeCtrl().getChecked()); }
 
-                    if(rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD || rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
+                    if(rptCtrl.getControlType() === csRptControlType.RPT_CT_FIELD || rptCtrl.getControlType() === csRptControlType.RPT_CT_DB_IMAGE) {
 
                         let field: cReportField = rptCtrl.getField();
                         if(propertyDlg.getDbFieldChanged()) {
@@ -3948,7 +3948,7 @@ namespace CSReportEditor {
                         rptCtrl.getImage().setImage(propertyDlg.getPicImage().getImage());
                     }
 
-                    if(rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_CHART) {
+                    if(rptCtrl.getControlType() === csRptControlType.RPT_CT_CHART) {
 
                         if(rptCtrl.getChart().getSeries().count() < 1) {
                             rptCtrl.getChart().getSeries().add(new cReportChartSequence());
@@ -4260,7 +4260,7 @@ namespace CSReportEditor {
                              text: string,
                              isSecLn: boolean) {
 
-            const paintObj = this.paint.getNewSection(csRptPaintObjType.CSRPTPAINTOBJBOX);
+            const paintObj = this.paint.getNewSection(csRptPaintObjType.PAINT_OBJ_BOX);
 
             let paintAspect: cReportAspect = paintObj.getAspect();
 
@@ -4936,12 +4936,12 @@ namespace CSReportEditor {
                     this.refreshNextNameCtrl(rptCtrl.getName());
                     let ctrlAspect: cReportAspect = rptCtrl.getLabel().getAspect();
 
-                    if(rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_IMAGE
-                        || rptCtrl.getControlType() === csRptControlType.CS_RPT_CT_CHART) {
-                        paintType = csRptPaintObjType.CSRPTPAINTOBJIMAGE;
+                    if(rptCtrl.getControlType() === csRptControlType.RPT_CT_IMAGE
+                        || rptCtrl.getControlType() === csRptControlType.RPT_CT_CHART) {
+                        paintType = csRptPaintObjType.PAINT_OBJ_IMAGE;
                     }
                     else {
-                        paintType = csRptPaintObjType.CSRPTPAINTOBJBOX;
+                        paintType = csRptPaintObjType.PAINT_OBJ_BOX;
                     }
 
                     let paintObj: cReportPaintObject = this.paint.getNewObject(paintType);

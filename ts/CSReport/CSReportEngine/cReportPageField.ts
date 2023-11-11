@@ -2,6 +2,8 @@ namespace CSReportEngine {
 
     import eTypes = CSKernelClient.eTypes;
     import XmlNode = CSXml.XmlNode;
+    import Bitmap = CSDrawing.Bitmap;
+    import Image = CSDrawing.ImageX;
 
     export class cReportPageField {
 
@@ -13,7 +15,7 @@ namespace CSReportEngine {
         private top: number = 0;
         private height: number = 0;
         private width: number = 0;
-        private image: object = null;
+        private image: Image = null;
 
         public getValue() {
             return this.value;
@@ -75,7 +77,7 @@ namespace CSReportEngine {
             return this.image;
         }
 
-        public setImage(rhs: object) {
+        public setImage(rhs: Image) {
             this.image = rhs;
         }
 
@@ -97,6 +99,9 @@ namespace CSReportEngine {
             this.height = from.height;
             this.width = from.width;
 
+            if(from.image !== undefined && from.image !== null) {
+                this.image = new Image(Bitmap.loadImageFromArray(from.image._bitmap.imageData));
+            }
             if(!this.objectID.copy(from.objectID)) {
                 return false;
             }

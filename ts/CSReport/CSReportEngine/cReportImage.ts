@@ -1,6 +1,6 @@
 namespace CSReportEngine {
 
-    import Image = CSDrawing.Image;
+    import Image = CSDrawing.ImageX;
     import XmlNode = CSXml.XmlNode;
 
     export class cReportImage {

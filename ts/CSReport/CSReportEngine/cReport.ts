@@ -27,6 +27,7 @@ namespace CSReportEngine {
     import DataTable = CSDatabase.DataTable;
     import Map = CSOAPI.Map;
     import Bitmap = CSDrawing.Bitmap;
+    import Image = CSDrawing.ImageX;
     import CMouseWait = CSKernelClient.CMouseWait;
     import DataType = CSDatabase.DataType;
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
@@ -185,7 +186,7 @@ namespace CSReportEngine {
         //
         private tables: DataTable[] = null;
 
-        private images: Map<Bitmap> = null;
+        private images: Map<Image> = null;
         private table: DataTable = null;
         private recordCount: number = 0;
         private vRowsIndex: number[] = null;
@@ -1559,7 +1560,7 @@ namespace CSReportEngine {
                                 let label: cReportLabel = null;
                                 switch (ctrl.getControlType())
                                 {
-                                    case csRptControlType.CS_RPT_CT_FIELD:
+                                    case csRptControlType.RPT_CT_FIELD:
 
                                         ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
 
@@ -1582,18 +1583,18 @@ namespace CSReportEngine {
                                         }
                                         break;
 
-                                    case csRptControlType.CS_RPT_CT_LABEL:
+                                    case csRptControlType.RPT_CT_LABEL:
                                         label = ctrl.getLabel();
                                         field.setValue(ReportGlobals.format(label.getText(), label.getAspect().getFormat()));
                                         break;
 
-                                    case csRptControlType.CS_RPT_CT_IMAGE:
+                                    case csRptControlType.RPT_CT_IMAGE:
                                         label = ctrl.getLabel();
                                         field.setValue(ReportGlobals.format(label.getText(), label.getAspect().getFormat()));
                                         field.setImage(ctrl.getImage().getImage());
                                         break;
 
-                                    case csRptControlType.CS_RPT_CT_DB_IMAGE:
+                                    case csRptControlType.RPT_CT_DB_IMAGE:
 
                                         ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
 
@@ -1602,7 +1603,7 @@ namespace CSReportEngine {
                                         }
                                         break;
 
-                                    case csRptControlType.CS_RPT_CT_CHART:
+                                    case csRptControlType.RPT_CT_CHART:
 
                                         ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
 
@@ -2251,7 +2252,7 @@ namespace CSReportEngine {
 
             switch (ctrl.getControlType()) {
 
-                case csRptControlType.CS_RPT_CT_FIELD:
+                case csRptControlType.RPT_CT_FIELD:
 
                     // this indexes
                     // current datasource
@@ -2301,8 +2302,8 @@ namespace CSReportEngine {
                         return null;
                     }
 
-                case csRptControlType.CS_RPT_CT_LABEL:
-                case csRptControlType.CS_RPT_CT_IMAGE:
+                case csRptControlType.RPT_CT_LABEL:
+                case csRptControlType.RPT_CT_IMAGE:
                     if(ctrl.getHasFormulaValue()) {
                         if(ctrl.getFormulaValue().getHaveToEval()) {
                             let value: object|string = this.compiler.resultFunction(ctrl.getFormulaValue());
@@ -2338,15 +2339,15 @@ namespace CSReportEngine {
 
             for(let _i = 0; _i < this.controls.count(); _i++) {
                 ctrl = this.controls.item(_i);
-                if(ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD
-                    || ctrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
+                if(ctrl.getControlType() === csRptControlType.RPT_CT_FIELD
+                    || ctrl.getControlType() === csRptControlType.RPT_CT_DB_IMAGE) {
                     idx.set(ctrl.getField().getIndex());
                     if(! this.initControlAux(ctrl, idx, recordSets, ctrl.getField().getName())) {
                         return false;
                     }
                     ctrl.getField().setIndex(idx.get());
                 }
-                else if(ctrl.getControlType() === csRptControlType.CS_RPT_CT_CHART) {
+                else if(ctrl.getControlType() === csRptControlType.RPT_CT_CHART) {
                     if(ctrl.getChart().getGroupFieldName() !== "") {
                         idx.set(-1);
                         this.initControlAux(ctrl, idx, recordSets, ctrl.getChart().getGroupFieldName());
@@ -2426,7 +2427,7 @@ namespace CSReportEngine {
             if(found) {
                 idx.set(j + k);
                 if(bIsDBImage) {
-                    ctrl.setControlType(csRptControlType.CS_RPT_CT_DB_IMAGE);
+                    ctrl.setControlType(csRptControlType.RPT_CT_DB_IMAGE);
                 }
             }
             else {
@@ -2451,7 +2452,7 @@ namespace CSReportEngine {
 
         private pInitImages() {
             this.pDestroyImages();
-            this.images = new Map<Bitmap>();
+            this.images = new Map<Image>();
         }
 
         private pDestroyImages() {
@@ -2483,22 +2484,16 @@ namespace CSReportEngine {
         // in the report
         //
         private pGetImage(indexRows: number, indexField: number, indexRow: number) {
-            let image: any;
             let key = "k" + indexRows.toString() + indexField.toString() + indexRow.toString();
             if(this.images.containsKey(key)) {
-                image = this.images[key];
+                return this.images.item(key);
             }
             else {
-                let base64 = this.tables[indexRows].rows[indexRow][indexField];
-                // TODO: validate the image is valid
-                // probably we will need to put the image in a Image object
-                // using
-                //    image = new Image()
-                // and then
-                //    image.src = "data:image/png;base64," + base64;
+                const image = new Image(
+                    Bitmap.loadImageFromArray(this.tables[indexRows].rows[indexRow][indexField]));
                 this.images.add(image, key);
+                return ;
             }
-            return image;
         }
 
         /**
@@ -3904,7 +3899,7 @@ namespace CSReportEngine {
                                 else {
                                     switch (ctrl.getControlType())
                                     {
-                                        case csRptControlType.CS_RPT_CT_FIELD:
+                                        case csRptControlType.RPT_CT_FIELD:
 
                                             ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
 
@@ -3927,14 +3922,14 @@ namespace CSReportEngine {
                                             }
                                             break;
 
-                                        case csRptControlType.CS_RPT_CT_LABEL:
+                                        case csRptControlType.RPT_CT_LABEL:
                                             field.setValue(
                                                 ReportGlobals.format(
                                                     ctrl.getLabel().getText(),
                                                     ctrl.getLabel().getAspect().getFormat()));
                                             break;
 
-                                        case csRptControlType.CS_RPT_CT_IMAGE:
+                                        case csRptControlType.RPT_CT_IMAGE:
                                             field.setValue(
                                                 ReportGlobals.format(
                                                     ctrl.getLabel().getText(),
@@ -3942,7 +3937,7 @@ namespace CSReportEngine {
                                             field.setImage(ctrl.getImage().getImage());
                                             break;
 
-                                        case csRptControlType.CS_RPT_CT_DB_IMAGE:
+                                        case csRptControlType.RPT_CT_DB_IMAGE:
 
                                             ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
 
@@ -3951,7 +3946,7 @@ namespace CSReportEngine {
                                             }
                                             break;
 
-                                        case csRptControlType.CS_RPT_CT_CHART:
+                                        case csRptControlType.RPT_CT_CHART:
 
                                             ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
 

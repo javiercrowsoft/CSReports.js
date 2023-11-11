@@ -118,11 +118,11 @@ namespace CSForms {
             };
         }
 
-        setImage(image: CSDrawing.Image) {
+        setImage(image: CSDrawing.ImageX) {
             // TODO: implements
         }
 
-        getImage(): CSDrawing.Image {
+        getImage(): CSDrawing.ImageX {
             return null;
         }
 

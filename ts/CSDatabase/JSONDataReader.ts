@@ -102,14 +102,14 @@ namespace CSDatabase
             return this.cols[i]["columnType"].toString() === "timestamptz";
         }
 
-        private atob(value: string) {
+        /*private atob(value: string) {
             return value.split ('').map (function (c) { return c.charCodeAt (0); })
-        }
+        }*/
 
         public getValue(i: number) {
             let value = this.rows[this.rowIndex]["values"][i];
             if(this.isByteA(i)) {
-                value = this.atob(value.toString());
+                value = value.toString(); // in js version we don't need to to anything
             }
             else if(this.isTimestamptz(i)) {
                 if(value.toString().trim().length === 0) {

@@ -6,11 +6,15 @@ namespace CSDrawing {
     // https://developer.mozilla.org/en-US/docs/Web/API/createImageBitmap
 
     import cError = CSKernelClient.cError;
+    import P = CSKernelClient.Callable;
 
     export class Bitmap {
-        private bitmap: ImageBitmap;
+        private imageBitmap: ImageBitmap;
         private p: Promise<void>;
         public readonly name;
+
+        // image in an array
+        private imageData: any;
 
         constructor(width: number, height: number, name: string) {
             this.name = name;
@@ -23,74 +27,135 @@ namespace CSDrawing {
                     const ctx = canvas.getContext("2d");
                     const imgData = ctx.createImageData(width, height);
                     createImageBitmap(imgData).then(b => {
-                        this.bitmap = b;
+                        this.imageBitmap = b;
                         // @ts-ignore
-                        this.bitmap.name = this.name;
+                        this.imageBitmap.name = this.name;
                         resolve();
                     });
                 } else {
-                    this.bitmap = null;
+                    this.imageBitmap = null;
                     resolve();
                 }
             });
         }
 
-        static fromContext2d(ctx: CanvasRenderingContext2D, name: string) {
-            const bitmap = new Bitmap(0,0, name);
+        // static constructors
+        //
+        public static fromContext2d(ctx: CanvasRenderingContext2D, name: string) {
+            const bitmap = new Bitmap(0, 0, name);
             bitmap.p = new Promise((resolve) => {
                 createImageBitmap(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height)).then(b => {
-                    bitmap.bitmap = b;
+                    bitmap.imageBitmap = b;
                     // @ts-ignore
-                    bitmap.bitmap.name = name;
+                    bitmap.imageBitmap.name = name;
                     resolve();
                 });
             });
             return bitmap;
         }
 
-        getBitmap() {
-            return this.p.then(() => this.bitmap)
+        public static fromImage(image: ImageX, name: string) {
+            const bitmap = new Bitmap(0,0, name);
+            bitmap.p = new Promise((resolve) => {
+                createImageBitmap(image.imageBitmap).then(b => {
+                    bitmap.imageBitmap = b;
+                    // @ts-ignore
+                    bitmap.imageBitmap.name = name;
+                    resolve();
+                });
+            });
+            return bitmap;
         }
 
-        whenLoaded() {
+        public static loadImageFromArray(imageData: any) {
+            /*const canvas = document.createElement("canvas") as HTMLCanvasElement;
+            const ctx = canvas.getContext("2d");
+            const imgData = ctx.createImageData(width, height);*/
+            const bitmap = new Bitmap(0, 0, '');
+            bitmap.imageData = imageData;
+            return bitmap;
+        }
+
+        // instance methods
+        //
+
+        public loadImage() {
+            const self = this;
+            const canvas = document.createElement("canvas") as HTMLCanvasElement;
+            const ctx = canvas.getContext("2d");
+            const img = new Image();
+            return new Promise<ImageBitmap>((resolve) => {
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0);
+                    createImageBitmap(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height))
+                    .then(imageBitmap => {
+                        self.imageBitmap = imageBitmap;
+                        // @ts-ignore
+                        self.imageBitmap.name = name;
+                        resolve(imageBitmap);
+                    });
+                };
+                img.src = "data:image/jpeg;base64," + self.imageData;
+                //img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oMCRUiMrIBQVkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12NgoC4AAABQAAEiE+h1AAAAAElFTkSuQmCC";
+                //img.src = "data:image/bmp;base64,Qk02IAAAAAAAADYEAAAoAAAAfQAAADgAAAABAAgAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAVREAAACZ/wC8vLwAmZmZAP779wDQgxoAz+z/ANnZ2QB5eXkA/8FjAGZmZgCAzP8A0JQ8AP/dqwC8dBEApqamAPDk2AD/mQAAjIyMAJlzWABgv/8AtmgNAPOmOADrwocAtZmFAMzMzACv3/8A4bFsAEGz/wD49vYAi1kwAPPw7ACleEkA8J0lAMi0pQDo288A2sOvAJJJAACibUEAzIouANOcTQDFxcUA/8x/AOff2QD/8t8AhkgNAJlmMwCf2f8AxYUuAPLbvQC8iUoAIKb/APnWowDcz8UAr5B2AObm5gCzs7MA/58QAHRAGwDqkRQA/8+HAIKCggD/7M8A5KVNAODz/wDDpo8A/8ZwAKtzMgDmt3oAcMb/AKysrAD/+e8AejcBALaKYADVxrwA/7NAAGZmZgBRuf8A/6wwAN/f3wDf8v8A/+W/AP///wC8fz0A5c62AI9kRwD48OYAs4JKAJZbGwDKlU0ApWcgAM++sQDlmDEA7unmAHMyAQDxzpsAMKz/ALh2JwDgjBwAv+X/AP+5UADg1c4A17SNAP+mIACpeUQA7/n/AMWacgCfWwoAEJ//AI5OIQDmrFUAv6aTAJhjOwDmxZIAqYRoAP/TkADQml0Ah1s7ANeqdQCVa0sA9/LuANXBswCpYRYA8KxIAMaNTgDLhiEA9+rZAKd6VgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSTwcdUlJSUlJSUl0HHVJSUlJSUlJSUlJSUk8HXVJSUlIHT1JSUlJSUlJSB09SUlJSUlJSBwdSUlIdB11SUlJSUlJSUlJSUlJSUlJSUlJPT1JSUlJSUlJSUlJSAAAAUlJSHQpdUl0KHVJSHQpdUl0KHVJSHQpdUl0KHVJSCgdSHRIIEgpPODhSUlIPChIKKVJSGQhSUik9UlIDEjgSOFJPCD0IEh1SEgdSUgMIPVIHClJSTwg9EgpSKQoSCg9SBxJSUjg4UlISB1IHClJSDwgSEgpSUhIHUlJSUlIAAABSUlIZCAJSAggZUlIZCAJSAggZUlIZCAJSAggZUlI4XVICA1JSUh04OFJSTwgdUk8KUlIPCE9SAwgdUk9SUlIKUgMCUlIDAlISB1JSCh1SUl04UlIDAlJSHVIKT1IdCE8HElJSODhSUhIHUl04UlIKHVJdClJSEgdSUlJSUgAAAFJSUg8pPVI9KQNSUg8pPVI9KQNSUg8pPVI9KQNSUlJSUhIHUlJSUjg4UlI4OFJSUhIHUj0pDx0IOClSUk84EhJSClJSUgcSUhIHUlIKUlJSUlJSUgpSUlJSBxJSUlI4OAcSUlI4OFJSEgdSUlJSUggCXVIKUlISB1JSUlJSAAAAUlJSCF0DBz0dCFJSCF0DBz0dCFJSCF0DBz0dCFJSUlJSEgdSUlJSODhSUjg4UlJSEgddCFI9KQ8ZA1I4CA8ZUlIKUlJSBxJSEgdSUgpSUlJSUlJSClJSUlIHElJSUjg4BxJSUjg4UlISB1JSUlJSTwMICgpSUhIHUlJSUlIAAABSUl0IUikIAlIIXV0IUikIAlIIXV0IUikIAlIIXVJSUlICA1JSUh04PV1STwgdUk8KUikDUgMIT10IUhIHUlIdUgMCUlIDAlISB1JSClJSUlJSUlIDAlJSHVIKT1IdCE8HCB1SDwNSUj0HUlJSUlJSUlIdClJSEgMdUlJSUgAAAFJSKQNSHQpdUgMpKQNSHQpdUgMpKQNSHQpdUgMpUlJSUh0SCBIKTzgDEgoHDwgSCClSAylSGQhSUghdGT04AwNSTwgSPRIdKQo9Eg8KEhJSUlJSUk8IPRIKUikIEggPUgcIPRIKOAg9PVJSUlJSUjg9EgoPUlISDwgKUlJSAAAAUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJPBx1SUlJSUlJSXQcdUlJSUlJSUlJSUlJSHQdPUlJSUgdPUlJSEgdSUgpSUlJSUlJSUlIHB1JSUh0HXVJSUlJSBx1SXQcdUlJSUlJSUk8HXVJSUlJSUlJSUlIAAABSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlI4PTgZElJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIpOAdSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUlJSUlJSUlJSUlJSUixRNA0NUVFRUXMqPEIJKnNRUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSUlJSPjQNLFJSUlJSUlJSUlJSUlJSUXNkS0INUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlJSDXNHUlJSUlJSUlJSUlJSUlJSUlJSUlJSDQlnCQ1SUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUi8cRVJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUlJSUlJSDSpHUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlI0S2cqR1JSUlJSUlJSUlJSUlJSUlJSaU1FTUBNCy8URS8vFAsvL2AzUkUGRVJSLwZFUkVSTS8vFBQGRS8vL00BUhRFRS8GLwYLRQZNRQZSUlJSUlJSUlJSUgAAAFJSUlJSUio0UlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUQk5KkdSUlJSUlJSUlJSUlJSUlIUCy8BCxwLYwtgCxxjCwscBhxjHGMcUlILYxxSHFIcUmwLC2McCwtsaRxjMwsvC2MLYxxSHBQLQFJSUlJSUlJSUlJSAAAAUlJSUlIJPlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUj5LOXNSUlJSUlJSUlJSUlJSUhQvBhpjTRwaYAsLMxRFC0UUAVAzHE1SUgtjHBRsYzMvRQszYxwLC00UM2kBFEULTWwaMwsvFGBQUlJSUlJSUlJSUlIAAABSUlJSCQ1SUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJRZ2dRUlJSUlJSUlJSUlJSBmAcTVJSaVJSBgYcY2NjUlBSUlJpUlJSL0BSUmlSHFJSUFJjHGNjUgZQUlIGUFJSBlAcUlJpaVJSUlJSUlJSUlJSUgAAAFJSUg1kUlJSUlJSUlJSUlJSUlJSUh0fUlJSZStSUlJSUl0rUlJSUlJSUlJHQhFCR1JSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUFBSUlJSUlJSUlIGaVJSUlJSUlJSUmkGUFBSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSZyxSUlJSUlJSUlJSUlJSUlIdNTVSUiITd0pSUlJSbxNSUlJSUlJSUlJSUTlOPlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUj5kUlJSUlJSUlJSUlJSUlJSHV1dBARvIDJoHltSUh13dR9SUlJSUlJSUlJSR045DVJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSKnNSUlJSUlJSUlJSUlJSUlIdUlJSGENZWTJoHnlSGB5wZVJSUlI3GRkZB3hSRwkhcTcdUlJSUlJSeAcZGRl4UlJSUlJSNzc3HVJSHTc3N1JSUlJSHTcZGRkHeFJSUlJSUh0HGRkZeFJSUlJ4Nzd4UlJSUlJPGRkHHVJSAAAAUlIqUVJSUlJSUlJSUlJSUlJSUlJSUjZDKCgoWVceZTUeV3BKUlJdDwMDAwMDAzhSUhgDAzdSUlJSUgcDAwMDAwMHUlJSUk8DAwMHUlIHAwMDT1JSUgIDAwMDAwMDAh1SUlIHAwMDAwMDGVJSUhkDAxlSUlJSRgMDAwM3UlIAAABSUiosUlJSUlJSUlJSUlJSUlJSUh1yWgwMKCh8bVsdHlN8JnlSXQMDAwMDDwMDA1JSOAMDG1JSUlJPAwMDKSkDAwNPUlJSKQMDAwJSUgIDAwMCUlJSAwMDAzg4AwMDRh1SNwMDAwIpAwMDB1JSGQMDGVJSUk8DAwMCAl1SUgAAAFJSKj5SUlJSUlIdBFJSUlJSUlIdd2t9fX0nJ1hvUnJaWVkgSlIPAwMDN1JSHykDUlI4AwMhCVJSUjgDAwdSUgcDA0ZSUlIPAwMDA1JSAwMDAw9SUlIDAjdSUlIdDwMDB1ICAwMZUlI3AwMPUlIZAwMZUlJSGQMDKVJSUlJSAAAAUlJzUVJSUlJSHR9SUlJSHVJSXXVIDn1uJwV6clI1LTAMWX9lNwMDAzdSUlJSUk9SUjgDA24RKlJSAwMDHVJSUgMDA1JSXQMDKQ8DTzcDAykDA11SUk9SUlJSUh0PAwMZUgMDAx9SUlIDAwNSUhkDAxlSUlIZAwMZUlJSUlIAAABSUj40UlJSUlJdeFJSUitbUlIYAGsMX34oa3UdUndrJyd8cl0ZAwMPUlJSUlJSUlJSOAMDK2cRNFIDAwNSUlJSAwMDUlIZAwNPAgMpKQMCNwMDKVJSUlJSTxk4AwMDAwdSAwMDUlJSUgMDA11SGQMDGVJSUhkDAxlSUlJSUgAAAFJSUglSUlJSUisdUlJSE0pSUmVtSVQEMWE6K1JKSA4FJzI2BBkDAzhSUlJSUlJSUlI4AwM3PhE5PgMDAx9SUh0DAwNSUkYDAx1PAw8PAwdSAwNGUlJSBw8DAwMDAwMPHVIPAwM3UlIdAwMDUlIZAwMZUlJSGQMDGVJSUlJSAAAAUlJSQlJSUlIfIwRSUiI6GFJSUm9mVgRmLVtSUlUlBQUnVyJSGQMDOFJSUlJSUlJSUjgDAwM4bzZnAgMDAlJSKQMDAlJ4AwNGUlIDAwMDH1I4AwN4Uk8DAwMDAwMDAh1SUgIDAwJSUhkDAzhSUhkDAxlSUlIZAwMZUlJSUlIAAABSUlI+NFJSUisjBFJdVXBVH1JSKzUEfiBvUlJlXmFuBTAgK1IHAwMDUlJSUlJSUlJSOAMDAwMDAxFCAwMDAwMDAwNdUgcDAwJSUgIDAw9SUhkDAwdSOAMDAwIZN1JSUlJSHQMDAwMPAwMDXVI4AwMDAwMZOAMDAwMDAzdSUgAAAFJSUlJCUlJSNSsEUhguVy5KUlIdKwRBGFJSUhgtRBcFYTZSUh8DAwMHUlJSUh0pUlI4AwNPGQMDERExOAMDAwM4XVJSAgMDB1JSBwMDKVJSNwMDRlI4AwMpUlJSUlI3UlJSHzgDAwMDOF1SUjgDAwMDAxk4AwMDAwMDN1JSAAAAUlJSUlENUlJKEFIrcHx8Lm9SUlIdK28dUlJSf1cxXwVaSlJSUgIDAwMZNzcHDwNSUlJSUlJSUkc5EUtSHTc3H1JSUlJSUlJSUlJSUlJSUlJSUlJSUgIDA0ZdUh1PAgNSUlJSUh03Nx9SUlJSUhkDA09SUlIZAwMZUlJSUlIAAABSUlJSUkJHHXl+UjZDWVkub1JSUh0iH1JSUlJyZixfFX9SUlJSHUYDAwMDAwMDA1JSUlJSUlJSUgkREVFSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSHQ8DAwMDAwMDA1JSUlJSUlJSUlJSUlJSBwMDRhkZXRkDAxlSUlJSUgAAAFJSUlJSR0IfeQQ1LjAMWS4iUlJSBF1SUlJSHUExBEQlNVIdUlJSHRkDAwMDAw8ZUlJSUlJSUlJSURERCVJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSHQIDAwMDAw8CUlJSUlJSUlJSUlJSUlIdRgMDAwM3Bzg4B1JSUlJSAAAAUlJSUlJSDTQ1BDZDJyd8LjVSUlIYIlJSUlJSJH5HMiZSeB1SUlJSUlJdNzcdUlJSUlJSUlJSUlJSERERR1JSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJdNzdSUlJSUlJSUlJSUlJSUlJSUlIdGSkCGR9SUlJSUlJSUlIAAABSUlJSUlJSQhBlJmEFJ1MgH1JSNTp3HVJSUlJdeBAmZVIfHVJSUlJSUlJSUlJSUlJSUlJSUlJSUlJOERENUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSfhhDJwUnQxhSUitwaC5vUlJSUlIdIiJSUh8dUlJSUlJSUlJSUlJSUlJSUlJSUlJSUksRESpSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlJdf3wbfTAmZVIdclMoMnArUlJSUl0iHVIEHwRSUlJSUlJSUlJSUlJSUlJSUlJSUlJSSxERS1JSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUlJSUlJSUjVJF3F9YXJSUkFTbj8oQzZSUlJSIxBSUgQfUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJLERFLUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSW3YxNAVaZVJ5U3t7ez98HltSUlJdUlJSHR1SUlJSUlJSUlJSUlJSUlJSUlJSUlJSUhEREUtSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlJbJFZfFUMsK0NcFhZ7P1MeSlJSUlJSUlIdHVJSUlJSUlJSUlJSUlJSUlJSUlJSUlINERERCVJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUlJSUlJSUkoQRxtYGzlDBTs7IRYnWEpSUlJSUlJSUnhSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUksRERE0UlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSI3gsV0FSfxU7Qgk7YlpKUlJSUlJSUlJSBFJSUlJSUlJSUlJSUlJSUlJSUlJSUlINEREROVJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlIfBCQ2Um9rXDRHc2J6W1JSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSPjkRERFzUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUlJSUlJSUgRdQXh5bXQxBEdEWlk0UlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUj45ERERCVJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSUmUrUls2VFYEMWp2ORE5Qj5SUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIqEREREQlSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlJSIx1SUl0reFYkZVJHKjkREWdCUVJSUlJSUlJSUlJSUlJSUlJSUlJSUkc0ZxERETlzUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUlJSUlJSUlJ4UlJSUlJ4K11SUlIEBFFnEREROUsqUUdSUlJSUlJSUlJSUlJSRzQJOREREREJLFJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSUlJSUlJSUlIdUlJSHR8EUlI+Qk4RERERERFLS0IqKioqKipkSzkREREREWdCLFJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlJSUlJSUlJSUlJSUnhdHVJSUlJSUkcNQks5ERERERERERERERERERE5Syo+UlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAABSUlJSUlJSUlJSUlJSUlJSUlJSHR1SUlJSUlJSUlJSUlJHUQ0qKioqKioqKjRRLFJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUgAAAFJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSAAAAUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAAAAA";
+            });
+        }
+
+        public getBitmap() {
+            return this.p.then(() => this.imageBitmap)
+        }
+
+        public whenLoaded() {
             return this.p;
         }
 
-        getSize() {
-            return { height: this.bitmap.height, width: this.bitmap.width };
+        public getSize() {
+            return { height: this.imageBitmap.height, width: this.imageBitmap.width };
         }
 
-        public static fromImage(image: Image, name: string) {
-            const bitmap = new Bitmap(0,0, name);
-            bitmap.p = new Promise((resolve) => {
-                createImageBitmap(image.bitmap).then(b => {
-                    bitmap.bitmap = b;
-                    // @ts-ignore
-                    bitmap.bitmap.name = name;
-                    resolve();
-                });
-            });
-            return bitmap;
+        public getImageData() {
+            return this.imageData;
         }
 
-        dispose() {
+        public dispose() {
             //console.log("dispose was called in object " + this.constructor.name);
         }
     }
 
-    export class Image {
-        private readonly _bitmap: ImageBitmap;
+    export class ImageX {
+        private _bitmap: Bitmap;
+        private _imageBitmap: ImageBitmap;
+        private _size = new SizeF(0, 0);
 
-        constructor(bitmap: ImageBitmap) {
+        constructor(bitmap: Bitmap) {
             this._bitmap = bitmap;
         }
 
-        get bitmap(): ImageBitmap {
-            return this._bitmap;
+        get imageBitmap(): ImageBitmap {
+            return this._imageBitmap;
         }
 
-        getSize(): SizeF {
-            return null;
+        public getSize(): SizeF {
+            return this._size;
+        }
+
+        public getBitmapSize(inTwips: boolean) {
+            return {
+                bmpWidth: this._bitmap.getSize().width,
+                bmpHeight: this._bitmap.getSize().height
+            };
+        }
+
+        public loadImage() {
+            return this._bitmap.loadImage()
+                .then(P.call(this, this.setImageBitmap));
+        }
+
+        private setImageBitmap(imageBitmap: ImageBitmap) {
+            this._imageBitmap = imageBitmap;
+            if(this._imageBitmap !== null || this._imageBitmap !== undefined) {
+                this._size = new SizeF(this._imageBitmap.width, this._imageBitmap.height);
+            }
         }
     }
 
@@ -383,13 +448,25 @@ namespace CSDrawing {
                 const m = this.context.measureText(text);
                 size = new SizeF(
                     Math.floor(m.width),
-                    // @ts-ignore
-                    Math.floor(m.fontBoundingBoxAscent + m.fontBoundingBoxDescent));
+                    this.calcFontHeight(m));
             }
 
             this.context.restore();
 
             return size;
+        }
+
+        private calcFontHeight(m: any) {
+            // chrome
+            if(m.fontBoundingBoxAscent !== undefined) {
+                return Math.floor(m.fontBoundingBoxAscent + m.fontBoundingBoxDescent);
+            }
+            // firefox
+            else {
+                // in firefox we need to add 3 to the eight to avoid put the texto to close to the top
+                // of the box
+                return Math.floor(m.actualBoundingBoxAscent + m.actualBoundingBoxDescent + 3);
+            }
         }
 
         getHeight() {
@@ -424,27 +501,43 @@ namespace CSDrawing {
         private width = 0;
 
         getHeight() {
+            if(isNaN(this.height)) {
+                console.log("in Bitmap.getHeight this.height was NaN");
+                this.setHeight(this.bottom - this.top);
+            }
             return this.height;
         }
 
         getWidth() {
+            if(isNaN(this.width)) {
+                console.log("in Bitmap.getWidth this.width was NaN");
+                this.setWidth(this.right - this.left);
+            }
             return this.width;
         }
 
         setHeight(h: number) {
+            if(isNaN(h)) {
+                console.log("in Bitmap.setHeight h was NaN");
+            }
             this.height = h;
         }
 
         setWidth(w: number) {
+            if(isNaN(w)) {
+                debugger;
+            }
             this.width = w;
         }
 
         setX(x: number) {
             this.left = x;
+            this.setWidth(this.right - x);
         }
 
         setY(y: number) {
             this.top = y;
+            this.setHeight(this.bottom - y);
         }
 
         static new4(left: number, top: number, right: number, bottom: number) {
@@ -460,18 +553,22 @@ namespace CSDrawing {
 
         setTop(top: number) {
             this.top = top;
+            this.setHeight(this.bottom - top);
         }
 
         setBottom(bottom: number) {
             this.bottom = bottom;
+            this.setHeight(bottom - this.top);
         }
 
         setLeft(left: number) {
             this.left = left;
+            this.setWidth(this.right - left);
         }
 
         setRight(right: number) {
             this.right = right;
+            this.setWidth(right - this.left);
         }
 
         getTop() {
@@ -499,7 +596,6 @@ namespace CSDrawing {
             r.setHeight(sizeF.height);
             r.setWidth(sizeF.width);
             return r;
-
         }
 
         getLocation(): Location {

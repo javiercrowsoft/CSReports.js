@@ -273,16 +273,16 @@ namespace CSReportEditor {
 
                 switch (ctrl.getControlType())
                 {
-                    case csRptControlType.CS_RPT_CT_FIELD:
+                    case csRptControlType.RPT_CT_FIELD:
                         ctrlField = ctrl.getField().getName();
                         break;
-                    case csRptControlType.CS_RPT_CT_DB_IMAGE:
+                    case csRptControlType.RPT_CT_DB_IMAGE:
                         ctrlInfo = ctrl.getField().getName();
                         break;
-                    case csRptControlType.CS_RPT_CT_IMAGE:
+                    case csRptControlType.RPT_CT_IMAGE:
                         ctrlInfo = " (Image)";
                         break;
-                    case csRptControlType.CS_RPT_CT_LABEL:
+                    case csRptControlType.RPT_CT_LABEL:
                         ctrlInfo = ctrl.getLabel().getText();
                         break;
                 }
@@ -412,7 +412,7 @@ namespace CSReportEditor {
                         nodeCtrl.backColor = ctrl.getLabel().getAspect().getBackColor();
                         nodeCtrl.foreColor = ctrl.getLabel().getAspect().getFont().getForeColor();
 
-                        if(ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD) {
+                        if(ctrl.getControlType() === csRptControlType.RPT_CT_FIELD) {
                             item = nodeCtrl.getNodes().add(ctrl.getField().getName(), databaseFieldImage);
                             item.selectedImageIndex = databaseFieldImage;
                         }

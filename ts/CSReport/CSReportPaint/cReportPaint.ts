@@ -16,7 +16,7 @@ namespace CSReportPaint {
     import Bitmap = CSDrawing.Bitmap;
     import Graphic = CSDrawing.Graphic;
     import Color = CSDrawing.Color;
-    import Image = CSDrawing.Image;
+    import Image = CSDrawing.ImageX;
     import StringTrimming = CSDrawing.StringTrimming;
     import StringFormat = CSDrawing.StringFormat;
     import StringFormatFlags = CSDrawing.StringFormatFlags;
@@ -193,7 +193,7 @@ namespace CSReportPaint {
 
 		public pointIsInObject(
 		    x: number, y: number, sKey: RefWrapper<string>,
-            regionType: RefWrapper<csRptPaintRegionType> = new RefWrapper(csRptPaintRegionType.CRPTPNTRGNTYPEBODY)) {
+            regionType: RefWrapper<csRptPaintRegionType> = new RefWrapper(csRptPaintRegionType.BODY)) {
             if(this.pointIsInObjectAux(this.paintSections, x, y, sKey, regionType)) {
                 return true;
             }
@@ -277,7 +277,7 @@ namespace CSReportPaint {
                                         left + width - WIDTH_REGION,
                                         top + height - WIDTH_REGION,
                                         x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEBODY);
+                        regionType.set(csRptPaintRegionType.BODY);
                     }
                     // Left
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(left - WIDTH_REGION * 2,
@@ -285,7 +285,7 @@ namespace CSReportPaint {
                                                 left + WIDTH_REGION * 2,
                                                 yY + WIDTH_REGION * 2,
                                                 x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFT);
+                        regionType.set(csRptPaintRegionType.LEFT);
                     }
                     // Rigth
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - WIDTH_REGION * 2,
@@ -293,7 +293,7 @@ namespace CSReportPaint {
                                                 left + width + WIDTH_REGION * 2,
                                                 yY + WIDTH_REGION * 2,
                                                 x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHT);
+                        regionType.set(csRptPaintRegionType.RIGHT);
                     }
                     // Up
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(xX,
@@ -301,7 +301,7 @@ namespace CSReportPaint {
                                                 xX + WIDTH_REGION * 2,
                                                 top + WIDTH_REGION * 2,
                                                 x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEUP);
+                        regionType.set(csRptPaintRegionType.UP);
                     }
                     // Down
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(xX,
@@ -309,7 +309,7 @@ namespace CSReportPaint {
                                                 xX + WIDTH_REGION * 2,
                                                 top + height + WIDTH_REGION * 2,
                                                 x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPEDOWN);
+                        regionType.set(csRptPaintRegionType.DOWN);
                     }
                     // LeftUp
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(left - WIDTH_REGION,
@@ -317,7 +317,7 @@ namespace CSReportPaint {
                                                 left + WIDTH_REGION,
                                                 top + WIDTH_REGION,
                                                 x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFTUP);
+                        regionType.set(csRptPaintRegionType.LEFT_UP);
                     }
                     // LeftDown
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(left - WIDTH_REGION,
@@ -325,7 +325,7 @@ namespace CSReportPaint {
                                                 left + WIDTH_REGION,
                                                 top + height + WIDTH_REGION,
                                                 x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPELEFTDOWN);
+                        regionType.set(csRptPaintRegionType.LEFT_DOWN);
                     }
                     // RightUp
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - WIDTH_REGION,
@@ -333,7 +333,7 @@ namespace CSReportPaint {
                                                 left + width + WIDTH_REGION,
                                                 top + WIDTH_REGION,
                                                 x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHTUP);
+                        regionType.set(csRptPaintRegionType.RIGHT_UP);
                     }
                     // RightDown
                     else if(CSReportPaint.cReportPaint.pointIsInRegion(left + width - WIDTH_REGION,
@@ -341,7 +341,7 @@ namespace CSReportPaint {
                                                 left + width + WIDTH_REGION,
                                                 top + height + WIDTH_REGION,
                                                 x, y)) {
-                        regionType.set(csRptPaintRegionType.CRPTPNTRGNTYPERIGHTDOWN);
+                        regionType.set(csRptPaintRegionType.RIGHT_DOWN);
                     }
 
                     return true;
@@ -882,7 +882,7 @@ namespace CSReportPaint {
 
                 switch (oPaintObj.getPaintType())
                 {
-                    case csRptPaintObjType.CSRPTPAINTOBJBOX:
+                    case csRptPaintObjType.PAINT_OBJ_BOX:
 
                         this.drawObjBox(graphic,
                                     oPaintObj.getAspect(),
@@ -892,15 +892,15 @@ namespace CSReportPaint {
                                     colorOut);
                         break;
 
-                    case csRptPaintObjType.CSRPTPAINTOBJLINE:
+                    case csRptPaintObjType.PAINT_OBJ_LINE:
 
                         this.printRectangle(graphic, filled, x1, y1, x2, y2, colorIn, cReportPaint.LINE_WIDTH, false, colorOut, false);
                         break;
 
-                    case csRptPaintObjType.CSRPTPAINTOBJCIRCLE:
+                    case csRptPaintObjType.PAINT_OBJ_CIRCLE:
                         break;
 
-                    case csRptPaintObjType.CSRPTPAINTOBJIMAGE:
+                    case csRptPaintObjType.PAINT_OBJ_IMAGE:
 
                         this.drawObjBox(graphic,
                                     oPaintObj.getAspect(),
@@ -913,7 +913,8 @@ namespace CSReportPaint {
                         let bmpHeight: number = 0;
 
                         if(oPaintObj.getImage() !== null) {
-                            cGlobals.getBitmapSize(oPaintObj.getImage(), bmpWidth, bmpHeight, true);
+
+                            ({bmpWidth, bmpHeight} = oPaintObj.getImage().getBitmapSize(true));
 
                             if(bmpWidth > aspect.getWidth()) {
                                 bmpWidth = aspect.getWidth();
@@ -958,7 +959,7 @@ namespace CSReportPaint {
                         bmpWidth: number,
                         bmpHeight: number,
                         destWidth: number, destHeight: number) { // TODO: maybe should remove these unused arguments
-            graphic.drawImage(image.bitmap, x, y);
+            graphic.drawImage(image.imageBitmap, x, y);
         }
 
         public setFocus(sKey: string, graphic: Graphic, clearSelected: boolean) {

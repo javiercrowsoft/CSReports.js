@@ -5,6 +5,8 @@ namespace CSReportWebServer {
     import U = CSOAPI.Utils;
     import cReport = CSReportEngine.cReport;
     import cReportPages = CSReportEngine.cReportPages;
+    import cReportPage = CSReportEngine.cReportPage;
+    import cReportPageField = CSReportEngine.cReportPageField;
     import cReportLaunchInfo = CSReportEngine.cReportLaunchInfo;
     import ReportLaunchInfoDTO = CSReportEngine.ReportLaunchInfoDTO;
     import ProgressEventArgs = CSReportEngine.ProgressEventArgs;
@@ -129,11 +131,29 @@ namespace CSReportWebServer {
                         reportPrint.setHidePreviewWindow(true);
                         this.report.getLaunchInfo().setReportPrint(reportPrint);
                         reportPrint.setReport(this.report);
-                        this.successGetReport(true);
-                        this.reportDone();
+                        this.loadImages().then(P.call(this, ()=> {
+                            this.successGetReport(true);
+                            this.reportDone();
+                        }));
                         break;
                 }
             });
+        }
+
+        private loadImages() {
+            const toLoad = [];
+            const loadFieldImage = (_, field: cReportPageField) => {
+                if(field.getImage() != null) {
+                    toLoad.push(field.getImage().loadImage())
+                }
+            };
+            this.pages.forEach(
+                (_, p: cReportPage) => {
+                    p.getHeader().forEach(loadFieldImage);
+                    p.getDetail().forEach(loadFieldImage);
+                    p.getFooter().forEach(loadFieldImage);
+                });
+            return Promise.all(toLoad);
         }
 
         public makeReport() {
@@ -274,7 +294,7 @@ namespace CSReportWebServer {
             return Date.now().toString(36) + Math.random().toString(36).substring(2);
         }
 
-        public getFirstPage() {
+        public getPages() {
             return new Promise((resolve, reject) => {
 
                 this.successGetReport = resolve;

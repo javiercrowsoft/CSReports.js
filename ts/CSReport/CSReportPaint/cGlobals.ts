@@ -32,14 +32,6 @@ namespace CSReportPaint {
             return value;
         }
 
-        public static getBitmapSize(image: object, imgWidth: number, imgHeight: number, inTwips: boolean) {
-            // TODO: validate if needed
-            /*
-            imgWidth = image.Width;
-            imgHeight = image.Height;
-            */
-        }
-
         public static setRectangleWidth(width: number) {
             if(width < 0) width = 0;
             return width;
@@ -158,22 +150,22 @@ namespace CSReportPaint {
     }
 
     export enum csRptPaintObjType {
-        CSRPTPAINTOBJBOX,
-        CSRPTPAINTOBJLINE,
-        CSRPTPAINTOBJCIRCLE,
-        CSRPTPAINTOBJIMAGE
+        PAINT_OBJ_BOX,
+        PAINT_OBJ_LINE,
+        PAINT_OBJ_CIRCLE,
+        PAINT_OBJ_IMAGE
     }
 
     export enum csRptPaintRegionType {
-        CRPTPNTRGNTYPEBODY,
-        CRPTPNTRGNTYPELEFTUP,
-        CRPTPNTRGNTYPELEFTDOWN,
-        CRPTPNTRGNTYPERIGHTUP,
-        CRPTPNTRGNTYPERIGHTDOWN,
-        CRPTPNTRGNTYPEUP,
-        CRPTPNTRGNTYPEDOWN,
-        CRPTPNTRGNTYPELEFT,
-        CRPTPNTRGNTYPERIGHT
+        BODY,
+        LEFT_UP,
+        LEFT_DOWN,
+        RIGHT_UP,
+        RIGHT_DOWN,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 
     export enum csEMoveTo {

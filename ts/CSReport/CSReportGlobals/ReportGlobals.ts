@@ -272,11 +272,11 @@ namespace CSReportGlobals {
 
     export enum csRptControlType
     {
-        CS_RPT_CT_LABEL = 1,
-        CS_RPT_CT_FIELD = 2,
-        CS_RPT_CT_IMAGE = 3,
-        CS_RPT_CT_DB_IMAGE = 4,
-        CS_RPT_CT_CHART = 5
+        RPT_CT_LABEL = 1,
+        RPT_CT_FIELD = 2,
+        RPT_CT_IMAGE = 3,
+        RPT_CT_DB_IMAGE = 4,
+        RPT_CT_CHART = 5
     }
 
     export enum csRptSectionType

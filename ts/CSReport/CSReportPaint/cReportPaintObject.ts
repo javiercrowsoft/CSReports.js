@@ -2,14 +2,14 @@ namespace CSReportPaint {
 
     import cReportAspect = CSReportEngine.cReportAspect;
     import csRptSectionType = CSReportGlobals.csRptSectionType;
-    import Image = CSDrawing.Image;
+    import Image = CSDrawing.ImageX;
 
     export class cReportPaintObject {
 
         private aspect: cReportAspect = new cReportAspect();
         private key: string = "";
         private text: string = "";
-        private paintType: csRptPaintObjType = csRptPaintObjType.CSRPTPAINTOBJBOX;
+        private paintType: csRptPaintObjType = csRptPaintObjType.PAINT_OBJ_BOX;
         private tag: string = "";
         private rptType: csRptSectionType = null;
         private rptKeySec: string = "";

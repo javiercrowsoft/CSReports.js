@@ -1013,13 +1013,13 @@ namespace CSReportPaint {
                         //
                         if(field.getImage() !== null) {
 
-                            let imgWidth: number = 0;
-                            let imgHeight: number = 0;
+                            let bmpWidth: number = 0;
+                            let bmpHeight: number = 0;
 
-                            cGlobals.getBitmapSize(field.getImage(), imgWidth, imgHeight, true);
+                            ({ bmpWidth, bmpHeight} = field.getImage().getBitmapSize(true));
 
-                            field.setHeight(imgHeight);
-                            field.setWidth(imgWidth);
+                            field.setHeight(bmpHeight);
+                            field.setWidth(bmpWidth);
 
                             if(field.getHeight() < aspectHeight) { field.setHeight(aspectHeight); }
                             if(field.getWidth() < aspectWidth) { field.setWidth(aspectWidth); }
@@ -1208,7 +1208,7 @@ namespace CSReportPaint {
                     po.setImage(field.getImage());
 
                     if(po.getImage() !== null) {
-                        po.setPaintType(csRptPaintObjType.CSRPTPAINTOBJIMAGE);
+                        po.setPaintType(csRptPaintObjType.PAINT_OBJ_IMAGE);
                     }
                     po.setIndexField(index + offset);
                     if(field.getObjectID() !== null) {
