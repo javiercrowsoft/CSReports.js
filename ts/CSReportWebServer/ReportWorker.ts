@@ -1,6 +1,7 @@
 const reportWorker = (()=> {
 
     let pages: CSReportEngine.cReportPages = null;
+    let images: CSOAPI.Map<CSDrawing.ImageX> = null;
 
     const init = () => {
         String.prototype.contains = function(value: string): boolean {
@@ -51,6 +52,7 @@ const reportWorker = (()=> {
 
         report.launch(launchInfo).then(()=> {
             pages = report.getPages();
+            images = report.getImages();
             postMessage({action: 'worker-launch-complete-successfully', message: 'report launch completes successfully'});
         })
         .catch((reason)=> {
@@ -60,18 +62,29 @@ const reportWorker = (()=> {
 
     const sendReportPagesToMainTread = () => {
 
+        const eventArgs = new CSReportEngine.ProgressEventArgs("Formating pages", 0, 0, 0);
+        postMessage({action: 'get-report-start', eventArgs: eventArgs });
+
+        postMessage({action: 'get-report-images', images: JSON.stringify(images), eventArgs: eventArgs });
+
         pages.getValues().forEach((page) => {
             const fields = [...page.getHeader().getValues(), ...page.getDetail().getValues(), ...page.getFooter().getValues()];
             fields.forEach((field) => {
+                //
+                // remove references to copyCol and sectionLine
+                //
                 field.getInfo().getSectionLine().getControls().forEach((k, c) => c.setSectionLine(null));
                 field.getInfo().getSectionLine().getControls().setSectionLine(null);
                 field.getInfo().getSectionLine().getControls().setCopyColl(null);
                 field.getInfo().getSectionLine().setCopyColl(null);
+                //
+                // remove images from cReportPageField and only put the key
+                //
+                if(field.getImage() !== null && field.getImage() !== undefined) {
+                    field.getImage().removeImageBitmap();
+                }
             });
         });
-
-        const eventArgs = new CSReportEngine.ProgressEventArgs("Formating pages", 0, 0, 0);
-        postMessage({action: 'get-report-start', eventArgs: eventArgs });
 
         let start = 0;
         const CHUNK_SIZE = 10;

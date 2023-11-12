@@ -38,7 +38,7 @@ namespace CSForms {
             tabSelectorNode.className = "tablinks";
             tabSelectorNode.onclick = (event) => {
                 this.hideAll();
-                console.log("open " + tabPage.getText());
+                // console.log("open " + tabPage.getText());
                 tabPage.getElement().style.display = 'block';
                 tabPage.getSelectedFlag().style.display = 'block';
                 event.stopPropagation();
@@ -49,7 +49,7 @@ namespace CSForms {
             const tabCloseNode = document.createElement('span');
             tabCloseNode.className = "close";
             tabCloseNode.onclick = (event) => {
-                console.log("close " + tabPage.getText());
+                // console.log("close " + tabPage.getText());
                 tabPage.getElement().style.display = 'none';
                 tabSelectorNode.parentNode.removeChild(tabSelectorNode);
                 event.stopPropagation();

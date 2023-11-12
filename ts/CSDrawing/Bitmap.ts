@@ -123,16 +123,27 @@ namespace CSDrawing {
     }
 
     export class ImageX {
-        private _bitmap: Bitmap;
-        private _imageBitmap: ImageBitmap;
+        private _bitmap: Bitmap = null;
+        private _imageBitmap: ImageBitmap = null;
         private _size = new SizeF(0, 0);
+        private _key: string;
 
-        constructor(bitmap: Bitmap) {
+        constructor(bitmap: Bitmap, key: string = null) {
             this._bitmap = bitmap;
+            this._key = key;
         }
 
         get imageBitmap(): ImageBitmap {
             return this._imageBitmap;
+        }
+
+        get key(): string {
+            return this._key;
+        }
+
+        public removeImageBitmap() {
+            this._bitmap = null;
+            this._imageBitmap = null;
         }
 
         public getSize(): SizeF {

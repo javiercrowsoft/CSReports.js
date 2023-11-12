@@ -2490,10 +2490,15 @@ namespace CSReportEngine {
             }
             else {
                 const image = new Image(
-                    Bitmap.loadImageFromArray(this.tables[indexRows].rows[indexRow][indexField]));
+                    Bitmap.loadImageFromArray(this.tables[indexRows].rows[indexRow][indexField]),
+                    key);
                 this.images.add(image, key);
                 return ;
             }
+        }
+
+        public getImages() {
+            return this.images;
         }
 
         /**

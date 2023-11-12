@@ -98,7 +98,7 @@ namespace CSReportGlobals {
         }
 
         public static format(expression: any, strFormat: string): string {
-            console.log('strFormat : ' + strFormat);
+            // console.log('strFormat : ' + strFormat);
             if(expression === null) {
                 return "";
             }

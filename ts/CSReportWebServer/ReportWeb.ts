@@ -22,13 +22,34 @@ namespace CSReportWebServer {
     import cError = CSKernelClient.cError;
     import P = CSKernelClient.Callable;
     import ReportPreview = CSForms.ReportPreview;
+    import Map = CSOAPI.Map;
+    import Image = CSDrawing.ImageX;
+    import Bitmap = CSDrawing.Bitmap;
 
     export class ReportWeb {
         private reportId: string;
         private webReportId: string;
         private database: string;
         private report: cReport = null;
+        // pages are created in a web worker implemented in ReportWorker.ts
+        // when report is done a post message is sent from ReportWorker.ts to
+        // ReportWeb.ts and the pages are sent. ReportWeb ( main thread ) saves
+        // pages into this field
+        //
         private pages: cReportPages = null;
+        // images are read from datasource and associated to PageField objects
+        // only by key inside the web worker.
+        // when report is done a post message is sent from ReportWorker.ts to
+        // ReportWeb.ts and the images are sent. ReportWeb ( main thread ) saves
+        // images into this field. We only have one instance of each image. every
+        // PageField object that has an image will reference the same image that
+        // match the image.key.
+        // this key is created in cReport and comes from the datasource index,
+        // row index and col index
+        // let key = "k" + indexRows.toString() + indexField.toString() + indexRow.toString();
+        // once images are in the main thread they are converted into ImageBitmap
+        //
+        private images: Map<Image> = null;
         private cancelPrinting = false;
 
         private reportWorker: Worker;
@@ -101,7 +122,7 @@ namespace CSReportWebServer {
 
                     case 'worker-launch-complete-successfully':
                         CMouseWait.default();
-                        console.log(e.data.message);
+                        // console.log(e.data.message);
                         this.successLaunch(true);
                         break;
 
@@ -118,6 +139,19 @@ namespace CSReportWebServer {
                         this.reportProgress(e.data.eventArgs);
                         break;
 
+                    case 'get-report-images':
+                        this.images = new Map();
+                        this.images.copy(JSON.parse(e.data.images));
+
+                        for (let i = 0; i < this.images.size(); i++) {
+                            const item = this.images.item(i);
+                            this.images.update(i, new Image(
+                                // @ts-ignore
+                                Bitmap.loadImageFromArray(item._bitmap.imageData),
+                                item.key));
+                        }
+                        break;
+
                     case 'get-report-pages':
                         this.reportProgress(e.data.eventArgs);
                         const pages = new cReportPages()
@@ -126,6 +160,23 @@ namespace CSReportWebServer {
                         break;
 
                     case 'get-report-done':
+
+                        this.pages.getValues().forEach((page) => {
+                            const fields = [...page.getHeader().getValues(), ...page.getDetail().getValues(), ...page.getFooter().getValues()];
+                            fields.forEach(P.call(this, (field) => {
+                                //
+                                // assign image using the key
+                                //
+                                if(    field.getImage() !== null
+                                    && field.getImage() !== undefined
+                                    && field.getImage().key !== null) {
+
+                                    const key = field.getImage().key;
+                                    field.setImage(this.images.item(key));
+                                }
+                            }));
+                        });
+
                         this.report.setPages(this.pages);
                         const reportPrint = new CSReportPaint.cReportPrint();
                         reportPrint.setHidePreviewWindow(true);
@@ -142,17 +193,7 @@ namespace CSReportWebServer {
 
         private loadImages() {
             const toLoad = [];
-            const loadFieldImage = (_, field: cReportPageField) => {
-                if(field.getImage() != null) {
-                    toLoad.push(field.getImage().loadImage())
-                }
-            };
-            this.pages.forEach(
-                (_, p: cReportPage) => {
-                    p.getHeader().forEach(loadFieldImage);
-                    p.getDetail().forEach(loadFieldImage);
-                    p.getFooter().forEach(loadFieldImage);
-                });
+            this.images.forEach((_, image) => toLoad.push(image.loadImage()));
             return Promise.all(toLoad);
         }
 

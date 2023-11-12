@@ -100,7 +100,7 @@ namespace CSReportEngine {
             this.width = from.width;
 
             if(from.image !== undefined && from.image !== null) {
-                this.image = new Image(Bitmap.loadImageFromArray(from.image._bitmap.imageData));
+                this.image = new Image(null, from.image._key);
             }
             if(!this.objectID.copy(from.objectID)) {
                 return false;

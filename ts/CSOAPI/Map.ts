@@ -134,6 +134,12 @@ namespace CSOAPI {
             return this.baseItem(indexOrKey);
         }
 
+        public update(index: number, value: T) {
+            if(index > -1 && index < this.length) {
+                this.values[index] = value;
+            }
+        }
+
         public containsKey(key: string) {
             return this.keys.indexOf(key) > -1;
         }
@@ -179,6 +185,13 @@ namespace CSOAPI {
             this.keys = this.keys.concat(map.keys);
             this.values = this.values.concat(map.values);
             this.length = this.values.length;
+            this.keyIndex = this.length;
+        }
+
+        public copy(from: any) {
+            this.keys = from.keys;
+            this.values = from.values;
+            this.length = from.values.length;
             this.keyIndex = this.length;
         }
 
