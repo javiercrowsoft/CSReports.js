@@ -258,6 +258,38 @@ namespace CSReportEditor {
                 U.el('sidebar-toogle-width').textContent = ">>";
             }
         }
+        public static hideOrShowSideBarTab() {
+            this.wideSidebar = ! this.wideSidebar;
+            let display: string;
+            let margin: string;
+            let editorWidth: string;
+            if(this.wideSidebar) {
+                display = 'none'
+                U.el('sidebar').style.display = "none";
+                U.el('sidebar-toogle-hide').textContent = "+";
+                U.elc('sidebar-tab', document.documentElement).style.width = "40px"
+                margin = "0px";
+                editorWidth = "calc(100% - 505px)";
+            }
+            else {
+                display = 'block'
+                U.el('sidebar').style.display = "block";
+                U.el('sidebar-toogle-hide').textContent = "-";
+                U.elc('sidebar-tab', document.documentElement).style.width = "310px"
+                margin = "315px";
+                editorWidth = "calc(100% - 820px)";
+            }
+            const editors: any = document.getElementsByClassName('editor');
+            Array.from(editors).forEach((el: any) => {
+                el.style.marginLeft = margin;
+                el.style.width = editorWidth;
+            });
+            U.el('sidebar-toogle-width').style.display = display;
+            U.el('sidebar-lv-properties-tab').style.display = display;
+            U.el('sidebar-lv-database-tab').style.display = display;
+            U.el('sidebar-lv-controls-tab').style.display = display;
+            U.el('sidebar-tv-controls-tab').style.display = display;
+        }
     }
 
     export enum SpecialFolderIDs {
