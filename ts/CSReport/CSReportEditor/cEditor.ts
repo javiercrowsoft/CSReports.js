@@ -3344,7 +3344,7 @@ namespace CSReportEditor {
                 propertyDlg.getTxSectionName().setText(sec.getName());
                 propertyDlg.getLbSectionLineName().setText("Section: " + secLnName);
 
-                propertyDlg.showSectionPropertyTabs();
+                propertyDlg.showSectionPropertyTabs(isGroup.get());
 
             } catch(ex) {
                 cError.mngError(ex);

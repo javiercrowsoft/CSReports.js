@@ -28,6 +28,7 @@ namespace CSReportEditor {
         private static fMain: FMain = null;
 
         private static wideSidebar = false;
+        private static wideSidebar2 = false;
 
         public static runningInBrowser() {
             return true;
@@ -259,14 +260,14 @@ namespace CSReportEditor {
             }
         }
         public static hideOrShowSideBarTab() {
-            this.wideSidebar = ! this.wideSidebar;
+            this.wideSidebar2 = ! this.wideSidebar2;
             let display: string;
             let margin: string;
             let editorWidth: string;
-            if(this.wideSidebar) {
+            if(this.wideSidebar2) {
                 display = 'none'
                 U.el('sidebar').style.display = "none";
-                U.el('sidebar-toogle-hide').textContent = "+";
+                U.el('sidebar-toogle-hide').textContent = ">>";
                 U.elc('sidebar-tab', document.documentElement).style.width = "40px"
                 margin = "0px";
                 editorWidth = "calc(100% - 505px)";
@@ -274,7 +275,7 @@ namespace CSReportEditor {
             else {
                 display = 'block'
                 U.el('sidebar').style.display = "block";
-                U.el('sidebar-toogle-hide').textContent = "-";
+                U.el('sidebar-toogle-hide').textContent = "<<";
                 U.elc('sidebar-tab', document.documentElement).style.width = "310px"
                 margin = "315px";
                 editorWidth = "calc(100% - 820px)";

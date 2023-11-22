@@ -121,8 +121,8 @@
                 <button class="tablinks" id="sidebar-lv-controls-tab" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-controls')">Ctrls</button>
                 <button class="tablinks" id="sidebar-lv-database-tab" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-database')">DB</button>
                 <button class="tablinks" id="sidebar-lv-properties-tab" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-properties')">Properties</button>
+                <button class="tablinks" onclick="CSReportEditor.cMainEditor.hideOrShowSideBarTab()" id="sidebar-toogle-hide">&lt;&lt;</button>
                 <button class="tablinks" onclick="CSReportEditor.cMainEditor.toggleSideBarTab()" id="sidebar-toogle-width">&gt;&gt;</button>
-                <button class="tablinks" onclick="CSReportEditor.cMainEditor.hideOrShowSideBarTab()" id="sidebar-toogle-hide">-</button>
             </div>
             <!-- this added by code. I let it here just as an example
             <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1
@@ -160,6 +160,7 @@
                 <li><a href="#" id="property-image-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-image-tab')">Image</a></li>
                 <li><a href="#" id="property-chart-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-chart-tab')">Chart</a></li>
                 <li><a href="#" id="property-section-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')">Section</a></li>
+                <li><a href="#" id="property-group-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-group-tab')">Group</a></li>
             </ul><!-- toolbar -->
 
             <div class="property-tab" id="property-borders-tab" style="display: none;">
@@ -529,6 +530,82 @@ End Function
                     </div>
                 </div>
             </div><!-- property-section-tab -->
+
+            <div class="property-tab" id="property-group-tab" style="display: none;">
+                <label>Name</label>
+                <input type="text" id="group-name"/>
+                <div>
+                    <label>Field</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-group-db-field"/>
+                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Order</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">Ascend
+                                <input type="radio" name="sortType" id="ctrl-group-sort-asc"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Descend
+                                <input type="radio" name="sortType" id="ctrl-group-sort-desc"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Comparison Type</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">Text
+                                <input type="radio" name="comparisonType" id="ctrl-group-comparison-text"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Date
+                                <input type="radio" name="comparisonType" id="ctrl-group-comparison-date"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Number
+                                <input type="radio" name="comparisonType" id="ctrl-group-comparison-number"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Page Options</label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Print every group in a new page
+                                <input type="checkbox" id="ctrl-group-in-new-page"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Print group headers in a every page
+                                <input type="checkbox" id="ctrl-group-in-new-page"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Formulas</label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">It is a grand total group
+                                <input type="checkbox" id="ctrl-group-grand-total"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- property-group-tab -->
 
             <div class="footer-bar">
                 <button id="ctrl-properties-dlg-apply">Apply</button>

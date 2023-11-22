@@ -183,6 +183,7 @@ namespace CSReportEditor {
         private tabImage: HTMLElement;
         private tabChart: HTMLElement;
         private tabSection: HTMLElement;
+        private tabGroup: HTMLElement;
 
         private currentTab: string = null;
 
@@ -196,7 +197,8 @@ namespace CSReportEditor {
         ];
 
         private static SECTION_TABS = [
-            "property-section-tab"
+            "property-section-tab",
+            "property-group-tab"
         ];
 
         // footer buttons
@@ -334,6 +336,7 @@ namespace CSReportEditor {
             this.tabField = U.el('property-database-tab-selector');
             this.tabChart = U.el('property-chart-tab-selector');
             this.tabSection = U.el('property-section-tab-selector');
+            this.tabGroup = U.el('property-group-tab-selector');
 
             this.hideTabField();
             this.hideTabImage();
@@ -1523,6 +1526,10 @@ namespace CSReportEditor {
             this.tabSection.style.display = 'none';
         }
 
+        public hideTabGroup() {
+            this.tabGroup.style.display = 'none';
+        }
+
         public showTabFormat() {
             this.tabFormat.style.display = 'block';
         }
@@ -1551,8 +1558,13 @@ namespace CSReportEditor {
             this.tabSection.style.display = 'block';
         }
 
+        public showTabGroup() {
+            this.tabGroup.style.display = 'block';
+        }
+
         displayCtrlPropertyTabs() {
             this.hideTabSection();
+            this.hideTabGroup();
             this.showTabFormat();
             this.showTabField();
             this.showTabBorders();
@@ -1574,7 +1586,7 @@ namespace CSReportEditor {
             return U.el(tab).style.display === 'block';
         }
 
-        showSectionPropertyTabs() {
+        showSectionPropertyTabs(isGroup: boolean) {
             this.hideTabChart();
             this.hideTabImage();
             this.hideTabFormats();
@@ -1582,6 +1594,7 @@ namespace CSReportEditor {
             this.hideTabBorders();
             this.hideTabFormulas();
             this.showTabSection();
+            if(isGroup) this.showTabGroup();
             if(! this.isSectionTab(this.currentTab) || ! this.tabIsVisible(this.currentTab)) {
                 this.selectTab('property-section-tab');
             }
@@ -1985,6 +1998,7 @@ namespace CSReportEditor {
             U.el('property-image-tab').style.display = tab === 'property-image-tab' ? 'block' : 'none';
             U.el('property-chart-tab').style.display = tab === 'property-chart-tab' ? 'block' : 'none';
             U.el('property-section-tab').style.display = tab === 'property-section-tab' ? 'block' : 'none';
+            U.el('property-group-tab').style.display = tab === 'property-group-tab' ? 'block' : 'none';
 
             U.el('property-format-tab-selector').style.backgroundColor = tab === 'property-format-tab' ? '#111' : '#494947';
             U.el('property-formulas-tab-selector').style.backgroundColor = tab === 'property-formulas-tab' ? '#111' : '#494947';
@@ -1993,6 +2007,7 @@ namespace CSReportEditor {
             U.el('property-image-tab-selector').style.backgroundColor = tab === 'property-image-tab' ? '#111' : '#494947';
             U.el('property-chart-tab-selector').style.backgroundColor = tab === 'property-chart-tab' ? '#111' : '#494947';
             U.el('property-section-tab-selector').style.backgroundColor = tab === 'property-section-tab' ? '#111' : '#494947';
+            U.el('property-group-tab-selector').style.backgroundColor = tab === 'property-group-tab' ? '#111' : '#494947';
         }
     }
 }
