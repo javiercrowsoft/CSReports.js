@@ -172,6 +172,18 @@ namespace CSReportEditor {
         private bSetSectionFormulaHideChanged: boolean = null;
         private bSetSectionLineFormulaHideChanged: boolean = null;
 
+        // groups
+        private txGroupName: TextBox;
+        private txGroupDbField: TextBox;
+        private opAsc: OptionButton;
+        private opDesc: OptionButton;
+        private opDate: OptionButton;
+        private opNumber: OptionButton;
+        private opText: OptionButton;
+        private chkPrintInNewPage: CheckBox;
+        private chkReprintGroup: CheckBox;
+        private chkGrandTotal: CheckBox;
+
         private formulaDlg = new FFormula();
 
         // tabs
@@ -208,6 +220,7 @@ namespace CSReportEditor {
         //#endregion
 
         public constructor() {
+            // controls
             this.lbControl = new Label(U.labelEl('ctrl-lb-name'));
             this.txName = new TextBox(U.inputEl('ctrl-name'));
             this.txText = new TextBox(U.inputEl('ctrl-text'));
@@ -255,16 +268,31 @@ namespace CSReportEditor {
             this.shBorderShadow = new Label(U.labelEl('ctrl-border-color-shadow-sample'));
             this.txBorderWidth = new TextBox(U.inputEl('ctrl-border-width'));
             this.chkBorderRounded = new CheckBox(U.inputEl('ctrl-border-rounded'));
+
+            // sections
+            this.txSectionName = new TextBox(U.inputEl('section-name'));
+            this.lbSectionLineName = new Label(U.labelEl('section-line-name'));
             this.chkSectionFormulaHide = new CheckBox(U.inputEl('section-has-visible-formula'));
             this.chkSectionFormulaHide.setOnClick(P.call(this, this.chkSectionFormulaHideClick));
             this.chkSectionLineFormulaHide = new CheckBox(U.inputEl('section-line-has-visible-formula'));
             this.lbSectionFormulaHide = new Label(U.labelEl('section-visible-formula'));
             this.lbSectionLineFormulaHide = new Label(U.labelEl('section-line-visible-formula'));
-            this.txSectionName = new TextBox(U.inputEl('section-name'));
-            this.lbSectionLineName = new Label(U.labelEl('section-line-name'));
             this.cmdSectionFormulaHide = new Button(U.el('ctrl-section-hide-formula-edit'));
             this.cmdSectionLineFormulaHide = new Button(U.el('ctrl-section-line-hide-formula-edit'));
 
+            // groups
+            this.txGroupName = new TextBox(U.inputEl('group-name'));
+            this.txGroupDbField = new TextBox(U.inputEl('ctrl-group-db-field'));
+            this.opAsc = new OptionButton(U.inputEl('ctrl-group-sort-asc'));
+            this.opDesc = new OptionButton(U.inputEl('ctrl-group-sort-desc'));
+            this.opText = new OptionButton(U.inputEl('ctrl-group-comparison-text'));
+            this.opDate = new OptionButton(U.inputEl('ctrl-group-comparison-date'));
+            this.opNumber = new OptionButton(U.inputEl('ctrl-group-comparison-number'));
+            this.chkGrandTotal = new CheckBox(U.inputEl('ctrl-group-grand-total'));
+            this.chkReprintGroup = new CheckBox(U.inputEl('ctrl-group-header-in-every-page'));
+            this.chkPrintInNewPage = new CheckBox(U.inputEl('ctrl-group-in-new-page'));
+
+            // events
             this.chkSectionLineFormulaHide.setOnClick(P.call(this, this.chkSectionLineFormulaHideClick));
             this.chkFormulaHide.setOnClick(P.call(this, this.chkFormulaHideClick));
             this.chkFormulaValue.setOnClick(P.call(this, this.chkFormulaValueClick));
@@ -311,6 +339,7 @@ namespace CSReportEditor {
             //this.txChartGroupValue.setChange(P.call(this, this.txChartGroupValueChanged));
             //this.txCharttxChartTop.setChange(P.call(this, this.txChartTopChanged));
 
+            /* TODO: probably this will be removed
             this.cbTypeSelectedIndexChanged
             this.cbFormatTypeSelectedIndexChanged
             this.cbLinesTypeSelectedIndexChanged
@@ -327,7 +356,7 @@ namespace CSReportEditor {
             this.txDbFieldVal2TextChanged
             this.txDbFieldLbl2TextChanged
             this.cbColorSerie2SelectedIndexChanged
-
+            */
 
             this.tabFormat = U.el('property-format-tab-selector');
             this.tabBorders = U.el('property-borders-tab-selector');
@@ -1925,18 +1954,55 @@ namespace CSReportEditor {
         // section properties
         //#region
 
-        getChkSectionFormulaHide(): CheckBox {
-            return this.chkSectionFormulaHide;
-        }
-        getChkSectionLineFormulaHide(): CheckBox {
-            return this.chkSectionLineFormulaHide;
-        }
         getTxSectionName(): TextBox {
             return this.txSectionName;
         }
         getLbSectionLineName(): Label {
             return this.lbSectionLineName;
         }
+        getChkSectionFormulaHide(): CheckBox {
+            return this.chkSectionFormulaHide;
+        }
+        getChkSectionLineFormulaHide(): CheckBox {
+            return this.chkSectionLineFormulaHide;
+        }
+
+        //#endregion
+
+        // group properties
+        //#region
+
+        getTxGroupName(): TextBox {
+            return this.txGroupName;
+        }
+        getTxGroupDbField(): TextBox {
+            return this.txGroupDbField;
+        }
+        getOpAsc(): OptionButton {
+            return this.opAsc;
+        }
+        getOpDesc(): OptionButton {
+            return this.opDesc;
+        }
+        getChkPrintInNewPage(): CheckBox {
+            return this.chkPrintInNewPage;
+        }
+        getChkReprintGroup(): CheckBox {
+            return this.chkReprintGroup;
+        }
+        getChkGrandTotal(): CheckBox {
+            return this.chkGrandTotal;
+        }
+        getOpDate(): OptionButton {
+            return this.opDate;
+        }
+        getOpNumber(): OptionButton {
+            return this.opNumber;
+        }
+        getOpText(): OptionButton {
+            return this.opText;
+        }
+
         //#endregion
 
         clear() {
@@ -1985,6 +2051,18 @@ namespace CSReportEditor {
             this.shBorderShadow.setBackColor(null);
             this.txBorderWidth.setText("");
             this.chkBorderRounded.setChecked(false);
+
+            this.txSectionName.setText("");
+            this.txGroupName.setText("");
+            this.txGroupDbField.setText("");
+            this.chkPrintInNewPage.setChecked(false);
+            this.chkReprintGroup.setChecked(false);
+            this.chkGrandTotal.setChecked(false);
+            this.opAsc.setChecked(false);
+            this.opDesc.setChecked(false);
+            this.opNumber.setChecked(false);
+            this.opDate.setChecked(false);
+            this.opText.setChecked(false);
         }
 
         public selectTab(tab: string) {

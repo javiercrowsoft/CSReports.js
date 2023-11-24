@@ -3346,6 +3346,44 @@ namespace CSReportEditor {
 
                 propertyDlg.showSectionPropertyTabs(isGroup.get());
 
+                if(isGroup.get()) {
+                    let group: cReportGroup = null;
+
+                    for(let _i = 0; _i < this.report.getGroups().count(); _i++) {
+                        group = this.report.getGroups().item(_i);
+                        if(group.getHeader().getKey() === sec.getKey()) { break; }
+                        if(group.getFooter().getKey() === sec.getKey()) { break; }
+                    }
+
+                    propertyDlg.getTxGroupName().setText(group.getName());
+                    propertyDlg.getTxGroupDbField().setText(group.getFieldName());
+
+                    if(group.getOderType() === RptGrpOrderType.CS_RPT_GRP_ASC) {
+                        propertyDlg.getOpAsc().setChecked(true);
+                    }
+                    else {
+                        propertyDlg.getOpDesc().setChecked(true);
+                    }
+
+                    propertyDlg.getChkPrintInNewPage().setChecked(group.getPrintInNewPage());
+                    propertyDlg.getChkReprintGroup().setChecked(group.getRePrintInNewPage());
+                    propertyDlg.getChkGrandTotal().setChecked(group.getGrandTotalGroup());
+
+                    switch (group.getComparisonType()) {
+                      case  RptGrpComparisonType.CS_RPT_GRP_DATE:
+                        propertyDlg.getOpDate().setChecked(true);
+                        break;
+
+                      case  RptGrpComparisonType.CS_RPT_GRP_NUMBER:
+                        propertyDlg.getOpNumber().setChecked(true);
+                        break;
+
+                      case  RptGrpComparisonType.CS_RPT_GRP_TEXT:
+                        propertyDlg.getOpText().setChecked(true);
+                        break;
+                    }
+                }
+
             } catch(ex) {
                 cError.mngError(ex);
             }
