@@ -3,7 +3,7 @@ CSReports.js
 
 Welcome
 
-CSReports.js is a report editor tool that allows you to create reports from data in SQL Server, PostgreSQL, Oracle and MySQL
+CSReports.js is a report editor tool that allows you to create reports from data in SQL Server, PostgreSQL, Oracle and MySQL in the browser. 100 % vanilla TypeScript. Using Canvas html to do al the drawing and Web Workers for report processing.
 
 ![orden_de_pago](https://github.com/javiercrowsoft/CSReports.js/assets/1075455/7bb5c7d4-0775-4b6c-9d90-eea2555268a7)
 
