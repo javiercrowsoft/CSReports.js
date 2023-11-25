@@ -198,7 +198,7 @@ namespace CSReportEngine {
             xProperty.setValue(eTypes.eText, this.key);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
-            // TODO: fix me - this is Spanish - English bug we should use Index
+            // TODO: fix me - this is Spanish - English bug. we should use Index
             //
             xProperty.setName("Indice");
             xProperty.setValue(eTypes.eInteger, this.index);

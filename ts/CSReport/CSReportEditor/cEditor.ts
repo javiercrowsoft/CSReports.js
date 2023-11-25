@@ -3747,38 +3747,15 @@ namespace CSReportEditor {
 
                 if(sec === null) return;
 
-                this.applySectionProperties(sec, secLn.get());
+                this.applySectionProperties(sec, secLn.get(), isGroup.get());
             }
             else {
                 this.applyCtrlProperties();
             }
         }
 
-        private applySectionProperties(sec: cReportSection, secLn: cReportSectionLine) {
+        private applySectionProperties(sec: cReportSection, secLn: cReportSectionLine, isGroup: boolean) {
             try {
-
-                /*
-                this.showingProperties = true;
-
-                if(this.fSecProperties === null) {
-                    this.fSecProperties = new FSecProperties();
-                }
-
-                this.fSecProperties.setHandler(this);
-
-                this.fSecProperties.getChkFormulaHide().setChecked(sec.getHasFormulaHide());
-                this.fSecProperties.setFormulaHide(sec.getFormulaHide().getText());
-
-                if(sec instanceof cReportSectionLine) {
-                    this.fSecProperties.getTxName().setEnabled(false);
-                }
-
-                this.fSecProperties.getTxName().setText(sec instanceof cReportSectionLine ? secLnName : sec.getName());
-
-                this.fSecProperties.getLbSectionName().setText("Section: " + (sec instanceof cReportSectionLine ? secLnName : sec.getName()));
-
-                this.fSecProperties.showDialog();
-                */
 
                 const propertyDlg = cMainEditor.getPropertyDlg();
 
@@ -3787,6 +3764,35 @@ namespace CSReportEditor {
                 sec.setName(propertyDlg.getTxName().getText());
                 if(propertyDlg.getHasSectionLineFormulaHideChanged()) { secLn.setHasFormulaHide(propertyDlg.getChkSectionLineFormulaHide().getChecked()); }
                 if(propertyDlg.getSectionLineFormulaHideChanged()) { secLn.getFormulaHide().setText(propertyDlg.getSectionLineFormulaHide()); }
+
+                if(isGroup) {
+                    let group: cReportGroup = null;
+
+                    for(let _i = 0; _i < this.report.getGroups().count(); _i++) {
+                        group = this.report.getGroups().item(_i);
+                        if(group.getHeader().getKey() === sec.getKey()) { break; }
+                        if(group.getFooter().getKey() === sec.getKey()) { break; }
+                    }
+                    group.setName(propertyDlg.getTxGroupName().getText());
+                    group.setFieldName(propertyDlg.getTxGroupDbField().getText());
+
+                    group.setIndex(this.report.getGroups().count());
+                    group.setOderType(propertyDlg.getOpAsc().getChecked() ? RptGrpOrderType.CS_RPT_GRP_ASC : RptGrpOrderType.CS_RPT_GRP_DESC);
+
+                    group.setPrintInNewPage(propertyDlg.getChkPrintInNewPage().getChecked());
+                    group.setRePrintInNewPage(propertyDlg.getChkReprintGroup().getChecked());
+                    group.setGrandTotalGroup(propertyDlg.getChkGrandTotal().getChecked());
+
+                    if(propertyDlg.getOpDate().getChecked()) {
+                        group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_DATE);
+                    }
+                    else if(propertyDlg.getOpNumber().getChecked()) {
+                        group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_NUMBER);
+                    }
+                    else if(propertyDlg.getOpText().getChecked()) {
+                        group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_TEXT);
+                    }
+                }
 
             } catch(ex) {
                 cError.mngError(ex);
@@ -4859,18 +4865,18 @@ namespace CSReportEditor {
             switch(sec.getTypeSection()) {
                 case csRptSectionType.HEADER: return "H " + sec.getRealIndex();
                 case csRptSectionType.DETAIL: return "D " + sec.getRealIndex();
-                case csRptSectionType.FOOTER: return "F " + sec.getRealIndex();
+                case csRptSectionType.FOOTER: return "F " + (sec.getIndex() -1);
                 case csRptSectionType.GROUP_HEADER: return "GH " + sec.getRealIndex();
-                case csRptSectionType.GROUP_FOOTER: return "GF " + sec.getRealIndex();
+                case csRptSectionType.GROUP_FOOTER: return "GF " + (sec.getIndex() - 1);
                 case csRptSectionType.MAIN_HEADER: return "MH";
                 case csRptSectionType.MAIN_DETAIL: return "MD";
                 case csRptSectionType.MAIN_FOOTER: return "MF";
                 case csRptSectionType.CONTROL: return "C";
                 case csRptSectionType.SECLN_HEADER: return "LH";
                 case csRptSectionType.SECLN_DETAIL: return "LD";
-                case csRptSectionType.SECLN_FOOTER: return "F " + sec.getRealIndex();
+                case csRptSectionType.SECLN_FOOTER: return "LF " + (sec.getIndex() -1);
                 case csRptSectionType.SECLN_GROUPH: return "GH " + sec.getRealIndex();
-                case csRptSectionType.SECLN_GROUPF: return "GF " + sec.getRealIndex();
+                case csRptSectionType.SECLN_GROUPF: return "GF " + (sec.getIndex() -1);
             }
         }
 
@@ -4899,71 +4905,24 @@ namespace CSReportEditor {
                     this.editorTab.setText(this.report.getName());
                 }
 
-                let sec: cReportSection = null;
-
                 for(let _i = 0; _i < this.report.getHeaders().count(); _i++) {
-                    sec = this.report.getHeaders().item(_i);
-                    const secName = this.getSectionRuleName(sec);
-                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                    sec.getKey(),
-                                                    sec.getTypeSection(),
-                                                    secName,
-                                                    false));
-                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                    paintSec.setHeightSec(sec.getAspect().getHeight());
-                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_HEADER);
+                    this.loadSection(this.report.getHeaders().item(_i), csRptSectionType.SECLN_HEADER);
                 }
 
                 for(let _i = 0; _i < this.report.getGroupsHeaders().count(); _i++) {
-                    sec = this.report.getGroupsHeaders().item(_i);
-                    const secName = this.getSectionRuleName(sec);
-                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                    sec.getKey(),
-                                                    sec.getTypeSection(),
-                                                    secName,
-                                                    false));
-                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                    paintSec.setHeightSec(sec.getAspect().getHeight());
-                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_GROUPH);
+                    this.loadSection(this.report.getGroupsHeaders().item(_i), csRptSectionType.SECLN_GROUPH);
                 }
 
                 for(let _i = 0; _i < this.report.getDetails().count(); _i++) {
-                    sec = this.report.getDetails().item(_i);
-                    const secName = this.getSectionRuleName(sec);
-                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                    sec.getKey(),
-                                                    sec.getTypeSection(),
-                                                    secName,
-                                                    false));
-                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                    paintSec.setHeightSec(sec.getAspect().getHeight());
-                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_DETAIL);
+                    this.loadSection(this.report.getDetails().item(_i), csRptSectionType.SECLN_DETAIL);
                 }
 
                 for(let _i = 0; _i < this.report.getGroupsFooters().count(); _i++) {
-                    sec = this.report.getGroupsFooters().item(_i);
-                    const secName = this.getSectionRuleName(sec);
-                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                    sec.getKey(),
-                                                    sec.getTypeSection(),
-                                                    secName,
-                                                    false));
-                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                    paintSec.setHeightSec(sec.getAspect().getHeight());
-                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_GROUPF);
+                    this.loadSection(this.report.getGroupsFooters().item(_i), csRptSectionType.SECLN_GROUPF);
                 }
 
                 for(let _i = 0; _i < this.report.getFooters().count(); _i++) {
-                    sec = this.report.getFooters().item(_i);
-                    const secName = this.getSectionRuleName(sec);
-                    sec.setKeyPaint(this.paintSection(sec.getAspect(),
-                                                    sec.getKey(),
-                                                    sec.getTypeSection(),
-                                                    secName,
-                                                    false));
-                    paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
-                    paintSec.setHeightSec(sec.getAspect().getHeight());
-                    this.addPaintSectionForSecLn(sec, csRptSectionType.SECLN_FOOTER);
+                    this.loadSection(this.report.getFooters().item(_i), csRptSectionType.SECLN_FOOTER);
                 }
 
                 let paintType: csRptPaintObjType;
@@ -5047,6 +5006,19 @@ namespace CSReportEditor {
             }));
         }
 
+        private loadSection(sec: cReportSection, secType: csRptSectionType) {
+            const secName = this.getSectionRuleName(sec);
+            if (sec.getName() === "") sec.setName(secName);
+            sec.setKeyPaint(this.paintSection(sec.getAspect(),
+                                                sec.getKey(),
+                                                sec.getTypeSection(),
+                                                secName,
+                                                false));
+            const paintSec = this.paint.getPaintSections().item(sec.getKeyPaint());
+            paintSec.setHeightSec(sec.getAspect().getHeight());
+            this.addPaintSectionForSecLn(sec, secType);
+        }
+
         private addPaintSectionForSecLn(sec: cReportSection, typeSecLn: csRptSectionType) {
             let paintSec: cReportPaintObject = null;
 
@@ -5124,9 +5096,7 @@ namespace CSReportEditor {
                 // in which it is contained
                 //
                 rptSecLineAspect = rptCtrl.getSectionLine().getAspect();
-
                 aspect = rptCtrl.getLabel().getAspect();
-
                 aspect.setTop(objPaintAspect.getTop() + objPaintAspect.getOffset());
 
                 if(!rptCtrl.getIsFreeCtrl()) {

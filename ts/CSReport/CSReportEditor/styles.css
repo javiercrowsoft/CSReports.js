@@ -234,6 +234,10 @@ header nav ul li {
     border-radius: 5px;
 }
 
+#right-sidebar button:active {
+    background-color: #ccc;
+}
+
 input[type=text],
 input[type=number],
 select {
@@ -862,6 +866,9 @@ ul.toolbar a:hover {
     border-radius: 5px;
 }
 
+.dialog-box button:active {
+    background-color: #ccc;
+}
 
 /*-----------------------------------------------------*/
 #formula-dlg {
