@@ -23,7 +23,7 @@ Formulas can be written in JavaScript.
 
 It supports images embedded in the report or from the database.
 
-It can export to PDF and Excel.
+It can export to PDF.
 
 The datasource can be a JSON file, so it can run disconnected from a database as a client preview tool that consume
 reports from a web application.
@@ -77,7 +77,7 @@ https://codeburst.io/creating-and-drawing-on-an-html5-canvas-using-javascript-93
 https://library.superhi.com/posts/how-to-paint-with-code-creating-paintbrushes
 
 ## XML
-Old csr files ( CSReports report file extension ) has been save using Microsoft XML library. This library store new lines without encoding to &#010;
+Old csr files ( CSReports report file extension ) has been save using Microsoft XML library. This library store new lines without encoding to &amp#010;
 
 When the file is parsed by DOMParser the new lines and any other space characters are converted to white space as defined in XML specification.
 
