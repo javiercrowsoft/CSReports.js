@@ -1599,7 +1599,7 @@ namespace CSReportEngine {
                                         ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
 
                                         if(this.tables[indexRows] !== null) {
-                                            field.setImage(this.pGetImage(indexRows, indexField, indexRow));
+                                            field.setImage(this.getImage(indexRows, indexField, indexRow));
                                         }
                                         break;
 
@@ -2483,17 +2483,20 @@ namespace CSReportEngine {
         // to use as an id for every image contained
         // in the report
         //
-        private pGetImage(indexRows: number, indexField: number, indexRow: number) {
+        private getImage(indexRows: number, indexField: number, indexRow: number) {
             let key = "k" + indexRows.toString() + indexField.toString() + indexRow.toString();
             if(this.images.containsKey(key)) {
                 return this.images.item(key);
             }
             else {
+                const imgData = this.tables[indexRows].rows[indexRow][indexField];
                 const image = new Image(
-                    Bitmap.loadImageFromArray(this.tables[indexRows].rows[indexRow][indexField]),
-                    key);
+                    Bitmap.loadImageFromArray(imgData.image),
+                    key,
+                    imgData.width,
+                    imgData.height);
                 this.images.add(image, key);
-                return ;
+                return image;
             }
         }
 
@@ -3947,7 +3950,7 @@ namespace CSReportEngine {
                                             ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
 
                                             if(this.tables[indexRows] !== null) {
-                                                field.setImage(this.pGetImage(indexRows, indexField, indexRow));
+                                                field.setImage(this.getImage(indexRows, indexField, indexRow));
                                             }
                                             break;
 

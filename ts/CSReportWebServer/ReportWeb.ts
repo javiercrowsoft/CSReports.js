@@ -25,6 +25,7 @@ namespace CSReportWebServer {
     import Map = CSOAPI.Map;
     import Image = CSDrawing.ImageX;
     import Bitmap = CSDrawing.Bitmap;
+    import DataType = CSDatabase.DataType;
 
     export class ReportWeb {
         private reportId: string;
@@ -67,7 +68,7 @@ namespace CSReportWebServer {
             this.init(request, new cReport());
         }
 
-        public init(request: any, report: cReport): void {
+        public init(request: any, report: cReport): Promise<boolean> {
             try {
 
                 this.webReportId = request["content"]["webReportId"].toString();
@@ -81,30 +82,35 @@ namespace CSReportWebServer {
 
                 oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(null));
 
-                this.registerDataSource(request);
+                return this.registerDataSource(request)
+                .then(P.call(this, () => {
 
-                if (!this.report.init(oLaunchInfo)) { return; }
+                    if (!this.report.init(oLaunchInfo)) { return; }
 
-                this.report.getLaunchInfo().setStrConnect(this.database);
+                    this.report.getLaunchInfo().setStrConnect(this.database);
 
-                this.report.setPathDefault("~");
+                    this.report.setPathDefault("~");
 
-                this.reportWorker = new Worker("./csreports.js");
+                    this.reportWorker = new Worker("./csreports.js");
 
-                this.reportWorker.onmessage = this.onmessage();
+                    this.reportWorker.onmessage = this.onmessage();
 
-                this.reportWorker.postMessage({
-                    action: 'init'
-                });
+                    this.reportWorker.postMessage({
+                        action: 'init'
+                    });
 
-                this.reportWorker.postMessage({
-                    action: 'register-datasource',
-                    request: request,
-                    database: this.database
-                });
+                    this.reportWorker.postMessage({
+                        action: 'register-datasource',
+                        request: request,
+                        database: this.database
+                    });
+
+                    return true;
+
+                }));
 
             } catch (ex) {
-                cError.mngError(ex);
+                return cError.mngError(ex);
             }
         }
 
@@ -160,7 +166,6 @@ namespace CSReportWebServer {
                         break;
 
                     case 'get-report-done':
-
                         this.pages.getValues().forEach((page) => {
                             const fields = [...page.getHeader().getValues(), ...page.getDetail().getValues(), ...page.getFooter().getValues()];
                             fields.forEach(P.call(this, (field) => {
@@ -272,13 +277,61 @@ namespace CSReportWebServer {
             });
         }
 
-        private registerDataSource(request: any): void {
+        private registerDataSource(request: any) {
             const dataSources = request["content"]["data"]["data"];
             for (let i = 0; i < dataSources.length; i++) {
                 const dataSource = dataSources[i];
                 const ds = new JSONDataSource(dataSource["name"].toString(), dataSource["data"]);
                 JSONServer.registerDataSource(ds, this.database + "." + ds.getName());
             }
+            return this.setImagesInDataSources(dataSources);
+        }
+
+        private getImage(images: Map<Image>, dataSources: any[], indexRows: number, indexField: number, indexRow: number) {
+            let key = "k" + indexRows.toString() + indexField.toString() + indexRow.toString();
+            if(images.containsKey(key)) {
+                return images.item(key);
+            }
+            else {
+                const image = new Image(
+                    Bitmap.loadImageFromArray(dataSources[indexRows].data.rows[indexRow].values[indexField]),
+                    key);
+                images.add(image, key);
+                return image;
+            }
+        }
+
+        private setImagesInDataSources(dataSources: any[]) {
+            const images: Map<Image> = new Map();
+            let p = P._(false);
+            for(let indexRows = 0; indexRows < dataSources.length; indexRows++) {
+                const imageColIndex = [];
+                for(let indexField = 0; indexField < dataSources[indexRows].data.columns.length; indexField++) {
+                    let typeCode = dataSources[indexRows].data.columns[indexField].columnType;
+                    if(typeCode === 'bytea') {
+                        imageColIndex.push(indexField);
+                    }
+                }
+
+                for(let indexRow = 0; indexRow < dataSources[indexRows].data.rows.length; indexRow++) {
+                    for(let indexField = 0; indexField < imageColIndex.length; indexField++) {
+                        const image = this.getImage(images, dataSources, indexRows, indexField, indexRow);
+                        if(typeof dataSources[indexRows].data.rows[indexRow].values[indexField] === 'string') {
+                            p = p
+                            .then(() => image.loadImage())
+                            .then(() => {
+                                dataSources[indexRows].data.rows[indexRow].values[indexField] = {
+                                    width: image.getSize().width,
+                                    height: image.getSize().height,
+                                    image: dataSources[indexRows].data.rows[indexRow].values[indexField]
+                                }
+                                return true;
+                            });
+                        }
+                    }
+                }
+            }
+            return p.then( () => true);
         }
 
         private reportDone(): void {
