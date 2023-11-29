@@ -108,11 +108,6 @@ namespace CSDatabase
 
         public getValue(i: number) {
             let value = this.rows[this.rowIndex]["values"][i];
-            /*
-            if(this.isByteA(i)) {
-                value = value; // in js version we don't need to to anything
-            }
-            */
             if(this.isTimestamptz(i)) {
                 if(value.toString().trim().length === 0) {
                     value = this.start;
