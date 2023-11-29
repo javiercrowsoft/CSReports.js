@@ -905,8 +905,10 @@ namespace CSReportPaint {
         private updateFooterFieldHeight(isLastPage = false) {
             // add the height of the images for controls which can grow and are in the footer
             //
-            this.updateFieldHeight(this.report.getPages().item(this.report.getPages().count() - 2).getFooter());
-            if(isLastPage) {
+            const count = this.report.getPages().count();
+            const idx = count - ((count > 1) ? 2 : 1);
+            this.updateFieldHeight(this.report.getPages().item(idx).getFooter());
+            if(isLastPage && count > 1) {
                 this.updateFieldHeight(this.report.getPages().item(this.report.getPages().count() - 1).getFooter());
             }
         }
