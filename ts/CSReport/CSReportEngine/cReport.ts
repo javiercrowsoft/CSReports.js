@@ -1720,8 +1720,8 @@ namespace CSReportEngine {
             }))
             // get the main recordset
             //
-            .then(P.ifTrue(this, () => this.getData(dtr, this.connect, true, recordSets)))
-            .then(P.ifTrue(this, (result) => {
+            .then(P.call(this, () => this.getData(dtr, this.connect, true, recordSets)))
+            .then(P.call(this, (result) => {
 
                 if(! result) { return false; }
 
@@ -1742,8 +1742,8 @@ namespace CSReportEngine {
             }))
             // get additional recordSets
             //
-            .then(P.ifTrue(this, () => this.getDataAux(recordSets)))
-            .then(P.ifTrue(this, (result) => {
+            .then(P.call(this, () => this.getDataAux(recordSets)))
+            .then(P.call(this, (result) => {
 
                 if(! result) { return false; }
 
