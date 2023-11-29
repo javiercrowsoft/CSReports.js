@@ -163,10 +163,17 @@ namespace CSOAPI {
                 return null;
         }
 
-        public forEach(f:(string, T) => void) {
+        public forEach(f:(k: string, v: T) => void) {
             for(let i = 0; i < this.length; i++) {
                 f(this.keys[i], this.values[i]);
             }
+        }
+
+        public anyMatch(f:(k: string, v: T) => boolean) {
+            for(let i = 0; i < this.length; i++) {
+                if (f(this.keys[i], this.values[i])) return true;
+            }
+            return false;
         }
 
         public forEachValue(f: (T) => void) {

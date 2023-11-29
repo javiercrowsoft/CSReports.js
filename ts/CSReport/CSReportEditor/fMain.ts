@@ -449,18 +449,23 @@ namespace CSReportEditor {
             this.saveReport(false);
         }
 
-        public debugnReportClick() {
+        public debugReportClick() {
             let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(maybeEditor === null || ! maybeEditor.isEditor()) return;
             const editor = maybeEditor as cEditor;
 
+            let p = P._(true);
             let previewReport = this.previewReports.item(editor.getId());
             if(previewReport === null) {
                 previewReport = new ReportWeb();
                 this.previewReports.add(previewReport);
-                previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
+                p = previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
             }
-            previewReport.makeReport()
+            p.then((result) => {
+                if(! result) return false;
+
+                return previewReport.makeReport();
+            })
             .then((result) => {
                 if(! result) return false;
 

@@ -744,21 +744,15 @@ namespace CSReportPaint {
 
             // get details dimensions
             //
-            detailHeight.set(
-                this.getDetailHeight(
-                    this.report.getPages().item(this.report.getPages().count()-1),
-                    top));
-
-            console.log( "top: " + top.get() + " - detailHeight: " + detailHeight.get());
-
-            // add the height of the images for controls which can grow and are in the header
-            //
-            this.updateFieldHeight(this.report.getPages().item(this.report.getPages().count()-1).getHeader());
+            this.calculateDetailsDimensions(detailHeight, top);
 
             do {
                 // get the line
                 //
                 rslt = this.report.getLine(fields);
+
+                // TODO: remove me
+                // if(fields.get().anyMatch((k,v)=> v.getInfo().getName() === "Control29")) debugger;
 
                 // if we have finished
                 //
@@ -774,15 +768,15 @@ namespace CSReportPaint {
 
                     this.report.evalPreGroupHeader();
 
-                    // idem for footers
-                    //
+                // idem for footers
+                //
                 }
                 else if(rslt === csRptGetLineResult.CS_RPT_GL_VIRTUAL_F) {
 
                     this.report.evalPreGroupFooter();
 
-                    // if the engine responded that we need to create a new page
-                    //
+                // if the engine responded that we need to create a new page
+                //
                 }
                 else if(rslt === csRptGetLineResult.CS_RPT_GL_NEW_PAGE) {
                     // get the new page
@@ -790,6 +784,11 @@ namespace CSReportPaint {
                     if(!this.newPage(top, detailHeight)) {
                         return false;
                     }
+
+                    // get details dimensions
+                    //
+                    this.calculateDetailsDimensions(detailHeight, top);
+                    this.updateFooterFieldHeight();
                 }
                 else {
                     // get the line's height
@@ -805,6 +804,11 @@ namespace CSReportPaint {
                         if(!this.newPage(top, detailHeight)) {
                             return false;
                         }
+
+                        // get details dimensions
+                        //
+                        this.calculateDetailsDimensions(detailHeight, top);
+                        this.updateFooterFieldHeight();
                     }
                     else {
                         heightSection = 0;
@@ -880,7 +884,31 @@ namespace CSReportPaint {
                 }
             } while (true);
 
-            return this.report.endPage() !== csRptEndPageResult.CS_RPT_EP_ERROR;
+            const endPageRslt = this.report.endPage() !== csRptEndPageResult.CS_RPT_EP_ERROR;
+
+            if(endPageRslt) this.updateFooterFieldHeight(true);
+
+            return endPageRslt;
+        }
+
+        private calculateDetailsDimensions(detailHeight: RefWrapper<number>, top: RefWrapper<number>) {
+            detailHeight.set(
+                this.getDetailHeight(
+                    this.report.getPages().item(this.report.getPages().count() - 1),
+                    top));
+
+            // add the height of the images for controls which can grow and are in the header
+            //
+            this.updateFieldHeight(this.report.getPages().item(this.report.getPages().count() - 1).getHeader());
+        }
+
+        private updateFooterFieldHeight(isLastPage = false) {
+            // add the height of the images for controls which can grow and are in the footer
+            //
+            this.updateFieldHeight(this.report.getPages().item(this.report.getPages().count() - 2).getFooter());
+            if(isLastPage) {
+                this.updateFieldHeight(this.report.getPages().item(this.report.getPages().count() - 1).getFooter());
+            }
         }
 
         private printerSetSizeAndOrient(p: string, paperType: csReportPaperType, p_2: number) {
@@ -1013,13 +1041,13 @@ namespace CSReportPaint {
                         //
                         if(field.getImage() !== null) {
 
-                            let bmpWidth: number = 0;
-                            let bmpHeight: number = 0;
+                            let width: number = 0;
+                            let height: number = 0;
 
-                            ({ bmpWidth, bmpHeight} = field.getImage().getBitmapSize(true));
+                            ({ width, height} = field.getImage().getSize());
 
-                            field.setHeight(bmpHeight);
-                            field.setWidth(bmpWidth);
+                            field.setHeight(height);
+                            field.setWidth(width);
 
                             if(field.getHeight() < aspectHeight) { field.setHeight(aspectHeight); }
                             if(field.getWidth() < aspectWidth) { field.setWidth(aspectWidth); }
@@ -1169,6 +1197,7 @@ namespace CSReportPaint {
                     else {
                         aspect.setTop(rptAspect.getTop());
                     }
+
                     if(field.getHeight() > 0) {
                         aspect.setHeight(field.getHeight());
                     }

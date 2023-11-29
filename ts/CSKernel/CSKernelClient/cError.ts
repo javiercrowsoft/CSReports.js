@@ -75,7 +75,7 @@ namespace CSKernelClient {
             this.f.setErrorIcon();
             this.f.setDetails(ex.getMessage ? ex.getMessage() : ex.message || ex.toString());
             this.f.setInfoAdd(infoAdd);
-            return this.f.showDialog();
+            return this.f.showDialog().then(() => false);
         }
 
         public static mngWarning(msg: string, title: string = "") {

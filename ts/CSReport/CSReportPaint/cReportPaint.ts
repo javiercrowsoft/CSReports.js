@@ -927,8 +927,6 @@ namespace CSReportPaint {
                                     oPaintObj.getImage(),
                                     x1 * this.scaleX,
                                     y1 * this.scaleY,
-                                    bmpWidth,
-                                    bmpHeight,
                                     bmpWidth * this.scaleX,
                                     bmpHeight * this.scaleY);
                         }
@@ -957,9 +955,8 @@ namespace CSReportPaint {
                         image: Image,
                         x: number, y: number,
                         bmpWidth: number,
-                        bmpHeight: number,
-                        destWidth: number, destHeight: number) { // TODO: maybe should remove these unused arguments
-            graphic.drawImage(image.imageBitmap, x, y);
+                        bmpHeight: number) {
+            graphic.drawImage2(image.imageBitmap, x, y, bmpWidth, bmpHeight);
         }
 
         public setFocus(sKey: string, graphic: Graphic, clearSelected: boolean) {
