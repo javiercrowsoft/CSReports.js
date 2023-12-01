@@ -81,6 +81,8 @@ namespace CSReportEditor {
         private debugData = new Map<FileContent>();
         private previewReports = new Map<ReportWeb>();
 
+        private pageSetup: FPageSetup = new FPageSetup();
+
         public constructor() {
             // it is the first thing we need to do
             //
@@ -445,6 +447,40 @@ namespace CSReportEditor {
             this.saveReport(true);
         }
 
+        public pageSetupClick() {
+            let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(maybeEditor === null || ! maybeEditor.isEditor) return;
+
+            const editor = (maybeEditor as cEditor);
+
+            this.pageSetup.initDialog(editor.getPaperSize(),
+                                      editor.getCustomHeight(),
+                                      editor.getCustomWidth(),
+                                      editor.getOrientation(),
+                                      P.call(this, this.pageSetupApplyClick));
+
+            this.pageSetup.showModal();
+        }
+
+        public pageSetupApplyClick() {
+            let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(maybeEditor === null || ! maybeEditor.isEditor) return;
+
+            const editor = (maybeEditor as cEditor);
+
+            this.paperSize = this.pageSetup.getPaperSize();
+            this.paperSizeHeight = this.pageSetup.getCustomHeight();
+            this.paperSizeWidth = this.pageSetup.getCustomWidth();
+            this.orientation = this.pageSetup.getOrientation();
+            if(editor !== null && editor.isEditor()) {
+                editor.setPaperSize(this.paperSize);
+                editor.setOrientation(this.orientation);
+                editor.setCustomHeight(this.paperSizeHeight);
+                editor.setCustomWidth(this.paperSizeWidth);
+                editor.refreshReport();
+            }
+        }
+
         public saveReportClick() {
             this.saveReport(false);
         }
@@ -486,8 +522,12 @@ namespace CSReportEditor {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 this.openFileWithDialog().then(P.call(this, (fc: FileContent) => {
-                    fc.content = JSON.parse(fc.content);
-                    this.debugData.add(fc, (editor as cEditor).getId());
+                    try {
+                        fc.content = JSON.parse(fc.content);
+                        this.debugData.add(fc, (editor as cEditor).getId());
+                    } catch(ex) {
+                        cError.mngError(ex);
+                    }
                 }));
             }
         }
@@ -1049,32 +1089,6 @@ namespace CSReportEditor {
                 (editor as cEditor).saveDocument(saveAs, cMainEditor.runningInBrowser());
                 this.addToRecentList((editor as cEditor).getFileName());
             }
-        }
-
-        private mnuPageSetup_Click(sender: object, e: any) {
-            let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(maybeEditor === null || ! maybeEditor.isEditor) return;
-
-            const editor = (maybeEditor as cEditor);
-            let pageSetup: FPageSetup = new FPageSetup();
-            pageSetup.initDialog(editor.getPaperSize(), editor.getCustomHeight(), editor.getCustomWidth(), editor.getOrientation());
-
-            pageSetup.showDialog();
-
-            if(pageSetup.getOk()) {
-                this.paperSize = pageSetup.getPaperSize();
-                this.paperSizeHeight = pageSetup.getCustomHeight();
-                this.paperSizeWidth = pageSetup.getCustomWidth();
-                this.orientation = pageSetup.getOrientation();
-                if(editor !== null && editor.isEditor()) {
-                    editor.setPaperSize(this.paperSize);
-                    editor.setOrientation(this.orientation);
-                    editor.setCustomHeight(this.paperSizeHeight);
-                    editor.setCustomWidth(this.paperSizeWidth);
-                    editor.refreshReport();
-                }
-            }
-            pageSetup.close();
         }
 
         private mnuPrinterSettings_Click(sender: object, e: any) {

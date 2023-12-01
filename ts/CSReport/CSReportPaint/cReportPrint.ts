@@ -905,12 +905,16 @@ namespace CSReportPaint {
         private updateFooterFieldHeight(isLastPage = false) {
             // add the height of the images for controls which can grow and are in the footer
             //
+            /*
             const count = this.report.getPages().count();
             const idx = count - ((count > 1) ? 2 : 1);
             this.updateFieldHeight(this.report.getPages().item(idx).getFooter());
             if(isLastPage && count > 1) {
                 this.updateFieldHeight(this.report.getPages().item(this.report.getPages().count() - 1).getFooter());
-            }
+            }*/
+            const count = this.report.getPages().count();
+            const idx = count - (isLastPage ? 1 : 2);
+            this.updateFieldHeight(this.report.getPages().item(idx).getFooter());
         }
 
         private printerSetSizeAndOrient(p: string, paperType: csReportPaperType, p_2: number) {

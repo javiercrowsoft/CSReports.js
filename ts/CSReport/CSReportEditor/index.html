@@ -17,12 +17,12 @@
                     <ul>
                         <li><a id="mnuFileNew" onclick="CSReportEditor.cMainEditor.fMain.newReportClick()">New</a></li>
                         <li><a id="mnuFileOpen" onclick="CSReportEditor.cMainEditor.fMain.openReportClick()">Open</a></li>
-                        <li><a id="mnuFileOpenRecent">Open Recent Files ...</a></li>
+                        <!--<li><a id="mnuFileOpenRecent">Open Recent Files ...</a></li>-->
                         <li><a id="mnuFileSave" onclick="CSReportEditor.cMainEditor.fMain.saveReportClick()">Save</a></li>
                         <li><a id="mnuFileSaveAs" onclick="CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
                         <li class="divider"></li>
-                        <li><a id="mnuFilePageSetup">Page Setup</a></li>
-                        <li><a id="mnuFilePageSettings">Page Settings</a></li>
+                        <li><a id="mnuFilePageSetup" onclick="CSReportEditor.cMainEditor.fMain.pageSetupClick()">Page Setup</a></li>
+                        <!--<li><a id="mnuFilePageSettings">Printer Settings</a></li>-->
                         <li class="divider"></li>
                         <li><a id="mnuFilePreview">Preview</a></li>
                         <li><a id="mnuFilePrint">Print</a></li>
@@ -653,15 +653,58 @@ End Function
             <button>Cancel</button>
         </div>
     </div>
-    <div id="seach-dlg">
+    <div id="search-dlg">
     </div>
     <div id="page-setup-dlg">
-        <div class="dlg-header"></div>
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Page Setup</h1>
+            </div>
+        </div>
         <div class="dlg-body">
+            <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                <div class="property-section">
+                    <div class="row">
+                        <label style="padding-top: 13px;">Size</label>
+                        <select id="page-setup-paper-size">
+                            <option value="1">Letter</option>
+                            <option value="9">A4</option>
+                            <option value="5">Legal</option>
+                            <option value="8">A3</option>
+                            <option value="99">User</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Custom size</label>
+                    <div style="margin-top: 20px;">
+                        <label>Height</label>
+                        <input type="text" id="page-setup-height"/>
+                    </div>
+                    <div>
+                        <label>Width</label>
+                        <input type="text" id="page-setup-width"/>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Layout</label>
+                    <div class="inner-row-radio">
+                        <label style="margin-top: 10px;">Portrait
+                            <input type="radio" name="layout" id="page-setup-portrait"/>
+                            <span></span>
+                        </label>
+                        <label style="margin-top: 10px;">Landscape
+                            <input type="radio" name="layout" id="page-setup-landscape"/>
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="dlg-footer">
-            <button>Apply</button>
-            <button>Cancel</button>
+            <button id="page-setup-dlg-apply">Apply</button>
+            <button id="page-setup-dlg-cancel">Cancel</button>
         </div>
     </div>
     <div id="error-dlg">

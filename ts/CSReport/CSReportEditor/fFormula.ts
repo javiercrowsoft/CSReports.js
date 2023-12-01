@@ -39,21 +39,21 @@ namespace CSReportEditor {
 
         private el: HTMLElement;
         private dialog: Dialog;
-        private tv_formulas: TreeView = null;
-        private tx_formula: TextBox =  null;
-        private lb_description: Label = null;
+        private tvFormulas: TreeView = null;
+        private txFormula: TextBox =  null;
+        private lbDescription: Label = null;
 
         public constructor() {
             super();
             this.el = U.el('formula-dlg');
             this.dialog = new Dialog(this.el, 'formula-dlg-apply', 'formula-dlg-cancel');
 
-            this.tv_formulas = new TreeView("tvFormulas", U.el("formula-dlg-tree"), "*");
-            this.tv_formulas.state.onclick = P.call(this, this.tvFormulasNodeClick);
-            this.tv_formulas.state.onDblclick = P.call(this, this.tvFormulasDoubleClick);
+            this.tvFormulas = new TreeView("tvFormulas", U.el("formula-dlg-tree"), "*");
+            this.tvFormulas.state.onclick = P.call(this, this.tvFormulasNodeClick);
+            this.tvFormulas.state.onDblclick = P.call(this, this.tvFormulasDoubleClick);
 
-            this.tx_formula = new TextBox(U.inputEl("formula-dlg-code"));
-            this.lb_description = new Label(U.labelEl("formula-dlg-description"));
+            this.txFormula = new TextBox(U.inputEl("formula-dlg-code"));
+            this.lbDescription = new Label(U.labelEl("formula-dlg-description"));
             this.dialog.onApply = P.call(this, this.cmdApplyClick);
             super.setDialog(this.dialog);
         }
@@ -63,9 +63,9 @@ namespace CSReportEditor {
         }
 
 		public createTree() {
-            this.tv_formulas.clear();
-            this.tv_formulas.getNodes().add("Internal functions", this.FOLDER_INDEX, this.KEY_SYS_FUNCTIONS);
-            const item = this.tv_formulas.getNodes().add("Internal variables", this.FOLDER_INDEX, this.KEY_SYS_VARS);
+            this.tvFormulas.clear();
+            this.tvFormulas.getNodes().add("Internal functions", this.FOLDER_INDEX, this.KEY_SYS_FUNCTIONS);
+            const item = this.tvFormulas.getNodes().add("Internal variables", this.FOLDER_INDEX, this.KEY_SYS_VARS);
             item.getNodes().add("Database fields", 0, this.KEY_SYS_DB_FIELDS);
             item.getNodes().add("Labels", 0, this.KEY_SYS_LABELS);
 
@@ -90,7 +90,7 @@ namespace CSReportEditor {
 		}
 
 		public addFormula(formulaType: csRptFormulaType, name: string, nameUser: string, descrip: string, helpContextId: number) {
-            const item = this.tv_formulas.getNodes().item(this.KEY_SYS_FUNCTIONS).getNodes().add(nameUser, this.FORMULA_INDEX);
+            const item = this.tvFormulas.getNodes().item(this.KEY_SYS_FUNCTIONS).getNodes().add(nameUser, this.FORMULA_INDEX);
             item.selectedImageIndex = item.imageIndex;
 
             let info: string = "";
@@ -111,20 +111,20 @@ namespace CSReportEditor {
 		}
 
 		public setFormula(formula: string) {
-			this.tx_formula.setText(formula);
+			this.txFormula.setText(formula);
 		}
 
 		public expandTree() {
-            this.tv_formulas.getNodes().item(0).expandAll();
-            this.tv_formulas.getNodes().item(1).expandAll();
+            this.tvFormulas.getNodes().item(0).expandAll();
+            this.tvFormulas.getNodes().item(1).expandAll();
 		}
 
 		public getFormula(): string {
-			return this.tx_formula.getText();
+			return this.txFormula.getText();
 		}
 
         private addAux(name: string, descrip: string, key: string, imageIndex: number) {
-            let father = this.tv_formulas.getNodes().item(this.KEY_SYS_VARS).getNodes().item(key);
+            let father = this.tvFormulas.getNodes().item(this.KEY_SYS_VARS).getNodes().item(key);
             let item = father.getNodes().add(name, imageIndex);
             item.selectedImageIndex = item.imageIndex;
 
@@ -142,7 +142,7 @@ namespace CSReportEditor {
 
         private tvFormulasNodeClick(node: Node) {
             let info = node.tag;
-            this.lb_description.setText(U.getInfoString(info, this.FUN_DESCRIP, ""));
+            this.lbDescription.setText(U.getInfoString(info, this.FUN_DESCRIP, ""));
         }
 
         private isDbOrLabel(info: string) {
@@ -155,15 +155,15 @@ namespace CSReportEditor {
             if(! this.isDbOrLabel(info)) {
                  name += "()";
             }
-            let i: number = this.tx_formula.getSelectionStart();
-            this.tx_formula.setText(
-                      this.tx_formula.getText().substring(0, i)
+            let i: number = this.txFormula.getSelectionStart();
+            this.txFormula.setText(
+                      this.txFormula.getText().substring(0, i)
                     + name
-                    + this.tx_formula.getText().substring(i));
+                    + this.txFormula.getText().substring(i));
         }
 
         private cmdApplyClick() {
-            return this.editor.checkSyntax(this.tx_formula.getText());
+            return this.editor.checkSyntax(this.txFormula.getText());
         }
 
         public setHandler(editor: cEditor) {

@@ -89,7 +89,7 @@ namespace CSForms {
             this.el.onclick = f;
         }
 
-        setOnChanve(f: ()=> void) {
+        setOnChange(f: ()=> void) {
             this.el.onchange = f;
         }
 

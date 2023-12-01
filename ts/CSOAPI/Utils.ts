@@ -180,12 +180,7 @@ namespace CSOAPI {
             // list.Items.Add(new ListValueWithId(value, id));
         }
         private static listID_(list: ComboBox): string {
-            // TODO: implement
-            /*
-            if(list.SelectedIndex === -1) { return 0; }
-            return (list.SelectedItem).Id;
-            */
-            return "0";
+            return list.getOptions()[list.getSelectedIndex()].value;
         }
         private static listItemData_(list: ComboBox, index: number) {
             // TODO: implement

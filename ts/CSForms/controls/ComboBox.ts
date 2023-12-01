@@ -32,5 +32,13 @@ namespace CSForms {
         getText() {
             return this.elSelect.textContent;
         }
+
+        getOptions() {
+            return this.elSelect.options;
+        }
+
+        getSelectedIndex() {
+            return this.elSelect.selectedIndex;
+        }
     }
 }
