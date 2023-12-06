@@ -85,7 +85,7 @@ namespace CSReportEngine {
         public load(xDoc: CSXml.cXml, nodeObj: XmlNode) {
             nodeObj = xDoc.getNodeFromNode(nodeObj, "Font");
             this.bold = xDoc.getNodeProperty(nodeObj, "Bold").getValueBool(eTypes.eBoolean);
-            this.foreColor = xDoc.getNodeProperty(nodeObj, "ForeColor").getValueString(eTypes.eLong);
+            this.foreColor = xDoc.getNodeProperty(nodeObj, "ForeColor").getValueString(eTypes.eText);
             this.italic = xDoc.getNodeProperty(nodeObj, "Italic").getValueBool(eTypes.eBoolean);
             this.name = xDoc.getNodeProperty(nodeObj, "Name").getValueString(eTypes.eText);
             this.size = xDoc.getNodeProperty(nodeObj, "Size").getValueInt(eTypes.eInteger);
@@ -104,7 +104,7 @@ namespace CSReportEngine {
             nodeObj = xDoc.addNodeToNode(nodeFather, xProperty);
 
             xProperty.setName("ForeColor");
-            xProperty.setValue(eTypes.eLong, this.foreColor);
+            xProperty.setValue(eTypes.eText, this.foreColor);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Bold");

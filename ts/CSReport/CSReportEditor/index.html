@@ -24,7 +24,7 @@
                         <li><a id="mnuFilePageSetup" onclick="CSReportEditor.cMainEditor.fMain.pageSetupClick()">Page Setup</a></li>
                         <!--<li><a id="mnuFilePageSettings">Printer Settings</a></li>-->
                         <li class="divider"></li>
-                        <li><a id="mnuFilePreview">Preview</a></li>
+                        <li><a id="mnuFilePreview" onclick="CSReportEditor.cMainEditor.fMain.debugReportClick()">Preview</a></li>
                         <li><a id="mnuFilePrint">Print</a></li>
                     </ul>
                 </li>
@@ -45,11 +45,11 @@
                         </li>
                         <li><a>Controls</a>
                             <ul>
-                                <li><a id="mnuEditAddLabel">Add Label</a></li>
-                                <li><a id="mnuEditAddLine">Add Group</a></li>
-                                <li><a id="mnuEditAddDatabaseField">Add Field</a></li>
-                                <li><a id="mnuEditAddImage">Add Image</a></li>
-                                <li><a id="mnuEditAddChart">Add Chart</a></li>
+                                <li><a id="mnuEditAddLabel" onclick="CSReportEditor.cMainEditor.fMain.editAddLabelClick()">Add Label</a></li>
+                                <li><a id="mnuEditAddLine" onclick="CSReportEditor.cMainEditor.fMain.editAddLineClick()">Add Group</a></li>
+                                <li><a id="mnuEditAddDatabaseField" onclick="CSReportEditor.cMainEditor.fMain.editAddDbControlClick()">Add Field</a></li>
+                                <li><a id="mnuEditAddImage" onclick="CSReportEditor.cMainEditor.fMain.editAddImageClick()">Add Image</a></li>
+                                <li><a id="mnuEditAddChart" onclick="CSReportEditor.cMainEditor.fMain.editAddChartClick()">Add Chart</a></li>
                             </ul>
                         </li>
                         <li class="divider"></li>
@@ -97,7 +97,7 @@
                 </li>
                 <li><a>Help</a>
                     <ul>
-                        <li><a id="mnuHelpAbout">About</a></li>
+                        <li><a id="mnuHelpAbout" onclick="CSReportEditor.cMainEditor.fMain.helpAboutClick()">About</a></li>
                     </ul>
                 </li>
             </ul>

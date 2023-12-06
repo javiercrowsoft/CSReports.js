@@ -241,13 +241,13 @@ namespace CSReportEngine {
 
             try { this.align = xDoc.getNodeProperty(nodeObj, "Align").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
-            try { this.backColor = xDoc.getNodeProperty(nodeObj, "BackColor").getValueString(eTypes.eLong); }
+            try { this.backColor = xDoc.getNodeProperty(nodeObj, "BackColor").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { this.borderColor = xDoc.getNodeProperty(nodeObj, "BorderColor").getValueString(eTypes.eLong); }
+            try { this.borderColor = xDoc.getNodeProperty(nodeObj, "BorderColor").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { this.borderColor3d = xDoc.getNodeProperty(nodeObj, "BorderColor3D").getValueString(eTypes.eLong); }
+            try { this.borderColor3d = xDoc.getNodeProperty(nodeObj, "BorderColor3D").getValueString(eTypes.eText); }
             catch  (ex) { }
-            try { this.borderColor3dShadow = xDoc.getNodeProperty(nodeObj, "BorderColor3DShadow").getValueString(eTypes.eLong); }
+            try { this.borderColor3dShadow = xDoc.getNodeProperty(nodeObj, "BorderColor3DShadow").getValueString(eTypes.eText); }
             catch  (ex) { }
             try { this.borderType = xDoc.getNodeProperty(nodeObj, "BorderType").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
@@ -300,19 +300,19 @@ namespace CSReportEngine {
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BackColor");
-            xProperty.setValue(eTypes.eLong, this.backColor);
+            xProperty.setValue(eTypes.eText, this.backColor);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderColor");
-            xProperty.setValue(eTypes.eLong, this.borderColor);
+            xProperty.setValue(eTypes.eText, this.borderColor);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderColor3D");
-            xProperty.setValue(eTypes.eLong, this.borderColor3d);
+            xProperty.setValue(eTypes.eText, this.borderColor3d);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderColor3DShadow");
-            xProperty.setValue(eTypes.eLong, this.borderColor3dShadow);
+            xProperty.setValue(eTypes.eText, this.borderColor3dShadow);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("BorderType");

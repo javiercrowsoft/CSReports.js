@@ -15,15 +15,15 @@ namespace CSReportEngine {
         private key: string = "";
         private keyPaint: string = "";
         private name: string = "";
-        private hasFormulaHide: boolean = null;
-        private hasFormulaValue: boolean = null;
+        private hasFormulaHide: boolean = false;
+        private hasFormulaValue: boolean = false;
         private controlType: csRptControlType = null;
         private formulaHide: cReportFormula = new cReportFormula();
         private formulaValue: cReportFormula = new cReportFormula();
         private chart: cReportChart = new cReportChart();
         private tag: string = "";
         private exportColIdx: number = 0;
-        private isFreeCtrl: boolean = null;
+        private isFreeCtrl: boolean = false;
 
         // this reference tell in which section line is this control
         //

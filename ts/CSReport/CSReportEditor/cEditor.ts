@@ -1767,9 +1767,9 @@ namespace CSReportEditor {
                 msg = "Ctl:[" + ctrlName
                     + "]Tipo:[" + strCtlType
                     + "]F.Hide:[" + formulaHide.substring(0, 100)
-                    + "]Activa[" + ( hasFormulaHide).toString()
+                    + "]Activa[" + hasFormulaHide.toString()
                     + "]F.Value:[" + formulaValue.substring(0, 100)
-                    + "]Activa[" + ( hasFormulaValue).toString()
+                    + "]Activa[" + hasFormulaValue.toString()
                     + "]Field:[" + fieldName + "]";
             }
             this.fMain.setStatusBarText(msg);

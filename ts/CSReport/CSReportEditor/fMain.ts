@@ -940,81 +940,67 @@ namespace CSReportEditor {
             }
         }*/
 
-        private mnuPreviewReport_Click(sender: object, e: any) {
-            this.previewReport();
-        }
-
-        private tsbPreview_Click(sender: object, e: any) {
-            this.previewReport();
-        }
-
-        private previewReport() {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).preview();
-            }
-        }
-
-        private mnuEditAddHeader_Click(sender: object, e: any) {
+        public editAddHeaderClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addSection(csRptSectionType.HEADER);
             }
         }
 
-        private mnuEditAddGroup_Click(sender: object, e: any) {
+        public editAddGroupClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addGroup();
             }
         }
 
-        private mnuEditAddFooter_Click(sender: object, e: any) {
+        public editAddFooterClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addSection(csRptSectionType.FOOTER);
             }
         }
 
-        private mnuEditAddLabel_Click(sender: object, e: any) {
+        public editAddLabelClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addLabel();
             }
         }
 
-        private mnuEditAddLine_Click(sender: object, e: any) {
+        public editAddLineClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addLineLabel();
             }
         }
 
-        private mnuEditAddControl_Click(sender: object, e: any) {
+        public editAddDbControlClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addDBField();
             }
         }
 
-        private mnuEditAddImage_Click(sender: object, e: any) {
+        public editAddImageClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addImage();
             }
         }
 
-        private mnuEditAddChart_Click(sender: object, e: any) {
+        public editAddChartClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addChart();
             }
         }
 
-        private mnuHelpAbout_Click(sender: object, e: any) {
+        public helpAboutClick() {
             cWindow.msgInfo(
-                + " - Version "
-                + "\r\n\r\nhttps://github.com/javiercrowsoft/CSReports.net");
+                "Version 1.0.0"
+                + "\r\n\r\nhttps://github.com/javiercrowsoft/CSReports.js",
+                "CrowSoft Report Editor");
         }
 
         private cmSectionAddSectionLine_Click(sender: object, e: any) {
