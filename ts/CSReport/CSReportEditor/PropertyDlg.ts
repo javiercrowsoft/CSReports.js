@@ -325,6 +325,7 @@ namespace CSReportEditor {
 
             this.txForeColor.setChange(P.call(this, this.txForeColorChanged));
             this.txBackColor.setChange(P.call(this, this.txBackColorChanged));
+            this.chkTransparent.setChange(P.call(this, this.chkTransparentChanged));
             this.txBorderColor.setChange(P.call(this, this.txBorderColorChanged));
             this.txBorder3D.setChange(P.call(this, this.txBorder3DChanged));
             this.txBorderShadow.setChange(P.call(this, this.txBorderShadowChanged));
@@ -1315,6 +1316,10 @@ namespace CSReportEditor {
 
         private txBackColorChanged() {
             this.backColorChanged = true;
+        }
+
+        private chkTransparentChanged() {
+            this.transparentChanged = true;
         }
 
         private txFormatChanged() {

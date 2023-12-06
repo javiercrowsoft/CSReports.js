@@ -4945,7 +4945,9 @@ namespace CSReportEditor {
 
                     // for old reports
                     //
-                    ctrlAspect.setTransparent(ctrlAspect.getBackColor() === Color.White.toArgb());
+                    if(ctrlAspect.getBackColor() === Color.White.toArgb()) {
+                        ctrlAspect.setTransparent(true);
+                    }
 
                     paintObj.setImage(rptCtrl.getImage().getImage());
 
