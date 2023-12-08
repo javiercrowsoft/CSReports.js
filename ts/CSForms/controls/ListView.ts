@@ -93,6 +93,12 @@ namespace CSForms {
         setImageIndex(imageIndex: number) {
             this.imageIndex = imageIndex;
         }
+        setFocused(arg0: boolean) {
+            throw new Error("Method not implemented.");
+        }
+        setSelected(arg0: boolean) {
+            throw new Error("Method not implemented.");
+        }
     }
 
     class SubItems {
@@ -175,7 +181,6 @@ namespace CSForms {
     }
 
     export class ListView extends Control {
-
         private readonly div: HTMLDivElement;
         private table: HTMLTableElement;
         private _items: Items = new Items();
@@ -243,5 +248,10 @@ namespace CSForms {
                 this.table.tHead.appendChild(thead)
             }
         }
+
+        select() {
+            throw new Error("Method not implemented.");
+        }
+
     }
 }

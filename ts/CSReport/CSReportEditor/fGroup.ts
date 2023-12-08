@@ -1,5 +1,6 @@
 namespace CSReportEditor {
 
+    import P = CSKernelClient.Callable;
     import Form = CSForms.Form;
     import NotImplementedException = CSOAPI.NotImplementedException;
 
@@ -114,9 +115,11 @@ namespace CSReportEditor {
         }
 
         private cmd_dbField_Click(sender: object, e: object) {
-            if(this.editor.showHelpDbFieldForGroup()) {
-                this.dbFieldChanged = true;
-            }
+            this.editor.showHelpDbFieldForGroup().then(P.call(this, (result) => {
+                if(result)  {
+                    this.dbFieldChanged = true;
+                }
+            }));
         }
 
         private fGroup_Load(sender: object, e: object) {

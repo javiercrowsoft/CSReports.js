@@ -14,7 +14,6 @@ namespace CSReportEditor {
 
         private el: HTMLElement;
         private dialog: Dialog;
-        private ok: boolean = false;
         private customHeight: number = null;
         private customWidth: number = null;
         private orientation: number = 1;
@@ -87,7 +86,6 @@ namespace CSReportEditor {
         }
 
         private cmdApplyClick() {
-            this.ok = true;
             this.customHeight = U.val(this.txHeight.getText());
             this.customWidth = U.val(this.txWidth.getText());
             this.paperSize = U.valInt(U.listID(this.cbPaperSize));

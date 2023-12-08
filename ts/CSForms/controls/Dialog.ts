@@ -138,9 +138,9 @@ namespace CSForms {
         }
 
         public close(result: boolean) {
-            this.dialog.style.visibility = "hidden";
+            this.dialog.style.visibility = 'hidden';
             this.dialog.style.opacity = '0';
-            this.dialogOverlay.style.display = "none";
+            this.dialogOverlay.style.display = 'none';
             this.maximize = false;
             this.resolve(result);
         }
@@ -151,21 +151,25 @@ namespace CSForms {
             return new Promise<boolean>(P.call(this, (resolve) => {
                 this.settings = {...this.defaults, ...settings};
 
-                this.dialog.className =  "dialog-box " + (this.settings.fixed ? 'fixed-dialog-box ' : '') + this.settings.specialClass;
-                this.dialog.style.visibility = "visible";
+                this.dialog.className =  'dialog-box ' + (this.settings.fixed ? 'fixed-dialog-box ' : '') + this.settings.specialClass;
+                this.dialog.style.visibility = 'visible';
                 this.dialog.style.opacity = '1';
                 this.dialog.style.width = this.settings.width + 'px';
                 this.dialog.style.height = this.settings.height + 'px';
-                this.dialog.style.top = (!this.settings.top) ? "50%" : '0px';
-                this.dialog.style.left = (!this.settings.left) ? "50%" : '0px';
+                this.dialog.style.top = (!this.settings.top) ? '50%' : '0px';
+                this.dialog.style.left = (!this.settings.left) ? '50%' : '0px';
                 this.dialog.style.marginTop = (!this.settings.top) ? '-' + this.settings.height/2 + 'px' : this.settings.top + 'px';
                 this.dialog.style.marginLeft = (!this.settings.left) ? '-' + this.settings.width/2 + 'px' : this.settings.left + 'px';
                 this.dialogTitle.textContent = this.settings.title;
-                this.dialogOverlay.style.display = (this.settings.overlay) ? "block" : "none";
+                this.dialogOverlay.style.display = (this.settings.overlay) ? 'block' : 'none';
 
                 this.dialogMinmax.innerHTML = '&ndash;';
                 this.dialogMinmax.title = 'Minimize';
                 this.dialogMinmax.onclick = P.call(this, this.dialogMinMax);
+
+                const body = U.elc('dlg-body', this.dialogContent);
+                body.style.height = (this.settings.height - 148) + 'px';
+                body.style.overflow = 'auto';
 
                 document.onmousemove = P.call(this, this.moveElement);
                 document.onmouseup = P.call(this, this.destroy);
@@ -203,10 +207,10 @@ namespace CSForms {
             if(this.maximize) {
                 this.dialog.className += ' minimize';
                 this.dialogMinmax.innerHTML = '+';
-                this.dialogMinmax.title = this.dialogTitle.innerHTML.replace(/<.*?>/g,"");
+                this.dialogMinmax.title = this.dialogTitle.innerHTML.replace(/<.*?>/g,'');
                 this.maximize = false;
             } else {
-                this.dialog.className = this.dialog.className.replace(/(^| )minimize($| )/g, "");
+                this.dialog.className = this.dialog.className.replace(/(^| )minimize($| )/g, '');
                 this.dialogMinmax.innerHTML = '&ndash;';
                 this.dialogMinmax.title = 'Minimize';
                 this.maximize = true;

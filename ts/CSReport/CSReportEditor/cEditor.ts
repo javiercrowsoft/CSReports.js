@@ -677,39 +677,31 @@ namespace CSReportEditor {
         }
 
         public showHelpChartField(ctrl: TextBox, idx: number) {
-            let nIndex: number = 0;
-            let nFieldType: number = 0;
-            let sField: string = "";
-
-            sField = ctrl.getText();
-            nFieldType = this.fProperties.getChartFieldType(idx);
-            nIndex = this.fProperties.getChartIndex(idx);
-
-            if(cGlobals.showDbFields(sField, nFieldType, nIndex, this)) {
-                ctrl.setText(sField);
-                this.fProperties.setChartFieldType(idx, nFieldType);
-                this.fProperties.setChartIndex(idx, nIndex);
-                return true;
-            }
-            else {
-                return false;
-            }
+            this.fMain.showDbFields(ctrl.getText(), this).then(P.call(this, (result) => {
+                if(result.success) {
+                    ctrl.setText(result.field);
+                    this.fProperties.setChartFieldType(idx, result.fieldType);
+                    this.fProperties.setChartIndex(idx, result.fieldIndex);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }));
         }
 
         public showHelpChartGroupField() {
-            let sField = this.fProperties.getDbFieldGroupValue();
-            let nFieldType = this.fProperties.getChartGroupFieldType();
-            let nIndex = this.fProperties.getChartGroupIndex();
-
-            if(cGlobals.showDbFields(sField, nFieldType, nIndex, this)) {
-                this.fProperties.setDbFieldGroupValue(sField);
-                this.fProperties.setChartGroupFieldType(nFieldType);
-                this.fProperties.setChartGroupIndex(nIndex);
-                return true;
-            }
-            else {
-                return false;
-            }
+            this.fMain.showDbFields(this.fProperties.getDbFieldGroupValue(), this).then(P.call(this, (result) => {
+                if(result.success) {
+                    this.fProperties.setDbFieldGroupValue(result.field);
+                    this.fProperties.setChartGroupFieldType(result.fieldType);
+                    this.fProperties.setChartGroupIndex(result.fieldIndex);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }));
         }
 
         private fSecProperties_UnloadForm() {
@@ -2219,19 +2211,17 @@ namespace CSReportEditor {
         }
 
         public addDBField() {
-            let sField: string = "";
-            let nIndex: number = 0;
-            let nFieldType: number = 0;
-
-            if(! cGlobals.showDbFields(sField, nFieldType, nIndex, this)) return;
-
-            this.beginDragging();
-            this.controlName = "";
-            this.controlType = csRptEditCtrlType.field;
-            this.fieldName = sField;
-            this.formulaText = "";
-            this.fieldIndex = nIndex;
-            this.fieldType = nFieldType;
+            this.fMain.showDbFields("", this).then(P.call(this, (result) => {
+                if(result.success) {
+                    this.beginDragging();
+                    this.controlName = "";
+                    this.controlType = csRptEditCtrlType.field;
+                    this.fieldName = result.field;
+                    this.formulaText = "";
+                    this.fieldIndex = result.fieldIndex;
+                    this.fieldType = result.fieldType;
+                }
+            }));
         }
 
         public addLabel() {
@@ -3131,31 +3121,29 @@ namespace CSReportEditor {
         }
 
         public showHelpDbField() {
-            return this.pShowHelpDbField(this.fProperties);
+            return this.showHelpDbField2(this.fProperties);
         }
 
         public showHelpDbFieldForGroup() {
-            return this.pShowHelpDbField(this.fGroup);
+            return this.showHelpDbField2(this.fGroup);
         }
 
-        private pShowHelpDbField(f: cIDatabaseFieldSelector) {
-            const sField = f.getTxDbField().getText();
-            const nFieldType = f.getFieldType();
-            const nIndex = f.getIndex();
+        private showHelpDbField2(f: cIDatabaseFieldSelector) {
+            return this.fMain.showDbFields(f.getTxDbField().getText(), this).then(P.call(this, (result) => {
+                if(result.success) {
+                    f.getTxDbField().setText(result.field);
+                    f.setFieldType(result.fieldType);
+                    f.setIndex(result.fieldIndex);
 
-            if(cGlobals.showDbFields(sField, nFieldType, nIndex, this)) {
-                f.getTxDbField().setText(sField);
-                f.setFieldType(nFieldType);
-                f.setIndex(nIndex);
-
-                if(f instanceof FProperties) {
-                    f.getTxText().setText(sField);
+                    if(f instanceof FProperties) {
+                        f.getTxText().setText(result.field);
+                    }
+                    return true;
                 }
-                return true;
-            }
-            else {
-                return false;
-            }
+                else {
+                    return false;
+                }
+            }));
         }
 
         public showCurrentGroupProperties() {

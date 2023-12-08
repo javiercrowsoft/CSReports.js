@@ -681,7 +681,7 @@ ul.toolbar a:hover {
     right: 0;
     bottom: 3em;
     left: 0;
-    overflow: auto;
+    /*overflow: auto;*/
 }
 
 .dialog-box .dialog-content iframe {
@@ -690,7 +690,7 @@ ul.toolbar a:hover {
     background: none;
     margin: 0;
     padding: 0;
-    overflow: auto;
+    /*overflow: auto;*/
     width: 100%;
     height: 100%;
 }

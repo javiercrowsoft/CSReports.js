@@ -99,52 +99,6 @@ namespace CSReportEditor {
 
         }
 
-		public static showDbFields(field: string, fieldType: number, index: number, editor: cEditor): boolean {
-            let fc: FColumns = null;
-
-            const close = () => {
-                if(fc !== null) {
-                    fc.close();
-                }
-            }
-
-            try {
-                fc = new FColumns();
-
-                fc.clearColumns();
-
-                let report: cReport = editor.getReport();
-
-                let connect: cReportConnect = report.getConnect();
-                fc.fillColumns(connect.getDataSource(), connect.getColumns(), false);
-
-                for(let _i = 0; _i < report.getConnectsAux().count(); _i++) {
-                    connect = report.getConnectsAux().item(_i);
-                    fc.fillColumns(connect.getDataSource(), connect.getColumns(), true);
-                }
-
-                fc.setField(field);
-                fc.showDialog();
-
-                if(fc.getOk()) {
-                    field = fc.getField();
-                    fieldType = fc.getFieldType();
-                    index = fc.getIndex();
-                    close();
-                    return true;
-                }
-                else {
-                    close();
-                    return false;
-                }
-
-            } catch(ex) {
-                close();
-                cError.mngError(ex);
-                return false;
-            }
-		}
-
 		public static setEditAlignTextState(state) {
             this.implementThisMessage("setEditAlignTextState", "(CSReportEditor cGlobals)");
 		}

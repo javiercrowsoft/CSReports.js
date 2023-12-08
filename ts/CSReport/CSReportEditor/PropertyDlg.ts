@@ -1285,9 +1285,11 @@ namespace CSReportEditor {
         }
 
         private cmdDbFieldClick() {
-            if(this.editor.showHelpDbField()) {
-                this.dbFieldChanged = true;
-            }
+            this.editor.showHelpDbField().then(P.call(this, (result) => {
+                if(result)  {
+                    this.dbFieldChanged = true;
+                }
+            }));
         }
 
         private txChartGroupValueChanged() {

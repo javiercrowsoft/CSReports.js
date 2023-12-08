@@ -82,6 +82,7 @@ namespace CSReportEditor {
         private previewReports = new Map<ReportWeb>();
 
         private pageSetup: FPageSetup = new FPageSetup();
+        private columnsDlg: FColumns = new FColumns();
 
         public constructor() {
             // it is the first thing we need to do
@@ -585,6 +586,23 @@ namespace CSReportEditor {
 
              */
         }
+
+        public showDbFields(field: string, editor: cEditor) {
+            this.columnsDlg.clearColumns();
+
+            let report = editor.getReport();
+            let connect = report.getConnect();
+
+            this.columnsDlg.fillColumns(connect.getDataSource(), connect.getColumns(), false);
+
+            for(let _i = 0; _i < report.getConnectsAux().count(); _i++) {
+                connect = report.getConnectsAux().item(_i);
+                this.columnsDlg.fillColumns(connect.getDataSource(), connect.getColumns(), true);
+            }
+
+            this.columnsDlg.setField(field);
+            return this.columnsDlg.showModal();
+		}
 
         /* delete me this was replace by other code
 
