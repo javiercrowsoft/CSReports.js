@@ -48,7 +48,8 @@ namespace CSReportEditor {
                                  this.lvColumns,
                                  this.C_INDEX,
                                  this.C_FIELDTYPE, add);
-
+            /*
+            // TODO: delete me
             columns.forEach(P.call(this, (_, column) => {
                 var item = this.lvColumns.add(`{{{${dataSource}}}.{${column.getName()}}`);
                 item.setImageIndex(0);
@@ -56,6 +57,7 @@ namespace CSReportEditor {
                 info = U.setInfoString(info, this.C_FIELDTYPE, column.getColumnType().toString());
                 item.tag = info;
             }));
+            */
         }
 
         public setField(field: string) {
@@ -84,10 +86,10 @@ namespace CSReportEditor {
         }
 
         private lvColumnsClick() {
-            if(this.lvColumns.selectedItems.length > 0) {
-                let item = this.lvColumns.selectedItems[0];
-                this.field = item.Text;
-                let info = item.Tag.toString();
+            if(this.lvColumns.selectedItems().length > 0) {
+                let item = this.lvColumns.selectedItems()[0];
+                this.field = item.getText();
+                let info = item.tag.toString();
                 this.fieldType = U.valInt(U.getInfoString(info, this.C_FIELDTYPE, "-1"));
                 this.fieldIndex = U.valInt(U.getInfoString(info, this.C_INDEX, "-1"));
             }

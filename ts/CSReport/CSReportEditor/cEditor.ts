@@ -34,7 +34,7 @@ namespace CSReportEditor {
     import cReportAspect = CSReportEngine.cReportAspect;
     import cReportFont = CSReportEngine.cReportFont;
     import csECtlAlignConst = CSReportGlobals.csECtlAlignConst;
-    import Utils = CSOAPI.Utils;
+    import U = CSOAPI.Utils;
     import cReportSections = CSReportEngine.cReportSections;
     import cReportGroup = CSReportEngine.cReportGroup;
     import cReportSectionLines = CSReportEngine.cReportSectionLines;
@@ -1862,10 +1862,10 @@ namespace CSReportEditor {
 
                 let strConnect: string = "";
                 strConnect = this.report.getConnect().getStrConnect();
-                f.setServer(Utils.getToken("Data Source", strConnect));
-                f.setDataBase(Utils.getToken("Initial Catalog", strConnect));
-                f.setUser(Utils.getToken("User ID", strConnect));
-                f.setPassword(Utils.getToken("Password", strConnect));
+                f.setServer(U.getToken("Data Source", strConnect));
+                f.setDataBase(U.getToken("Initial Catalog", strConnect));
+                f.setUser(U.getToken("User ID", strConnect));
+                f.setPassword(U.getToken("Password", strConnect));
                 if(f.getUser() === "") {
                     f.setConnectTypeToNT();
                 }
@@ -3608,11 +3608,11 @@ namespace CSReportEditor {
                     propertyDlg.hideTabChart();
                 }
                 else {
-                    Utils.listSetListIndexForId(propertyDlg.getCbType(), rptCtrl.getChart().getChartType());
-                    Utils.listSetListIndexForId(propertyDlg.getCbFormatType(), rptCtrl.getChart().getFormat());
-                    Utils.listSetListIndexForId(propertyDlg.getCbChartSize(), rptCtrl.getChart().getDiameter());
-                    Utils.listSetListIndexForId(propertyDlg.getCbChartThickness(), rptCtrl.getChart().getThickness());
-                    Utils.listSetListIndexForId(propertyDlg.getCbLinesType(), rptCtrl.getChart().getGridLines());
+                    U.listSetListIndexForId(propertyDlg.getCbType(), rptCtrl.getChart().getChartType());
+                    U.listSetListIndexForId(propertyDlg.getCbFormatType(), rptCtrl.getChart().getFormat());
+                    U.listSetListIndexForId(propertyDlg.getCbChartSize(), rptCtrl.getChart().getDiameter());
+                    U.listSetListIndexForId(propertyDlg.getCbChartThickness(), rptCtrl.getChart().getThickness());
+                    U.listSetListIndexForId(propertyDlg.getCbLinesType(), rptCtrl.getChart().getGridLines());
 
                     propertyDlg.getTxChartTop().setText(rptCtrl.getChart().getTop().toString());
                     propertyDlg.getTxDbFieldGroupValue().setText(rptCtrl.getChart().getGroupFieldName());
@@ -3630,7 +3630,7 @@ namespace CSReportEditor {
                         propertyDlg.setChartIndex(0, rptCtrl.getChart().getSeries().item(0).getLabelIndex());
                         propertyDlg.setChartIndex(1, rptCtrl.getChart().getSeries().item(0).getValueIndex());
 
-                        Utils.listSetListIndexForId(propertyDlg.getCbColorSerie1(), rptCtrl.getChart().getSeries().item(0).getColor());
+                        U.listSetListIndexForId(propertyDlg.getCbColorSerie1(), rptCtrl.getChart().getSeries().item(0).getColor());
 
                         if(rptCtrl.getChart().getSeries().count() > 1) {
                             propertyDlg.getTxDbFieldLbl1().setText(rptCtrl.getChart().getSeries().item(1).getLabelFieldName());
@@ -3639,7 +3639,7 @@ namespace CSReportEditor {
                             propertyDlg.setChartIndex(2, rptCtrl.getChart().getSeries().item(1).getLabelIndex());
                             propertyDlg.setChartIndex(3, rptCtrl.getChart().getSeries().item(1).getValueIndex());
 
-                            Utils.listSetListIndexForId(propertyDlg.getCbColorSerie2(), rptCtrl.getChart().getSeries().item(1).getColor());
+                            U.listSetListIndexForId(propertyDlg.getCbColorSerie2(), rptCtrl.getChart().getSeries().item(1).getColor());
                         }
                     }
                     propertyDlg.showTabChart();
@@ -3682,7 +3682,7 @@ namespace CSReportEditor {
                 propertyDlg.setIsAccounting(aspect.getIsAccounting());
                 propertyDlg.getChkWordWrap().setChecked(aspect.getWordWrap());
 
-                Utils.listSetListIndexForId(propertyDlg.getCbAlign(), aspect.getAlign());
+                U.listSetListIndexForId(propertyDlg.getCbAlign(), aspect.getAlign());
 
                 propertyDlg.getTxBorderColor().setText(aspect.getBorderColor().toString());
                 propertyDlg.getShBorderColor().setBackColor(aspect.getBorderColor());
@@ -3693,7 +3693,7 @@ namespace CSReportEditor {
                 propertyDlg.getChkBorderRounded().setChecked(aspect.getBorderRounded());
                 propertyDlg.getTxBorderWidth().setText(aspect.getBorderWidth().toString());
 
-                Utils.listSetListIndexForId(propertyDlg.getCbBorderType(), aspect.getBorderType());
+                U.listSetListIndexForId(propertyDlg.getCbBorderType(), aspect.getBorderType());
 
                 font = aspect.getFont();
                 propertyDlg.getCbFont().setText(font.getName());
@@ -3960,10 +3960,10 @@ namespace CSReportEditor {
                     if(propertyDlg.getSetFormulaValueChanged()) { rptCtrl.setHasFormulaValue(propertyDlg.getChkFormulaValue().getChecked()); }
                     if(propertyDlg.getFormulaHideChanged()) { rptCtrl.getFormulaHide().setText(propertyDlg.getFormulaHide()); }
                     if(propertyDlg.getFormulaValueChanged()) { rptCtrl.getFormulaValue().setText(propertyDlg.getFormulaValue()); }
-                    if(propertyDlg.getIdxGroupChanged()) { rptCtrl.getFormulaValue().setIdxGroup(Utils.valInt(propertyDlg.getTxIdxGroup().getText())); }
+                    if(propertyDlg.getIdxGroupChanged()) { rptCtrl.getFormulaValue().setIdxGroup(U.valInt(propertyDlg.getTxIdxGroup().getText())); }
                     if(propertyDlg.getWhenEvalChanged()) { rptCtrl.getFormulaValue().setWhenEval(propertyDlg.getOpAfterPrint().getChecked() ? csRptWhenEval.CS_RPT_EVAL_POST : csRptWhenEval.CS_RPT_EVAL_PRE); }
 
-                    if(propertyDlg.getExportColIdxChanged()) { rptCtrl.setExportColIdx(Utils.valInt(propertyDlg.getTxExportColIdx().getText())); }
+                    if(propertyDlg.getExportColIdxChanged()) { rptCtrl.setExportColIdx(U.valInt(propertyDlg.getTxExportColIdx().getText())); }
                     if(propertyDlg.getIsFreeCtrlChanged()) { rptCtrl.setIsFreeCtrl(propertyDlg.getChkIsFreeCtrl().getChecked()); }
 
                     if(rptCtrl.getControlType() === csRptControlType.RPT_CT_FIELD || rptCtrl.getControlType() === csRptControlType.RPT_CT_DB_IMAGE) {
@@ -3987,19 +3987,19 @@ namespace CSReportEditor {
                         }
 
                         if(propertyDlg.getChartTypeChanged()) {
-                            rptCtrl.getChart().setChartType(Utils.listID(propertyDlg.getCbType()));
+                            rptCtrl.getChart().setChartType(U.listID(propertyDlg.getCbType()));
                         }
                         if(propertyDlg.getChartFormatTypeChanged()) {
-                            rptCtrl.getChart().setFormat(Utils.listID(propertyDlg.getCbFormatType()));
+                            rptCtrl.getChart().setFormat(U.listID(propertyDlg.getCbFormatType()));
                         }
                         if(propertyDlg.getChartSizeChanged()) {
-                            rptCtrl.getChart().setDiameter(Utils.listID(propertyDlg.getCbChartSize()));
+                            rptCtrl.getChart().setDiameter(U.listID(propertyDlg.getCbChartSize()));
                         }
                         if(propertyDlg.getChartThicknessChanged()) {
-                            rptCtrl.getChart().setThickness(Utils.listID(propertyDlg.getCbChartThickness()));
+                            rptCtrl.getChart().setThickness(U.listID(propertyDlg.getCbChartThickness()));
                         }
                         if(propertyDlg.getChartLinesTypeChanged()) {
-                            rptCtrl.getChart().setGridLines(Utils.listID(propertyDlg.getCbLinesType()));
+                            rptCtrl.getChart().setGridLines(U.listID(propertyDlg.getCbLinesType()));
                         }
 
                         if(propertyDlg.getChartShowLinesChanged()) {
@@ -4014,7 +4014,7 @@ namespace CSReportEditor {
                         }
 
                         if(propertyDlg.getChartTopChanged()) {
-                            rptCtrl.getChart().setTop(Utils.valInt(propertyDlg.getTxChartTop().getText()));
+                            rptCtrl.getChart().setTop(U.valInt(propertyDlg.getTxChartTop().getText()));
                         }
 
                         if(propertyDlg.getChartSortChanged()) {
@@ -4040,7 +4040,7 @@ namespace CSReportEditor {
                         }
 
                         if(propertyDlg.getChartColorSerie1Changed()) {
-                            rptCtrl.getChart().getSeries().item(0).setColor(Utils.listID(propertyDlg.getCbColorSerie1()));
+                            rptCtrl.getChart().getSeries().item(0).setColor(U.listID(propertyDlg.getCbColorSerie1()));
                         }
 
                         if(propertyDlg.getChartFieldLbl2Changed() || propertyDlg.getChartFieldVal2Changed()) {
@@ -4065,7 +4065,7 @@ namespace CSReportEditor {
                             }
 
                             if(propertyDlg.getChartColorSerie2Changed()) {
-                                rptCtrl.getChart().getSeries().item(1).setColor(Utils.listID(propertyDlg.getCbColorSerie2()));
+                                rptCtrl.getChart().getSeries().item(1).setColor(U.listID(propertyDlg.getCbColorSerie2()));
                             }
                         }
                     }
@@ -4073,13 +4073,13 @@ namespace CSReportEditor {
                     if(propertyDlg.getTextChanged()) { paintObject.setText(propertyDlg.getTxText().getText()); }
 
                     let aspect = rptCtrl.getLabel().getAspect();
-                    if(propertyDlg.getLeftChanged()) { aspect.setLeft(Utils.val(propertyDlg.getTxLeft().getText())); }
-                    if(propertyDlg.getTopChanged()) { aspect.setTop(Utils.val(propertyDlg.getTxTop().getText())); }
-                    if(propertyDlg.getWidthChanged()) { aspect.setWidth(Utils.val(propertyDlg.getTxWidth().getText())); }
-                    if(propertyDlg.getHeightChanged()) { aspect.setHeight(Utils.val(propertyDlg.getTxHeight().getText())); }
+                    if(propertyDlg.getLeftChanged()) { aspect.setLeft(U.val(propertyDlg.getTxLeft().getText())); }
+                    if(propertyDlg.getTopChanged()) { aspect.setTop(U.val(propertyDlg.getTxTop().getText())); }
+                    if(propertyDlg.getWidthChanged()) { aspect.setWidth(U.val(propertyDlg.getTxWidth().getText())); }
+                    if(propertyDlg.getHeightChanged()) { aspect.setHeight(U.val(propertyDlg.getTxHeight().getText())); }
                     if(propertyDlg.getBackColorChanged()) { aspect.setBackColor(propertyDlg.getTxBackColor().getText()); }
                     if(propertyDlg.getTransparentChanged()) { aspect.setTransparent(propertyDlg.getChkTransparent().getChecked()); }
-                    if(propertyDlg.getAlignChanged()) { aspect.setAlign(Utils.listID(propertyDlg.getCbAlign())); }
+                    if(propertyDlg.getAlignChanged()) { aspect.setAlign(U.listID(propertyDlg.getCbAlign())); }
                     if(propertyDlg.getFormatChanged()) { aspect.setFormat(propertyDlg.getTxFormat().getText()); }
                     if(propertyDlg.getSymbolChanged()) {
                         aspect.setSymbol(propertyDlg.getTxSymbol().getText());
@@ -4092,13 +4092,13 @@ namespace CSReportEditor {
                     if(propertyDlg.getBorder3DChanged()) { aspect.setBorderColor3d(propertyDlg.getTxBorder3D().getText()); }
                     if(propertyDlg.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(propertyDlg.getTxBorderShadow().getText()); }
                     if(propertyDlg.getBorderRoundedChanged()) { aspect.setBorderRounded(propertyDlg.getChkBorderRounded().getChecked()); }
-                    if(propertyDlg.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(propertyDlg.getTxBorderWidth().getText())); }
-                    if(propertyDlg.getBorderTypeChanged()) { aspect.setBorderType(Utils.listID(propertyDlg.getCbBorderType())); }
+                    if(propertyDlg.getBorderWidthChanged()) { aspect.setBorderWidth(U.valInt(propertyDlg.getTxBorderWidth().getText())); }
+                    if(propertyDlg.getBorderTypeChanged()) { aspect.setBorderType(U.listID(propertyDlg.getCbBorderType())); }
 
                     let font = aspect.getFont();
                     if(propertyDlg.getFontChanged()) { font.setName(propertyDlg.getCbFont().getText()); }
                     if(propertyDlg.getForeColorChanged()) { font.setForeColor(propertyDlg.getTxForeColor().getText()); }
-                    if(propertyDlg.getFontSizeChanged()) { font.setSize(Utils.val(propertyDlg.getTxFontSize().getText())); }
+                    if(propertyDlg.getFontSizeChanged()) { font.setSize(U.val(propertyDlg.getTxFontSize().getText())); }
                     if(propertyDlg.getBoldChanged()) { font.setBold(propertyDlg.getChkFontBold().getChecked()); }
                     if(propertyDlg.getItalicChanged()) { font.setItalic(propertyDlg.getChkFontItalic().getChecked()); }
                     if(propertyDlg.getUnderlineChanged()) { font.setUnderline(propertyDlg.getChkFontUnderline().getChecked()); }
@@ -4113,18 +4113,18 @@ namespace CSReportEditor {
                     //
 
                     aspect = paintObject.getAspect();
-                    if(propertyDlg.getLeftChanged()) { aspect.setLeft(Utils.val(propertyDlg.getTxLeft().getText())); }
-                    if(propertyDlg.getTopChanged()) { aspect.setTop(Utils.val(propertyDlg.getTxTop().getText())); }
-                    if(propertyDlg.getWidthChanged()) { aspect.setWidth(Utils.val(propertyDlg.getTxWidth().getText())); }
-                    if(propertyDlg.getHeightChanged()) { aspect.setHeight(Utils.val(propertyDlg.getTxHeight().getText())); }
+                    if(propertyDlg.getLeftChanged()) { aspect.setLeft(U.val(propertyDlg.getTxLeft().getText())); }
+                    if(propertyDlg.getTopChanged()) { aspect.setTop(U.val(propertyDlg.getTxTop().getText())); }
+                    if(propertyDlg.getWidthChanged()) { aspect.setWidth(U.val(propertyDlg.getTxWidth().getText())); }
+                    if(propertyDlg.getHeightChanged()) { aspect.setHeight(U.val(propertyDlg.getTxHeight().getText())); }
                     if(propertyDlg.getBackColorChanged()) { aspect.setBackColor(propertyDlg.getTxBackColor().getText()); }
                     if(propertyDlg.getTransparentChanged()) { aspect.setTransparent(propertyDlg.getChkTransparent().getChecked()); }
-                    if(propertyDlg.getAlignChanged()) { aspect.setAlign(Utils.listID(propertyDlg.getCbAlign())); }
+                    if(propertyDlg.getAlignChanged()) { aspect.setAlign(U.listID(propertyDlg.getCbAlign())); }
                     if(propertyDlg.getFormatChanged()) { aspect.setFormat(propertyDlg.getTxFormat().getText()); }
                     if(propertyDlg.getSymbolChanged()) { aspect.setSymbol(propertyDlg.getTxSymbol().getText()); }
                     if(propertyDlg.getWordWrapChanged()) { aspect.setWordWrap(propertyDlg.getChkWordWrap().getChecked()); }
 
-                    if(propertyDlg.getBorderTypeChanged()) { aspect.setBorderType(Utils.listID(propertyDlg.getCbBorderType())); }
+                    if(propertyDlg.getBorderTypeChanged()) { aspect.setBorderType(U.listID(propertyDlg.getCbBorderType())); }
 
                     if(aspect.getBorderType() === csReportBorderType.CS_RPT_BS_NONE) {
                         aspect.setBorderColor(Color.Black.toArgb());
@@ -4137,13 +4137,13 @@ namespace CSReportEditor {
                         if(propertyDlg.getBorder3DChanged()) { aspect.setBorderColor3d(propertyDlg.getTxBorder3D().getText()); }
                         if(propertyDlg.getBorder3DShadowChanged()) { aspect.setBorderColor3dShadow(propertyDlg.getTxBorderShadow().getText()); }
                         if(propertyDlg.getBorderRoundedChanged()) { aspect.setBorderRounded(propertyDlg.getChkBorderRounded().getChecked()); }
-                        if(propertyDlg.getBorderWidthChanged()) { aspect.setBorderWidth(Utils.valInt(propertyDlg.getTxBorderWidth().getText())); }
+                        if(propertyDlg.getBorderWidthChanged()) { aspect.setBorderWidth(U.valInt(propertyDlg.getTxBorderWidth().getText())); }
                     }
 
                     font = aspect.getFont();
                     if(propertyDlg.getFontChanged()) { font.setName(propertyDlg.getCbFont().getText()); }
                     if(propertyDlg.getForeColorChanged()) { font.setForeColor(propertyDlg.getTxForeColor().getText()); }
-                    if(propertyDlg.getFontSizeChanged()) { font.setSize(Utils.val(propertyDlg.getTxFontSize().getText())); }
+                    if(propertyDlg.getFontSizeChanged()) { font.setSize(U.val(propertyDlg.getTxFontSize().getText())); }
                     if(propertyDlg.getBoldChanged()) { font.setBold(propertyDlg.getChkFontBold().getChecked()); }
                     if(propertyDlg.getItalicChanged()) { font.setItalic(propertyDlg.getChkFontItalic().getChecked()); }
                     if(propertyDlg.getUnderlineChanged()) { font.setUnderline(propertyDlg.getChkFontUnderline().getChecked()); }
@@ -5050,7 +5050,7 @@ namespace CSReportEditor {
         private refreshNextNameCtrl(nameCtrl: string) {
             let x: number = 0;
             if(nameCtrl.substring(0, cGlobals.CONTROL_NAME.length).toUpperCase() === cGlobals.CONTROL_NAME.toUpperCase()) {
-                x = Utils.valInt(nameCtrl.substring(cGlobals.CONTROL_NAME.length + 1));
+                x = U.valInt(nameCtrl.substring(cGlobals.CONTROL_NAME.length + 1));
                 if(x > this.nextNameCtrl) {
                     this.nextNameCtrl = x + 1;
                 }
@@ -5198,7 +5198,7 @@ namespace CSReportEditor {
             if(page > 0) { this.fProgress.getLbCurrPage().setText(page.toString()); }
             if(task !== "") { this.fProgress.getLbTask().setText(task); }
             if(currRecord > 0) { this.fProgress.getLbCurrRecord().setText(currRecord.toString()); }
-            if(recordCount > 0 && Utils.val(this.fProgress.getLbRecordCount().getText()) !== recordCount) {
+            if(recordCount > 0 && U.val(this.fProgress.getLbRecordCount().getText()) !== recordCount) {
                 this.fProgress.getLbRecordCount().setText(recordCount.toString());
             }
 
@@ -6284,17 +6284,25 @@ namespace CSReportEditor {
         }
 
         public editConnectionString() {
-            let stringConnection = new RefWrapper(this.report.getConnect().getStrConnect());
-            return Utils.getInput(stringConnection, "You can modify the string connection of this report", "String connection").then(()=> {
-                this.report.getConnect().setStrConnect(stringConnection.get());
-            });
+            return U.getInput(this.report.getConnect().getStrConnect(),
+                              "You can modify the string connection of this report",
+                              "String connection").then(P.call(this,
+                (result) => {
+                    if(result.success) {
+                        this.report.getConnect().setStrConnect(result.value);
+                    }
+                }));
         }
 
         public editDataSource() {
-            let dataSource = new RefWrapper(this.report.getConnect().getDataSource());
-            return Utils.getInput(dataSource, "You can modify the data source of this report", "Data Source").then(()=> {
-                this.report.getConnect().setDataSource(dataSource.get());
-            });
+            return U.getInput(this.report.getConnect().getDataSource(),
+                              "You can modify the data source of this report",
+                              "Data Source").then(P.call(this,
+                (result) => {
+                    if(result.success) {
+                        this.report.getConnect().setDataSource(result.value);
+                    }
+                }));
         }
     }
 

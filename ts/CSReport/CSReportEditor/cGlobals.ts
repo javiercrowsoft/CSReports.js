@@ -1,5 +1,6 @@
 namespace CSReportEditor {
 
+    import U = CSOAPI.Utils;
     import cError = CSKernelClient.cError;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import cConnect = CSConnect.cConnect;
@@ -419,8 +420,16 @@ namespace CSReportEditor {
 
             for(let i_ = 0; i_ < columns.count(); i_++) {
                 let column = columns.item(i_);
-                let item = lvColumns.add("{" + dataSource + "}." + column.getName());
+
+                var item = lvColumns.add(`{{{${dataSource}}}.{${column.getName()}}`);
                 item.setImageIndex(0);
+                let info = U.setInfoString("", index, column.getPosition().toString());
+                info = U.setInfoString(info, fieldType, column.getColumnType().toString());
+                item.tag = info;
+
+                // TODO: delete me
+                // let item = lvColumns.add("{" + dataSource + "}." + column.getName());
+                // item.setImageIndex(0);
                 // let info: string = cUtil.setInfoString("", index, column.getPosition().toString());
                 // info = cUtil.setInfoString(info, fieldType, column.getColumnType().toString());
                 // item.tag = info;

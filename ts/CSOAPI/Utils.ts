@@ -5,7 +5,11 @@ namespace CSOAPI {
 
     export class Utils {
 
+        private static f: FormInput = null;
+
         private static _dpi = -1;
+
+        //#region parse to int/double functions
 
         public static parseInt(value: any): number {
             return parseInt(value.toString());
@@ -57,7 +61,6 @@ namespace CSOAPI {
             }
         }
 
-
         public static valInt(value: any): number {
             return parseInt(this.val(value) as any);
         }
@@ -70,6 +73,21 @@ namespace CSOAPI {
             }
         }
 
+        private static _sepDecimal = "";
+
+        public static setSepDecimal() {
+            const decimalSeparator = 1.1;
+            Utils._sepDecimal = decimalSeparator.toLocaleString().substring(1, 2);
+        }
+
+        static getSepDecimal() {
+            return (1.1).toLocaleString().substring(1, 2);
+        }
+
+        //#endregion
+
+        //#region string functions
+
         public static removeLastColon(list: string) {
             list = list.trim();
             if(list.substring(list.length - 1) === ",") {
@@ -79,49 +97,86 @@ namespace CSOAPI {
             }
         }
 
-        static getSepDecimal() {
-            return (1.1).toLocaleString().substring(1, 2);
-        }
+        public static setInfoString(source: string, key: string, value: string) {
+            key = "#" + key;
 
-        public static tp(twips: number) {
-            const nTwipsPerInch: number = 1440;
-            let dpi: number = Utils.getDPI();
-            return Math.round((twips / nTwipsPerInch) * dpi);
-        }
+            let i = source.toLowerCase().indexOf(key.toLowerCase(), 0);
 
-        public static pt(pixels: number) {
-            const nTwipsPerInch: number = 1440;
-            let dpi: number = Utils.getDPI();
-            return Math.round((pixels / dpi) * nTwipsPerInch);
-        }
-
-        private static getDPI() {
-            if(Utils._dpi < 0) {
-                Utils._dpi = 96; // default HTML canvas DPI
+            // the key can't apears more than one
+            //
+            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) !== -1) {
+                throw (new Exception("cUtil.getInfoString: the key can't apears more than one."));
             }
-            return Utils._dpi;
-        }
 
-        public static isVisible(el) {
-            return ! this.isHidden(el);
-        }
-
-        public static isHidden(el) {
-            try {
-                return (window.getComputedStyle(el).display === 'none');
+            // if the key is not present we add it to the end of the string
+            //
+            if(i === -1) {
+                return source + key + "=" + value + ";";
             }
-            catch(ex) {
-                debugger;
-                console.log(ex);
-                return false;
+            else {
+                const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
+
+                let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
+                if(j === -1) {
+                    throw (new Exception(this.format(c_errorstr, ";")));
+                }
+                debugger; // seguro que este substring esta mal
+                let k = source.substring(i, j-i).toLowerCase().indexOf("=".toLowerCase(), 0);
+                if(k === -1)
+                {
+                    throw (new Exception(this.format(c_errorstr, "=")));
+                }
+                k = k + i;
+                debugger; // seguro que este substring esta mal
+                return source.substring(0, k) + value + source.substring(j);
             }
         }
 
-        private static _sepDecimal = "";
+        static format(text: string, ...args: string[]): string {
+            return text.replace(/{(\d+)}/g, (match, num) => {
+                return typeof args[num] !== 'undefined' ? args[num] : match;
+            });
+        }
 
-        public static setSepDecimal() {
-            const decimalSeparator = 1.1;
-            Utils._sepDecimal = decimalSeparator.toLocaleString().substring(1, 2);
+        public static isNullOrEmpty(value: string) {
+            return value === null || value === undefined || value.toString().trim().length === 0;
+        }
+
+        public static getInfoString(source: string, key: string, defaultValue: string) {
+
+            if(this.isNullOrEmpty(source)) {
+                return defaultValue;
+            }
+
+            key = "#"+ key;
+
+            let i = source.toLowerCase().indexOf(key.toLowerCase(), 0);
+
+            // the key can't apears more than one
+            //
+            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) !== -1) {
+                throw(new Exception("cUtil.getInfoString: the key can't apears more than one."));
+            }
+
+            // if the key is not present return default
+            //
+            if(i === -1) {
+                return defaultValue;
+            }
+            else {
+                const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
+
+                let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
+                if(j === -1) {
+                    throw(new Exception(this.format(c_errorstr, ";")));
+                }
+                let k = source.substring(i, j).toLowerCase().indexOf("=".toLowerCase(), 0);
+                if(k === -1) {
+                    throw(new Exception(this.format(c_errorstr, "=")));
+                }
+                k = k + i;
+                return source.substring(k + 1, j);
+            }
         }
 
         public static getToken(token: string, source: string) {
@@ -145,7 +200,51 @@ namespace CSOAPI {
             return s;
         }
 
-        //-------------------------------------------------------------------------
+        //#endregion
+
+        //#region dpi functions
+
+        public static tp(twips: number) {
+            const nTwipsPerInch: number = 1440;
+            let dpi: number = Utils.getDPI();
+            return Math.round((twips / nTwipsPerInch) * dpi);
+        }
+
+        public static pt(pixels: number) {
+            const nTwipsPerInch: number = 1440;
+            let dpi: number = Utils.getDPI();
+            return Math.round((pixels / dpi) * nTwipsPerInch);
+        }
+
+        private static getDPI() {
+            if(Utils._dpi < 0) {
+                Utils._dpi = 96; // default HTML canvas DPI
+            }
+            return Utils._dpi;
+        }
+
+        //#endregion
+
+        //#region visibility functions
+
+        public static isVisible(el) {
+            return ! this.isHidden(el);
+        }
+
+        public static isHidden(el) {
+            try {
+                return (window.getComputedStyle(el).display === 'none');
+            }
+            catch(ex) {
+                debugger;
+                console.log(ex);
+                return false;
+            }
+        }
+
+        //#endregion
+
+        //#region list functions
 
         public static listAdd(list: ComboBox, value: string, id: number = 0) {
             this.listAdd_(list, value, id);
@@ -260,15 +359,21 @@ namespace CSOAPI {
             */
         }
 
-        static getInput(input: RefWrapper<string>, description: string, title: string): Promise<boolean> {
-            return Promise.resolve(false);
+        //#endregion
+
+        static getInput(input: string, description: string, title: string): Promise<{success: boolean, value: string}> {
+            if(this.f === null) this.f = new FormInput();
+            this.f.setDetails(description);
+            this.f.setTitle(title);
+            this.f.setInput(input);
+            return this.f.showDialog();
         }
 
         static getValidPath(path: string) {
             return "";
         }
 
-        // ----------------------------------------------------------------------------------
+        //#region select html element functions
 
         static inputEl(id: string) {
             return this.el(id) as HTMLInputElement;
@@ -327,89 +432,9 @@ namespace CSOAPI {
             }
         }
 
-        // ----------------------------------------------------------------------------------
+        //#endregion
 
-        public static setInfoString(source: string, key: string, value: string) {
-            key = "#" + key;
-
-            let i = source.toLowerCase().indexOf(key.toLowerCase(), 0);
-
-            // the key can't apears more than one
-            //
-            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) !== -1) {
-                throw (new Exception("cUtil.getInfoString: the key can't apears more than one."));
-            }
-
-            // if the key is not present we add it to the end of the string
-            //
-            if(i === -1) {
-                return source + key + "=" + value + ";";
-            }
-            else {
-                const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
-
-                let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
-                if(j === -1) {
-                    throw (new Exception(this.format(c_errorstr, ";")));
-                }
-                debugger; // seguro que este substring esta mal
-                let k = source.substring(i, j-i).toLowerCase().indexOf("=".toLowerCase(), 0);
-                if(k === -1)
-                {
-                    throw (new Exception(this.format(c_errorstr, "=")));
-                }
-                k = k + i;
-                debugger; // seguro que este substring esta mal
-                return source.substring(0, k) + value + source.substring(j);
-            }
-        }
-
-        static format(text: string, ...args: string[]): string {
-            return text.replace(/{(\d+)}/g, (match, num) => {
-                return typeof args[num] !== 'undefined' ? args[num] : match;
-            });
-        }
-
-        public static isNullOrEmpty(value: string) {
-            return value === null || value === undefined || value.toString().trim().length === 0;
-        }
-
-        public static getInfoString(source: string, key: string, defaultValue: string) {
-
-            if(this.isNullOrEmpty(source)) {
-                return defaultValue;
-            }
-
-            key = "#"+ key;
-
-            let i = source.toLowerCase().indexOf(key.toLowerCase(), 0);
-
-            // the key can't apears more than one
-            //
-            if(source.toLowerCase().indexOf(key.toLowerCase(), i + 1) !== -1) {
-                throw(new Exception("cUtil.getInfoString: the key can't apears more than one."));
-            }
-
-            // if the key is not present return default
-            //
-            if(i === -1) {
-                return defaultValue;
-            }
-            else {
-                const c_errorstr = "cUtil.getInfoString: source invalid, the character {0} is not present.";
-
-                let j = source.toLowerCase().indexOf(";".toLowerCase(), i);
-                if(j === -1) {
-                    throw(new Exception(this.format(c_errorstr, ";")));
-                }
-                let k = source.substring(i, j).toLowerCase().indexOf("=".toLowerCase(), 0);
-                if(k === -1) {
-                    throw(new Exception(this.format(c_errorstr, "=")));
-                }
-                k = k + i;
-                return source.substring(k + 1, j);
-            }
-        }
+        //#region array functions
 
         public static newArrayOfInts(size: number): number[] {
             return Array.apply(null, {length: size}).map(() => 0);
@@ -418,6 +443,8 @@ namespace CSOAPI {
         public static newArrayOfObjects<T>(size: number, f:() => T): T[] {
             return Array.apply(null, {length: size}).map(() => f.call(null));
         }
+
+        //#endregion
     }
 
     export class Maths {

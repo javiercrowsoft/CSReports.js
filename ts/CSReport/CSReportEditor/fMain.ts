@@ -23,6 +23,7 @@ namespace CSReportEditor {
     import FileContent = CSKernelFile.FileContent;
     import Map = CSOAPI.Map;
     import ReportWeb = CSReportWebServer.ReportWeb;
+    import ServerConnection = CSDatabase.ServerConnection;
 
     import Panel = CSForms.Panel;
     import PictureBox = CSForms.PictureBox;
@@ -83,6 +84,8 @@ namespace CSReportEditor {
 
         private pageSetup: FPageSetup = new FPageSetup();
         private columnsDlg: FColumns = new FColumns();
+
+        private serverConnection: ServerConnection = new ServerConnection();
 
         public constructor() {
             // it is the first thing we need to do
@@ -484,6 +487,17 @@ namespace CSReportEditor {
 
         public saveReportClick() {
             this.saveReport(false);
+        }
+
+        public setDataSourceClick() {
+            U.getInput(this.serverConnection.getServerUrl(),
+                       "Input data source server URL",
+                       "Data Source Server").then(P.call(this,
+                (result) => {
+                    if(result.success) {
+                        this.serverConnection.setServerUrl(result.value);
+                    }
+                }));
         }
 
         public debugReportClick() {

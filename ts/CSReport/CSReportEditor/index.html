@@ -77,9 +77,9 @@
                         </li>
                     </ul>
                 </li>
-                <li><a>Database</a>
+                <li><a>Data Source</a>
                     <ul>
-                        <li><a id="mnuDbConnectionSettings">Connection Settings</a></li>
+                        <li><a id="mnuDbConnectionSettings" onclick="CSReportEditor.cMainEditor.fMain.setDataSourceClick()">Connection Settings</a></li>
                         <li><a id="mnuDbParameterSettings">Parameter Settings</a></li>
                         <li><a id="mnuDbConnectionAuxSettings">Additional Connections</a></li>
                         <li><a id="mnuDbSetDisconnected">Not a Database Report</a></li>
@@ -741,6 +741,27 @@ End Function
         </div>
         <div class="dlg-footer">
             <button id="error-dlg-okay">Ok</button>
+        </div>
+    </div>
+    <div id="input-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img style="margin-left: 20px; width: 40px;" id="input-dlg-icon">
+                <h1 style="margin-left: 15px;" id="input-dlg-title">Input</h1>
+            </div>
+        </div>
+        <div class="dlg-body" style="padding: 50px;">
+            <div>
+                <div>
+                    <label id="input-dlg-description"></label>
+                </div>
+                <div style="margin-top: 20px;">
+                    <input type="text" id="input-dlg-input" style="width: 500px; margin: 0;"/>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="input-dlg-okay">Ok</button>
         </div>
     </div>
     <div id="progress-dlg-template">

@@ -9,6 +9,7 @@ namespace CSForms {
         onclick: (item: Item) => void;
         onDblclick: (item: Item) => void;
         activeItem: Item;
+        selectedItems: Items;
     }
 
     class Items {
@@ -27,6 +28,10 @@ namespace CSForms {
             this._items.push(item);
             this.body.appendChild(tr);
             return item;
+        }
+
+        public addItem(item: Item) {
+            this._items.push(item);
         }
 
         public clear() {
@@ -68,12 +73,14 @@ namespace CSForms {
 
         onclick() {
             if(this.state.onclick) {
-                this.state.onclick(this);
+                this.state.selectedItems.clear();
+                this.state.selectedItems.addItem(this);
                 this.tr.style.backgroundColor = "lightgreen";
                 if(this.state.activeItem?.subItems?.getTr()) {
                     this.state.activeItem.subItems.getTr().style.backgroundColor = '';
                 }
                 this.state.activeItem = this;
+                this.state.onclick(this);
             }
         }
 
@@ -201,6 +208,7 @@ namespace CSForms {
             this.table.createTHead();
             this._items.state = this.state;
             this._items.setBody(this.table.createTBody())
+            this.state.selectedItems = this._selectedItems;
         }
 
         public clear() {
