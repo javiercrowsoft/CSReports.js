@@ -22,7 +22,7 @@ namespace CSDatabase {
 
         selectDataSource() {
             return this.getServer().listDataSources().then(P.call(this, (dataSources) => {
-                return this.formDataSources.showModal([]);
+                return this.formDataSources.showModal(DataSource.fromArray(dataSources, this.getServerUrl()));
             }));
         }
 

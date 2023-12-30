@@ -34,5 +34,31 @@ namespace CSDatabase {
         public file: string;
         params: Param[];
         data: Query[];
+
+        constructor(name: string, params: Param[], url: string) {
+            this.name = name;
+            this.params = params;
+            this.url = url;
+        }
+
+        getId() {
+            return this.name +"."+ this.getParamsInfo();
+        }
+
+        getParamsInfo() {
+            return this.params.map(p => p.name + " " + p.type).join(", ");
+        }
+
+        getStringConnection() {
+            return this.url + "/" + this.name;
+        }
+
+        static load(url: string, dataSource: DataSource) {
+            return new DataSource(dataSource.name, dataSource.params, url);
+        }
+
+        static fromArray(dataSources: DataSource[], url: string) {
+            return dataSources.map(d => this.load(url, d));
+        }
     }
 }

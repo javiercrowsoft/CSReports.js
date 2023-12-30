@@ -497,7 +497,7 @@ namespace CSReportEditor {
             if(editor !== null && editor.isEditor()) {
                 this.serverConnection.selectDataSource().then(P.call(this, (result) => {
                     if(result.success) {
-                        (editor as cEditor).setDataSource(result.dataSource);
+                        (editor as cEditor).setDataSource(result.dataSource.getStringConnection());
                     }
                 }));
             }
