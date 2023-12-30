@@ -5,6 +5,7 @@
 ///<reference path="../../CSForms/controls/TabBar.ts"/>
 ///<reference path="../../CSForms/controls/ListView.ts"/>
 ///<reference path="../../CSForms/controls/TreeView.ts"/>
+///<reference path="../../CSDatabase/server/ServerConnection.ts"/>
 
 namespace CSReportEditor {
 
@@ -265,7 +266,6 @@ namespace CSReportEditor {
             this.mnuEditAddLine.setEnabled(enabled);
             this.mnuEditAddSec.setEnabled(enabled);
             this.mnuEditMove.setEnabled(enabled);
-            this.mnuDataBaseEditDataSource.setEnabled(enabled);
             this.mnuPreviewReport.setEnabled(enabled);
             this.mnuPrintReport.setEnabled(enabled);
             this.mnuSaveReport.setEnabled(enabled);
@@ -274,7 +274,6 @@ namespace CSReportEditor {
             this.mnuEditSearch.setEnabled(enabled);
             this.mnuDataBaseSQLServerConnection.setEnabled(enabled);
             this.mnuDataBaseSetToMainConnect.setEnabled(enabled);
-            this.mnuDataBaseEditDataSource.setEnabled(enabled);
             this.mnuDataBaseConnectsAuxCfg.setEnabled(enabled);
             this.mnuHideGrid.setEnabled(enabled);
             this.mnuViewToolbar.setEnabled(enabled);
@@ -489,15 +488,19 @@ namespace CSReportEditor {
             this.saveReport(false);
         }
 
+        public setConnectionClick() {
+            this.serverConnection.editSettings();
+        }
+
         public setDataSourceClick() {
-            U.getInput(this.serverConnection.getServerUrl(),
-                       "Input data source server URL",
-                       "Data Source Server").then(P.call(this,
-                (result) => {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                this.serverConnection.selectDataSource().then(P.call(this, (result) => {
                     if(result.success) {
-                        this.serverConnection.setServerUrl(result.value);
+                        (editor as cEditor).setDataSource(result.dataSource);
                     }
                 }));
+            }
         }
 
         public debugReportClick() {
@@ -705,13 +708,6 @@ namespace CSReportEditor {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).editConnectionString();
-            }
-        }
-
-        private mnuDataBaseEditDataSource_Click(sender: object, e: any) {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).editDataSource();
             }
         }
 

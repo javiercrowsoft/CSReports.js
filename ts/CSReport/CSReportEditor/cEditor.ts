@@ -6294,15 +6294,8 @@ namespace CSReportEditor {
                 }));
         }
 
-        public editDataSource() {
-            return U.getInput(this.report.getConnect().getDataSource(),
-                              "You can modify the data source of this report",
-                              "Data Source").then(P.call(this,
-                (result) => {
-                    if(result.success) {
-                        this.report.getConnect().setDataSource(result.value);
-                    }
-                }));
+        public setDataSource(dataSource: string) {
+            this.report.getConnect().setDataSource(dataSource);
         }
     }
 

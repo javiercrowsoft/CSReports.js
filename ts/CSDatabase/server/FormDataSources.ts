@@ -1,13 +1,14 @@
-namespace CSReportEditor {
+///<reference path="../../CSForms/controls/ListView.ts"/>
+
+namespace CSDatabase {
 
     import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;
     import Form = CSForms.Form;
     import Dialog = CSForms.Dialog;
     import ListView = CSForms.ListView;
-    import cColumnsInfo = CSReportEngine.cColumnsInfo;
 
-    export class FColumns extends Form {
+    export class FormDataSources extends Form {
 
         private el: HTMLElement;
         private dialog: Dialog;
@@ -22,8 +23,8 @@ namespace CSReportEditor {
 
         public constructor() {
             super();
-            this.el = U.el('db-columns-dlg');
-            this.dialog = new Dialog(this.el, 'db-columns-dlg-apply', 'db-columns-dlg-cancel');
+            this.el = U.el('datasource-dlg');
+            this.dialog = new Dialog(this.el, 'datasource-dlg-apply', 'datasource-dlg-cancel');
             this.lvColumns = new ListView("lvColumns", U.el("db-columns-lv-columns"));
             this.lvColumns.state.onclick = P.call(this, this.lvColumnsClick);
             this.dialog.onApply = P.call(this, this.cmdApplyClick);
@@ -40,14 +41,6 @@ namespace CSReportEditor {
 
         public clearColumns() {
             this.lvColumns.clear();
-        }
-
-        public fillColumns(dataSource: string, columns: cColumnsInfo, add: boolean) {
-            cGlobals.fillColumns(dataSource,
-                                 columns,
-                                 this.lvColumns,
-                                 this.C_INDEX,
-                                 this.C_FIELDTYPE, add);
         }
 
         public setField(field: string) {
@@ -85,20 +78,21 @@ namespace CSReportEditor {
             }
         }
 
-        showModal() {
-            return this.dialog.show({title: 'Page Setup', height: 600, width: 500, overlay: true})
+        showModal(dataSources: DataSource[]) {
+
+            for(let i = 0; i < dataSources.length; i++) {
+                this.lvColumns.add(dataSources[0].name);
+            }
+
+            return this.dialog.show({title: 'Data Sources', height: 600, width: 500, overlay: true})
                         .then(P.call(this, (result)=> {
                             if(result) return {
                                                 success: true,
-                                                field: this.field,
-                                                fieldType: this.fieldType,
-                                                fieldIndex: this.fieldIndex
+                                                dataSource: this.field
                                               };
                             else       return {
                                                 success: false,
-                                                field: null,
-                                                fieldType: null,
-                                                fieldIndex: null
+                                                dataSource: null
                                               };
                         }));
         }

@@ -79,9 +79,12 @@
                 </li>
                 <li><a>Data Source</a>
                     <ul>
-                        <li><a id="mnuDbConnectionSettings" onclick="CSReportEditor.cMainEditor.fMain.setDataSourceClick()">Connection Settings</a></li>
-                        <li><a id="mnuDbParameterSettings">Parameter Settings</a></li>
-                        <li><a id="mnuDbConnectionAuxSettings">Additional Connections</a></li>
+                        <li><a id="mnuDbConnectionSettings" onclick="CSReportEditor.cMainEditor.fMain.setConnectionClick()">Connection Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a id="mnuDbSetDataSource" onclick="CSReportEditor.cMainEditor.fMain.setDataSourceClick()">Set Main Data Source</a></li>
+                        <li><a id="mnuDbSetParameter">Set Parameter</a></li>
+                        <li><a id="mnuDbSetAuxDataSource">Set Additional Data Sources</a></li>
+                        <li class="divider"></li>
                         <li><a id="mnuDbSetDisconnected">Not a Database Report</a></li>
                     </ul>
                 </li>
@@ -726,6 +729,57 @@ End Function
         <div class="dlg-footer">
             <button id="db-columns-dlg-apply">Apply</button>
             <button id="db-columns-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="datasource-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Data Sources</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                    <div class="row">
+                        <div id="db-columns-lv-columns" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="datasource-dlg-apply">Apply</button>
+            <button id="datasource-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="server-settings-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Connection Settings</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 0px 0px 50px;">
+                    <div class="row">
+                        <div style="margin-top: 20px;">
+                            <label>URL</label>
+                            <input type="text" id="server-url" style="width: 300px"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>API Key</label>
+                            <input type="text" id="server-api-key" style="width: 300px"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="server-settings-dlg-apply">Apply</button>
+            <button id="server-settings-dlg-cancel">Cancel</button>
         </div>
     </div>
     <div id="error-dlg">

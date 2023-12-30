@@ -5,7 +5,7 @@ namespace CSOAPI {
 
     export class Utils {
 
-        private static f: FormInput = null;
+        private static formInput: FormInput = null;
 
         private static _dpi = -1;
 
@@ -362,11 +362,11 @@ namespace CSOAPI {
         //#endregion
 
         static getInput(input: string, description: string, title: string): Promise<{success: boolean, value: string}> {
-            if(this.f === null) this.f = new FormInput();
-            this.f.setDetails(description);
-            this.f.setTitle(title);
-            this.f.setInput(input);
-            return this.f.showDialog();
+            if(this.formInput === null) this.formInput = new FormInput();
+            this.formInput.setDetails(description);
+            this.formInput.setTitle(title);
+            this.formInput.setInput(input);
+            return this.formInput.showDialog();
         }
 
         static getValidPath(path: string) {
