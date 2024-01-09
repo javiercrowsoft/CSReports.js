@@ -2,14 +2,17 @@
 
 namespace CSConnect {
 
+    import P = CSKernelClient.Callable;
     import NotImplementedException = CSOAPI.NotImplementedException;
     import Database = CSDatabase.Database;
+    import DataSource = CSDatabase.DataSource;
     import DatabaseEngine = CSDatabase.DatabaseEngine;
     import csDataSourceType = CSReportGlobals.csDataSourceType;
     import DataTable = CSDatabase.DataTable;
     import DatabaseGlobals = CSDatabase.DatabaseGlobals;
     import Exception = CSOAPI.Exception;
     import RefWrapper = CSKernelClient.RefWrapper;
+    import ServerConnection = CSDatabase.ServerConnection;
 
     export class cConnect {
 
@@ -20,6 +23,8 @@ namespace CSConnect {
         private dataSource: string = "";
         private dataSourceType: csDataSourceType = null;
 
+        private static f: fParameters = null;
+
 		public getParameters() {
             return this.parameters;
 		}
@@ -28,7 +33,92 @@ namespace CSConnect {
             return this.columnsInfo;
         }
 
-        public fillParameters(dataSource: string) {
+		public getDataSourceColumnsInfo(serverConnection: ServerConnection) {
+
+            return serverConnection.getDataSourceInfo(this.dataSource).then(P.call(this, (dataSource) => {
+                if(dataSource !== undefined) {
+                    if(cConnect.f === null) cConnect.f = new fParameters();
+                    debugger;
+                    cConnect.f.initDialog(this.parameters);
+                    cConnect.f.showModal().then(P.call(this, (result)=> {
+                        if(result.success) {
+                            return serverConnection.excute(this.dataSource, result.params).then(P.call(this, (dataSource) => {
+                                this.updateParamsAndColumns(serverConnection, result.params, dataSource);
+                                return true;
+                            }));
+                        };
+                    }));
+                }
+            }));
+		}
+
+        private updateParamsAndColumns(serverConnection: ServerConnection, params, dataSource: DataSource) {
+            const columns = dataSource.data[0].data.columns;
+            for(let i = 0; i < columns.length; i++) {
+                let column = new cColumnInfo();
+                column.setName(columns[i].name);
+                column.setPosition(i);
+                column.setColumnType(DatabaseGlobals.getDataTypeFromString(columns[i].columnType));
+                this.columnsInfo.add(column, "");
+            }
+        }
+
+		public setStrConnect(strConnect: string) {
+			this.strConnect = strConnect;
+		}
+
+		public setDataSource(dataSource: string) {
+			this.dataSource = dataSource;
+		}
+
+		public setDataSourceType(dataSourceType: csDataSourceType) {
+            this.dataSourceType = dataSourceType;
+		}
+
+		public showOpenConnection(): boolean {
+			throw new NotImplementedException();
+		}
+
+		public getDataSource() {
+            return this.dataSource;
+		}
+
+		public getDataSourceType() {
+            return this.dataSourceType;
+		}
+
+        //#region SQL Server
+
+        /* SQL Server code
+        *
+        *
+        *
+        public getDataSourceColumnsInfoSQLServer() {
+            let sqlstmt: string;
+
+            if(this.dataSourceType === csDataSourceType.CS_DT_PROCEDURE) {
+                if(! this.fillParametersSQLServer(this.dataSource)) {
+                    return false;
+                }
+
+                let f: fParameters = new fParameters();
+                f.setParameters(this.parameters);
+                f.showDialog();
+                if(f.getOk()) {
+                    sqlstmt = "[" + this.dataSource + "] " + f.getSqlParameters();
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                sqlstmt = "select * from [" + this.dataSource + "]";
+            }
+
+            return this.fillColumns(sqlstmt);
+		}
+
+        public fillParametersSQLServer(dataSource: string) {
             let db: Database = new Database(DatabaseEngine.SQL_SERVER);
             if(db.initDb(this.strConnect)) {
                 let restrictions: string[] = [];
@@ -88,31 +178,6 @@ namespace CSConnect {
             return false;
         }
 
-		public getDataSourceColumnsInfo() {
-            let sqlstmt: string;
-
-            if(this.dataSourceType === csDataSourceType.CS_DT_PROCEDURE) {
-                if(! this.fillParameters(this.dataSource)) {
-                    return false;
-                }
-
-                let f: fParameters = new fParameters();
-                f.setParameters(this.parameters);
-                f.showDialog();
-                if(f.getOk()) {
-                    sqlstmt = "[" + this.dataSource + "] " + f.getSqlParameters();
-                }
-                else {
-                    return false;
-                }
-            }
-            else {
-                sqlstmt = "select * from [" + this.dataSource + "]";
-            }
-
-            return this.fillColumns(sqlstmt);
-		}
-
         private fillColumns(sqlstmt: string) {
             let db = new Database(DatabaseEngine.SQL_SERVER);
             if(db.initDb(this.strConnect)) {
@@ -134,28 +199,8 @@ namespace CSConnect {
             return true;
         }
 
-		public setStrConnect(strConnect: string) {
-			this.strConnect = strConnect;
-		}
+        */
 
-		public setDataSource(dataSource: string) {
-			this.dataSource = dataSource;
-		}
-
-		public setDataSourceType(dataSourceType: csDataSourceType) {
-            this.dataSourceType = dataSourceType;
-		}
-
-		public showOpenConnection(): boolean {
-			throw new NotImplementedException();
-		}
-
-		public getDataSource() {
-            return this.dataSource;
-		}
-
-		public getDataSourceType() {
-            return this.dataSourceType;
-		}
+        //#endregion SQL Server
     }
 }

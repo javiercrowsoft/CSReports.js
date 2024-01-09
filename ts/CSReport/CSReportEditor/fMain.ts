@@ -503,6 +503,13 @@ namespace CSReportEditor {
             }
         }
 
+        public setParamsAndExecuteClick() {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).setParamsAndExecute(this.serverConnection);
+            }
+        }
+
         public debugReportClick() {
             let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(maybeEditor === null || ! maybeEditor.isEditor()) return;
@@ -708,17 +715,6 @@ namespace CSReportEditor {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).editConnectionString();
-            }
-        }
-
-        private mnuExit_Click(sender: object, e: any) {
-            this.close();
-        }
-
-        private mnuParametersSettings_Click(sender: object, e: any) {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).setParameters();
             }
         }
 

@@ -26,6 +26,34 @@ namespace CSDatabase {
             }));
         }
 
+        getDataSourceInfo(dataSource: string) {
+            return this.getServer().listDataSources().then(P.call(this, (dataSources) => {
+                const {name} = this.extractDatasourceName(dataSource);
+                return DataSource.fromArray(dataSources, this.getServerUrl()).find(d => d.name === name);
+            }));
+        }
+
+        private extractDatasourceName(dataSource: string) {
+            const arr = dataSource.split("/");
+            const name = arr.pop();
+            const url = arr.join("/");
+            return {name, url};
+        }
+
+        excute(dataSource: string, params: CSConnect.cParameters) {
+            const {name, url} = this.extractDatasourceName(dataSource);
+            const ds = new DataSource(
+                name,
+                params.getValues().map(p => { return {
+                        name: p.getName(),
+                        type: p.getColumnType().toString(),
+                        value: p.getValue()
+                    }}),
+                url);
+            return this.getServer().execute(ds);
+        }
+
+
         private getServer() {
             const serverUrl = this.getServerUrl();
             if(this.server === null || this.server.getServerUrl() !== serverUrl) {

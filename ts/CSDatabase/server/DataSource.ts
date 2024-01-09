@@ -37,6 +37,7 @@ namespace CSDatabase {
 
         constructor(name: string, params: Param[], url: string) {
             this.name = name;
+            this.code = name;
             this.params = params;
             this.url = url;
         }

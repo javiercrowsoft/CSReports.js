@@ -70,6 +70,7 @@ namespace CSReportEditor {
     import Point = CSDrawing.Point;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import P = CSKernelClient.Callable;
+    import ServerConnection = CSDatabase.ServerConnection;
 
     import Panel = CSForms.Panel;
     import PictureBox = CSForms.PictureBox;
@@ -1823,13 +1824,7 @@ namespace CSReportEditor {
             this.keyMoving = "";
         }
 
-        private picReport_Paint(sender: object, e: any) {
-            if(this.paint !== null) {
-                this.paint.paintPicture(e.Graphics, false);
-            }
-        }
-
-        public setParameters() {
+        public setParamsAndExecute(serverConnection: ServerConnection) {
             let connect: CSConnect.cConnect = new CSConnect.cConnect();
             let param: CSReportEngine.cParameter = null;
 
@@ -1849,11 +1844,9 @@ namespace CSReportEditor {
             connect.setDataSource(this.report.getConnect().getDataSource());
             connect.setDataSourceType(this.report.getConnect().getDataSourceType());
 
-            if(! connect.getDataSourceColumnsInfo()) {
-                return;
-            }
-
-            cGlobals.setParametersAux(connect, this.report.getConnect());
+            connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, () => {
+                cGlobals.setParametersAux(connect, this.report.getConnect());
+            }));
         }
 
         public setSimpleConnection() {
@@ -1897,7 +1890,7 @@ namespace CSReportEditor {
 
                 this.refreshAll();
 
-                if(! connect.getDataSourceColumnsInfo()) {
+                if(! connect.getDataSourceColumnsInfo(null /* TODO: fixme */)) {
                     return false;
                 }
 

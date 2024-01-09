@@ -82,7 +82,7 @@
                         <li><a id="mnuDbConnectionSettings" onclick="CSReportEditor.cMainEditor.fMain.setConnectionClick()">Connection Settings</a></li>
                         <li class="divider"></li>
                         <li><a id="mnuDbSetDataSource" onclick="CSReportEditor.cMainEditor.fMain.setDataSourceClick()">Set Main Data Source</a></li>
-                        <li><a id="mnuDbSetParameter">Set Parameter</a></li>
+                        <li><a id="mnuDbSetParameter" onclick="CSReportEditor.cMainEditor.fMain.setParamsAndExecuteClick()">Set Parameters and Execute</a></li>
                         <li><a id="mnuDbSetAuxDataSource">Set Additional Data Sources</a></li>
                         <li class="divider"></li>
                         <li><a id="mnuDbSetDisconnected">Not a Database Report</a></li>
@@ -780,6 +780,36 @@ End Function
         <div class="dlg-footer">
             <button id="server-settings-dlg-apply">Apply</button>
             <button id="server-settings-dlg-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="params-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Connection Settings</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 0px 0px 50px;" id="params-params-section">
+                    <div class="row">
+                        <div style="margin-top: 20px;">
+                            <label>Param 1</label>
+                            <input type="text" id="param-1" style="width: 300px"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Param 2</label>
+                            <input type="text" id="param-2" style="width: 300px"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="params-dlg-apply">Apply</button>
+            <button id="params-dlg-cancel">Cancel</button>
         </div>
     </div>
     <div id="error-dlg">
