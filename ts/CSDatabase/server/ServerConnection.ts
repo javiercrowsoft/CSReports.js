@@ -40,15 +40,11 @@ namespace CSDatabase {
             return {name, url};
         }
 
-        excute(dataSource: string, params: CSConnect.cParameters) {
+        excute(dataSource: string, params: Param[]) {
             const {name, url} = this.extractDatasourceName(dataSource);
             const ds = new DataSource(
                 name,
-                params.getValues().map(p => { return {
-                        name: p.getName(),
-                        type: p.getColumnType().toString(),
-                        value: p.getValue()
-                    }}),
+                params,
                 url);
             return this.getServer().execute(ds);
         }

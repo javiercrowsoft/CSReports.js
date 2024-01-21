@@ -176,6 +176,13 @@ namespace CSOAPI {
             return false;
         }
 
+        public find(f:(k: string, v: T) => boolean) {
+            for(let i = 0; i < this.length; i++) {
+                if (f(this.keys[i], this.values[i])) return this.values[i];
+            }
+            return null;
+        }
+
         public forEachValue(f: (T) => void) {
             this.values.forEach(f);
         }

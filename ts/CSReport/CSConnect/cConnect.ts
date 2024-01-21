@@ -6,6 +6,8 @@ namespace CSConnect {
     import NotImplementedException = CSOAPI.NotImplementedException;
     import Database = CSDatabase.Database;
     import DataSource = CSDatabase.DataSource;
+    import ServerDataSource = CSDatabase.ServerDataSource;
+    import Param = CSDatabase.Param;
     import DatabaseEngine = CSDatabase.DatabaseEngine;
     import csDataSourceType = CSReportGlobals.csDataSourceType;
     import DataTable = CSDatabase.DataTable;
@@ -38,12 +40,15 @@ namespace CSConnect {
             return serverConnection.getDataSourceInfo(this.dataSource).then(P.call(this, (dataSource) => {
                 if(dataSource !== undefined) {
                     if(cConnect.f === null) cConnect.f = new fParameters();
-                    debugger;
-                    cConnect.f.initDialog(this.parameters);
-                    cConnect.f.showModal().then(P.call(this, (result)=> {
+                    dataSource.params.forEach(p => {
+                        const p2 = this.parameters.getValues().find(p2 => p2.getName() === p.name);
+                        if(p2 !== undefined) p.value = p2.getValue();
+                    });
+                    cConnect.f.initDialog(dataSource.params);
+                    return cConnect.f.showModal().then(P.call(this, (result)=> {
                         if(result.success) {
                             return serverConnection.excute(this.dataSource, result.params).then(P.call(this, (dataSource) => {
-                                this.updateParamsAndColumns(serverConnection, result.params, dataSource);
+                                this.updateParamsAndColumns(result.params, dataSource);
                                 return true;
                             }));
                         };
@@ -52,14 +57,24 @@ namespace CSConnect {
             }));
 		}
 
-        private updateParamsAndColumns(serverConnection: ServerConnection, params, dataSource: DataSource) {
-            const columns = dataSource.data[0].data.columns;
+        private updateParamsAndColumns(params: Param[], dataSource: ServerDataSource) {
+            const columns = dataSource.recordset.columns;
+            const self = this;
             for(let i = 0; i < columns.length; i++) {
                 let column = new cColumnInfo();
                 column.setName(columns[i].name);
                 column.setPosition(i);
                 column.setColumnType(DatabaseGlobals.getDataTypeFromString(columns[i].columnType));
                 this.columnsInfo.add(column, "");
+            }
+            this.parameters.clear();
+            for(let i = 0; i < params.length; i++) {
+                // const param = self.parameters.find((_, p)  => p.getName() === params[i].name);
+                const param = this.parameters.add(null);
+                param.setValue(params[i].value);
+                param.setColumnType(DatabaseGlobals.getDataTypeFromString(params[i].type));
+                param.setPosition(i+1);
+                param.setName(params[i].name);
             }
         }
 

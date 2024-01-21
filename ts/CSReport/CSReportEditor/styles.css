@@ -219,6 +219,10 @@ header nav ul li {
     width: 95%;
 }
 
+.row label {
+    padding-left: 5px;
+}
+
 #right-sidebar button {
 
     /* remove default behavior */

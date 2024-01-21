@@ -1844,8 +1844,8 @@ namespace CSReportEditor {
             connect.setDataSource(this.report.getConnect().getDataSource());
             connect.setDataSourceType(this.report.getConnect().getDataSourceType());
 
-            connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, () => {
-                cGlobals.setParametersAux(connect, this.report.getConnect());
+            connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, (result) => {
+                if(result) cGlobals.setParametersAux(connect, this.report.getConnect());
             }));
         }
 

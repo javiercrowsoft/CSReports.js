@@ -10,7 +10,7 @@ namespace CSDatabase {
             throw new Error("Method not implemented.");
         }
 
-        execute(ds: DataSource): Promise<DataSource> {
+        execute(ds: DataSource): Promise<ServerDataSource> {
             throw new Error("Method not implemented.");
         }
     }

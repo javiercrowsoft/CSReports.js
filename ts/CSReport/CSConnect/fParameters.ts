@@ -7,13 +7,14 @@ namespace CSConnect {
     import Form = CSForms.Form;
     import Dialog = CSForms.Dialog;
     import TextBox = CSForms.TextBox;
+    import Param = CSDatabase.Param;
 
     export class fParameters extends Form {
 
         private el: HTMLElement;
         private dialog: Dialog;
 
-        private parameters: cParameters;
+        private parameters: Param[];
         private paramInputs: HTMLInputElement[];
 
         public constructor() {
@@ -24,23 +25,24 @@ namespace CSConnect {
             super.setDialog(this.dialog);
         }
 
-        public initDialog(parameters: cParameters) {
+        public initDialog(parameters: Param[]) {
             this.parameters = parameters;
             const container = U.divEl("params-params-section");
             while(container.firstChild) {
                 container.removeChild(container.firstChild);
             }
             this.paramInputs = [];
-            parameters.forEach(P.call(this, (_: string, p: cParameter) => {
+            parameters.forEach(P.call(this, p => {
                 const div = document.createElement('div');
                 div.className = 'row';
                 const div2 = document.createElement('div');
                 div2.style.marginTop = '20px';
                 const label = document.createElement('label') as HTMLLabelElement;
-                label.textContent = p.getName();
+                label.textContent = p.name;
                 div2.appendChild(label);
                 const input = document.createElement('input') as HTMLInputElement;
-                input.textContent = p.getValue();
+                input.value = p.value || '';
+                input.type = 'text';
                 div2.appendChild(input);
                 div.appendChild(div2);
                 container.appendChild(div);
@@ -50,7 +52,7 @@ namespace CSConnect {
 
         private cmdApplyClick() {
             for(let i = 0; i < this.paramInputs.length; i++) {
-                this.parameters.item(i).setValue(this.paramInputs[i].textContent);
+                this.parameters[i].value = this.paramInputs[i].value;
             }
             return true;
         }

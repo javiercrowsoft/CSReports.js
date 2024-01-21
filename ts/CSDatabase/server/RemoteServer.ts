@@ -3,7 +3,7 @@ namespace CSDatabase {
     import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;
 
-    export class RemoteServer {
+    export class RemoteServer implements IReportServer {
 
         private serverUrl: string;
         private apiKey: string;
@@ -24,10 +24,18 @@ namespace CSDatabase {
                 (data) => data as DataSource[]);
         }
 
-        execute(ds: DataSource): Promise<DataSource> {
+        execute(ds: DataSource): Promise<ServerDataSource> {
             return this.callApi(
-                this.serverUrl +'/data-sources/' + ds.code,
+                this.serverUrl +'/data-sources/' + ds.code + '?' + this.queryParam(ds.params),
                 (data) => data as DataSource);
+        }
+
+        queryParam(params: Param[]) {
+            let queryString = ""
+            for(let i = 0; i < params.length; i++) {
+                queryString += encodeURIComponent(params[i].name) + '=' + encodeURIComponent(params[i].value) + '&';
+             }
+             return queryString;
         }
 
         private callApi(url: string, f: (response: any) => any) {

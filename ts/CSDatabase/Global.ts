@@ -11,13 +11,13 @@ namespace CSDatabase {
         public silent: boolean = false;
 
         public static isNumberField(fieldType: number) {
-            switch (fieldType) 
-            { 
+            switch (fieldType)
+            {
                 case csAdoDataType.adDecimal:
-                case csAdoDataType.adDouble: 
+                case csAdoDataType.adDouble:
                 case csAdoDataType.adInteger:
-                case csAdoDataType.adCurrency: 
-                case csAdoDataType.adBigInt: 
+                case csAdoDataType.adCurrency:
+                case csAdoDataType.adBigInt:
                 case csAdoDataType.adNumeric:
                 case csAdoDataType.adSingle:
                 case csAdoDataType.adSmallInt:
@@ -34,25 +34,29 @@ namespace CSDatabase {
 
         public static getDataTypeFromString(dataType: string) {
             switch (dataType)
-            { 
+            {
                 case "datetime":
                 case "datetime2":
                 case "date":
+                case "timestamp with time zone":
                     return csDataType.CS_TD_DBDATE;
                 case "tinyint":
                     return csDataType.CS_TD_TINYINT;
                 case "smallint":
                     return csDataType.CS_TD_SMALLINT;
                 case "int":
+                case "int4":
+                case "integer":
                     return csDataType.CS_TD_INTEGER;
                 case "bigint":
                     return csDataType.CS_TD_BIGINT;
                 case "char":
                 case "varchar":
+                case "character varying":
                 case "text":
                 case "nchar":
                 case "nvarchar":
-                case "ntext": 
+                case "ntext":
                     return csDataType.CS_TD_VARCHAR;
                 case "smallmoney":
                 case "money":
@@ -101,7 +105,7 @@ namespace CSDatabase {
 
                 case csAdoDataType.adDecimal:
                 case csAdoDataType.adDouble:
-                case csAdoDataType.adNumeric:                
+                case csAdoDataType.adNumeric:
                 case csAdoDataType.adVarNumeric:
                     return csDataType.CS_TD_DOUBLE;
 

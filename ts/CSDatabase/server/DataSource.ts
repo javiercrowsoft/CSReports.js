@@ -1,6 +1,6 @@
 namespace CSDatabase {
 
-    class Param {
+    export class Param {
         name: string;
         type: string;
         value: string;
@@ -23,6 +23,11 @@ namespace CSDatabase {
     class Query {
         name: string;
         data: DataSet
+    }
+
+    export class ServerDataSource {
+        name: string;
+        recordset: DataSet;
     }
 
     export class DataSource {
