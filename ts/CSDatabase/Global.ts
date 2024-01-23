@@ -161,6 +161,7 @@ namespace CSDatabase {
                     return csAdoDataType.adCurrency;
 
                 case csDataType.CS_TD_DATE:
+                case csDataType.CS_TD_DBDATE:
                     return csAdoDataType.adDate;
 
                 case csDataType.CS_TD_DOUBLE:

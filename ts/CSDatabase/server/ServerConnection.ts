@@ -28,24 +28,15 @@ namespace CSDatabase {
 
         getDataSourceInfo(dataSource: string) {
             return this.getServer().listDataSources().then(P.call(this, (dataSources) => {
-                const {name} = this.extractDatasourceName(dataSource);
-                return DataSource.fromArray(dataSources, this.getServerUrl()).find(d => d.name === name);
+                return DataSource.fromArray(dataSources, this.getServerUrl()).find(d => d.name === dataSource);
             }));
         }
 
-        private extractDatasourceName(dataSource: string) {
-            const arr = dataSource.split("/");
-            const name = arr.pop();
-            const url = arr.join("/");
-            return {name, url};
-        }
-
         excute(dataSource: string, params: Param[]) {
-            const {name, url} = this.extractDatasourceName(dataSource);
             const ds = new DataSource(
-                name,
+                dataSource,
                 params,
-                url);
+                this.getServerUrl());
             return this.getServer().execute(ds);
         }
 

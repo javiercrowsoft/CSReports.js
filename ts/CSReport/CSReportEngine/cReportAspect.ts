@@ -261,7 +261,7 @@ namespace CSReportEngine {
             catch  (ex) { }
             try { this.nZOrder = xDoc.getNodeProperty(nodeObj, "nZOrder").getValueInt(eTypes.eInteger); }
             catch  (ex) { }
-            try { this.selectColor = xDoc.getNodeProperty(nodeObj, "SelectColor").getValueString(eTypes.eLong); }
+            try { this.selectColor = xDoc.getNodeProperty(nodeObj, "SelectColor").getValueString(eTypes.eText); }
             catch  (ex) { }
             try { this.top = xDoc.getNodeProperty(nodeObj, "Top").getValueInt(eTypes.eLong); }
             catch  (ex) { }
@@ -344,7 +344,7 @@ namespace CSReportEngine {
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("SelectColor");
-            xProperty.setValue(eTypes.eLong, this.selectColor);
+            xProperty.setValue(eTypes.eText, this.selectColor);
             xDoc.addPropertyToNode(nodeObj, xProperty);
 
             xProperty.setName("Top");

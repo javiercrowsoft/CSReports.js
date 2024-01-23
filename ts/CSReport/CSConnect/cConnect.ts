@@ -15,6 +15,7 @@ namespace CSConnect {
     import Exception = CSOAPI.Exception;
     import RefWrapper = CSKernelClient.RefWrapper;
     import ServerConnection = CSDatabase.ServerConnection;
+    import ReportGlobals = CSReportGlobals.ReportGlobals;
 
     export class cConnect {
 
@@ -49,9 +50,10 @@ namespace CSConnect {
                         if(result.success) {
                             return serverConnection.excute(this.dataSource, result.params).then(P.call(this, (dataSource) => {
                                 this.updateParamsAndColumns(result.params, dataSource);
-                                return true;
+                                return { success: true, dataSource: dataSource };
                             }));
-                        };
+                        }
+                        else return { success: false, dataSource: null };
                     }));
                 }
             }));
@@ -59,9 +61,8 @@ namespace CSConnect {
 
         private updateParamsAndColumns(params: Param[], dataSource: ServerDataSource) {
             const columns = dataSource.recordset.columns;
-            const self = this;
             for(let i = 0; i < columns.length; i++) {
-                let column = new cColumnInfo();
+                const column = new cColumnInfo();
                 column.setName(columns[i].name);
                 column.setPosition(i);
                 column.setColumnType(DatabaseGlobals.getDataTypeFromString(columns[i].columnType));
@@ -70,7 +71,7 @@ namespace CSConnect {
             this.parameters.clear();
             for(let i = 0; i < params.length; i++) {
                 // const param = self.parameters.find((_, p)  => p.getName() === params[i].name);
-                const param = this.parameters.add(null);
+                const param = this.parameters.add(null, "");
                 param.setValue(params[i].value);
                 param.setColumnType(DatabaseGlobals.getDataTypeFromString(params[i].type));
                 param.setPosition(i+1);

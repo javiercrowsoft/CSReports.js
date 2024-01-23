@@ -71,6 +71,7 @@ namespace CSReportEditor {
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;
     import P = CSKernelClient.Callable;
     import ServerConnection = CSDatabase.ServerConnection;
+    import csDataSourceType = CSReportGlobals.csDataSourceType;
 
     import Panel = CSForms.Panel;
     import PictureBox = CSForms.PictureBox;
@@ -1844,8 +1845,9 @@ namespace CSReportEditor {
             connect.setDataSource(this.report.getConnect().getDataSource());
             connect.setDataSourceType(this.report.getConnect().getDataSourceType());
 
-            connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, (result) => {
-                if(result) cGlobals.setParametersAux(connect, this.report.getConnect());
+            return connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, (result) => {
+                if(result.success) cGlobals.setParametersAux(connect, this.report.getConnect());
+                return result;
             }));
         }
 
@@ -6289,6 +6291,7 @@ namespace CSReportEditor {
 
         public setDataSource(dataSource: string) {
             this.report.getConnect().setDataSource(dataSource);
+            this.report.getConnect().setDataSourceType(csDataSourceType.CS_DT_PROCEDURE);
         }
     }
 

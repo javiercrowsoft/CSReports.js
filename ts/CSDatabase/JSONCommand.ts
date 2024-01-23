@@ -32,7 +32,7 @@ namespace CSDatabase {
             let startIndex: number = cmdText.indexOf("exec");
 
             if(startIndex < 0) {
-                throw new ArgumentException("The command text for this command object is invalid. Format must be 'exec [SP_NAME] parathis.list");
+                throw new ArgumentException("The command text for this command object is invalid. Format must be 'exec [SP_NAME] param list");
             }
 
             startIndex += 5;

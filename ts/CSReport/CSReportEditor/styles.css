@@ -243,6 +243,7 @@ header nav ul li {
 }
 
 input[type=text],
+input[type=password],
 input[type=number],
 select {
     display: block;

@@ -183,8 +183,12 @@ namespace CSOAPI {
             return null;
         }
 
-        public forEachValue(f: (T) => void) {
+        public forEachValue(f: (v: T) => void) {
             this.values.forEach(f);
+        }
+
+        public map<U>(f: (v: T) => U): U[] {
+            return this.values.map(f);
         }
 
         public getChunk(start: number, size: number) {

@@ -506,7 +506,28 @@ namespace CSReportEditor {
         public setParamsAndExecuteClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).setParamsAndExecute(this.serverConnection);
+                (editor as cEditor).setParamsAndExecute(this.serverConnection).then(P.call(this, (result)=> {
+
+                    const content = {
+                        action: 'preview',
+                        data: {
+                            code: result.dataSource.name,
+                            data: [{
+                                data: result.dataSource.recordset,
+                                name: result.dataSource.name
+                            }],
+                            file: result.dataSource.name + '.csr',
+                            name: result.dataSource.name,
+                            params: (editor as cEditor).getReport().getConnect().getParameters().map(p => { return {name: p.getName(), value: p.getValue()} }),
+                            title: result.dataSource.name,
+                            type: '-',
+                            url: '-'
+                        },
+                        webReportId: '-'
+                    }
+
+                    this.debugData.add({name: result.dataSource.name, content: content as any}, (editor as cEditor).getId());
+                }));
             }
         }
 

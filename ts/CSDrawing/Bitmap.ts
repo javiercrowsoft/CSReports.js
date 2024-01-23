@@ -170,6 +170,10 @@ namespace CSDrawing {
                 this._size = new SizeF(this._imageBitmap.width, this._imageBitmap.height);
             }
         }
+
+        public dispose() {
+
+        }
     }
 
     export class OffscreenGraphic {

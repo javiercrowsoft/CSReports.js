@@ -47,5 +47,10 @@ namespace CSOAPI {
         setInput(input: string) {
             this.input.value = input;
         }
+
+        setInputType(inputType: string) {
+            this.input.type = inputType;
+        }
+
     }
 }

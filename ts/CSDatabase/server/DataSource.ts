@@ -56,7 +56,7 @@ namespace CSDatabase {
         }
 
         getStringConnection() {
-            return this.url + "/" + this.name;
+            return this.name;
         }
 
         static load(url: string, dataSource: DataSource) {

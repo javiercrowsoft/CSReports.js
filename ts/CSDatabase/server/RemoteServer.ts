@@ -59,7 +59,8 @@ namespace CSDatabase {
             else {
                 return U.getInput("",
                                 "Input the password to connect to " + this.getServerUrl(),
-                                "Password").then(P.call(this,
+                                "API Secret",
+                                "password").then(P.call(this,
                     (result) => {
                         if(result.success) {
                             this.secret = result.value;
