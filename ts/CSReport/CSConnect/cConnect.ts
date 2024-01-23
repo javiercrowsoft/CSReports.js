@@ -56,6 +56,7 @@ namespace CSConnect {
                         else return { success: false, dataSource: null };
                     }));
                 }
+                return { success: false, dataSource: null };
             }));
 		}
 

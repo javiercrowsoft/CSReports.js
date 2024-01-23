@@ -1732,6 +1732,13 @@ namespace CSReportEngine {
                     this.table = dtr.get();
                     this.tables[0] = this.table; // the first element contains the main recordset
 
+                    if(this.table !== null) {
+                        this.recordCount = this.vRowsIndex.length;
+                    }
+                    else {
+                        this.recordCount = 0;
+                    }
+
                     this.pInitImages();
 
                     return true;
@@ -4090,7 +4097,7 @@ namespace CSReportEngine {
         }
 
         private getDataAux(recordSets: (object|string)[][]) {
-            let p = P._<boolean>(null);
+            let p = P._<boolean>(true);
             for(let _i = 0; _i < this.connectsAux.count(); _i++) {
                 p = p.then(P.call(this, (result) => {
                     if(result === false) return false;
@@ -4260,16 +4267,9 @@ namespace CSReportEngine {
                 }
 
                 return p.then(P.call(this, () => {
-                    if(this.table !== null) {
-                        this.recordCount = this.vRowsIndex.length;
-                    }
-                    else {
-                        this.recordCount = 0;
-                    }
                     this.iRow = 0;
                     this.idxGroupHeader = this.NO_GROUP_INDEX;
                     this.idxGroupFooter = this.NO_GROUP_INDEX;
-
                     return true;
                 }));
             }));
