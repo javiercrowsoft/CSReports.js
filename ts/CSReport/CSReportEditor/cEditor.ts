@@ -486,24 +486,6 @@ namespace CSReportEditor {
             }));
         }
 
-        /* delete me this was replace by other code
-
-        public editSection(secKey: string) {
-            try {
-                let bIsSecLn = new RefWrapper(false);
-                this.selectSection(secKey, bIsSecLn);
-
-                if(bIsSecLn.get()) {
-                    this.showSecLnProperties();
-                }
-                else {
-                    this.showProperties2();
-                }
-            } catch(ex) {
-                cError.mngError(ex);
-            }
-        }*/
-
         public setFocusCtrl(ctrlKey: string) {
             try {
                 this.selectCtrl(ctrlKey);
@@ -1157,12 +1139,18 @@ namespace CSReportEditor {
                             cMainEditor.showProperties("S" + po.getTag(), true);
                         }
                         else {
-                            this.showPopMenuControl(true, x, y);
+                            event.preventDefault && event.preventDefault();
+                            event.stopPropagation && event.stopPropagation();
+                            event.cancelBubble = true;
+                            this.showPopMenuControl(true, x, y, event);
                             cMainEditor.showProperties(po.getTag());
                         }
                     }
                     else {
-                        this.showPopMenuControl(false, x, y);
+                        event.preventDefault && event.preventDefault();
+                        event.stopPropagation && event.stopPropagation();
+                        event.cancelBubble = true;
+                        this.showPopMenuControl(false, x, y, event);
                     }
                 }
 
@@ -5105,7 +5093,7 @@ namespace CSReportEditor {
             this.fMain.showPopMenuSection(this, noDelete, showGroups, this.picReport.pointToScreen(new Point(x, y)));
         }
 
-        private showPopMenuControl(clickInCtrl: boolean, x: number, y: number) {
+        private showPopMenuControl(clickInCtrl: boolean, x: number, y: number, event: any) {
 
             let pasteEnabled: boolean = false;
 
@@ -5116,7 +5104,7 @@ namespace CSReportEditor {
                 pasteEnabled = this.fMain.getReportCopySource().getVCopyKeysCount() > 0;
             }
 
-            this.fMain.showPopMenuControl(this, clickInCtrl, pasteEnabled, this.picReport.pointToScreen(new Point(x, y)));
+            this.fMain.showPopMenuControl(this, clickInCtrl, pasteEnabled, this.picReport.pointToScreen(new Point(x, y)), event);
         }
 
         private fGroup_UnloadForm() {

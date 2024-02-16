@@ -105,14 +105,13 @@
                 </li>
             </ul>
         </div>
-
     </header>
     <ul class="toolbar">
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.newReportClick()"><img src="images/toolbar/file.png">New</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.openReportClick()"><img src="images/toolbar/folder-bw.png">Open</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.saveReportClick()"><img src="images/toolbar/disk-bw.png">Save</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
-        <li><a href="#">DB Connections</a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.setConnectionClick()">DB Connections</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.debugReportClick()"><img src="images/toolbar/debug.png">Debug</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.loadDataClick()"><img src="images/toolbar/settings.png">Load Data</a></li>
     </ul>
@@ -619,7 +618,7 @@ End Function
 </div>
 
 <footer>
-    <p>footer</p>
+    <p>CrowSoft CSReports 2024 - javier@crowsoft.com.ar</p>
 </footer>
 
 <!-- popup dialogs -->
@@ -890,6 +889,23 @@ End Function
         </div>
     </div>
 </div>
+
+<!-- popup menu -->
+<div id="popup-menu-control" class="popup-menu">
+            <ul>
+                <li><a id="cmCtrlCopy" onclick="CSReportEditor.cMainEditor.fMain.ctrlCopyClick()">Copy</a></li>
+                <li><a id="cmCtrlPaste" onclick="CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste</a></li>
+                <li><a id="cmCtrlPasteEx" onclick="CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste Special</a></li>
+                <li class="divider"></li>
+                <li><a id="cmCtrlDelete" onclick="CSReportEditor.cMainEditor.fMain.ctrlDeleteClick()">Delete</a></li>
+                <li class="divider"></li>
+                <li><a id="cmCtrlEditText" onclick="CSReportEditor.cMainEditor.fMain.ctrlEditClick()">Edit</a></li>
+                <li class="divider"></li>
+                <li><a id="cmCtrlSendBack" onclick="CSReportEditor.cMainEditor.fMain.ctrlSendBackClick()">Send Back</a></li>
+                <li><a id="cmCtrlBringFront"  onclick="CSReportEditor.cMainEditor.fMain.ctrlBringFrontClick()">Bring Front</a></li>
+            </ul>
+</div>
+
 </body>
 <script type="text/javascript" src="csreports.js"></script>
 <script defer>

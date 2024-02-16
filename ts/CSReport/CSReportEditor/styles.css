@@ -946,3 +946,44 @@ ul.toolbar a:hover {
     height: 20px;
     background-color: #4CAF50;
 }
+
+.popup-menu {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    padding: 10px;
+    margin: 0px;
+    bottom: 0;
+    z-index: 10000;
+    display: none;
+}
+
+.popup-menu li a {
+    background-color: #5f5656;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 18px;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.popup-menu li a:hover {
+    background-color: #333;
+}
+
+.popup-menu ul {
+    display: block;
+    position: absolute;
+    min-width: 140px;
+}
+
+
+.popup-menu ul li {
+    position: relative;
+}
+
+.popup-menu ul li ul {
+    right: -140px;
+    top: 0px;
+}

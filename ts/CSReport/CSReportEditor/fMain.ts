@@ -67,10 +67,6 @@ namespace CSReportEditor {
 
         private mainView;
         private tabReports: TabBar;
-        /*private tbpEditor: TabPage;
-        private pnEditor: Panel;
-        private pnRule: PictureBox;
-        private pnReport: PictureBox;*/
 
         private editorIndex = 0;
 
@@ -87,6 +83,8 @@ namespace CSReportEditor {
         private columnsDlg: FColumns = new FColumns();
 
         private serverConnection: ServerConnection = new ServerConnection();
+
+        private popupMenuControl: HTMLDivElement = null;
 
         public constructor() {
             // it is the first thing we need to do
@@ -119,6 +117,12 @@ namespace CSReportEditor {
 
             const fontsNode = U.el('ctrl-font') as HTMLSelectElement;
             Font.availableFonts().then((fonts) => fonts.forEach((font)=> fontsNode.add(new Option(font))));
+
+            this.setPopUpMenus();
+        }
+
+        private setPopUpMenus() {
+            this.popupMenuControl = U.el("popup-menu-control") as HTMLDivElement;
         }
 
         public init() {
@@ -613,7 +617,15 @@ namespace CSReportEditor {
              */
         }
 
-        public showPopMenuControl(editor: cEditor, clickInCtrl: boolean, pasteEnabled: boolean, p: Point) {
+        public showPopMenuControl(editor: cEditor, clickInCtrl: boolean, pasteEnabled: boolean, p: Point, event: any) {
+
+            setTimeout(P.call(this, () => {
+                this.popupMenuControl.style.display = "block";
+                this.popupMenuControl.style.top = `${event.pageY}px`;
+                this.popupMenuControl.style.left = `${event.pageX}px`;
+            }), 100);
+
+            // this.popupMenuControl.style.display = "none";
             /*
             cmCtrlCopy.setEnabled(clickInCtrl);
             cmCtrlDelete.setEnabled(clickInCtrl);
@@ -724,20 +736,6 @@ namespace CSReportEditor {
                 (editor as cEditor).showProperties2();
             }
         }*/
-
-        private mnuDataBaseSQLServerConnection_Click(sender: object, e: any) {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).setSimpleConnection();
-            }
-        }
-
-        private mnuDataBaseConnectConfig_Click(sender: object, e: any) {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).editConnectionString();
-            }
-        }
 
         public showControls(editor: cEditor) {
             this.lv_controls.clear();
@@ -1074,17 +1072,6 @@ namespace CSReportEditor {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).moveGroup();
-            }
-        }
-
-        private tsbDatabase_Click(sender: object, e: any) {
-            this.mnuDataBaseConnectConfig_Click(sender, e);
-        }
-
-        private mnuDataBaseSetToMainConnect_Click(sender: object, e: any) {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).setAllConnectToMainConnect();
             }
         }
 

@@ -26,6 +26,7 @@ namespace CSForms {
             this.canvas.style.top = "0px";
             this.canvas.width = 1;
             this.canvas.height = 1;
+            this.canvas.oncontextmenu = (e) => { e.preventDefault(); };
             this.graphic = new Graphic(this.canvas, name);
 
             // @ts-ignore
@@ -53,7 +54,7 @@ namespace CSForms {
         }
 
         public pointToScreen(point: Point) {
-            return undefined;
+            return point;
         }
 
         setPaint(paint: (sender: object, e: { graphics: Graphic }) => void) {
