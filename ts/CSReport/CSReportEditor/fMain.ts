@@ -85,6 +85,13 @@ namespace CSReportEditor {
         private serverConnection: ServerConnection = new ServerConnection();
 
         private popupMenuControl: HTMLDivElement = null;
+        private cmCtrlCopy: HTMLAnchorElement = null;
+        private cmCtrlDelete: HTMLAnchorElement = null;
+        private cmCtrlSendBack: HTMLAnchorElement = null;
+        private cmCtrlBringFront: HTMLAnchorElement = null;
+        private cmCtrlPaste: HTMLAnchorElement = null;
+        private cmCtrlPasteEx: HTMLAnchorElement = null;
+
 
         public constructor() {
             // it is the first thing we need to do
@@ -118,11 +125,19 @@ namespace CSReportEditor {
             const fontsNode = U.el('ctrl-font') as HTMLSelectElement;
             Font.availableFonts().then((fonts) => fonts.forEach((font)=> fontsNode.add(new Option(font))));
 
+            document.onclick = P.call(this, this.hideContextMenu);
+
             this.setPopUpMenus();
         }
 
         private setPopUpMenus() {
             this.popupMenuControl = U.el("popup-menu-control") as HTMLDivElement;
+            this.cmCtrlCopy = U.el("cmctrl-copy") as HTMLAnchorElement;
+            this.cmCtrlDelete = U.el("cmctrl-delete") as HTMLAnchorElement;
+            this.cmCtrlSendBack = U.el("cmctrl-send-back") as HTMLAnchorElement;
+            this.cmCtrlBringFront = U.el("cmctrl-bring-front") as HTMLAnchorElement;
+            this.cmCtrlPaste = U.el("cmctrl-paste") as HTMLAnchorElement;
+            this.cmCtrlPasteEx = U.el("cmctrl-paste-ex") as HTMLAnchorElement;
         }
 
         public init() {
@@ -595,13 +610,6 @@ namespace CSReportEditor {
 
         //------------------------------------------------------------------------------------------------------------------
 
-        /* delete me this was replace by other code
-
-        private cmCtrlProperties_Click(sender: object, e: any) {
-            if(this.contextMenuEditor !== null) {
-                this.contextMenuEditor.showProperties2();
-            }
-        }*/
 
         public showPopMenuSection(editor: cEditor, noDelete: boolean, showGroups: boolean, p: Point) {
             /*
@@ -617,6 +625,10 @@ namespace CSReportEditor {
              */
         }
 
+        public hideContextMenu(_: MouseEvent) {
+            this.popupMenuControl.style.display = "none";
+        }
+
         public showPopMenuControl(editor: cEditor, clickInCtrl: boolean, pasteEnabled: boolean, p: Point, event: any) {
 
             setTimeout(P.call(this, () => {
@@ -625,23 +637,27 @@ namespace CSReportEditor {
                 this.popupMenuControl.style.left = `${event.pageX}px`;
             }), 100);
 
-            // this.popupMenuControl.style.display = "none";
-            /*
-            cmCtrlCopy.setEnabled(clickInCtrl);
-            cmCtrlDelete.setEnabled(clickInCtrl);
-            cmCtrlEditText.setEnabled(clickInCtrl);
-            cmCtrlSendBack.setEnabled(clickInCtrl);
-            cmCtrlBringFront.setEnabled(clickInCtrl);
-            cmCtrlProperties.setEnabled(clickInCtrl);
-
-            cmCtrlPaste.setEnabled(pasteEnabled);
-            cmCtrlPasteEx.setEnabled(pasteEnabled);
+            this.setEnabledMenu(this.cmCtrlCopy, clickInCtrl);
+            this.setEnabledMenu(this.cmCtrlDelete, clickInCtrl);
+            this.setEnabledMenu(this.cmCtrlSendBack, clickInCtrl);
+            this.setEnabledMenu(this.cmCtrlBringFront, clickInCtrl);
+            this.setEnabledMenu(this.cmCtrlPaste, pasteEnabled);
+            this.setEnabledMenu(this.cmCtrlPasteEx, pasteEnabled);
 
             this.contextMenuEditor = editor;
+        }
 
-            cmnControl.Show(p);
-
-             */
+        private setEnabledMenu(menu: HTMLAnchorElement, enabled: boolean) {
+            if(! enabled) {
+                menu.style.pointerEvents="none";
+                menu.style.cursor="default";
+                menu.style.color = "#ccc";
+            }
+            else {
+                menu.style.pointerEvents="auto";
+                menu.style.cursor="pointer";
+                menu.style.color = "#fff";
+            }
         }
 
         public showDbFields(field: string, editor: cEditor) {

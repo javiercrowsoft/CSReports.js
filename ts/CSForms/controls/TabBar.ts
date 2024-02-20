@@ -41,7 +41,7 @@ namespace CSForms {
                 // console.log("open " + tabPage.getText());
                 tabPage.getElement().style.display = 'block';
                 tabPage.getSelectedFlag().style.display = 'block';
-                event.stopPropagation();
+                // event.stopPropagation();
                 // @ts-ignore
                 if(event.raisedByCode === undefined) tabPage.showTab();
             };
@@ -52,7 +52,7 @@ namespace CSForms {
                 // console.log("close " + tabPage.getText());
                 tabPage.getElement().style.display = 'none';
                 tabSelectorNode.parentNode.removeChild(tabSelectorNode);
-                event.stopPropagation();
+                // event.stopPropagation();
                 if(tabPage.onClose) tabPage.onClose();
                 this.tabBar.getControls().removeByObject(tabPage);
                 this.selectorFlags.removeByObject(tabPage.getSelectedFlag());
