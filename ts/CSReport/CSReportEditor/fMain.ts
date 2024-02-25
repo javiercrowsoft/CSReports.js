@@ -138,6 +138,12 @@ namespace CSReportEditor {
             this.cmCtrlBringFront = U.el("cmctrl-bring-front") as HTMLAnchorElement;
             this.cmCtrlPaste = U.el("cmctrl-paste") as HTMLAnchorElement;
             this.cmCtrlPasteEx = U.el("cmctrl-paste-ex") as HTMLAnchorElement;
+            this.cmCtrlCopy.onclick = P.call(this, this.copy);
+            this.cmCtrlDelete.onclick = P.call(this, this.delete);
+            this.cmCtrlSendBack.onclick = P.call(this, this.sendBack);
+            this.cmCtrlBringFront.onclick = P.call(this, this.bringFront);
+            this.cmCtrlPaste.onclick = P.call(this, this.pasteClick);
+            this.cmCtrlPasteEx.onclick = P.call(this, this.pasteExClick);
         }
 
         public init() {
@@ -1152,38 +1158,22 @@ namespace CSReportEditor {
             }
         }
 
-        private mnuCopy_Click(sender: object, e: any) {
-            this.copy();
-        }
-
         private paste(dontMove: boolean) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).paste(false);
+                (editor as cEditor).paste(dontMove);
             }
         }
 
-        private mnuPaste_Click(sender: object, e: any) {
+        private pasteClick() {
             this.paste(false);
         }
 
-        private mnuPasteSpecial_Click(sender: object, e: any) {
+        private pasteExClick() {
             this.paste(true);
         }
 
-        private cmCtrlCopy_Click(sender: object, e: any) {
-            this.copy();
-        }
-
-        private cmCtrlPaste_Click(sender: object, e: any) {
-            this.paste(false);
-        }
-
-        private cmCtrlPasteEx_Click(sender: object, e: any) {
-            this.paste(true);
-        }
-
-        private cmCtrlDelete_Click(sender: object, e: any) {
+        private delete() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).deleteObj(false);
@@ -1205,14 +1195,14 @@ namespace CSReportEditor {
             this.printReport();
         }
 
-        private cmCtrlBringFront_Click(sender: object, e: any) {
+        private bringFront() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).bringToFront();
             }
         }
 
-        private cmCtrlSendBack_Click(sender: object, e: any) {
+        private sendBack() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).sendToBack();
