@@ -101,5 +101,9 @@ namespace CSForms {
             this.el.onchange = f;
         }
 
+        isVisible() {
+            const style = window.getComputedStyle(this.el);
+            return (style.display !== 'none');
+        }
     }
 }

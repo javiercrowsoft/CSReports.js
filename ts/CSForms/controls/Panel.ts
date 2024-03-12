@@ -7,9 +7,5 @@ namespace CSForms {
         public constructor(name: string, el: HTMLElement) {
             super(el);
         }
-
-        isVisible() {
-            return false;
-        }
     }
 }

@@ -143,7 +143,7 @@ namespace CSReportEditor {
             this.cmCtrlSendBack.onclick = P.call(this, this.sendBack);
             this.cmCtrlBringFront.onclick = P.call(this, this.bringFront);
             this.cmCtrlPaste.onclick = P.call(this, this.pasteClick);
-            this.cmCtrlPasteEx.onclick = P.call(this, this.pasteExClick);
+            this.cmCtrlPasteEx.onclick = P.call(this, this.pasteSpecialClick);
         }
 
         public init() {
@@ -739,7 +739,7 @@ namespace CSReportEditor {
             this.search();
         }
 
-        private mnuEditSearch_Click(sender: object, e: any) {
+        public searchClick(sender: object, e: any) {
             this.search();
         }
 
@@ -958,53 +958,6 @@ namespace CSReportEditor {
             }
         }
 
-        /* delete me it has been replaced
-        private tv_controls_KeyUp(sender: object, e: any) {
-            this.selectControl2(this.tv_controls.selectedNode());
-        }
-
-        private tv_controls_MouseDoubleClick(sender: object, e: any) {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor === null || ! editor.isEditor()) return;
-            if(this.tv_controls.selectedNode() !== null) {
-                if(this.tv_controls.selectedNode().tag !== null) {
-                    let info = this.tv_controls.selectedNode().tag.toString();
-                    if(info.length > 0) {
-                        let infoType = info.substring(0, 1);
-                        if("@".indexOf(infoType) === -1) {
-                            (editor as cEditor).showProperties(info);
-                        }
-                    }
-                }
-            }
-        }
-
-        private tv_controls_MouseDown(sender: object, e: any) {
-            this.wasDoubleClick = e.Clicks > 1;
-        }
-
-        private tv_controls_BeforeCollapse(sender: object, e: any) {
-            if(this.wasDoubleClick === true && e.Action === TreeViewAction.Collapse)
-                e.Cancel = true;
-        }
-
-        private tv_controls_BeforeExpand(sender: object, e: any) {
-            if(this.wasDoubleClick === true && e.Action === TreeViewAction.Expand)
-                e.Cancel = true;
-        }
-        */
-
-        /* delete me this was replace by other code
-
-        private lv_controls_MouseDoubleClick(sender: object, e: any) {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor === null || ! editor.isEditor()) return;
-            if(this.lv_controls.selectedItems().length > 0) {
-                let info = this.lv_controls.selectedItems[0].tag.toString();
-                (editor as cEditor).showProperties(info);
-            }
-        }*/
-
         public editAddHeaderClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
@@ -1165,11 +1118,11 @@ namespace CSReportEditor {
             }
         }
 
-        private pasteClick() {
+        public pasteClick() {
             this.paste(false);
         }
 
-        private pasteExClick() {
+        public pasteSpecialClick() {
             this.paste(true);
         }
 

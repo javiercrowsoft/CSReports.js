@@ -30,17 +30,17 @@
                 </li>
                 <li><a>Edit</a>
                     <ul>
-                        <li><a id="mnuEditCopy">Copy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+C</a></li>
-                        <li><a id="mnuEditPaste">Paste &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+V</a></li>
-                        <li><a id="mnuEditPasteSpecial">Paste Special</a></li>
+                        <li><a id="mnuEditCopy" onclick="CSReportEditor.cMainEditor.fMain.copyClick()">Copy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+C</a></li>
+                        <li><a id="mnuEditPaste" onclick="CSReportEditor.cMainEditor.fMain.pasteClick()">Paste &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+V</a></li>
+                        <li><a id="mnuEditPasteSpecial" onclick="CSReportEditor.cMainEditor.fMain.pasteSpecialClick()">Paste Special</a></li>
                         <li class="divider"></li>
-                        <li><a id="mnuEditSearch">Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+F</a></li>
+                        <li><a id="mnuEditSearch" onclick="CSReportEditor.cMainEditor.fMain.searchClick()">Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+F</a></li>
                         <li class="divider"></li>
                         <li><a>Sections</a>
                             <ul>
-                                <li><a id="mnuEditAddHeader">Add Header</a></li>
-                                <li><a id="mnuEditAddGroup">Add Group</a></li>
-                                <li><a id="mnuEditAddFooter">Add Footer</a></li>
+                                <li><a id="mnuEditAddHeader" onclick="CSReportEditor.cMainEditor.fMain.editAddHeaderClick()">Add Header</a></li>
+                                <li><a id="mnuEditAddGroup" onclick="CSReportEditor.cMainEditor.fMain.editAddGroupClick()">Add Group</a></li>
+                                <li><a id="mnuEditAddFooter" onclick="CSReportEditor.cMainEditor.fMain.editAddFooterClick()">Add Footer</a></li>
                             </ul>
                         </li>
                         <li><a>Controls</a>
@@ -55,11 +55,11 @@
                         <li class="divider"></li>
                         <li><a>Move</a>
                             <ul>
-                                <li><a id="mnuEditMoveHorizontal">Horizontal</a></li>
-                                <li><a id="mnuEditMoveVertical">Vertical</a></li>
-                                <li><a id="mnuEditMoveLocked">Locked</a></li>
-                                <li><a id="mnuEditMoveAll">All Directions</a></li>
-                                <li><a id="mnuEditMoveStep">Size of Step</a></li>
+                                <li><a id="mnuEditMoveHorizontal" onclick="CSReportEditor.cMainEditor.fMain.editMoveHorizontalClick()">Horizontal</a></li>
+                                <li><a id="mnuEditMoveVertical" onclick="CSReportEditor.cMainEditor.fMain.editMoveVerticalClick()">Vertical</a></li>
+                                <li><a id="mnuEditMoveLocked" onclick="CSReportEditor.cMainEditor.fMain.editMoveLockedClick()">Locked</a></li>
+                                <li><a id="mnuEditMoveFree" onclick="CSReportEditor.cMainEditor.fMain.editMoveFreeClick()">All Directions</a></li>
+                                <li><a id="mnuEditMoveStepSize" onclick="CSReportEditor.cMainEditor.fMain.editStepSizeClick()">Step Size</a></li>
                             </ul>
                         </li>
                     </ul>
