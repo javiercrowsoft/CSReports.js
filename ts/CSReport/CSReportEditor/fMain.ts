@@ -81,6 +81,7 @@ namespace CSReportEditor {
 
         private pageSetup: FPageSetup = new FPageSetup();
         private columnsDlg: FColumns = new FColumns();
+        private searchDlg: FSearch = new FSearch();
 
         private serverConnection: ServerConnection = new ServerConnection();
 
@@ -683,29 +684,6 @@ namespace CSReportEditor {
             return this.columnsDlg.showModal();
 		}
 
-        /* delete me this was replace by other code
-
-        private cmSectionSectionProperties_Click(sender: object, e: any) {
-            if(this.contextMenuEditor !== null) {
-                this.contextMenuEditor.showProperties2();
-            }
-        }*/
-
-        /* delete me this is implemented by other function
-
-        private cmSectionSectionLineProperties_Click(sender: object, e: any) {
-            if(this.contextMenuEditor !== null) {
-                this.contextMenuEditor.showSecLnProperties();
-            }
-        }
-        */
-
-        private cmSectionGroupProperties_Click(sender: object, e: any) {
-            if(this.contextMenuEditor !== null) {
-                this.contextMenuEditor.showCurrentGroupProperties();
-            }
-        }
-
         private mnuViewTreeViewCtrls_Click(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
@@ -735,29 +713,12 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbSearch_Click(sender: object, e: any) {
-            this.search();
-        }
-
-        public searchClick(sender: object, e: any) {
-            this.search();
-        }
-
-        private search() {
+        public searchClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).search();
+                this.searchDlg.show();
             }
         }
-
-        /* delete me this was replace by other code
-
-        private tsbProperties_Click(sender: object, e: any) {
-            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
-            if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).showProperties2();
-            }
-        }*/
 
         public showControls(editor: cEditor) {
             this.lv_controls.clear();
@@ -1057,19 +1018,19 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbAlignLeft_Click(sender: object, e: any) {
+        public alignLeftClick() {
             this.alignText(CSReportGlobals.HorizontalAlignment.Left);
         }
 
-        private tsbAligntCenter_Click(sender: object, e: any) {
+        public aligntCenterClick() {
             this.alignText(CSReportGlobals.HorizontalAlignment.Center);
         }
 
-        private tsbAlignRight_Click(sender: object, e: any) {
+        public alignRightClick() {
             this.alignText(CSReportGlobals.HorizontalAlignment.Right);
         }
 
-        private tsbBold_Click(sender: object, e: any) {
+        public boldClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).setFontBold();
@@ -1217,28 +1178,28 @@ namespace CSReportEditor {
              */
         }
 
-        private tsbCtrlAlignLeft_Click(sender: object, e: any) {
+        public ctrlAlignLeftClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignLeft);
             }
         }
 
-        private tsbCtrlAlignRight_Click(sender: object, e: any) {
+        public ctrlAlignRightClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignRight);
             }
         }
 
-        private tsbCtrlAlignTop_Click(sender: object, e: any) {
+        public ctrlAlignTopClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignTop);
             }
         }
 
-        private tsbCtrlAlignBottothis_Click(sender: object, e: any) {
+        public ctrlAlignBottomClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignBottom);
@@ -1259,14 +1220,14 @@ namespace CSReportEditor {
             }
         }
 
-        private tsbCtrlSameLeft_Click(sender: object, e: any) {
+        public ctrlAlignHorizontalClick(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignHorizontal);
             }
         }
 
-        private tsbCtrlSameTop_Click(sender: object, e: any) {
+        public ctrlAlignVerticalClick(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignVertical);

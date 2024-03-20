@@ -323,19 +323,6 @@ namespace CSReportEditor {
             this.dataHasChanged = rhs;
         }
 
-        public search() {
-            try {
-                let f: FSearch = cMainEditor.getSearch(this);
-                f.clear();
-                if(!f.getVisible()) {
-                    f.show(this.fMain);
-                }
-            }
-            catch(ex) {
-                cError.mngError(ex);
-            }
-        }
-
         public moveVertical() {
             this.formKeyUp(Keys.F11, false);
         }

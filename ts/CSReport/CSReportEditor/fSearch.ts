@@ -1,6 +1,9 @@
 namespace CSReportEditor {
 
+    import U = CSOAPI.Utils;
+    import P = CSKernelClient.Callable;
     import Form = CSForms.Form;
+    import Dialog = CSForms.Dialog;
     import cIReportGroupSections = CSReportEngine.cIReportGroupSections;
 
     enum csObjType {
@@ -16,14 +19,29 @@ namespace CSReportEditor {
 
     export class FSearch extends Form {
 
+        private el: HTMLElement;
+        private dialog: Dialog;
+
         private editor: cEditor = null;
         private editCtrl: (ctrlKey: string) => void;
         private focusSec: (secKey: string) => void;
 
         public constructor() {
             super();
-            // InitializeComponent();
+            this.el = U.el('search-dlg');
+            this.dialog = new Dialog(this.el, 'search-dlg-search', 'search-dlg-close');
+            this.dialog.onApply = P.call(this, this.cmdSearchClick);
+            super.setDialog(this.dialog);
         }
+
+        private cmdSearchClick() {
+            return true;
+        }
+
+        show() {
+            this.dialog.show({title: 'Columns', height: 600, width: 500, overlay: false});
+        }
+
 
         public clear() {
             // lv_controls.Items.clear();

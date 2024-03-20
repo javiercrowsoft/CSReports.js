@@ -30,10 +30,6 @@ namespace CSReportEditor {
             super.setDialog(this.dialog);
         }
 
-        public initDialog() {
-
-        }
-
         private cmdApplyClick() {
             return true;
         }
@@ -86,7 +82,7 @@ namespace CSReportEditor {
         }
 
         showModal() {
-            return this.dialog.show({title: 'Page Setup', height: 600, width: 500, overlay: true})
+            return this.dialog.show({title: 'Columns', height: 600, width: 500, overlay: true})
                         .then(P.call(this, (result)=> {
                             if(result) return {
                                                 success: true,

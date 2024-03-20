@@ -113,7 +113,17 @@
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.setConnectionClick()">DB Connections</a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.debugReportClick()"><img src="images/toolbar/debug.png">Debug</a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.loadDataClick()"><img src="images/toolbar/settings.png">Load Data</a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.alignLeftClick()"><img src="images/toolbar/text_align_left.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.aligntCenterClick()"><img src="images/toolbar/text_align_center.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.alignRightClick()"><img src="images/toolbar/text_align_right.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignLeftClick()"><img src="images/toolbar/control_align_left.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignTopClick()"><img src="images/toolbar/control_align_top.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignBottomClick()"><img src="images/toolbar/control_align_bottom.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignRightClick()"><img src="images/toolbar/control_align_right.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignHorizontalClick()"><img src="images/toolbar/control_align_horizontal.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignVerticalClick()"><img src="images/toolbar/control_align_vertical.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.boldClick()"><img src="images/toolbar/text_bold.png"></a></li>
+        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.searchClick()"><img src="images/toolbar/magnifying-glass-3-24.png"></a></li>
     </ul>
     <div id="main-view">
         <!-- Tab links -->
@@ -656,6 +666,25 @@ End Function
         </div>
     </div>
     <div id="search-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 style="margin-left: 15px;">Search</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                    <div class="row">
+                        <div id="search-lv-rows" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="search-dlg-search">Search</button>
+            <button id="search-dlg-close">Close</button>
+        </div>
     </div>
     <div id="page-setup-dlg">
         <div class="dlg-header">
