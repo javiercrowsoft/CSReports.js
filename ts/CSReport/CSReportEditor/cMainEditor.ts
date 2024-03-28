@@ -162,6 +162,7 @@ namespace CSReportEditor {
             return "";
         }
 
+        /* delete me
         public static getSearch(editor?: cEditor) {
             if(this.fSearch === null) {
                 this.fSearch = new FSearch();
@@ -169,6 +170,7 @@ namespace CSReportEditor {
             if(editor) this.fSearch.setHandler(editor);
             return this.fSearch;
         }
+        */
 
         public static getToolbox(editor?: cEditor) {
             if(this.fToolbox === null) {

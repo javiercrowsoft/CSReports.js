@@ -93,6 +93,10 @@ namespace CSForms {
             this.el.onchange = f;
         }
 
+        setOnKeyDown(f: (e: KeyboardEvent)=> void) {
+            this.el.onkeydown = f as any;
+        }
+
         setLostFocus(f: ()=> void) {
             this.el.blur = f;
         }

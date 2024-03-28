@@ -455,22 +455,6 @@ namespace CSReportEditor {
                     cError.mngError(ex);
                 }
             };
-
-            cMainEditor.getSearch(this).setEditCtrl(P.call(this, (ctrlKey: string) => {
-                try {
-                    this.selectCtrl(ctrlKey);
-                } catch(ex) {
-                    cError.mngError(ex);
-                }
-            }));
-
-            cMainEditor.getSearch(this).setFocusSec(P.call(this, (secKey: string) => {
-                try {
-                    this.selectSection(secKey);
-                } catch(ex) {
-                    cError.mngError(ex);
-                }
-            }));
         }
 
         public setFocusCtrl(ctrlKey: string) {

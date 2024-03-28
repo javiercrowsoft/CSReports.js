@@ -716,6 +716,7 @@ namespace CSReportEditor {
         public searchClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
+                this.searchDlg.setHandler(editor as cEditor);
                 this.searchDlg.show();
             }
         }

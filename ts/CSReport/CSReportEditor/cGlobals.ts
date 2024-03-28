@@ -426,13 +426,6 @@ namespace CSReportEditor {
                 let info = U.setInfoString("", index, column.getPosition().toString());
                 info = U.setInfoString(info, fieldType, column.getColumnType().toString());
                 item.tag = info;
-
-                // TODO: delete me
-                // let item = lvColumns.add("{" + dataSource + "}." + column.getName());
-                // item.setImageIndex(0);
-                // let info: string = cUtil.setInfoString("", index, column.getPosition().toString());
-                // info = cUtil.setInfoString(info, fieldType, column.getColumnType().toString());
-                // item.tag = info;
             }
         }
     }

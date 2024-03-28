@@ -2,9 +2,16 @@ namespace CSReportEditor {
 
     import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;
+    import cWindow = CSKernelClient.cWindow;
     import Form = CSForms.Form;
     import Dialog = CSForms.Dialog;
+    import TextBox = CSForms.TextBox;
+    import ListView = CSForms.ListView;
     import cIReportGroupSections = CSReportEngine.cIReportGroupSections;
+    import cReportSectionLine = CSReportEngine.cReportSectionLine;
+    import cReportSection = CSReportEngine.cReportSection;
+    import cReportControl = CSReportEngine.cReportControl;
+    import csRptControlType = CSReportGlobals.csRptControlType;
 
     enum csObjType {
         iTypeFormulaH = 1,
@@ -23,135 +30,130 @@ namespace CSReportEditor {
         private dialog: Dialog;
 
         private editor: cEditor = null;
-        private editCtrl: (ctrlKey: string) => void;
-        private focusSec: (secKey: string) => void;
+        private txSearchText: TextBox;
+        private lvControls: ListView;
 
         public constructor() {
             super();
             this.el = U.el('search-dlg');
-            this.dialog = new Dialog(this.el, 'search-dlg-search', 'search-dlg-close');
-            this.dialog.onApply = P.call(this, this.cmdSearchClick);
+            this.dialog = new Dialog(this.el, 'search-dlg-edit', 'search-dlg-close');
+            this.dialog.onApply = P.call(this, this.cmdEditClick);
+            this.txSearchText = new TextBox(U.inputEl("search-text"));
+            this.txSearchText.setOnKeyDown(P.call(this, this.searchTextKeyDown));
+            this.lvControls = new ListView("lvControls", U.el("search-lv-rows"));
+            this.lvControls.createHeaders(['Name', 'Found in']);
+            this.lvControls.state.onclick = P.call(this, this.lvControlsClick);
             super.setDialog(this.dialog);
         }
 
-        private cmdSearchClick() {
+        private cmdEditClick() {
             return true;
         }
 
         show() {
-            this.dialog.show({title: 'Columns', height: 600, width: 500, overlay: false});
+            this.dialog.show({title: 'Columns', height: 600, width: 900, overlay: false});
         }
 
 
         public clear() {
-            // lv_controls.Items.clear();
+            this.lvControls.clear();
         }
 
-        private cmd_search_Click(sender: object, e: object) {
-            // if(tx_toSearch.Text.trim() === "") {
-            //     cWindow.msgInfo("You must input some text to search");
-            // }
-            // else  {
-            //     let report: cReport = this.editor.getReport();
-            //     searchInSections(report.getHeaders(), csObjType.iTypeSec);
-            //     searchInSections(report.getGroupsHeaders(), csObjType.iTypeSecG);
-            //     searchInSections(report.getDetails(), csObjType.iTypeSec);
-            //     searchInSections(report.getGroupsFooters(), csObjType.iTypeSecG);
-            //     searchInSections(report.getFooters(), csObjType.iTypeSec);
-            // }
+        public searchTextKeyDown(e: KeyboardEvent) {
+            if(e.key === 'Enter') {
+                this.clear();
+                if(this.txSearchText.getText().trim() === "") {
+                    cWindow.msgInfo("You must input some text to search");
+                }
+                else  {
+                    const report = this.editor.getReport();
+                    this.searchInSections(report.getHeaders(), csObjType.iTypeSec);
+                    this.searchInSections(report.getGroupsHeaders(), csObjType.iTypeSecG);
+                    this.searchInSections(report.getDetails(), csObjType.iTypeSec);
+                    this.searchInSections(report.getGroupsFooters(), csObjType.iTypeSecG);
+                    this.searchInSections(report.getFooters(), csObjType.iTypeSec);
+                }
+            }
         }
 
         private searchInSections(sections: cIReportGroupSections, objType: csObjType) {
-            // let sec: cReportSection;
-            // let secLn: cReportSectionLine;
-            // let ctrl: cReportControl;
-            // let toSearch: string;
-            //
-            // toSearch = tx_toSearch.Text.toLowerCase();
-            //
-            // for(let i = 0; i < sections.count(); i++) {
-            //     sec = sections.item(i);
-            //     if(sec.getName().toLowerCase().indexOf(toSearch) > -1) {
-            //         pAddToSearchResult(sec.getName(), objType, objType, "S" + sec.getKey());
-            //     }
-            //     if(sec.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
-            //         pAddToSearchResult(sec.getName(), objType, csObjType.iTypeFormulaH, "S" + sec.getKey(), sec.getFormulaHide().getText());
-            //     }
-            //     for(let j = 0; j < sec.getSectionLines().count(); j++) {
-            //         secLn = sec.getSectionLines().item(j);
-            //         if(secLn.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
-            //             pAddToSearchResult(sec.getName() + " - Line " + secLn.getIndex().toString(),
-            //                 csObjType.iTypeSecLn, csObjType.iTypeFormulaH, "S" + sec.getKey(), secLn.getFormulaHide().getText());
-            //         }
-            //         for(var t = 0; t < secLn.getControls().count(); t++) {
-            //             ctrl = secLn.getControls().item(t);
-            //             if(ctrl.getName().toLowerCase().indexOf(toSearch) > -1) {
-            //                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeCtrl, ctrl.getKey());
-            //             }
-            //             if(ctrl.getControlType() === csRptControlType.CS_RPT_CT_FIELD
-            //                 || ctrl.getControlType() === csRptControlType.CS_RPT_CT_DB_IMAGE) {
-            //                 if(ctrl.getField().getName().toLowerCase().indexOf(toSearch) > -1) {
-            //                     pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeDbField, ctrl.getKey(), ctrl.getField().getName());
-            //                 }
-            //             }
-            //             else {
-            //                 if(ctrl.getLabel().getText().indexOf(toSearch) > -1) {
-            //                     pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeText, ctrl.getKey(), ctrl.getLabel().getText());
-            //                 }
-            //             }
-            //             if(ctrl.getFormulaValue().getText().toLowerCase().indexOf(toSearch) > -1) {
-            //                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeFormulaV, ctrl.getKey(), ctrl.getFormulaValue().getText());
-            //             }
-            //             if(ctrl.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
-            //                 pAddToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeFormulaH, ctrl.getKey(), ctrl.getFormulaHide().getText());
-            //             }
-            //         }
-            //     }
-            // }
+            let sec: cReportSection;
+            let secLn: cReportSectionLine;
+            let ctrl: cReportControl;
+            let toSearch: string;
+
+            toSearch = this.txSearchText.getText().toLowerCase();
+
+            for(let i = 0; i < sections.count(); i++) {
+                sec = sections.item(i);
+                if(sec.getName().toLowerCase().indexOf(toSearch) > -1) {
+                    this.addToSearchResult(sec.getName(), objType, objType, "S" + sec.getKey());
+                }
+                if(sec.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
+                    this.addToSearchResultAt(sec.getName(), objType, csObjType.iTypeFormulaH, "S" + sec.getKey(), sec.getFormulaHide().getText());
+                }
+                for(let j = 0; j < sec.getSectionLines().count(); j++) {
+                    secLn = sec.getSectionLines().item(j);
+                    if(secLn.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
+                        this.addToSearchResultAt(sec.getName() + " - Line " + secLn.getIndex().toString(),
+                            csObjType.iTypeSecLn, csObjType.iTypeFormulaH, "S" + sec.getKey(), secLn.getFormulaHide().getText());
+                    }
+                    for(var t = 0; t < secLn.getControls().count(); t++) {
+                        ctrl = secLn.getControls().item(t);
+                        if(ctrl.getName().toLowerCase().indexOf(toSearch) > -1) {
+                            this.addToSearchResult(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeCtrl, ctrl.getKey());
+                        }
+                        if(ctrl.getControlType() === csRptControlType.RPT_CT_FIELD
+                            || ctrl.getControlType() === csRptControlType.RPT_CT_DB_IMAGE) {
+                            if(ctrl.getField().getName().toLowerCase().indexOf(toSearch) > -1) {
+                                this.addToSearchResultAt(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeDbField, ctrl.getKey(), ctrl.getField().getName());
+                            }
+                        }
+                        else {
+                            if(ctrl.getLabel().getText().indexOf(toSearch) > -1) {
+                                this.addToSearchResultAt(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeText, ctrl.getKey(), ctrl.getLabel().getText());
+                            }
+                        }
+                        if(ctrl.getFormulaValue().getText().toLowerCase().indexOf(toSearch) > -1) {
+                            this.addToSearchResultAt(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeFormulaV, ctrl.getKey(), ctrl.getFormulaValue().getText());
+                        }
+                        if(ctrl.getFormulaHide().getText().toLowerCase().indexOf(toSearch) > -1) {
+                            this.addToSearchResultAt(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeFormulaH, ctrl.getKey(), ctrl.getFormulaHide().getText());
+                        }
+                    }
+                }
+            }
         }
 
-        private pAddToSearchResult(name: string, objType: csObjType, objType2: csObjType, key: string) {
-            // pAddToSearchResult(name, objType, objType2, key, "");
+        private addToSearchResult(name: string, objType: csObjType, objType2: csObjType, key: string) {
+            this.addToSearchResultAt(name, objType, objType2, key, "");
         }
 
-        private pAddToSearchResultAt(name: string, objType: csObjType, objType2: csObjType, key: string, where: string) {
-            // let item = lv_controls.Items.Add(name);
-            // item.ImageIndex = objType === objType2 ? (int)objType : (int)objType2;
-            // item.SubItems.Add(where);
-            // item.Tag = key;
+        private addToSearchResultAt(name: string, objType: csObjType, objType2: csObjType, key: string, where: string) {
+            let item = this.lvControls.add(name);
+            item.setImageIndex(objType === objType2 ? objType : objType2);
+            item.subItems.add(where);
+            item.tag = key;
         }
 
         public setHandler(editor: cEditor) {
             this.editor = editor;
         }
 
-        private cmd_close_Click(sender: object, e: object) {
-            // this.Close();
+        private lvControlsClick(item) {
+            this.selectControl(item);
         }
 
-        private cmd_edit_Click(sender: object, e: object) {
-            // if(lv_controls.SelectedItems.Count > 0) {
-            //     let info = lv_controls.SelectedItems[0].Tag.toString();
-            //     this.editor.showProperties(info);
-            // }
+        private selectControl(item) {
+            if(item) {
+                let info = item.tag.toString();
+                if(info.length && info.charAt(0) === 'S') {
+                    this.editor.selectSection(info.substring(1));
+                }
+                else {
+                    this.editor.selectCtrl(info);
+                }
+            }
         }
-
-        private lv_controls_KeyUp(sender: object, e: object) {
-            // selectControl();
-        }
-
-        private lv_controls_MouseClick(sender: object, e: object) {
-            // selectControl();
-        }
-
-        private selectControl() {
-            // if(lv_controls.SelectedItems.Count > 0) {
-            //     let info = lv_controls.SelectedItems[0].Tag.toString();
-            //     this.editor.selectCtrl(info);
-            // }
-        }
-
-        public setEditCtrl = (f: (ctrlKey: string) => void ): void => { this.editCtrl = f; }
-        public setFocusSec = (f: (secKey: string) => void ): void => { this.focusSec = f; }
     }
 }
