@@ -65,6 +65,7 @@ namespace CSReportEditor {
                 if(this.fTreeViewCtrls !== null && U.isVisible(this.fTreeViewCtrls)) {
                     if(this.getCtrlTreeBox(editor) !== null) { editor.showControlsTree(); }
                 }
+                this.fMain.setZoom((editor.getZoom() * 100).toString());
             }
             else {
                 if(this.fToolbox !== null && U.isVisible(this.fToolbox)) {

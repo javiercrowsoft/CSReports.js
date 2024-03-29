@@ -83,8 +83,8 @@ namespace CSReportPaint {
 
         public constructor() {
             try  {
-                this.scaleX = 1.5;
-                this.scaleY = 1.5;
+                this.scaleX = 1;
+                this.scaleY = 1;
 
                 this.vGridObjs = [[]];
                 this.fnt = [];

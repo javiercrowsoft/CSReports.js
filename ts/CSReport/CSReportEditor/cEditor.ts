@@ -212,6 +212,8 @@ namespace CSReportEditor {
 
         private typeGrid: csETypeGrid = csETypeGrid.CSEGRIDPOINTS;
 
+        private zoom: number = 1;
+
         public getEditorTab() {
             return this.editorTab;
         }
@@ -321,6 +323,15 @@ namespace CSReportEditor {
 
         public setDataHasChanged(rhs: boolean) {
             this.dataHasChanged = rhs;
+        }
+
+        public getZoom() {
+            return this.zoom;
+        }
+
+        public setZoom(value: number) {
+            this.zoom = value;
+            this.reLoadReport();
         }
 
         public moveVertical() {
@@ -4833,6 +4844,8 @@ namespace CSReportEditor {
             this.moveType = csRptEditorMoveType.CSRPTEDMOVTNONE;
 
             this.paint = new cReportPaint();
+            this.paint.setScaleX(this.zoom);
+            this.paint.setScaleY(this.zoom);
 
             let paperInfo: cReportPaperInfo = this.report.getPaperInfo();
             this.paint.setGridHeight(
@@ -5203,7 +5216,7 @@ namespace CSReportEditor {
                                                                 this.report.getPaperInfo(),
                                                                 paperInfo.getPaperSize(),
                                                                 paperInfo.getOrientation())
-                                                        .getWidth()*1.5);
+                                                        .getWidth() * this.zoom);
             this.pGetOffSet(realPageHeight, pageHeight);
 
             if(pageHeight > realPageHeight) { realPageHeight = pageHeight; }

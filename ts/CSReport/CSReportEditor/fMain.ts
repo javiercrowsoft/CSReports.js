@@ -92,7 +92,7 @@ namespace CSReportEditor {
         private cmCtrlBringFront: HTMLAnchorElement = null;
         private cmCtrlPaste: HTMLAnchorElement = null;
         private cmCtrlPasteEx: HTMLAnchorElement = null;
-
+        private cb_zoom: HTMLSelectElement = null;
 
         public constructor() {
             // it is the first thing we need to do
@@ -120,6 +120,7 @@ namespace CSReportEditor {
             this.lv_fields = new ListView("lvFields", U.el("sidebar-lv-database"));
             this.tv_controls = new TreeView("tvControls", U.el("sidebar-tv-controls"), "*");
             this.tv_controls.state.onclick = P.call(this, this.tvControlsNodeClick);
+            this.cb_zoom = U.el("cb_zoom") as HTMLSelectElement;
 
             this.propertyDlg = new PropertyDlg();
 
@@ -718,6 +719,18 @@ namespace CSReportEditor {
             if(editor !== null && editor.isEditor()) {
                 this.searchDlg.setHandler(editor as cEditor);
                 this.searchDlg.show();
+            }
+        }
+
+        public setZoom(zoom: string) {
+            this.cb_zoom.value = zoom;
+        }
+
+        public zoomClick(e) {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                let zoom = U.valInt(e.target.value) / 100;
+                (editor as cEditor).setZoom(zoom);
             }
         }
 

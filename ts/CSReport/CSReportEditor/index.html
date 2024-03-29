@@ -124,6 +124,20 @@
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignVerticalClick()"><img src="images/toolbar/control_align_vertical.png"></a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.boldClick()"><img src="images/toolbar/text_bold.png"></a></li>
         <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.searchClick()"><img src="images/toolbar/magnifying-glass-3-24.png"></a></li>
+        <li>
+            <div class="inner-row" style="margin: 0;">
+                <label style="margin-top: 10px; color: white; padding-top: 4px;">Zoom</label>
+                <select id="cb_zoom" onchange="CSReportEditor.cMainEditor.fMain.zoomClick(event)" style="margin-top: 7px; margin-bottom: 0;">
+                    <option>100</option>
+                    <option>120</option>
+                    <option>130</option>
+                    <option>140</option>
+                    <option>150</option>
+                    <option>175</option>
+                    <option>200</option>
+                </select>
+            </div>
+        </li>
     </ul>
     <div id="main-view">
         <!-- Tab links -->
