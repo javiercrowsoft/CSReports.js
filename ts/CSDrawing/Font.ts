@@ -25,6 +25,14 @@ namespace CSDrawing {
             this._underline = underline;
         }
 
+        resize(size: number) {
+            let bold: boolean;
+            if(this._bold === 'bold ') bold = true;
+            let italic: boolean;
+            if(this._italic === 'italic ') italic = true;
+            return new Font(this._name, size, bold, italic, this._strike, this._underline);
+        }
+
         toStringFont(): string {
             return this._bold + this._italic + this._size + 'px ' + this._name;
         }

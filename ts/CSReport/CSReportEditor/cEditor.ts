@@ -1488,10 +1488,10 @@ namespace CSReportEditor {
                             this.showMoveAll(x, y);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVTHORIZONTAL:
-                            this.paint.moveHorizontal(this.keyMoving, x, this.picReport.getGraphics());
+                            this.paint.moveHorizontal(this.keyMoving, x - this.offX, this.picReport.getGraphics());
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVTVERTICAL:
-                            this.paint.moveVertical(this.keyMoving, y, this.picReport.getGraphics());
+                            this.paint.moveVertical(this.keyMoving, y - this.offY, this.picReport.getGraphics());
                             break;
                     }
 
@@ -5203,7 +5203,7 @@ namespace CSReportEditor {
                                                                 this.report.getPaperInfo(),
                                                                 paperInfo.getPaperSize(),
                                                                 paperInfo.getOrientation())
-                                                        .getWidth());
+                                                        .getWidth()*1.5);
             this.pGetOffSet(realPageHeight, pageHeight);
 
             if(pageHeight > realPageHeight) { realPageHeight = pageHeight; }

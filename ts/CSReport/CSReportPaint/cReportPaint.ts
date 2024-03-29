@@ -83,8 +83,8 @@ namespace CSReportPaint {
 
         public constructor() {
             try  {
-                this.scaleX = 1;
-                this.scaleY = 1;
+                this.scaleX = 1.5;
+                this.scaleY = 1.5;
 
                 this.vGridObjs = [[]];
                 this.fnt = [];
@@ -108,7 +108,6 @@ namespace CSReportPaint {
         public getPaintObjects() {
             return this.paintObjects;
         }
-
 
         public getNotBorder() {
             return this.notBorder;
@@ -253,6 +252,11 @@ namespace CSReportPaint {
                 width = w_aspect.getWidth();
                 top = w_aspect.getTop() - w_aspect.getOffset();
                 height = w_aspect.getHeight();
+
+                left *= this.scaleX;
+                width *= this.scaleX;
+                top *= this.scaleY;
+                height *= this.scaleY;
 
                 if(CSReportPaint.cReportPaint.pointIsInRegion(left - WIDTH_REGION,
                                     top - WIDTH_REGION,
@@ -423,8 +427,8 @@ namespace CSReportPaint {
 
             this.createBrushGrid(typeGrid);
 
-            let y = (graphicGrid.getBoundingClientRect().height / cReportPaint.GRID_AREA_HEIGHT);
-            let x = (graphicGrid.getBoundingClientRect().width / cReportPaint.GRID_AREA_WIDTH);
+            let y = ((graphicGrid.getBoundingClientRect().height * this.scaleY) / cReportPaint.GRID_AREA_HEIGHT);
+            let x = ((graphicGrid.getBoundingClientRect().width * this.scaleX) / cReportPaint.GRID_AREA_WIDTH);
 
             x = x + 1;
             y = y + 1;
@@ -814,8 +818,8 @@ namespace CSReportPaint {
                 this.move(aspect.getLeft(), y, aspect.getWidth(), aspect.getHeight(), graphic);
             }
             else {
-                let w_aspect: cReportAspect = this.paintSections.item(sKey).getAspect();
-                this.move(w_aspect.getLeft(), y, w_aspect.getWidth(), w_aspect.getHeight(), graphic);
+                let aspect: cReportAspect = this.paintSections.item(sKey).getAspect();
+                this.move(aspect.getLeft(), y, aspect.getWidth(), aspect.getHeight(), graphic);
             }
         }
 
@@ -1031,10 +1035,10 @@ namespace CSReportPaint {
 
             let aspect: cReportAspect = paintObjAsp.getAspect();
             this.showHandles(graphic,
-                        Math.trunc(aspect.getLeft()),
-                        Math.trunc(aspect.getTop() - aspect.getOffset()),
-                        Math.trunc(aspect.getLeft() + aspect.getWidth()),
-                        Math.trunc(aspect.getTop() - aspect.getOffset() + aspect.getHeight()),
+                        Math.trunc(aspect.getLeft() * this.scaleX),
+                        Math.trunc((aspect.getTop() - aspect.getOffset()) * this.scaleY),
+                        Math.trunc((aspect.getLeft() + aspect.getWidth()) * this.scaleX),
+                        Math.trunc((aspect.getTop() - aspect.getOffset() + aspect.getHeight()) * this.scaleY),
                         color,
                         bCircle);
         }
@@ -1051,6 +1055,8 @@ namespace CSReportPaint {
             this.y1 = top;
             this.x2 = left + width;
             this.y2 = top + height;
+
+            console.log(top)
 
             p.then(P.call(this, ()=> {
 
@@ -1219,12 +1225,12 @@ namespace CSReportPaint {
                 pen.dashStyle = DashStyle.Dot;
             }
 
-            if(rounded) {
-                y1 = y1 * this.scaleY;
-                y2 = y2 * this.scaleY;
-                x1 = x1 * this.scaleX;
-                x2 = x2 * this.scaleX;
+            y1 = y1 * this.scaleY;
+            y2 = y2 * this.scaleY;
+            x1 = x1 * this.scaleX;
+            x2 = x2 * this.scaleX;
 
+            if(rounded) {
                 let extGraph: cGraphics = new cGraphics(graphic);
                 extGraph.drawRoundRectangle(pen, x1, y1, x2-x1, y2-y1, 8);
             }
@@ -1339,11 +1345,16 @@ namespace CSReportPaint {
 
             y = Math.trunc(aspect.getTop() - aspect.getOffset() + marginY);
 
-            let rect: RectangleF = cGlobals.newRectangleF(x, y, Math.trunc(x + aspect.getWidth() - marginX), y + stringHeight -25);
+            let rect: RectangleF = cGlobals.newRectangleF(
+                x * this.scaleX,
+                y * this.scaleY,
+                Math.trunc((x + aspect.getWidth() - marginX) * this.scaleX),
+                (y + stringHeight -25) * this.scaleY);
 
             let brush: SolidBrush = new SolidBrush(aspect.getFont().getForeColor());
 
-            graphic.drawString(text, font, brush, rect, format);
+            let scaledFont = font.resize(font.size * this.scaleX);
+            graphic.drawString(text, scaledFont, brush, rect, format);
 
             brush.dispose();
         }
@@ -1501,7 +1512,7 @@ namespace CSReportPaint {
                                      scaleX: number) {
 
             let stringSize: SizeF = this.textEvalGraphic.measureString(text, font);
-            return Math.trunc(stringSize.width / scaleX); // TODO: check if it is / or *
+            return Math.trunc(stringSize.width * scaleX); // TODO: check if it is / or *
         }
 
         private evaluateTextHeight(text: string,
@@ -1512,7 +1523,7 @@ namespace CSReportPaint {
                                       scaleX: number) {
 
             let stringSize: SizeF = this.textEvalGraphic.measureString(text, font, Math.trunc(width * scaleX), format);
-            return Math.trunc(stringSize.height / scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
+            return Math.trunc(stringSize.height * scaleY); // TODO: check if it is / or * the same function in cReportPrint is using * one has to be wrong
         }
 
         private pClearObject(key: string, graphic: Graphic) {
