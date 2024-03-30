@@ -12,6 +12,8 @@ namespace CSReportPaint {
 
     export class cGlobals {
 
+        public static NO_CHANGE: number = -32768;
+
         private static nextKey = 1000;
 
         // TODO: validate if needed

@@ -206,9 +206,6 @@ namespace CSReportPaint {
             if(this.pointIsInThisObjectAux(this.paintObjects.item(sKey.get()), x, y, sKey, regionType)) {
                 return true;
             }
-            else if(this.pointIsInThisObjectAux(this.paintObjects.item(sKey.get()), x, y, sKey, regionType)) {
-                return true;
-            }
             return false;
         }
 
@@ -680,7 +677,7 @@ namespace CSReportPaint {
             graphic.getContext().clearRect(0, 0, graphic.getContext().canvas.width, graphic.getContext().canvas.height);
         }
 
-        public drawRule(key: string, graphic: Graphic) {
+        public drawRule(key: string, graphic: Graphic, ruleWidth: number) {
             const LINE_COLOR = "#cc6600";
 
             const aspect = new cReportAspect();
@@ -694,7 +691,7 @@ namespace CSReportPaint {
             aspect.setLeft(0);
             aspect.setHeight(20);
             aspect.setAlign(HorizontalAlignment.Right);
-            aspect.setWidth(graphic.getBoundingClientRect().width - 1);
+            aspect.setWidth(ruleWidth - 1);
             aspect.getFont().setForeColor("#736e6e");
 
             let top: number;
@@ -1056,8 +1053,6 @@ namespace CSReportPaint {
             this.x2 = left + width;
             this.y2 = top + height;
 
-            console.log(top)
-
             p.then(P.call(this, ()=> {
 
                 this.printRectangle(
@@ -1088,14 +1083,14 @@ namespace CSReportPaint {
                 paintObjAsp = this.paintSections.item(sKey).getAspect();
             }
 
-            if(left === -32768) {
+            if(left === cGlobals.NO_CHANGE) {
                 this.x1 = paintObjAsp.getLeft();
             }
             else {
                 this.x1 = left;
             }
 
-            if(top === -32768) {
+            if(top === cGlobals.NO_CHANGE) {
                 this.y1 = paintObjAsp.getTop() - paintObjAsp.getOffset();
             }
             else {
@@ -1103,7 +1098,7 @@ namespace CSReportPaint {
             }
 
             this.x2 = paintObjAsp.getLeft();
-            if(x2 === -32768) {
+            if(x2 === cGlobals.NO_CHANGE) {
                 this.x2 = this.x2 + paintObjAsp.getWidth();
             }
             else {
@@ -1111,7 +1106,7 @@ namespace CSReportPaint {
             }
 
             this.y2 = paintObjAsp.getTop() - paintObjAsp.getOffset();
-            if(y2 === -32768) {
+            if(y2 === cGlobals.NO_CHANGE) {
                 this.y2 = this.y2 + paintObjAsp.getHeight();
             }
             else {
@@ -1321,7 +1316,7 @@ namespace CSReportPaint {
                 }
             }
 
-            let nWidth: number = Math.trunc(aspect.getWidth() - marginX * 2);
+            let nWidth: number = Math.trunc((aspect.getWidth() - marginX * 2) * this.scaleX);
 
             if(stringWidth > nWidth) {
                 stringWidth = nWidth;
@@ -1333,23 +1328,23 @@ namespace CSReportPaint {
             switch (aspect.getAlign())
             {
                 case HorizontalAlignment.Right:
-                    x = Math.trunc(aspect.getLeft() + aspect.getWidth() - stringWidth - marginX);
+                    x = Math.trunc(aspect.getLeft() * this.scaleX + aspect.getWidth() * this.scaleX - stringWidth - marginX);
                     break;
                 case HorizontalAlignment.Center:
-                    x = Math.trunc(aspect.getLeft() + (aspect.getWidth() - stringWidth) * 0.5);
+                    x = Math.trunc(aspect.getLeft() * this.scaleX + (aspect.getWidth() * this.scaleX - stringWidth) * 0.5);
                     break;
                 case HorizontalAlignment.Left:
-                    x = Math.trunc(aspect.getLeft() + marginX);
+                    x = Math.trunc(aspect.getLeft() + marginX) * this.scaleX;
                     break;
             }
 
             y = Math.trunc(aspect.getTop() - aspect.getOffset() + marginY);
 
             let rect: RectangleF = cGlobals.newRectangleF(
-                x * this.scaleX,
+                x,
                 y * this.scaleY,
-                Math.trunc((x + aspect.getWidth() - marginX) * this.scaleX),
-                (y + stringHeight -25) * this.scaleY);
+                Math.trunc((x + aspect.getWidth() - marginX))* this.scaleX,
+                (y * this.scaleY) + stringHeight -25);
 
             let brush: SolidBrush = new SolidBrush(aspect.getFont().getForeColor());
 

@@ -139,6 +139,7 @@ namespace CSReportEditor {
         private LEFT_BODY: number = 0;
         private MIN_HEIGHT_SECTION: number = 3;
         private SECTION_LINE: string = "L ";
+        private RULE_WIDTH: number = 70;
 
         private NO_MOVE: number = -1111111;
 
@@ -1512,28 +1513,28 @@ namespace CSReportEditor {
                 else if(this.keySizing !== "") {
                     switch (this.moveType) {
                         case csRptEditorMoveType.CSRPTEDMOVDOWN:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, y);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, y / this.zoom);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFT:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x / this.zoom, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHT:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, x, cGlobals.NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, x / this.zoom, cGlobals.NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVUP:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, y, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, y / this.zoom, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFTDOWN:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, y);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x / this.zoom, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, y / this.zoom);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVLEFTUP:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x, y, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, x / this.zoom, y / this.zoom, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHTDOWN:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, x, y);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, cGlobals.NO_CHANGE, x / this.zoom, y / this.zoom);
                             break;
                         case csRptEditorMoveType.CSRPTEDMOVRIGHTUP:
-                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, y, x, cGlobals.NO_CHANGE);
+                            this.paint.resize(this.picReport.getGraphics(), this.keySizing, cGlobals.NO_CHANGE, y / this.zoom, x / this.zoom, cGlobals.NO_CHANGE);
                             break;
                     }
                     this.moving = true;
@@ -5114,7 +5115,7 @@ namespace CSReportEditor {
                 this.paint.clearRule(this.picRule.getGraphics());
                 let ps: cReportPaintObjects = this.paint.getPaintSections();
                 for(let i = 0; i < ps.count(); i++) {
-                    this.paint.drawRule(ps.getNextKeyForZOrder(i), this.picRule.getGraphics());
+                    this.paint.drawRule(ps.getNextKeyForZOrder(i), this.picRule.getGraphics(), this.RULE_WIDTH);
                 }
             }
         }
@@ -5221,8 +5222,9 @@ namespace CSReportEditor {
 
             if(pageHeight > realPageHeight) { realPageHeight = pageHeight; }
 
-            this.picReport.setHeight(realPageHeight);
-            this.picRule.setHeight(realPageHeight + this.TOP_BODY * 2);
+            this.picReport.setHeight(realPageHeight * this.zoom);
+            this.picRule.setHeight(realPageHeight * this.zoom + this.TOP_BODY * 2);
+            this.picRule.setWidth(this.RULE_WIDTH * this.zoom)
 
             return pageHeight;
         }
@@ -5496,6 +5498,9 @@ namespace CSReportEditor {
         }
 
         private pResizeControl(x: number, y: number) {
+
+            x /= this.zoom;
+            y /= this.zoom;
 
             let height: number = 0;
             let width: number = 0;

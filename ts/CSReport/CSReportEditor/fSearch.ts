@@ -110,7 +110,7 @@ namespace CSReportEditor {
                             }
                         }
                         else {
-                            if(ctrl.getLabel().getText().indexOf(toSearch) > -1) {
+                            if(ctrl.getLabel().getText().toLowerCase().indexOf(toSearch) > -1) {
                                 this.addToSearchResultAt(ctrl.getName(), csObjType.iTypeCtrl, csObjType.iTypeText, ctrl.getKey(), ctrl.getLabel().getText());
                             }
                         }
