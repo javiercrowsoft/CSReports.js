@@ -40,5 +40,9 @@ namespace CSForms {
         getSelectedIndex() {
             return this.elSelect.selectedIndex;
         }
+
+        addItem(text: string, id: any) {
+            (this.getElement() as HTMLSelectElement).add(new Option(text, id));
+        }
     }
 }

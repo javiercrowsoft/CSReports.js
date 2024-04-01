@@ -246,7 +246,7 @@ namespace CSOAPI {
 
         //#region list functions
 
-        public static listAdd(list: ComboBox, value: string, id: number = 0) {
+        public static listAdd(list: ComboBox, value: string, id: any = 0) {
             this.listAdd_(list, value, id);
         }
         public static listID(list: ComboBox): any {
@@ -275,9 +275,9 @@ namespace CSOAPI {
         }
 
         private static listAdd_(list: ComboBox, value: string, id: string|number) {
-            // TODO: implement
-            // list.Items.Add(new ListValueWithId(value, id));
+            list.addItem(value, id);
         }
+
         private static listID_(list: ComboBox): string {
             return list.getOptions()[list.getSelectedIndex()].value;
         }

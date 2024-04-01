@@ -3575,7 +3575,6 @@ namespace CSReportEditor {
                 }
                 else {
                     U.listSetListIndexForId(propertyDlg.getCbType(), rptCtrl.getChart().getChartType());
-                    U.listSetListIndexForId(propertyDlg.getCbFormatType(), rptCtrl.getChart().getFormat());
                     U.listSetListIndexForId(propertyDlg.getCbChartSize(), rptCtrl.getChart().getDiameter());
                     U.listSetListIndexForId(propertyDlg.getCbChartThickness(), rptCtrl.getChart().getThickness());
                     U.listSetListIndexForId(propertyDlg.getCbLinesType(), rptCtrl.getChart().getGridLines());
@@ -3955,9 +3954,6 @@ namespace CSReportEditor {
                         if(propertyDlg.getChartTypeChanged()) {
                             rptCtrl.getChart().setChartType(U.listID(propertyDlg.getCbType()));
                         }
-                        if(propertyDlg.getChartFormatTypeChanged()) {
-                            rptCtrl.getChart().setFormat(U.listID(propertyDlg.getCbFormatType()));
-                        }
                         if(propertyDlg.getChartSizeChanged()) {
                             rptCtrl.getChart().setDiameter(U.listID(propertyDlg.getCbChartSize()));
                         }
@@ -4015,7 +4011,7 @@ namespace CSReportEditor {
                             }
                         }
 
-                        if(propertyDlg.getTxDbFieldLbl2().Text === "" || propertyDlg.getTxDbFieldVal2().Text === "") {
+                        if(propertyDlg.getTxDbFieldLbl2().getText() === "" || propertyDlg.getTxDbFieldVal2().getText() === "") {
                             if(rptCtrl.getChart().getSeries().count() > 1) { rptCtrl.getChart().getSeries().remove(1); }
                         }
 

@@ -14,6 +14,11 @@ namespace CSReportEditor {
     import P = CSKernelClient.Callable;
     import Color = CSDrawing.Color;
 
+    import csRptChartType = CSReportGlobals.csRptChartType;
+    import csRptChartLineStyle = CSReportGlobals.csRptChartLineStyle;
+    import csRptChartPieThickness = CSReportGlobals.csRptChartPieThickness;
+    import csRptChartPieDiameter = CSReportGlobals.csRptChartPieDiameter;
+
     import Label = CSForms.Label;
     import TextBox = CSForms.TextBox;
     import CheckBox = CSForms.CheckBox;
@@ -82,7 +87,6 @@ namespace CSReportEditor {
         private chartThicknessChanged: boolean = null;
         private chartColorSerie1Changed: boolean = null;
         private chartColorSerie2Changed: boolean = null;
-        private chartFormatTypeChanged: boolean = null;
         private chartLinesTypeChanged: boolean = null;
         private chartTypeChanged: boolean = null;
         private chartShowLinesChanged: boolean = null;
@@ -96,8 +100,8 @@ namespace CSReportEditor {
         private isFreeCtrlChanged: boolean = null;
         private exportColIdxChanged: boolean = null;
 
-        private chartIndex: number[] = null;
-        private chartFieldType: number[] = null;
+        private chartIndex: number[] = [];
+        private chartFieldType: number[] = [];
 
         private chartGroupIndex: number = 0;
         private chartGroupFieldType: number = 0;
@@ -156,6 +160,24 @@ namespace CSReportEditor {
         private shBorderShadow: Label;
         private txBorderWidth: TextBox;
         private chkBorderRounded: CheckBox;
+
+        // charts
+        private cbType: ComboBox;
+        private cbLinesType: ComboBox;
+        private cbChartSize: ComboBox;
+        private txChartTop: TextBox;
+        private cbChartThickness: ComboBox;
+        private chkShowBarValues: CheckBox;
+        private chkShowOutlines: CheckBox;
+        private chkSort: CheckBox;
+        private txDbFieldGroupValue: TextBox;
+        private txChartGroupValue: TextBox;
+        private txDbFieldVal1: TextBox;
+        private txDbFieldLbl1: TextBox;
+        private cbColorSerie1: ComboBox;
+        private txDbFieldVal2: TextBox;
+        private txDbFieldLbl2: TextBox;
+        private cbColorSerie2: ComboBox;
 
         // sections
         private chkSectionFormulaHide: CheckBox;
@@ -269,6 +291,24 @@ namespace CSReportEditor {
             this.txBorderWidth = new TextBox(U.inputEl('ctrl-border-width'));
             this.chkBorderRounded = new CheckBox(U.inputEl('ctrl-border-rounded'));
 
+            // charts
+            this.cbType = new ComboBox(U.selectEl('ctl-chart-type'));
+            this.cbLinesType = new ComboBox(U.selectEl('ctl-chart-bar-grid-lines'));
+            this.chkShowBarValues = new CheckBox(U.inputEl('ctrl-chart-show-bar-values'));
+            this.chkShowOutlines = new CheckBox(U.inputEl('ctrl-chart-show-outline'));
+            this.cbChartSize = new ComboBox(U.selectEl('ctl-chart-pie-size'));
+            this.cbChartThickness = new ComboBox(U.selectEl('ctl-chart-pie-thickness'));
+            this.txChartTop = new TextBox(U.inputEl('ctrl-chart-top'));
+            this.chkSort = new CheckBox(U.inputEl('ctrl-chart-sort'));
+            this.txDbFieldGroupValue = new TextBox(U.inputEl('ctrl-chart-group-db-field'));
+            this.txChartGroupValue = new TextBox(U.inputEl('ctrl-chart-group-value'));
+            this.txDbFieldVal1 = new TextBox(U.inputEl('ctrl-chart-serie1-db-field-value'));
+            this.txDbFieldLbl1 = new TextBox(U.inputEl('ctrl-chart-serie1-db-field-label'));
+            this.cbColorSerie1 = new ComboBox(U.selectEl('ctrl-chart-serie1-color'));
+            this.txDbFieldVal2 = new TextBox(U.inputEl('ctrl-chart-serie2-db-field-value'));
+            this.txDbFieldLbl2 = new TextBox(U.inputEl('ctrl-chart-serie2-db-field-label'));
+            this.cbColorSerie2 = new ComboBox(U.selectEl('ctrl-chart-serie2-color'));
+
             // sections
             this.txSectionName = new TextBox(U.inputEl('section-name'));
             this.lbSectionLineName = new Label(U.labelEl('section-line-name'));
@@ -337,27 +377,23 @@ namespace CSReportEditor {
             this.txBorder3D.setLostFocus(P.call(this, this.txBorder3DLostFocus));
             this.txBorderShadow.setLostFocus(P.call(this, this.txBorderShadowLostFocus));
 
-            //this.txChartGroupValue.setChange(P.call(this, this.txChartGroupValueChanged));
-            //this.txCharttxChartTop.setChange(P.call(this, this.txChartTopChanged));
-
-            /* TODO: probably this will be removed
-            this.cbTypeSelectedIndexChanged
-            this.cbFormatTypeSelectedIndexChanged
-            this.cbLinesTypeSelectedIndexChanged
-            this.cbChartSizeSelectedIndexChanged
-            this.txChartTopTextChanged
-            this.cbChartThicknessSelectedIndexChanged
-            this.chkShowBarValuesCheckedChanged
-            this.chkShowOutlinesCheckedChanged
-            this.chkSortCheckedChanged
-            this.txDbFieldGroupValueTextChanged
-            this.txDbFieldVal1TextChanged
-            this.txDbFieldLbl1TextChanged
-            this.cbColorSerie1SelectedIndexChanged
-            this.txDbFieldVal2TextChanged
-            this.txDbFieldLbl2TextChanged
-            this.cbColorSerie2SelectedIndexChanged
-            */
+            this.txChartGroupValue.setChange(P.call(this, this.txChartGroupValueChanged));
+            this.txChartTop.setChange(P.call(this, this.txChartTopChanged));
+            this.cbType.setOnClick(P.call(this, this.cbTypeSelectedIndexChanged));
+            this.cbLinesType.setOnClick(P.call(this, this.cbLinesTypeSelectedIndexChanged));
+            this.cbChartSize.setOnClick(P.call(this, this.cbChartSizeSelectedIndexChanged));
+            this.txChartTop.setLostFocus(P.call(this, this.txChartTopTextChanged));
+            this.cbChartThickness.setOnClick(P.call(this, this.cbChartThicknessSelectedIndexChanged));
+            this.chkShowBarValues.setChange(P.call(this, this.chkShowBarValuesCheckedChanged));
+            this.chkShowOutlines.setChange(P.call(this, this.chkShowOutlinesCheckedChanged));
+            this.chkSort.setChange(P.call(this, this.chkSortCheckedChanged));
+            this.txDbFieldGroupValue.setLostFocus(P.call(this, this.txDbFieldGroupValueTextChanged));
+            this.txDbFieldVal1.setLostFocus(P.call(this, this.txDbFieldVal1TextChanged));
+            this.txDbFieldLbl1.setLostFocus(P.call(this, this.txDbFieldLbl1TextChanged));
+            this.cbColorSerie1.setOnClick(P.call(this, this.cbColorSerie1SelectedIndexChanged));
+            this.txDbFieldVal2.setLostFocus(P.call(this, this.txDbFieldVal2TextChanged));
+            this.txDbFieldLbl2.setLostFocus(P.call(this, this.txDbFieldLbl2TextChanged));
+            this.cbColorSerie2.setOnClick(P.call(this, this.cbColorSerie2SelectedIndexChanged));
 
             this.tabFormat = U.el('property-format-tab-selector');
             this.tabBorders = U.el('property-borders-tab-selector');
@@ -379,8 +415,7 @@ namespace CSReportEditor {
             this.cmdSectionFormulaHide.setOnClick(P.call(this, this.editSectionFormulaHideClick));
             this.cmdSectionLineFormulaHide.setOnClick(P.call(this, this.editSectionLineFormulaHideClick));
 
-            // TODO: implement chart
-            // initChart();
+            this.initChart();
 
             this.cmdApply = new Button(U.el('ctrl-properties-dlg-apply'));
             this.cmdApply.setOnClick(P.call(this, this.cmdApplyClick));
@@ -945,14 +980,6 @@ namespace CSReportEditor {
             this.chartColorSerie2Changed = rhs;
         }
 
-        public getChartFormatTypeChanged() {
-            return this.chartFormatTypeChanged;
-        }
-
-        public setChartFormatTypeChanged(rhs: boolean) {
-            this.chartFormatTypeChanged = rhs;
-        }
-
         public getChartLinesTypeChanged() {
             return this.chartLinesTypeChanged;
         }
@@ -1175,50 +1202,184 @@ namespace CSReportEditor {
         }
 
         private initChart() {
-            // cUtil.listAdd(cb_formatType, "BMP", (int)csRptChartFormat.BMP);
-            // cUtil.listAdd(cb_formatType, "JPG", (int)csRptChartFormat.JPEG);
-            // cUtil.listAdd(cb_formatType, "GIF", (int)csRptChartFormat.GIF);
-            // cUtil.listAdd(cb_formatType, "PNG", (int)csRptChartFormat.PNG);
-            // cUtil.listSetListIndex(cbFormatType, 0);
-            //
-            // cUtil.listAdd(cb_type, "Pie", (int)csRptChartType.PIE);
-            // cUtil.listAdd(cb_type, "Bar", (int)csRptChartType.BAR);
-            // cUtil.listSetListIndex(cb_type, 0);
-            //
-            // chk_showOutlines.setChecked(true);
-            // chk_showBarValues.setChecked(true);
-            //
-            // pFillColors(cbColorSerie1);
-            // cUtil.listSetListIndex(cb_colorSerie1, 10);
-            //
-            // pFillColors(cbColorSerie2);
-            // cUtil.listSetListIndex(cb_colorSerie2, 69);
-            //
-            // cUtil.listAdd(cb_chartSize, "Smallest", 50);
-            // cUtil.listAdd(cb_chartSize, "Smaller", 100);
-            // cUtil.listAdd(cb_chartSize, "Small", 150);
-            // cUtil.listAdd(cb_chartSize, "Medium", 200);
-            // cUtil.listAdd(cb_chartSize, "Large", 250);
-            // cUtil.listAdd(cb_chartSize, "Big", 350);
-            // cUtil.listSetListIndex(cb_chartSize, 3);
-            //
-            // cUtil.listAdd(cb_chartThickness, "None", 0);
-            // cUtil.listAdd(cb_chartThickness, "Wafer", 2);
-            // cUtil.listAdd(cb_chartThickness, "Thin", 4);
-            // cUtil.listAdd(cb_chartThickness, "Medium", 8);
-            // cUtil.listAdd(cb_chartThickness, "Thick", 16);
-            // cUtil.listAdd(cb_chartThickness, "Thickest", 32);
-            // cUtil.listSetListIndex(cb_chartThickness, 2);
-            //
-            // cUtil.listAdd(cb_linesType, "None", (int)csRptChartLineStyle.NONE);
-            // cUtil.listAdd(cb_linesType, "Horizontal", (int)csRptChartLineStyle.HORIZONTAL);
-            // cUtil.listAdd(cb_linesType, "Numbered", (int)csRptChartLineStyle.NUMBERED);
-            // cUtil.listAdd(cb_linesType, "Both", (int)csRptChartLineStyle.BOTH);
-            // cUtil.listSetListIndex(cb_linesType, 3);
+            U.listAdd(this.cbType, "Pie", csRptChartType.PIE);
+            U.listAdd(this.cbType, "Bar", csRptChartType.BAR);
+            U.listSetListIndex(this.cbType, 0);
+
+            this.chkShowOutlines.setChecked(true);
+            this.chkShowBarValues.setChecked(true);
+
+            this.fillColors(this.cbColorSerie1);
+            U.listSetListIndex(this.cbColorSerie1, 10);
+
+            this.fillColors(this.cbColorSerie2);
+            U.listSetListIndex(this.cbColorSerie2, 69);
+
+            U.listAdd(this.cbChartSize, "Smallest", 50);
+            U.listAdd(this.cbChartSize, "Smaller", 100);
+            U.listAdd(this.cbChartSize, "Small", 150);
+            U.listAdd(this.cbChartSize, "Medium", 200);
+            U.listAdd(this.cbChartSize, "Large", 250);
+            U.listAdd(this.cbChartSize, "Big", 350);
+            U.listSetListIndex(this.cbChartSize, 3);
+
+            U.listAdd(this.cbChartThickness, "None", 0);
+            U.listAdd(this.cbChartThickness, "Wafer", 2);
+            U.listAdd(this.cbChartThickness, "Thin", 4);
+            U.listAdd(this.cbChartThickness, "Medium", 8);
+            U.listAdd(this.cbChartThickness, "Thick", 16);
+            U.listAdd(this.cbChartThickness, "Thickest", 32);
+            U.listSetListIndex(this.cbChartThickness, 2);
+
+            U.listAdd(this.cbLinesType, "None", csRptChartLineStyle.NONE);
+            U.listAdd(this.cbLinesType, "Horizontal", csRptChartLineStyle.HORIZONTAL);
+            U.listAdd(this.cbLinesType, "Numbered", csRptChartLineStyle.NUMBERED);
+            U.listAdd(this.cbLinesType, "Both", csRptChartLineStyle.BOTH);
+            U.listSetListIndex(this.cbLinesType, 3);
         }
 
-        private pFillColors(cb_list: ComboBox) {
-            // TODO: implement
+        private fillColors(cbList: ComboBox) {
+            U.listAdd(cbList, "AliceBlue", "#FFF0F8FF");
+            U.listAdd(cbList, "AntiqueWhite", "#FAEBD7");
+            U.listAdd(cbList, "Aqua", "#00FFFF");
+            U.listAdd(cbList, "Aquamarine", "#7FFFD4");
+            U.listAdd(cbList, "Azure", "#F0FFFF");
+            U.listAdd(cbList, "Beige", "#F5F5DC");
+            U.listAdd(cbList, "Bisque", "#FFE4C4");
+            U.listAdd(cbList, "Black", "#000000");
+            U.listAdd(cbList, "BlanchedAlmond", "#FFEBCD");
+            U.listAdd(cbList, "Blue", "#0000FF");
+            U.listAdd(cbList, "BlueViolet", "#8A2BE2");
+            U.listAdd(cbList, "Brown", "#A52A2A");
+            U.listAdd(cbList, "BurlyWood", "#DEB887");
+            U.listAdd(cbList, "CadetBlue", "#5F9EA0");
+            U.listAdd(cbList, "Chartreuse", "#7FFF00");
+            U.listAdd(cbList, "Chocolate", "#D2691E");
+            U.listAdd(cbList, "Coral", "#FF7F50");
+            U.listAdd(cbList, "CornflowerBlue", "#6495ED");
+            U.listAdd(cbList, "Cornsilk", "#FFF8DC");
+            U.listAdd(cbList, "Crimson", "#DC143C");
+            U.listAdd(cbList, "Cyan", "#00FFFF");
+            U.listAdd(cbList, "DarkBlue", "#00008B");
+            U.listAdd(cbList, "DarkCyan", "#008B8B");
+            U.listAdd(cbList, "DarkGoldenrod", "#B8860B");
+            U.listAdd(cbList, "DarkGray", "#A9A9A9");
+            U.listAdd(cbList, "DarkGreen", "#006400");
+            U.listAdd(cbList, "DarkKhaki", "#BDB76B");
+            U.listAdd(cbList, "DarkMagenta", "#8B008B");
+            U.listAdd(cbList, "DarkOliveGreen", "#556B2F");
+            U.listAdd(cbList, "DarkOrange", "#FF8C00");
+            U.listAdd(cbList, "DarkOrchid", "#9932CC");
+            U.listAdd(cbList, "DarkRed", "#8B0000");
+            U.listAdd(cbList, "DarkSalmon", "#E9967A");
+            U.listAdd(cbList, "DarkSeaGreen", "#8FBC8B");
+            U.listAdd(cbList, "DarkSlateBlue", "#483D8B");
+            U.listAdd(cbList, "DarkSlateGray", "#2F4F4F");
+            U.listAdd(cbList, "DarkTurquoise", "#00CED1");
+            U.listAdd(cbList, "DarkViolet", "#9400D3");
+            U.listAdd(cbList, "DeepPink", "#FF1493");
+            U.listAdd(cbList, "DeepSkyBlue", "#00BFFF");
+            U.listAdd(cbList, "DimGray", "#696969");
+            U.listAdd(cbList, "DodgerBlue", "#1E90FF");
+            U.listAdd(cbList, "Firebrick", "#B22222");
+            U.listAdd(cbList, "FloralWhite", "#FFFAF0");
+            U.listAdd(cbList, "ForestGreen", "#228B22");
+            U.listAdd(cbList, "Fuchsia", "#FF00FF");
+            U.listAdd(cbList, "Gainsboro", "#DCDCDC");
+            U.listAdd(cbList, "GhostWhite", "#F8F8FF");
+            U.listAdd(cbList, "Gold", "#FFD700");
+            U.listAdd(cbList, "Goldenrod", "#DAA520");
+            U.listAdd(cbList, "Gray", "#808080");
+            U.listAdd(cbList, "Green", "#008000");
+            U.listAdd(cbList, "GreenYellow", "#ADFF2F");
+            U.listAdd(cbList, "Honeydew", "#F0FFF0");
+            U.listAdd(cbList, "HotPink", "#FF69B4");
+            U.listAdd(cbList, "IndianRed", "#CD5C5C");
+            U.listAdd(cbList, "Indigo", "#4B0082");
+            U.listAdd(cbList, "Ivory", "#FFFFF0");
+            U.listAdd(cbList, "Khaki", "#F0E68C");
+            U.listAdd(cbList, "Lavender", "#E6E6FA");
+            U.listAdd(cbList, "LavenderBlush", "#FFF0F5");
+            U.listAdd(cbList, "LawnGreen", "#7CFC00");
+            U.listAdd(cbList, "LemonChiffon", "#FFFACD");
+            U.listAdd(cbList, "LightBlue", "#ADD8E6");
+            U.listAdd(cbList, "LightCoral", "#F08080");
+            U.listAdd(cbList, "LightCyan", "#E0FFFF");
+            U.listAdd(cbList, "LightGoldenrodYellow", "#FAFAD2");
+            U.listAdd(cbList, "LightGray", "#D3D3D3");
+            U.listAdd(cbList, "LightGreen", "#90EE90");
+            U.listAdd(cbList, "LightPink", "#FFB6C1");
+            U.listAdd(cbList, "LightSalmon", "#FFA07A");
+            U.listAdd(cbList, "LightSeaGreen", "#20B2AA");
+            U.listAdd(cbList, "LightSkyBlue", "#87CEFA");
+            U.listAdd(cbList, "LightSlateGray", "#778899");
+            U.listAdd(cbList, "LightSteelBlue", "#B0C4DE");
+            U.listAdd(cbList, "LightYellow", "#FFFFE0");
+            U.listAdd(cbList, "Lime", "#00FF00");
+            U.listAdd(cbList, "LimeGreen", "#32CD32");
+            U.listAdd(cbList, "Linen", "#FAF0E6");
+            U.listAdd(cbList, "Magenta", "#FF00FF");
+            U.listAdd(cbList, "Maroon", "#800000");
+            U.listAdd(cbList, "MediumAquamarine", "#66CDAA");
+            U.listAdd(cbList, "MediumBlue", "#0000CD");
+            U.listAdd(cbList, "MediumOrchid", "#BA55D3");
+            U.listAdd(cbList, "MediumPurple", "#9370DB");
+            U.listAdd(cbList, "MediumSeaGreen", "#3CB371");
+            U.listAdd(cbList, "MediumSlateBlue", "#7B68EE");
+            U.listAdd(cbList, "MediumSpringGreen", "#00FA9A");
+            U.listAdd(cbList, "MediumTurquoise", "#48D1CC");
+            U.listAdd(cbList, "MediumVioletRed", "#C71585");
+            U.listAdd(cbList, "MidnightBlue", "#191970");
+            U.listAdd(cbList, "MintCream", "#F5FFFA");
+            U.listAdd(cbList, "MistyRose", "#FFE4E1");
+            U.listAdd(cbList, "Moccasin", "#FFE4B5");
+            U.listAdd(cbList, "NavajoWhite", "#FFDEAD");
+            U.listAdd(cbList, "Navy", "#000080");
+            U.listAdd(cbList, "OldLace", "#FDF5E6");
+            U.listAdd(cbList, "Olive", "#808000");
+            U.listAdd(cbList, "OliveDrab", "#6B8E23");
+            U.listAdd(cbList, "Orange", "#FFA500");
+            U.listAdd(cbList, "OrangeRed", "#FF4500");
+            U.listAdd(cbList, "Orchid", "#DA70D6");
+            U.listAdd(cbList, "PaleGoldenrod", "#EEE8AA");
+            U.listAdd(cbList, "PaleGreen", "#98FB98");
+            U.listAdd(cbList, "PaleTurquoise", "#AFEEEE");
+            U.listAdd(cbList, "PaleVioletRed", "#DB7093");
+            U.listAdd(cbList, "PapayaWhip", "#FFEFD5");
+            U.listAdd(cbList, "PeachPuff", "#FFDAB9");
+            U.listAdd(cbList, "Peru", "#CD853F");
+            U.listAdd(cbList, "Pink", "#FFC0CB");
+            U.listAdd(cbList, "Plum", "#DDA0DD");
+            U.listAdd(cbList, "PowderBlue", "#B0E0E6");
+            U.listAdd(cbList, "Purple", "#800080");
+            U.listAdd(cbList, "Red", "#FF0000");
+            U.listAdd(cbList, "RosyBrown", "#BC8F8F");
+            U.listAdd(cbList, "RoyalBlue", "#4169E1");
+            U.listAdd(cbList, "SaddleBrown", "#8B4513");
+            U.listAdd(cbList, "Salmon", "#FA8072");
+            U.listAdd(cbList, "SandyBrown", "#F4A460");
+            U.listAdd(cbList, "SeaGreen", "#2E8B57");
+            U.listAdd(cbList, "SeaShell", "#FFF5EE");
+            U.listAdd(cbList, "Sienna", "#A0522D");
+            U.listAdd(cbList, "Silver", "#C0C0C0");
+            U.listAdd(cbList, "SkyBlue", "#87CEEB");
+            U.listAdd(cbList, "SlateBlue", "#6A5ACD");
+            U.listAdd(cbList, "SlateGray", "#708090");
+            U.listAdd(cbList, "Snow", "#FFFAFA");
+            U.listAdd(cbList, "SpringGreen", "#00FF7F");
+            U.listAdd(cbList, "SteelBlue", "#4682B4");
+            U.listAdd(cbList, "Tan", "#D2B48C");
+            U.listAdd(cbList, "Teal", "#008080");
+            U.listAdd(cbList, "Thistle", "#D8BFD8");
+            U.listAdd(cbList, "Tomato", "#FF6347");
+            U.listAdd(cbList, "Transparent", "#FFFF");
+            U.listAdd(cbList, "Turquoise", "#40E0D0");
+            U.listAdd(cbList, "Violet", "#EE82EE");
+            U.listAdd(cbList, "Wheat", "#F5DEB3");
+            U.listAdd(cbList, "White", "#FFFFFF");
+            U.listAdd(cbList, "WhiteSmoke", "#F5F5F5");
+            U.listAdd(cbList, "Yellow", "#FFFF00");
+            U.listAdd(cbList, "YellowGreen", "#9ACD32");
         }
 
         private cmdForeColorClick() {
@@ -1400,10 +1561,6 @@ namespace CSReportEditor {
             this.chartTypeChanged = true;
         }
 
-        private cbFormatTypeSelectedIndexChanged() {
-            this.chartFormatTypeChanged = true;
-        }
-
         private cbLinesTypeSelectedIndexChanged() {
             this.chartLinesTypeChanged = true;
         }
@@ -1511,7 +1668,6 @@ namespace CSReportEditor {
             this.chartThicknessChanged = false;
             this.chartColorSerie1Changed = false;
             this.chartColorSerie2Changed = false;
-            this.chartFormatTypeChanged = false;
             this.chartLinesTypeChanged = false;
             this.chartTypeChanged = false;
             this.chartShowLinesChanged = false;
@@ -1888,72 +2044,68 @@ namespace CSReportEditor {
         // chart properties
         //#region
 
-        getCbType() {
-            return undefined;
+        getCbType(): ComboBox {
+            return this.cbType;
         }
 
-        getCbFormatType() {
-            return undefined;
+        getCbChartSize(): ComboBox {
+            return this.cbChartSize;
         }
 
-        getCbChartSize() {
-            return undefined;
+        getCbChartThickness(): ComboBox {
+            return this.cbChartThickness;
         }
 
-        getCbChartThickness() {
-            return undefined;
+        getCbLinesType(): ComboBox {
+            return this.cbLinesType;
         }
 
-        getCbLinesType() {
-            return undefined;
+        getTxChartTop(): TextBox {
+            return this.txChartTop;
         }
 
-        getTxChartTop(): any {
-
+        getTxDbFieldGroupValue(): TextBox {
+            return this.txDbFieldGroupValue;
         }
 
-        getTxDbFieldGroupValue(): any {
-
+        getTxChartGroupValue(): TextBox {
+            return this.txChartGroupValue;
         }
 
-        getTxChartGroupValue(): any {
-
+        getChkShowOutlines(): CheckBox {
+            return this.chkShowOutlines;
         }
 
-        getChkShowOutlines(): any {
-
+        getChkSort(): CheckBox {
+            return this.chkSort;
         }
 
-        getChkSort(): any {
-
+        getChkShowBarValues(): CheckBox {
+            return this.chkShowBarValues;
         }
 
-        getChkShowBarValues(): any {
-
+        getTxDbFieldLbl1(): TextBox {
+            return this.txDbFieldLbl1;
         }
 
-        getTxDbFieldLbl1(): any {
-
+        getTxDbFieldVal1(): TextBox {
+            return this.txDbFieldVal1;
         }
 
-        getTxDbFieldVal1(): any {
-
+        getCbColorSerie1(): ComboBox {
+            return this.cbColorSerie1;
         }
 
-        getCbColorSerie1(): any {
-            return undefined;
+        getTxDbFieldLbl2(): TextBox {
+            return this.txDbFieldLbl2;
         }
 
-        getTxDbFieldLbl2(): any {
-
+        getTxDbFieldVal2(): TextBox {
+            return this.txDbFieldVal2;
         }
 
-        getTxDbFieldVal2(): any {
-
-        }
-
-        getCbColorSerie2(): any {
-            return undefined;
+        getCbColorSerie2(): ComboBox {
+            return this.cbColorSerie2;
         }
 
         //#endregion

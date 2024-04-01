@@ -248,6 +248,114 @@
             </div><!-- property-borders-tab -->
 
             <div class="property-tab" id="property-chart-tab" style="display: none;">
+                <div>
+                    <label>Type</label>
+                    <select id="ctl-chart-type"></select>
+                </div>
+                <div class="row">
+                    <div style="width: 100%;">
+                        <label>Bar grid lines</label>
+                        <select id="ctl-chart-bar-grid-lines"></select>
+                    </div>
+                    <div style="width: 100%;">
+                        <label>Top</label>
+                        <input type="text" id="ctrl-chart-top"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="inner-row" style="width: 100%;">
+                        <div style="width: 100%;">
+                            <label>Show values
+                                <input type="checkbox" id="ctrl-chart-show-bar-values" />
+                                <span></span>
+                            </label>
+                        </div>
+                        <div style="width: 100%;">
+                            <label>Show outlines
+                                <input type="checkbox" id="ctrl-chart-show-outline" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="width: 100%;">
+                        <label>Pie chart size</label>
+                        <select id="ctl-chart-pie-size"></select>
+                    </div>
+                    <div style="width: 100%;">
+                        <label>Pie chart thickness</label>
+                        <select id="ctl-chart-pie-thickness"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="inner-row">
+                        <div style="width: 100%;">
+                            <label>Sort
+                                <input type="checkbox" id="ctrl-chart-sort" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section" style="padding-top: 20px;">
+                    <span>Group</span>
+                </div>
+                <div>
+                    <label>Group field</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-group-db-field"/>
+                        <button id="ctrl-chart-group-db-field-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <label>Group value</label>
+                        <input type="text" id="ctrl-chart-group-value"/>
+                    </div>
+                </div>
+                <div class="property-section" style="padding-top: 20px;">
+                    <span>Serie 1</span>
+                </div>
+                <div>
+                    <label>Field value</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-serie1-db-field-value"/>
+                        <button id="ctrl-chart-serie1-db-field-value-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Field label</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-serie1-db-field-label"/>
+                        <button id="ctrl-chart-serie1-db-field-label-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Color</label>
+                    <select id="ctrl-chart-serie1-color"></select>
+                </div>
+                <div class="property-section" style="padding-top: 20px;">
+                    <span>Serie 2</span>
+                </div>
+                <div>
+                    <label>Field value</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-serie2-db-field-value"/>
+                        <button id="ctrl-chart-serie2-db-field-value-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Field label</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-chart-serie2-db-field-label"/>
+                        <button id="ctrl-chart-serie2-db-field-label-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Color</label>
+                    <select id="ctrl-chart-serie2-color"></select>
+                </div>
             </div><!-- property-chart-tab -->
 
             <div class="property-tab" id="property-formulas-tab" style="display: none;">
@@ -331,7 +439,7 @@ End Function
                     <label>Field</label>
                     <div class="inner-row">
                         <input type="text" id="ctrl-db-field"/>
-                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>
+                        <button id="ctrl-db-field-button" style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
                     </div>
                 </div>
             </div><!-- property-database-tab -->
@@ -341,7 +449,7 @@ End Function
                     <label>Image</label>
                     <div class="inner-row">
                         <input type="text" id="ctrl-image-file"/>
-                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>
+                        <button style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
                     </div>
                     <div id="ctrl-image-preview"></div>
                 </div>
@@ -564,7 +672,7 @@ End Function
                     <label>Field</label>
                     <div class="inner-row">
                         <input type="text" id="ctrl-group-db-field"/>
-                        <button style="height: 35px;margin-top: 10px;margin-left: 10px;">...</button>
+                        <button style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
                     </div>
                 </div>
                 <div class="property-section">
