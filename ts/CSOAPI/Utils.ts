@@ -236,7 +236,6 @@ namespace CSOAPI {
                 return (window.getComputedStyle(el).display === 'none');
             }
             catch(ex) {
-                debugger;
                 console.log(ex);
                 return false;
             }
