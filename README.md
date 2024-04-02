@@ -7,7 +7,7 @@ CSReports.js is a report editor tool that allows you to create reports from data
 
 ![orden_de_pago](https://github.com/javiercrowsoft/CSReports.js/assets/1075455/7bb5c7d4-0775-4b6c-9d90-eea2555268a7)
 
-![Short demo in YouTube](https://www.youtube.com/watch?v=NStwSMh8oxk)
+[Short demo in YouTube](https://www.youtube.com/watch?v=NStwSMh8oxk)
 
 The datasource can be a SQL select statement or an stored procedure. A report can contain many datasources.
 
