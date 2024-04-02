@@ -33,8 +33,8 @@ namespace CSReportEngine {
         private groupValue: string = "";
         private groupFieldIndex: number = 0;
         private sort: boolean = null;
-        private width: number = 500;
-        private height: number = 340;
+        private width: number = 700;
+        private height: number = 280;
         private image: ImageData = null;
 
         public getSeries() {

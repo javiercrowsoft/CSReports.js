@@ -90,7 +90,7 @@ namespace CSChartServer {
                     fill: "black",
                     font: {
                         weight: "bold",
-                        size: "32px",
+                        size: "24px",
                         family: "Mono"
                     }
                 },
