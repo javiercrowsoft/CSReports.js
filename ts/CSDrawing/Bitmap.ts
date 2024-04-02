@@ -89,11 +89,6 @@ namespace CSDrawing {
             const self = this;
             const img = new Image();
 
-            const p = document.createElement("p");
-            p.textContent = "name: " + this.name;
-            document.body.appendChild(p);
-            p.appendChild(img);
-
             return new Promise<ImageBitmap>((resolve) => {
                 img.onload = () => {
                     const canvas = document.createElement("canvas") as HTMLCanvasElement;

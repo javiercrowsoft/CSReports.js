@@ -81,7 +81,7 @@ namespace CSChartServer {
             const canvas = new OffscreenCanvas(width, height);
             const pieChart = new PieChart({
                 canvas: canvas,
-                seriesName: "Vinyl records",
+                seriesName: this.chartTitle,
                 padding: 40,
                 data: this.items.getValues(),
                 colors: ["#80DEEA", "#FFE082", "#FFAB91", "#CE93D8"],
