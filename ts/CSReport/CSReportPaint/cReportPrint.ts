@@ -1091,7 +1091,7 @@ namespace CSReportPaint {
                         // if it doesn't fit in the line because is too high
                         //
                         if(field.getHeight() + aspect.getTop() > topSection + newLnHeight) {
-                            offBottom =  - (aspect.getTop() + aspectHeight);
+                            offBottom = (topSection + newLnHeight) - (aspect.getTop() + aspectHeight);
 
                             // to separete a little
                             //

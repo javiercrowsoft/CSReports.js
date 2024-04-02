@@ -12,74 +12,103 @@ namespace CSChartServer {
 
     export class cWebChart {
 
-        private items: cWebChartItems = null;
+        private chartType: csRptChartType;
+        private chartTitle: string;
+        private primaryColor: csColors;
+        private primaryLabel: string;
+        private alternateColor: csColors;
+        private alternateLabel: string;
+        private chartLineStyle: csRptChartLineStyle;
+        private chartBarOutline: boolean;
+        private chartShowValues: boolean;
+        private showLegend: boolean;
+        private pieThickness: csRptChartPieThickness;
+        private pieDiameter: csRptChartPieDiameter;
+        private copyRight: string;
+        private image: ImageData;
+        private items: cWebChartItems = new cWebChartItems();
 
         public getItems() {
             return this.items;
         }
 
         public newChartType(chartType: csRptChartType, chartTitle: string) {
-            throw new NotImplementedException();
+            this.chartType = chartType;
+            this.chartTitle = chartTitle;
         }
 
-        public setColorPrimary(color: csColors) {
-            throw new NotImplementedException();
+        public setPrimaryColor(color: csColors) {
+            this.primaryColor = color;
         }
 
         public setGridLines(chartLineStyle: csRptChartLineStyle) {
-            throw new NotImplementedException();
+            this.chartLineStyle = chartLineStyle;
         }
 
         public setOutlineBars(chartBarOutline: boolean) {
-            throw new NotImplementedException();
+            this.chartBarOutline = chartBarOutline;
         }
 
         public setShowValues(chartShowValues: boolean) {
-            throw new NotImplementedException();
+            this.chartShowValues = chartShowValues;
         }
 
-        public setShowLegend(p: boolean) {
-            throw new NotImplementedException();
+        public setShowLegend(showLegend: boolean) {
+            this.showLegend = showLegend;
         }
 
         public setThickness(pieThickness: csRptChartPieThickness) {
-            throw new NotImplementedException();
+            this.pieThickness = pieThickness;
         }
 
-        public setDiameter(pieDiameter: csRptChartPieDiameter) {
-            throw new NotImplementedException();
+        public setDiameter(value: csRptChartPieDiameter) {
+            this.pieDiameter = value;
         }
 
-        public setLabelPrimary(p: string) {
-            throw new NotImplementedException();
+        public setPrimaryLabel(value: string) {
+            this.primaryLabel = value;
         }
 
-        public setColorAlternate(color: csColors) {
-            throw new NotImplementedException();
+        public setAlternateColor(color: csColors) {
+            this.alternateColor = color;
         }
 
-        public setLabelAlternate(p: string) {
-            throw new NotImplementedException();
+        public setAlternateLabel(value: string) {
+            this.alternateLabel = value;
         }
 
-        public renderWebChartImage() {
-            throw new NotImplementedException();
+        public renderWebChartImage(width: number, height: number) {
+            const canvas = new OffscreenCanvas(width, height);
+            const pieChart = new PieChart({
+                canvas: canvas,
+                seriesName: "Vinyl records",
+                padding: 40,
+                data: this.items.getValues(),
+                colors: ["#80DEEA", "#FFE082", "#FFAB91", "#CE93D8"],
+                titleOptions: {
+                    align: "center",
+                    fill: "black",
+                    font: {
+                        weight: "bold",
+                        size: "32px",
+                        family: "Mono"
+                    }
+                },
+                doughnutHoleSize:0.3
+            });
+
+            pieChart.draw();
+
+            const ctx = canvas.getContext('2d');
+            this.image = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+        }
+
+        public getImage() {
+            return this.image;
         }
 
         public setCopyRight(copyright: string) {
-            throw new NotImplementedException();
-        }
-
-        public setSaveTo(p: number) {
-            throw new NotImplementedException();
-        }
-
-        public setFileName(fileName: string) {
-            throw new NotImplementedException();
-        }
-
-        public setFormat(imageFormat: csRptChartFormat) {
-            throw new NotImplementedException();
+            this.copyRight = copyright;
         }
 
         dispose() {

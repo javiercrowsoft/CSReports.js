@@ -76,18 +76,32 @@ namespace CSDrawing {
             return bitmap;
         }
 
+        public static loadImageFromImageBitmap(imageBitmap: ImageBitmap) {
+            const bitmap = new Bitmap(0, 0, '');
+            bitmap.imageBitmap = imageBitmap;
+            return bitmap;
+        }
+
         // instance methods
         //
 
         public loadImage() {
             const self = this;
-            const canvas = document.createElement("canvas") as HTMLCanvasElement;
-            const ctx = canvas.getContext("2d");
             const img = new Image();
+
+            const p = document.createElement("p");
+            p.textContent = "name: " + this.name;
+            document.body.appendChild(p);
+            p.appendChild(img);
+
             return new Promise<ImageBitmap>((resolve) => {
                 img.onload = () => {
+                    const canvas = document.createElement("canvas") as HTMLCanvasElement;
+                    const ctx = canvas.getContext("2d");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
                     ctx.drawImage(img, 0, 0);
-                    createImageBitmap(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height))
+                    createImageBitmap(ctx.getImageData(0, 0, img.width, img.height))
                     .then(imageBitmap => {
                         self.imageBitmap = imageBitmap;
                         // @ts-ignore
@@ -95,8 +109,27 @@ namespace CSDrawing {
                         resolve(imageBitmap);
                     });
                 };
-                const imgData = typeof self.imageData === 'object' ? self.imageData.image : self.imageData;
-                img.src = "data:image/jpeg;base64," + imgData;
+                if(typeof self.imageData === 'object') {
+                    if(self.imageData.image !== undefined) {
+                        img.src = "data:image/jpeg;base64," + self.imageData.image;
+                    }
+                    else {
+                        try {
+                            var canvas2 = document.createElement('canvas');
+                            var ctx2 = canvas2.getContext('2d');
+                            canvas2.width = self.imageData.width;
+                            canvas2.height = self.imageData.height;
+                            ctx2.putImageData(self.imageData, 0, 0)
+                            img.src = canvas2.toDataURL();
+                        }
+                        catch(ex) {
+                            console.log(ex);
+                        }
+                    }
+                }
+                else {
+                    img.src = "data:image/jpeg;base64," + self.imageData;
+                }
             });
         }
 
@@ -116,6 +149,10 @@ namespace CSDrawing {
             return this.imageData;
         }
 
+        public setImageData(value: any) {
+            this.imageData = value;
+        }
+
         public dispose() {
             //console.log("dispose was called in object " + this.constructor.name);
         }
@@ -133,6 +170,10 @@ namespace CSDrawing {
             if(width > 0 && height > 0) {
                 this._size = new SizeF(width, height);
             }
+        }
+
+        get bitmap(): Bitmap {
+            return this._bitmap;
         }
 
         get imageBitmap(): ImageBitmap {

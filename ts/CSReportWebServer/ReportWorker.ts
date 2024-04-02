@@ -65,7 +65,19 @@ const reportWorker = (()=> {
         const eventArgs = new CSReportEngine.ProgressEventArgs("Formating pages", 0, 0, 0);
         postMessage({action: 'get-report-start', eventArgs: eventArgs });
 
-        postMessage({action: 'get-report-images', images: JSON.stringify(images), eventArgs: eventArgs });
+        const base64Images = images.filter((i) => {
+            return !( i.bitmap.getImageData() instanceof ImageData )
+        });
+
+        postMessage({action: 'get-report-images', images: JSON.stringify(base64Images), eventArgs: eventArgs });
+
+        images.forEach((key, image) => {
+            const imageData = image.bitmap.getImageData();
+            if(imageData instanceof ImageData) {
+                image.bitmap
+                postMessage({action: 'get-report-uint-images', key: key, imageData: imageData, eventArgs: eventArgs });
+            }
+        });
 
         pages.getValues().forEach((page) => {
             const fields = [...page.getHeader().getValues(), ...page.getDetail().getValues(), ...page.getFooter().getValues()];

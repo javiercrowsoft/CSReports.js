@@ -183,6 +183,14 @@ namespace CSOAPI {
             return null;
         }
 
+        public filter(f:(v: T) => boolean) {
+            const map = new Map<T>();
+            for(let i = 0; i < this.length; i++) {
+                if (f(this.values[i])) map.add(this.values[i], this.keys[i]);
+            }
+            return map;
+        }
+
         public forEachValue(f: (v: T) => void) {
             this.values.forEach(f);
         }

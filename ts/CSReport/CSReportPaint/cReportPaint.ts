@@ -1193,7 +1193,7 @@ namespace CSReportPaint {
             return this.bitmap.whenLoaded()
                 .then(P.call(this, () => {
 
-                    return this.paintPicture(graphic, true)/*.then(() => graphic.scale(1.3,1.3))*/;
+                    return this.paintPicture(graphic, true);
 
                 }));
 

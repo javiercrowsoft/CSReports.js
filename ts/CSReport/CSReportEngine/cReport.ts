@@ -2470,15 +2470,27 @@ namespace CSReportEngine {
         }
 
         private pGetChartImage(indexRows: number, indexField: number, indexRow: number, ctrl: cReportControl) {
+            let key = "k" + indexRows.toString() + indexField.toString() + indexRow.toString();
             if(ctrl.getChart().getChartCreated()) {
-                return ctrl.getChart().getImage();
+                if(this.images.containsKey(key)) {
+                    return this.images.item(key);
+                }
+                else {
+                    return null;
+                }
             }
             else {
                 if(ctrl.getChart().make(
                         this.tables[indexRows].rows,
                         ctrl.getLabel().getAspect().getFormat(),
                         false, "")) {
-                    return ctrl.getChart().getImage();
+                    const image = new Image(
+                        Bitmap.loadImageFromArray(ctrl.getChart().getImage()),
+                        key,
+                        ctrl.getChart().getWidth(),
+                        ctrl.getChart().getHeight());
+                    this.images.add(image, key);
+                    return image;
                 }
                 else {
                     return null;

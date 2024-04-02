@@ -151,11 +151,19 @@ namespace CSReportWebServer {
 
                         for (let i = 0; i < this.images.size(); i++) {
                             const item = this.images.item(i);
-                            this.images.update(i, new Image(
-                                // @ts-ignore
-                                Bitmap.loadImageFromArray(item._bitmap.imageData),
-                                item.key));
+                            this.images.update(
+                                i,
+                                new Image(
+                                    // @ts-ignore
+                                    Bitmap.loadImageFromArray(item._bitmap.imageData),
+                                    item.key));
                         }
+                        break;
+
+                    case 'get-report-uint-images':
+                        this.images.add(
+                            new Image(Bitmap.loadImageFromArray(e.data.imageData), e.data.key),
+                            e.data.key);
                         break;
 
                     case 'get-report-pages':

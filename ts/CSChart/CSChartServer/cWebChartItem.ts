@@ -6,28 +6,43 @@ namespace CSChartServer {
 
     export class cWebChartItem {
 
-        public setPrimaryValue(p: number) {
-            throw new NotImplementedException();
+        private primaryValue: number = 0;
+        private primaryLabel: string = "";
+        private pieLabel: string = "";
+        private alternateValue: number = 0;
+        private alternateLabel: string = "";
+        private explode: boolean = false;
+
+        public setPrimaryValue(value: number) {
+            this.primaryValue = value;
         }
 
-        public setPrimaryLabel(p: string) {
-            throw new NotImplementedException();
+        public setPrimaryLabel(label: string) {
+            this.primaryLabel = label;
         }
 
-        public setPieLabel(p: string) {
-            throw new NotImplementedException();
+        public setPieLabel(value: string) {
+            this.pieLabel = value;
         }
 
-        public setAlternateValue(p: number|number) {
-            throw new NotImplementedException();
+        public setAlternateValue(value: number) {
+            this.alternateValue = value;
         }
 
-        public setAltLabel(p: string) {
-            throw new NotImplementedException();
+        public setAlternateLabel(value: string) {
+            this.alternateLabel = value;
         }
 
-        public setExplode(p: boolean) {
-            throw new NotImplementedException();
+        public setExplode(value: boolean) {
+            this.explode = value;
+        }
+
+        public getPrimaryValue() {
+            return this.primaryValue;
+        }
+
+        public getPrimaryLabel() {
+            return this.primaryLabel;
         }
     }
 }

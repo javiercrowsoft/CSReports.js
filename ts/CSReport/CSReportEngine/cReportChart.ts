@@ -33,7 +33,9 @@ namespace CSReportEngine {
         private groupValue: string = "";
         private groupFieldIndex: number = 0;
         private sort: boolean = null;
-        private image: Image = null;
+        private width: number = 500;
+        private height: number = 340;
+        private image: ImageData = null;
 
         public getSeries() {
             return this.series;
@@ -165,10 +167,6 @@ namespace CSReportEngine {
 
         public getImage() {
             return this.image;
-        }
-
-        public setImage(rhs: Image) {
-            this.image = rhs;
         }
 
         public makeChartFromRs(rs: DataTable, fileName: string) {
@@ -324,9 +322,6 @@ namespace CSReportEngine {
         }
 
         public make(rows: any[][], strFormat: string, bIsForWeb: boolean, fileName: string) {
-            // we need to delete any previous work image
-            //
-            this.destroyImage();
 
             if(rows === null) {
                 return false;
@@ -338,11 +333,11 @@ namespace CSReportEngine {
 
             this.fill(chart, rows, strFormat);
 
-            chart.setColorPrimary(this.series.item(0).getColor());
-            chart.setLabelPrimary(ReportGlobals.getRealName(this.series.item(0).getValueFieldName()));
+            chart.setPrimaryColor(this.series.item(0).getColor());
+            chart.setPrimaryLabel(ReportGlobals.getRealName(this.series.item(0).getValueFieldName()));
             if(this.series.count() > 1) {
-                chart.setColorAlternate(this.series.item(1).getColor());
-                chart.setLabelAlternate(ReportGlobals.getRealName(this.series.item(1).getValueFieldName()));
+                chart.setAlternateColor(this.series.item(1).getColor());
+                chart.setAlternateLabel(ReportGlobals.getRealName(this.series.item(1).getValueFieldName()));
             }
             chart.setGridLines(this.chartLineStyle);
             chart.setOutlineBars(this.chartBarOutline);
@@ -352,72 +347,21 @@ namespace CSReportEngine {
             chart.setThickness(this.pieThickness);
             chart.setDiameter(this.pieDiameter);
 
-            if(!bIsForWeb) {
-                fileName = U.getValidPath(""/* TODO: reimplement * System.IO.Path.GetTempPath()*/) + "~ChartImage";
-            }
-
-            chart.setFormat(this.imageFormat);
-
-            // saveToFile
-            chart.setSaveTo(1);
-            chart.setFileName(fileName);
-
-            this.killFile(fileName);
-
             chart.setCopyRight(this.copyright);
-            chart.renderWebChartImage();
-
-            if(!bIsForWeb) {
-                this.loadChart(fileName);
-            }
-
+            chart.renderWebChartImage(this.width, this.height);
+            this.image = chart.getImage();
             this.chartCreated = true;
             chart.dispose();
 
             return true;
         }
 
-        private pGetExt() {
-            let _rtn: string = "";
-            switch (this.imageFormat)
-            {
-                case csRptChartFormat.BMP:
-                    _rtn = ".bmp";
-                    break;
-                case csRptChartFormat.JPEG:
-                    _rtn = ".jpg";
-                    break;
-                case csRptChartFormat.GIF:
-                    _rtn = ".gif";
-                    break;
-                case csRptChartFormat.PNG:
-                    _rtn = ".png";
-                    break;
-            }
-            return _rtn;
+        public getWidth() {
+            return this.width;
         }
 
-        private killFile(fileName: string) {
-            // TODO: reimplement
-            /*
-            try { File.delete(fileName); }
-            catch  (ex) { }
-             */
-        }
-
-        private loadChart(fileName: string) {
-            // we need to delete any previous work image
-            //
-            this.destroyImage();
-
-            if(fileName.length > 0) {
-                // TODO: reimplement
-                //  let image: Image = Image.FromFile(fileName);
-            }
-        }
-
-        private destroyImage() {
-            this.chartCreated = false;
+        public getHeight() {
+            return this.height;
         }
 
         private getSeriesValues(
@@ -443,6 +387,9 @@ namespace CSReportEngine {
                 }
 
                 if(newTop > 0) { newTop--; }
+                if(newTop > v.length) {
+                    this.redimPreserve(v, newTop);
+                }
             }
 
             if(this.sort) {
@@ -486,9 +433,10 @@ namespace CSReportEngine {
                     }
                 }
 
-                for(i = 0; i < v.length; i++) {
+                for(i = 1; i < v.length; i++) {
 
                     v[i].idx = -1;
+
                     // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
                     for(j = 0; j < rows.length; j++) {
 
@@ -596,7 +544,7 @@ namespace CSReportEngine {
 
         private fill(chart: cWebChart, rows: any[][], strFormat: string) {
             let i: number = 0;
-            let values: t_SerieValue[] = null;
+            let values: t_SerieValue[] = [];
             let serie: cReportChartSequence = null;
             let idxSerie: number = 0;
 
@@ -604,6 +552,12 @@ namespace CSReportEngine {
 
             // TODO: we need the rows dimension. remeber rows is a matrix (cols by rows)
             if(rows.length < 0) { return; }
+
+            if (rows.length < this.top) {
+                values = U.newArrayOfObjects(rows.length, () => new t_SerieValue());
+            } else {
+                values = U.newArrayOfObjects(this.top, () => new t_SerieValue());
+            }
 
             for(let _i = 0; _i < this.series.count(); _i++) {
                 serie = this.series.item(_i);
@@ -623,26 +577,26 @@ namespace CSReportEngine {
 
                     if(values[i].idx !== -1) {
                         if(idxSerie === 1) {
-                            let w_add: cWebChartItem = chart.getItems().add(null);
-                            w_add.setPrimaryValue(values[i].value);
-                            w_add.setPrimaryLabel(ReportGlobals.format(values[i].label, strFormat));
-                            w_add.setPieLabel(ReportGlobals.format(values[i].label, strFormat));
-                            w_add.setAlternateValue(0);
+                            let item: cWebChartItem = chart.getItems().add(null);
+                            item.setPrimaryValue(values[i].value);
+                            item.setPrimaryLabel(ReportGlobals.format(values[i].label, strFormat));
+                            item.setPieLabel(ReportGlobals.format(values[i].label, strFormat));
+                            item.setAlternateValue(0);
                         }
                         else if(idxSerie === 2) {
-                            let w_item: cWebChartItem = chart.getItems().item(i);
-                            w_item.setAlternateValue(values[i].value);
-                            w_item.setPieLabel(ReportGlobals.format(values[i].label, strFormat));
-                            w_item.setAltLabel(ReportGlobals.format(values[i].label, strFormat));
+                            let item: cWebChartItem = chart.getItems().item(i);
+                            item.setAlternateValue(values[i].value);
+                            item.setPieLabel(ReportGlobals.format(values[i].label, strFormat));
+                            item.setAlternateLabel(ReportGlobals.format(values[i].label, strFormat));
                         }
                     }
                 }
 
                 if((values.length > this.top - 1) && this.chartType === csRptChartType.PIE) {
 
-                    let w_item: cWebChartItem = chart.getItems().item(chart.getItems().count()-1);
-                    w_item.setPrimaryLabel("Otros");
-                    w_item.setPieLabel("Otros");
+                    let item: cWebChartItem = chart.getItems().item(chart.getItems().count()-1);
+                    item.setPrimaryLabel("Otros");
+                    item.setPieLabel("Otros");
                 }
 
             }
@@ -669,15 +623,6 @@ namespace CSReportEngine {
                     }
 
                 }
-            }
-        }
-
-        private redim(vSeries: t_SerieValue[], size: number) {
-            if(size === 0) {
-                vSeries = [];
-            }
-            else {
-                vSeries = U.newArrayOfObjects(size, () => new t_SerieValue());;
             }
         }
 
