@@ -171,8 +171,6 @@ namespace CSReportEngine {
         private pages: cReportPages = null;
 
         private compiler: cReportCompiler = null;
-        private currentPage: number = 0;
-        private totalPages: number = 0;
 
         private reportDisconnected: boolean = null;
 
@@ -542,13 +540,13 @@ namespace CSReportEngine {
 
                 // set on the flag to know we need to re-print group headers
                 //
-                this.pMarkGroupHeadersToReprint();
+                this.markGroupHeadersToReprint();
             }
 
             return csRptNewPageResult.CS_RPT_NP_SUCCESS;
         }
 
-        private pMarkGroupHeadersToReprint() {
+        private markGroupHeadersToReprint() {
             // if this is the first page we do nothing
             //
             if(this.firstGroup) {
@@ -562,7 +560,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pExistsGroupHeadersToReprint() {
+        private existsGroupHeadersToReprint() {
             for(let i = 0; i < this.groupCount; i++) {
                 if(this.vGroups[i].reprintHeader) {
                     this.idxGroupHeader = i + 1;
@@ -577,7 +575,7 @@ namespace CSReportEngine {
             return false;
         }
 
-        private pCheckExistsGroupHToReprint() {
+        private checkExistsGroupHToReprint() {
             for(let i = 0; i < this.groupCount; i++) {
                 if(this.vGroups[i].reprintHeader) {
                     return;
@@ -623,10 +621,10 @@ namespace CSReportEngine {
                 // because was mark as needed to re-print
                 // we check if we need to set off the flag
                 //
-                this.pCheckExistsGroupHToReprint();
+                this.checkExistsGroupHToReprint();
 
-                if(this.pNotPendingFooters()) {
-                    this.pMarkGroupHeaderPrintedAux();
+                if(this.notPendingFooters()) {
+                    this.markGroupHeaderPrintedAux();
                 }
 
                 // if the group has changed we need to
@@ -634,11 +632,11 @@ namespace CSReportEngine {
                 //
             }
             else if(this.vGroups[this.idxGroupHeader - 1].changed) {
-                this.pMarkGroupHeaderPrintedAux();
+                this.markGroupHeaderPrintedAux();
             }
         }
 
-        private pMarkGroupHeaderPrintedAux() {
+        private markGroupHeaderPrintedAux() {
 
             // if we have printed the group we need to set off
             // the flag which tell us the group has changed
@@ -695,7 +693,7 @@ namespace CSReportEngine {
                 }
             }
 
-            if(this.pNotPendingFooters()) {
+            if(this.notPendingFooters()) {
                 this.iRowFormula = this.iRow;
                 this.iRow2 = this.iRow;
             }
@@ -713,7 +711,7 @@ namespace CSReportEngine {
 
         public evalPreGroupFooter() {
             if(this.idxGroupHeader !== this.NO_GROUP_INDEX) {
-                let idxChildGroupFooter: number = this.pGetChildGroupFooterToClose(this.idxGroupHeader);
+                let idxChildGroupFooter: number = this.getChildGroupFooterToClose(this.idxGroupHeader);
 
                 // when we close a group we need to evaluate every sub-group
                 //
@@ -738,7 +736,7 @@ namespace CSReportEngine {
 
                 let idxChildGroupFooter: number = 0;
 
-                idxChildGroupFooter = this.pGetChildGroupFooterToClose(this.idxGroupHeader);
+                idxChildGroupFooter = this.getChildGroupFooterToClose(this.idxGroupHeader);
 
                 // when we close a group we need to evaluate every sub-group
                 //
@@ -753,7 +751,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pGetChildGroupFooterToClose(idxGroupFather: number) {
+        private getChildGroupFooterToClose(idxGroupFather: number) {
             let groupIndex: number = 0;
             for(let j = idxGroupFather - 1; j < this.groupCount; j++) {
                 if(this.vGroups[j].footerMustBeClosed) {
@@ -786,7 +784,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pExistsGroupToReprintInNP() {
+        private existsGroupToReprintInNP() {
             this.bExistsGrpToRePrintInNP = false;
             for(let i = 0; i < this.groupCount; i++) {
                 if(this.groups.item(i).getRePrintInNewPage()) {
@@ -796,7 +794,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pNotPendingFooters() {
+        private notPendingFooters() {
             for(let i = 0; i < this.groupCount; i++) {
                 if(this.vGroups[i].footerMustBeClosed) {
                     return false;
@@ -832,7 +830,7 @@ namespace CSReportEngine {
             // if reach the end of the report and there are not groups
             // which need to be printed we have ended
             //
-            if(this.pReportIsDone()) {
+            if(this.reportIsDone()) {
                 return csRptGetLineResult.CS_RPT_GL_END;
             }
 
@@ -848,19 +846,19 @@ namespace CSReportEngine {
 
             // if there are groups footers which have to be printed
             //
-            if(this.pEvalFooterToClose2()) {
+            if(this.evalFooterToClose2()) {
                 return csRptGetLineResult.CS_RPT_GL_VIRTUAL_F;
             }
 
             // if there is nothing more to do we have finished
             //
-            if(this.iRow > this.lastRowIndex && this.pNotPendingFooters()) {
+            if(this.iRow > this.lastRowIndex && this.notPendingFooters()) {
                 return csRptGetLineResult.CS_RPT_GL_END;
             }
 
             // if there are group headers to process
             //
-            if(this.pGetLineAuxPrintHeader()) {
+            if(this.getLineAuxPrintHeader()) {
                 return csRptGetLineResult.CS_RPT_GL_VIRTUAL_H;
             }
 
@@ -888,11 +886,11 @@ namespace CSReportEngine {
 
                 // if there are not group headers to be re-printed in this page
                 //
-                if(!this.pExistsGroupHeadersToReprint()) {
+                if(!this.existsGroupHeadersToReprint()) {
 
                     // we process the line
                     //
-                    let rslt: csRptGetLineResult = this.pGetLineWork(fields, bGetNewPage);
+                    let rslt: csRptGetLineResult = this.getLineWork(fields, bGetNewPage);
                     if(bGetNewPage) {
                         return csRptGetLineResult.CS_RPT_GL_NEW_PAGE;
                     }
@@ -907,33 +905,33 @@ namespace CSReportEngine {
             // if we must close footers
             //
             if(this.bCloseFooter) {
-                return this.pGetLineAuxGroupFooter(fields);
+                return this.getLineAuxGroupFooter(fields);
             }
             // if the group has changed
             //
             else if(this.bOpenHeader) {
-                return this.pGetLineAuxGroupHeader(bGetNewPage, fields);
+                return this.getLineAuxGroupHeader(bGetNewPage, fields);
             }
             // process a details line
             //
             else {
-                return this.pGetLineAuxDetail(fields);
+                return this.getLineAuxDetail(fields);
             }
         }
 
-        private pGetLineWork(fields: RefWrapper<cReportPageFields>, bGetNewPage: boolean) {
+        private getLineWork(fields: RefWrapper<cReportPageFields>, bGetNewPage: boolean) {
             bGetNewPage = false;
 
             // if the user has cancel we have finished
             //
-            if(this.pGetLineAuxReportCancel() === csRptGetLineResult.CS_RPT_GL_END) {
+            if(this.getLineAuxReportCancel() === csRptGetLineResult.CS_RPT_GL_END) {
                 return csRptGetLineResult.CS_RPT_GL_END;
             }
 
             // if we reach the end of the report and there are not groups to process
             // we have finished
             //
-            let rslt: csRptGetLineResult = this.pGetLineWorkAuxReportEnd();
+            let rslt: csRptGetLineResult = this.getLineWorkAuxReportEnd();
             if(rslt === csRptGetLineResult.CS_RPT_GL_END || rslt === csRptGetLineResult.CS_RPT_GL_VIRTUAL_F) {
                 return rslt;
             }
@@ -945,7 +943,7 @@ namespace CSReportEngine {
             // if we need to print the group in a new page
             //
             if(this.idxGroupToPrintNP > 0) {
-                this.pGetLineAuxPrintGroupInNP();
+                this.getLineAuxPrintGroupInNP();
             }
             // we need to process groups
             //
@@ -956,7 +954,7 @@ namespace CSReportEngine {
                     // if we don't need to re-print group headers
                     //
                     if(!this.bHaveToRePrintGroup) {
-                        this.pEvalFooterToClose();
+                        this.evalFooterToClose();
                     }
 
                     // if we don't need to re-print group footers
@@ -964,26 +962,26 @@ namespace CSReportEngine {
                     if(!this.bCloseFooter) {
                         // if have done all the pending work we have finished
                         //
-                        if(this.pGetLineAuxReportIsDone() === csRptGetLineResult.CS_RPT_GL_END) {
+                        if(this.getLineAuxReportIsDone() === csRptGetLineResult.CS_RPT_GL_END) {
                             return csRptGetLineResult.CS_RPT_GL_END;
                         }
 
                         // continue with the next group
                         //
-                        this.pGetLineAuxDoGroups(bGetNewPage);
+                        this.getLineAuxDoGroups(bGetNewPage);
                     }
                 }
             }
             return csRptGetLineResult.CS_RPT_GL_NONE;
         }
 
-        private pGetLineAuxPrintGroupInNP() {
+        private getLineAuxPrintGroupInNP() {
             this.idxGroupHeader = this.idxGroupToPrintNP;
             this.idxGroupToPrintNP = this.NO_GROUP_INDEX;
             this.bOpenHeader = true;
         }
 
-        private pReportIsDone() {
+        private reportIsDone() {
             // if we have finished return CS_RPT_GL_END
             //
             if(this.table === null || this.iRow > this.recordCount -1) {
@@ -996,7 +994,7 @@ namespace CSReportEngine {
             return false;
         }
 
-        private pGetLineWorkAuxReportEnd() {
+        private getLineWorkAuxReportEnd() {
             // if we have finished return CS_RPT_GL_END
             //
             if(this.table === null || this.iRow > this.recordCount - 1) {
@@ -1048,7 +1046,7 @@ namespace CSReportEngine {
             return csRptGetLineResult.CS_RPT_GL_NONE;
         }
 
-        private pGetLineAuxReportCancel() {
+        private getLineAuxReportCancel() {
             // if the user has canceled we have finished
             //
             if(!this.progress("", 0, this.iRow, this.recordCount)) {
@@ -1060,10 +1058,10 @@ namespace CSReportEngine {
             }
         }
 
-        private pGetLineAuxReportIsDone() {
+        private getLineAuxReportIsDone() {
             // if we have printed the las footer we have finished
             //
-            if(this.iRow > this.lastRowIndex && this.pNotPendingFooters()) {
+            if(this.iRow > this.lastRowIndex && this.notPendingFooters()) {
                 this.reportDone();
                 this.bPrintFooter = false;
                 return csRptGetLineResult.CS_RPT_GL_END;
@@ -1071,7 +1069,7 @@ namespace CSReportEngine {
             return csRptGetLineResult.CS_RPT_GL_NONE;
         }
 
-        private pEvalFooterToClose2() {
+        private evalFooterToClose2() {
             for(let i = this.groupCount-1; i > -1; i--) {
                 if(this.vGroups[i].footerMustBeClosed) {
                     return true;
@@ -1080,7 +1078,7 @@ namespace CSReportEngine {
             return false;
         }
 
-        private pEvalFooterToClose() {
+        private evalFooterToClose() {
             for(let i = this.groupCount-1; i > -1; i--) {
                 if(this.vGroups[i].footerMustBeClosed) {
                     this.idxGroupFooter = i + 1;
@@ -1101,7 +1099,7 @@ namespace CSReportEngine {
             return this.bCloseFooter;
         }
 
-        private pGetLineAuxPrintHeader() {
+        private getLineAuxPrintHeader() {
             // we need to evaluate groups
             //
             for(let i = 0; i < this.groupCount; i++) {
@@ -1205,7 +1203,7 @@ namespace CSReportEngine {
             return true;
         }
 
-        private pGetLineAuxDoGroups(bGetNewPage: boolean) {
+        private getLineAuxDoGroups(bGetNewPage: boolean) {
             // we continue evaluating groups
             //
             for(let i = 0; i < this.groupCount; i++) {
@@ -1221,11 +1219,11 @@ namespace CSReportEngine {
                 //  - we are in a new page and need to re-print group headers
                 //
                 if(this.vGroups[i].changed) {
-                    this.pGroupChanged(i, bGetNewPage);
+                    this.groupChanged(i, bGetNewPage);
                     break;
                 }
                 else {
-                    this.pEvalGroupChange(i);
+                    this.evalGroupChange(i);
 
                     if(this.vGroups[i].changed) {
                         this.idxGroupHeader = i + 1;
@@ -1233,12 +1231,12 @@ namespace CSReportEngine {
                         // if it is the first time we are printing groups
                         //
                         if(this.firstGroup) {
-                            this.pOpenGroupHeader(i);
+                            this.openGroupHeader(i);
                         }
                         // the first thing to do is to close footers
                         //
                         else {
-                            this.pCloseGroupFooters(i);
+                            this.closeGroupFooters(i);
                         }
                         break;
                     }
@@ -1246,7 +1244,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pCloseGroupFooters(i: number) {
+        private closeGroupFooters(i: number) {
             // save the index of the outer footer we need to close
             //
             this.groupIndexChange = i + 1;
@@ -1263,7 +1261,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pOpenGroupHeader(i: number) {
+        private openGroupHeader(i: number) {
             // set this flag off to know we need to print the last footers
             //
             this.bLastFootersWasPrinted = false;
@@ -1286,10 +1284,10 @@ namespace CSReportEngine {
             if(!this.firstGroup) {
                 this.vGroups[i].footerMustBeClosed = true;
             }
-            this.pEvalGroupChangedAux(i + 1);
+            this.evalGroupChangedAux(i + 1);
         }
 
-        private pEvalGroupChange(i: number) {
+        private evalGroupChange(i: number) {
             if(this.vGroups[i].grandTotalGroup) {
                 if(this.vGroups[i].value === null) {
                     this.changeGroup(i, "1");
@@ -1333,13 +1331,13 @@ namespace CSReportEngine {
             }
         }
 
-        private pEvalGroupChangedAux(i: number) {
+        private evalGroupChangedAux(i: number) {
             for(; i < this.groupCount; i++) {
-                this.pGroupChangedAux(i);
+                this.groupChangedAux(i);
             }
         }
 
-        private pGroupChangedAux(i: number) {
+        private groupChangedAux(i: number) {
             let col: number = this.vGroups[i].indexField;
             let row: number = this.vRowsIndex[this.iRow2];
             switch (this.vGroups[i].comparisonType)
@@ -1356,9 +1354,9 @@ namespace CSReportEngine {
             }
         }
 
-        private pGroupChanged(i: number, bGetNewPage: boolean) {
+        private groupChanged(i: number, bGetNewPage: boolean) {
             this.idxGroupHeader = i + 1;
-            this.pGroupChangedAux(i);
+            this.groupChangedAux(i);
 
             bGetNewPage = this.groups.item(i).getPrintInNewPage() && !this.firstGroup;
 
@@ -1385,7 +1383,7 @@ namespace CSReportEngine {
             this.bOpenHeader = true;
         }
 
-        private pGetLineAuxGroupFooter(fields: RefWrapper<cReportPageFields>) {
+        private getLineAuxGroupFooter(fields: RefWrapper<cReportPageFields>) {
 
             // if we need to evaluate functions which must run
             // before printing
@@ -1428,7 +1426,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pGetLineAuxGroupHeader(bGetNewPage: boolean, fields: RefWrapper<cReportPageFields>) {
+        private getLineAuxGroupHeader(bGetNewPage: boolean, fields: RefWrapper<cReportPageFields>) {
             let headerSec: cReportSection = null;
 
             if(bGetNewPage && !this.firstGroup) {
@@ -1480,7 +1478,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pGetLineAuxDetail(fields: RefWrapper<cReportPageFields>) {
+        private getLineAuxDetail(fields: RefWrapper<cReportPageFields>) {
             this.firstGroup = false;
 
             this.getLineAux(this.details.item(0), fields);
@@ -1562,7 +1560,7 @@ namespace CSReportEngine {
                                 {
                                     case csRptControlType.RPT_CT_FIELD:
 
-                                        ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
+                                        ({indexRows, indexRow, indexField} = this.getIndexRows(indexRows, indexRow, indexField, ctrl));
 
                                         if(this.tables[indexRows] !== null) {
                                             // it looks ugly, dont think you?
@@ -1596,7 +1594,7 @@ namespace CSReportEngine {
 
                                     case csRptControlType.RPT_CT_DB_IMAGE:
 
-                                        ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
+                                        ({indexRows, indexRow, indexField} = this.getIndexRows(indexRows, indexRow, indexField, ctrl));
 
                                         if(this.tables[indexRows] !== null) {
                                             field.setImage(this.getImage(indexRows, indexField, indexRow));
@@ -1605,9 +1603,9 @@ namespace CSReportEngine {
 
                                     case csRptControlType.RPT_CT_CHART:
 
-                                        ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
+                                        ({indexRows, indexRow, indexField} = this.getIndexRows(indexRows, indexRow, indexField, ctrl));
 
-                                        field.setImage(this.pGetChartImage(indexRows, indexField, indexRow, ctrl));
+                                        field.setImage(this.getChartImage(indexRows, indexField, indexRow, ctrl));
                                         break;
                                 }
                             }
@@ -1631,7 +1629,7 @@ namespace CSReportEngine {
         // indexRows     define the datasource
         // indexRow      define the row in the datasource
         //
-        private pGetIndexRows(indexRows: number, indexRow: number, indexField: number, ctrl: cReportControl) {
+        private getIndexRows(indexRows: number, indexRow: number, indexField: number, ctrl: cReportControl) {
             // the datasource index have an offset of 1000 between each other
             //
             indexRows = Math.floor(ctrl.getField().getIndex() / 1000);
@@ -1708,7 +1706,7 @@ namespace CSReportEngine {
 
                     // we need to sort all controls by his aspect.left property
                     //
-                    this.pSortControlsByLeft();
+                    this.sortControlsByLeft();
 
                     if(! this.progress("Querying database")) {
                         return false;
@@ -1739,7 +1737,7 @@ namespace CSReportEngine {
                         this.recordCount = 0;
                     }
 
-                    this.pInitImages();
+                    this.initImages();
 
                     return true;
                 }
@@ -1784,14 +1782,14 @@ namespace CSReportEngine {
                     this.groupIndexChange = this.NO_GROUP_INDEX;
                     this.iRow2 = 0;
                     this.iRowFormula = 0;
-                    this.pSetGroupFormulaHeaders();
-                    this.pSetGroupsInCtrlFormulaHide();
-                    this.pSetIndexColInGroupFormulas(recordSets);
-                    this.pInitRowFormulas();
+                    this.setGroupFormulaHeaders();
+                    this.setGroupsInCtrlFormulaHide();
+                    this.setIndexColInGroupFormulas(recordSets);
+                    this.initRowFormulas();
 
                     // check if there are groups which need to be reprinted when the page change
                     //
-                    this.pExistsGroupToReprintInNP();
+                    this.existsGroupToReprintInNP();
 
                     // to force the evaluate of the groups in the first page
                     //
@@ -1909,7 +1907,7 @@ namespace CSReportEngine {
 
             if(!this.copyGroups(report)) { return false; }
 
-            this.pFixGroupIndex();
+            this.fixGroupIndex();
 
             if(!this.copyConnect(report)) { return false; }
             if(!this.copyConnectsAux(report)) { return false; }
@@ -2398,7 +2396,7 @@ namespace CSReportEngine {
             let j: number = 0;
             let bIsDBImage: boolean = false;
 
-            let dataSource: string = this.pGetDataSource(fieldName);
+            let dataSource: string = this.getDataSource(fieldName);
 
             // index of the group which contains the control
             //
@@ -2447,7 +2445,7 @@ namespace CSReportEngine {
             return true;
         }
 
-        private pGetDataSource(name: string) {
+        private getDataSource(name: string) {
             let n: number = name.indexOf("}.", 0);
             if(n === -1) {
                 return "";
@@ -2457,19 +2455,19 @@ namespace CSReportEngine {
             }
         }
 
-        private pInitImages() {
-            this.pDestroyImages();
+        private initImages() {
+            this.destroyImages();
             this.images = new Map<Image>();
         }
 
-        private pDestroyImages() {
+        private destroyImages() {
             if(this.images !== null) {
                 this.images.forEachValue((image) => image.dispose());
                 this.images = null;
             }
         }
 
-        private pGetChartImage(indexRows: number, indexField: number, indexRow: number, ctrl: cReportControl) {
+        private getChartImage(indexRows: number, indexField: number, indexRow: number, ctrl: cReportControl) {
             let key = "k" + indexRows.toString() + indexField.toString() + indexRow.toString();
             if(ctrl.getChart().getChartCreated()) {
                 if(this.images.containsKey(key)) {
@@ -3082,7 +3080,7 @@ namespace CSReportEngine {
                 this.vGroups[i].value = null;
                 found = false;
                 fieldName = this.groups.item(i).getFieldName();
-                dataSource = this.pGetDataSource(fieldName).toUpperCase();
+                dataSource = this.getDataSource(fieldName).toUpperCase();
                 fieldName = ReportGlobals.getRealName(fieldName).toUpperCase();
 
                 // the column must be in the main recordset
@@ -3311,14 +3309,12 @@ namespace CSReportEngine {
         }
 
         private orderNumberDesc(first: number, last: number, orderBy: number) {
-            let i: number = 0;
             let j: number = 0;
-            let t: number = 0;
             let q: number = 0;
             let bChanged: boolean = false;
 
-            t = this.estimateLoops(last - first);
-            for(i = first + 1; i <= last; i++) {
+            let t = this.estimateLoops(last - first);
+            for(let i = first + 1; i <= last; i++) {
                 bChanged = false;
                 for(j = last; j >= i; j--) {
                     q = q + 1;
@@ -3550,8 +3546,8 @@ namespace CSReportEngine {
         // only one time for page. to do this we set the idxGroup
         // of the formula to -2000
         //
-        private pSetGroupFormulaHeaders() {
-            this.pSetGroupFormulaHF(this.headers, this.IDX_GROUP_HEADER);
+        private setGroupFormulaHeaders() {
+            this.setGroupFormulaHF(this.headers, this.IDX_GROUP_HEADER);
 
             // the main header is -2000
             //
@@ -3576,15 +3572,15 @@ namespace CSReportEngine {
             }
         }
 
-        private pSetGroupsInCtrlFormulaHide() {
+        private setGroupsInCtrlFormulaHide() {
             for(let _i = 0; _i < this.groups.count(); _i++) {
                 let group: cReportGroup = this.groups.item(_i);
-                this.pSetGroupsInCtrlFormulaHideAux(group.getHeader().getSectionLines(), group.getIndex());
-                this.pSetGroupsInCtrlFormulaHideAux(group.getFooter().getSectionLines(), group.getIndex());
+                this.setGroupsInCtrlFormulaHideAux(group.getHeader().getSectionLines(), group.getIndex());
+                this.setGroupsInCtrlFormulaHideAux(group.getFooter().getSectionLines(), group.getIndex());
             }
         }
 
-        private pSetGroupsInCtrlFormulaHideAux(scls: cReportSectionLines, idxGrop: number) {
+        private setGroupsInCtrlFormulaHideAux(scls: cReportSectionLines, idxGrop: number) {
             let scl: cReportSectionLine = null;
             let ctrl: cReportControl = null;
 
@@ -3601,7 +3597,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pSetGroupFormulaHF(sections: cReportSections, idxGroup: number) {
+        private setGroupFormulaHF(sections: cReportSections, idxGroup: number) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
@@ -3664,11 +3660,11 @@ namespace CSReportEngine {
                 }
             }
 
-            if(!this.pAddFormulasInSection(this.headers)) { return false; }
-            if(!this.pAddFormulasInSection(this.groupsHeaders)) { return false; }
-            if(!this.pAddFormulasInSection(this.groupsFooters)) { return false; }
-            if(!this.pAddFormulasInSection(this.details)) { return false; }
-            if(!this.pAddFormulasInSection(this.footers)) { return false; }
+            if(!this.addFormulasInSection(this.headers)) { return false; }
+            if(!this.addFormulasInSection(this.groupsHeaders)) { return false; }
+            if(!this.addFormulasInSection(this.groupsFooters)) { return false; }
+            if(!this.addFormulasInSection(this.details)) { return false; }
+            if(!this.addFormulasInSection(this.footers)) { return false; }
 
             let formula: cReportFormula = null;
 
@@ -3678,18 +3674,18 @@ namespace CSReportEngine {
                 this.compiler.initVariable(formula);
             }
 
-            this.pSetIndexGroupInFormulaGroups(this.headers);
-            this.pSetIndexGroupInFormulaGroups(this.groupsHeaders);
-            this.pSetIndexGroupInFormulaGroups(this.groupsFooters);
-            this.pSetIndexGroupInFormulaGroups(this.details);
-            this.pSetIndexGroupInFormulaGroups(this.footers);
+            this.setIndexGroupInFormulaGroups(this.headers);
+            this.setIndexGroupInFormulaGroups(this.groupsHeaders);
+            this.setIndexGroupInFormulaGroups(this.groupsFooters);
+            this.setIndexGroupInFormulaGroups(this.details);
+            this.setIndexGroupInFormulaGroups(this.footers);
 
             this.compiler.clearVariables();
 
             return true;
         }
 
-        private pSetIndexGroupInFormulaGroups(sections: cReportSections) {
+        private setIndexGroupInFormulaGroups(sections: cReportSections) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
             let ctrl: cReportControl = null;
@@ -3697,34 +3693,34 @@ namespace CSReportEngine {
             for(let _i = 0; _i < sections.count(); _i++) {
                 sec = sections.item(_i);
                 if(sec.getHasFormulaHide()) {
-                    this.pSetFormulaIndexGroup(sec.getFormulaHide(), sec);
+                    this.setFormulaIndexGroup(sec.getFormulaHide(), sec);
                 }
                 for(let _j = 0; _j < sec.getSectionLines().count(); _j++) {
                     secLn = sec.getSectionLines().item(_j);
                     if(secLn.getHasFormulaHide()) {
-                        this.pSetFormulaIndexGroup(secLn.getFormulaHide(), sec);
+                        this.setFormulaIndexGroup(secLn.getFormulaHide(), sec);
                     }
                     for(let _k = 0; _k < secLn.getControls().count(); _k++) {
                         ctrl = secLn.getControls().item(_k);
                         if(ctrl.getHasFormulaHide()) {
-                            this.pSetFormulaIndexGroup(ctrl.getFormulaHide(), sec);
+                            this.setFormulaIndexGroup(ctrl.getFormulaHide(), sec);
                         }
                         if(ctrl.getHasFormulaValue()) {
-                            this.pSetFormulaIndexGroup(ctrl.getFormulaValue(), sec);
+                            this.setFormulaIndexGroup(ctrl.getFormulaValue(), sec);
                         }
                     }
                 }
             }
         }
 
-        private pSetFormulaIndexGroup(formula: cReportFormula, sec: cReportSection) {
+        private setFormulaIndexGroup(formula: cReportFormula, sec: cReportSection) {
             let fint: cReportFormulaInt = null;
             let indexGroup: number = 0;
 
             for(let _i = 0; _i < formula.getFormulasInt().count(); _i++) {
                 fint = formula.getFormulasInt().item(_i);
 
-                if(this.pIsGroupFormula(fint.getFormulaType())) {
+                if(this.isGroupFormula(fint.getFormulaType())) {
                     if(fint.getFormulaType() === csRptFormulaType.CSRPTF_GROUP_PERCENT) {
                         formula.setIdxGroup2(0);
                         indexGroup = U.valInt(fint.getParameters().item(2).getValue());
@@ -3762,7 +3758,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pIsGroupFormula(formulaType: number) {
+        private isGroupFormula(formulaType: number) {
             switch (formulaType)
             {
                 case csRptFormulaType.CSRPTF_GROUP_TOTAL:
@@ -3781,7 +3777,7 @@ namespace CSReportEngine {
             }
         }
 
-        private pAddFormulasInSection(sections: cReportSections) {
+        private addFormulasInSection(sections: cReportSections) {
             let sec: cReportSection = null;
             let secLn: cReportSectionLine = null;
 
@@ -3928,7 +3924,7 @@ namespace CSReportEngine {
                                     {
                                         case csRptControlType.RPT_CT_FIELD:
 
-                                            ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
+                                            ({indexRows, indexRow, indexField} = this.getIndexRows(indexRows, indexRow, indexField, ctrl));
 
                                             if(this.tables[indexRows] !== null) {
                                                 // it looks ugly, dont think you?
@@ -3966,7 +3962,7 @@ namespace CSReportEngine {
 
                                         case csRptControlType.RPT_CT_DB_IMAGE:
 
-                                            ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
+                                            ({indexRows, indexRow, indexField} = this.getIndexRows(indexRows, indexRow, indexField, ctrl));
 
                                             if(this.tables[indexRows] !== null) {
                                                 field.setImage(this.getImage(indexRows, indexField, indexRow));
@@ -3975,9 +3971,9 @@ namespace CSReportEngine {
 
                                         case csRptControlType.RPT_CT_CHART:
 
-                                            ({indexRows, indexRow, indexField} = this.pGetIndexRows(indexRows, indexRow, indexField, ctrl));
+                                            ({indexRows, indexRow, indexField} = this.getIndexRows(indexRows, indexRow, indexField, ctrl));
 
-                                            field.setImage(this.pGetChartImage(indexRows, indexField, indexRow, ctrl));
+                                            field.setImage(this.getChartImage(indexRows, indexField, indexRow, ctrl));
                                             break;
                                     }
                                 }
@@ -4287,7 +4283,7 @@ namespace CSReportEngine {
             }));
         }
 
-        private pInitRowFormulas() {
+        private initRowFormulas() {
 
             this.lastRowPreEvaluated = [];
             this.lastRowPostEvaluated = [];
@@ -4343,7 +4339,7 @@ namespace CSReportEngine {
 
             if(!this.loadGroups(docXml)) { return false; }
 
-            this.pFixGroupIndex();
+            this.fixGroupIndex();
 
             if(!this.loadConnect(docXml)) { return false; }
             if(!this.loadConnectsAux(docXml)) { return false; }
@@ -4358,7 +4354,7 @@ namespace CSReportEngine {
             return true;
         }
 
-        private pFixGroupIndex() {
+        private fixGroupIndex() {
             for(let i = 0; i < this.groups.count(); i++) {
                 this.groups.item(i).setIndex(i);
             }
@@ -4559,15 +4555,15 @@ namespace CSReportEngine {
             this.runningInWebWorker = rhs;
         }
 
-        private pSortControlsByLeft() {
-            this.pSortControlsByLeftAux1(this.headers);
-            this.pSortControlsByLeftAux1(this.groupsHeaders);
-            this.pSortControlsByLeftAux1(this.details);
-            this.pSortControlsByLeftAux1(this.groupsFooters);
-            this.pSortControlsByLeftAux1(this.footers);
+        private sortControlsByLeft() {
+            this.sortControlsByLeftAux1(this.headers);
+            this.sortControlsByLeftAux1(this.groupsHeaders);
+            this.sortControlsByLeftAux1(this.details);
+            this.sortControlsByLeftAux1(this.groupsFooters);
+            this.sortControlsByLeftAux1(this.footers);
         }
 
-        private pSortControlsByLeftAux1(sections: cReportSections) {
+        private sortControlsByLeftAux1(sections: cReportSections) {
             for(let i = 0; i < sections.count(); i++) {
                 let sec = sections.item(i);
                 for(let j = 0; j < sec.getSectionLines().count(); j++) {
@@ -4636,7 +4632,7 @@ namespace CSReportEngine {
             this.connectsAux.clear();
             this.connectsAux = null;
 
-            this.pDestroyImages();
+            this.destroyImages();
             this.images = null;
         }
 
@@ -4676,7 +4672,7 @@ namespace CSReportEngine {
 
             this.compiler = null;
 
-            this.pDestroyImages();
+            this.destroyImages();
             this.images = null;
         }
 
@@ -4711,59 +4707,59 @@ namespace CSReportEngine {
             }
         }
 
-        private pSetIndexColInGroupFormulas(recordSets: (object|string)[][]) {
-            this.pSetIndexColInGroupFormulasAux(this.headers, recordSets);
-            this.pSetIndexColInGroupFormulasAux(this.groupsHeaders, recordSets);
-            this.pSetIndexColInGroupFormulasAux(this.groupsFooters, recordSets);
-            this.pSetIndexColInGroupFormulasAux(this.details, recordSets);
-            this.pSetIndexColInGroupFormulasAux(this.footers, recordSets);
+        private setIndexColInGroupFormulas(recordSets: (object|string)[][]) {
+            this.setIndexColInGroupFormulasAux(this.headers, recordSets);
+            this.setIndexColInGroupFormulasAux(this.groupsHeaders, recordSets);
+            this.setIndexColInGroupFormulasAux(this.groupsFooters, recordSets);
+            this.setIndexColInGroupFormulasAux(this.details, recordSets);
+            this.setIndexColInGroupFormulasAux(this.footers, recordSets);
         }
 
-        private pSetIndexColInGroupFormulasAux(sections: cReportSections, recordSets: (object|string)[][]) {
+        private setIndexColInGroupFormulasAux(sections: cReportSections, recordSets: (object|string)[][]) {
             for(let i = 0; i < sections.count(); i++) {
                 let sec = sections.item(i);
                 if(sec.getHasFormulaHide()) {
-                    this.pSetIndexColInGroupFormula(sec.getFormulaHide(), recordSets);
+                    this.setIndexColInGroupFormula(sec.getFormulaHide(), recordSets);
                 }
                 for(let j = 0; j < sec.getSectionLines().count(); j++) {
                     let secLn = sec.getSectionLines().item(j);
                     if(secLn.getHasFormulaHide()) {
-                        this.pSetIndexColInGroupFormula(secLn.getFormulaHide(), recordSets);
+                        this.setIndexColInGroupFormula(secLn.getFormulaHide(), recordSets);
                     }
                     for(let k = 0; k < secLn.getControls().count(); k++) {
                         let ctrl = secLn.getControls().item(k);
                         if(ctrl.getHasFormulaHide()) {
-                            this.pSetIndexColInGroupFormula(ctrl.getFormulaHide(), recordSets);
+                            this.setIndexColInGroupFormula(ctrl.getFormulaHide(), recordSets);
                         }
                         if(ctrl.getHasFormulaValue()) {
-                            this.pSetIndexColInGroupFormula(ctrl.getFormulaValue(), recordSets);
+                            this.setIndexColInGroupFormula(ctrl.getFormulaValue(), recordSets);
                         }
                     }
                 }
             }
         }
 
-        private pSetIndexColInGroupFormula(formula: cReportFormula, recordSets: (object|string)[][]) {
+        private setIndexColInGroupFormula(formula: cReportFormula, recordSets: (object|string)[][]) {
             if(!this.reportDisconnected) {
                 let rs = recordSets[0][0];
 
                 for(let i = 0; i < formula.getFormulasInt().count(); i++) {
                     let fint = formula.getFormulasInt().item(i);
 
-                    if(this.pIsGroupFormula(fint.getFormulaType())) {
+                    if(this.isGroupFormula(fint.getFormulaType())) {
                         let colName = fint.getParameters().item(0).getValue();
-                        this.pSetColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.KEY_INDEX_COL);
+                        this.setColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.KEY_INDEX_COL);
 
                         if(fint.getFormulaType() === csRptFormulaType.CSRPTF_GROUP_PERCENT) {
                             colName = fint.getParameters().item(1).getValue();
-                            this.pSetColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.KEY_INDEX_COL2);
+                            this.setColIndexInGroupFormulaAux(rs as DataTable, fint, colName, ReportGlobals.KEY_INDEX_COL2);
                         }
                     }
                 }
             }
         }
 
-        private pSetColIndexInGroupFormulaAux(rs: DataTable, fint: cReportFormulaInt, colName: string, keyParam: string) {
+        private setColIndexInGroupFormulaAux(rs: DataTable, fint: cReportFormulaInt, colName: string, keyParam: string) {
             for(let i = 0; i < rs.columns.length; i++) {
                 if(colName.toLowerCase() === rs.columns[i].getName().toLowerCase()) {
                     if(fint.getParameters().item(keyParam) === null) {
