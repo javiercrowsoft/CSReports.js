@@ -889,6 +889,95 @@ End Function
             <button id="db-columns-dlg-cancel">Cancel</button>
         </div>
     </div>
+    <div id="group-dlg">
+        <div class="dlg-header">
+            <div class="inner-row-left" style="height: 60px;">
+                <img src="images/properties/config_page.jpg" style="margin-left: 20px;">
+                <h1 id="ctrl-group-label" style="margin-left: 15px;">New Group</h1>
+            </div>
+        </div>
+        <div class="dlg-body">
+            <div>
+                <label>Name</label>
+                <input type="text" id="ctrl-group-name"/>
+                <div>
+                    <label>Field</label>
+                    <div class="inner-row">
+                        <input type="text" id="ctrl-group-dbfield-name"/>
+                        <button style="height: 30px;margin-top: 5px;margin-left: 10px;">...</button>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Order</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">Ascend
+                                <input type="radio" name="sortType" id="ctrl-group-op-asc"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Descend
+                                <input type="radio" name="sortType" id="ctrl-group-op-desc"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Comparison Type</label>
+                    <div class="row">
+                        <div class="inner-row-radio">
+                            <label style="margin-top: 10px;">Text
+                                <input type="radio" name="comparisonType" id="ctrl-group-op-text"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Date
+                                <input type="radio" name="comparisonType" id="ctrl-group-op-date"/>
+                                <span></span>
+                            </label>
+                            <label style="margin-top: 10px;">Number
+                                <input type="radio" name="comparisonType" id="ctrl-group-op-number"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Page Options</label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Print every group in a new page
+                                <input type="checkbox" id="ctrl-group-print-in-new-page"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">Print group headers in a every page
+                                <input type="checkbox" id="ctrl-group-reprint-group"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-section">
+                    <label>Formulas</label>
+                    <div class="row">
+                        <div class="inner-row">
+                            <label style="margin-top: 10px;">It is a grand total group
+                                <input type="checkbox" id="ctrl-group-grant-total"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dlg-footer">
+            <button id="group-dlg-apply">Apply</button>
+            <button id="group-dlg-cancel">Cancel</button>
+        </div>
+    </div>
     <div id="datasource-dlg">
         <div class="dlg-header">
             <div class="inner-row-left" style="height: 60px;">
@@ -1059,16 +1148,26 @@ End Function
 
 <!-- popup menu -->
 <div id="popup-menu-control" class="popup-menu">
-            <ul>
-                <li><a id="cmctrl-copy" onclick="CSReportEditor.cMainEditor.fMain.ctrlCopyClick()">Copy</a></li>
-                <li><a id="cmctrl-paste" onclick="CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste</a></li>
-                <li><a id="cmctrl-paste-ex" onclick="CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste Special</a></li>
-                <li class="cmctrl-divider"></li>
-                <li><a id="cmctrl-delete" onclick="CSReportEditor.cMainEditor.fMain.ctrlDeleteClick()">Delete</a></li>
-                <li class="divider"></li>
-                <li><a id="cmctrl-send-back" onclick="CSReportEditor.cMainEditor.fMain.ctrlSendBackClick()">Send Back</a></li>
-                <li><a id="cmctrl-bring-front"  onclick="CSReportEditor.cMainEditor.fMain.ctrlBringFrontClick()">Bring Front</a></li>
-            </ul>
+    <ul>
+        <li><a id="cmctrl-copy" onclick="CSReportEditor.cMainEditor.fMain.ctrlCopyClick()">Copy</a></li>
+        <li><a id="cmctrl-paste" onclick="CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste</a></li>
+        <li><a id="cmctrl-paste-ex" onclick="CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste Special</a></li>
+        <li class="cmctrl-divider"></li>
+        <li><a id="cmctrl-delete" onclick="CSReportEditor.cMainEditor.fMain.ctrlDeleteClick()">Delete</a></li>
+        <li class="divider"></li>
+        <li><a id="cmctrl-send-back" onclick="CSReportEditor.cMainEditor.fMain.ctrlSendBackClick()">Send Back</a></li>
+        <li><a id="cmctrl-bring-front"  onclick="CSReportEditor.cMainEditor.fMain.ctrlBringFrontClick()">Bring Front</a></li>
+    </ul>
+</div>
+
+<div id="popup-menu-section" class="popup-menu">
+    <ul>
+        <li><a id="cmsec-add-line" onclick="CSReportEditor.cMainEditor.fMain.secAddLineClick()">Add Line</a></li>
+        <li><a id="cmsec-delete-line" onclick="CSReportEditor.cMainEditor.fMain.deleteLineClick()">Delete Line</a></li>
+        <li><a id="cmsec-delete" onclick="CSReportEditor.cMainEditor.fMain.deleteSectionClick()">Delete Section</a></li>
+        <li class="cmctrl-divider"></li>
+        <li><a id="cmsec-move-group" onclick="CSReportEditor.cMainEditor.fMain.moveGroupClick()">Move Group</a></li>
+    </ul>
 </div>
 
 </body>

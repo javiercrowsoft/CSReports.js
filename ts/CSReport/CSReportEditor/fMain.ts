@@ -92,6 +92,13 @@ namespace CSReportEditor {
         private cmCtrlBringFront: HTMLAnchorElement = null;
         private cmCtrlPaste: HTMLAnchorElement = null;
         private cmCtrlPasteEx: HTMLAnchorElement = null;
+
+        private popupMenuSection: HTMLDivElement = null;
+        private cmsecAddLine: HTMLAnchorElement = null;
+        private cmsecDeleteLine: HTMLAnchorElement = null;
+        private cmsecDelete: HTMLAnchorElement = null;
+        private cmsecMoveGroup: HTMLAnchorElement = null;
+
         private cb_zoom: HTMLSelectElement = null;
 
         public constructor() {
@@ -146,6 +153,17 @@ namespace CSReportEditor {
             this.cmCtrlBringFront.onclick = P.call(this, this.bringFront);
             this.cmCtrlPaste.onclick = P.call(this, this.pasteClick);
             this.cmCtrlPasteEx.onclick = P.call(this, this.pasteSpecialClick);
+
+            this.popupMenuSection = U.el("popup-menu-section") as HTMLDivElement;
+            this.cmsecAddLine = U.el("cmsec-add-line") as HTMLAnchorElement;
+            this.cmsecDeleteLine = U.el("cmsec-delete-line") as HTMLAnchorElement;
+            this.cmsecDelete = U.el("cmsec-delete") as HTMLAnchorElement;
+            this.cmsecMoveGroup = U.el("cmsec-move-group") as HTMLAnchorElement;
+
+            this.cmsecAddLine.onclick = P.call(this, this.addSectionLineClick);
+            this.cmsecDeleteLine.onclick = P.call(this, this.deleteSectionLineClick);
+            this.cmsecDelete.onclick = P.call(this, this.deleteSectionClick);
+            this.cmsecMoveGroup.onclick = P.call(this, this.moveGroupClick);
         }
 
         public init() {
@@ -996,7 +1014,7 @@ namespace CSReportEditor {
                 "CrowSoft Report Editor");
         }
 
-        private cmSectionAddSectionLine_Click(sender: object, e: any) {
+        private addSectionLineClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).addSectionLine();
@@ -1010,15 +1028,15 @@ namespace CSReportEditor {
             }
         }
 
-        private cmSectionDeleteSection_Click(sender: object, e: any) {
+        private deleteSectionClick() {
             this.deleteReportObject(false);
         }
 
-        private cmSectionDeleteSectionLine_Click(sender: object, e: any) {
+        private deleteSectionLineClick() {
             this.deleteReportObject(true);
         }
 
-        private cmSectionMoveGroup_Click(sender: object, e: any) {
+        private moveGroupClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).moveGroup();

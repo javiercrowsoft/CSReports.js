@@ -2600,7 +2600,7 @@ namespace CSReportEditor {
         }
 
         public addGroup() {
-            this.showCurrentGroupProperties();
+            this.showGroupProperties(null);
             this.refreshAll();
         }
 
@@ -3182,46 +3182,45 @@ namespace CSReportEditor {
 
                 this.fGroup.getLbGroup().setText("Group: " + this.fGroup.getTxName().getText());
 
-                this.fGroup.showDialog();
+                this.fGroup.showModal()
+                .then(P.call(this, (result) => {
+                    if(result.success) {
 
-                if(this.fGroup.getOk()) {
+                        if(isNew) {
+                            group = this.report.getGroups().add(null, "");
+                        }
 
-                    if(isNew) {
-                        group = this.report.getGroups().add(null, "");
+                        group.setName(this.fGroup.getTxName().getText());
+                        group.setFieldName(this.fGroup.getTxDbField().getText());
+
+                        group.setIndex(this.report.getGroups().count());
+                        group.setOderType(this.fGroup.getOpAsc().getChecked() ? RptGrpOrderType.CS_RPT_GRP_ASC : RptGrpOrderType.CS_RPT_GRP_DESC);
+
+                        group.setPrintInNewPage(this.fGroup.getChkPrintInNewPage().getChecked());
+                        group.setRePrintInNewPage(this.fGroup.getChkReprintGroup().getChecked());
+                        group.setGrandTotalGroup(this.fGroup.getChkGrandTotal().getChecked());
+
+                        if(this.fGroup.getOpDate().getChecked()) {
+                            group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_DATE);
+                        }
+                        else if(this.fGroup.getOpNumber().getChecked()) {
+                            group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_NUMBER);
+                        }
+                        else if(this.fGroup.getOpText().getChecked()) {
+                            group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_TEXT);
+                        }
+
+                        if(isNew) {
+                            this.addSection(csRptSectionType.GROUP_HEADER);
+                            this.addSection(csRptSectionType.GROUP_FOOTER);
+                        }
+
+                        this.dataHasChanged = true;
                     }
-
-                    group.setName(this.fGroup.getTxName().getText());
-                    group.setFieldName(this.fGroup.getTxDbField().getText());
-
-                    group.setIndex(this.report.getGroups().count());
-                    group.setOderType(this.fGroup.getOpAsc().getChecked() ? RptGrpOrderType.CS_RPT_GRP_ASC : RptGrpOrderType.CS_RPT_GRP_DESC);
-
-                    group.setPrintInNewPage(this.fGroup.getChkPrintInNewPage().getChecked());
-                    group.setRePrintInNewPage(this.fGroup.getChkReprintGroup().getChecked());
-                    group.setGrandTotalGroup(this.fGroup.getChkGrandTotal().getChecked());
-
-                    if(this.fGroup.getOpDate().getChecked()) {
-                        group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_DATE);
-                    }
-                    else if(this.fGroup.getOpNumber().getChecked()) {
-                        group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_NUMBER);
-                    }
-                    else if(this.fGroup.getOpText().getChecked()) {
-                        group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_TEXT);
-                    }
-
-                    if(isNew) {
-                        this.addSection(csRptSectionType.GROUP_HEADER);
-                        this.addSection(csRptSectionType.GROUP_FOOTER);
-                    }
-
-                    this.dataHasChanged = true;
-                }
-
-            } catch(ex) {
-                cError.mngError(ex);
+                }));
             }
-            finally {
+            catch(ex) {
+                cError.mngError(ex);
                 this.showingProperties = false;
                 if(this.fGroup !== null) {
                     this.fGroup.close();
