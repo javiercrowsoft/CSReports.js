@@ -105,6 +105,6 @@ namespace CSKernelFile  {
 
     export class FileContent {
         name: string;
-        content: string;
+        content: any;
     }
 }

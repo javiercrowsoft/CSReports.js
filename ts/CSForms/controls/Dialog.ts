@@ -21,6 +21,8 @@ namespace CSForms {
 
     export class Dialog {
 
+        private static zindex = 9999;
+
         private maximize = false;
         private dialog: HTMLDivElement;
         private dialogTitle: HTMLElement;
@@ -29,6 +31,9 @@ namespace CSForms {
         private dialogContent: HTMLElement;
         private dialogAction: HTMLElement;
         private dialogOverlay: HTMLElement;
+
+        private oldOnmousemove: any;
+        private oldOnmouseup: any;
 
         // state
         //
@@ -142,6 +147,9 @@ namespace CSForms {
             this.dialog.style.opacity = '0';
             this.dialogOverlay.style.display = 'none';
             this.maximize = false;
+            document.onmousemove = this.oldOnmousemove;
+            document.onmouseup = this.oldOnmouseup;
+
             this.resolve(result);
         }
 
@@ -156,10 +164,19 @@ namespace CSForms {
                 this.dialog.style.opacity = '1';
                 this.dialog.style.width = this.settings.width + 'px';
                 this.dialog.style.height = this.settings.height + 'px';
-                this.dialog.style.top = (!this.settings.top) ? '50%' : '0px';
-                this.dialog.style.left = (!this.settings.left) ? '50%' : '0px';
+
+                let top = '50%';
+                let left = '50%';
+                if(document.onmousemove) {
+                    top = '60%';
+                    left = '60%';
+                }
+                this.dialog.style.top = (!this.settings.top) ? top : '0px';
+                this.dialog.style.left = (!this.settings.left) ? left : '0px';
+
                 this.dialog.style.marginTop = (!this.settings.top) ? '-' + this.settings.height/2 + 'px' : this.settings.top + 'px';
                 this.dialog.style.marginLeft = (!this.settings.left) ? '-' + this.settings.width/2 + 'px' : this.settings.left + 'px';
+                this.dialog.style.zIndex = (Dialog.zindex++).toString();
                 this.dialogTitle.textContent = this.settings.title;
                 this.dialogOverlay.style.display = (this.settings.overlay) ? 'block' : 'none';
 
@@ -170,6 +187,9 @@ namespace CSForms {
                 const body = U.elc('dlg-body', this.dialogContent);
                 body.style.height = (this.settings.height - 148) + 'px';
                 body.style.overflow = 'auto';
+
+                this.oldOnmousemove = document.onmousemove;
+                this.oldOnmouseup = document.onmouseup;
 
                 document.onmousemove = P.call(this, this.moveElement);
                 document.onmouseup = P.call(this, this.destroy);

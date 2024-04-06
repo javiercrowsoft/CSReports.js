@@ -6,6 +6,7 @@
 ///<reference path="../../CSForms/controls/ListView.ts"/>
 ///<reference path="../../CSForms/controls/TreeView.ts"/>
 ///<reference path="../../CSDatabase/server/ServerConnection.ts"/>
+///<reference path="../CSReportEngine/cColumnsInfo.ts"/>
 
 namespace CSReportEditor {
 
@@ -25,6 +26,7 @@ namespace CSReportEditor {
     import Map = CSOAPI.Map;
     import ReportWeb = CSReportWebServer.ReportWeb;
     import ServerConnection = CSDatabase.ServerConnection;
+    import cColumnsInfo = CSReportEngine.cColumnsInfo;
 
     import Panel = CSForms.Panel;
     import PictureBox = CSForms.PictureBox;
@@ -82,6 +84,7 @@ namespace CSReportEditor {
         private pageSetup: FPageSetup = new FPageSetup();
         private columnsDlg: FColumns = new FColumns();
         private searchDlg: FSearch = new FSearch();
+        private groupDlg: FGroup = new FGroup();;
 
         private serverConnection: ServerConnection = new ServerConnection();
 
@@ -616,6 +619,14 @@ namespace CSReportEditor {
                     try {
                         fc.content = JSON.parse(fc.content);
                         this.debugData.add(fc, (editor as cEditor).getId());
+                        const columns = (editor as cEditor).getReport().getConnect().getColumns();
+                        const dataColumns = fc.content.data.data[0].data.columns;
+                        for(let i = 0; i < dataColumns.length; i++) {
+                            const column = columns.add(null, "");
+                            column.setColumnType(dataColumns[i].columnType);
+                            column.setName(dataColumns[i].name);
+                            column.setPosition(i);
+                        }
                     } catch(ex) {
                         cError.mngError(ex);
                     }
@@ -730,6 +741,10 @@ namespace CSReportEditor {
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).showToolbox();
             }
+        }
+
+        public getGroupDlg() {
+            return this.groupDlg;
         }
 
         public searchClick() {

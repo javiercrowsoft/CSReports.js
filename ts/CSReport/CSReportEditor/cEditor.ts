@@ -182,7 +182,6 @@ namespace CSReportEditor {
 
         private fProperties: FProperties = null;
         private fSecProperties: FSecProperties = null;
-        private fGroup: FGroup = null;
         private fConnectsAux: FConnectsAux = null;
 
         // names
@@ -304,14 +303,6 @@ namespace CSReportEditor {
 
         public setShowingProperties(rhs: boolean) {
             this.showingProperties = rhs;
-        }
-
-        public getFGroup() {
-            return this.fGroup;
-        }
-
-        public setFGroup(rhs: FGroup) {
-            this.fGroup = rhs;
         }
 
         public getReport() {
@@ -3091,7 +3082,7 @@ namespace CSReportEditor {
         }
 
         public showHelpDbFieldForGroup() {
-            return this.showHelpDbField2(this.fGroup);
+            return this.showHelpDbField2(this.fMain.getGroupDlg());
         }
 
         private showHelpDbField2(f: cIDatabaseFieldSelector) {
@@ -3141,48 +3132,46 @@ namespace CSReportEditor {
 
                 this.showingProperties = true;
 
-                if(this.fGroup === null) { this.fGroup = new FGroup(); }
-
-                this.fGroup.setHandler(this);
+                this.fMain.getGroupDlg().setHandler(this);
 
                 if(group === null) { isNew = true; }
 
                 if(isNew) {
-                    this.fGroup.getTxName().setText("Group" + this.report.getGroups().count() + 1);
+                    this.fMain.getGroupDlg().getTxName().setText("Group" + this.report.getGroups().count() + 1);
                 }
                 else {
-                    this.fGroup.getTxName().setText(group.getName());
-                    this.fGroup.getTxDbField().setText(group.getFieldName());
+                    this.fMain.getGroupDlg().getTxName().setText(group.getName());
+                    this.fMain.getGroupDlg().getTxDbField().setText(group.getFieldName());
 
                     if(group.getOderType() === RptGrpOrderType.CS_RPT_GRP_ASC) {
-                      this.fGroup.getOpAsc().setChecked(true);
+                      this.fMain.getGroupDlg().getOpAsc().setChecked(true);
                     }
                     else {
-                      this.fGroup.getOpDesc().setChecked(true);
+                      this.fMain.getGroupDlg().getOpDesc().setChecked(true);
                     }
 
-                    this.fGroup.getChkPrintInNewPage().setChecked(group.getPrintInNewPage());
-                    this.fGroup.getChkReprintGroup().setChecked(group.getRePrintInNewPage());
-                    this.fGroup.getChkGrandTotal().setChecked(group.getGrandTotalGroup());
+                    this.fMain.getGroupDlg().getChkPrintInNewPage().setChecked(group.getPrintInNewPage());
+                    this.fMain.getGroupDlg().getChkReprintGroup().setChecked(group.getRePrintInNewPage());
+                    this.fMain.getGroupDlg().getChkGrandTotal().setChecked(group.getGrandTotalGroup());
 
                     switch (group.getComparisonType()) {
                       case  RptGrpComparisonType.CS_RPT_GRP_DATE:
-                        this.fGroup.getOpDate().setChecked(true);
+                        this.fMain.getGroupDlg().getOpDate().setChecked(true);
                         break;
 
                       case  RptGrpComparisonType.CS_RPT_GRP_NUMBER:
-                        this.fGroup.getOpNumber().setChecked(true);
+                        this.fMain.getGroupDlg().getOpNumber().setChecked(true);
                         break;
 
                       case  RptGrpComparisonType.CS_RPT_GRP_TEXT:
-                        this.fGroup.getOpText().setChecked(true);
+                        this.fMain.getGroupDlg().getOpText().setChecked(true);
                         break;
                     }
                 }
 
-                this.fGroup.getLbGroup().setText("Group: " + this.fGroup.getTxName().getText());
+                this.fMain.getGroupDlg().getLbGroup().setText("Group: " + this.fMain.getGroupDlg().getTxName().getText());
 
-                this.fGroup.showModal()
+                this.fMain.getGroupDlg().showModal()
                 .then(P.call(this, (result) => {
                     if(result.success) {
 
@@ -3190,23 +3179,23 @@ namespace CSReportEditor {
                             group = this.report.getGroups().add(null, "");
                         }
 
-                        group.setName(this.fGroup.getTxName().getText());
-                        group.setFieldName(this.fGroup.getTxDbField().getText());
+                        group.setName(this.fMain.getGroupDlg().getTxName().getText());
+                        group.setFieldName(this.fMain.getGroupDlg().getTxDbField().getText());
 
                         group.setIndex(this.report.getGroups().count());
-                        group.setOderType(this.fGroup.getOpAsc().getChecked() ? RptGrpOrderType.CS_RPT_GRP_ASC : RptGrpOrderType.CS_RPT_GRP_DESC);
+                        group.setOderType(this.fMain.getGroupDlg().getOpAsc().getChecked() ? RptGrpOrderType.CS_RPT_GRP_ASC : RptGrpOrderType.CS_RPT_GRP_DESC);
 
-                        group.setPrintInNewPage(this.fGroup.getChkPrintInNewPage().getChecked());
-                        group.setRePrintInNewPage(this.fGroup.getChkReprintGroup().getChecked());
-                        group.setGrandTotalGroup(this.fGroup.getChkGrandTotal().getChecked());
+                        group.setPrintInNewPage(this.fMain.getGroupDlg().getChkPrintInNewPage().getChecked());
+                        group.setRePrintInNewPage(this.fMain.getGroupDlg().getChkReprintGroup().getChecked());
+                        group.setGrandTotalGroup(this.fMain.getGroupDlg().getChkGrandTotal().getChecked());
 
-                        if(this.fGroup.getOpDate().getChecked()) {
+                        if(this.fMain.getGroupDlg().getOpDate().getChecked()) {
                             group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_DATE);
                         }
-                        else if(this.fGroup.getOpNumber().getChecked()) {
+                        else if(this.fMain.getGroupDlg().getOpNumber().getChecked()) {
                             group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_NUMBER);
                         }
-                        else if(this.fGroup.getOpText().getChecked()) {
+                        else if(this.fMain.getGroupDlg().getOpText().getChecked()) {
                             group.setComparisonType(RptGrpComparisonType.CS_RPT_GRP_TEXT);
                         }
 
@@ -3222,10 +3211,7 @@ namespace CSReportEditor {
             catch(ex) {
                 cError.mngError(ex);
                 this.showingProperties = false;
-                if(this.fGroup !== null) {
-                    this.fGroup.close();
-                    this.fGroup = null;
-                }
+                this.fMain.getGroupDlg().close();
             }
         }
 
@@ -5085,10 +5071,6 @@ namespace CSReportEditor {
             }
 
             this.fMain.showPopMenuControl(this, clickInCtrl, pasteEnabled, this.picReport.pointToScreen(new Point(x, y)), event);
-        }
-
-        private fGroup_UnloadForm() {
-            this.fGroup = null;
         }
 
         public destroyPropertiesFormReference() {

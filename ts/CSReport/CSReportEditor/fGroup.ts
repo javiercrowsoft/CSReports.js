@@ -9,6 +9,7 @@ namespace CSReportEditor {
     import OptionButton = CSForms.OptionButton;
     import CheckBox = CSForms.CheckBox;
     import Label = CSForms.Label;
+    import Button = CSForms.Button;
 
     export class FGroup extends Form {
 
@@ -51,6 +52,7 @@ namespace CSReportEditor {
 
             this.dialog = new Dialog(this.el, 'group-dlg-apply', 'group-dlg-cancel');
             this.dialog.onApply = P.call(this, this.cmdApplyClick);
+            new Button(U.el('ctrl-group-dbfield-name-button')).setOnClick(P.call(this, this.dbFieldClick));
             super.setDialog(this.dialog);
         }
 
@@ -58,21 +60,11 @@ namespace CSReportEditor {
             return true;
         }
 
-        private cmdOk_Click(sender: object, e: object) {
-            this.ok = true;
-            this.hide();
-        }
-
-        private cmdCancel_Click(sender: object, e: object) {
-            this.ok = false;
-            this.hide();
-        }
-
         public setHandler(editor: cEditor) {
             this.editor = editor;
         }
 
-        private cmd_dbField_Click(sender: object, e: object) {
+        private dbFieldClick() {
             this.editor.showHelpDbFieldForGroup().then(P.call(this, (result) => {
                 if(result)  {
                     this.dbFieldChanged = true;
@@ -80,68 +72,68 @@ namespace CSReportEditor {
             }));
         }
 
-        private fGroup_Load(sender: object, e: object) {
-            //cWindow.centerForm(this);
-        }
-
         public getAsc() {
-            //return op_asc.Checked;
+            return this.opAsc.getChecked();
         }
 
         public setAsc(value: boolean) {
-            //op_asc.setChecked(value);
+            this.opAsc.setChecked(value);
+        }
+
+        public getDesc() {
+            return this.opDesc.getChecked();
         }
 
         public setDesc(value: boolean) {
-            //op_desc.setChecked(value);
+            this.opDesc.setChecked(value);
         }
 
         public getPrintInNewPage() {
-            //return chk_printInNewPage.Checked;
+            return this.chkPrintInNewPage.getChecked();
         }
 
         public setPrintInNewPage(value: boolean) {
-            //chk_printInNewPage.setChecked(value);
+            this.chkPrintInNewPage.setChecked(value);
         }
 
         public getReprintGroup() {
-            //return chk_reprintGroup.Checked;
+            return this.chkReprintGroup.getChecked();
         }
 
         public setReprintGroup(value: boolean) {
-            //chk_reprintGroup.setChecked(value);
+            this.chkReprintGroup.setChecked(value);
         }
 
         public getGrandTotal() {
-            //return chk_grandTotal.Checked;
+            return this.chkGrandTotal.getChecked();
         }
 
         public setGrandTotal(value: boolean) {
-            //chk_grandTotal.setChecked(value);
+            this.chkGrandTotal.setChecked(value);
         }
 
         public getSortByDate() {
-            //return op_date.Checked;
+            return this.opDate.getChecked();
         }
 
         public setSortByDate(value: boolean) {
-            //op_date.setChecked(value);
+            this.opDate.setChecked(value);
         }
 
         public getSortByNumber() {
-            //return op_number.Checked;
+            return this.opNumber.getChecked();
         }
 
         public setSortByNumber(value: boolean) {
-            //op_number.setChecked(value);
+            this.opNumber.setChecked(value);
         }
 
         public getSortByText() {
-            //return op_text.Checked;
+            return this.opText.getChecked();
         }
 
         public setSortByText(value: boolean) {
-            //op_text.setChecked(value);
+            this.opText.setChecked(value);
         }
 
         public getOk() {
@@ -213,7 +205,7 @@ namespace CSReportEditor {
         }
 
         showModal() {
-            return this.dialog.show({title: 'Group', height: 600, width: 500, overlay: true})
+            return this.dialog.show({title: 'Group', height: 600, width: 800, overlay: true})
                         .then(P.call(this, (result)=> {
                             if(result) return {
                                                 success: true
