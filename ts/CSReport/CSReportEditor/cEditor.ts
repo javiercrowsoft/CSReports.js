@@ -2762,7 +2762,7 @@ namespace CSReportEditor {
 
         public addSection(typeSection: csRptSectionType) {
 
-            if(!this.editor.isVisible()) return;
+            if(!this.editor.isVisible()) return Promise.resolve();
 
             let rptSection: cReportSection = null;
             let topSec: cReportSection = null;
@@ -2909,8 +2909,7 @@ namespace CSReportEditor {
             aspect = rptSection.getSectionLines().item(0).getAspect();
             aspect.setWidth(rptSection.getAspect().getWidth());
 
-            this.refreshBody();
-            this.refreshRule();
+            return this.refreshBody().then(P.call(this, () => this.refreshRule())) ;
         }
 
         public bringToFront() {
@@ -3138,6 +3137,11 @@ namespace CSReportEditor {
 
                 if(isNew) {
                     this.fMain.getGroupDlg().getTxName().setText("Group" + this.report.getGroups().count() + 1);
+                      this.fMain.getGroupDlg().getOpAsc().setChecked(true);
+                      this.fMain.getGroupDlg().getChkPrintInNewPage().setChecked(false);
+                      this.fMain.getGroupDlg().getChkReprintGroup().setChecked(false);
+                      this.fMain.getGroupDlg().getChkGrandTotal().setChecked(false);
+                      this.fMain.getGroupDlg().getOpText().setChecked(true);
                 }
                 else {
                     this.fMain.getGroupDlg().getTxName().setText(group.getName());
@@ -3200,8 +3204,8 @@ namespace CSReportEditor {
                         }
 
                         if(isNew) {
-                            this.addSection(csRptSectionType.GROUP_HEADER);
-                            this.addSection(csRptSectionType.GROUP_FOOTER);
+                            this.addSection(csRptSectionType.GROUP_HEADER).then(P.call(this, () =>
+                                this.addSection(csRptSectionType.GROUP_FOOTER)));
                         }
 
                         this.dataHasChanged = true;
@@ -5080,7 +5084,7 @@ namespace CSReportEditor {
         private refreshBody() {
             try {
 
-                this.paint.endMove(this.picReport.getGraphics());
+                return this.paint.endMove(this.picReport.getGraphics());
 
             } catch(ex) {
                 cError.mngError(ex);

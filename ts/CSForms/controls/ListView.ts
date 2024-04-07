@@ -73,15 +73,25 @@ namespace CSForms {
 
         onclick() {
             if(this.state.onclick) {
-                this.state.selectedItems.clear();
-                this.state.selectedItems.addItem(this);
-                this.tr.style.backgroundColor = "lightgreen";
-                if(this.state.activeItem?.subItems?.getTr()) {
-                    this.state.activeItem.subItems.getTr().style.backgroundColor = '';
-                }
-                this.state.activeItem = this;
+                this.setItemSelected();
                 this.state.onclick(this);
             }
+        }
+
+        private setItemSelected() {
+            this.state.selectedItems.clear();
+            this.state.selectedItems.addItem(this);
+            this.tr.style.backgroundColor = "lightgreen";
+            if(this.state.activeItem?.subItems?.getTr()) {
+                this.state.activeItem.subItems.getTr().style.backgroundColor = '';
+            }
+            this.state.activeItem = this;
+        }
+
+        private setItemUnSelected() {
+            this.state.selectedItems.clear();
+            this.tr.style.backgroundColor = '';
+            this.state.activeItem = null;
         }
 
         setText(text: string) {
@@ -100,11 +110,12 @@ namespace CSForms {
         setImageIndex(imageIndex: number) {
             this.imageIndex = imageIndex;
         }
-        setFocused(arg0: boolean) {
-            throw new Error("Method not implemented.");
+        setFocused(_: boolean) {
+
         }
-        setSelected(arg0: boolean) {
-            throw new Error("Method not implemented.");
+        setSelected(value: boolean) {
+            if(value) this.setItemSelected();
+            else      this.setItemUnSelected();
         }
     }
 
@@ -258,7 +269,7 @@ namespace CSForms {
         }
 
         select() {
-            throw new Error("Method not implemented.");
+
         }
 
     }
