@@ -2211,6 +2211,9 @@ namespace CSReportEditor {
 
             this.dragging = false;
 
+            left /= this.zoom;
+            top /= this.zoom;
+
             if(this.controlType === csRptEditCtrlType.none) {
                 return true;
             }
