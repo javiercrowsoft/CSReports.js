@@ -102,6 +102,8 @@ namespace CSReportEditor {
         private cmsecDelete: HTMLAnchorElement = null;
         private cmsecMoveGroup: HTMLAnchorElement = null;
 
+        private mnuEditMoveLocked: HTMLAnchorElement = null;
+
         private cb_zoom: HTMLSelectElement = null;
 
         public constructor() {
@@ -138,6 +140,11 @@ namespace CSReportEditor {
             Font.availableFonts().then((fonts) => fonts.forEach((font)=> fontsNode.add(new Option(font))));
 
             document.onclick = P.call(this, this.hideContextMenu);
+
+            this.mnuEditMoveLocked = U.el("mnuEditMoveLocked") as HTMLAnchorElement;
+
+            document.onkeyup = P.call(this, this.keyUp);
+            document.onkeydown = P.call(this, this.keyDown);
 
             this.setPopUpMenus();
         }
@@ -1170,59 +1177,38 @@ namespace CSReportEditor {
             }
         }
 
-        private lockToolStripMenuItem_click(sender: object, e: any) {
-            /*
+        public editMoveLockedClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                editor.moveNoMove();
-                lockToolStripMenuItem.setChecked(!lockToolStripMenuItem.Checked);
-                if(lockToolStripMenuItem.Checked) {
-                    lockToolStripMenuItem.setText("Unlock");
+                (editor as cEditor).moveNoMove();
+                if((editor as cEditor).moveIsLock()) {
+                    this.mnuEditMoveLocked.textContent = "Unlock";
                 }
                 else {
-                    lockToolStripMenuItem.setText("Unlock");
+                    this.mnuEditMoveLocked.textContent = "Unlock";
                 }
             }
-            */
         }
 
-        private verticalToolStripMenuItem_click(sender: object, e: any) {
-            /*
+        public editMoveVerticalClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                editor.moveVertical();
-                horizontalToolStripMenuItem.setChecked(false);
-                verticalToolStripMenuItem.setChecked(true);
-                allDirectionsToolStripMenuItem.setChecked(false);
+                (editor as cEditor).moveVertical();
             }
-
-             */
         }
 
-        private horizontalToolStripMenuItem_click(sender: object, e: any) {
-            /*
+        public editMoveHorizontalClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                editor.moveHorizontal();
-                horizontalToolStripMenuItem.setChecked(true);
-                verticalToolStripMenuItem.setChecked(false);
-                allDirectionsToolStripMenuItem.setChecked(false);
+                (editor as cEditor).moveHorizontal();
             }
-
-             */
         }
 
-        private allDirectionsToolStripMenuItem_click(sender: object, e: any) {
-            /*
+        public editMoveFreeClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                editor.moveAll();
-                horizontalToolStripMenuItem.setChecked(false);
-                verticalToolStripMenuItem.setChecked(false);
-                allDirectionsToolStripMenuItem.setChecked(true);
+                (editor as cEditor).moveAll();
             }
-
-             */
         }
 
         public ctrlAlignLeftClick() {
@@ -1281,17 +1267,17 @@ namespace CSReportEditor {
             }
         }
 
-        private fMain_KeyUp(sender: object, e: any) {
+        private keyUp(ev: KeyboardEvent) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                editor.keyUp(sender, e);
+                (editor as cEditor).keyUp(ev);
             }
         }
 
-        private fMain_KeyDown(sender: object, e: any) {
+        private keyDown(ev: KeyboardEvent) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                editor.keyDown(sender, e);
+                (editor as cEditor).keyDown(ev);
             }
         }
 

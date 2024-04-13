@@ -233,7 +233,7 @@ namespace CSReportEditor {
         public setKeyboardMoveStep(rhs: number) {
             this.keyboardMoveStep = rhs;
         }
-        public getBMoveNoMove() {
+        public moveIsLock() {
             return this.bNoMove;
         }
         public getBMoveVertical() {
@@ -367,22 +367,21 @@ namespace CSReportEditor {
             this.fConnectsAux.addConnect(connect.getDataSource(), connect.getStrConnect());
         }
 
-        public keyUp(sender: object, e) {
-            e.Handled = this.formKeyUp(e.KeyCode, e.Control);
+        public keyUp(ev: KeyboardEvent) {
+            this.formKeyUp(this.keyFromKey(ev.key), ev.ctrlKey);
 
             if(this.keyboardMove) {
                 this.keyboardMove = false;
                 this.picReportMouseUp(
                     new MouseEventArgs(MouseButtons.Left, 0, this.x, this.y, 0),
                     new Point(this.x, this.y));
-                e.Handled = true;
+
+                ev.stopPropagation();
+                ev.preventDefault();
             }
         }
 
         private formKeyUp(keyCode: Keys, ctrlKey: boolean) {
-            // if we are in edit mode we do nothing
-            //
-            // if(TxEdit.Visible) return;
 
             switch (keyCode) {
 
@@ -420,11 +419,6 @@ namespace CSReportEditor {
                     this.bNoMove = !this.bNoMove;
                     cGlobals.setStatus();
                     break;
-
-                /*
-                case Keys.F4:
-                    this.showProperties2();
-                    break;*/
 
                 case Keys.C:
                     if(ctrlKey) {
@@ -740,27 +734,28 @@ namespace CSReportEditor {
             }
         }
 
-        public keyDown(sender: object, e) {
-            let keyCode: Keys = e.KeyCode;
-            let shift: boolean = e.Shift;
+        public keyDown(ev: KeyboardEvent) {
+            let keyCode: Keys = this.keyFromKey(ev.key);
+            let shift: boolean = ev.shiftKey;
             let aspect: cReportAspect = null;
             try {
 
                 // only process arrow keys
                 switch (keyCode) {
-                case Keys.Up:
-                        break;
-                case Keys.Down:
-                        break;
-                case Keys.Left:
-                        break;
-                case Keys.Right:
-                        break;
-                default:
-                        return;
+                    case Keys.Up:
+                            break;
+                    case Keys.Down:
+                            break;
+                    case Keys.Left:
+                            break;
+                    case Keys.Right:
+                            break;
+                    default:
+                            return;
                 }
 
-                e.Handled = true;
+                ev.stopPropagation();
+                ev.preventDefault();
 
                 let x: number = 0;
                 let y: number = 0;
@@ -6254,22 +6249,41 @@ namespace CSReportEditor {
             this.report.getConnect().setDataSource(dataSource);
             this.report.getConnect().setDataSourceType(csDataSourceType.CS_DT_PROCEDURE);
         }
+
+        private keyFromKey(key: string) {
+            switch(key) {
+                case "F11": return Keys.F11;
+                case "F12": return Keys.F12;
+                case "F9": return Keys.F9;
+                case "F8": return Keys.F8;
+                case "F2": return Keys.F2;
+                case "F4": return Keys.F4;
+                case "Delete": return Keys.Delete;
+                case "Escape": return Keys.Escape;
+                case "Up": return Keys.Up;
+                case "Down": return Keys.Down;
+                case "Left": return Keys.Left;
+                case "Right": return Keys.Right;
+                case "C": return Keys.C;
+                case "V": return Keys.V;
+            }
+        }
     }
 
     enum Keys {
-        F11,
-        F12,
-        F9,
-        F8,
-        F2,
-        F4,
-        Delete,
-        Escape,
-        Up,
-        Down,
-        Left,
-        Right,
-        C,
-        V
+        F11 = "F11",
+        F12 = "F12",
+        F9 = "F9",
+        F8 = "F8",
+        F2 = "F2",
+        F4 = "F4",
+        Delete = "Delete",
+        Escape = "Escape",
+        Up = "Up",
+        Down = "Down",
+        Left = "Left",
+        Right = "Right",
+        C = "C",
+        V = "V"
     }
 }
