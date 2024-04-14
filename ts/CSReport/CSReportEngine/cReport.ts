@@ -425,16 +425,16 @@ namespace CSReportEngine {
             return this.reportDisconnected;
         }
 
-        public setReportDisconnected(rhs: boolean) {
-            this.reportDisconnected = rhs;
+        public setReportDisconnected(value: boolean) {
+            this.reportDisconnected = value;
         }
 
         public getDescripUser() {
             return this.userDescription;
         }
 
-        public setDescripUser(rhs: string) {
-            this.userDescription = rhs;
+        public setDescripUser(value: string) {
+            this.userDescription = value;
         }
 
         public getCurrenPage() {

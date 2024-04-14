@@ -150,7 +150,6 @@ namespace CSReportEditor {
 	            }
 	            else {
                     this.fMain.setMenuAux(true);
-                    this.fMain.setDisconnectedReport(editor.getReport().getReportDisconnected());
                     this.fMain.setBarText(editor.getReport().getName());
                     this.fMain.setStatus(this.pGetStatus());
 	            }

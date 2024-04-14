@@ -84,7 +84,8 @@ namespace CSReportEditor {
         private pageSetup: FPageSetup = new FPageSetup();
         private columnsDlg: FColumns = new FColumns();
         private searchDlg: FSearch = new FSearch();
-        private groupDlg: FGroup = new FGroup();;
+        private groupDlg: FGroup = new FGroup();
+        private connectAuxDlg: FConnectsAux = new FConnectsAux();
 
         private serverConnection: ServerConnection = new ServerConnection();
 
@@ -454,7 +455,10 @@ namespace CSReportEditor {
         }
 
         public setDisconnectedReport(isDisconnectedReport: boolean) {
-            // TODO: implement
+            let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(maybeEditor === null || ! maybeEditor.isEditor) return;
+
+            (maybeEditor as cEditor).getReport().setReportDisconnected(isDisconnectedReport);
         }
 
 		public setStatusBarText(msg: string) {
@@ -761,6 +765,10 @@ namespace CSReportEditor {
 
         public getGroupDlg() {
             return this.groupDlg;
+        }
+
+        public getConnectAuxDlg() {
+            return this.connectAuxDlg;
         }
 
         public searchClick() {

@@ -182,7 +182,6 @@ namespace CSReportEditor {
 
         private fProperties: FProperties = null;
         private fSecProperties: FSecProperties = null;
-        private fConnectsAux: FConnectsAux = null;
 
         // names
         private nextNameCtrl: number = 0;
@@ -349,22 +348,21 @@ namespace CSReportEditor {
 
         public showConnectsAux() {
             try {
-                this.fConnectsAux = new FConnectsAux();
+
+                this.fMain.getConnectAuxDlg().clear();
 
                 for(let _i = 0; _i < this.report.getConnectsAux().count(); _i++) {
                     this.pAddConnectAuxToListView(this.report.getConnectsAux().item(_i));
                 }
-                this.fConnectsAux.showDialog();
+                this.fMain.getConnectAuxDlg().showDialog();
 
             } catch(ex) {
                 cError.mngError(ex);
-                this.fConnectsAux.close();
-                this.fConnectsAux = null;
             }
         }
 
         private pAddConnectAuxToListView(connect: cReportConnect) {
-            this.fConnectsAux.addConnect(connect.getDataSource(), connect.getStrConnect());
+            this.fMain.getConnectAuxDlg().addConnect(connect.getDataSource(), connect.getStrConnect());
         }
 
         public keyUp(ev: KeyboardEvent) {
@@ -438,25 +436,20 @@ namespace CSReportEditor {
             return true;
         }
 
-        private setFormEvents () {
-
-            // TODO: this functionality must be moved to fConnectsAux
-            //
-            this.fConnectsAux.addConnect = () => {
-                try {
-                    let rptConnect: cReportConnect = new cReportConnect();
-                    if(!this.configConnection(rptConnect)) return;
-                    this.report.getConnectsAux().add(rptConnect);
-                    this.pAddConnectAuxToListView(rptConnect);
-                } catch(ex) {
-                    cError.mngError(ex);
-                }
-            };
-        }
-
         public setFocusCtrl(ctrlKey: string) {
             try {
                 this.selectCtrl(ctrlKey);
+            } catch(ex) {
+                cError.mngError(ex);
+            }
+        }
+
+        public addConnection() {
+            try {
+                let rptConnect: cReportConnect = new cReportConnect();
+                if(!this.configConnection(rptConnect)) return;
+                this.report.getConnectsAux().add(rptConnect);
+                this.pAddConnectAuxToListView(rptConnect);
             } catch(ex) {
                 cError.mngError(ex);
             }
