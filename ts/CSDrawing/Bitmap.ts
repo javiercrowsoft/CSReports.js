@@ -982,6 +982,8 @@ namespace CSDrawing {
             return Color.colorFromNumber(this._color);
         }
 
+        public static Orange = new Color(csColors.ORANGE);
+        public static OrangeRed = new Color(csColors.ORANGERED);
         public static Gray = new Color(csColors.GRAY);
         public static Black = new Color(csColors.BLACK);
         public static Red = new Color(csColors.RED);

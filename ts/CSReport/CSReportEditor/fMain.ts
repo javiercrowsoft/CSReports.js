@@ -655,18 +655,18 @@ namespace CSReportEditor {
         //------------------------------------------------------------------------------------------------------------------
 
 
-        public showPopMenuSection(editor: cEditor, noDelete: boolean, showGroups: boolean, p: Point) {
-            /*
-            cmSectionDeleteSection.setEnabled(!noDelete);
-            cmSectionGroupProperties.Visible = showGroups;
-            cmSectionMoveGroup.Visible = showGroups;
-            cmSectionGroupSeparator.Visible = showGroups;
+        public showPopMenuSection(editor: cEditor, deleteDisabled: boolean, showGroups: boolean, p: Point, event: any) {
+            setTimeout(P.call(this, () => {
+                this.popupMenuSection.style.display = "block";
+                this.popupMenuSection.style.top = `${event.pageY}px`;
+                this.popupMenuSection.style.left = `${event.pageX}px`;
+            }), 100);
+
+            this.setEnabledMenu(this.cmsecDeleteLine, !deleteDisabled);
+            this.setEnabledMenu(this.cmsecDelete, !deleteDisabled);
+            this.setVisibleMenu(this.cmsecMoveGroup, showGroups);
 
             this.contextMenuEditor = editor;
-
-            cmnSection.Show(p);
-
-             */
         }
 
         public hideContextMenu(_: MouseEvent) {
@@ -693,14 +693,23 @@ namespace CSReportEditor {
 
         private setEnabledMenu(menu: HTMLAnchorElement, enabled: boolean) {
             if(! enabled) {
-                menu.style.pointerEvents="none";
-                menu.style.cursor="default";
+                menu.style.pointerEvents = "none";
+                menu.style.cursor = "default";
                 menu.style.color = "#ccc";
             }
             else {
                 menu.style.pointerEvents="auto";
-                menu.style.cursor="pointer";
+                menu.style.cursor = "pointer";
                 menu.style.color = "#fff";
+            }
+        }
+
+        private setVisibleMenu(menu: HTMLAnchorElement, isVisible: boolean) {
+            if(! isVisible) {
+                menu.style.display = "none";
+            }
+            else {
+                menu.style.display = "block";
             }
         }
 
@@ -1253,17 +1262,17 @@ namespace CSReportEditor {
             }
         }
 
-        public ctrlAlignHorizontalClick(sender: object, e: any) {
+        public ctrlSameWidthClick(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignHorizontal);
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignWidth);
             }
         }
 
-        public ctrlAlignVerticalClick(sender: object, e: any) {
+        public ctrlSameHeightClick(sender: object, e: any) {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignVertical);
+                (editor as cEditor).controlsAlign(csECtlAlignConst.csECtlAlignHeight);
             }
         }
 
@@ -1280,6 +1289,8 @@ namespace CSReportEditor {
                 (editor as cEditor).keyDown(ev);
             }
         }
+
+        public editStepSizeClick() {}
 
         printDialog() {
             return undefined;

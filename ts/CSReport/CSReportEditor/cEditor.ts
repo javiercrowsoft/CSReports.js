@@ -1104,7 +1104,7 @@ namespace CSReportEditor {
 
                             if(isSecLn.get()) { noDelete = true; }
 
-                            this.showPopMenuSection(noDelete, isGroup.get(), x, y);
+                            this.showPopMenuSection(noDelete, isGroup.get(), x, y, event);
                             cMainEditor.showProperties("S" + po.getTag(), true);
                         }
                         else {
@@ -5057,8 +5057,8 @@ namespace CSReportEditor {
             }
         }
 
-        private showPopMenuSection(noDelete: boolean, showGroups: boolean, x: number, y: number) {
-            this.fMain.showPopMenuSection(this, noDelete, showGroups, this.picReport.pointToScreen(new Point(x, y)));
+        private showPopMenuSection(noDelete: boolean, showGroups: boolean, x: number, y: number, event: any) {
+            this.fMain.showPopMenuSection(this, noDelete, showGroups, this.picReport.pointToScreen(new Point(x, y)), event);
         }
 
         private showPopMenuControl(clickInCtrl: boolean, x: number, y: number, event: any) {

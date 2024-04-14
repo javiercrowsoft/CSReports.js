@@ -15,7 +15,7 @@ namespace CSReportEngine {
         private width: number = 0;
         private backColor: string = csColors.WHITE;
         private borderWidth: number = 0;
-        private borderType: csReportBorderType = null;
+        private borderType: csReportBorderType = csReportBorderType.CS_RPT_BS_NONE;
         private borderColor: string = csColors.BLACK;
         private borderColor3d: string = csColors.BLACK;
         private borderColor3dShadow: string = csColors.BLACK;

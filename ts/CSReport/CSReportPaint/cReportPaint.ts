@@ -64,7 +64,7 @@ namespace CSReportPaint {
 
         private keyFocus: string = "";
         private vGridObjs: [string[]] = null;
-        private notBorder: boolean = null;
+        private notBorder: boolean = false;
 
         private fnt: Font[] = null;
 
@@ -97,8 +97,8 @@ namespace CSReportPaint {
             }
         }
 
-        public setGridHeight(rhs: number) {
-            this.gridHeight = rhs;
+        public setGridHeight(value: number) {
+            this.gridHeight = value;
         }
 
         public getPaintSections() {
@@ -113,24 +113,24 @@ namespace CSReportPaint {
             return this.notBorder;
         }
 
-        public setNotBorder(rhs: boolean) {
-            this.notBorder = rhs;
+        public setNotBorder(value: boolean) {
+            this.notBorder = value;
         }
 
         public getZoom() {
             return this.zoom;
         }
 
-        public setZoom(rhs: number) {
-            this.zoom = rhs;
+        public setZoom(value: number) {
+            this.zoom = value;
         }
 
-        public setScaleY(rhs: number) {
-            this.scaleY = rhs;
+        public setScaleY(value: number) {
+            this.scaleY = value;
         }
 
-        public setScaleX(rhs: number) {
-            this.scaleX = rhs;
+        public setScaleX(value: number) {
+            this.scaleX = value;
         }
 
         public getScaleY() {
@@ -1592,7 +1592,7 @@ namespace CSReportPaint {
                     //       those reports to set the BorderType to CS_RPT_BS_NONE
                     //
                     let dash: boolean = false;
-                    let borderWidth: number = cReportPaint.LINE_WIDTH_THIN;
+                    let borderWidth: number = cReportPaint.LINE_WIDTH_THIN * this.scaleX;
 
                     if(this.notBorder === false
                             && (
@@ -1604,8 +1604,9 @@ namespace CSReportPaint {
                                 || aspect.getBorderType() === csReportBorderType.CS_RPT_BS_NONE
                             )
                         ) {
-                        colorOut = Color.Gray.toString(); // 0xff9966; //Color.LightGray.ToArgb();
+                        colorOut = Color.OrangeRed.toString();
                         dash = true;
+                        borderWidth = cReportPaint.LINE_WIDTH_FAT * this.scaleX;
                     }
 
                     // TODO: clean this. we have many issues with this code. the value 16777215 is white
