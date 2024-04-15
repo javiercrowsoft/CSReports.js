@@ -562,6 +562,13 @@ namespace CSReportEditor {
             }
         }
 
+        public setAdditionalDataSourceClick() {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                (editor as cEditor).showConnectsAux();
+            }
+        }
+
         public setParamsAndExecuteClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {

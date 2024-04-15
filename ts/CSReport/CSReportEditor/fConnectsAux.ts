@@ -14,9 +14,9 @@ namespace CSReportEditor {
 
         public constructor() {
             super();
-            this.el = U.el('db-columns-dlg');
-            this.dialog = new Dialog(this.el, 'db-columns-dlg-apply', 'db-columns-dlg-cancel');
-            this.lvConnections = new ListView("lvColumns", U.el("db-columns-lv-columns"));
+            this.el = U.el('connect-aux-dlg');
+            this.dialog = new Dialog(this.el, 'connect-aux-dlg-apply');
+            this.lvConnections = new ListView("lvConnections", U.el("connect-aux-lv-connections"));
             this.lvConnections.state.onclick = P.call(this, this.lvConnectionsClick);
             this.dialog.onApply = P.call(this, this.cmdApplyClick);
             super.setDialog(this.dialog);
@@ -42,7 +42,7 @@ namespace CSReportEditor {
         }
 
         showModal() {
-            return this.dialog.show({title: 'Columns', height: 600, width: 500, overlay: true})
+            return this.dialog.show({title: 'Connections', height: 600, width: 500, overlay: true})
                         .then(P.call(this, (result)=> {
                             if(result) return {
                                                 success: true

@@ -354,10 +354,10 @@ namespace CSReportEditor {
                 for(let _i = 0; _i < this.report.getConnectsAux().count(); _i++) {
                     this.pAddConnectAuxToListView(this.report.getConnectsAux().item(_i));
                 }
-                this.fMain.getConnectAuxDlg().showDialog();
+                return this.fMain.getConnectAuxDlg().showModal();
 
             } catch(ex) {
-                cError.mngError(ex);
+                return cError.mngError(ex);
             }
         }
 
