@@ -352,7 +352,7 @@ namespace CSReportEditor {
                 this.fMain.getConnectAuxDlg().clear();
 
                 for(let _i = 0; _i < this.report.getConnectsAux().count(); _i++) {
-                    this.pAddConnectAuxToListView(this.report.getConnectsAux().item(_i));
+                    this.addConnectAuxToListView(this.report.getConnectsAux().item(_i));
                 }
                 return this.fMain.getConnectAuxDlg().showModal();
 
@@ -361,7 +361,7 @@ namespace CSReportEditor {
             }
         }
 
-        private pAddConnectAuxToListView(connect: cReportConnect) {
+        private addConnectAuxToListView(connect: cReportConnect) {
             this.fMain.getConnectAuxDlg().addConnect(connect.getDataSource(), connect.getStrConnect());
         }
 
@@ -444,14 +444,17 @@ namespace CSReportEditor {
             }
         }
 
-        public addConnection() {
+        public addConnection(rptConnect: cReportConnect, serverConnection: ServerConnection) {
             try {
-                let rptConnect: cReportConnect = new cReportConnect();
-                if(!this.configConnection(rptConnect)) return;
-                this.report.getConnectsAux().add(rptConnect);
-                this.pAddConnectAuxToListView(rptConnect);
+                return this.configConnection(rptConnect, serverConnection).then(P.call(this, (result) => {
+                    if(result.success) {
+                        this.report.getConnectsAux().add(rptConnect);
+                        this.addConnectAuxToListView(rptConnect);
+                    }
+                    return result;
+                }));
             } catch(ex) {
-                cError.mngError(ex);
+                return cError.mngError(ex);
             }
         }
 
@@ -1832,34 +1835,15 @@ namespace CSReportEditor {
             }
         }
 
-        public configConnection(rptConnect: cReportConnect) {
+        public configConnection(rptConnect: cReportConnect, serverConnection: ServerConnection) {
             try {
-
                 let connect: CSConnect.cConnect = new CSConnect.cConnect();
-
-                if(! connect.showOpenConnection())
-                    return false;
-
-                this.refreshAll();
-
-                if(! connect.getDataSourceColumnsInfo(null /* TODO: fixme */)) {
-                    return false;
-                }
-
-                if(rptConnect === null) {
-                    cGlobals.setParametersAux(connect, this.report.getConnect());
-                }
-                else {
-                    cGlobals.setParametersAux(connect, rptConnect);
-                }
-
-                if(cMainEditor.getToolbox(this) !== null) { this.showToolbox(); }
-
-                return true;
-
+                return connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, (result) => {
+                    if(result.success) cGlobals.setParametersAux(connect, rptConnect);
+                    return result;
+                }));
             } catch(ex) {
-                cError.mngError(ex);
-                return false;
+                return cError.mngError(ex);
             }
         }
 

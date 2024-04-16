@@ -27,6 +27,7 @@ namespace CSReportEditor {
     import ReportWeb = CSReportWebServer.ReportWeb;
     import ServerConnection = CSDatabase.ServerConnection;
     import cColumnsInfo = CSReportEngine.cColumnsInfo;
+    import cReportConnect = CSReportEngine.cReportConnect;
 
     import Panel = CSForms.Panel;
     import PictureBox = CSForms.PictureBox;
@@ -562,10 +563,23 @@ namespace CSReportEditor {
             }
         }
 
-        public setAdditionalDataSourceClick() {
+        public setAdditionalDataSourcesClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
                 (editor as cEditor).showConnectsAux();
+            }
+        }
+
+        public addAdditionalDataSourceClick() {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                this.serverConnection.selectDataSource().then(P.call(this, (result) => {
+                    if(result.success) {
+                        let rptConnect: cReportConnect = new cReportConnect();
+                        rptConnect.setDataSource(result.dataSource.name);
+                        (editor as cEditor).addConnection(rptConnect, this.serverConnection);
+                    }
+                }));
             }
         }
 

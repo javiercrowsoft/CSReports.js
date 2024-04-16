@@ -28,10 +28,12 @@ namespace CSReportEditor {
 
         public clear() {
             this.lvConnections.clear();
+            this.lvConnections.createHeaders(['Data Source', 'Str Connect']);
         }
 
-		public addConnect(str: string, str2: string) {
-
+		public addConnect(dataSource: string, strConnect: string) {
+            var item = this.lvConnections.add(dataSource);
+            item.subItems.add(strConnect);
 		}
 
         private lvConnectionsClick() {
@@ -42,7 +44,7 @@ namespace CSReportEditor {
         }
 
         showModal() {
-            return this.dialog.show({title: 'Connections', height: 600, width: 500, overlay: true})
+            return this.dialog.show({title: 'Connections', height: 600, width: 1200, overlay: true})
                         .then(P.call(this, (result)=> {
                             if(result) return {
                                                 success: true

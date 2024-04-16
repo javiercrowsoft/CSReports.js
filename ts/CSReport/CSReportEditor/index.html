@@ -83,7 +83,7 @@
                         <li class="divider"></li>
                         <li><a id="mnuDbSetDataSource" onclick="CSReportEditor.cMainEditor.fMain.setDataSourceClick()">Set Main Data Source</a></li>
                         <li><a id="mnuDbSetParameter" onclick="CSReportEditor.cMainEditor.fMain.setParamsAndExecuteClick()">Set Parameters and Execute</a></li>
-                        <li><a id="mnuDbSetAuxDataSource" onclick="CSReportEditor.cMainEditor.fMain.setAdditionalDataSourceClick()">Set Additional Data Sources</a></li>
+                        <li><a id="mnuDbSetAuxDataSource" onclick="CSReportEditor.cMainEditor.fMain.setAdditionalDataSourcesClick()">Set Additional Data Sources</a></li>
                         <li class="divider"></li>
                         <li><a id="mnuDbSetDisconnected" onclick="CSReportEditor.cMainEditor.fMain.setDisconnectedReport()">Not a Database Report</a></li>
                     </ul>
@@ -899,6 +899,10 @@ End Function
         <div class="dlg-body">
             <div>
                 <div style="width: 100%; padding: 0px 50px 0px 50px;">
+                    <div style="margin-top: 20px;">
+                        <button onclick="CSReportEditor.cMainEditor.fMain.addAdditionalDataSourceClick()">Add</button>
+                        <button onclick="CSReportEditor.cMainEditor.fMain.dleteAdditionalDataSourceClick()" class="button-delete" style="margin-left: 20px;">Delete</button>
+                    </div>
                     <div class="row">
                         <div id="connect-aux-lv-connections" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"></div>
                     </div>

@@ -29,24 +29,24 @@ namespace CSReportEngine {
             return this.connectionTimeout;
         }
 
-        public setConnectionTimeout(rhs: number) {
-            this.connectionTimeout = rhs;
+        public setConnectionTimeout(value: number) {
+            this.connectionTimeout = value;
         }
 
         public getCommandTimeout() {
             return this.commandTimeout;
         }
 
-        public setCommandTimeout(rhs: number) {
-            this.commandTimeout = rhs;
+        public setCommandTimeout(value: number) {
+            this.commandTimeout = value;
         }
 
         public getStrConnect() {
             return this.strConnect;
         }
 
-        public setStrConnect(rhs: string) {
-            this.strConnect = rhs;
+        public setStrConnect(value: string) {
+            this.strConnect = value;
         }
 
         public getDataBase() {
@@ -69,32 +69,32 @@ namespace CSReportEngine {
             return this.dataSource;
         }
 
-        public setDataSource(rhs: string) {
-            this.dataSource = rhs;
+        public setDataSource(value: string) {
+            this.dataSource = value;
         }
 
         public getDataSourceType() {
             return this.dataSourceType;
         }
 
-        public setDataSourceType(rhs: csDataSourceType) {
-            this.dataSourceType = rhs;
+        public setDataSourceType(value: csDataSourceType) {
+            this.dataSourceType = value;
         }
 
         public getParameters() {
             return this.parameters;
         }
 
-        public setParameters(rhs: cParameters) {
-            this.parameters = rhs;
+        public setParameters(value: cParameters) {
+            this.parameters = value;
         }
 
         public getColumns() {
             return this.columns;
         }
 
-        public setColumns(rhs: cColumnsInfo) {
-            this.columns = rhs;
+        public setColumns(value: cColumnsInfo) {
+            this.columns = value;
         }
 
         public getSqlParameters() {

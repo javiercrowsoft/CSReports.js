@@ -873,6 +873,10 @@ ul.toolbar a:hover {
     border-radius: 5px;
 }
 
+.dialog-box .button-delete {
+    background-color: orangered;
+}
+
 .dialog-box button:active {
     background-color: #ccc;
 }
