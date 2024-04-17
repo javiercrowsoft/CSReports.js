@@ -1838,6 +1838,7 @@ namespace CSReportEditor {
         public configConnection(rptConnect: cReportConnect, serverConnection: ServerConnection) {
             try {
                 let connect: CSConnect.cConnect = new CSConnect.cConnect();
+                connect.setDataSource(rptConnect.getDataSource());
                 return connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, (result) => {
                     if(result.success) cGlobals.setParametersAux(connect, rptConnect);
                     return result;

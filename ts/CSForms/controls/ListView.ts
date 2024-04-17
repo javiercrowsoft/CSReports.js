@@ -152,13 +152,20 @@ namespace CSForms {
 
         onclick() {
             if(this.state.onclick) {
-                this.state.onclick(this._item);
-                this.tr.style.backgroundColor = "lightgreen";
-                if(this.state.activeItem?.subItems?.getTr()) {
-                    this.state.activeItem.subItems.getTr().style.backgroundColor = '';
-                }
                 this.state.activeItem = this._item;
+                this.setItemSelected();
+                this.state.onclick(this._item);
             }
+        }
+
+        private setItemSelected() {
+            this.state.selectedItems.clear();
+            this.state.selectedItems.addItem(this._item);
+            this.tr.style.backgroundColor = "lightgreen";
+            if(this.state.activeItem?.subItems?.getTr()) {
+                this.state.activeItem.subItems.getTr().style.backgroundColor = '';
+            }
+            this.state.activeItem = this._item;
         }
 
         getItems() {
