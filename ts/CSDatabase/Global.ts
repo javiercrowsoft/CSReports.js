@@ -66,6 +66,8 @@ namespace CSDatabase {
                 case "real":
                 case "float":
                     return csDataType.CS_TD_DOUBLE;
+                case "bytea":
+                    return csDataType.CS_TD_BINARY;
 
                 // TODO: remove me
                 default:

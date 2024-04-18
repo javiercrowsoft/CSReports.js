@@ -12,7 +12,7 @@ namespace CSDatabase {
 
         private el: HTMLElement;
         private dialog: Dialog;
-        private lvColumns: ListView;
+        private lvDataSources: ListView;
 
         private dataSource: DataSource = null;
 
@@ -20,8 +20,8 @@ namespace CSDatabase {
             super();
             this.el = U.el('datasource-dlg');
             this.dialog = new Dialog(this.el, 'datasource-dlg-apply', 'datasource-dlg-cancel');
-            this.lvColumns = new ListView("lvColumns", U.el("datasource-lv-datasources"));
-            this.lvColumns.state.onclick = P.call(this, this.lvColumnsClick);
+            this.lvDataSources = new ListView("lvColumns", U.el("datasource-lv-datasources"));
+            this.lvDataSources.state.onclick = P.call(this, this.lvColumnsClick);
             this.dialog.onApply = P.call(this, this.cmdApplyClick);
             super.setDialog(this.dialog);
         }
@@ -35,17 +35,17 @@ namespace CSDatabase {
         }
 
         public clearColumns() {
-            this.lvColumns.clear();
+            this.lvDataSources.clear();
         }
 
         public setDataSource(dataSource: DataSource) {
             this.dataSource = dataSource;
-            for(let i = 0; i < this.lvColumns.getItems().length; i++) {
-                const item = this.lvColumns.getItems()[i];
+            for(let i = 0; i < this.lvDataSources.getItems().length; i++) {
+                const item = this.lvDataSources.getItems()[i];
                 if((item.tag as DataSource).getId() === dataSource.getId()) {
                     item.setSelected(true);
                     item.setFocused(true);
-                    this.lvColumns.select();
+                    this.lvDataSources.select();
                     break;
                 }
             }
@@ -56,15 +56,16 @@ namespace CSDatabase {
         }
 
         private lvColumnsClick() {
-            if(this.lvColumns.selectedItems().length > 0) {
-                let item = this.lvColumns.selectedItems()[0];
+            if(this.lvDataSources.selectedItems().length > 0) {
+                let item = this.lvDataSources.selectedItems()[0];
                 this.dataSource = item.tag;
             }
         }
 
         showModal(dataSources: DataSource[]) {
+            this.lvDataSources.clear();
             for(let i = 0; i < dataSources.length; i++) {
-                const item = this.lvColumns.add(dataSources[i].name);
+                const item = this.lvDataSources.add(dataSources[i].name);
                 item.subItems.add(dataSources[i].getParamsInfo());
                 item.tag = dataSources[i];
             }

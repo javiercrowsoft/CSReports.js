@@ -72,8 +72,8 @@ namespace CSForms {
         }
 
         onclick() {
+            this.setItemSelected();
             if(this.state.onclick) {
-                this.setItemSelected();
                 this.state.onclick(this);
             }
         }
@@ -117,6 +117,12 @@ namespace CSForms {
             if(value) this.setItemSelected();
             else      this.setItemUnSelected();
         }
+
+        remove(body: any) {
+            if(this.tr) {
+                body.removeChild(this.tr);
+            }
+        }
     }
 
     class SubItems {
@@ -151,9 +157,9 @@ namespace CSForms {
         }
 
         onclick() {
+            this.state.activeItem = this._item;
+            this.setItemSelected();
             if(this.state.onclick) {
-                this.state.activeItem = this._item;
-                this.setItemSelected();
                 this.state.onclick(this._item);
             }
         }
@@ -249,6 +255,10 @@ namespace CSForms {
 
         add(text: string, imageIndex?: number) {
             return this._items.add(text, imageIndex)
+        }
+
+        remove(index: number) {
+            this._items.getItems()[index].remove(this.table.tBodies[0]);
         }
 
         sort() {

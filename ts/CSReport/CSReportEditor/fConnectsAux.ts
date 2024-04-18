@@ -17,7 +17,6 @@ namespace CSReportEditor {
             this.el = U.el('connect-aux-dlg');
             this.dialog = new Dialog(this.el, 'connect-aux-dlg-apply');
             this.lvConnections = new ListView("lvConnections", U.el("connect-aux-lv-connections"));
-            this.lvConnections.state.onclick = P.call(this, this.lvConnectionsClick);
             this.dialog.onApply = P.call(this, this.cmdApplyClick);
             super.setDialog(this.dialog);
         }
@@ -31,16 +30,26 @@ namespace CSReportEditor {
             this.lvConnections.createHeaders(['Data Source', 'Str Connect']);
         }
 
-		public addConnect(dataSource: string, strConnect: string) {
+        public addConnect(dataSource: string, strConnect: string) {
             var item = this.lvConnections.add(dataSource);
             item.subItems.add(strConnect);
 		}
 
-        private lvConnectionsClick() {
-            if(this.lvConnections.selectedItems().length > 0) {
-                let item = this.lvConnections.selectedItems()[0];
-
+        public removeConnect(dataSource: string) {
+            for(let i = 0; i < this.lvConnections.getItems().length; i++) {
+                if(this.lvConnections.getItems()[i].getText() === dataSource) {
+                    this.lvConnections.remove(i);
+                    break;
+                }
             }
+		}
+
+        public getSelectedDataSource() {
+            let dataSource: string = null;
+            if(this.lvConnections.selectedItems().length > 0) {
+                dataSource = this.lvConnections.selectedItems()[0].getText();
+            }
+            return dataSource;
         }
 
         showModal() {

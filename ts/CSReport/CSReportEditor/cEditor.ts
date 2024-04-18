@@ -365,6 +365,10 @@ namespace CSReportEditor {
             this.fMain.getConnectAuxDlg().addConnect(connect.getDataSource(), connect.getStrConnect());
         }
 
+        private removeConnectAuxFromListView(connect: cReportConnect) {
+            this.fMain.getConnectAuxDlg().removeConnect(connect.getDataSource());
+        }
+
         public keyUp(ev: KeyboardEvent) {
             this.formKeyUp(this.keyFromKey(ev.key), ev.ctrlKey);
 
@@ -439,6 +443,20 @@ namespace CSReportEditor {
         public setFocusCtrl(ctrlKey: string) {
             try {
                 this.selectCtrl(ctrlKey);
+            } catch(ex) {
+                cError.mngError(ex);
+            }
+        }
+
+        public deleteConnection(rptConnect: cReportConnect) {
+            try {
+                for(let i = 0; i < this.report.getConnectsAux().size(); i++) {
+                    if(this.report.getConnectsAux().item(i).getDataSource() === rptConnect.getDataBase()) {
+                        this.report.getConnectsAux().remove(i);
+                        break;
+                    }
+                }
+                this.removeConnectAuxFromListView(rptConnect);
             } catch(ex) {
                 cError.mngError(ex);
             }

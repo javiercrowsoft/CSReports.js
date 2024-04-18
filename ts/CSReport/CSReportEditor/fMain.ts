@@ -570,6 +570,15 @@ namespace CSReportEditor {
             }
         }
 
+        public deleteAdditionalDataSourceClick() {
+            let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(editor !== null && editor.isEditor()) {
+                let rptConnect: cReportConnect = new cReportConnect();
+                rptConnect.setDataSource(this.getConnectAuxDlg().getSelectedDataSource());
+                (editor as cEditor).deleteConnection(rptConnect);
+            }
+        }
+
         public addAdditionalDataSourceClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
