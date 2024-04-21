@@ -48,7 +48,7 @@ namespace CSReportEngine {
         public setStrConnect(value: string) {
             this.strConnect = value;
         }
-
+/*
         public getDataBase() {
             return this.getXFromStrConnect(this.strConnect, "Initial Catalog=");
         }
@@ -63,7 +63,7 @@ namespace CSReportEngine {
 
         public getPassword() {
             return this.getXFromStrConnect(this.strConnect, "Password=");
-        }
+        }*/
 
         public getDataSource() {
             return this.dataSource;

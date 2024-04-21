@@ -451,7 +451,7 @@ namespace CSReportEditor {
         public deleteConnection(rptConnect: cReportConnect) {
             try {
                 for(let i = 0; i < this.report.getConnectsAux().size(); i++) {
-                    if(this.report.getConnectsAux().item(i).getDataSource() === rptConnect.getDataBase()) {
+                    if(this.report.getConnectsAux().item(i).getDataSource() === rptConnect.getDataSource()) {
                         this.report.getConnectsAux().remove(i);
                         break;
                     }

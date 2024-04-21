@@ -49,8 +49,13 @@ namespace CSConnect {
                     return cConnect.f.showModal().then(P.call(this, (result)=> {
                         if(result.success) {
                             return serverConnection.excute(this.dataSource, result.params).then(P.call(this, (dataSource) => {
-                                this.updateParamsAndColumns(result.params, dataSource);
-                                return { success: true, dataSource: dataSource };
+                                if(dataSource) {
+                                    this.updateParamsAndColumns(result.params, dataSource);
+                                    return { success: true, dataSource: dataSource };
+                                }
+                                else {
+                                    return { success: false, dataSource: null };
+                                }
                             }));
                         }
                         else return { success: false, dataSource: null };

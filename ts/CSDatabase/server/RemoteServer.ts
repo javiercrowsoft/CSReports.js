@@ -47,7 +47,11 @@ namespace CSDatabase {
                         debugger;
                         return Promise.reject(response);
                     }
-                }).then(f);
+                })
+                .then(f)
+                .catch(ex => {
+                    return CSKernelClient.cError.mngError(ex, "url: " + url);
+                });
             }));
         }
 
