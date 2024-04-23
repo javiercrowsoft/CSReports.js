@@ -167,6 +167,7 @@ namespace CSDatabase {
                     return csAdoDataType.adDate;
 
                 case csDataType.CS_TD_DOUBLE:
+                case csDataType.CS_TD_DECIMAL:
                     return csAdoDataType.adDouble;
 
                 case csDataType.CS_TD_INTEGER:

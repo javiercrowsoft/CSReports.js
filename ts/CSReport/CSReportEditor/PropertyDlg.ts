@@ -170,13 +170,13 @@ namespace CSReportEditor {
         private chkShowBarValues: CheckBox;
         private chkShowOutlines: CheckBox;
         private chkSort: CheckBox;
-        private txDbFieldGroupValue: TextBox;
+        private txChartDbFieldGroup: TextBox;
         private txChartGroupValue: TextBox;
-        private txDbFieldVal1: TextBox;
-        private txDbFieldLbl1: TextBox;
+        private txChartDbFieldVal1: TextBox;
+        private txChartDbFieldLbl1: TextBox;
         private cbColorSerie1: ComboBox;
-        private txDbFieldVal2: TextBox;
-        private txDbFieldLbl2: TextBox;
+        private txChartDbFieldVal2: TextBox;
+        private txChartDbFieldLbl2: TextBox;
         private cbColorSerie2: ComboBox;
 
         // sections
@@ -281,6 +281,7 @@ namespace CSReportEditor {
             this.txImageFile = new TextBox(U.inputEl('ctrl-image-file'));
             this.picImage = new PictureBox("ctrl-image-preview", U.el('ctrl-image-preview'));
             this.txDbField = new TextBox(U.inputEl('ctrl-db-field'));
+            U.el('ctrl-db-field-button').onclick = P.call(this, () => this.selectDbField(this.txDbField.getText(), this.setDbField));
             this.cbBorderType = new ComboBox(U.selectEl('ctl-border-type'));
             this.txBorderColor = new TextBox(U.inputEl('ctrl-border-color'));
             this.shBorderColor = new Label(U.labelEl('ctrl-border-color-sample'));
@@ -300,14 +301,20 @@ namespace CSReportEditor {
             this.cbChartThickness = new ComboBox(U.selectEl('ctl-chart-pie-thickness'));
             this.txChartTop = new TextBox(U.inputEl('ctrl-chart-top'));
             this.chkSort = new CheckBox(U.inputEl('ctrl-chart-sort'));
-            this.txDbFieldGroupValue = new TextBox(U.inputEl('ctrl-chart-group-db-field'));
+            this.txChartDbFieldGroup = new TextBox(U.inputEl('ctrl-chart-group-db-field'));
             this.txChartGroupValue = new TextBox(U.inputEl('ctrl-chart-group-value'));
-            this.txDbFieldVal1 = new TextBox(U.inputEl('ctrl-chart-serie1-db-field-value'));
-            this.txDbFieldLbl1 = new TextBox(U.inputEl('ctrl-chart-serie1-db-field-label'));
+            this.txChartDbFieldVal1 = new TextBox(U.inputEl('ctrl-chart-serie1-db-field-value'));
+            this.txChartDbFieldLbl1 = new TextBox(U.inputEl('ctrl-chart-serie1-db-field-label'));
             this.cbColorSerie1 = new ComboBox(U.selectEl('ctrl-chart-serie1-color'));
-            this.txDbFieldVal2 = new TextBox(U.inputEl('ctrl-chart-serie2-db-field-value'));
-            this.txDbFieldLbl2 = new TextBox(U.inputEl('ctrl-chart-serie2-db-field-label'));
+            this.txChartDbFieldVal2 = new TextBox(U.inputEl('ctrl-chart-serie2-db-field-value'));
+            this.txChartDbFieldLbl2 = new TextBox(U.inputEl('ctrl-chart-serie2-db-field-label'));
             this.cbColorSerie2 = new ComboBox(U.selectEl('ctrl-chart-serie2-color'));
+
+            U.el('ctrl-chart-group-db-field-button').onclick = P.call(this, () => this.selectDbField(this.txChartDbFieldGroup.getText(), this.setChartGroupDbField));
+            U.el('ctrl-chart-serie1-db-field-value-button').onclick = P.call(this, () => this.selectDbField(this.txChartDbFieldVal1.getText(), this.setChartSerie1DbFieldValue));
+            U.el('ctrl-chart-serie1-db-field-label-button').onclick = P.call(this, () => this.selectDbField(this.txChartDbFieldLbl1.getText(), this.setChartSerie1DbFieldLabel));
+            U.el('ctrl-chart-serie2-db-field-value-button').onclick = P.call(this, () => this.selectDbField(this.txChartDbFieldVal2.getText(), this.setChartSerie2DbFieldValue));
+            U.el('ctrl-chart-serie2-db-field-label-button').onclick = P.call(this, () => this.selectDbField(this.txChartDbFieldLbl2.getText(), this.setChartSerie2DbFieldLabel));
 
             // sections
             this.txSectionName = new TextBox(U.inputEl('section-name'));
@@ -371,28 +378,28 @@ namespace CSReportEditor {
             this.txBorderShadow.setChange(P.call(this, this.txBorderShadowChanged));
             this.txBorderWidth.setChange(P.call(this, this.txBorderWidthChanged));
 
-            this.txForeColor.setLostFocus(P.call(this, this.txForeColorLostFocus));
-            this.txBackColor.setLostFocus(P.call(this, this.txBackColorLostFocus));
-            this.txBorderColor.setLostFocus(P.call(this, this.txBorderColorLostFocus));
-            this.txBorder3D.setLostFocus(P.call(this, this.txBorder3DLostFocus));
-            this.txBorderShadow.setLostFocus(P.call(this, this.txBorderShadowLostFocus));
+            this.txForeColor.setChange(P.call(this, this.txForeColorLostFocus));
+            this.txBackColor.setChange(P.call(this, this.txBackColorLostFocus));
+            this.txBorderColor.setChange(P.call(this, this.txBorderColorLostFocus));
+            this.txBorder3D.setChange(P.call(this, this.txBorder3DLostFocus));
+            this.txBorderShadow.setChange(P.call(this, this.txBorderShadowLostFocus));
 
             this.txChartGroupValue.setChange(P.call(this, this.txChartGroupValueChanged));
             this.txChartTop.setChange(P.call(this, this.txChartTopChanged));
             this.cbType.setOnClick(P.call(this, this.cbTypeSelectedIndexChanged));
             this.cbLinesType.setOnClick(P.call(this, this.cbLinesTypeSelectedIndexChanged));
             this.cbChartSize.setOnClick(P.call(this, this.cbChartSizeSelectedIndexChanged));
-            this.txChartTop.setLostFocus(P.call(this, this.txChartTopTextChanged));
+            this.txChartTop.setChange(P.call(this, this.txChartTopTextChanged));
             this.cbChartThickness.setOnClick(P.call(this, this.cbChartThicknessSelectedIndexChanged));
             this.chkShowBarValues.setChange(P.call(this, this.chkShowBarValuesCheckedChanged));
             this.chkShowOutlines.setChange(P.call(this, this.chkShowOutlinesCheckedChanged));
             this.chkSort.setChange(P.call(this, this.chkSortCheckedChanged));
-            this.txDbFieldGroupValue.setLostFocus(P.call(this, this.txDbFieldGroupValueTextChanged));
-            this.txDbFieldVal1.setLostFocus(P.call(this, this.txDbFieldVal1TextChanged));
-            this.txDbFieldLbl1.setLostFocus(P.call(this, this.txDbFieldLbl1TextChanged));
+            this.txChartDbFieldGroup.setChange(P.call(this, this.txDbFieldGroupTextChanged));
+            this.txChartDbFieldVal1.setChange(P.call(this, this.txDbFieldVal1TextChanged));
+            this.txChartDbFieldLbl1.setChange(P.call(this, this.txDbFieldLbl1TextChanged));
             this.cbColorSerie1.setOnClick(P.call(this, this.cbColorSerie1SelectedIndexChanged));
-            this.txDbFieldVal2.setLostFocus(P.call(this, this.txDbFieldVal2TextChanged));
-            this.txDbFieldLbl2.setLostFocus(P.call(this, this.txDbFieldLbl2TextChanged));
+            this.txChartDbFieldVal2.setChange(P.call(this, this.txDbFieldVal2TextChanged));
+            this.txChartDbFieldLbl2.setChange(P.call(this, this.txDbFieldLbl2TextChanged));
             this.cbColorSerie2.setOnClick(P.call(this, this.cbColorSerie2SelectedIndexChanged));
 
             this.tabFormat = U.el('property-format-tab-selector');
@@ -506,15 +513,15 @@ namespace CSReportEditor {
         public getIndex() {
             return this.index;
         }
-        public setIndex(rhs: number) {
-            this.index = rhs;
+        public setIndex(value: number) {
+            this.index = value;
         }
 
         public getFieldType() {
             return this.fieldType;
         }
-        public setFieldType(rhs: number) {
-            this.fieldType = rhs;
+        public setFieldType(value: number) {
+            this.fieldType = value;
         }
 
         public getFormulaHide() {
@@ -539,16 +546,16 @@ namespace CSReportEditor {
             return this.formulaName;
         }
 
-        public setFormulaName(rhs: string) {
-            this.formulaName = rhs;
+        public setFormulaName(value: string) {
+            this.formulaName = value;
         }
 
         public getIsAccounting() {
             return this.isAccounting;
         }
 
-        public setIsAccounting(rhs: boolean) {
-            this.isAccounting = rhs;
+        public setIsAccounting(value: boolean) {
+            this.isAccounting = value;
         }
 
         public getSectionFormulaHide() {
@@ -578,288 +585,288 @@ namespace CSReportEditor {
             return this.textChanged;
         }
 
-        public setTextChanged(rhs: boolean) {
-            this.textChanged = rhs;
+        public setTextChanged(value: boolean) {
+            this.textChanged = value;
         }
 
         public getTagChanged() {
             return this.tagChanged;
         }
 
-        public setTagChanged(rhs: boolean) {
-            this.tagChanged = rhs;
+        public setTagChanged(value: boolean) {
+            this.tagChanged = value;
         }
 
         public getFontChanged() {
             return this.fontChanged;
         }
 
-        public setFontChanged(rhs: boolean) {
-            this.fontChanged = rhs;
+        public setFontChanged(value: boolean) {
+            this.fontChanged = value;
         }
 
         public getForeColorChanged() {
             return this.foreColorChanged;
         }
 
-        public setForeColorChanged(rhs: boolean) {
-            this.foreColorChanged = rhs;
+        public setForeColorChanged(value: boolean) {
+            this.foreColorChanged = value;
         }
 
         public getBackColorChanged() {
             return this.backColorChanged;
         }
 
-        public setBackColorChanged(rhs: boolean) {
-            this.backColorChanged = rhs;
+        public setBackColorChanged(value: boolean) {
+            this.backColorChanged = value;
         }
 
         public getFormatChanged() {
             return this.formatChanged;
         }
 
-        public setFormatChanged(rhs: boolean) {
-            this.formatChanged = rhs;
+        public setFormatChanged(value: boolean) {
+            this.formatChanged = value;
         }
 
         public getLeftChanged() {
             return this.leftChanged;
         }
 
-        public setLeftChanged(rhs: boolean) {
-            this.leftChanged = rhs;
+        public setLeftChanged(value: boolean) {
+            this.leftChanged = value;
         }
 
         public getTopChanged() {
             return this.topChanged;
         }
 
-        public setTopChanged(rhs: boolean) {
-            this.topChanged = rhs;
+        public setTopChanged(value: boolean) {
+            this.topChanged = value;
         }
 
         public getHeightChanged() {
             return this.heightChanged;
         }
 
-        public setHeightChanged(rhs: boolean) {
-            this.heightChanged = rhs;
+        public setHeightChanged(value: boolean) {
+            this.heightChanged = value;
         }
 
         public getWidthChanged() {
             return this.widthChanged;
         }
 
-        public setWidthChanged(rhs: boolean) {
-            this.widthChanged = rhs;
+        public setWidthChanged(value: boolean) {
+            this.widthChanged = value;
         }
 
         public getSymbolChanged() {
             return this.symbolChanged;
         }
 
-        public setSymbolChanged(rhs: boolean) {
-            this.symbolChanged = rhs;
+        public setSymbolChanged(value: boolean) {
+            this.symbolChanged = value;
         }
 
         public getTransparentChanged() {
             return this.transparentChanged;
         }
 
-        public setTransparentChanged(rhs: boolean) {
-            this.transparentChanged = rhs;
+        public setTransparentChanged(value: boolean) {
+            this.transparentChanged = value;
         }
 
         public getStrikeChanged() {
             return this.strikeChanged;
         }
 
-        public setStrikeChanged(rhs: boolean) {
-            this.strikeChanged = rhs;
+        public setStrikeChanged(value: boolean) {
+            this.strikeChanged = value;
         }
 
         public getUnderlineChanged() {
             return this.underlineChanged;
         }
 
-        public setUnderlineChanged(rhs: boolean) {
-            this.underlineChanged = rhs;
+        public setUnderlineChanged(value: boolean) {
+            this.underlineChanged = value;
         }
 
         public getWordWrapChanged() {
             return this.wordWrapChanged;
         }
 
-        public setWordWrapChanged(rhs: boolean) {
-            this.wordWrapChanged = rhs;
+        public setWordWrapChanged(value: boolean) {
+            this.wordWrapChanged = value;
         }
 
         public getItalicChanged() {
             return this.italicChanged;
         }
 
-        public setItalicChanged(rhs: boolean) {
-            this.italicChanged = rhs;
+        public setItalicChanged(value: boolean) {
+            this.italicChanged = value;
         }
 
         public getBoldChanged() {
             return this.boldChanged;
         }
 
-        public setBoldChanged(rhs: boolean) {
-            this.boldChanged = rhs;
+        public setBoldChanged(value: boolean) {
+            this.boldChanged = value;
         }
 
         public getAlignChanged() {
             return this.alignChanged;
         }
 
-        public setAlignChanged(rhs: boolean) {
-            this.alignChanged = rhs;
+        public setAlignChanged(value: boolean) {
+            this.alignChanged = value;
         }
 
         public getFontSizeChanged() {
             return this.fontSizeChanged;
         }
 
-        public setFontSizeChanged(rhs: boolean) {
-            this.fontSizeChanged = rhs;
+        public setFontSizeChanged(value: boolean) {
+            this.fontSizeChanged = value;
         }
 
         public getCanGrowChanged() {
             return this.canGrowChanged;
         }
 
-        public setCanGrowChanged(rhs: boolean) {
-            this.canGrowChanged = rhs;
+        public setCanGrowChanged(value: boolean) {
+            this.canGrowChanged = value;
         }
 
         public getFormulaHideChanged() {
             return this.formulaHideChanged;
         }
 
-        public setFormulaHideChanged(rhs: boolean) {
-            this.formulaHideChanged = rhs;
+        public setFormulaHideChanged(value: boolean) {
+            this.formulaHideChanged = value;
         }
 
         public getFormulaValueChanged() {
             return this.formulaValueChanged;
         }
 
-        public setFormulaValueChanged(rhs: boolean) {
-            this.formulaValueChanged = rhs;
+        public setFormulaValueChanged(value: boolean) {
+            this.formulaValueChanged = value;
         }
 
         public getWhenEvalChanged() {
             return this.whenEvalChanged;
         }
 
-        public setWhenEvalChanged(rhs: boolean) {
-            this.whenEvalChanged = rhs;
+        public setWhenEvalChanged(value: boolean) {
+            this.whenEvalChanged = value;
         }
 
         public getIdxGroupChanged() {
             return this.idxGroupChanged;
         }
 
-        public setIdxGroupChanged(rhs: boolean) {
-            this.idxGroupChanged = rhs;
+        public setIdxGroupChanged(value: boolean) {
+            this.idxGroupChanged = value;
         }
 
         public getDbFieldChanged() {
             return this.dbFieldChanged;
         }
 
-        public setDbFieldChanged(rhs: boolean) {
-            this.dbFieldChanged = rhs;
+        public setDbFieldChanged(value: boolean) {
+            this.dbFieldChanged = value;
         }
 
         public getSetFormulaHideChanged() {
             return this.bSetFormulaHideChanged;
         }
 
-        public setSetFormulaHideChanged(rhs: boolean) {
-            this.bSetFormulaHideChanged = rhs;
+        public setSetFormulaHideChanged(value: boolean) {
+            this.bSetFormulaHideChanged = value;
         }
 
         public getSetFormulaValueChanged() {
             return this.bSetFormulaValueChanged;
         }
 
-        public setSetFormulaValueChanged(rhs: boolean) {
-            this.bSetFormulaValueChanged = rhs;
+        public setSetFormulaValueChanged(value: boolean) {
+            this.bSetFormulaValueChanged = value;
         }
 
         public getBorderTypeChanged() {
             return this.borderTypeChanged;
         }
 
-        public setBorderTypeChanged(rhs: boolean) {
-            this.borderTypeChanged = rhs;
+        public setBorderTypeChanged(value: boolean) {
+            this.borderTypeChanged = value;
         }
 
         public getBorder3DChanged() {
             return this.border3DChanged;
         }
 
-        public setBorder3DChanged(rhs: boolean) {
-            this.border3DChanged = rhs;
+        public setBorder3DChanged(value: boolean) {
+            this.border3DChanged = value;
         }
 
         public getBorder3DShadowChanged() {
             return this.border3DShadowChanged;
         }
 
-        public setBorder3DShadowChanged(rhs: boolean) {
-            this.border3DShadowChanged = rhs;
+        public setBorder3DShadowChanged(value: boolean) {
+            this.border3DShadowChanged = value;
         }
 
         public getBorderRoundedChanged() {
             return this.borderRoundedChanged;
         }
 
-        public setBorderRoundedChanged(rhs: boolean) {
-            this.borderRoundedChanged = rhs;
+        public setBorderRoundedChanged(value: boolean) {
+            this.borderRoundedChanged = value;
         }
 
         public getBorderWidthChanged() {
             return this.borderWidthChanged;
         }
 
-        public setBorderWidthChanged(rhs: boolean) {
-            this.borderWidthChanged = rhs;
+        public setBorderWidthChanged(value: boolean) {
+            this.borderWidthChanged = value;
         }
 
         public getBorderColorChanged() {
             return this.borderColorChanged;
         }
 
-        public setBorderColorChanged(rhs: boolean) {
-            this.borderColorChanged = rhs;
+        public setBorderColorChanged(value: boolean) {
+            this.borderColorChanged = value;
         }
 
         public getPictureChanged() {
             return this.pictureChanged;
         }
 
-        public setPictureChanged(rhs: boolean) {
-            this.pictureChanged = rhs;
+        public setPictureChanged(value: boolean) {
+            this.pictureChanged = value;
         }
 
         public getIsFreeCtrlChanged() {
             return this.isFreeCtrlChanged;
         }
 
-        public setIsFreeCtrlChanged(rhs: boolean) {
-            this.isFreeCtrlChanged = rhs;
+        public setIsFreeCtrlChanged(value: boolean) {
+            this.isFreeCtrlChanged = value;
         }
 
         public getExportColIdxChanged() {
             return this.exportColIdxChanged;
         }
 
-        public setExportColIdxChanged(rhs: boolean) {
-            this.exportColIdxChanged = rhs;
+        public setExportColIdxChanged(value: boolean) {
+            this.exportColIdxChanged = value;
         }
         //#endregion
 
@@ -882,20 +889,20 @@ namespace CSReportEditor {
             return this.chartGroupFieldType;
         }
 
-        public setChartGroupIndex(rhs: number) {
-            this.chartGroupIndex = rhs;
+        public setChartGroupIndex(value: number) {
+            this.chartGroupIndex = value;
         }
 
-        public setChartIndex(idx: number, rhs: number) {
-            this.chartIndex[idx] = rhs;
+        public setChartIndex(idx: number, value: number) {
+            this.chartIndex[idx] = value;
         }
 
-        public setChartGroupFieldType(rhs: number) {
-            this.chartGroupFieldType = rhs;
+        public setChartGroupFieldType(value: number) {
+            this.chartGroupFieldType = value;
         }
 
-        public setChartFieldType(idx: number, rhs: number) {
-            this.chartFieldType[idx] = rhs;
+        public setChartFieldType(idx: number, value: number) {
+            this.chartFieldType[idx] = value;
         }
 
         // char has changed getters and setters
@@ -904,160 +911,160 @@ namespace CSReportEditor {
             return this.chartFieldVal1Changed;
         }
 
-        public setChartFieldVal1Changed(rhs: boolean) {
-            this.chartFieldVal1Changed = rhs;
+        public setChartFieldVal1Changed(value: boolean) {
+            this.chartFieldVal1Changed = value;
         }
 
         public getChartFieldVal2Changed() {
             return this.chartFieldVal2Changed;
         }
 
-        public setChartFieldVal2Changed(rhs: boolean) {
-            this.chartFieldVal2Changed = rhs;
+        public setChartFieldVal2Changed(value: boolean) {
+            this.chartFieldVal2Changed = value;
         }
 
         public getChartFieldLbl1Changed() {
             return this.chartFieldLbl1Changed;
         }
 
-        public setChartFieldLbl1Changed(rhs: boolean) {
-            this.chartFieldLbl1Changed = rhs;
+        public setChartFieldLbl1Changed(value: boolean) {
+            this.chartFieldLbl1Changed = value;
         }
 
         public getChartFieldGroupChanged() {
             return this.chartFieldGroupChanged;
         }
 
-        public setChartFieldGroupChanged(rhs: boolean) {
-            this.chartFieldGroupChanged = rhs;
+        public setChartFieldGroupChanged(value: boolean) {
+            this.chartFieldGroupChanged = value;
         }
 
         public getChartGroupValueChanged() {
             return this.chartGroupValueChanged;
         }
 
-        public setChartGroupValueChanged(rhs: boolean) {
-            this.chartGroupValueChanged = rhs;
+        public setChartGroupValueChanged(value: boolean) {
+            this.chartGroupValueChanged = value;
         }
 
         public getChartFieldLbl2Changed() {
             return this.chartFieldLbl2Changed;
         }
 
-        public setChartFieldLbl2Changed(rhs: boolean) {
-            this.chartFieldLbl2Changed = rhs;
+        public setChartFieldLbl2Changed(value: boolean) {
+            this.chartFieldLbl2Changed = value;
         }
 
         public getChartSizeChanged() {
             return this.chartSizeChanged;
         }
 
-        public setChartSizeChanged(rhs: boolean) {
-            this.chartSizeChanged = rhs;
+        public setChartSizeChanged(value: boolean) {
+            this.chartSizeChanged = value;
         }
 
         public getChartThicknessChanged() {
             return this.chartThicknessChanged;
         }
 
-        public setChartThicknessChanged(rhs: boolean) {
-            this.chartThicknessChanged = rhs;
+        public setChartThicknessChanged(value: boolean) {
+            this.chartThicknessChanged = value;
         }
 
         public getChartColorSerie1Changed() {
             return this.chartColorSerie1Changed;
         }
 
-        public setChartColorSerie1Changed(rhs: boolean) {
-            this.chartColorSerie1Changed = rhs;
+        public setChartColorSerie1Changed(value: boolean) {
+            this.chartColorSerie1Changed = value;
         }
 
         public getChartColorSerie2Changed() {
             return this.chartColorSerie2Changed;
         }
 
-        public setChartColorSerie2Changed(rhs: boolean) {
-            this.chartColorSerie2Changed = rhs;
+        public setChartColorSerie2Changed(value: boolean) {
+            this.chartColorSerie2Changed = value;
         }
 
         public getChartLinesTypeChanged() {
             return this.chartLinesTypeChanged;
         }
 
-        public setChartLinesTypeChanged(rhs: boolean) {
-            this.chartLinesTypeChanged = rhs;
+        public setChartLinesTypeChanged(value: boolean) {
+            this.chartLinesTypeChanged = value;
         }
 
         public getChartTypeChanged() {
             return this.chartTypeChanged;
         }
 
-        public setChartTypeChanged(rhs: boolean) {
-            this.chartTypeChanged = rhs;
+        public setChartTypeChanged(value: boolean) {
+            this.chartTypeChanged = value;
         }
 
         public getChartShowLinesChanged() {
             return this.chartShowLinesChanged;
         }
 
-        public setChartShowLinesChanged(rhs: boolean) {
-            this.chartShowLinesChanged = rhs;
+        public setChartShowLinesChanged(value: boolean) {
+            this.chartShowLinesChanged = value;
         }
 
         public getChartShowValuesChanged() {
             return this.chartShowValuesChanged;
         }
 
-        public setChartShowValuesChanged(rhs: boolean) {
-            this.chartShowValuesChanged = rhs;
+        public setChartShowValuesChanged(value: boolean) {
+            this.chartShowValuesChanged = value;
         }
 
         public getChartTopChanged() {
             return this.chartTopChanged;
         }
 
-        public setChartTopChanged(rhs: boolean) {
-            this.chartTopChanged = rhs;
+        public setChartTopChanged(value: boolean) {
+            this.chartTopChanged = value;
         }
 
         public getChartSortChanged() {
             return this.chartSortChanged;
         }
 
-        public setChartSortChanged(rhs: boolean) {
-            this.chartSortChanged = rhs;
+        public setChartSortChanged(value: boolean) {
+            this.chartSortChanged = value;
         }
 
         public getHasSectionFormulaHideChanged() {
             return this.bSetSectionFormulaHideChanged;
         }
 
-        public setHasSectionFormulaHideChanged(rhs: boolean) {
-            this.bSetSectionFormulaHideChanged = rhs;
+        public setHasSectionFormulaHideChanged(value: boolean) {
+            this.bSetSectionFormulaHideChanged = value;
         }
 
         public getSectionFormulaHideChanged() {
             return this.sectionFormulaHideChanged;
         }
 
-        public setSectionFormulaHideChanged(rhs: boolean) {
-            this.sectionFormulaHideChanged = rhs;
+        public setSectionFormulaHideChanged(value: boolean) {
+            this.sectionFormulaHideChanged = value;
         }
 
         public getHasSectionLineFormulaHideChanged() {
             return this.bSetSectionLineFormulaHideChanged;
         }
 
-        public setHasSectionLineFormulaHideChanged(rhs: boolean) {
-            this.bSetSectionLineFormulaHideChanged = rhs;
+        public setHasSectionLineFormulaHideChanged(value: boolean) {
+            this.bSetSectionLineFormulaHideChanged = value;
         }
 
         public getSectionLineFormulaHideChanged() {
             return this.sectionLineFormulaHideChanged;
         }
 
-        public setSectionLineFormulaHideChanged(rhs: boolean) {
-            this.sectionLineFormulaHideChanged = rhs;
+        public setSectionLineFormulaHideChanged(value: boolean) {
+            this.sectionLineFormulaHideChanged = value;
         }
 
         //#endregion
@@ -1589,7 +1596,7 @@ namespace CSReportEditor {
             this.chartSortChanged = true;
         }
 
-        private txDbFieldGroupValueTextChanged() {
+        private txDbFieldGroupTextChanged() {
             this.chartFieldGroupChanged = true;
         }
 
@@ -2065,7 +2072,7 @@ namespace CSReportEditor {
         }
 
         getTxDbFieldGroupValue(): TextBox {
-            return this.txDbFieldGroupValue;
+            return this.txChartDbFieldGroup;
         }
 
         getTxChartGroupValue(): TextBox {
@@ -2085,11 +2092,11 @@ namespace CSReportEditor {
         }
 
         getTxDbFieldLbl1(): TextBox {
-            return this.txDbFieldLbl1;
+            return this.txChartDbFieldLbl1;
         }
 
         getTxDbFieldVal1(): TextBox {
-            return this.txDbFieldVal1;
+            return this.txChartDbFieldVal1;
         }
 
         getCbColorSerie1(): ComboBox {
@@ -2097,11 +2104,11 @@ namespace CSReportEditor {
         }
 
         getTxDbFieldLbl2(): TextBox {
-            return this.txDbFieldLbl2;
+            return this.txChartDbFieldLbl2;
         }
 
         getTxDbFieldVal2(): TextBox {
-            return this.txDbFieldVal2;
+            return this.txChartDbFieldVal2;
         }
 
         getCbColorSerie2(): ComboBox {
@@ -2245,6 +2252,88 @@ namespace CSReportEditor {
             U.el('property-chart-tab-selector').style.backgroundColor = tab === 'property-chart-tab' ? '#111' : '#494947';
             U.el('property-section-tab-selector').style.backgroundColor = tab === 'property-section-tab' ? '#111' : '#494947';
             U.el('property-group-tab-selector').style.backgroundColor = tab === 'property-group-tab' ? '#111' : '#494947';
+        }
+
+        private setDbField(result: any) {
+            if(result.success) {
+                this.txDbField.setText(result.field);
+                this.setFieldType(result.fieldType);
+                this.setIndex(result.fieldIndex);
+                this.dbFieldChanged = true;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        private setChartGroupDbField(result: any) {
+            if(result.success) {
+                this.txChartDbFieldGroup.setText(result.field);
+                this.setChartGroupFieldType(result.fieldType);
+                this.setChartGroupIndex(result.fieldIndex);
+                this.chartFieldGroupChanged = true;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        private setChartSerie1DbFieldLabel(result: any) {
+            if(result.success) {
+                this.txChartDbFieldLbl1.setText(result.field);
+                this.setChartFieldType(0, result.fieldType);
+                this.setChartIndex(0, result.fieldIndex);
+                this.chartFieldLbl1Changed = true;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        private setChartSerie1DbFieldValue(result: any) {
+            if(result.success) {
+                this.txChartDbFieldVal1.setText(result.field);
+                this.setChartFieldType(1, result.fieldType);
+                this.setChartIndex(1, result.fieldIndex);
+                this.chartFieldVal1Changed = true;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        private setChartSerie2DbFieldLabel(result: any) {
+            if(result.success) {
+                this.txChartDbFieldLbl2.setText(result.field);
+                this.setChartFieldType(2, result.fieldType);
+                this.setChartIndex(2, result.fieldIndex);
+                this.chartFieldLbl2Changed = true;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        private setChartSerie2DbFieldValue(result: any) {
+            if(result.success) {
+                this.txChartDbFieldVal2.setText(result.field);
+                this.setChartFieldType(3, result.fieldType);
+                this.setChartIndex(3, result.fieldIndex);
+                this.chartFieldVal2Changed = true;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        private selectDbField(field: string, f: (result: any) => void) {
+            this.editor.showHelpDbField3(field).then((result) => f.apply(this, [result]));
         }
     }
 }

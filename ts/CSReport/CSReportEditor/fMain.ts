@@ -706,6 +706,7 @@ namespace CSReportEditor {
 
         public hideContextMenu(_: MouseEvent) {
             this.popupMenuControl.style.display = "none";
+            this.popupMenuSection.style.display = "none";
         }
 
         public showPopMenuControl(editor: cEditor, clickInCtrl: boolean, pasteEnabled: boolean, p: Point, event: any) {

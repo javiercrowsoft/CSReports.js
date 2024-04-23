@@ -3096,6 +3096,10 @@ namespace CSReportEditor {
             }));
         }
 
+        public showHelpDbField3(field: string) {
+            return this.fMain.showDbFields(field, this);
+        }
+
         public showCurrentGroupProperties() {
             let group: cReportGroup = null;
             let isGroup = new RefWrapper(false);
