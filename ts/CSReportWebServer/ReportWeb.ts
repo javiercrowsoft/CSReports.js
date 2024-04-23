@@ -81,6 +81,7 @@ namespace CSReportWebServer {
                 const oLaunchInfo = new cReportLaunchInfo();
 
                 oLaunchInfo.setPrinter(cPrintAPI.getcPrinterFromDefaultPrinter(null));
+                oLaunchInfo.getPrinter().setPaperInfo(report.getPaperInfo());
 
                 return this.registerDataSource(request)
                 .then(P.call(this, () => {
@@ -228,6 +229,7 @@ namespace CSReportWebServer {
 
                         // clone doesn't copy launch info content
                         //
+                        this.report.getLaunchInfo().setReportPrint(null); // <-- to avoid circular refence
                         report.getLaunchInfo().copy(JSON.parse(JSON.stringify(this.report.getLaunchInfo())));
                         report.getLaunchInfo().getPrinter().setPaperInfo(report.getPaperInfo());
                         report.getLaunchInfo().setShowPrintersDialog(true);

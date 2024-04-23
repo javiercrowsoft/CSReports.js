@@ -28,6 +28,7 @@ namespace CSReportEditor {
     import ServerConnection = CSDatabase.ServerConnection;
     import cColumnsInfo = CSReportEngine.cColumnsInfo;
     import cReportConnect = CSReportEngine.cReportConnect;
+    import csDataSourceType = CSReportGlobals.csDataSourceType;
 
     import Panel = CSForms.Panel;
     import PictureBox = CSForms.PictureBox;
@@ -586,6 +587,7 @@ namespace CSReportEditor {
                     if(result.success) {
                         let rptConnect: cReportConnect = new cReportConnect();
                         rptConnect.setDataSource(result.dataSource.name);
+                        rptConnect.setDataSourceType(csDataSourceType.CS_DT_PROCEDURE);
                         (editor as cEditor).addConnection(rptConnect, this.serverConnection);
                     }
                 }));
@@ -595,28 +597,28 @@ namespace CSReportEditor {
         public setParamsAndExecuteClick() {
             let editor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(editor !== null && editor.isEditor()) {
-                (editor as cEditor).setParamsAndExecute(this.serverConnection).then(P.call(this, (result)=> {
-                    if(result.success) {
-                        const content = {
-                            action: 'preview',
-                            data: {
-                                code: result.dataSource.name,
-                                data: [{
-                                    data: result.dataSource.recordset,
-                                    name: result.dataSource.name
-                                }],
-                                file: result.dataSource.name + '.csr',
-                                name: result.dataSource.name,
-                                params: (editor as cEditor).getReport().getConnect().getParameters().map(p => { return {name: p.getName(), value: p.getValue()} }),
-                                title: result.dataSource.name,
-                                type: '-',
-                                url: '-'
-                            },
-                            webReportId: '-'
-                        }
-                        this.debugData.remove((editor as cEditor).getId());
-                        this.debugData.add({name: result.dataSource.name, content: content as any}, (editor as cEditor).getId());
+                (editor as cEditor).setParamsAndExecute(this.serverConnection).then(P.call(this, (results)=> {
+                    if(results.filter(r => ! r.success).length > 0) return;
+
+                    const dataSources = results.map(r => { return {data: r.dataSource.recordset, name: r.dataSource.name}; });
+
+                    const content = {
+                        action: 'preview',
+                        data: {
+                            code: results[0].dataSource.name,
+                            data: dataSources,
+                            file: results[0].dataSource.name + '.csr',
+                            name: results[0].dataSource.name,
+                            params: (editor as cEditor).getReport().getConnect().getParameters().map(p => { return {name: p.getName(), value: p.getValue()} }),
+                            title: results[0].dataSource.name,
+                            type: '-',
+                            url: '-'
+                        },
+                        webReportId: '-'
                     }
+                    this.debugData.remove((editor as cEditor).getId());
+                    this.debugData.add({name: results[0].dataSource.name, content: content as any}, (editor as cEditor).getId());
+
                 }));
             }
         }
@@ -630,7 +632,7 @@ namespace CSReportEditor {
             let previewReport = this.previewReports.item(editor.getId());
             if(previewReport === null) {
                 previewReport = new ReportWeb();
-                this.previewReports.add(previewReport);
+                this.previewReports.add(previewReport, editor.getId());
                 p = previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
             }
             p.then((result) => {

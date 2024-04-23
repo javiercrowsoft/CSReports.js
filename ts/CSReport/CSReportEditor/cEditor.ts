@@ -1800,10 +1800,9 @@ namespace CSReportEditor {
 
         public setParamsAndExecute(serverConnection: ServerConnection) {
             let connect: CSConnect.cConnect = new CSConnect.cConnect();
-            let param: CSReportEngine.cParameter = null;
 
             for(let _i = 0; _i < this.report.getConnect().getParameters().count(); _i++) {
-                param = this.report.getConnect().getParameters().item(_i);
+                let param = this.report.getConnect().getParameters().item(_i);
                 let connectParam: CSConnect.cParameter = connect.getParameters().add(null, "");
                 connectParam.setName(param.getName());
                 connectParam.setValue(param.getValue());
@@ -1820,8 +1819,37 @@ namespace CSReportEditor {
 
             return connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, (result) => {
                 if(result.success) cGlobals.setParametersAux(connect, this.report.getConnect());
-                return result;
+
+                let p = P._([result]);
+
+                for(let i = 0; i < this.report.getConnectsAux().size(); i++) {
+                    let rptConnect = this.report.getConnectsAux().item(i);
+                    connect = new CSConnect.cConnect();
+
+                    for(let _i = 0; _i < rptConnect.getParameters().count(); _i++) {
+                        let param = rptConnect.getParameters().item(_i);
+                        let connectParam: CSConnect.cParameter = connect.getParameters().add(null, "");
+                        connectParam.setName(param.getName());
+                        connectParam.setValue(param.getValue());
+                    }
+
+                    connect.setStrConnect(rptConnect.getStrConnect());
+                    connect.setDataSource(rptConnect.getDataSource());
+                    connect.setDataSourceType(rptConnect.getDataSourceType());
+                    p = p.then(P.call(this, this.loadAdditionalConnection(connect, serverConnection, rptConnect)));
+                }
+                return p;
             }));
+        }
+
+        private loadAdditionalConnection(connect: CSConnect.cConnect, serverConnection: ServerConnection, rptConnect) {
+            return (results) => {
+                return connect.getDataSourceColumnsInfo(serverConnection).then(P.call(this, (result) => {
+                    if(result.success) cGlobals.setParametersAux(connect, rptConnect);
+                    results.push(result);
+                    return results;
+                }));
+            }
         }
 
         public setSimpleConnection() {
