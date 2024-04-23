@@ -378,11 +378,11 @@ namespace CSReportEditor {
             this.txBorderShadow.setChange(P.call(this, this.txBorderShadowChanged));
             this.txBorderWidth.setChange(P.call(this, this.txBorderWidthChanged));
 
-            this.txForeColor.setChange(P.call(this, this.txForeColorLostFocus));
-            this.txBackColor.setChange(P.call(this, this.txBackColorLostFocus));
-            this.txBorderColor.setChange(P.call(this, this.txBorderColorLostFocus));
-            this.txBorder3D.setChange(P.call(this, this.txBorder3DLostFocus));
-            this.txBorderShadow.setChange(P.call(this, this.txBorderShadowLostFocus));
+            this.txForeColor.setLostFocus(P.call(this, this.txForeColorLostFocus));
+            this.txBackColor.setLostFocus(P.call(this, this.txBackColorLostFocus));
+            this.txBorderColor.setLostFocus(P.call(this, this.txBorderColorLostFocus));
+            this.txBorder3D.setLostFocus(P.call(this, this.txBorder3DLostFocus));
+            this.txBorderShadow.setLostFocus(P.call(this, this.txBorderShadowLostFocus));
 
             this.txChartGroupValue.setChange(P.call(this, this.txChartGroupValueChanged));
             this.txChartTop.setChange(P.call(this, this.txChartTopChanged));
@@ -1482,10 +1482,12 @@ namespace CSReportEditor {
 
         private txForeColorChanged() {
             this.foreColorChanged = true;
+            this.txForeColorLostFocus();
         }
 
         private txBackColorChanged() {
             this.backColorChanged = true;
+            this.txBackColorLostFocus();
         }
 
         private chkTransparentChanged() {
@@ -1550,14 +1552,17 @@ namespace CSReportEditor {
 
         private txBorderColorChanged() {
             this.borderColorChanged = true;
+            this.txBorderColorLostFocus();
         }
 
         private txBorder3DChanged() {
             this.border3DChanged = true;
+            this.txBorder3DLostFocus();
         }
 
         private txBorderShadowChanged() {
             this.border3DShadowChanged = true;
+            this.txBorderShadowLostFocus();
         }
 
         private txBorderWidthChanged() {

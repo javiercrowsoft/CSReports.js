@@ -614,7 +614,7 @@ namespace CSReportEditor {
                             },
                             webReportId: '-'
                         }
-
+                        this.debugData.remove((editor as cEditor).getId());
                         this.debugData.add({name: result.dataSource.name, content: content as any}, (editor as cEditor).getId());
                     }
                 }));

@@ -370,6 +370,8 @@ namespace CSReportEditor {
         }
 
         public keyUp(ev: KeyboardEvent) {
+            if(ev.target !== document.body) return;
+
             this.formKeyUp(this.keyFromKey(ev.key), ev.ctrlKey);
 
             if(this.keyboardMove) {
