@@ -1179,24 +1179,31 @@ namespace CSReportPaint {
                 }
             }
 
-            for(let i = 0; i < this.getPaintObjects().count(); i++) {
-                this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
-            }
+            // we wait 50 milliseconds because in Chrome the grid were not draw, probably because it takes
+            // too much work to draw all boxes
+            //
+            const p =  new Promise((resolve) => { setTimeout(resolve, 50); });
 
-            for(let i = 0; i < this.getPaintSections().count(); i++) {
-                this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
-            }
+            return p.then(P.call(this, () => {
 
-            this.bitmap = Bitmap.fromContext2d(bitmapGraphic.getContext(), bitmapGraphic.name);
-            this.bitmapGraphic = bitmapGraphic;
+                for(let i = 0; i < this.getPaintObjects().count(); i++) {
+                    this.drawObject(this.getPaintObjects().getNextKeyForZOrder(i), bitmapGraphic);
+                }
 
-            return this.bitmap.whenLoaded()
-                .then(P.call(this, () => {
+                for(let i = 0; i < this.getPaintSections().count(); i++) {
+                    this.drawSection(this.getPaintSections().getNextKeyForZOrder(i), bitmapGraphic);
+                }
 
-                    return this.paintPicture(graphic, true);
+                this.bitmap = Bitmap.fromContext2d(bitmapGraphic.getContext(), bitmapGraphic.name);
+                this.bitmapGraphic = bitmapGraphic;
 
-                }));
+                return this.bitmap.whenLoaded()
+                        .then(P.call(this, () => {
 
+                            return this.paintPicture(graphic, true);
+
+                        }));
+            }));
         }
 
         //--------------------------------------------------------------------------------------------------

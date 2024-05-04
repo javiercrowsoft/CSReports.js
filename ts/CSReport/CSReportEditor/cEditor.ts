@@ -3705,6 +3705,10 @@ namespace CSReportEditor {
             }
         }
 
+        public restoreProperties() {
+            cMainEditor.showProperties();
+        }
+
         public applyProperties() {
             if(this.vSelectedKeys.length === 0) return;
             if(this.vSelectedKeys[0].charAt(0) === 'S') {

@@ -37,13 +37,17 @@ namespace CSForms {
             const tabSelectorNode = document.createElement('button');
             tabSelectorNode.className = "tablinks";
             tabSelectorNode.onclick = (event) => {
-                this.hideAll();
-                // console.log("open " + tabPage.getText());
-                tabPage.getElement().style.display = 'block';
-                tabPage.getSelectedFlag().style.display = 'block';
-                // event.stopPropagation();
-                // @ts-ignore
-                if(event.raisedByCode === undefined) tabPage.showTab();
+                if((event.target as any).nodeName !== 'SPAN') {
+                    this.hideAll();
+                    // console.log("open " + tabPage.getText());
+                    tabPage.getElement().style.display = 'block';
+                    tabPage.getSelectedFlag().style.display = 'block';
+                    // event.stopPropagation();
+                    // @ts-ignore
+                    if(event.raisedByCode === undefined) tabPage.showTab();
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
             };
             tabSelectorNode.innerText = tabPage.getText();
             const tabCloseNode = document.createElement('span');

@@ -167,12 +167,14 @@ header nav ul li {
 #right-sidebar {
     background-color: #f7f8f9;
     width: 445px;
-    height: calc(100% - 98px);
+    height: calc(100% - 203px);
     padding: 10px 30px 25px 30px;
     bottom: 30px;
     top: 135px;
     color: #373636;
     float: right;
+    position: absolute;
+    right: 0px;
 }
 
 #right-sidebar h1 {
@@ -186,6 +188,24 @@ header nav ul li {
 
 #right-sidebar .toolbar {
     background-color: #494947;
+}
+
+.property-lock-editor {
+    background-color: black;
+    opacity: .2;
+    filter: alpha(opacity=20);
+    position: fixed !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9990;
+    display: none;
+}
+
+.property-dialog {
+    z-index: 9994;
 }
 
 .property-tab {
@@ -993,3 +1013,4 @@ ul.toolbar a:hover {
     right: -140px;
     top: 0px;
 }
+

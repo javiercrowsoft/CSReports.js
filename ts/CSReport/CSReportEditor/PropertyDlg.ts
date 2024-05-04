@@ -238,6 +238,8 @@ namespace CSReportEditor {
         // footer buttons
 
         private cmdApply: Button;
+        private cmdCancel: Button;
+        private divLockEditor: HTMLDivElement;
 
         //#endregion
 
@@ -426,10 +428,29 @@ namespace CSReportEditor {
 
             this.cmdApply = new Button(U.el('ctrl-properties-dlg-apply'));
             this.cmdApply.setOnClick(P.call(this, this.cmdApplyClick));
+
+            this.cmdCancel = new Button(U.el('ctrl-properties-dlg-cancel'));
+            this.cmdCancel.setOnClick(P.call(this, this.cmdCancelClick));
+
+            this.divLockEditor = U.el('lock-editor') as HTMLDivElement;
         }
 
         private cmdApplyClick() {
             this.editor.applyProperties();
+            this.unlockEditor();
+        }
+
+        private cmdCancelClick() {
+            this.editor.restoreProperties();
+            this.unlockEditor();
+        }
+
+        private lockEditor() {
+            this.divLockEditor.style.display = 'block';
+        }
+
+        private unlockEditor() {
+            this.divLockEditor.style.display = 'none';
         }
 
         // formula edit click handlers
@@ -447,6 +468,7 @@ namespace CSReportEditor {
                     this.formulaHide = this.formulaDlg.getFormula();
                     this.formulaHideChanged = true;
                     this.lbFormulaHide.setText(this.formulaHide);
+                    this.lockEditor();
                 }
             }));
         }
@@ -464,6 +486,7 @@ namespace CSReportEditor {
                     this.formulaValue = this.formulaDlg.getFormula();
                     this.formulaValueChanged = true;
                     this.lbFormulaValue.setText(this.formulaValue);
+                    this.lockEditor();
                 }
             }));
         }
@@ -481,6 +504,7 @@ namespace CSReportEditor {
                     this.sectionFormulaHide = this.formulaDlg.getFormula();
                     this.sectionFormulaHideChanged = true;
                     this.lbSectionFormulaHide.setText(this.sectionFormulaHide);
+                    this.lockEditor();
                 }
             }));
         }
@@ -498,6 +522,7 @@ namespace CSReportEditor {
                     this.sectionLineFormulaHide = this.formulaDlg.getFormula();
                     this.sectionLineFormulaHideChanged = true;
                     this.lbSectionLineFormulaHide.setText(this.sectionLineFormulaHide);
+                    this.lockEditor();
                 }
             }));
         }
@@ -1074,42 +1099,52 @@ namespace CSReportEditor {
 
         private cbFontClick() {
             this.fontChanged = true;
+            this.lockEditor();
         }
 
         private cbAlignClick() {
             this.alignChanged = true;
+            this.lockEditor();
         }
 
         private cbBorderTypeClick() {
             this.borderTypeChanged = true;
+            this.lockEditor();
         }
 
         private chkBorderRoundedClick() {
             this.borderRoundedChanged = true;
+            this.lockEditor();
         }
 
         private chkFormulaHideClick() {
             this.bSetFormulaHideChanged = true;
+            this.lockEditor();
         }
 
         private chkFormulaValueClick() {
             this.bSetFormulaValueChanged = true;
+            this.lockEditor();
         }
 
         private chkSectionFormulaHideClick() {
             this.bSetSectionFormulaHideChanged = true;
+            this.lockEditor();
         }
 
         private chkSectionLineFormulaHideClick() {
             this.bSetSectionLineFormulaHideChanged = true;
+            this.lockEditor();
         }
 
         private opAfterPrintClick() {
             this.whenEvalChanged = true;
+            this.lockEditor();
         }
 
         private opBeforePrintClick() {
             this.whenEvalChanged = true;
+            this.lockEditor();
         }
 
         private txForeColorLostFocus() {
@@ -1456,177 +1491,219 @@ namespace CSReportEditor {
             this.editor.showHelpDbField().then(P.call(this, (result) => {
                 if(result)  {
                     this.dbFieldChanged = true;
+                    this.lockEditor();
                 }
             }));
         }
 
         private txChartGroupValueChanged() {
             this.chartGroupValueChanged = true;
+            this.lockEditor();
         }
 
         private txChartTopChanged() {
             this.chartTopChanged = true;
+            this.lockEditor();
         }
 
         private txTextChanged() {
             this.textChanged = true;
+            this.lockEditor();
         }
 
         private txTagChanged() {
             this.tagChanged = true;
+            this.lockEditor();
         }
 
         private txFontSizeChanged() {
             this.fontSizeChanged = true;
+            this.lockEditor();
         }
 
         private txForeColorChanged() {
             this.foreColorChanged = true;
             this.txForeColorLostFocus();
+            this.lockEditor();
         }
 
         private txBackColorChanged() {
             this.backColorChanged = true;
             this.txBackColorLostFocus();
+            this.lockEditor();
         }
 
         private chkTransparentChanged() {
             this.transparentChanged = true;
+            this.lockEditor();
         }
 
         private txFormatChanged() {
             this.formatChanged = true;
+            this.lockEditor();
         }
 
         private txSymbolChanged() {
             this.symbolChanged = true;
+            this.lockEditor();
         }
 
         private chkFontBoldChanged() {
             this.boldChanged = true;
+            this.lockEditor();
         }
 
         private chkFontUnderlineChanged() {
             this.underlineChanged = true;
+            this.lockEditor();
         }
 
         private chkFontItalicChanged() {
             this.italicChanged = true;
+            this.lockEditor();
         }
 
         private chkFontStrikeChanged() {
             this.strikeChanged = true;
+            this.lockEditor();
         }
 
         private txLeftChanged() {
             this.leftChanged = true;
+            this.lockEditor();
         }
 
         private txTopChanged() {
             this.topChanged = true;
+            this.lockEditor();
         }
 
         private txHeightChanged() {
             this.heightChanged = true;
+            this.lockEditor();
         }
 
         private txWidthChanged() {
             this.widthChanged = true;
+            this.lockEditor();
         }
 
         private chkCanGrowCheckedChanged() {
             this.canGrowChanged = true;
+            this.lockEditor();
         }
 
         private chkWordWrapCheckedChanged() {
             this.wordWrapChanged = true;
+            this.lockEditor();
         }
 
         private chkIsFreeCtrlCheckedChanged() {
             this.isFreeCtrlChanged = true;
+            this.lockEditor();
         }
 
         private txExportColIdxTextChanged() {
             this.exportColIdxChanged = true;
+            this.lockEditor();
         }
 
         private txBorderColorChanged() {
             this.borderColorChanged = true;
             this.txBorderColorLostFocus();
+            this.lockEditor();
         }
 
         private txBorder3DChanged() {
             this.border3DChanged = true;
             this.txBorder3DLostFocus();
+            this.lockEditor();
         }
 
         private txBorderShadowChanged() {
             this.border3DShadowChanged = true;
             this.txBorderShadowLostFocus();
+            this.lockEditor();
         }
 
         private txBorderWidthChanged() {
             this.borderWidthChanged = true;
+            this.lockEditor();
         }
 
         private cbTypeSelectedIndexChanged() {
             this.chartTypeChanged = true;
+            this.lockEditor();
         }
 
         private cbLinesTypeSelectedIndexChanged() {
             this.chartLinesTypeChanged = true;
+            this.lockEditor();
         }
 
         private cbChartSizeSelectedIndexChanged() {
             this.chartSizeChanged = true;
+            this.lockEditor();
         }
 
         private txChartTopTextChanged() {
             this.chartTopChanged = true;
+            this.lockEditor();
         }
 
         private cbChartThicknessSelectedIndexChanged() {
             this.chartThicknessChanged = true;
+            this.lockEditor();
         }
 
         private chkShowBarValuesCheckedChanged() {
             this.chartShowValuesChanged = true;
+            this.lockEditor();
         }
 
         private chkShowOutlinesCheckedChanged() {
             this.chartShowLinesChanged = true;
+            this.lockEditor();
         }
 
         private chkSortCheckedChanged() {
             this.chartSortChanged = true;
+            this.lockEditor();
         }
 
         private txDbFieldGroupTextChanged() {
             this.chartFieldGroupChanged = true;
+            this.lockEditor();
         }
 
         private txDbFieldVal1TextChanged() {
             this.chartFieldVal1Changed = true;
+            this.lockEditor();
         }
 
         private txDbFieldLbl1TextChanged() {
             this.chartFieldLbl1Changed = true;
+            this.lockEditor();
         }
 
         private cbColorSerie1SelectedIndexChanged() {
             this.chartColorSerie1Changed = true;
+            this.lockEditor();
         }
 
         private txDbFieldVal2TextChanged() {
             this.chartFieldVal2Changed = true;
+            this.lockEditor();
         }
 
         private txDbFieldLbl2TextChanged() {
             this.chartFieldLbl2Changed = true;
+            this.lockEditor();
         }
 
         private cbColorSerie2SelectedIndexChanged() {
             this.chartColorSerie2Changed = true;
+            this.lockEditor();
         }
         //#endregion
 
@@ -2265,6 +2342,7 @@ namespace CSReportEditor {
                 this.setFieldType(result.fieldType);
                 this.setIndex(result.fieldIndex);
                 this.dbFieldChanged = true;
+                this.lockEditor();
                 return true;
             }
             else {
@@ -2278,6 +2356,7 @@ namespace CSReportEditor {
                 this.setChartGroupFieldType(result.fieldType);
                 this.setChartGroupIndex(result.fieldIndex);
                 this.chartFieldGroupChanged = true;
+                this.lockEditor();
                 return true;
             }
             else {
@@ -2291,6 +2370,7 @@ namespace CSReportEditor {
                 this.setChartFieldType(0, result.fieldType);
                 this.setChartIndex(0, result.fieldIndex);
                 this.chartFieldLbl1Changed = true;
+                this.lockEditor();
                 return true;
             }
             else {
@@ -2304,6 +2384,7 @@ namespace CSReportEditor {
                 this.setChartFieldType(1, result.fieldType);
                 this.setChartIndex(1, result.fieldIndex);
                 this.chartFieldVal1Changed = true;
+                this.lockEditor();
                 return true;
             }
             else {
@@ -2317,6 +2398,7 @@ namespace CSReportEditor {
                 this.setChartFieldType(2, result.fieldType);
                 this.setChartIndex(2, result.fieldIndex);
                 this.chartFieldLbl2Changed = true;
+                this.lockEditor();
                 return true;
             }
             else {
@@ -2330,6 +2412,7 @@ namespace CSReportEditor {
                 this.setChartFieldType(3, result.fieldType);
                 this.setChartIndex(3, result.fieldIndex);
                 this.chartFieldVal2Changed = true;
+                this.lockEditor();
                 return true;
             }
             else {
