@@ -137,12 +137,22 @@ namespace CSReportEngine {
         PaperSize: CSReportEngine.PaperSize;
     }
 
-    export class PrintDocument {
+    export class PDFGraphic {
+
+    }
+
+    export class PDFPageEvent {
+        public hasMorePages: boolean;
+        public graphic: PDFGraphic;
+    }
+
+    export class PDFDocument {
         private defaultPageSettings = new PageSettings();
         private printerSettings = new PrinterSettings();
+        private printPage: (e: PDFPageEvent) => void = null;
 
-        setPrintPage(printPage: (nPage: number, inPrinter?: boolean) => void) {
-
+        setPrintPage(printPage: (e: PDFPageEvent) => void) {
+            this.printPage = printPage;
         }
 
         getPrinterSettings(): PrinterSettings {
@@ -154,7 +164,46 @@ namespace CSReportEngine {
         }
 
         print() {
+            while(true) {
+                const e = new PrintPageEvent();
+                this.printPage(e);
+                if(! e.hasMorePages) break;
+            }
+        }
+    }
 
+    export class PrinterGraphic {
+
+    }
+
+    export class PrintPageEvent {
+        public hasMorePages: boolean;
+        public graphic: PrinterGraphic;
+    }
+
+    export class PrintDocument {
+        private defaultPageSettings = new PageSettings();
+        private printerSettings = new PrinterSettings();
+        private printPage: (e: PrintPageEvent) => void = null;
+
+        setPrintPage(printPage: (e: PrintPageEvent) => void) {
+            this.printPage = printPage;
+        }
+
+        getPrinterSettings(): PrinterSettings {
+            return this.printerSettings;
+        }
+
+        getDefaultPageSettings() {
+            return this.defaultPageSettings;
+        }
+
+        print() {
+            while(true) {
+                const e = new PrintPageEvent();
+                this.printPage(e);
+                if(! e.hasMorePages) break;
+            }
         }
     }
 

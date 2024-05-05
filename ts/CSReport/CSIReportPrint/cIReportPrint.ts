@@ -9,5 +9,6 @@ namespace CSIReportPrint {
         makeXml(): boolean;
         previewReport(): boolean;
         printReport(): boolean;
+        createPDF(): boolean;
     }
 }

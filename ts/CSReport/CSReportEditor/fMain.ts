@@ -623,6 +623,38 @@ namespace CSReportEditor {
             }
         }
 
+        public printReportClick() {
+            let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
+            if(maybeEditor === null || ! maybeEditor.isEditor()) return;
+            const editor = maybeEditor as cEditor;
+
+            let p = P._(true);
+            let previewReport = this.previewReports.item(editor.getId());
+            if(previewReport === null) {
+                previewReport = new ReportWeb();
+                this.previewReports.add(previewReport, editor.getId());
+                p = previewReport.init(this.debugData.item(editor.getId()), editor.getReport());
+            }
+            p.then((result) => {
+                if(! result) return false;
+
+                return previewReport.makeReport();
+            })
+            .then((result) => {
+                if(! result) return false;
+
+                return previewReport.getPages();
+            })
+            .then((result) => {
+                if(! result) return false;
+
+                previewReport.createPDF();
+            })
+            .catch((ignore) => {
+
+            });
+        }
+
         public debugReportClick() {
             let maybeEditor: cEditor | PreviewTab = cMainEditor.getDocActive();
             if(maybeEditor === null || ! maybeEditor.isEditor()) return;

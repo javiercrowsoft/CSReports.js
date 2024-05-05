@@ -18,7 +18,10 @@ namespace CSReportPaint {
     import cIReportPrint = CSIReportPrint.cIReportPrint;
     import RefWrapper = CSKernelClient.RefWrapper;
     import cReportPaperInfo = CSReportEngine.cReportPaperInfo;
+    import PDFDocument = CSReportEngine.PrintDocument;
+    import PDFPageEvent = CSReportEngine.PDFPageEvent;
     import PrintDocument = CSReportEngine.PrintDocument;
+    import PrintPageEvent = CSReportEngine.PrintPageEvent;
     import cReportPageFields = CSReportEngine.cReportPageFields;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import NotImplementedException = CSOAPI.NotImplementedException;
@@ -434,7 +437,49 @@ namespace CSReportPaint {
             return true;
         }
 
-        public cIReportPrint_PrintReport() {
+        public createPDF() {
+            try {
+                let q: number = 0;
+
+                this.createPaint();
+
+                this.rePaintObject = true;
+
+                let printer: cPrinter = null;
+
+                // if the printer is not defined
+                //
+                if(this.report.getLaunchInfo().getPrinter() === null) {
+                    printer = cPrintAPI.getcPrinterFromDefaultPrinter(null);
+                }
+                // we use the printer asigned by the caller
+                //
+                else {
+                    printer = this.report.getLaunchInfo().getPrinter();
+                }
+
+                const pagesToPrint = "1-" + this.report.getPages().count().toString();
+
+                if(!this.printPagesToPDF(pagesToPrint, objClient)) {
+                    return false;
+                }
+
+                return true;
+            }
+            catch(ex) {
+                cError.mngError(ex);
+                return false;
+            }
+            finally
+            {
+                if(this.rpwPrint !== null) {
+                    this.printPage(this.currPage, false);
+                    this.rpwPrint.getBody().refresh();
+                }
+            }
+        }
+
+        public printReport() {
             return this.pDoPrint(null);
         }
 
@@ -534,7 +579,7 @@ namespace CSReportPaint {
                     return false;
                 }
 
-                printDoc.setPrintPage(this.printPage);
+                printDoc.setPrintPage(P.call(this, this.doPrintPage));
                 printDoc.getPrinterSettings().setPrinterName(printer.getDeviceName());
 
                 this.pageToPrint = -1;
@@ -550,7 +595,7 @@ namespace CSReportPaint {
             }
         }
 
-        private doPrintPage(sender: object, e: any) {
+        private doPrintPage(e: PrintPageEvent) {
             if(this.pageToPrint === -1) {
 
                 let dpiX: number = 0;
@@ -561,7 +606,7 @@ namespace CSReportPaint {
                 this.oldScaleFont = this.scaleFont;
                 this.oldZoom = this.paint.getZoom();
 
-                let graphic = e.Graphics;
+                let graphic = e.graphic;
                 dpiX = graphic.DpiX;
                 dpiY = graphic.DpiY;
 
@@ -593,7 +638,7 @@ namespace CSReportPaint {
             while (this.pageToPrint < this.report.getPages().count()) {
                 if(this.haveToPrintThisPage(this.pageToPrint+1, this.pagesToPrint)) {
                     this.printPage(this.pageToPrint+1, true);
-                    let graphic = e.Graphics;
+                    let graphic = e.graphic;
 
                     if(!this.drawPage(graphic, true)) {
                         throw new ReportPaintException("There was an error when printing the report.");
@@ -603,7 +648,7 @@ namespace CSReportPaint {
                         throw new ReportPaintException("There was an error when printing the report.");
                     }
 
-                    e.HasMorePages = (this.pageToPrint+1 < this.pagesToPrint[this.pagesToPrint.length -1]);
+                    e.hasMorePages = (this.pageToPrint+1 < this.pagesToPrint[this.pagesToPrint.length -1]);
                     return;
                 }
                 else {
@@ -618,7 +663,86 @@ namespace CSReportPaint {
             this.paint.setScaleY(this.oldScaleY);
             this.scaleFont = this.oldScaleFont;
 
-            e.HasMorePages = false;
+            e.hasMorePages = false;
+        }
+
+        private printPagesToPDF(pagesToPrint: string, objClient: cIPrintClient) {
+            try {
+                let printDoc: PrintDocument = new PDFDocument();
+
+                let paperInfo: cReportPaperInfo = this.report.getPaperInfo();
+                if(!printer.starDoc(printDoc,
+                                        this.report.getName(),
+                                        paperInfo.getPaperSize(),
+                                        paperInfo.getOrientation())) {
+                    return false;
+                }
+
+                printDoc.setPrintPage(P.call(this, this.createPDFPage));
+
+                this.pageToPrint = -1;
+                this.pagesToPrint = this.getPagesToPrint(pagesToPrint);
+                this.objClientToPrint = objClient;
+                printDoc.print();
+
+                return true;
+            }
+            catch(ex) {
+                cError.mngError(ex);
+                return false;
+            }
+        }
+
+        private createPDFPage(e: PDFPageEvent) {
+            if(this.pageToPrint === -1) {
+
+                this.oldScaleX = this.paint.getScaleX();
+                this.oldScaleY = this.paint.getScaleY();
+                this.oldScaleFont = this.scaleFont;
+                this.oldZoom = this.paint.getZoom();
+
+                // we are not using scaleX and scaleY
+                this.scaleX = 1;
+                this.scaleY = 1;
+
+                this.paint.setScaleX(this.scaleX);
+                this.paint.setScaleY(this.scaleY);
+
+                this.paint.setZoom(100);
+                this.scaleFont = 1;
+            }
+
+            this.pageToPrint += 1;
+
+            while (this.pageToPrint < this.report.getPages().count()) {
+                if(this.haveToPrintThisPage(this.pageToPrint+1, this.pagesToPrint)) {
+                    this.printPage(this.pageToPrint+1, true);
+                    let graphic = e.graphic;
+
+                    if(!this.drawPage(graphic, true)) {
+                        throw new ReportPaintException("There was an error when printing the report.");
+                    }
+
+                    if(!this.refreshObjClient(this.pageToPrint, this.objClientToPrint)) {
+                        throw new ReportPaintException("There was an error when printing the report.");
+                    }
+
+                    e.hasMorePages = (this.pageToPrint+1 < this.pagesToPrint[this.pagesToPrint.length -1]);
+                    return;
+                }
+                else {
+                    this.pageToPrint += 1;
+                }
+            }
+
+            this.paint.setZoom(this.oldZoom);
+            this.scaleX = this.oldScaleX;
+            this.scaleY = this.oldScaleY;
+            this.paint.setScaleX(this.oldScaleX);
+            this.paint.setScaleY(this.oldScaleY);
+            this.scaleFont = this.oldScaleFont;
+
+            e.hasMorePages = false;
         }
 
         private refreshObjClient(iPage: number, objClient: cIPrintClient) {
@@ -1432,14 +1556,6 @@ namespace CSReportPaint {
             }
         }
 
-        private rpwPrint_DoPrint() {
-            this.cIReportPrint_PrintReport();
-        }
-
-        private rpwPrint_ExportPDF() {
-            this.exportPDF();
-        }
-
         // Files is a list of file names separated by |
         //
         public sendMail(files: string, emailAddress: string) {
@@ -1549,10 +1665,6 @@ namespace CSReportPaint {
                 this.fPreview.close();
             }
             this.rpwPrint = null;
-        }
-
-        public printReport() {
-            return this.pDoPrint(null);
         }
 
         public getPageImageAsBase64(page: number, pageIndex: RefWrapper<number>) {
