@@ -1,8 +1,20 @@
+///<reference path="../../jsPDF/index.d.ts"/>
+
 namespace CSReportEngine {
 
     import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
     import csReportPaperType = CSReportGlobals.csReportPaperType;
-    import PrinterSettings = CSReportEngine.PrinterSettings;
+    import IPrintGraphic = CSDrawing.IPrintGraphic;
+    import ISize = CSDrawing.ISize;
+    import Brush = CSDrawing.Brush;
+    import Pen = CSDrawing.Pen;
+    import Font = CSDrawing.Font;
+    import SolidBrush = CSDrawing.SolidBrush;
+    import Rectangle = CSDrawing.Rectangle;
+    import RectangleF = CSDrawing.RectangleF;
+    import StringFormat = CSDrawing.StringFormat;
+    import NotImplementedException = CSOAPI.NotImplementedException;
+    import jsPDF = JSPDFLibrary.jsPDF;
 
     export class cPrinter {
 
@@ -137,19 +149,81 @@ namespace CSReportEngine {
         PaperSize: CSReportEngine.PaperSize;
     }
 
-    export class PDFGraphic {
+    export class PDFGraphic implements IPrintGraphic {
 
+        private doc: jsPDF;
+        private height: number;
+        private width: number;
+
+        constructor(doc: jsPDF, height: number, width: number) {
+            this.doc = doc;
+            this.height = height;
+            this.width = width;
+        }
+
+        getBoundingClientRect(): ISize {
+            return { height: this.height, width: this.width };
+        }
+        fillRectangle(brush: Brush, rect: Rectangle) {
+            this.doc.setFillColor(brush.toString());
+            this.doc.setDrawColor(brush.toString());
+            this.doc.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight(), 'F');
+        }
+        drawRectangle(pen: Pen, rect: Rectangle) {
+            this.doc.setDrawColor(pen.color());
+            this.doc.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
+        }
+        drawImage2(bitmap: ImageBitmap, x: number, y: number, width: number, height: number) {
+
+        }
+        drawString(text: string, font: Font, brush: SolidBrush, rect: RectangleF, format: StringFormat) {
+            this.doc.setTextColor(brush.foreground.color);
+            this.doc.setFont(font.name, font.italic ? 'italic' : undefined, font.bold ? 'bold' : undefined);
+            this.doc.setFontSize(font.size);
+            this.doc.text(text, rect.getLeft(), rect.getTop(), {baseline: 'top'});
+        }
+        fillPath(brush: Brush, path: any): void {
+
+        }
+        drawPath(pen: Pen, path: any): void {
+
+        }
+        fillEllipse(brush: Brush, rect: Rectangle): void {
+            throw new NotImplementedException();
+        }
+        drawImage(bitmap: ImageBitmap, x: number, y: number): void {
+
+        }
+        dispose(): void {
+
+        }
     }
 
     export class PDFPageEvent {
         public hasMorePages: boolean;
         public graphic: PDFGraphic;
+
+        constructor(graphic: PDFGraphic) {
+            this.graphic = graphic;
+        }
     }
 
     export class PDFDocument {
         private defaultPageSettings = new PageSettings();
         private printerSettings = new PrinterSettings();
         private printPage: (e: PDFPageEvent) => void = null;
+        private doc: jsPDF;
+        private size: {height: number, width: number};
+
+        constructor(size: {height: number, width: number},
+                    orientation?: "p" | "portrait" | "l" | "landscape",
+                    unit?: "pt" | "px" | "in" | "mm" | "cm" | "ex" | "em" | "pc",
+                    format?: string | number[],
+                    compressPdf?: boolean) {
+            this.size = size;
+            const jsPDFref = (window as any).jspdf;
+			this.doc = new jsPDFref.jsPDF(orientation, unit, format, compressPdf);
+        }
 
         setPrintPage(printPage: (e: PDFPageEvent) => void) {
             this.printPage = printPage;
@@ -163,17 +237,53 @@ namespace CSReportEngine {
             return this.defaultPageSettings;
         }
 
-        print() {
+        print(fileName: string) {
+            const g = new PDFGraphic(this.doc, this.size.height, this.size.width);
             while(true) {
-                const e = new PrintPageEvent();
+                const e = new PDFPageEvent(g);
                 this.printPage(e);
                 if(! e.hasMorePages) break;
+                this.doc.addPage();
             }
+            this.doc.save(fileName);
         }
     }
 
-    export class PrinterGraphic {
+    export class PrinterGraphic implements IPrintGraphic {
 
+        DpiX: number;
+        DpiY: number;
+
+        getBoundingClientRect(): ISize {
+            throw new NotImplementedException();
+        }
+        fillRectangle(brush: Brush, rect: Rectangle) {
+            throw new NotImplementedException();
+        }
+        drawRectangle(pen: Pen, rect: Rectangle) {
+            throw new NotImplementedException();
+        }
+        drawImage2(bitmap: ImageBitmap, x: number, y: number, width: number, height: number) {
+            throw new NotImplementedException();
+        }
+        drawString(text: string, font: Font, brush: SolidBrush, rect: RectangleF, format: StringFormat) {
+            throw new NotImplementedException();
+        }
+        fillPath(brush: Brush, path: any): void {
+            throw new NotImplementedException();
+        }
+        drawPath(pen: Pen, path: any): void {
+            throw new NotImplementedException();
+        }
+        fillEllipse(brush: Brush, rect: Rectangle): void {
+            throw new NotImplementedException();
+        }
+        drawImage(bitmap: ImageBitmap, x: number, y: number): void {
+            throw new NotImplementedException();
+        }
+        dispose(): void {
+            throw new NotImplementedException();
+        }
     }
 
     export class PrintPageEvent {
@@ -208,7 +318,7 @@ namespace CSReportEngine {
     }
 
     export class PaperSize {
-        public RawKind;
+        public RawKind: any;
     }
 
     export enum PaperKind {

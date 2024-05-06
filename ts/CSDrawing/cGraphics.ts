@@ -2,9 +2,9 @@ namespace CSDrawing {
 
     export class cGraphics {
 
-        private graphics: Graphic = null;
+        private graphics: IPrintGraphic = null;
 
-        public getGraphics(): Graphic {
+        public getGraphics(): IPrintGraphic {
             return this.graphics;
         }
 
@@ -12,7 +12,7 @@ namespace CSDrawing {
             this.graphics = value;
         }
 
-        public constructor(graphics: Graphic) {
+        public constructor(graphics: IPrintGraphic) {
             this.graphics = graphics;
         }
 

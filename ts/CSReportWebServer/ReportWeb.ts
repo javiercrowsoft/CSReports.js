@@ -419,9 +419,7 @@ namespace CSReportWebServer {
         public createPDF() {
             const reportPrint = this.report.getLaunchInfo().getReportPrint();
             this.report.getLaunchInfo().setCopies(1);
-            reportPrint.printReport();
+            reportPrint.createPDF();
         }
-
-
     }
 }

@@ -18,7 +18,7 @@ namespace CSReportPaint {
     import cIReportPrint = CSIReportPrint.cIReportPrint;
     import RefWrapper = CSKernelClient.RefWrapper;
     import cReportPaperInfo = CSReportEngine.cReportPaperInfo;
-    import PDFDocument = CSReportEngine.PrintDocument;
+    import PDFDocument = CSReportEngine.PDFDocument;
     import PDFPageEvent = CSReportEngine.PDFPageEvent;
     import PrintDocument = CSReportEngine.PrintDocument;
     import PrintPageEvent = CSReportEngine.PrintPageEvent;
@@ -38,10 +38,13 @@ namespace CSReportPaint {
     import StringAlignment = CSDrawing.StringAlignment;
     import RectangleF = CSDrawing.RectangleF;
     import Graphic = CSDrawing.Graphic;
+    import IPrintGraphic = CSDrawing.IPrintGraphic;
     import OffscreenGraphic = CSDrawing.OffscreenGraphic;
     import Bitmap = CSDrawing.Bitmap;
     import SizeF = CSDrawing.SizeF;
     import PictureBox = CSForms.PictureBox;
+    import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
+    import ArgumentException = CSOAPI.ArgumentException;
 
 	export class cReportPrint implements cIReportPrint {
 
@@ -409,10 +412,6 @@ namespace CSReportPaint {
             }
         }
 
-        public doPrint(objClient: cIPrintClient) {
-            return this.pDoPrint(objClient);
-        }
-
         //----------------------------------------------------
         // cIReportPrint implementation
         //
@@ -437,7 +436,7 @@ namespace CSReportPaint {
             return true;
         }
 
-        public createPDF() {
+        public createPDF(objClient: cIPrintClient = null) {
             try {
                 let q: number = 0;
 
@@ -479,11 +478,7 @@ namespace CSReportPaint {
             }
         }
 
-        public printReport() {
-            return this.pDoPrint(null);
-        }
-
-        private pDoPrint(objClient: cIPrintClient) {
+        public printReport(objClient: cIPrintClient = null) {
             try {
                 let copies: number = 0;
                 let q: number = 0;
@@ -585,6 +580,7 @@ namespace CSReportPaint {
                 this.pageToPrint = -1;
                 this.pagesToPrint = this.getPagesToPrint(printer.getPaperInfo().getPagesToPrint());
                 this.objClientToPrint = objClient;
+
                 printDoc.print();
 
                 return true;
@@ -668,22 +664,44 @@ namespace CSReportPaint {
 
         private printPagesToPDF(pagesToPrint: string, objClient: cIPrintClient) {
             try {
-                let printDoc: PrintDocument = new PDFDocument();
-
                 let paperInfo: cReportPaperInfo = this.report.getPaperInfo();
-                if(!printer.starDoc(printDoc,
-                                        this.report.getName(),
-                                        paperInfo.getPaperSize(),
-                                        paperInfo.getOrientation())) {
-                    return false;
+                let orientation: "p" | "l"  = csRptPageOrientation.PORTRAIT === paperInfo.getOrientation() ? 'p' : 'l';
+                let paperSize: string | number[];
+                switch(paperInfo.getPaperSize()) {
+                    case csReportPaperType.CS_RPT_PAPER_TYPE_LETTER:
+                        paperSize = 'letter';
+                        break;
+
+                    case csReportPaperType.CS_RPT_PAPER_TYPE_LEGAL:
+                        paperSize = 'legal';
+                        break;
+
+                    case csReportPaperType.CS_RPT_PAPER_TYPE_A4:
+                        paperSize = 'a4';
+                        break;
+
+                    case csReportPaperType.CS_RPT_PAPER_TYPE_A3:
+                        paperSize = 'a3';
+                        break;
+
+                    case  csReportPaperType.CS_RPT_PAPER_USER:
+                        paperSize = [ paperInfo.getCustomHeight(), paperInfo.getCustomWidth() ]
+                        break;
+
+                    default:
+                        throw new ArgumentException("PaperSize not supported: " + paperInfo.getPaperSize());
                 }
+                let printDoc: PDFDocument = new PDFDocument(
+                                        cPrintAPI.getPaperSize(paperInfo.getPaperSize(), paperInfo.getOrientation()),
+                                        orientation, 'pt', paperSize);
 
                 printDoc.setPrintPage(P.call(this, this.createPDFPage));
 
                 this.pageToPrint = -1;
                 this.pagesToPrint = this.getPagesToPrint(pagesToPrint);
                 this.objClientToPrint = objClient;
-                printDoc.print();
+
+                printDoc.print(this.report.getName() + ".pdf");
 
                 return true;
             }
@@ -701,9 +719,13 @@ namespace CSReportPaint {
                 this.oldScaleFont = this.scaleFont;
                 this.oldZoom = this.paint.getZoom();
 
+                const paperInfo: cReportPaperInfo = this.report.getPaperInfo();
+                const size = cPrintAPI.getPaperSize(paperInfo.getPaperSize(), paperInfo.getOrientation());
+                const tR = cGlobals.getRectFromPaperSize(paperInfo, paperInfo.getPaperSize(), paperInfo.getOrientation());
+
                 // we are not using scaleX and scaleY
-                this.scaleX = 1;
-                this.scaleY = 1;
+                this.scaleX = 0.7; //size.height / tR.getHeight();
+                this.scaleY = 0.7; //size.width / tR.getWidth();
 
                 this.paint.setScaleX(this.scaleX);
                 this.paint.setScaleY(this.scaleY);
@@ -1627,7 +1649,7 @@ namespace CSReportPaint {
             //If Not this.Report.SaveData(this.rpwPrint.cmFileSaveDialog) Then Exit Sub
         }
 
-        private drawPage(graphic: Graphic, isPrinter: boolean) {
+        private drawPage(graphic: IPrintGraphic, isPrinter: boolean) {
             let i: number = 0;
 
             if(this.rePaintObject) {

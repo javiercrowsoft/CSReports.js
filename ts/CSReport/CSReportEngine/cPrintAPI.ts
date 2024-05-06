@@ -154,6 +154,15 @@ namespace CSReportEngine {
             }
         }
 
+        public static getPaperSize(paperSize: csReportPaperType, orientation: number) {
+            const width = new RefWrapper<number>(0);
+            const height = new RefWrapper<number>(0);
+
+            this.getSizeFromPaperSize(paperSize, orientation, width, height);
+
+            return { height: height.get(), width: width.get() };
+        }
+
         private static getSizeFromPaperSize(paperSize: csReportPaperType,
                                             orientation: number,
                                             width: RefWrapper<number>,

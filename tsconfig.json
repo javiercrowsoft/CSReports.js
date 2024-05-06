@@ -1,7 +1,7 @@
 {
   "include": ["ts/**/*"],
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES6",
     "removeComments": true,
     "preserveConstEnums": true,
     "outDir": "dist",
@@ -21,5 +21,8 @@
         "isDefault": true
       }
     }
+  ],
+  "files": [
+    "./ts/jsPDF/index.d.ts"
   ]
 }

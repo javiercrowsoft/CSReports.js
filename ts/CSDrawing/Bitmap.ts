@@ -148,7 +148,7 @@ namespace CSDrawing {
             this.imageData = value;
         }
 
-        public dispose() {
+        public dispose(): void {
             //console.log("dispose was called in object " + this.constructor.name);
         }
     }
@@ -301,7 +301,7 @@ namespace CSDrawing {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
-    export class Graphic {
+    export class Graphic implements IPrintGraphic {
 
         private readonly canvas: HTMLCanvasElement;
         private readonly context: CanvasRenderingContext2D;
@@ -315,7 +315,7 @@ namespace CSDrawing {
             this.canvas.name = name
         }
 
-        getBoundingClientRect(): DOMRect {
+        getBoundingClientRect(): ISize {
             // @ts-ignore
             return this.canvas.getBoundingClientRect();
         }
@@ -490,7 +490,7 @@ namespace CSDrawing {
             return new SizeF(Math.floor(width), Math.floor(y));
         }
 
-        fillEllipse(brush: Brush, rect: Rectangle) {
+        fillEllipse(brush: Brush, rect: Rectangle):void {
 
         }
 

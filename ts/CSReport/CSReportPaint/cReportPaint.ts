@@ -15,6 +15,7 @@ namespace CSReportPaint {
     import Font = CSDrawing.Font;
     import Bitmap = CSDrawing.Bitmap;
     import Graphic = CSDrawing.Graphic;
+    import IPrintGraphic = CSDrawing.IPrintGraphic;
     import Color = CSDrawing.Color;
     import Image = CSDrawing.ImageX;
     import StringTrimming = CSDrawing.StringTrimming;
@@ -658,11 +659,11 @@ namespace CSReportPaint {
             return this.drawObject(key, graphic);
         }
 
-        public drawObject(key: string, graphic: Graphic) {
+        public drawObject(key: string, graphic: IPrintGraphic) {
             return this.draw(this.paintObjects, key, graphic);
         }
 
-        public drawSection(key: string, graphic: Graphic) {
+        public drawSection(key: string, graphic: IPrintGraphic) {
             // check the width of the paintObject for this section
             // is into the bounds of the page
             //
@@ -847,7 +848,7 @@ namespace CSReportPaint {
         }
 
         // Drawing - Primitive
-        private draw(collObjs: cReportPaintObjects, key: string, graphic: Graphic) {
+        private draw(collObjs: cReportPaintObjects, key: string, graphic: IPrintGraphic) {
             if(graphic === null) {
                 throw new ReportPaintException(
                     cReportPaintError.errGetDescription(
@@ -903,6 +904,7 @@ namespace CSReportPaint {
 
                     case csRptPaintObjType.PAINT_OBJ_IMAGE:
 
+                        // TODO: this must be wrong. Why is drawing a box and why is not scaled ?
                         this.drawObjBox(graphic,
                                     oPaintObj.getAspect(),
                                     x1 - 1, y1 - 1, x2 + 1, y2 + 1,
@@ -952,7 +954,7 @@ namespace CSReportPaint {
             }
         }
 
-        private drawBMP(graphic: Graphic,
+        private drawBMP(graphic: IPrintGraphic,
                         image: Image,
                         x: number, y: number,
                         bmpWidth: number,
@@ -1010,7 +1012,7 @@ namespace CSReportPaint {
             return false;
         }
 
-        private setFocusAux(sKey: string, graphic: Graphic) {
+        private setFocusAux(sKey: string, graphic: IPrintGraphic) {
             let paintObjAsp: cReportPaintObject;
             let color;
             let bCircle: boolean;
@@ -1139,7 +1141,7 @@ namespace CSReportPaint {
             return this.refreshBackgroundPicture(graphic, "#000000");
         }
 
-        public createBackgroundBitmap(graphic: Graphic) {
+        public createBackgroundBitmap(graphic: IPrintGraphic) {
             this.bitmap = new Bitmap(
                 graphic.getBoundingClientRect().width + 1,
                 graphic.getBoundingClientRect().height + 3,
@@ -1209,7 +1211,7 @@ namespace CSReportPaint {
         //--------------------------------------------------------------------------------------------------
         // Draw - Low Level
         private printRectangle(
-            graphic: Graphic,
+            graphic: IPrintGraphic,
             filled: boolean,
             x1: number,
             y1: number,
@@ -1275,7 +1277,7 @@ namespace CSReportPaint {
             pen.dispose();
         }
 
-        private printText(graphic: Graphic, text: string, aspect: cReportAspect, image: Image) {
+        private printText(graphic: IPrintGraphic, text: string, aspect: cReportAspect, image: Image) {
             // padding
             const c_Margen_Y: number = 1; // 20 twips;
             const c_Margen_X: number = 4; // 80 twips;
@@ -1362,7 +1364,7 @@ namespace CSReportPaint {
         }
 
         private showHandles(
-            graphic: Graphic,
+            graphic: IPrintGraphic,
             x1: number,
             y1: number,
             x2: number,
@@ -1409,7 +1411,7 @@ namespace CSReportPaint {
             brush.dispose();
         }
 
-        private showHandle(graphic: Graphic, brush: Brush, rect: Rectangle, circle: boolean) {
+        private showHandle(graphic: IPrintGraphic, brush: Brush, rect: Rectangle, circle: boolean) {
             if(circle) {
                 graphic.fillEllipse(brush, rect);
             }
@@ -1418,7 +1420,7 @@ namespace CSReportPaint {
             }
         }
 
-        public paintPicture(graphic: Graphic, disposeGraphicObject: boolean) {
+        public paintPicture(graphic: IPrintGraphic, disposeGraphicObject: boolean) {
             return this.bitmap.getBitmap().then(P.call(this, (bitmap: ImageBitmap) => {
                 if(this.zoom === 100) {
                     let rect: Rectangle = cGlobals.newRectangle(
@@ -1550,7 +1552,7 @@ namespace CSReportPaint {
         }
 
         private drawObjBox(
-            graphic: Graphic,
+            graphic: IPrintGraphic,
             aspect: cReportAspect,
             x1: number,
             y1: number,
