@@ -174,7 +174,7 @@ namespace CSReportEngine {
             this.doc.rect(rect.getLeft(), rect.getTop(), rect.getWidth(), rect.getHeight());
         }
         drawImage2(bitmap: ImageBitmap, x: number, y: number, width: number, height: number) {
-
+            this.drawImage(bitmap, x, y);
         }
         drawString(text: string, font: Font, brush: SolidBrush, rect: RectangleF, format: StringFormat) {
             this.doc.setTextColor(brush.foreground.color);
@@ -192,10 +192,21 @@ namespace CSReportEngine {
             throw new NotImplementedException();
         }
         drawImage(bitmap: ImageBitmap, x: number, y: number): void {
-
+            const canvas = this.imageBitmapToCanvas(bitmap);
+            this.doc.addImage(canvas, x, y, canvas.width, canvas.height);
         }
         dispose(): void {
 
+        }
+
+        private imageBitmapToCanvas(bitmap: ImageBitmap) {
+            const canvas: HTMLCanvasElement =  document.createElement("canvas") as HTMLCanvasElement;
+            const context: CanvasRenderingContext2D = canvas.getContext("2d");
+            canvas.width = bitmap.width;
+            canvas.height = bitmap.height;
+            context.clearRect(0, 0, bitmap.width, bitmap.height);
+            context.drawImage(bitmap, 0, 0);
+            return canvas;
         }
     }
 
