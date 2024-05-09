@@ -30,7 +30,7 @@ namespace CSForms {
         }
 
         getText() {
-            return this.elSelect.textContent;
+            return this.elSelect.selectedOptions.length > 0 ? this.elSelect.selectedOptions[0].text : "";
         }
 
         getOptions() {

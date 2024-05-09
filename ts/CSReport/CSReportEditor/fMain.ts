@@ -106,6 +106,7 @@ namespace CSReportEditor {
         private cmsecMoveGroup: HTMLAnchorElement = null;
 
         private mnuEditMoveLocked: HTMLAnchorElement = null;
+        private toolbarButtonLock: HTMLImageElement = null;
 
         private cb_zoom: HTMLSelectElement = null;
 
@@ -145,6 +146,7 @@ namespace CSReportEditor {
             document.onclick = P.call(this, this.hideContextMenu);
 
             this.mnuEditMoveLocked = U.el("mnuEditMoveLocked") as HTMLAnchorElement;
+            this.toolbarButtonLock = U.el("toolbar-button-lock") as HTMLImageElement;
 
             document.onkeyup = P.call(this, this.keyUp);
             document.onkeydown = P.call(this, this.keyDown);
@@ -1266,9 +1268,11 @@ namespace CSReportEditor {
                 (editor as cEditor).moveNoMove();
                 if((editor as cEditor).moveIsLock()) {
                     this.mnuEditMoveLocked.textContent = "Unlock";
+                    this.toolbarButtonLock.src = 'images/toolbar/lock-red.png';
                 }
                 else {
-                    this.mnuEditMoveLocked.textContent = "Unlock";
+                    this.mnuEditMoveLocked.textContent = "Lock";
+                    this.toolbarButtonLock.src = 'images/toolbar/lock.png';
                 }
             }
         }
