@@ -724,8 +724,8 @@ namespace CSReportPaint {
                 const tR = cGlobals.getRectFromPaperSize(paperInfo, paperInfo.getPaperSize(), paperInfo.getOrientation());
 
                 // we are not using scaleX and scaleY
-                this.scaleX = 0.7; //size.height / tR.getHeight();
-                this.scaleY = 0.7; //size.width / tR.getWidth();
+                this.scaleX = 0.75; //size.height / tR.getHeight();
+                this.scaleY = 0.75; //size.width / tR.getWidth();
 
                 this.paint.setScaleX(this.scaleX);
                 this.paint.setScaleY(this.scaleY);

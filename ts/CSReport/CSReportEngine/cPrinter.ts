@@ -178,7 +178,7 @@ namespace CSReportEngine {
         }
         drawString(text: string, font: Font, brush: SolidBrush, rect: RectangleF, format: StringFormat) {
             this.doc.setTextColor(brush.foreground.color);
-            this.doc.setFont(font.name, font.italic ? 'italic' : undefined, font.bold ? 'bold' : undefined);
+            this.doc.setFont(font.name, font.italic ? 'italic' : 'normal', font.bold ? 'bold' : 'normal');
             this.doc.setFontSize(font.size);
             this.doc.text(text, rect.getLeft(), rect.getTop(), {baseline: 'top'});
         }
@@ -193,7 +193,7 @@ namespace CSReportEngine {
         }
         drawImage(bitmap: ImageBitmap, x: number, y: number): void {
             const canvas = this.imageBitmapToCanvas(bitmap);
-            this.doc.addImage(canvas, x, y, canvas.width, canvas.height);
+            this.doc.addImage(canvas, 'PNG', x, y, canvas.width, canvas.height);
         }
         dispose(): void {
 
@@ -202,10 +202,15 @@ namespace CSReportEngine {
         private imageBitmapToCanvas(bitmap: ImageBitmap) {
             const canvas: HTMLCanvasElement =  document.createElement("canvas") as HTMLCanvasElement;
             const context: CanvasRenderingContext2D = canvas.getContext("2d");
-            canvas.width = bitmap.width;
-            canvas.height = bitmap.height;
+            canvas.width = bitmap.width * 0.75;
+            canvas.height = bitmap.height * 0.75;
+            (context as any).mozImageSmoothingEnabled = true;
+            (context as any).webkitImageSmoothingEnabled = true;
+            (context as any).msImageSmoothingEnabled = true;
+            context.imageSmoothingEnabled = true;
+            context.imageSmoothingQuality = "high";
             context.clearRect(0, 0, bitmap.width, bitmap.height);
-            context.drawImage(bitmap, 0, 0);
+            context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
             return canvas;
         }
     }

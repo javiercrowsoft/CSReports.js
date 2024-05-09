@@ -28,4 +28,5 @@ cp ts/CSReport/CSReportEditor/index.html dist/
 cp ts/CSReport/CSReportEditor/styles.css dist/
 cp ts/CSReport/CSReportEditor/favicon.png dist/
 cp -r ts/CSForms/controls/images/ dist/
+cp -r ts/fonts/ dist/
 echo "build complete !!!"
