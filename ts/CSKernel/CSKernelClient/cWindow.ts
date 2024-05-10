@@ -29,7 +29,7 @@ namespace CSKernelClient {
         }
 
         static ask(question: string, defaultButton: any): Promise<boolean> {
-            return Promise.resolve(false);
+            return Promise.resolve(true);
         }
 
         static askYesNoCancel(question: string, title: string, defaultButton: any): Promise<csAskEditResult> {

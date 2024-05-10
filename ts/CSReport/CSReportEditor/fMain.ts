@@ -733,7 +733,6 @@ namespace CSReportEditor {
                 this.popupMenuSection.style.left = `${event.pageX}px`;
             }), 100);
 
-            this.setEnabledMenu(this.cmsecDeleteLine, !deleteDisabled);
             this.setEnabledMenu(this.cmsecDelete, !deleteDisabled);
             this.setVisibleMenu(this.cmsecMoveGroup, showGroups);
 

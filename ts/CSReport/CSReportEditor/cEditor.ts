@@ -2075,6 +2075,8 @@ namespace CSReportEditor {
 
                     this.validateSectionAspect();
                     this.updateSectionNameInPaintObjects();
+
+                    this.refreshAll();
                 });
             }
             else {
