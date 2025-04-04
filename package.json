@@ -1,5 +1,10 @@
 {
   "devDependencies": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "latest-version": "^9.0.0",
+    "node": "^23.4.0",
+    "npx": "^10.2.2"
   }
 }

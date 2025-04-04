@@ -1,7 +1,7 @@
 ///<reference path="../CSOAPI/ArgumentException.ts"/>
 
-namespace CSDatabase
-{
+namespace CSReports.CSDatabase {
+    
     import ArgumentException = CSOAPI.ArgumentException;
     import ArgumentNullException = CSOAPI.ArgumentNullException;
     import InvalidOperationException = CSOAPI.InvalidOperationException;

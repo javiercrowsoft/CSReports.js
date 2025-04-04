@@ -1,4 +1,4 @@
-namespace CSConnect {
+namespace CSReports.CSConnect {
 
     export class cParameter {
 

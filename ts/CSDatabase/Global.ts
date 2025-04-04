@@ -1,7 +1,7 @@
 ///<reference path="../CSOAPI/Exception.ts"/>
 ///<reference path="../CSKernel/CSKernelClient/cWindow.ts"/>
 
-namespace CSDatabase {
+namespace CSReports.CSDatabase {
 
     import Exception = CSOAPI.Exception;
     import cWindow = CSKernelClient.cWindow;

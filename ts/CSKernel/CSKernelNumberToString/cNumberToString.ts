@@ -1,4 +1,4 @@
-namespace CSKernelNumberToString {
+namespace CSReports.CSKernelNumberToString {
 
     import Maths = CSOAPI.Maths;
 

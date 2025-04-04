@@ -1,4 +1,4 @@
-namespace CSDrawing {
+namespace CSReports.CSDrawing {
 
     export interface ISize {
         width: number;

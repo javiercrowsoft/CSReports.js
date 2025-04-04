@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     export interface cIReportSection  {
         getFormulaHide(): cReportFormula;

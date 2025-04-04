@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import Image = CSDrawing.ImageX;
     import XmlNode = CSXml.XmlNode;

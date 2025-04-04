@@ -1,4 +1,4 @@
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import cError = CSKernelClient.cError;
     import U = CSOAPI.Utils;

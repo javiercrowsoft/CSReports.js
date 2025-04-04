@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import Exception = CSOAPI.Exception;
     import csRptErrors = CSReportGlobals.csRptErrors;

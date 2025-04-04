@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     export class cImage {
         static serialiseBitmap(arg0: CSDrawing.ImageX, vBytes: any) {

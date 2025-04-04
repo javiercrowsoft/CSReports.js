@@ -8,7 +8,7 @@
 ///<reference path="../../CSDatabase/server/ServerConnection.ts"/>
 ///<reference path="../CSReportEngine/cColumnsInfo.ts"/>
 
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import cError = CSKernelClient.cError;
     import U = CSOAPI.Utils;

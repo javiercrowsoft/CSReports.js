@@ -1,5 +1,5 @@
-namespace CSDatabase
-{
+namespace CSReports.CSDatabase {
+    
     export class JSONDataSource {
 
         private readonly name: string = null;

@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import XmlNode = CSXml.XmlNode;
     import csRptLaunchAction = CSReportGlobals.csRptLaunchAction;

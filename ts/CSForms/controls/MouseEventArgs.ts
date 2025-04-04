@@ -1,4 +1,4 @@
-namespace CSForms {
+namespace CSReports.CSForms {
 
     export enum MouseButtons {
         Left = 0,

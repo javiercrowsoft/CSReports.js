@@ -1,4 +1,4 @@
-namespace CSXml {
+namespace CSReports.CSXml {
 
     import cWindow = CSKernelClient.cWindow;
     import MessageBoxDefaultButton = CSKernelClient.MessageBoxDefaultButton;

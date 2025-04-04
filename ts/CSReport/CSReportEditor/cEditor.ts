@@ -17,7 +17,7 @@
 ///<reference path="../../CSForms/controls/Cursor.ts"/>
 ///<reference path="../../CSForms/controls/MouseEventArgs.ts"/>
 
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import cReport = CSReportEngine.cReport;
     import csReportPaperType = CSReportGlobals.csReportPaperType;

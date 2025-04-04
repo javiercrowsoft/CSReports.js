@@ -1,6 +1,6 @@
 ///<reference path="Control.ts"/>
 
-namespace CSForms {
+namespace CSReports.CSForms {
 
     import Point = CSDrawing.Point;
     import Graphic = CSDrawing.Graphic;

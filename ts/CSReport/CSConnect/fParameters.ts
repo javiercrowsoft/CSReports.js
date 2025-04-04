@@ -1,6 +1,6 @@
 ///<reference path="../../CSForms/controls/TextBox.ts"/>
 
-namespace CSConnect {
+namespace CSReports.CSConnect {
 
     import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;

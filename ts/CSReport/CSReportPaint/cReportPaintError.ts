@@ -1,4 +1,4 @@
-namespace CSReportPaint {
+namespace CSReports.CSReportPaint {
 
     export class cReportPaintError {
 

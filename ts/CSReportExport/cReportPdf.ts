@@ -1,4 +1,4 @@
-namespace CSReportExport {
+namespace CSReports.CSReportExport {
 
     export class cReportPdf {
 

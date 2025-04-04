@@ -1,6 +1,6 @@
 ///<reference path="Control.ts"/>
 
-namespace CSForms {
+namespace CSReports.CSForms {
 
     import Color = CSDrawing.Color;
     import P = CSKernelClient.Callable;

@@ -1,6 +1,6 @@
 ///<reference path="Control.ts"/>
 
-namespace CSForms {
+namespace CSReports.CSForms {
 
     export class Toolbar extends Control {
 

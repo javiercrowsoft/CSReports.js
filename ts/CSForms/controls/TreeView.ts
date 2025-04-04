@@ -1,6 +1,6 @@
 ///<reference path="Control.ts"/>
 
-namespace CSForms {
+namespace CSReports.CSForms {
 
     import Map = CSOAPI.Map;
     import P = CSKernelClient.Callable;

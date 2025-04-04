@@ -1,4 +1,4 @@
-namespace CSReportPaint {
+namespace CSReports.CSReportPaint {
 
     import cReportAspect = CSReportEngine.cReportAspect;
     import csRptSectionType = CSReportGlobals.csRptSectionType;

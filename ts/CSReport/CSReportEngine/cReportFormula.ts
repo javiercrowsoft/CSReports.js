@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import csRptWhenEval = CSReportGlobals.csRptWhenEval;
     import eTypes = CSKernelClient.eTypes;

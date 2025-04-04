@@ -1,4 +1,4 @@
-namespace CSKernelClient {
+namespace CSReports.CSKernelClient {
 
     import Exception = CSOAPI.Exception;
 

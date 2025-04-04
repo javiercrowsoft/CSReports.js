@@ -1,4 +1,4 @@
-namespace CSOAPI {
+namespace CSReports.CSOAPI {
 
     export class Exception {
 

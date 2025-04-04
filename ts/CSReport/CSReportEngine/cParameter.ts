@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import csDataType = CSDatabase.csDataType;
     import XmlNode = CSXml.XmlNode;

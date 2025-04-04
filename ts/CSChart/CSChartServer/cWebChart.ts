@@ -1,6 +1,6 @@
 ///<reference path="../../CSOAPI/NotImplementedException.ts"/>
 
-namespace CSChartServer {
+namespace CSReports.CSChartServer {
 
     import NotImplementedException = CSOAPI.NotImplementedException;
     import csRptChartType = CSReportGlobals.csRptChartType;

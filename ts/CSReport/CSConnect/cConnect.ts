@@ -1,6 +1,6 @@
 ///<reference path="../CSReportGlobals/ReportGlobals.ts"/>
 
-namespace CSConnect {
+namespace CSReports.CSConnect {
 
     import P = CSKernelClient.Callable;
     import NotImplementedException = CSOAPI.NotImplementedException;

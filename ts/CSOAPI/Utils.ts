@@ -1,4 +1,4 @@
-namespace CSOAPI {
+namespace CSReports.CSOAPI {
 
     import ComboBox = CSForms.ComboBox;
     import RefWrapper = CSKernelClient.RefWrapper;

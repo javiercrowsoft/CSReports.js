@@ -1,4 +1,4 @@
-namespace CSForms {
+namespace CSReports.CSForms {
 
     import cError = CSKernelClient.cError;
 

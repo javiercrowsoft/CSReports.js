@@ -1,6 +1,6 @@
 ///<reference path="../CSReportGlobals/ReportGlobals.ts"/>
 
-namespace CSConnect {
+namespace CSReports.CSConnect {
 
     import Map = CSOAPI.Map;
     import ReportGlobals = CSReportGlobals.ReportGlobals;

@@ -1,6 +1,6 @@
 ///<reference path="../../CSDrawing/Font.ts"/>
 
-namespace CSReportPaint {
+namespace CSReports.CSReportPaint {
 
     import cReportPaperInfo = CSReportEngine.cReportPaperInfo;
     import csReportPaperType = CSReportGlobals.csReportPaperType;

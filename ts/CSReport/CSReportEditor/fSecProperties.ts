@@ -1,4 +1,4 @@
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import Form = CSForms.Form;
     import RefWrapper = CSKernelClient.RefWrapper;

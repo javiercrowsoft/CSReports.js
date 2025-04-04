@@ -1,4 +1,4 @@
-namespace CSIReportPrint {
+namespace CSReports.CSIReportPrint {
 
     import cReport = CSReportEngine.cReport;
 

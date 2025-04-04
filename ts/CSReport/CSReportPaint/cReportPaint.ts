@@ -2,7 +2,7 @@
 ///<reference path="../../CSDrawing/cGraphics.ts"/>
 ///<reference path="../CSReportEngine/cReportAspect.ts"/>
 
-namespace CSReportPaint {
+namespace CSReports.CSReportPaint {
 
     import cError = CSKernelClient.cError;
     import cReportAspect = CSReportEngine.cReportAspect;

@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import csColors = CSDrawing.csColors;
     import HorizontalAlignment = CSReportGlobals.HorizontalAlignment;

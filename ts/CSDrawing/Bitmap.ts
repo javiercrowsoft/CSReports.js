@@ -1,6 +1,6 @@
 ///<reference path="../CSKernel/CSKernelClient/cError.ts"/>
 
-namespace CSDrawing {
+namespace CSReports.CSDrawing {
 
     // Bitmap Documentation
     // https://developer.mozilla.org/en-US/docs/Web/API/createImageBitmap

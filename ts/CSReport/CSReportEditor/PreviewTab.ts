@@ -1,4 +1,4 @@
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import P = CSKernelClient.Callable;
     import TabPage = CSForms.TabPage;

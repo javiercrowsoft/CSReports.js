@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;
 

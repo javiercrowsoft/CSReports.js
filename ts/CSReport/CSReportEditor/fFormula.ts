@@ -3,7 +3,7 @@
 ///<reference path="../../CSForms/controls/TextBox.ts"/>
 ///<reference path="../../CSForms/controls/Label.ts"/>
 
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import U = CSOAPI.Utils;
     import csRptFormulaType = CSReportGlobals.csRptFormulaType;

@@ -1,7 +1,7 @@
 ///<reference path="../CSOAPI/Utils.ts"/>
 ///<reference path="../CSKernel/CSKernelClient/cError.ts"/>
 
-namespace CSDatabase {
+namespace CSReports.CSDatabase {
 
     import RefWrapper = CSKernelClient.RefWrapper;
     import U = CSOAPI.Utils;

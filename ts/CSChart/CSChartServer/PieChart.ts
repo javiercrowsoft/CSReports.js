@@ -1,4 +1,4 @@
-namespace CSChartServer {
+namespace CSReports.CSChartServer {
 
     export class PieChartFont {
         weight: string;

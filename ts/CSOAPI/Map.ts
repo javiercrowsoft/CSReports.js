@@ -1,6 +1,6 @@
 ///<reference path="../CSOAPI/ArgumentException.ts"/>
 
-namespace CSOAPI {
+namespace CSReports.CSOAPI {
 
     import KeyAlreadyExistsInCollection = CSOAPI.KeyAlreadyExistsInCollection;
 

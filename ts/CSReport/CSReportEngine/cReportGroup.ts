@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import RptGrpOrderType = CSReportGlobals.RptGrpOrderType;
     import RptGrpComparisonType = CSReportGlobals.RptGrpComparisonType;

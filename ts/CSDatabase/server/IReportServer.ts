@@ -1,4 +1,4 @@
-namespace CSDatabase {
+namespace CSReports.CSDatabase {
 
     export interface IReportServer {
         getServerUrl(): string;

@@ -1,4 +1,4 @@
-namespace CSReportBarcode {
+namespace CSReports.CSReportBarcode {
 
     import NotImplementedException = CSOAPI.NotImplementedException;
 

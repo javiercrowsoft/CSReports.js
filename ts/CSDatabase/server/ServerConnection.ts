@@ -1,4 +1,4 @@
-namespace CSDatabase {
+namespace CSReports.CSDatabase {
 
     import P = CSKernelClient.Callable;
 

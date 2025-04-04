@@ -1,4 +1,4 @@
-namespace CSXml {
+namespace CSReports.CSXml {
 
     import NotImplementedException = CSOAPI.NotImplementedException;
 

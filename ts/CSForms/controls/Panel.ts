@@ -1,6 +1,6 @@
 ///<reference path="Container.ts"/>
 
-namespace CSForms {
+namespace CSReports.CSForms {
 
     export class Panel extends Container<Control> {
 

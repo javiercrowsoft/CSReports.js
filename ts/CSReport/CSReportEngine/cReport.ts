@@ -2,7 +2,7 @@
 ///<reference path="../../CSXml/cXmlProperty.ts"/>
 ///<reference path="../../CSXml/cXML.ts"/>
 
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import RptGrpComparisonType = CSReportGlobals.RptGrpComparisonType;
     import RptGrpOrderType = CSReportGlobals.RptGrpOrderType;

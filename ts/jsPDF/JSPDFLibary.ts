@@ -1,4 +1,4 @@
-namespace JSPDFLibrary {
+namespace CSReports.JSPDFLibrary {
 
     export interface Annotation {
         type: "text" | "freetext" | "link";

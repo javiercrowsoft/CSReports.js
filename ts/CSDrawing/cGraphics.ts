@@ -1,4 +1,4 @@
-namespace CSDrawing {
+namespace CSReports.CSDrawing {
 
     export class cGraphics {
 

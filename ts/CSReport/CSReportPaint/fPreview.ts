@@ -1,6 +1,6 @@
 ///<reference path="../../CSForms/controls/ReportPreview.ts"/>
 
-namespace CSReportPaint {
+namespace CSReports.CSReportPaint {
 
     import U = CSOAPI.Utils;
 

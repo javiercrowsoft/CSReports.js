@@ -1,7 +1,7 @@
 ///<reference path="../../CSForms/controls/ComboBox.ts"/>
 ///<reference path="../../CSForms/controls/TextBox.ts"/>
 
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import Form = CSForms.Form;
     import CMouseWait = CSKernelClient.CMouseWait;

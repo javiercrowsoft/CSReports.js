@@ -1,7 +1,7 @@
 ///<reference path="../../CSDrawing/Bitmap.ts"/>
 ///<reference path="Control.ts"/>
 
-namespace CSForms {
+namespace CSReports.CSForms {
 
     import Color = CSDrawing.Color;
 

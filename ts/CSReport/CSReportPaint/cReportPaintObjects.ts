@@ -1,4 +1,4 @@
-namespace CSReportPaint {
+namespace CSReports.CSReportPaint {
 
     import Map = CSOAPI.Map;
 

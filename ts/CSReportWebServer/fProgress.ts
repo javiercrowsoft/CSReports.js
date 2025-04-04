@@ -1,6 +1,6 @@
 ///<reference path="../CSForms/controls/ProgressBar.ts"/>
 
-namespace CSReportWebServer {
+namespace CSReports.CSReportWebServer {
 
     import U = CSOAPI.Utils;
 

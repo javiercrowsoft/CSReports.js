@@ -2,7 +2,7 @@
 ///<reference path="../../CSReportExport/cReportPdf.ts"/>
 ///<reference path="../CSReportEngine/cPrinter.ts"/>
 
-namespace CSReportPaint {
+namespace CSReports.CSReportPaint {
 
     import cError = CSKernelClient.cError;
     import U = CSOAPI.Utils;

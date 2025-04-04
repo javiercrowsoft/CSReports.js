@@ -7,7 +7,7 @@
 ///<reference path="../../CSForms/controls/ComboBox.ts"/>
 ///<reference path="../../CSForms/controls/PictureBox.ts"/>
 
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import U = CSOAPI.Utils;
     import NotImplementedException = CSOAPI.NotImplementedException;

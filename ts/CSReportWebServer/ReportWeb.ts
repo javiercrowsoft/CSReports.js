@@ -1,6 +1,6 @@
 ///<reference path="../CSReport/CSReportEngine/cReportPages.ts"/>
 
-namespace CSReportWebServer {
+namespace CSReports.CSReportWebServer {
 
     import U = CSOAPI.Utils;
     import cReport = CSReportEngine.cReport;

@@ -1,4 +1,4 @@
-namespace CSReportGlobals {
+namespace CSReports.CSReportGlobals {
 
     import Utils = CSOAPI.Utils;
     import Constants = CSDatabase.Constants;

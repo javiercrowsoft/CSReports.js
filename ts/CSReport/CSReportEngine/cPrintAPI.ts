@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import csReportPaperType = CSReportGlobals.csReportPaperType;
     import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;

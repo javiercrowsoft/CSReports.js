@@ -1,4 +1,4 @@
-namespace CSReportScript {
+namespace CSReports.CSReportScript {
 
     export class cReportCompilerVar {
 

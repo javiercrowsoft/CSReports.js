@@ -1,6 +1,6 @@
 ///<reference path="../../CSForms/Form.ts"/>
 
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import Form = CSForms.Form;
 

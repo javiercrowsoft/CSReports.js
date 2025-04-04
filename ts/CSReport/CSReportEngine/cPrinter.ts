@@ -1,6 +1,6 @@
 ///<reference path="../../jsPDF/index.d.ts"/>
 
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import csRptPageOrientation = CSReportGlobals.csRptPageOrientation;
     import csReportPaperType = CSReportGlobals.csReportPaperType;

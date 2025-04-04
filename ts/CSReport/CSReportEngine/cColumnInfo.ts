@@ -1,6 +1,6 @@
 ///<reference path="../../CSXml/cXmlProperty.ts"/>
 
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import csDataType = CSDatabase.csDataType;
     import eTypes = CSKernelClient.eTypes;

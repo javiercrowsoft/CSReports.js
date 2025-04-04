@@ -1,4 +1,4 @@
-namespace CSReportScript {
+namespace CSReports.CSReportScript {
 
     import Map = CSOAPI.Map;
 

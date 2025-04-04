@@ -1,7 +1,7 @@
 ///<reference path="../../CSKernel/CSKernelClient/Promise.ts"/>
 ///<reference path="../../CSKernel/CSKernelClient/cWindow.ts"/>
 
-namespace CSForms {
+namespace CSReports.CSForms {
 
     import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;

@@ -1,4 +1,4 @@
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import Exception = CSOAPI.Exception;
 

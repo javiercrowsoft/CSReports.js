@@ -1,6 +1,6 @@
 ///<reference path="../CSReportScript/cReportCompilerGlobals.ts"/>
 
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import Map = CSOAPI.Map;
     import cReportCompilerGlobals = CSReportScript.cReportCompilerGlobals;

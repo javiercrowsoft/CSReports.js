@@ -1,6 +1,6 @@
 ///<reference path="./Exception.ts"/>
 
-namespace CSOAPI {
+namespace CSReports.CSOAPI {
 
     export class ArgumentException extends Exception { }
 

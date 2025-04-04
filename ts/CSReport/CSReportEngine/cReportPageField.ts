@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import eTypes = CSKernelClient.eTypes;
     import XmlNode = CSXml.XmlNode;

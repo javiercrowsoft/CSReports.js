@@ -1,6 +1,6 @@
 ///<reference path="Container.ts"/>
 
-namespace CSForms {
+namespace CSReports.CSForms {
 
     export class TabBar extends Container<TabPage> {
 

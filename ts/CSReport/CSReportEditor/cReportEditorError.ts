@@ -1,4 +1,4 @@
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     export class cReportEditorError {
 

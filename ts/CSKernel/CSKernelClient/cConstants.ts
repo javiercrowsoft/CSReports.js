@@ -1,4 +1,4 @@
-namespace CSKernelClient {
+namespace CSReports.CSKernelClient {
 
     export enum eTypes {
         eInteger = 2,

@@ -1,7 +1,7 @@
 ///<reference path="../../CSForms/controls/Dialog.ts"/>
 ///<reference path="../../CSForms/Form.ts"/>
 
-namespace CSKernelClient {
+namespace CSReports.CSKernelClient {
 
     import U = CSOAPI.Utils;
 

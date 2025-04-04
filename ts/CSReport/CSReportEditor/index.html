@@ -21,51 +21,51 @@
             <ul class="nav topbar">
                 <li><a>File</a>
                     <ul>
-                        <li><a id="mnuFileNew" onclick="CSReportEditor.cMainEditor.fMain.newReportClick()">New</a></li>
-                        <li><a id="mnuFileOpen" onclick="CSReportEditor.cMainEditor.fMain.openReportClick()">Open</a></li>
+                        <li><a id="mnuFileNew" onclick="CSReports.CSReportEditor.cMainEditor.fMain.newReportClick()">New</a></li>
+                        <li><a id="mnuFileOpen" onclick="CSReports.CSReportEditor.cMainEditor.fMain.openReportClick()">Open</a></li>
                         <!--<li><a id="mnuFileOpenRecent">Open Recent Files ...</a></li>-->
-                        <li><a id="mnuFileSave" onclick="CSReportEditor.cMainEditor.fMain.saveReportClick()">Save</a></li>
-                        <li><a id="mnuFileSaveAs" onclick="CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
+                        <li><a id="mnuFileSave" onclick="CSReports.CSReportEditor.cMainEditor.fMain.saveReportClick()">Save</a></li>
+                        <li><a id="mnuFileSaveAs" onclick="CSReports.CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
                         <li class="divider"></li>
-                        <li><a id="mnuFilePageSetup" onclick="CSReportEditor.cMainEditor.fMain.pageSetupClick()">Page Setup</a></li>
+                        <li><a id="mnuFilePageSetup" onclick="CSReports.CSReportEditor.cMainEditor.fMain.pageSetupClick()">Page Setup</a></li>
                         <!--<li><a id="mnuFilePageSettings">Printer Settings</a></li>-->
                         <li class="divider"></li>
-                        <li><a id="mnuFilePreview" onclick="CSReportEditor.cMainEditor.fMain.debugReportClick()">Preview</a></li>
+                        <li><a id="mnuFilePreview" onclick="CSReports.CSReportEditor.cMainEditor.fMain.debugReportClick()">Preview</a></li>
                         <li><a id="mnuFilePrint">Print</a></li>
                     </ul>
                 </li>
                 <li><a>Edit</a>
                     <ul>
-                        <li><a id="mnuEditCopy" onclick="CSReportEditor.cMainEditor.fMain.copyClick()">Copy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+C</a></li>
-                        <li><a id="mnuEditPaste" onclick="CSReportEditor.cMainEditor.fMain.pasteClick()">Paste &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+V</a></li>
-                        <li><a id="mnuEditPasteSpecial" onclick="CSReportEditor.cMainEditor.fMain.pasteSpecialClick()">Paste Special</a></li>
+                        <li><a id="mnuEditCopy" onclick="CSReports.CSReportEditor.cMainEditor.fMain.copyClick()">Copy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+C</a></li>
+                        <li><a id="mnuEditPaste" onclick="CSReports.CSReportEditor.cMainEditor.fMain.pasteClick()">Paste &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+V</a></li>
+                        <li><a id="mnuEditPasteSpecial" onclick="CSReports.CSReportEditor.cMainEditor.fMain.pasteSpecialClick()">Paste Special</a></li>
                         <li class="divider"></li>
-                        <li><a id="mnuEditSearch" onclick="CSReportEditor.cMainEditor.fMain.searchClick()">Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+F</a></li>
+                        <li><a id="mnuEditSearch" onclick="CSReports.CSReportEditor.cMainEditor.fMain.searchClick()">Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+F</a></li>
                         <li class="divider"></li>
                         <li><a>Sections</a>
                             <ul>
-                                <li><a id="mnuEditAddHeader" onclick="CSReportEditor.cMainEditor.fMain.editAddHeaderClick()">Add Header</a></li>
-                                <li><a id="mnuEditAddGroup" onclick="CSReportEditor.cMainEditor.fMain.editAddGroupClick()">Add Group</a></li>
-                                <li><a id="mnuEditAddFooter" onclick="CSReportEditor.cMainEditor.fMain.editAddFooterClick()">Add Footer</a></li>
+                                <li><a id="mnuEditAddHeader" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddHeaderClick()">Add Header</a></li>
+                                <li><a id="mnuEditAddGroup" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddGroupClick()">Add Group</a></li>
+                                <li><a id="mnuEditAddFooter" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddFooterClick()">Add Footer</a></li>
                             </ul>
                         </li>
                         <li><a>Controls</a>
                             <ul>
-                                <li><a id="mnuEditAddLabel" onclick="CSReportEditor.cMainEditor.fMain.editAddLabelClick()">Add Label</a></li>
-                                <li><a id="mnuEditAddLine" onclick="CSReportEditor.cMainEditor.fMain.editAddLineClick()">Add Line</a></li>
-                                <li><a id="mnuEditAddDatabaseField" onclick="CSReportEditor.cMainEditor.fMain.editAddDbControlClick()">Add Field</a></li>
-                                <li><a id="mnuEditAddImage" onclick="CSReportEditor.cMainEditor.fMain.editAddImageClick()">Add Image</a></li>
-                                <li><a id="mnuEditAddChart" onclick="CSReportEditor.cMainEditor.fMain.editAddChartClick()">Add Chart</a></li>
+                                <li><a id="mnuEditAddLabel" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddLabelClick()">Add Label</a></li>
+                                <li><a id="mnuEditAddLine" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddLineClick()">Add Line</a></li>
+                                <li><a id="mnuEditAddDatabaseField" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddDbControlClick()">Add Field</a></li>
+                                <li><a id="mnuEditAddImage" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddImageClick()">Add Image</a></li>
+                                <li><a id="mnuEditAddChart" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editAddChartClick()">Add Chart</a></li>
                             </ul>
                         </li>
                         <li class="divider"></li>
                         <li><a>Move</a>
                             <ul>
-                                <li><a id="mnuEditMoveHorizontal" onclick="CSReportEditor.cMainEditor.fMain.editMoveHorizontalClick()">Horizontal</a></li>
-                                <li><a id="mnuEditMoveVertical" onclick="CSReportEditor.cMainEditor.fMain.editMoveVerticalClick()">Vertical</a></li>
-                                <li><a id="mnuEditMoveLocked" onclick="CSReportEditor.cMainEditor.fMain.editMoveLockedClick()">Locked</a></li>
-                                <li><a id="mnuEditMoveFree" onclick="CSReportEditor.cMainEditor.fMain.editMoveFreeClick()">All Directions</a></li>
-                                <li><a id="mnuEditMoveStepSize" onclick="CSReportEditor.cMainEditor.fMain.editStepSizeClick()">Step Size</a></li>
+                                <li><a id="mnuEditMoveHorizontal" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveHorizontalClick()">Horizontal</a></li>
+                                <li><a id="mnuEditMoveVertical" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveVerticalClick()">Vertical</a></li>
+                                <li><a id="mnuEditMoveLocked" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveLockedClick()">Locked</a></li>
+                                <li><a id="mnuEditMoveFree" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveFreeClick()">All Directions</a></li>
+                                <li><a id="mnuEditMoveStepSize" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editStepSizeClick()">Step Size</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -85,18 +85,18 @@
                 </li>
                 <li><a>Data Source</a>
                     <ul>
-                        <li><a id="mnuDbConnectionSettings" onclick="CSReportEditor.cMainEditor.fMain.setConnectionClick()">Connection Settings</a></li>
+                        <li><a id="mnuDbConnectionSettings" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setConnectionClick()">Connection Settings</a></li>
                         <li class="divider"></li>
-                        <li><a id="mnuDbSetDataSource" onclick="CSReportEditor.cMainEditor.fMain.setDataSourceClick()">Set Main Data Source</a></li>
-                        <li><a id="mnuDbSetParameter" onclick="CSReportEditor.cMainEditor.fMain.setParamsAndExecuteClick()">Set Parameters and Execute</a></li>
-                        <li><a id="mnuDbSetAuxDataSource" onclick="CSReportEditor.cMainEditor.fMain.setAdditionalDataSourcesClick()">Set Additional Data Sources</a></li>
+                        <li><a id="mnuDbSetDataSource" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setDataSourceClick()">Set Main Data Source</a></li>
+                        <li><a id="mnuDbSetParameter" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setParamsAndExecuteClick()">Set Parameters and Execute</a></li>
+                        <li><a id="mnuDbSetAuxDataSource" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setAdditionalDataSourcesClick()">Set Additional Data Sources</a></li>
                         <li class="divider"></li>
-                        <li><a id="mnuDbSetDisconnected" onclick="CSReportEditor.cMainEditor.fMain.setDisconnectedReport()">Not a Database Report</a></li>
+                        <li><a id="mnuDbSetDisconnected" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setDisconnectedReport()">Not a Database Report</a></li>
                     </ul>
                 </li>
                 <li><a>Debug</a>
                     <ul>
-                        <li><a id="mnuDebugLoadData" onclick="CSReportEditor.cMainEditor.fMain.loadDataClick()">Load Data</a></li>
+                        <li><a id="mnuDebugLoadData" onclick="CSReports.CSReportEditor.cMainEditor.fMain.loadDataClick()">Load Data</a></li>
                     </ul>
                 </li>
                 <li><a>Tools</a>
@@ -106,38 +106,38 @@
                 </li>
                 <li><a>Help</a>
                     <ul>
-                        <li><a id="mnuHelpAbout" onclick="CSReportEditor.cMainEditor.fMain.helpAboutClick()">About</a></li>
+                        <li><a id="mnuHelpAbout" onclick="CSReports.CSReportEditor.cMainEditor.fMain.helpAboutClick()">About</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </header>
     <ul class="toolbar">
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.newReportClick()"><img src="images/toolbar/file.png">New</a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.openReportClick()"><img src="images/toolbar/folder-bw.png">Open</a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.saveReportClick()"><img src="images/toolbar/disk-bw.png">Save</a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.setConnectionClick()">DB Connections</a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.debugReportClick()"><img src="images/toolbar/debug.png">Debug</a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.printReportClick()"><img src="images/toolbar/printer-bw.png">Print</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.newReportClick()"><img src="images/toolbar/file.png">New</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.openReportClick()"><img src="images/toolbar/folder-bw.png">Open</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.saveReportClick()"><img src="images/toolbar/disk-bw.png">Save</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.saveAsReportClick()">Save As</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.setConnectionClick()">DB Connections</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.debugReportClick()"><img src="images/toolbar/debug.png">Debug</a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.printReportClick()"><img src="images/toolbar/printer-bw.png">Print</a></li>
 
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.alignLeftClick()"><img src="images/toolbar/text_align_left.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.aligntCenterClick()"><img src="images/toolbar/text_align_center.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.alignRightClick()"><img src="images/toolbar/text_align_right.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.alignLeftClick()"><img src="images/toolbar/text_align_left.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.aligntCenterClick()"><img src="images/toolbar/text_align_center.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.alignRightClick()"><img src="images/toolbar/text_align_right.png"></a></li>
 
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.editMoveLockedClick()"><img id="toolbar-button-lock" src="images/toolbar/lock.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignLeftClick()"><img src="images/toolbar/control_align_left.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignTopClick()"><img src="images/toolbar/control_align_top.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignBottomClick()"><img src="images/toolbar/control_align_bottom.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlAlignRightClick()"><img src="images/toolbar/control_align_right.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlSameWidthClick()"><img src="images/toolbar/control_align_horizontal.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.ctrlSameHeightClick()"><img src="images/toolbar/control_align_vertical.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.boldClick()"><img src="images/toolbar/text_bold.png"></a></li>
-        <li><a href="#" onclick="CSReportEditor.cMainEditor.fMain.searchClick()"><img src="images/toolbar/magnifying-glass-3-24.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.editMoveLockedClick()"><img id="toolbar-button-lock" src="images/toolbar/lock.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlAlignLeftClick()"><img src="images/toolbar/control_align_left.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlAlignTopClick()"><img src="images/toolbar/control_align_top.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlAlignBottomClick()"><img src="images/toolbar/control_align_bottom.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlAlignRightClick()"><img src="images/toolbar/control_align_right.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlSameWidthClick()"><img src="images/toolbar/control_align_horizontal.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlSameHeightClick()"><img src="images/toolbar/control_align_vertical.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.boldClick()"><img src="images/toolbar/text_bold.png"></a></li>
+        <li><a href="#" onclick="CSReports.CSReportEditor.cMainEditor.fMain.searchClick()"><img src="images/toolbar/magnifying-glass-3-24.png"></a></li>
         <li>
             <div class="inner-row" style="margin: 0;">
                 <label style="margin-top: 10px; color: white; padding-top: 4px;">Zoom</label>
-                <select id="cb_zoom" onchange="CSReportEditor.cMainEditor.fMain.zoomClick(event)" style="margin-top: 7px; margin-bottom: 0;">
+                <select id="cb_zoom" onchange="CSReports.CSReportEditor.cMainEditor.fMain.zoomClick(event)" style="margin-top: 7px; margin-bottom: 0;">
                     <option>100</option>
                     <option>120</option>
                     <option>130</option>
@@ -153,12 +153,12 @@
         <!-- Tab links -->
         <div class="tab" id="tabReports">
             <div class="tablinks sidebar-tab">
-                <button class="tablinks" id="sidebar-tv-controls-tab" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-tv-controls')" style="background-color: #ddd;">Report</button>
-                <button class="tablinks" id="sidebar-lv-controls-tab" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-controls')">Ctrls</button>
-                <button class="tablinks" id="sidebar-lv-database-tab" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-database')">DB</button>
-                <button class="tablinks" id="sidebar-lv-properties-tab" onclick="CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-properties')">Properties</button>
-                <button class="tablinks" onclick="CSReportEditor.cMainEditor.hideOrShowSideBarTab()" id="sidebar-toogle-hide">&lt;&lt;</button>
-                <button class="tablinks" onclick="CSReportEditor.cMainEditor.toggleSideBarTab()" id="sidebar-toogle-width">&gt;&gt;</button>
+                <button class="tablinks" id="sidebar-tv-controls-tab" onclick="CSReports.CSReportEditor.cMainEditor.showSideBarTab('sidebar-tv-controls')" style="background-color: #ddd;">Report</button>
+                <button class="tablinks" id="sidebar-lv-controls-tab" onclick="CSReports.CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-controls')">Ctrls</button>
+                <button class="tablinks" id="sidebar-lv-database-tab" onclick="CSReports.CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-database')">DB</button>
+                <button class="tablinks" id="sidebar-lv-properties-tab" onclick="CSReports.CSReportEditor.cMainEditor.showSideBarTab('sidebar-lv-properties')">Properties</button>
+                <button class="tablinks" onclick="CSReports.CSReportEditor.cMainEditor.hideOrShowSideBarTab()" id="sidebar-toogle-hide">&lt;&lt;</button>
+                <button class="tablinks" onclick="CSReports.CSReportEditor.cMainEditor.toggleSideBarTab()" id="sidebar-toogle-width">&gt;&gt;</button>
             </div>
             <!-- this added by code. I let it here just as an example
             <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1
@@ -189,14 +189,14 @@
                 <h1 id="ctrl-lb-name" style="margin-left: 15px;"></h1>
             </div>
             <ul class="toolbar">
-                <li><a href="#" id="property-format-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-format-tab')">Format</a></li>
-                <li><a href="#" id="property-formulas-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-formulas-tab')">Formulas</a></li>
-                <li><a href="#" id="property-borders-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-borders-tab')">Borders</a></li>
-                <li><a href="#" id="property-database-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-database-tab')">Database</a></li>
-                <li><a href="#" id="property-image-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-image-tab')">Image</a></li>
-                <li><a href="#" id="property-chart-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-chart-tab')">Chart</a></li>
-                <li><a href="#" id="property-section-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')">Section</a></li>
-                <li><a href="#" id="property-group-tab-selector" onclick="CSReportEditor.cMainEditor.showPropertyTab('property-group-tab')">Group</a></li>
+                <li><a href="#" id="property-format-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-format-tab')">Format</a></li>
+                <li><a href="#" id="property-formulas-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-formulas-tab')">Formulas</a></li>
+                <li><a href="#" id="property-borders-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-borders-tab')">Borders</a></li>
+                <li><a href="#" id="property-database-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-database-tab')">Database</a></li>
+                <li><a href="#" id="property-image-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-image-tab')">Image</a></li>
+                <li><a href="#" id="property-chart-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-chart-tab')">Chart</a></li>
+                <li><a href="#" id="property-section-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-section-tab')">Section</a></li>
+                <li><a href="#" id="property-group-tab-selector" onclick="CSReports.CSReportEditor.cMainEditor.showPropertyTab('property-group-tab')">Group</a></li>
             </ul><!-- toolbar -->
 
             <div class="property-tab" id="property-borders-tab" style="display: none;">
@@ -911,8 +911,8 @@ End Function
             <div>
                 <div style="width: 100%; padding: 0px 50px 0px 50px;">
                     <div style="margin-top: 20px;">
-                        <button onclick="CSReportEditor.cMainEditor.fMain.addAdditionalDataSourceClick()">Add</button>
-                        <button onclick="CSReportEditor.cMainEditor.fMain.deleteAdditionalDataSourceClick()" class="button-delete" style="margin-left: 20px;">Delete</button>
+                        <button onclick="CSReports.CSReportEditor.cMainEditor.fMain.addAdditionalDataSourceClick()">Add</button>
+                        <button onclick="CSReports.CSReportEditor.cMainEditor.fMain.deleteAdditionalDataSourceClick()" class="button-delete" style="margin-left: 20px;">Delete</button>
                     </div>
                     <div class="row">
                         <div id="connect-aux-lv-connections" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"></div>
@@ -1184,24 +1184,24 @@ End Function
 <!-- popup menu -->
 <div id="popup-menu-control" class="popup-menu">
     <ul>
-        <li><a id="cmctrl-copy" onclick="CSReportEditor.cMainEditor.fMain.ctrlCopyClick()">Copy</a></li>
-        <li><a id="cmctrl-paste" onclick="CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste</a></li>
-        <li><a id="cmctrl-paste-ex" onclick="CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste Special</a></li>
+        <li><a id="cmctrl-copy" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlCopyClick()">Copy</a></li>
+        <li><a id="cmctrl-paste" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste</a></li>
+        <li><a id="cmctrl-paste-ex" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlPasteClick()">Paste Special</a></li>
         <li class="cmctrl-divider"></li>
-        <li><a id="cmctrl-delete" onclick="CSReportEditor.cMainEditor.fMain.ctrlDeleteClick()">Delete</a></li>
+        <li><a id="cmctrl-delete" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlDeleteClick()">Delete</a></li>
         <li class="divider"></li>
-        <li><a id="cmctrl-send-back" onclick="CSReportEditor.cMainEditor.fMain.ctrlSendBackClick()">Send Back</a></li>
-        <li><a id="cmctrl-bring-front"  onclick="CSReportEditor.cMainEditor.fMain.ctrlBringFrontClick()">Bring Front</a></li>
+        <li><a id="cmctrl-send-back" onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlSendBackClick()">Send Back</a></li>
+        <li><a id="cmctrl-bring-front"  onclick="CSReports.CSReportEditor.cMainEditor.fMain.ctrlBringFrontClick()">Bring Front</a></li>
     </ul>
 </div>
 
 <div id="popup-menu-section" class="popup-menu">
     <ul>
-        <li><a id="cmsec-add-line" onclick="CSReportEditor.cMainEditor.fMain.secAddLineClick()">Add Line</a></li>
-        <li><a id="cmsec-delete-line" onclick="CSReportEditor.cMainEditor.fMain.deleteLineClick()">Delete Line</a></li>
-        <li><a id="cmsec-delete" onclick="CSReportEditor.cMainEditor.fMain.deleteSectionClick()">Delete Section</a></li>
+        <li><a id="cmsec-add-line" onclick="CSReports.CSReportEditor.cMainEditor.fMain.secAddLineClick()">Add Line</a></li>
+        <li><a id="cmsec-delete-line" onclick="CSReports.CSReportEditor.cMainEditor.fMain.deleteLineClick()">Delete Line</a></li>
+        <li><a id="cmsec-delete" onclick="CSReports.CSReportEditor.cMainEditor.fMain.deleteSectionClick()">Delete Section</a></li>
         <li class="cmctrl-divider"></li>
-        <li><a id="cmsec-move-group" onclick="CSReportEditor.cMainEditor.fMain.moveGroupClick()">Move Group</a></li>
+        <li><a id="cmsec-move-group" onclick="CSReports.CSReportEditor.cMainEditor.fMain.moveGroupClick()">Move Group</a></li>
     </ul>
 </div>
 
@@ -1227,7 +1227,7 @@ End Function
         console.log("Close " + id);
     }
     (function() {
-        CSReportEditor.cMainEditor.initEditor();
+        CSReports.CSReportEditor.cMainEditor.initEditor();
     }())
 
     setTimeout(()=> {

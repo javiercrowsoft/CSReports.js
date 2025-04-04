@@ -1,6 +1,6 @@
 ///<reference path="../../CSOAPI/Map.ts"/>
 
-namespace CSChartServer {
+namespace CSReports.CSChartServer {
 
     import Map = CSOAPI.Map;
 

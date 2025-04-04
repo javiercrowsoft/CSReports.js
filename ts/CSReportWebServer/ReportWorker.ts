@@ -1,7 +1,7 @@
 const reportWorker = (()=> {
 
-    let pages: CSReportEngine.cReportPages = null;
-    let images: CSOAPI.Map<CSDrawing.ImageX> = null;
+    let pages: CSReports.CSReportEngine.cReportPages = null;
+    let images: CSReports.CSOAPI.Map<CSReports.CSDrawing.ImageX> = null;
 
     const init = () => {
         String.prototype.contains = function(value: string): boolean {
@@ -15,11 +15,11 @@ const reportWorker = (()=> {
         }
     };
 
-    const reportProgress = (report: CSReportEngine.cReport, eventArgs: CSReportEngine.ProgressEventArgs) => {
+    const reportProgress = (report: CSReports.CSReportEngine.cReport, eventArgs: CSReports.CSReportEngine.ProgressEventArgs) => {
         postMessage({ action: 'report-progress', eventArgs: eventArgs });
     };
 
-    const reportDone = (report: CSReportEngine.cReport) => {
+    const reportDone = (report: CSReports.CSReportEngine.cReport) => {
         postMessage({ action: 'report-generation-done' });
     };
 
@@ -27,21 +27,21 @@ const reportWorker = (()=> {
         const dataSources = request["content"]["data"]["data"];
         for (let i = 0; i < dataSources.length; i++) {
             const dataSource = dataSources[i];
-            const ds = new CSDatabase.JSONDataSource(dataSource["name"].toString(), dataSource["data"]);
-            CSDatabase.JSONServer.registerDataSource(ds, database + "." + ds.getName());
+            const ds = new CSReports.CSDatabase.JSONDataSource(dataSource["name"].toString(), dataSource["data"]);
+            CSReports.CSDatabase.JSONServer.registerDataSource(ds, database + "." + ds.getName());
         }
     };
 
     const launch = (data: any) => {
-        const report = new CSReportEngine.cReport();
-        const reportFrom: CSReportEngine.ReportDTO = JSON.parse(data.report);
+        const report = new CSReports.CSReportEngine.cReport();
+        const reportFrom: CSReports.CSReportEngine.ReportDTO = JSON.parse(data.report);
         report.copy(reportFrom);
 
-        const launchInfo = new CSReportEngine.cReportLaunchInfo();
-        const launchInfoFrom: CSReportEngine.ReportLaunchInfoDTO = JSON.parse(data.launchInfo);
+        const launchInfo = new CSReports.CSReportEngine.cReportLaunchInfo();
+        const launchInfoFrom: CSReports.CSReportEngine.ReportLaunchInfoDTO = JSON.parse(data.launchInfo);
         launchInfo.copy(launchInfoFrom);
 
-        const reportPrint = new CSReportPaint.cReportPrint();
+        const reportPrint = new CSReports.CSReportPaint.cReportPrint();
         reportPrint.setHidePreviewWindow(true);
         launchInfo.setReportPrint(reportPrint);
 
@@ -62,7 +62,7 @@ const reportWorker = (()=> {
 
     const sendReportPagesToMainTread = () => {
 
-        const eventArgs = new CSReportEngine.ProgressEventArgs("Formating pages", 0, 0, 0);
+        const eventArgs = new CSReports.CSReportEngine.ProgressEventArgs("Formating pages", 0, 0, 0);
         postMessage({action: 'get-report-start', eventArgs: eventArgs });
 
         const base64Images = images.filter((i) => {
@@ -104,7 +104,7 @@ const reportWorker = (()=> {
             const chunk = pages.getChunk(start, CHUNK_SIZE);
             if(chunk.count() === 0) break;
             start += CHUNK_SIZE;
-            const eventArgs = new CSReportEngine.ProgressEventArgs("Formating pages", start, start, pages.size());
+            const eventArgs = new CSReports.CSReportEngine.ProgressEventArgs("Formating pages", start, start, pages.size());
             postMessage({action: 'get-report-pages', pages: JSON.stringify(chunk), eventArgs: eventArgs });
         }
 

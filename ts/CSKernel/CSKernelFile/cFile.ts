@@ -1,4 +1,4 @@
-namespace CSKernelFile  {
+namespace CSReports.CSKernelFile  {
 
     import NotImplementedException = CSOAPI.NotImplementedException;
     import cWindow = CSKernelClient.cWindow;

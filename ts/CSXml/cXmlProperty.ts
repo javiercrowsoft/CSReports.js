@@ -1,4 +1,4 @@
-namespace CSXml {
+namespace CSReports.CSXml {
 
     import eTypes = CSKernelClient.eTypes;
     import cDateUtils = CSKernelClient.cDateUtils;

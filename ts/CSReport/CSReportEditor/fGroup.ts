@@ -1,4 +1,4 @@
-namespace CSReportEditor {
+namespace CSReports.CSReportEditor {
 
     import U = CSOAPI.Utils;
     import P = CSKernelClient.Callable;

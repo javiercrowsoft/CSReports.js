@@ -1,4 +1,4 @@
-namespace CSReportEngine {
+namespace CSReports.CSReportEngine {
 
     import Map = CSOAPI.Map;
     import ReportGlobals = CSReportGlobals.ReportGlobals;
