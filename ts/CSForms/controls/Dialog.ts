@@ -66,41 +66,41 @@ namespace CSReports.CSForms {
 
             try {
                 this.dialog = document.createElement('div');
-                this.dialog.className = 'dialog-box';
+                this.dialog.className = 'csreports-dialog-box';
 
                 this.dialogTitle = document.createElement('h3');
-                this.dialogTitle.className = 'dialog-title';
+                this.dialogTitle.className = 'csreports-dialog-title';
                 this.dialog.appendChild(this.dialogTitle);
 
                 this.dialogMinmax = document.createElement('a');
-                this.dialogMinmax.className = 'dialog-minmax';
+                this.dialogMinmax.className = 'csreports-dialog-minmax';
                 this.dialogMinmax.title = 'Minimize';
                 this.dialogMinmax.innerHTML = '&ndash;';
                 this.dialogMinmax.href = 'javascript:;';
                 this.dialog.appendChild(this.dialogMinmax);
 
                 this.dialogClose = document.createElement('a');
-                this.dialogClose.className = 'dialog-close';
+                this.dialogClose.className = 'csreports-dialog-close';
                 this.dialogClose.title = 'Close';
                 this.dialogClose.innerHTML = '&times;';
                 this.dialogClose.href = 'javascript:;';
                 this.dialog.appendChild(this.dialogClose);
 
                 this.dialogContent = document.createElement('div');
-                this.dialogContent.className = 'dialog-content';
+                this.dialogContent.className = 'csreports.dialog-content';
                 this.dialogContent.appendChild(el);
                 this.dialog.appendChild(this.dialogContent);
 
                 const footer = Array.from(el.children)
-                                    .filter(child => child.className === 'dlg-footer')[0];
+                                    .filter(child => child.className === 'csreports-dlg-footer')[0];
 
                 this.dialogAction = document.createElement('div');
-                this.dialogAction.className = 'dialog-action';
+                this.dialogAction.className = 'csreports-dialog-action';
                 this.dialogAction.appendChild(footer);
                 this.dialog.appendChild(this.dialogAction);
 
                 this.dialogOverlay = document.createElement('div');
-                this.dialogOverlay.className = 'dialog-box-overlay';
+                this.dialogOverlay.className = 'csreports-dialog-box-overlay';
 
                 document.body.appendChild(this.dialog);
                 document.body.appendChild(this.dialogOverlay);
@@ -112,7 +112,7 @@ namespace CSReports.CSForms {
                 this.dialogClose.onclick = P.call(this, () => this.close(false));
 
                 if(applyAndCloseButtonId) {
-                    const applyButton = U.el(applyAndCloseButtonId);
+                    let applyButton = U.el(applyAndCloseButtonId);
                     applyButton.onclick = P.call(this, () => this.onApplyClick());
                 }
                 if(cancelButtonId) {
@@ -159,7 +159,7 @@ namespace CSReports.CSForms {
             return new Promise<boolean>(P.call(this, (resolve) => {
                 this.settings = {...this.defaults, ...settings};
 
-                this.dialog.className =  'dialog-box ' + (this.settings.fixed ? 'fixed-dialog-box ' : '') + this.settings.specialClass;
+                this.dialog.className =  'csreports-dialog-box ' + (this.settings.fixed ? 'fixed-csreports-dialog-box ' : '') + this.settings.specialClass;
                 this.dialog.style.visibility = 'visible';
                 this.dialog.style.opacity = '1';
                 this.dialog.style.width = this.settings.width + 'px';
@@ -184,7 +184,7 @@ namespace CSReports.CSForms {
                 this.dialogMinmax.title = 'Minimize';
                 this.dialogMinmax.onclick = P.call(this, this.dialogMinMax);
 
-                const body = U.elc('dlg-body', this.dialogContent);
+                const body = U.elc('csreports-dlg-body', this.dialogContent);
                 body.style.height = (this.settings.height - 148) + 'px';
                 body.style.overflow = 'auto';
 

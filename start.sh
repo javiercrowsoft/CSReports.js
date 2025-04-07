@@ -1,1 +1,1 @@
-npx http-server ./dist
+npx http-server ./

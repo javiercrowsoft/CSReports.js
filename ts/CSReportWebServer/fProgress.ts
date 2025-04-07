@@ -22,20 +22,20 @@ namespace CSReports.CSReportWebServer {
 
         public constructor() {
             super();
-            this.el = U.el('progress-dlg-template').cloneNode(true) as HTMLElement;
+            this.el = U.el('csreports-progress-dlg-template').cloneNode(true) as HTMLElement;
             this.el.id = null;
-            this.currPage = new Label(U.labelElc('progress-dlg-curr-page', this.el));
-            this.task = new Label(U.labelElc('progress-dlg-task', this.el));
-            this.rowCount = new Label(U.labelElc('progress-dlg-row-count', this.el));
-            this.currRow = new Label(U.labelElc('progress-dlg-curr-row', this.el));
-            this.progressBar = new ProgressBar(U.divElc('progress-dlg-progress-bar-status', this.el));
+            this.currPage = new Label(U.labelElc('csreports-progress-dlg-curr-page', this.el));
+            this.task = new Label(U.labelElc('csreports-progress-dlg-task', this.el));
+            this.rowCount = new Label(U.labelElc('csreports-progress-dlg-row-count', this.el));
+            this.currRow = new Label(U.labelElc('csreports-progress-dlg-curr-row', this.el));
+            this.progressBar = new ProgressBar(U.divElc('csreports-progress-dlg-progress-bar-status', this.el));
             this.progressBar.setWidth(600);
             this.progressBar.setHeight(10);
             this.progressBar.setValue(0);
             this.progressBar.setBackColor("green");
-            this.title = U.labelElc('progress-dlg-title', this.el);
+            this.title = U.labelElc('csreports-progress-dlg-title', this.el);
             this.title.textContent = 'Executing report';
-            this.dialog = new Dialog(this.el, 'error-dlg-okay');
+            this.dialog = new Dialog(this.el, 'csreports-progress-dlg-cancel');
             super.setDialog(this.dialog);
         }
 

@@ -68,7 +68,7 @@ namespace CSReports.CSReportWebServer {
             this.init(request, new cReport());
         }
 
-        public init(request: any, report: cReport): Promise<boolean> {
+        public init(request: any, report: cReport, workerPath = null): Promise<boolean> {
             try {
 
                 this.webReportId = request["content"]["webReportId"].toString();
@@ -92,7 +92,7 @@ namespace CSReports.CSReportWebServer {
 
                     this.report.setPathDefault("~");
 
-                    this.reportWorker = new Worker("./csreports.js");
+                    this.reportWorker = new Worker(workerPath || "./csreports.js");
 
                     this.reportWorker.onmessage = this.onmessage();
 

@@ -1963,6 +1963,22 @@ namespace CSReports.CSReportEngine {
             return this.nLoad(docXml);
         }
 
+        public loadFromXml(xml: string) {
+            let docXml = new cXml();
+
+            if(! docXml.openXml(xml)) {
+                return false;
+            }
+
+            this.path = docXml.getPath();
+            this.name = docXml.getName();
+
+            let property: cXmlProperty = docXml.getNodeProperty(docXml.getRootNode(), "ReportDisconnected");
+            this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
+
+            return this.nLoad(docXml);
+        }
+
         public toXml(docXml = new cXml()) {
             let xProperty: cXmlProperty = new cXmlProperty();
 
@@ -2105,7 +2121,7 @@ namespace CSReports.CSReportEngine {
             this.reportDisconnected = property.getValueBool(eTypes.eBoolean);
 
             return this.nLoadData(docXml);
-        }
+        }        
 
         public loadData(commDialog: object) {
             let docXml: cXml = new cXml();
