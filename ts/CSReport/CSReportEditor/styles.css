@@ -700,7 +700,7 @@ ul.toolbar a:hover {
     cursor: move;
 }
 
-.csreports-dialog-box .csreports.dialog-content {
+.csreports-dialog-box .csreports-dialog-content {
     border-top: 1px solid #ccc;
     padding: 1em;
     position: absolute;
@@ -711,7 +711,7 @@ ul.toolbar a:hover {
     /*overflow: auto;*/
 }
 
-.csreports-dialog-box .csreports.dialog-content iframe {
+.csreports-dialog-box .csreports-dialog-content iframe {
     display: block;
     border: none;
     background: none;
@@ -722,23 +722,23 @@ ul.toolbar a:hover {
     height: 100%;
 }
 
-.csreports-dialog-box .csreports.dialog-content::-webkit-scrollbar {
+.csreports-dialog-box .csreports-dialog-content::-webkit-scrollbar {
     width: 8px;
     height: 8px;
     background-color: #f5f5f5;
     border-left: 1px solid #ccc;
 }
 
-.csreports-dialog-box .csreports.dialog-content::-webkit-scrollbar-thumb {
+.csreports-dialog-box .csreports-dialog-content::-webkit-scrollbar-thumb {
     background-color: #666;
     border: none;
 }
 
-.csreports-dialog-box .csreports.dialog-content::-webkit-scrollbar-thumb:hover {
+.csreports-dialog-box .csreports-dialog-content::-webkit-scrollbar-thumb:hover {
     background-color: #555
 }
 
-.csreports-dialog-box .csreports.dialog-content::-webkit-scrollbar-thumb:active {
+.csreports-dialog-box .csreports-dialog-content::-webkit-scrollbar-thumb:active {
     background-color: #444
 }
 
@@ -872,7 +872,7 @@ ul.toolbar a:hover {
 }
 
 .csreports-dialog-box.minimize .csreports-dialog-close,
-.csreports-dialog-box.minimize .csreports.dialog-content,
+.csreports-dialog-box.minimize .csreports-dialog-content,
 .csreports-dialog-box.minimize .csreports-dialog-action {
     display: none;
     visibility: hidden;
@@ -954,23 +954,12 @@ ul.toolbar a:hover {
     white-space: pre-wrap;
 }
 
-#error-dlg-description {
+#csreports-error-dlg-description {
     white-space: pre-wrap;
 }
 
-#error-dlg-info-add {
+#csreports-error-dlg-info-add {
     white-space: pre-wrap;
-}
-
-#csreports-progress-dlg-progress-bar {
-    width: 50%;
-    background-color: #ddd;
-}
-
-#csreports-progress-dlg-progress-bar-status {
-    width: 2%;
-    height: 20px;
-    background-color: #4CAF50;
 }
 
 .popup-menu {

@@ -5,11 +5,11 @@ namespace CSReports.CSReportBarcode {
     export class cReportBarcode {
 
         public encodeTo128(dataToEncode: string): string {
-            throw new NotImplementedException();
+            return dataToEncode; // throw new NotImplementedException();
         }
 
         code128a(dataToEncode: string): string {
-            throw new NotImplementedException();
+            return dataToEncode; // throw new NotImplementedException();
         }
     }
 }

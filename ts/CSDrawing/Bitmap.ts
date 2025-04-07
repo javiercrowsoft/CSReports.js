@@ -7,6 +7,7 @@ namespace CSReports.CSDrawing {
 
     import cError = CSKernelClient.cError;
     import P = CSKernelClient.Callable;
+    import U = CSOAPI.Utils;
 
     export class Bitmap {
         private imageBitmap: ImageBitmap;
@@ -702,6 +703,10 @@ namespace CSReports.CSDrawing {
         }
 
         color() {
+            if(U.isNumber(this._color)) {
+                const numColor = U.valInt(this._color);
+                return (numColor < 0 ? 0 : numColor).toString();
+            } 
             return this._color;
         }
 

@@ -16,20 +16,22 @@ namespace CSReports.CSKernelClient {
         private infoAdd: HTMLLabelElement;
         private description: HTMLLabelElement;
         private dialog: Dialog;
+        private rootPath: String;
 
-        public constructor() {
+        public constructor(rootPath: String = '') {
             super();
-            this.el = U.el('error-dlg');
-            this.img = U.imageEl('error-dlg-icon');
-            this.title = U.labelEl('error-dlg-title');
-            this.infoAdd = U.labelEl('error-dlg-info-add');
-            this.description = U.labelEl('error-dlg-description');
-            this.dialog = new Dialog(this.el, 'error-dlg-okay');
+            this.el = U.el('csreports-error-dlg');
+            this.img = U.imageEl('csreports-error-dlg-icon');
+            this.title = U.labelEl('csreports-error-dlg-title');
+            this.infoAdd = U.labelEl('csreports-error-dlg-info-add');
+            this.description = U.labelEl('csreports-error-dlg-description');
+            this.dialog = new Dialog(this.el, 'csreports-error-dlg-okay');
+            this.rootPath = rootPath;
             super.setDialog(this.dialog);
         }
 
         setErrorIcon() {
-            this.img.src = "images/dialogs/error.png";
+            this.img.src = this.rootPath + "images/dialogs/error.png";
         }
 
         setDetails(details: string) {
@@ -69,9 +71,11 @@ namespace CSReports.CSKernelClient {
 
         private static f: fErrors = null;
 
+        public static rootPath: String = '';
+
         public static mngError(ex: any, infoAdd: string = "") {
             console.log(ex);
-            if(this.f === null) this.f = new fErrors();
+            if(this.f === null) this.f = new fErrors(this.rootPath);
             this.f.setErrorIcon();
             this.f.setDetails(ex.getMessage ? ex.getMessage() : ex.message || ex.toString());
             this.f.setInfoAdd(infoAdd);
@@ -79,7 +83,7 @@ namespace CSReports.CSKernelClient {
         }
 
         public static mngWarning(msg: string, title: string = "") {
-            if(this.f === null) this.f = new fErrors();
+            if(this.f === null) this.f = new fErrors(this.rootPath);
             this.f.setWarnIcon();
             this.f.setTitle(title);
             this.f.setDetails(msg);
@@ -87,7 +91,7 @@ namespace CSReports.CSKernelClient {
         }
 
         public static mngInfo(msg: string, title: string = "") {
-            if(this.f === null) this.f = new fErrors();
+            if(this.f === null) this.f = new fErrors(this.rootPath);
             this.f.setInfoIcon();
             this.f.setTitle(title);
             this.f.setDetails(msg);

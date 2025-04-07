@@ -87,7 +87,7 @@ namespace CSReports.CSForms {
                 this.dialog.appendChild(this.dialogClose);
 
                 this.dialogContent = document.createElement('div');
-                this.dialogContent.className = 'csreports.dialog-content';
+                this.dialogContent.className = 'csreports-dialog-content';
                 this.dialogContent.appendChild(el);
                 this.dialog.appendChild(this.dialogContent);
 
