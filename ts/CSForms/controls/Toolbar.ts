@@ -10,14 +10,17 @@ namespace CSReports.CSForms {
 
         private controls = new CSOAPI.Map<HTMLElement>;
 
-        public constructor(name: string, el: HTMLElement) {
+        private rootPath: string;
+
+        public constructor(name: string, el: HTMLElement, rootPath: string = '') {
             super(el);
 
             this.name = name;
+            this.rootPath = rootPath;
 
             this.div = el as HTMLDivElement;
             this.ul = document.createElement('ul');
-            this.ul.className = "toolbar";
+            this.ul.className = "csreports-toolbar";
             this.div.appendChild(this.ul);
         }
 
@@ -27,7 +30,7 @@ namespace CSReports.CSForms {
             link.href = "#";
             link.onclick = onclic;
             const img = document.createElement('img');
-            img.src = "images/toolbar/" + image;
+            img.src = this.rootPath + "images/toolbar/" + image;
             img.style.height = "25px";
             link.appendChild(img);
             li.appendChild(link);
@@ -49,7 +52,7 @@ namespace CSReports.CSForms {
         addNumberLabel(labelId: string) {
             const li = document.createElement('li');
             const span = document.createElement('span');
-            span.className = "toolbar-span-number";
+            span.className = "csreports-toolbar-span-number";
             li.appendChild(span);
             this.ul.appendChild(li);
             this.controls.add(span, labelId);

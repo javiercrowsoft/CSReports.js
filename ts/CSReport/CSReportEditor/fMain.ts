@@ -195,7 +195,7 @@ namespace CSReports.CSReportEditor {
             this.mainView.appendChild(tabPageNode);
 
             const pnEditorNode = document.createElement('div');
-            pnEditorNode.className = "editor-container";
+            pnEditorNode.className = "csreports-editor-container";
             tabPageNode.appendChild(pnEditorNode);
 
             const picRuleNode = document.createElement('div');
@@ -203,7 +203,7 @@ namespace CSReports.CSReportEditor {
             pnEditorNode.appendChild(picRuleNode);
 
             const picReportNode = document.createElement('div');
-            picReportNode.className = "report";
+            picReportNode.className = "csreports-report";
             pnEditorNode.appendChild(picReportNode);
 
             let pnEditor: Panel = new Panel("pnEditor" + this.editorIndex, pnEditorNode);
@@ -254,7 +254,7 @@ namespace CSReports.CSReportEditor {
             this.mainView.appendChild(tabPageNode);
 
             const previewNode = document.createElement('div');
-            previewNode.className = "editor-container";
+            previewNode.className = "csreports-editor-container";
             tabPageNode.appendChild(previewNode);
 
             let reportPreview: ReportPreview = new ReportPreview("reportPreview", previewNode);

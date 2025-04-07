@@ -31,22 +31,25 @@ namespace CSReports.CSForms {
         private picPreview: PictureBox;
         public readonly name: string;
 
-        public constructor(name: string, el: HTMLElement, parent: object =  null) {
+        private rootPath: string;
+
+        public constructor(name: string, el: HTMLElement, parent: object =  null, rootPath: string = '') {
             super(el);
 
             this.name = name;
             this.parent = parent;
+            this.rootPath = rootPath;
 
             const toolbarNode = document.createElement('div');
-            toolbarNode.className = "preview-toolbar";
+            toolbarNode.className = "csreports-preview-toolbar";
             el.appendChild(toolbarNode);
 
             const pnEditorNode = document.createElement('div');
-            pnEditorNode.className = "editor-container";
+            pnEditorNode.className = "csreports-editor-container";
             el.appendChild(pnEditorNode);
 
             const picReportNode = document.createElement('div');
-            picReportNode.className = "report";
+            picReportNode.className = "csreports-report";
             pnEditorNode.appendChild(picReportNode);
 
             this.div = el as HTMLDivElement;
@@ -55,7 +58,7 @@ namespace CSReports.CSForms {
         }
 
         private createToolbar(toolbarNode: HTMLDivElement) {
-            this.toolbar = new Toolbar("preview-toolbar" + ReportPreview.previewIndex++, toolbarNode);
+            this.toolbar = new Toolbar("csreports-preview-toolbar" + ReportPreview.previewIndex++, toolbarNode, this.rootPath);
             this.toolbar.addButton("firstPage", ReportPreview.IMAGE_FIRST_PAGE, P.call(this, () => this.buttonClick(this.firstPage, EventArgs.Empty)));
             this.toolbar.addButton("previousPage", ReportPreview.IMAGE_PREVIOUS_PAGE, P.call(this, () => this.buttonClick(this.previousPage, EventArgs.Empty)));
             this.toolbar.addInput("moveToPage",

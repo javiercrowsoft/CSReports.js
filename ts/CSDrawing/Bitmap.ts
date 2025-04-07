@@ -124,7 +124,12 @@ namespace CSReports.CSDrawing {
                     }
                 }
                 else {
-                    img.src = "data:image/jpeg;base64," + self.imageData;
+                    try {
+                        img.src = "data:image/jpeg;base64," + self.imageData;
+                    }
+                    catch(ex) {
+                        console.log(ex);
+                    }
                 }
             });
         }
