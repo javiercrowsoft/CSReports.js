@@ -130,7 +130,22 @@ namespace CSReports.CSDatabase {
         }
 
         public static sqlDate(val: string) {
-            const date  = new Date(val);
+            let date  = new Date(val);
+            // @ts-ignore
+            if(isNaN(date)) { 
+                // we try to get if the problem is the date format
+                // 30/04/2025 will fail in US format but will work in ARG format
+                //
+                let arr: string[] = null;
+                if(val.contains("/")) arr = val.split("/");
+                if(val.contains("-")) arr = val.split("-");
+                if(arr != null && arr.length == 3) {
+                    val = arr[1] + "/" + arr[0] + "/" + arr[2];
+                }
+                // try to get a date switching days with months and cross fingers this will work
+                //
+                date  = new Date(val);
+            }
             // @ts-ignore
             return "'" + new Intl.DateTimeFormat('ja-JP', Database.SQL_DATE_FORMAT).format(date)  + "'";
         }

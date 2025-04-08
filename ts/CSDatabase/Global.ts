@@ -38,6 +38,7 @@ namespace CSReports.CSDatabase {
                 case "datetime":
                 case "datetime2":
                 case "date":
+                case "timestamptz":
                 case "timestamp with time zone":
                     return csDataType.CS_TD_DBDATE;
                 case "tinyint":
