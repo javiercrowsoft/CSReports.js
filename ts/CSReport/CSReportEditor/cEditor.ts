@@ -166,7 +166,7 @@ namespace CSReports.CSReportEditor {
         //
         // good explanation is found in addSectionLine
         //
-        private newSecLineOffSet: number = 0;
+        private newSecLineOffset: number = 0;
 
         private bMoveVertical: boolean = false;
         private bMoveHorizontal: boolean = false;
@@ -2681,7 +2681,7 @@ namespace CSReports.CSReportEditor {
                     // which is used to instruct moveSection to add
                     // to the section height the size of the new section line
                     //
-                    this.newSecLineOffSet = cGlobals.HEIGHT_NEW_SECTION;
+                    this.newSecLineOffset = cGlobals.HEIGHT_NEW_SECTION;
 
                     aspect = sec.getSectionLines().add().getAspect();
                     aspect.setHeight(cGlobals.HEIGHT_NEW_SECTION);
@@ -2697,7 +2697,7 @@ namespace CSReports.CSReportEditor {
 
             // we reset this variable to zero
             //
-            this.newSecLineOffSet = 0;
+            this.newSecLineOffset = 0;
         }
 
         private pAddSectionLinesAux(sec: cReportSection) {
@@ -4488,19 +4488,29 @@ namespace CSReports.CSReportEditor {
         }
 
         private pChangeTopSection(rptSec: cReportSection,
-                                  offSetTopSection: number,
+                                  sectionTopChange: number,
                                   bChangeTop: boolean,
-                                  bZeroOffset: boolean) {
+                                  changingHeightSection: boolean) {
 
             let newTopCtrl: number = 0;
             let bottom: number = 0;
-            let secLnHeight: number = 0;
-            let offSecLn: number = 0;
+            let heightOfPreviousSecLines: number = 0; // accumulator for the height of previous section lines
+
+            // how much the top of a section line is changed 
+            // it is positive when the section is moving down 
+            // and negative when the sections is moving up
+            //
+            let sectionLineTopChange: number = 0; 
             let paintSec: cReportPaintObject;
 
             let secAspect: cReportAspect = rptSec.getAspect();
-            secAspect.setTop(secAspect.getTop() + offSetTopSection);
-            let offSet = rptSec.getSectionLines().item(0).getAspect().getTop() - secAspect.getTop();
+            secAspect.setTop(secAspect.getTop() + sectionTopChange);
+
+            // we want to know if the first section line's top is not matching the section's top
+            // this happens with every section that is under the section that has ben resized
+            //
+            let firstSectionLineTopMinusSectionTop = rptSec.getSectionLines().item(0).getAspect().getTop() - secAspect.getTop();
+
             const secTop = secAspect.getTop();
 
             for(let _i = 0; _i < rptSec.getSectionLines().count(); _i++) {
@@ -4516,8 +4526,8 @@ namespace CSReports.CSReportEditor {
 
                     if(bChangeTop) {
 
-                        if(bZeroOffset) {
-                            offSet = 0;
+                        if(changingHeightSection) {
+                            firstSectionLineTopMinusSectionTop = 0;
                         }
 
                     }
@@ -4530,19 +4540,27 @@ namespace CSReports.CSReportEditor {
 
                     }
 
-                    // every other section grow to bottom
-                    //
                 }
+                // every other sections grow to bottom
+                //
                 else {
-                    offSecLn =  - secLineAspect.getTop();
+                    // when sectionTopChange is zero we are validating or changing height
+                    // we need to get the sectionLineTopChange
+                    //
+                    if(sectionTopChange === 0) {
+                        // a section line top is the section's top plus the sum of previous sectionlines
+                        //
+                        const newTop = (secTop + heightOfPreviousSecLines);
 
-                    if(offSetTopSection !== 0) {
-                        offSecLn = 0;
+                        // when negative top is going up
+                        // when positive top is going down
+                        //
+                        sectionLineTopChange = newTop - secLineAspect.getTop();
                     }
                 }
 
-                secLineAspect.setTop(secTop + secLnHeight);
-                secLnHeight = secLnHeight + secLineAspect.getHeight();
+                secLineAspect.setTop(secTop + heightOfPreviousSecLines);
+                heightOfPreviousSecLines += secLineAspect.getHeight();
 
                 if(rptSecLine.getKeyPaint() !== "") {
                     paintSec = this.paint.getPaintSections().item(rptSecLine.getKeyPaint());
@@ -4560,32 +4578,40 @@ namespace CSReports.CSReportEditor {
 
                     let ctrLabelAspect: cReportAspect = rptCtrl.getLabel().getAspect();
 
+                    let newBottom: number;
                     if(rptCtrl.getIsFreeCtrl()) {
-                        newTopCtrl = (ctrLabelAspect.getTop() - offSet) + offSecLn;
+                        newBottom = (ctrLabelAspect.getTop() - firstSectionLineTopMinusSectionTop) + sectionLineTopChange;
                     }
                     else {
-                        newTopCtrl = (ctrLabelAspect.getTop() + ctrLabelAspect.getHeight() - offSet) + offSecLn;
+                        newBottom = (ctrLabelAspect.getTop() + ctrLabelAspect.getHeight() - firstSectionLineTopMinusSectionTop) + sectionLineTopChange;
                     }
 
                     bottom = secLineAspect.getTop() + secLineAspect.getHeight();
 
-                    if(newTopCtrl > bottom) {
+                    // if the control is getting bellow the bottom of the section line
+                    // we move the control up
+                    //
+                    if(newBottom > bottom) {
                         newTopCtrl = bottom - ctrLabelAspect.getHeight();
                     }
                     else {
-                        newTopCtrl = (ctrLabelAspect.getTop() - offSet) + offSecLn;
+                        newTopCtrl = (ctrLabelAspect.getTop() - firstSectionLineTopMinusSectionTop) + sectionLineTopChange;
                     }
 
+                    // finally if the control's top is over section line's top 
+                    // we force it to be at the section line's top
+                    //
                     if(newTopCtrl < secLineAspect.getTop()) { newTopCtrl = secLineAspect.getTop(); }
 
                     ctrLabelAspect.setTop(newTopCtrl);
+
                     if(this.paint.getPaintObject(rptCtrl.getKeyPaint()) !== null) {
                         this.paint.getPaintObject(rptCtrl.getKeyPaint()).getAspect().setTop(ctrLabelAspect.getTop());
                     }
                 }
             }
 
-            // when a group instanceof added the first to get here is the header
+            // when a group is added, the first to get here is the header
             // and the footer hasn't contain a section yet
             //
             if(rptSec.getKeyPaint() === "") return;
@@ -4674,7 +4700,7 @@ namespace CSReports.CSReportEditor {
 
             aspect = secToMove.getAspect();
 
-            offsetTop = oldHeight - (aspect.getHeight() + this.newSecLineOffSet);
+            offsetTop = oldHeight - (aspect.getHeight() + this.newSecLineOffset);
 
             switch (secToMove.getTypeSection()) {
 
@@ -4689,7 +4715,7 @@ namespace CSReports.CSReportEditor {
                     // OJO: this has to be after we have changed the top of the section
                     //      to allow the paint object to reflect the change
                     //
-                    // we move the controls of this section
+                    // move all controls in this section
                     //
                     this.pChangeHeightSection(secToMove, oldHeight);
 
@@ -4815,21 +4841,21 @@ namespace CSReports.CSReportEditor {
         }
 
         private pChangeHeightSection(sec: cReportSection, oldSecHeight: number) {
-            let heightLines: number = 0;
+            let sectionLinesHeight: number = 0;
             let aspect: cReportAspect;
 
-            // Update section line
+            // get height of all section lines except the last one
             //
             for(let i = 0; i < sec.getSectionLines().count() - 1; i++) {
                 aspect = sec.getSectionLines().item(i).getAspect();
-                heightLines = heightLines + aspect.getHeight();
+                sectionLinesHeight = sectionLinesHeight + aspect.getHeight();
             }
 
             // for the last section line the height is the rest
             //
             let sectionLines: cReportSectionLines = sec.getSectionLines();
-            aspect = sectionLines.item(sectionLines.count()-1).getAspect();
-            aspect.setHeight(sec.getAspect().getHeight() - heightLines);
+            aspect = sectionLines.item(sectionLines.count()-1).getAspect(); // this is the last section line's aspect
+            aspect.setHeight(sec.getAspect().getHeight() - sectionLinesHeight);
 
             this.pChangeTopSection(sec, 0, false, true);
         }
