@@ -202,8 +202,8 @@ namespace CSReports.CSReportEngine {
         private imageBitmapToCanvas(bitmap: ImageBitmap) {
             const canvas: HTMLCanvasElement =  document.createElement("canvas") as HTMLCanvasElement;
             const context: CanvasRenderingContext2D = canvas.getContext("2d");
-            canvas.width = bitmap.width * 0.75;
-            canvas.height = bitmap.height * 0.75;
+            canvas.width = bitmap.width * 0.80;
+            canvas.height = bitmap.height* 0.80;
             (context as any).mozImageSmoothingEnabled = true;
             (context as any).webkitImageSmoothingEnabled = true;
             (context as any).msImageSmoothingEnabled = true;

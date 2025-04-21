@@ -403,7 +403,7 @@ namespace CSReports.CSReportPaint {
             this.createPaintObjects(page.getDetail(), cReportPrint.OFFSETDETAIL);
             this.createPaintObjects(page.getFooter(), cReportPrint.OFFSETFOOTER);
 
-            if(!inPrinter) {
+            if(!inPrinter && this.rpwPrint != null) {
                 // set the current page in the preview window
                 //
                 this.rpwPrint.setCurrPage(this.currPage);
@@ -560,6 +560,10 @@ namespace CSReports.CSReportPaint {
                 this.paint = new cReportPaint();
             }
             this.paint.setNotBorder(true);
+            this.changeZoom(140);
+
+            //this.paint.setScaleX(1.5);
+            //this.paint.setScaleY(1.5);
         }
 
         private printPagesToPrinter(printer: cPrinter, objClient: cIPrintClient) {
@@ -1528,7 +1532,7 @@ namespace CSReports.CSReportPaint {
             }
         }
 
-        private rpwPrint_ChangeZoom(zoom: number) {
+        private changeZoom(zoom: number) {
             let nZoom: number = 0;
             let width: number = 0;
             let height: number = 0;
@@ -1537,16 +1541,17 @@ namespace CSReports.CSReportPaint {
             {
                 case csEZoom.csEZoomAllPage:
 
-                    width = this.rpwPrint.getWidth() / this.realWidth;
-                    height = this.rpwPrint.getHeight() / this.realHeight;
+                    if(this.rpwPrint != null) {
+                        width = this.rpwPrint.getWidth() / this.realWidth;
+                        height = this.rpwPrint.getHeight() / this.realHeight;
 
-                    if(width < height) {
-                        nZoom = this.rpwPrint.getWidth() / this.realWidth;
+                        if(width < height) {
+                            nZoom = this.rpwPrint.getWidth() / this.realWidth;
+                        }
+                        else {
+                            nZoom = this.rpwPrint.getHeight() / this.realHeight;
+                        }
                     }
-                    else {
-                        nZoom = this.rpwPrint.getHeight() / this.realHeight;
-                    }
-
                     break;
                 case csEZoom.csEZoomCustom:
                     nZoom = 1;
@@ -1561,20 +1566,22 @@ namespace CSReports.CSReportPaint {
 
             if(nZoom < 0.01) { nZoom = 0.01; }
 
-            let pic: PictureBox = this.rpwPrint.getBody();
-            pic.setWidth(this.realWidth * nZoom);
-            pic.setHeight(this.realHeight * nZoom);
+            if(this.rpwPrint != null) {
+                let pic: PictureBox = this.rpwPrint.getBody();
+                pic.setWidth(this.realWidth * nZoom);
+                pic.setHeight(this.realHeight * nZoom);
+            }
 
             if(nZoom > 0.5) {
                 this.paint.setZoom(100);
                 this.paint.setScaleX(nZoom);
                 this.paint.setScaleY(nZoom);
-                this.scaleFont = nZoom;
+                this.scaleFont = nZoom !== 1 ? nZoom *.8 : 1;
                 this.printPage(this.currPage);
             }
             else {
                 this.paint.setZoom(zoom);
-                this.rpwPrint.getBody().refresh();
+                if(this.rpwPrint != null) this.rpwPrint.getBody().refresh();
             }
         }
 
